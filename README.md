@@ -8,15 +8,44 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 20, 2026 at 18:13 UTC.
+> Last updated: February 20, 2026 at 21:05 UTC.
 
 ## February 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [2](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [3](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [4](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [5](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [6](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [7](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
-Summary: 7 runs • 50 commits • 11 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22237663080), [2](https://github.com/ghostty-org/ghostty/actions/runs/22235836482), [3](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [4](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [5](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [6](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [7](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [8](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [9](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
+Summary: 9 runs • 55 commits • 12 authors
 
 ### Changes
 
+- [`8699a67`](https://github.com/ghostty-org/ghostty/commit/8699a67ecf94e65f7b9037df22353e475546b661) ci: Add a `skips` job where we can accumulate skip conditions ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new job that we can use to set outputs to accumulate skip
+  conditions for other tests. The major change here is skipping all tests
+  if we're only updating vouches, to save our CI.
+  
+  I also included a number of minor skips based on filepaths.
+  ```
+- [`db1e31c`](https://github.com/ghostty-org/ghostty/commit/db1e31c7a69924913e8faafcedb290de3cb4a8b6) ci: Add a `skips` job where we can accumulate skip conditions ([#10901](https://github.com/ghostty-org/ghostty/issues/10901)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new job that we can use to set outputs to accumulate skip
+  conditions for other tests. The major change here is skipping all tests
+  if we're only updating vouches, to save our CI.
+  
+  I also included a number of minor skips based on filepaths.
+  ```
+- [`89e06a8`](https://github.com/ghostty-org/ghostty/commit/89e06a8402288d3d40568db2da6540ae3fbf82a1) Update VOUCHED list ([#10898](https://github.com/ghostty-org/ghostty/issues/10898)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/10863#issuecomment-3936322278)
+  from @mitchellh.
+  
+  Vouch: @AlexFeijoo44
+  ```
+- [`727446f`](https://github.com/ghostty-org/ghostty/commit/727446fa8bdb7322b954022476c046a4f094b427) gtk: for a new window's first tab, inherit the parent's initial size hints ([@EriksRemess](https://github.com/EriksRemess))
+- [`8e862e6`](https://github.com/ghostty-org/ghostty/commit/8e862e611b3ac8b390b6879a9c265edce64a26de) GTK: Pass parent's computed default/min sizes to the new window ([#10805](https://github.com/ghostty-org/ghostty/issues/10805)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes for #10532
+  ```
 - [`d2098d8`](https://github.com/ghostty-org/ghostty/commit/d2098d830c804c528d772f9f3352ec334f547f17) deps: Update uucode to 0.2.0 (with unicode 17) ([@jacobsandlund](https://github.com/jacobsandlund))
 - [`e887527`](https://github.com/ghostty-org/ghostty/commit/e887527e59a67f869b1fef1f6bcd61302b24e01c) macos: swiftlint 'unused_enumerated' rule ([@jparise](https://github.com/jparise))
 - [`c2eab3b`](https://github.com/ghostty-org/ghostty/commit/c2eab3b43d142cc54d02aee3af9e9f80a51090dd) macos: add root-level .swiftlint.yml ([@jparise](https://github.com/jparise))
