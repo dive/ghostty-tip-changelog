@@ -227,12 +227,19 @@ def fetch_compare(base_sha: str, head_sha: str) -> dict[str, object]:
     return raw
 
 
-def note_block_lines() -> list[str]:
+def format_generated_at(when: dt.datetime) -> str:
+    when_utc = when.astimezone(dt.timezone.utc)
+    return f"{when_utc.strftime('%B')} {when_utc.day}, {when_utc.year} at {when_utc:%H:%M} UTC"
+
+
+def note_block_lines(*, generated_at: str) -> list[str]:
     return [
         "> [!NOTE]",
         "> This changelog summarizes [Ghostty tip](https://tip.ghostty.org/) nightly builds.",
         "> It is auto-updated every 3 hours by GitHub Actions and shows a rolling 7-day window by default.",
+        ">",
         "> Entries are grouped by UTC day and combine commits across all successful runs for each day.",
+        f"> Last updated: {generated_at}.",
         "",
     ]
 
@@ -244,8 +251,12 @@ class DayChangelog:
     seen_shas: set[str]
 
 
-def render_markdown(runs: list[WorkflowRun]) -> str:
-    lines: list[str] = note_block_lines()
+def render_markdown(
+    runs: list[WorkflowRun],
+    *,
+    generated_at: str,
+) -> str:
+    lines: list[str] = note_block_lines(generated_at=generated_at)
 
     if len(runs) < 2:
         lines.append("Not enough successful runs to compare (need at least 2).")
@@ -300,7 +311,14 @@ def render_markdown(runs: list[WorkflowRun]) -> str:
         run_links = ", ".join(
             f"[{idx}]({run.url})" for idx, run in enumerate(bucket.runs, start=1)
         )
-        lines.append(f"Runs: {run_links}")
+        lines.append(f"Runs: {run_links}  ")
+        author_names = {
+            commit_author(commit, commit_data)[0]
+            for commit, commit_data, _, _ in bucket.commits
+        }
+        lines.append(
+            f"Summary: {len(bucket.runs)} runs • {len(bucket.commits)} commits • {len(author_names)} authors"
+        )
         lines.append("")
         lines.append("### Changes")
         lines.append("")
@@ -353,7 +371,9 @@ def main() -> None:
         print("error: --days must be at least 1", file=sys.stderr)
         sys.exit(2)
 
-    today = dt.datetime.now(dt.timezone.utc).date()
+    generated_at_dt = dt.datetime.now(dt.timezone.utc)
+    generated_at = format_generated_at(generated_at_dt)
+    today = generated_at_dt.date()
     start_date = today - dt.timedelta(days=args.days - 1)
     start_date_str = start_date.isoformat()
     created_filter = f">={start_date_str}"
@@ -362,7 +382,7 @@ def main() -> None:
     fetch_limit = max(args.days * FETCH_RUNS_PER_DAY, FETCH_RUNS_PER_DAY)
     in_range_runs = fetch_successful_runs(fetch_limit, created_filter)
     if len(in_range_runs) == 0:
-        lines = note_block_lines()
+        lines = note_block_lines(generated_at=generated_at)
         lines.append("No successful runs found for selected days.")
         markdown = "\n".join(lines) + "\n"
     else:
@@ -371,7 +391,10 @@ def main() -> None:
         if baseline_run is not None:
             runs.insert(0, baseline_run)
         runs = sorted(runs, key=lambda run: run.created_at)
-        markdown = render_markdown(runs)
+        markdown = render_markdown(
+            runs,
+            generated_at=generated_at,
+        )
 
     if args.output:
         args.output.write_text(markdown, encoding="utf-8")
