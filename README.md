@@ -415,7 +415,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](
   ```
 - [`2982bfa`](https://github.com/ghostty-org/ghostty/commit/2982bfa21a0172ca8918619b2bb3cf49172b1728) i18n: update ja_JP translation ([@kawarimidoll](https://github.com/kawarimidoll))
 - [`3288a6e`](https://github.com/ghostty-org/ghostty/commit/3288a6e0a41c508bef5333fb2f4c7d2491f6cbad) i18n: update ja_JP translation ([#10829](https://github.com/ghostty-org/ghostty/issues/10829)) ([@00-kat](https://github.com/00-kat))
-  ```text
+  ````text
   as requested in
   https://github.com/ghostty-org/ghostty/issues/10632#issuecomment-3919649650
   
@@ -440,7 +440,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](
   msgid "Change Tab Title"
   msgstr "タブのタイトルを変更する"
   ```
-  ```
+  ````
 - [`7e19135`](https://github.com/ghostty-org/ghostty/commit/7e1913527a0ceab1a1958c96947e2593e07b9eba) Update VOUCHED list ([#10853](https://github.com/ghostty-org/ghostty/issues/10853)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -680,7 +680,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](
 - [`3779e46`](https://github.com/ghostty-org/ghostty/commit/3779e469dfef44ce5d6e163cd5799ea29d25d0f6) Remove extra space ([@dmatos2012](https://github.com/dmatos2012))
 - [`6d71f40`](https://github.com/ghostty-org/ghostty/commit/6d71f4090775c79b96cd3538518dd1c85db09311) Fix typo ([@dmatos2012](https://github.com/dmatos2012))
 - [`a3aa9fa`](https://github.com/ghostty-org/ghostty/commit/a3aa9fa1362d9b7ecb2b05b13789df1ac083cff0) i18n: Localize Nautilus .py script ([#9976](https://github.com/ghostty-org/ghostty/issues/9976)) ([@jcollie](https://github.com/jcollie))
-  ```text
+  ````text
   Closes #9266.
   
   
@@ -719,7 +719,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](
   > [!NOTE]
   > Used AI only for helping me debug where the locales could be and why
   was it not detected, but no code help whatsoever
-  ```
+  ````
 - [`8fdedbc`](https://github.com/ghostty-org/ghostty/commit/8fdedbce4534e35dae3e651bfd482e7360d826aa) Add MockView and SplitTreeTests ([@pouwerkerk](https://github.com/pouwerkerk))
 - [`ce66bea`](https://github.com/ghostty-org/ghostty/commit/ce66bea581a64df3a49e4df8866e1c4ca48f42a7) Move MockView to SplitTreeTests itself ([@pouwerkerk](https://github.com/pouwerkerk))
 - [`1342eb5`](https://github.com/ghostty-org/ghostty/commit/1342eb5944a6e84de8e375f15891790b40460111) gtk: revamp cgroup/transient scope handling ([@jcollie](https://github.com/jcollie))
@@ -751,7 +751,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](
 - [`3c4f87a`](https://github.com/ghostty-org/ghostty/commit/3c4f87abeea9339cc0af0d850c490d14e508cb93) command: fix tests ([@jcollie](https://github.com/jcollie))
 - [`cb7e6d5`](https://github.com/ghostty-org/ghostty/commit/cb7e6d5d6ddbf7fe282d9e320308cc1592bdcf39) gtk: remove delegate setting from transient scope ([@jcollie](https://github.com/jcollie))
 - [`dada3cd`](https://github.com/ghostty-org/ghostty/commit/dada3cd5fd11083bba37d084e27b4ecda8ce8dd8) Add MockView and SplitTreeTests ([#10778](https://github.com/ghostty-org/ghostty/issues/10778)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
+  ````text
   This PR introduces unit tests and a supporting Mock NSView for testing
   the SplitTree implementation in Swift. It includes 51 tests which
   achieve approximately 93.13% (949/1019) coverage of SplitTree.swift's
@@ -919,7 +919,7 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](
   
   I'm more than happy to continue work on tests for #7879 and always
   welcome to any feedback you have.
-  ```
+  ````
 - [`73d6f07`](https://github.com/ghostty-org/ghostty/commit/73d6f07c5bdc3e5bf97a9ffc89be40a747f47619) gtk: revamp cgroup/transient scope handling ([#10611](https://github.com/ghostty-org/ghostty/issues/10611)) ([@mitchellh](https://github.com/mitchellh))
   ```text
   This changes the way Ghostty assigns itself and subprocesses to
