@@ -170,6 +170,14 @@ def link_github_shortcuts(text: str) -> str:
     return pattern.sub(rf"[#\1](https://github.com/{REPO}/issues/\1)", text)
 
 
+def detail_code_fence(details: list[str]) -> str:
+    max_backticks = 0
+    for line in details:
+        for match in re.finditer(r"`+", line):
+            max_backticks = max(max_backticks, len(match.group(0)))
+    return "`" * max(3, max_backticks + 1)
+
+
 def parse_utc_datetime(created_at: str) -> dt.datetime | None:
     try:
         return dt.datetime.fromisoformat(created_at.replace("Z", "+00:00")).astimezone(dt.timezone.utc)
@@ -308,10 +316,11 @@ def render_markdown(runs: list[WorkflowRun]) -> str:
             else:
                 lines.append(f"- `{short_sha}` {subject_text} ({author})")
             if details:
-                lines.append("  ```text")
+                fence = detail_code_fence(details)
+                lines.append(f"  {fence}text")
                 for detail in details:
                     lines.append(f"  {detail}")
-                lines.append("  ```")
+                lines.append(f"  {fence}")
 
         lines.append("")
 
