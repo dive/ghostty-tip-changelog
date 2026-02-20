@@ -9,27 +9,19 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](
 ### Changes
 
 - [`585bf3f`](https://github.com/ghostty-org/ghostty/commit/585bf3fcd25be3d1d70383a0f1b55e0f6744d639) Update es_AR translations with additional strings for 1.3 ([#10861](https://github.com/ghostty-org/ghostty/issues/10861)) ([@alanmoyano](https://github.com/alanmoyano))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   - Adds the three new string
   - Changes one string for better wording
-  
-  </details>
+  ```
 - [`c4c87f8`](https://github.com/ghostty-org/ghostty/commit/c4c87f8c85fb7339c093538196847fc3d0eed3c8) make palette inversion opt-in ([@jake-stewart](https://github.com/jake-stewart))
 - [`f66a84b`](https://github.com/ghostty-org/ghostty/commit/f66a84b18a44838831af5819cdad1ba85d9592e4) improve light theme detection ([@jake-stewart](https://github.com/jake-stewart))
 - [`acf8cc7`](https://github.com/ghostty-org/ghostty/commit/acf8cc74195f8f778e933a3e8c218891d79a36e4) i18n: Update and slightly clean up Russian translation ([#10633](https://github.com/ghostty-org/ghostty/issues/10633)) ([@TicClick](https://github.com/TicClick))
-  <details>
-  <summary>Details</summary>
-  
-  as per [#10632](https://github.com/ghostty-org/ghostty/issues/10632)
-  
-  </details>
+  ```text
+  as per #10632
+  ```
 - [`0eaf77d`](https://github.com/ghostty-org/ghostty/commit/0eaf77da5fe0cbfe24ac5e0585a04d80d51fb952) WIP: Make palette inversion opt-in ([#10877](https://github.com/ghostty-org/ghostty/issues/10877)) ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
-  From [#10554](https://github.com/ghostty-org/ghostty/issues/10554)
+  ```text
+  From #10554
   
   > I can see there being space for some kind of new sequence that tells
   the terminal that "hey, I want a semantic palette" or something, that is
@@ -44,52 +36,36 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](
   
   This adds a new `palette-harmonious`, disabled by default, which allows
   generated light themes to be inverted.
-  
-  </details>
+  ```
 - [`2863849`](https://github.com/ghostty-org/ghostty/commit/2863849fcae7ef46342e14af30fc3d850cd2109a) ci: milestone workflow should use our vouch app token ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   This increases our rate limits and the vouch app already has the
   permissions required for the milestone workflow.
-  
-  </details>
+  ```
 - [`c316472`](https://github.com/ghostty-org/ghostty/commit/c316472362dc9d6ced051b2d07c4ea5ee542822e) ci: milestone workflow should use our vouch app token ([#10879](https://github.com/ghostty-org/ghostty/issues/10879)) ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   This increases our rate limits and the vouch app already has the
   permissions required for the milestone workflow.
   
   cc @trag1c
-  
-  </details>
+  ```
 - [`df47dc1`](https://github.com/ghostty-org/ghostty/commit/df47dc1a98b9df29152ee1b24daea5f50883c99a) ci: milestone workflow should use our vouch app token ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   This increases our rate limits and the vouch app already has the
   permissions required for the milestone workflow.
-  
-  </details>
+  ```
 - [`a6b6033`](https://github.com/ghostty-org/ghostty/commit/a6b603385236bad5a592eb078d3e72a39c8215c1) ci: pass milestone token via github-token parameter ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   If I am reading the upstream action right, even if you set GITHUB_TOKEN
   env var its defaulting to `github.token`, so we need to specify as a
   param.
-  
-  </details>
+  ```
 - [`1fa4e78`](https://github.com/ghostty-org/ghostty/commit/1fa4e787eb1f50729153d09b7f455ebb9fc4ccc9) ci: pass milestone token via github-token parameter ([#10881](https://github.com/ghostty-org/ghostty/issues/10881)) ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   If I am reading the upstream action right, even if you set GITHUB_TOKEN
   env var its defaulting to `github.token`, so we need to specify as a
   param.
-  
-  </details>
+  ```
 - [`786bad9`](https://github.com/ghostty-org/ghostty/commit/786bad9774cfa4753a11f8bb46b47aedc974bf3e) macos: swiftlint 'colon' rule ([@jparise](https://github.com/jparise))
 - [`6ade5df`](https://github.com/ghostty-org/ghostty/commit/6ade5df7990d8f2fbd7dce5c05f43ba43bd510e5) macos: swiftlint 'comma' rule ([@jparise](https://github.com/jparise))
 - [`a8903c1`](https://github.com/ghostty-org/ghostty/commit/a8903c1bb199aa52b63d20593361672f27a4d4ba) macos: swiftlint 'comment_spacing' rule ([@jparise](https://github.com/jparise))
@@ -113,15 +89,12 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](
 - [`c418e4b`](https://github.com/ghostty-org/ghostty/commit/c418e4b581d61969d3f02c2adae4e2e862f07b58) macos: swiftlint 'unused_optional_binding' rule ([@jparise](https://github.com/jparise))
 - [`dbf2e0e`](https://github.com/ghostty-org/ghostty/commit/dbf2e0e087ced90a8f844fc028d73d9b2e40e668) macos: swiftlint 'vertical_parameter_alignment' rule ([@jparise](https://github.com/jparise))
 - [`a6fcb46`](https://github.com/ghostty-org/ghostty/commit/a6fcb46e18b14a9199446dd0f053ebe08ef33bc9) macos: autofixable swiftlint rules ([#10878](https://github.com/ghostty-org/ghostty/issues/10878)) ([@mitchellh](https://github.com/mitchellh))
-  <details>
-  <summary>Details</summary>
-  
+  ```text
   Apply fixes for all of the SwiftLint rules that can be automatically
   fixed (`--fix`) or addressed via some minor reformatting.
   
   Each rule is in its own commit for easier review.
-  
-  </details>
+  ```
 - [`ca700b2`](https://github.com/ghostty-org/ghostty/commit/ca700b2d7b8d9e9e9ed46df2e1bb49a13b2fe606) additional strings for 3.0 ([@phush0](https://github.com/phush0))
 - [`d1cb225`](https://github.com/ghostty-org/ghostty/commit/d1cb225895f6f3b195a5477d41d89b69216d5fc6) Fix translation for 'Open in Ghostty' ([@phush0](https://github.com/phush0))
 - [`42c81db`](https://github.com/ghostty-org/ghostty/commit/42c81dbccc7c62ccc1eaef7fd724af9e308814ef) bg_BG additional strings for 1.3 ([#10836](https://github.com/ghostty-org/ghostty/issues/10836)) ([@trag1c](https://github.com/trag1c))
