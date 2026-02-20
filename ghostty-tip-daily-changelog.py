@@ -234,6 +234,10 @@ def format_generated_at(when: dt.datetime) -> str:
 
 def note_block_lines(*, generated_at: str) -> list[str]:
     return [
+        "> [!TIP]",
+        "> **Subscribe to Releases:** In GitHub, use `Watch -> Custom -> Releases` for this repository",
+        "> to get a daily notification with the previous day's Ghostty tip changes.",
+        "",
         "> [!NOTE]",
         "> This changelog summarizes [Ghostty tip](https://tip.ghostty.org/) nightly builds.",
         "> It is auto-updated every 3 hours by GitHub Actions and shows a rolling 7-day window by default.",
@@ -256,8 +260,9 @@ def render_markdown(
     runs: list[WorkflowRun],
     *,
     generated_at: str,
+    include_note: bool = True,
 ) -> str:
-    lines: list[str] = note_block_lines(generated_at=generated_at)
+    lines: list[str] = note_block_lines(generated_at=generated_at) if include_note else []
 
     if len(runs) < 2:
         lines.append("Not enough successful runs to compare (need at least 2).")
@@ -351,39 +356,64 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=f"Generate daily changelog from successful runs of {WORKFLOW} in {REPO}."
     )
-    parser.add_argument(
+    day_scope = parser.add_mutually_exclusive_group()
+    day_scope.add_argument(
         "--days",
         type=int,
-        default=7,
-        help="Number of UTC calendar days to include, counting today (default: %(default)s)",
+        help="Number of UTC calendar days to include, counting today (default: 7)",
+    )
+    day_scope.add_argument(
+        "--date",
+        type=str,
+        metavar="YYYY-MM-DD",
+        help="Generate changelog for a specific UTC date only",
     )
     parser.add_argument(
         "--output",
         type=Path,
         help="Write markdown output to a file instead of stdout",
     )
+    parser.add_argument(
+        "--no-note",
+        action="store_true",
+        help="Do not render the top [!NOTE] block",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-
-    if args.days < 1:
+    days = args.days if args.days is not None else 7
+    if args.date is None and days < 1:
         print("error: --days must be at least 1", file=sys.stderr)
         sys.exit(2)
 
     generated_at_dt = dt.datetime.now(dt.timezone.utc)
     generated_at = format_generated_at(generated_at_dt)
-    today = generated_at_dt.date()
-    start_date = today - dt.timedelta(days=args.days - 1)
-    start_date_str = start_date.isoformat()
-    created_filter = f">={start_date_str}"
+    if args.date is not None:
+        try:
+            start_date = dt.date.fromisoformat(args.date)
+        except ValueError:
+            print("error: --date must be in YYYY-MM-DD format", file=sys.stderr)
+            sys.exit(2)
+        end_date = start_date + dt.timedelta(days=1)
+        fetch_limit = FETCH_RUNS_PER_DAY * 2
+    else:
+        today = generated_at_dt.date()
+        start_date = today - dt.timedelta(days=days - 1)
+        end_date = today + dt.timedelta(days=1)
+        # Fetch enough successful runs to cover expected nightly run volume.
+        fetch_limit = max(days * FETCH_RUNS_PER_DAY, FETCH_RUNS_PER_DAY)
 
-    # Fetch enough successful runs to cover expected nightly run volume.
-    fetch_limit = max(args.days * FETCH_RUNS_PER_DAY, FETCH_RUNS_PER_DAY)
-    in_range_runs = fetch_successful_runs(fetch_limit, created_filter)
+    start_date_str = start_date.isoformat()
+    in_range_runs = [
+        run
+        for run in fetch_successful_runs(fetch_limit, f">={start_date_str}")
+        if (when := parse_utc_datetime(run.created_at)) is not None
+        and start_date <= when.date() < end_date
+    ]
     if len(in_range_runs) == 0:
-        lines = note_block_lines(generated_at=generated_at)
+        lines = note_block_lines(generated_at=generated_at) if not args.no_note else []
         lines.append("No successful runs found for selected days.")
         markdown = "\n".join(lines) + "\n"
     else:
@@ -395,6 +425,7 @@ def main() -> None:
         markdown = render_markdown(
             runs,
             generated_at=generated_at,
+            include_note=not args.no_note,
         )
 
     if args.output:

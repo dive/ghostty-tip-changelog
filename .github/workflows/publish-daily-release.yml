@@ -1,0 +1,57 @@
+name: Publish Daily Release
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-daily-release
+  cancel-in-progress: true
+
+jobs:
+  publish-daily-release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Compute release metadata
+        run: |
+          python3 - <<'PY' >> "$GITHUB_ENV"
+          import datetime as dt
+
+          report_date = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=1)).date()
+          print(f"REPORT_DATE={report_date.isoformat()}")
+          print(f"RELEASE_TAG=daily-{report_date.isoformat()}")
+          print(f"RELEASE_TITLE=Ghostty Tip Daily Changelog - {report_date.isoformat()}")
+          PY
+
+      - name: Generate previous-day changelog
+        run: |
+          python3 ghostty-tip-daily-changelog.py \
+            --date "$REPORT_DATE" \
+            --no-note \
+            --output release-notes.md
+
+      - name: Create or update daily release
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" \
+              --title "$RELEASE_TITLE" \
+              --notes-file release-notes.md
+          else
+            gh release create "$RELEASE_TAG" \
+              --title "$RELEASE_TITLE" \
+              --notes-file release-notes.md
+          fi
