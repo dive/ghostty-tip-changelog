@@ -1,11 +1,14 @@
 > [!NOTE]
 > This changelog summarizes [Ghostty tip](https://tip.ghostty.org/) nightly builds.
 > It is auto-updated every 3 hours by GitHub Actions and shows a rolling 7-day window by default.
+>
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
+> Last updated: February 20, 2026 at 16:16 UTC.
 
 ## February 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [3](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [4](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [3](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [4](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
+Summary: 4 runs • 36 commits • 7 authors
 
 ### Changes
 
@@ -102,7 +105,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](
 
 ## February 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](https://github.com/ghostty-org/ghostty/actions/runs/22203050588), [3](https://github.com/ghostty-org/ghostty/actions/runs/22201254557), [4](https://github.com/ghostty-org/ghostty/actions/runs/22191269216), [5](https://github.com/ghostty-org/ghostty/actions/runs/22187435492), [6](https://github.com/ghostty-org/ghostty/actions/runs/22173999761), [7](https://github.com/ghostty-org/ghostty/actions/runs/22170147524), [8](https://github.com/ghostty-org/ghostty/actions/runs/22163738596), [9](https://github.com/ghostty-org/ghostty/actions/runs/22162963278)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](https://github.com/ghostty-org/ghostty/actions/runs/22203050588), [3](https://github.com/ghostty-org/ghostty/actions/runs/22201254557), [4](https://github.com/ghostty-org/ghostty/actions/runs/22191269216), [5](https://github.com/ghostty-org/ghostty/actions/runs/22187435492), [6](https://github.com/ghostty-org/ghostty/actions/runs/22173999761), [7](https://github.com/ghostty-org/ghostty/actions/runs/22170147524), [8](https://github.com/ghostty-org/ghostty/actions/runs/22163738596), [9](https://github.com/ghostty-org/ghostty/actions/runs/22162963278)  
+Summary: 9 runs • 31 commits • 11 authors
 
 ### Changes
 
@@ -451,7 +455,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](
 
 ## February 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](https://github.com/ghostty-org/ghostty/actions/runs/22156049735), [3](https://github.com/ghostty-org/ghostty/actions/runs/22154736737), [4](https://github.com/ghostty-org/ghostty/actions/runs/22153511837), [5](https://github.com/ghostty-org/ghostty/actions/runs/22152847081), [6](https://github.com/ghostty-org/ghostty/actions/runs/22152379828), [7](https://github.com/ghostty-org/ghostty/actions/runs/22151377971), [8](https://github.com/ghostty-org/ghostty/actions/runs/22149967716), [9](https://github.com/ghostty-org/ghostty/actions/runs/22149509966), [10](https://github.com/ghostty-org/ghostty/actions/runs/22148426435), [11](https://github.com/ghostty-org/ghostty/actions/runs/22144639101), [12](https://github.com/ghostty-org/ghostty/actions/runs/22144308461), [13](https://github.com/ghostty-org/ghostty/actions/runs/22143941787), [14](https://github.com/ghostty-org/ghostty/actions/runs/22143498991), [15](https://github.com/ghostty-org/ghostty/actions/runs/22143464489), [16](https://github.com/ghostty-org/ghostty/actions/runs/22140226017), [17](https://github.com/ghostty-org/ghostty/actions/runs/22139832960), [18](https://github.com/ghostty-org/ghostty/actions/runs/22139028227), [19](https://github.com/ghostty-org/ghostty/actions/runs/22137282051), [20](https://github.com/ghostty-org/ghostty/actions/runs/22135137897), [21](https://github.com/ghostty-org/ghostty/actions/runs/22134640805), [22](https://github.com/ghostty-org/ghostty/actions/runs/22128999276), [23](https://github.com/ghostty-org/ghostty/actions/runs/22127610926), [24](https://github.com/ghostty-org/ghostty/actions/runs/22127090571), [25](https://github.com/ghostty-org/ghostty/actions/runs/22121593305), [26](https://github.com/ghostty-org/ghostty/actions/runs/22121477210)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](https://github.com/ghostty-org/ghostty/actions/runs/22156049735), [3](https://github.com/ghostty-org/ghostty/actions/runs/22154736737), [4](https://github.com/ghostty-org/ghostty/actions/runs/22153511837), [5](https://github.com/ghostty-org/ghostty/actions/runs/22152847081), [6](https://github.com/ghostty-org/ghostty/actions/runs/22152379828), [7](https://github.com/ghostty-org/ghostty/actions/runs/22151377971), [8](https://github.com/ghostty-org/ghostty/actions/runs/22149967716), [9](https://github.com/ghostty-org/ghostty/actions/runs/22149509966), [10](https://github.com/ghostty-org/ghostty/actions/runs/22148426435), [11](https://github.com/ghostty-org/ghostty/actions/runs/22144639101), [12](https://github.com/ghostty-org/ghostty/actions/runs/22144308461), [13](https://github.com/ghostty-org/ghostty/actions/runs/22143941787), [14](https://github.com/ghostty-org/ghostty/actions/runs/22143498991), [15](https://github.com/ghostty-org/ghostty/actions/runs/22143464489), [16](https://github.com/ghostty-org/ghostty/actions/runs/22140226017), [17](https://github.com/ghostty-org/ghostty/actions/runs/22139832960), [18](https://github.com/ghostty-org/ghostty/actions/runs/22139028227), [19](https://github.com/ghostty-org/ghostty/actions/runs/22137282051), [20](https://github.com/ghostty-org/ghostty/actions/runs/22135137897), [21](https://github.com/ghostty-org/ghostty/actions/runs/22134640805), [22](https://github.com/ghostty-org/ghostty/actions/runs/22128999276), [23](https://github.com/ghostty-org/ghostty/actions/runs/22127610926), [24](https://github.com/ghostty-org/ghostty/actions/runs/22127090571), [25](https://github.com/ghostty-org/ghostty/actions/runs/22121593305), [26](https://github.com/ghostty-org/ghostty/actions/runs/22121477210)  
+Summary: 26 runs • 78 commits • 20 authors
 
 ### Changes
 
@@ -955,7 +960,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22160385048), [2](
 
 ## February 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22118811858), [2](https://github.com/ghostty-org/ghostty/actions/runs/22115783027), [3](https://github.com/ghostty-org/ghostty/actions/runs/22111436128), [4](https://github.com/ghostty-org/ghostty/actions/runs/22110174817), [5](https://github.com/ghostty-org/ghostty/actions/runs/22108851024), [6](https://github.com/ghostty-org/ghostty/actions/runs/22106407405), [7](https://github.com/ghostty-org/ghostty/actions/runs/22105926169), [8](https://github.com/ghostty-org/ghostty/actions/runs/22104793847), [9](https://github.com/ghostty-org/ghostty/actions/runs/22086597324), [10](https://github.com/ghostty-org/ghostty/actions/runs/22085565158)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22118811858), [2](https://github.com/ghostty-org/ghostty/actions/runs/22115783027), [3](https://github.com/ghostty-org/ghostty/actions/runs/22111436128), [4](https://github.com/ghostty-org/ghostty/actions/runs/22110174817), [5](https://github.com/ghostty-org/ghostty/actions/runs/22108851024), [6](https://github.com/ghostty-org/ghostty/actions/runs/22106407405), [7](https://github.com/ghostty-org/ghostty/actions/runs/22105926169), [8](https://github.com/ghostty-org/ghostty/actions/runs/22104793847), [9](https://github.com/ghostty-org/ghostty/actions/runs/22086597324), [10](https://github.com/ghostty-org/ghostty/actions/runs/22085565158)  
+Summary: 10 runs • 33 commits • 8 authors
 
 ### Changes
 
@@ -1143,7 +1149,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22118811858), [2](
 
 ## February 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22079496822), [2](https://github.com/ghostty-org/ghostty/actions/runs/22079027675), [3](https://github.com/ghostty-org/ghostty/actions/runs/22076974065), [4](https://github.com/ghostty-org/ghostty/actions/runs/22075066249), [5](https://github.com/ghostty-org/ghostty/actions/runs/22074575139), [6](https://github.com/ghostty-org/ghostty/actions/runs/22073763432), [7](https://github.com/ghostty-org/ghostty/actions/runs/22068568385), [8](https://github.com/ghostty-org/ghostty/actions/runs/22066503993), [9](https://github.com/ghostty-org/ghostty/actions/runs/22061803027), [10](https://github.com/ghostty-org/ghostty/actions/runs/22056574414), [11](https://github.com/ghostty-org/ghostty/actions/runs/22048927946)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22079496822), [2](https://github.com/ghostty-org/ghostty/actions/runs/22079027675), [3](https://github.com/ghostty-org/ghostty/actions/runs/22076974065), [4](https://github.com/ghostty-org/ghostty/actions/runs/22075066249), [5](https://github.com/ghostty-org/ghostty/actions/runs/22074575139), [6](https://github.com/ghostty-org/ghostty/actions/runs/22073763432), [7](https://github.com/ghostty-org/ghostty/actions/runs/22068568385), [8](https://github.com/ghostty-org/ghostty/actions/runs/22066503993), [9](https://github.com/ghostty-org/ghostty/actions/runs/22061803027), [10](https://github.com/ghostty-org/ghostty/actions/runs/22056574414), [11](https://github.com/ghostty-org/ghostty/actions/runs/22048927946)  
+Summary: 11 runs • 57 commits • 13 authors
 
 ### Changes
 
@@ -1625,7 +1632,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22079496822), [2](
 
 ## February 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22045113288), [2](https://github.com/ghostty-org/ghostty/actions/runs/22044917652), [3](https://github.com/ghostty-org/ghostty/actions/runs/22044646649), [4](https://github.com/ghostty-org/ghostty/actions/runs/22038073964), [5](https://github.com/ghostty-org/ghostty/actions/runs/22038018150), [6](https://github.com/ghostty-org/ghostty/actions/runs/22037863486)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22045113288), [2](https://github.com/ghostty-org/ghostty/actions/runs/22044917652), [3](https://github.com/ghostty-org/ghostty/actions/runs/22044646649), [4](https://github.com/ghostty-org/ghostty/actions/runs/22038073964), [5](https://github.com/ghostty-org/ghostty/actions/runs/22038018150), [6](https://github.com/ghostty-org/ghostty/actions/runs/22037863486)  
+Summary: 6 runs • 65 commits • 5 authors
 
 ### Changes
 
@@ -2079,7 +2087,8 @@ Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22045113288), [2](
 
 ## February 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22020714832)
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22020714832)  
+Summary: 1 runs • 2 commits • 2 authors
 
 ### Changes
 
