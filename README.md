@@ -8,15 +8,140 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 20, 2026 at 16:37 UTC.
+> Last updated: February 20, 2026 at 18:13 UTC.
 
 ## February 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [2](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [3](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [4](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
-Summary: 4 runs • 36 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [2](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [3](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [4](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [5](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [6](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [7](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
+Summary: 7 runs • 50 commits • 11 authors
 
 ### Changes
 
+- [`d2098d8`](https://github.com/ghostty-org/ghostty/commit/d2098d830c804c528d772f9f3352ec334f547f17) deps: Update uucode to 0.2.0 (with unicode 17) ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`e887527`](https://github.com/ghostty-org/ghostty/commit/e887527e59a67f869b1fef1f6bcd61302b24e01c) macos: swiftlint 'unused_enumerated' rule ([@jparise](https://github.com/jparise))
+- [`c2eab3b`](https://github.com/ghostty-org/ghostty/commit/c2eab3b43d142cc54d02aee3af9e9f80a51090dd) macos: add root-level .swiftlint.yml ([@jparise](https://github.com/jparise))
+  ```text
+  In order to support running from both the repository root and from
+  within Xcode project, and to keep things generally organized, our
+  primary .swiftlint.yml configuration file lives under macos/.
+  
+  This change introduces a root-level .swiftlint.yml which limits the file
+  scope to macos/ and then includes macos/.swiftlint.yml for the rest of
+  the directives.
+  
+  This unlocks a few benefits:
+  
+  - We no longer need to pass an explicit `macos` path argument in any of
+    our invocations. SwiftLint will do the right thing when run either
+    from the repository root or from within the macos/ directory.
+  - It lets us easily exclude the macos/build/ directory (and re-enable
+    the 'deployment_target' rule). In the previous setup, this was more
+    challenging than you'd expect due to SwiftLint's path resolution rules
+    and required passing even more arguments like `--working-directory`.
+  
+  The only downside is adding a new file to the repository root, but that
+  feels like the right trade-off given the benefits and conveniences.
+  ```
+- [`454d53e`](https://github.com/ghostty-org/ghostty/commit/454d53e26441b0d3603745a6e7bfef631bad1d54) macos: ignore swiftlint 'line_length' rule ([@jparise](https://github.com/jparise))
+  ```text
+  Also, there are no more outstanding 'mark' issues.
+  ```
+- [`add991b`](https://github.com/ghostty-org/ghostty/commit/add991b66abd46225309816685110d067c8d1eea) Merge remote-tracking branch 'upstream/main' into uucode-unicode-17 ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`e06ac6d`](https://github.com/ghostty-org/ghostty/commit/e06ac6d33e6adb7dbd98d782723ec58e8e4eeff0) Force prepend to use wcwidth_standalone ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`0ac8104`](https://github.com/ghostty-org/ghostty/commit/0ac810461a2af268d6700e55bf3c9991e7cbe221) deps: Update uucode to v0.2.0 (with unicode 17) ([#10895](https://github.com/ghostty-org/ghostty/issues/10895)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR updates `uucode` to v0.2.0, with several new Unicode files being
+  parsed, various fixes (not affecting Ghostty), `wcwidth` grapheme
+  support, code point iteration, and finally an upgrade to Unicode 17. As
+  far as this impacting Ghostty, the Unicode 17 upgrade is the biggest
+  change, and even that is relatively minor.
+  
+  
+  https://github.com/jacobsandlund/uucode/compare/31655fba3c638229989cc524363ef5e3c7b580c1...v0.2.0
+  
+  The only needed change to the configuration is to revert `prepend`
+  characters to being non-zero width for Ghostty. See the comment.
+  
+  No AI was used except to check the grammar of the comment. AI was used a
+  bit in the `uucode` changes, but mostly done by hand and closely
+  reviewed when used.
+  ```
+- [`d4e5ba8`](https://github.com/ghostty-org/ghostty/commit/d4e5ba8c166d40719544678858629b1d65e7f5f9) macos: ignore swiftlint 'line_length' rule ([#10893](https://github.com/ghostty-org/ghostty/issues/10893)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Also, there are no more outstanding 'mark' issues.
+  ```
+- [`6ca8009`](https://github.com/ghostty-org/ghostty/commit/6ca80091c5126e7539254b0215e17728adbc8a56) macos: add root-level .swiftlint.yml ([#10890](https://github.com/ghostty-org/ghostty/issues/10890)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In order to support running from both the repository root and from
+  within Xcode project, and to keep things generally organized, our
+  primary .swiftlint.yml configuration file lives under macos/.
+  
+  This change introduces a root-level .swiftlint.yml which limits the file
+  scope to macos/ and then includes macos/.swiftlint.yml for the rest of
+  the directives.
+  
+  This unlocks a few benefits:
+  
+  - We no longer need to pass an explicit `macos` path argument in any of
+  our invocations. SwiftLint will do the right thing when run either from
+  the repository root or from within the macos/ directory.
+  - It lets us easily exclude the macos/build/ directory (and re-enable
+  the 'deployment_target' rule). In the previous setup, this was more
+  challenging than you'd expect due to SwiftLint's path resolution rules
+  and required passing even more arguments like `--working-directory`.
+  
+  The only downside is adding a new file to the repository root, but that
+  feels like the right trade-off given the benefits and conveniences.
+  ```
+- [`3ba6d81`](https://github.com/ghostty-org/ghostty/commit/3ba6d8174dd93e85ad53a39664346edaf84c2ad2) macos: swiftlint 'unused_enumerated' rule ([#10888](https://github.com/ghostty-org/ghostty/issues/10888)) ([@mitchellh](https://github.com/mitchellh))
+- [`125e96f`](https://github.com/ghostty-org/ghostty/commit/125e96ff9ea0db8d4f59711c3e50fe2e63f1647b) Update VOUCHED list ([#10896](https://github.com/ghostty-org/ghostty/issues/10896)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/10895#issuecomment-3936131923)
+  from @trag1c.
+  
+  Vouch: @jacobsandlund
+  ```
+- [`b0f00a6`](https://github.com/ghostty-org/ghostty/commit/b0f00a65edcd029a0670a669506de778edc39cfd) Add ghostty_config_get tests ([@nicosuave](https://github.com/nicosuave))
+  ```text
+  I mostly did this to familiarize myself with the codebase and figured it
+  doesn't hurt to cover this with tests if I add more in this area,
+  despite receiving indirect coverage elsewhere.
+  ```
+- [`b6c1a26`](https://github.com/ghostty-org/ghostty/commit/b6c1a264378ea8616d9e71d941731ded400ca83e) Update VOUCHED list ([#10887](https://github.com/ghostty-org/ghostty/issues/10887)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10882) from
+  @jcollie.
+  
+  Vouch: @brentschroeter
+  ```
+- [`5008d7e`](https://github.com/ghostty-org/ghostty/commit/5008d7eb9323e642510426bef9887e7d32dff402) Add ghostty_config_get tests ([#10891](https://github.com/ghostty-org/ghostty/issues/10891)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I mostly did this to familiarize myself with the codebase and figured it
+  doesn't hurt to cover this with tests if more added logic in this area,
+  despite this logic receiving indirect coverage elsewhere. [Here's my
+  related
+  proposal](https://github.com/ghostty-org/ghostty/discussions/10807).
+  
+  I gave more thought around how to expose some of these config values and
+  their metadata in the C api to eventually drive a settings UI and was
+  hoping for feedback before I proceed.
+  
+  The cleanest path forward feels like annotating config values with
+  formal metadata around things like: supported platforms, whether or not
+  a restart is required, presentation metadata like grouping + ordering,
+  tolerated ranges for values, possible enum values, etc. My intent is
+  that Swift & other consumers can enumerate potential settings values
+  with metadata such as to drive the UI from the metadata.
+  
+  ---
+  
+  AI Disclosure: I used Codex 5.3 to help me understand how the config
+  subsystem in zig is exposed to Swift via the C API. Codex wrote these
+  tests; but we brainstormed on a pragmatic coverage balance and I
+  understand how the tests work.
+  ```
 - [`585bf3f`](https://github.com/ghostty-org/ghostty/commit/585bf3fcd25be3d1d70383a0f1b55e0f6744d639) Update es_AR translations with additional strings for 1.3 ([#10861](https://github.com/ghostty-org/ghostty/issues/10861)) ([@alanmoyano](https://github.com/alanmoyano))
   ```text
   - Adds the three new string
