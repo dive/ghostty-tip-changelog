@@ -239,6 +239,7 @@ def note_block_lines(*, generated_at: str) -> list[str]:
         "> It is auto-updated every 3 hours by GitHub Actions and shows a rolling 7-day window by default.",
         ">",
         "> Entries are grouped by UTC day and combine commits across all successful runs for each day.",
+        ">",
         f"> Last updated: {generated_at}.",
         "",
     ]
