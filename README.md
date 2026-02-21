@@ -8,15 +8,42 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 21, 2026 at 15:05 UTC.
+> Last updated: February 21, 2026 at 18:06 UTC.
 
 ## February 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [2](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [3](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [4](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
-Summary: 4 runs • 14 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22260952552), [2](https://github.com/ghostty-org/ghostty/actions/runs/22259478775), [3](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [4](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [5](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [6](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
+Summary: 6 runs • 17 commits • 7 authors
 
 ### Changes
 
+- [`2e172ee`](https://github.com/ghostty-org/ghostty/commit/2e172eeb60b0096f2946eb631b2e8bc294e45c62) Update VOUCHED list ([#10927](https://github.com/ghostty-org/ghostty/issues/10927)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10920) from
+  @mitchellh.
+  
+  Vouch: @sunshine-syz
+  ```
+- [`407b3c0`](https://github.com/ghostty-org/ghostty/commit/407b3c082fb700be57ebf5c114b5d4f686c72c30) macos: fix new tab crash ([@tristan957](https://github.com/tristan957))
+  ```text
+  It was introduced in 2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe[0]. We
+  lost the subview. prefix of from the contains() call.
+  
+  Fixes: https://github.com/ghostty-org/ghostty/issues/10923
+  Link: https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe [0]
+  ```
+- [`4581392`](https://github.com/ghostty-org/ghostty/commit/4581392625c09524ba330bba0b9fd37f4494d2de) macos: fix new tab crash ([#10924](https://github.com/ghostty-org/ghostty/issues/10924)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  It was introduced in 2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe[0]. We
+  lost the subview. prefix of from the contains() call.
+  
+  
+  Fixes: https://github.com/ghostty-org/ghostty/issues/10923
+  Link:
+  https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe
+  [0]
+  ```
 - [`791c949`](https://github.com/ghostty-org/ghostty/commit/791c94919059d73aa1df69eb034c9e105e85cbae) i18n/zh: update strings ([@pluiedev](https://github.com/pluiedev))
 - [`02ca33d`](https://github.com/ghostty-org/ghostty/commit/02ca33d119eb46bb6eb07632caed98e989e21334) i18n/zh: update strings ([#10844](https://github.com/ghostty-org/ghostty/issues/10844)) ([@00-kat](https://github.com/00-kat))
   ```text
