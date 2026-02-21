@@ -8,15 +8,20 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 21, 2026 at 06:12 UTC.
+> Last updated: February 21, 2026 at 09:08 UTC.
 
 ## February 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [2](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [3](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
-Summary: 3 runs • 12 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [2](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [3](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [4](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
+Summary: 4 runs • 14 commits • 6 authors
 
 ### Changes
 
+- [`791c949`](https://github.com/ghostty-org/ghostty/commit/791c94919059d73aa1df69eb034c9e105e85cbae) i18n/zh: update strings ([@pluiedev](https://github.com/pluiedev))
+- [`02ca33d`](https://github.com/ghostty-org/ghostty/commit/02ca33d119eb46bb6eb07632caed98e989e21334) i18n/zh: update strings ([#10844](https://github.com/ghostty-org/ghostty/issues/10844)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  See #10632
+  ```
 - [`f7e6639`](https://github.com/ghostty-org/ghostty/commit/f7e6639c43b9537f0fb4ebfa1544652c24a715ff) macos: swiftlint 'switch_case_alignment' rule ([@jparise](https://github.com/jparise))
 - [`2d6fa92`](https://github.com/ghostty-org/ghostty/commit/2d6fa92d7837f3e19db495da9c159138380188a0) macos: swiftlint 'for_where' rule ([@jparise](https://github.com/jparise))
 - [`b65261e`](https://github.com/ghostty-org/ghostty/commit/b65261eb6643ace961e5ea548c329b3cbd646c40) macOS: expand tilde in file paths before opening ([@AlexFeijoo44](https://github.com/AlexFeijoo44))
