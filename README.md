@@ -8,7 +8,95 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 21, 2026 at 03:45 UTC.
+> Last updated: February 21, 2026 at 06:12 UTC.
+
+## February 21, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [2](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [3](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
+Summary: 3 runs • 12 commits • 4 authors
+
+### Changes
+
+- [`f7e6639`](https://github.com/ghostty-org/ghostty/commit/f7e6639c43b9537f0fb4ebfa1544652c24a715ff) macos: swiftlint 'switch_case_alignment' rule ([@jparise](https://github.com/jparise))
+- [`2d6fa92`](https://github.com/ghostty-org/ghostty/commit/2d6fa92d7837f3e19db495da9c159138380188a0) macos: swiftlint 'for_where' rule ([@jparise](https://github.com/jparise))
+- [`b65261e`](https://github.com/ghostty-org/ghostty/commit/b65261eb6643ace961e5ea548c329b3cbd646c40) macOS: expand tilde in file paths before opening ([@AlexFeijoo44](https://github.com/AlexFeijoo44))
+  ```text
+  `URL(filePath:)` treats `~` as a literal directory name, so
+  cmd-clicking a path like `~/Documents/file.txt` would fail to
+  open because the resulting file URL doesn't point to a real file.
+  
+  Use `NSString.expandingTildeInPath` to resolve `~` to the user's
+  home directory before constructing the file URL.
+  ```
+- [`6ec8744`](https://github.com/ghostty-org/ghostty/commit/6ec8744b16cbb2a35a86b89e4dbc7ca8ad43788c) macOS: expand tilde in file paths before opening ([#10863](https://github.com/ghostty-org/ghostty/issues/10863)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  ## Summary
+  
+  Cmd-clicking a file path containing `~` (e.g. `~/Documents/file.txt`)
+  fails to open the file on macOS because `URL(filePath:)` treats `~` as a
+  literal directory name rather than the user's home directory.
+  
+  This uses `NSString.expandingTildeInPath` to resolve `~` before
+  constructing the file URL.
+  
+  ## Root Cause
+  
+  In `openURL()`, when the URL string has no scheme it falls through to:
+  
+  ```swift
+  url = URL(filePath: action.url)
+  ```
+  
+  Swift's `URL(filePath:)` does not perform tilde expansion. A path like
+  `~/Documents/file.txt` produces a URL pointing to a non-existent file,
+  and `NSWorkspace.open` silently fails.
+  
+  ## Fix
+  
+  ```swift
+  let expandedPath = NSString(string: action.url).expandingTildeInPath
+  url = URL(filePath: expandedPath)
+  ```
+  
+  ## Reproduction
+  
+  1. Have a terminal application (e.g. Claude Code) that outputs file
+  paths with `~` prefixes
+  2. Cmd-click the path in Ghostty on macOS
+  3. The file does not open (fails silently)
+  
+  With this fix, the path resolves correctly and opens in the default
+  editor.
+  ````
+- [`ce46cae`](https://github.com/ghostty-org/ghostty/commit/ce46caeacb76f7056c2e82e86b7ffdc2099746e0) macos: swiftlint 'switch_case_alignment' rule ([#10908](https://github.com/ghostty-org/ghostty/issues/10908)) ([@mitchellh](https://github.com/mitchellh))
+- [`7c50464`](https://github.com/ghostty-org/ghostty/commit/7c504649fd0b2b6d12a9a60a3e9c073315d09d64) ci: use explicit PAT with path-filter for higher rate limits ([@mitchellh](https://github.com/mitchellh))
+- [`c17844c`](https://github.com/ghostty-org/ghostty/commit/c17844c2dbeba6c7186c8662191e4f5e3456a297) ci: use explicit PAT with path-filter for higher rate limits ([#10915](https://github.com/ghostty-org/ghostty/issues/10915)) ([@mitchellh](https://github.com/mitchellh))
+- [`2a81d8c`](https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe) macos: swiftlint 'for_where' rule ([#10909](https://github.com/ghostty-org/ghostty/issues/10909)) ([@mitchellh](https://github.com/mitchellh))
+- [`07a68b3`](https://github.com/ghostty-org/ghostty/commit/07a68b3e6521e74922fcc099ffb9e34d8f6a44ad) ci: use `every` to filter vouch paths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The prior filter wasn't working because the default quantifier is
+  `any`.
+  ```
+- [`1e7f470`](https://github.com/ghostty-org/ghostty/commit/1e7f470eb852ca8be509cdb77426a5b1c3bd1933) ci: use `every` to filter vouch paths ([#10913](https://github.com/ghostty-org/ghostty/issues/10913)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The prior filter wasn't working because the default quantifier is `any`.
+  ```
+- [`e7b8e73`](https://github.com/ghostty-org/ghostty/commit/e7b8e731eb60733cc09a04d9ddec383244f97d0e) Update VOUCHED list ([#10914](https://github.com/ghostty-org/ghostty/issues/10914)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10581) from
+  @mitchellh.
+  
+  Vouch: @neo773
+  ```
+- [`3404595`](https://github.com/ghostty-org/ghostty/commit/3404595c72d755d34c01fdb252a4b7fe8917c179) Update VOUCHED list ([#10912](https://github.com/ghostty-org/ghostty/issues/10912)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10906) from
+  @mitchellh.
+  
+  Vouch: @NateSmyth
+  ```
 
 ## February 20, 2026
 
