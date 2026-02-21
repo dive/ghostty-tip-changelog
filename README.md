@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 20, 2026 at 21:05 UTC.
+> Last updated: February 21, 2026 at 00:20 UTC.
 
 ## February 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22237663080), [2](https://github.com/ghostty-org/ghostty/actions/runs/22235836482), [3](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [4](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [5](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [6](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [7](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [8](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [9](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
-Summary: 9 runs • 55 commits • 12 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22242592203), [2](https://github.com/ghostty-org/ghostty/actions/runs/22237663080), [3](https://github.com/ghostty-org/ghostty/actions/runs/22235836482), [4](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [5](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [6](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [7](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [8](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [9](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [10](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
+Summary: 10 runs • 59 commits • 13 authors
 
 ### Changes
 
+- [`7e90e26`](https://github.com/ghostty-org/ghostty/commit/7e90e26ae1a422d3e4b62fac5eb2928be3cc74b4) macos: optimize secure input overlay animation ([@brentschroeter](https://github.com/brentschroeter))
+  ```text
+  Rendering the Secure Keyboard Input overlay using
+  innerShadow() can strain the resources of the main
+  thread, leading to elevated CPU load and in some
+  cases extended disruptions to the main thread's
+  DispatchQueue that result in lag or frozen frames.
+  
+  This change achieves the same animated visual
+  effect with ~35% lower CPU usage and resolves most
+  or all of the terminal rendering issues associated
+  with the overlay.
+  ```
+- [`3d3ea3f`](https://github.com/ghostty-org/ghostty/commit/3d3ea3fa596a27075a1cef601217a0780edca20c) macos: swiftlint 'no_fallthrough_only' rule ([@jparise](https://github.com/jparise))
+  ```text
+  This rule is generally trying to be helpful, but it doesn't like a few
+  places in our code base where we're intentionally listing out all of the
+  well-known cases. Given that, just disable it.
+  
+  https://realm.github.io/SwiftLint/no_fallthrough_only.html
+  ```
+- [`2ed3414`](https://github.com/ghostty-org/ghostty/commit/2ed341495f2de5c9254b17511378d38c7960ac3f) macos: optimize secure input overlay animation ([#10903](https://github.com/ghostty-org/ghostty/issues/10903)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Addresses discussion in #3729 and issues relating to #7333, #9590, and
+  #9617.
+  
+  Rendering the Secure Keyboard Input overlay using innerShadow() can
+  strain the resources of the main thread, leading to elevated CPU load
+  and in some cases extended disruptions to the main thread's
+  DispatchQueue that result in lag or frozen frames. This change achieves
+  the same animated visual effect with ~35% lower CPU usage and resolves
+  most or all of the terminal rendering issues associated with the
+  overlay.
+  ```
+- [`5db9f03`](https://github.com/ghostty-org/ghostty/commit/5db9f03f6282141f084a8a4c8c9cb3d752b0ae9e) macos: swiftlint 'no_fallthrough_only' rule ([#10899](https://github.com/ghostty-org/ghostty/issues/10899)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This rule is generally trying to be helpful, but it doesn't like a few
+  places in our code base where we're intentionally listing out all of the
+  well-known cases. Given that, just disable it.
+  
+  https://realm.github.io/SwiftLint/no_fallthrough_only.html
+  ```
 - [`8699a67`](https://github.com/ghostty-org/ghostty/commit/8699a67ecf94e65f7b9037df22353e475546b661) ci: Add a `skips` job where we can accumulate skip conditions ([@mitchellh](https://github.com/mitchellh))
   ```text
   This adds a new job that we can use to set outputs to accumulate skip
@@ -2243,24 +2285,4 @@ Summary: 6 runs • 65 commits • 5 authors
   issue comments
   ```
 - [`71d54c8`](https://github.com/ghostty-org/ghostty/commit/71d54c869977f65dc201ea1834675ec9de46ef8e) fix vouch-request discussion template ([@mitchellh](https://github.com/mitchellh))
-
-## February 14, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22020714832)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`50d9e03`](https://github.com/ghostty-org/ghostty/commit/50d9e034244fb0ed39c42d7e5c202c6dc53b7898) core/gtk: add language config entry to override GUI localization ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #10276
-  ```
-- [`61e347a`](https://github.com/ghostty-org/ghostty/commit/61e347a2c278263dd1392c324feaee5fb9712ee5) core/gtk: add language config entry to override GUI localization ([#10428](https://github.com/ghostty-org/ghostty/issues/10428)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Fixes #10276
-  
-  <img width="853" height="637" alt="Screenshot From 2026-01-23 16-45-11"
-  src="https://github.com/user-attachments/assets/aff9d2f8-eb3e-411e-bd3d-ebd32e5c7973"
-  />
-  ```
 
