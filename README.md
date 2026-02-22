@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 22, 2026 at 12:07 UTC.
+> Last updated: February 22, 2026 at 15:06 UTC.
 
 ## February 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22271139862), [2](https://github.com/ghostty-org/ghostty/actions/runs/22270853637), [3](https://github.com/ghostty-org/ghostty/actions/runs/22270626299)  
-Summary: 3 runs • 11 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22278639787), [2](https://github.com/ghostty-org/ghostty/actions/runs/22271139862), [3](https://github.com/ghostty-org/ghostty/actions/runs/22270853637), [4](https://github.com/ghostty-org/ghostty/actions/runs/22270626299)  
+Summary: 4 runs • 12 commits • 3 authors
 
 ### Changes
 
+- [`504a361`](https://github.com/ghostty-org/ghostty/commit/504a3611f6f2d9a1cb1a4eb419b41aea3c8049ca) Update VOUCHED list ([#10947](https://github.com/ghostty-org/ghostty/issues/10947)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10946) from
+  @00-kat.
+  
+  Vouch: @Laxystem
+  ```
 - [`bd96116`](https://github.com/ghostty-org/ghostty/commit/bd9611650fd1c8e72367cf781270ddf3494ff451) build: add support for Android NDK path configuration ([@elias8](https://github.com/elias8))
 - [`e7cfb17`](https://github.com/ghostty-org/ghostty/commit/e7cfb17d5a28c5eebe33c0f733de1d80a51773f2) build: support 16kb page sizes for Android 15+ ([@elias8](https://github.com/elias8))
 - [`b728e41`](https://github.com/ghostty-org/ghostty/commit/b728e41d77617188f38a20b10dfc5698b2ffe297) build: clarify ANDROID_NDK_HOME variable description ([@elias8](https://github.com/elias8))
