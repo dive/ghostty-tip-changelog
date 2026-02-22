@@ -8,15 +8,99 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 21, 2026 at 21:04 UTC.
+> Last updated: February 22, 2026 at 00:21 UTC.
 
 ## February 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22260952552), [2](https://github.com/ghostty-org/ghostty/actions/runs/22259478775), [3](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [4](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [5](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [6](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
-Summary: 6 runs • 17 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22266631328), [2](https://github.com/ghostty-org/ghostty/actions/runs/22266137820), [3](https://github.com/ghostty-org/ghostty/actions/runs/22265821791), [4](https://github.com/ghostty-org/ghostty/actions/runs/22265014052), [5](https://github.com/ghostty-org/ghostty/actions/runs/22260952552), [6](https://github.com/ghostty-org/ghostty/actions/runs/22259478775), [7](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [8](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [9](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [10](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
+Summary: 10 runs • 33 commits • 9 authors
 
 ### Changes
 
+- [`27180d5`](https://github.com/ghostty-org/ghostty/commit/27180d560c6fa2094f54677246adaac760acf6d7) i18n: add 1.3 it_IT translations ([@Misairuzame](https://github.com/Misairuzame))
+- [`b28b0b0`](https://github.com/ghostty-org/ghostty/commit/b28b0b02376a2a361d5ebcd22a3d6d7a47964685) Apply suggestions ([@Misairuzame](https://github.com/Misairuzame))
+- [`5c7cf6d`](https://github.com/ghostty-org/ghostty/commit/5c7cf6dd70ddac7816787b88a53b7595da13580a) Merge branch 'ghostty-org:main' into i18n-it_IT-1.3-translation ([@Misairuzame](https://github.com/Misairuzame))
+- [`a73c5b2`](https://github.com/ghostty-org/ghostty/commit/a73c5b2835396abe5cafc1bee6718c5b86275c85) Translate 3 additional strings ([@Misairuzame](https://github.com/Misairuzame))
+- [`d991372`](https://github.com/ghostty-org/ghostty/commit/d991372bc8958f30114eee47a5a083fd9f9e31e4) translation update for lt_LT - filled in missing strings ([@tdslot](https://github.com/tdslot))
+  ```text
+  added translations for:
+  - Open in Ghostty (Nautilus)
+  - Change Tab Title menu/dialog
+  
+  all 74 messages done now
+  ```
+- [`850e9b5`](https://github.com/ghostty-org/ghostty/commit/850e9b58fced90947506a46ba0dda95aab0cbf8e) Merge branch 'main' into i18n-update-translation-lt-LT-for-v1.3 ([@tdslot](https://github.com/tdslot))
+- [`266e910`](https://github.com/ghostty-org/ghostty/commit/266e910cd148d41e339a9a4c132b89698b924fd3) translation update for lt_LT - filled in missing strings ([#10886](https://github.com/ghostty-org/ghostty/issues/10886)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  added translations for:
+  - Open in Ghostty (Nautilus)
+  - Change Tab Title menu/dialog
+  
+  all 74 messages done now
+  ```
+- [`1e380e8`](https://github.com/ghostty-org/ghostty/commit/1e380e8bf132b1993275e8e365aa6d46adb9cd8c) i18n: add 1.3 it_IT translations ([#10708](https://github.com/ghostty-org/ghostty/issues/10708)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Added the new Italian translations for 1.3.0. Any feedback is
+  appreciated, as always!
+  ```
+- [`cdfa73b`](https://github.com/ghostty-org/ghostty/commit/cdfa73b403d2c7c26201311c9a7706da4ef11129) config: selection-word-chars parses escape sequences ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10548
+  
+  Escaped characters in selection-word-chars are now correctly parsed,
+  allowing for characters like `\t` to be included in the set of word
+  characters.
+  ```
+- [`4f3e897`](https://github.com/ghostty-org/ghostty/commit/4f3e8971a0fcb75c39664081a381dffc36fde264) config: selection-word-chars parses escape sequences ([#10933](https://github.com/ghostty-org/ghostty/issues/10933)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10548
+  
+  Escaped characters in selection-word-chars are now correctly parsed,
+  allowing for characters like `\t` to be included in the set of word
+  characters.
+  ```
+- [`3de6922`](https://github.com/ghostty-org/ghostty/commit/3de6922295782cec35e155cfb43635c1da8704ab) Update VOUCHED list ([#10936](https://github.com/ghostty-org/ghostty/issues/10936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10824) from
+  @mitchellh.
+  
+  Vouch: @rgehan
+  ```
+- [`caec9e0`](https://github.com/ghostty-org/ghostty/commit/caec9e04d21db3bb1dabe2186529b6e5e9baa1f0) renderer: kitty image update requires draw_mutex ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10680
+  
+  The image state is used for drawing, so when we update it, we need to
+  acquire the draw mutex. All our other state updates already acquire the
+  draw mutex but Kitty images are odd in that they happen in the critical
+  area (due to their size).
+  ```
+- [`548930a`](https://github.com/ghostty-org/ghostty/commit/548930a7424b87beecfa9f6b5e7407e5f530a4de) renderer: kitty image update requires draw_mutex ([#10932](https://github.com/ghostty-org/ghostty/issues/10932)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10680
+  
+  The image state is used for drawing, so when we update it, we need to
+  acquire the draw mutex. All our other state updates already acquire the
+  draw mutex but Kitty images are odd in that they happen in the critical
+  area (due to their size).
+  ```
+- [`dd29617`](https://github.com/ghostty-org/ghostty/commit/dd29617cd33225b865a3ba0e1a865f0c98142f23) macos: swiftlint 'multiple_closures_with_trailing_closure' rule ([@jparise](https://github.com/jparise))
+  ```text
+  Also, re-enable the 'force_cast' rule, which was addressed earlier.
+  ```
+- [`255b0c9`](https://github.com/ghostty-org/ghostty/commit/255b0c9964ad8c622be81c2f3f5a9f3a82c7e573) macos: swiftlint 'multiple_closures_with_trailing_closure' rule ([#10929](https://github.com/ghostty-org/ghostty/issues/10929)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Also, re-enable the 'force_cast' rule, which was addressed earlier.
+  ```
+- [`2e102b0`](https://github.com/ghostty-org/ghostty/commit/2e102b015facfa82432d09bd5d8151d239552800) Update VOUCHED list ([#10931](https://github.com/ghostty-org/ghostty/issues/10931)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/10840#issuecomment-3939561550)
+  from @trag1c.
+  
+  Vouch: @JosephMart
+  ```
 - [`2e172ee`](https://github.com/ghostty-org/ghostty/commit/2e172eeb60b0096f2946eb631b2e8bc294e45c62) Update VOUCHED list ([#10927](https://github.com/ghostty-org/ghostty/issues/10927)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1950,459 +2034,4 @@ Summary: 11 runs • 57 commits • 13 authors
   
   </details>
   ```
-
-## February 15, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22045113288), [2](https://github.com/ghostty-org/ghostty/actions/runs/22044917652), [3](https://github.com/ghostty-org/ghostty/actions/runs/22044646649), [4](https://github.com/ghostty-org/ghostty/actions/runs/22038073964), [5](https://github.com/ghostty-org/ghostty/actions/runs/22038018150), [6](https://github.com/ghostty-org/ghostty/actions/runs/22037863486)  
-Summary: 6 runs • 65 commits • 5 authors
-
-### Changes
-
-- [`16a076b`](https://github.com/ghostty-org/ghostty/commit/16a076bd7f2233333f24dc22a9a359be1c550a22) url: refactor regex into documented branches ([@bkircher](https://github.com/bkircher))
-  ```text
-  Break up the big monolithic URL and path regex into named sub-pattern
-  constants and compose the final expression from three commented
-  branches:
-  
-  - URLs with a scheme
-  - absolute or dot-relative paths
-  - bare relative paths
-  
-  This commit only breaks up the regex. It keeps the existing matching
-  behavior unchanged.
-  ```
-- [`f38366b`](https://github.com/ghostty-org/ghostty/commit/f38366b5dcf590d65777f3cf28ccb59f27b70364) url: update top-level comment ([@bkircher](https://github.com/bkircher))
-- [`c6e0de0`](https://github.com/ghostty-org/ghostty/commit/c6e0de0baeb55ed4ee519fbca2724c41f021ee3e) url: carefully extend test cases ([@bkircher](https://github.com/bkircher))
-  ```text
-  Extend existing test cases with `~`, `$VAR`, and bare .-prefixed paths
-  and embedded `,` comma handling.
-  
-  See following issue comments:
-  
-  - https://github.com/ghostty-org/ghostty/pull/10570#issuecomment-3853842036
-  - https://github.com/ghostty-org/ghostty/issues/1972#issuecomment-3859329233
-  - https://github.com/ghostty-org/ghostty/issues/1972#issuecomment-3857881196
-  ```
-- [`72a894b`](https://github.com/ghostty-org/ghostty/commit/72a894b13b64a84eecbc04d48999a7914b95aacf) url: remove `,` from path_chars ([@bkircher](https://github.com/bkircher))
-  ```text
-  Related to #1972
-  
-  Fixes an issue when paths have embedded comma, e.g.:
-  
-      shared/src/foo/SomeItem.m:12, shared/src/
-  
-  with path_chars greedily consuming the rest of the string.
-  
-  Now file path matching stops at comma. Scheme URLs are unchanged and
-  still using the comma.
-  ```
-- [`d8eb89f`](https://github.com/ghostty-org/ghostty/commit/d8eb89f384adbebd18459a670409789f554f45f3) url: fix matching `~`, `$VAR`, `.directory/` ([@bkircher](https://github.com/bkircher))
-  ```text
-  Related to #1972
-  
-  This commit adds three new alternatives for
-  `rooted_or_relative_path_prefix`:
-  
-  - `~/`
-  - `$VAR` and
-  - `.local/`, `.config/` etc. for dot-prefixed directory names
-  ```
-- [`0f904d9`](https://github.com/ghostty-org/ghostty/commit/0f904d92e089d97e9e6ff9cf0e7b21f85cade812) url: fix mid-string dot partial matches ([@bkircher](https://github.com/bkircher))
-  ```text
-  A string like
-  
-      foo.local/share
-  
-  should match fully, not partially.
-  
-  This commit fixes this by moving `dotted_path_lookahead` before
-  `bare_relative_path_prefix` so the dot-check scans the entire match
-  rather than only the text after it.
-  ```
-- [`af643a1`](https://github.com/ghostty-org/ghostty/commit/af643a1a21f2694570faa86f3070b0e9775c810d) url: fix $-numeric character matches ([@bkircher](https://github.com/bkircher))
-  ```text
-  Strings like
-  
-      $10/$20
-  
-  Should not match.
-  
-  This commit fixes this by narrowing `\w` after `$` to `[A-Za-z_]` which
-  is— according to Google Gemini— what environment variables can start
-  with.
-  ```
-- [`77ee47c`](https://github.com/ghostty-org/ghostty/commit/77ee47c18f93a01f209a419b0f1f2d4d50d80cd0) url: fix partial match of mid string $-variable ([@bkircher](https://github.com/bkircher))
-  ```text
-  A string like this
-  
-      foo/$BAR/baz
-  
-  should match fully, not partially.
-  
-  This commit fixes this by expanding `\$[A-Za-z_]\w*\/` to
-  `(?:[\w][\w\-.]*\/)*\$[A-Za-z_]\w*\/` in rooted_or_relative_path_prefix
-  so that we optionally eat everything before a variable `$VAR/`.
-  ```
-- [`9932071`](https://github.com/ghostty-org/ghostty/commit/99320714bc9e6df832b77e290516a543fc8a83de) url: fix incomplete $-numeric behavior ([@bkircher](https://github.com/bkircher))
-  ```text
-  This
-  
-      $10/bar.txt
-  
-  was partially matching but should not match at all.
-  
-  This commit fixes this by simply `[\w]` to `[A-Za-z_]` as the first
-  character of a bare relative path, so digit-starting fragments can't
-  match.
-  
-  Another option would be a lookbehind but I think the check above is much
-  simpler.
-  ```
-- [`19a41eb`](https://github.com/ghostty-org/ghostty/commit/19a41eb26b8f557c4c546786218a3f652a8fd342) url: allow numeric characters at start ([@bkircher](https://github.com/bkircher))
-  ```text
-  Amends and fixes the last commit which was too simpel. This commit uses
-  a lookbehind to prevent matching $-numeric patterns.
-  ```
-- [`02749cb`](https://github.com/ghostty-org/ghostty/commit/02749cb1dcad0b221fd9e83d01ff5bb66a637ea0) url: fix comma handling ([@bkircher](https://github.com/bkircher))
-  ```text
-  This string
-  
-      foo/bar,baz.txt
-  
-  should not match but
-  
-      src/foo.c,baz.txt
-  
-  should.
-  
-  Remove `,` from dotted_path_lookahead and non_dotted_path_lookahead.
-  ```
-- [`270ee54`](https://github.com/ghostty-org/ghostty/commit/270ee5468ff3c6220a6c9ed690f172083aa52856) url: fix $VAR mid-word partial matches ([@bkircher](https://github.com/bkircher))
-  ```text
-  Add `(?<!\w)` to prefixes so that $VAR cannot match mid-word.
-  ```
-- [`3883143`](https://github.com/ghostty-org/ghostty/commit/38831436ea2df7271707f1a456845fc24cdf6240) url: fix tilde mid-word partial matches ([@bkircher](https://github.com/bkircher))
-  ```text
-  Don't match `~` mid-word or before `/`.
-  ```
-- [`23d22c4`](https://github.com/ghostty-org/ghostty/commit/23d22c457aaadecd995c9149d03e216eeb7071cb) url: fix `,` handling for spaced paths ([@bkircher](https://github.com/bkircher))
-  ```text
-  Update path_space_segments patterns to consistently handle
-  comma-delimiters.
-  ```
-- [`50ba394`](https://github.com/ghostty-org/ghostty/commit/50ba394ed3d625849b870b1c5fb44d80f6b7d87a) url: do not match on `//` ([@bkircher](https://github.com/bkircher))
-  ```text
-  Double-slash comments are not paths so do not match on them.
-  ```
-- [`bbcc227`](https://github.com/ghostty-org/ghostty/commit/bbcc22746ae0e318e04735bfad45dc1f43b57bbc) urls: fix over-matching single spaced paths ([@bkircher](https://github.com/bkircher))
-  ```text
-  This commit adds a negative lookahead `(?!\w+://)` to both
-  `dotted_path_space_segments` and `any_path_space_segments`. This
-  prevents the space-segment matching from consuming text that starts with
-  a URL scheme (like http://), which was causing /tmp/test.txt
-  http://www.google.com to over-match.
-  
-  Fixes
-  https://github.com/ghostty-org/ghostty/issues/1972#issuecomment-3882254792
-  ```
-- [`7d87a58`](https://github.com/ghostty-org/ghostty/commit/7d87a58a731dde41b70e0fd01bf0c03793722ff3) url: fix trailing colon in path matches ([@bkircher](https://github.com/bkircher))
-  ```text
-  Paths like `./.config/ghostty:` and `./Downloads:` were incorrectly
-  including the trailing colon. Add a `no_trailing_colon` lookbehind to
-  all path branches and prevent space segments from starting after a colon
-  so that `": text"` is not consumed as part of the path.
-  ```
-- [`9bd74fd`](https://github.com/ghostty-org/ghostty/commit/9bd74fd743eff4764accec82f95768a646e461b6) more clickable file path fixes ([#10619](https://github.com/ghostty-org/ghostty/issues/10619)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This pull request addresses some of the remaining issues when matching
-  `~`, `$VAR`, `.directory/`, and embedded commas. It does not address
-  issues with embedded line breaks.
-  
-  The PR is split in multiple commits carefully applying a set of changes
-  to
-  
-  1. make the big regex more composable / readable
-  2. update some doc strings
-  3. add more test cases for the issues mentioned
-  4. two simple commits, each fixing the issues
-  
-  Changes:
-  
-  - **url: refactor regex into documented branches**
-    Break up the big monolithic URL and path regex into named sub-pattern
-    constants and compose the final expression from three commented
-    branches:
-  
-    - URLs with a scheme
-    - absolute or dot-relative paths
-    - bare relative paths
-  
-    This commit only breaks up the regex. It keeps the existing matching
-    behavior unchanged.
-  
-  
-  - **url: update top-level comment**
-  
-  
-  - **url: carefully extend test cases**
-    Extend existing test cases with `~`, `$VAR`, and bare .-prefixed paths
-    and embedded `,` comma handling.
-  
-    See following issue comments:
-  
-  -
-  https://github.com/ghostty-org/ghostty/pull/10570#issuecomment-3853842036
-  -
-  https://github.com/ghostty-org/ghostty/issues/1972#issuecomment-3859329233
-  -
-  https://github.com/ghostty-org/ghostty/issues/1972#issuecomment-3857881196
-  
-  
-  - **url: remove `,` from path_chars**
-    Related to #1972
-  
-    Fixes an issue when paths have embedded comma, e.g.:
-  
-        shared/src/foo/SomeItem.m:12, shared/src/
-  
-    with path_chars greedily consuming the rest of the string.
-  
-    Now file path matching stops at comma. Scheme URLs are unchanged and
-    still using the comma.
-  
-  
-  - **url: fix matching `~`, `$VAR`, `.directory/`**
-    Related to #1972
-  
-    This commit adds three new alternatives for
-    `rooted_or_relative_path_prefix`:
-  
-    - `~/`
-    - `$VAR` and
-    - `.local/`, `.config/` etc. for dot-prefixed directory names
-  
-  Remaining commits fix edge cases one by one:
-  
-    - **url: fix mid-string dot partial matches**
-      `"foo.local/share"` (was partial match) → now matches fully
-  
-    - **url: fix $-numeric character matches**
-      `"$10/$20"` → no match
-  
-    - **url: fix partial match of mid string $-variable**
-      `"foo/$BAR/baz"` (was partial match) → matches fully now
-  
-    - **url: fix incomplete $-numeric behavior**
-      `"$10/bar.txt"` (was partial match) → but should not match at all
-  ```
-- [`1690046`](https://github.com/ghostty-org/ghostty/commit/1690046425d017320c6900a1adf34f749fbae8ec) Update VOUCHED list ([#10731](https://github.com/ghostty-org/ghostty/issues/10731)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10554#issuecomment-3905394671)
-  from @mitchellh.
-  ```
-- [`951cf13`](https://github.com/ghostty-org/ghostty/commit/951cf13d7e9c76854cb749dcc357685183a210a2) macOS: show keyboard shortcuts in command palette ([@bernsno](https://github.com/bernsno))
-- [`17bf042`](https://github.com/ghostty-org/ghostty/commit/17bf042e6d3659a34cb44159058618a00d78ae45) macOS: show keyboard shortcuts in command palette ([#10723](https://github.com/ghostty-org/ghostty/issues/10723)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Closes #10718
-  
-  ## Summary
-  - Populates the `symbols` field on `CommandOption` by looking up
-  keybindings via the existing `keyboardShortcut(for:)` API
-  - All the UI rendering (`ShortcutSymbolsView`) and the keybinding lookup
-  were already in place, this just wires them together
-  
-  ## AI Disclosure
-  Claude Code was used to assist with codebase exploration and drafting
-  the change. The implementation was manually verified by building and
-  testing locally on macOS with Xcode 26.2.
-  
-  ## Test plan
-  - [x] Built with `xcodebuild` on Xcode 26.1 and 26.2
-  - [x] Launched app, opened command palette, confirmed shortcuts appear
-  next to commands that have keybindings
-  - [x] Confirmed commands without keybindings show no shortcuts
-  <img width="912" height="744" alt="Screenshot 2026-02-14 at 12 55 42 PM"
-  src="https://github.com/user-attachments/assets/b988015c-21b6-4a17-9883-e23c87c6934b"
-  />
-  ```
-- [`db055f1`](https://github.com/ghostty-org/ghostty/commit/db055f13f53b4a4c79caa7aa5bd13591db13ec7e) Update VOUCHED list ([#10730](https://github.com/ghostty-org/ghostty/issues/10730)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10619#issuecomment-3905375367)
-  from @mitchellh.
-  ```
-- [`4b3037c`](https://github.com/ghostty-org/ghostty/commit/4b3037ccc6f9f2a1e34f7abb07cd27718489eda9) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/issues/10702#issuecomment-3904947115
-  ```
-- [`ef9431b`](https://github.com/ghostty-org/ghostty/commit/ef9431b55c02f23f9a1e7675c4fc9d7c4471e20f) ci: update vouch to 1.3, create PRs instead of pushing to main ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This will let us re-enable our main branch protection rules. :)
-  ```
-- [`d76ab21`](https://github.com/ghostty-org/ghostty/commit/d76ab21ccca02c0e755a155c16295c33861545e2) ci: update vouch to 1.3, create PRs instead of pushing to main ([#10728](https://github.com/ghostty-org/ghostty/issues/10728)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This will let us re-enable our main branch protection rules. :)
-  ```
-- [`6784636`](https://github.com/ghostty-org/ghostty/commit/6784636c15efb68c4786e25be27981c1636de365) Update VOUCHED list ([#10729](https://github.com/ghostty-org/ghostty/issues/10729)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/8524#issuecomment-3905321233)
-  from @mitchellh.
-  ```
-- [`cfcc3aa`](https://github.com/ghostty-org/ghostty/commit/cfcc3aa142f0003662a1729899b604ef8239c464) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/10598#discussioncomment-DC_kwDOHFhdAs4A8Ucu
-  ```
-- [`b0132dd`](https://github.com/ghostty-org/ghostty/commit/b0132dd617e0d9f26a821d1494af5215d4a5cac1) add vouch manage by issue workflow ([@mitchellh](https://github.com/mitchellh))
-- [`768a961`](https://github.com/ghostty-org/ghostty/commit/768a961f600a326acfeaa3e24d85e7965b39f511) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/issues/10721#issuecomment-3904656004
-  ```
-- [`048eafe`](https://github.com/ghostty-org/ghostty/commit/048eafe0bd90483fe84a62337d3f1ca22020ad04) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/issues/10718#issuecomment-3904658787
-  ```
-- [`a271f85`](https://github.com/ghostty-org/ghostty/commit/a271f85cd25d2cda2cfbe658a6f2d13ac08494a8) bash: preserve existing PS0 value ([@jparise](https://github.com/jparise))
-  ```text
-  We were previously overwriting PS0 on every PROMPT_COMMAND. We now
-  append to PS0, but only if it doesn't already contain our hook.
-  
-  This is also more consistent with the bash-preexec behavior we maintain
-  for older bash versions.
-  ```
-- [`045c540`](https://github.com/ghostty-org/ghostty/commit/045c540f055ad806e6e150b87aba0df8a6807b7a) bash: preserve existing PS0 value ([#10688](https://github.com/ghostty-org/ghostty/issues/10688)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We were previously overwriting PS0 on every PROMPT_COMMAND. We now
-  append to PS0, but only if it doesn't already contain our hook.
-  
-  This is also more consistent with the bash-preexec behavior we maintain
-  for older bash versions.
-  ```
-- [`dce6552`](https://github.com/ghostty-org/ghostty/commit/dce65528012c7407ac486c25b0dcbb44ef48db5e) approve-contributor workflow ([@mitchellh](https://github.com/mitchellh))
-- [`39e610d`](https://github.com/ghostty-org/ghostty/commit/39e610d0ee1dc4e58b3e2241dbef8b52b2db3bf3) approved PR gate ([@mitchellh](https://github.com/mitchellh))
-- [`c3573fc`](https://github.com/ghostty-org/ghostty/commit/c3573fc35b1d6aaf0672b9c04ef45e7218a45b92) rename to vouch ([@mitchellh](https://github.com/mitchellh))
-- [`f6b67aa`](https://github.com/ghostty-org/ghostty/commit/f6b67aa25ab936b3551d866b7a6dd24455b5d10f) merge the vouch scripts ([@mitchellh](https://github.com/mitchellh))
-- [`a4d0d5c`](https://github.com/ghostty-org/ghostty/commit/a4d0d5c182f7bd9e3a0b305e1a4e02168c5548a9) moving stuff around ([@mitchellh](https://github.com/mitchellh))
-- [`b5463f3`](https://github.com/ghostty-org/ghostty/commit/b5463f3227e060d676cc7b740c49ce1b98a7f831) add AGENTS.md ([@mitchellh](https://github.com/mitchellh))
-- [`2eec9cc`](https://github.com/ghostty-org/ghostty/commit/2eec9cc7618f8e82c9e40584a8fe9f7e2319633a) add vouched check ([@mitchellh](https://github.com/mitchellh))
-- [`2a34834`](https://github.com/ghostty-org/ghostty/commit/2a3483413dd88ffb705367194456e1cd03de947a) vouch.nu reorder ([@mitchellh](https://github.com/mitchellh))
-- [`a4db748`](https://github.com/ghostty-org/ghostty/commit/a4db74898052d6c64368ad47dcdffd974fe886aa) vouch denounce ([@mitchellh](https://github.com/mitchellh))
-- [`cd090af`](https://github.com/ghostty-org/ghostty/commit/cd090afba77abccc3e9dc33564c3422964926914) rename some functions ([@mitchellh](https://github.com/mitchellh))
-- [`b202c19`](https://github.com/ghostty-org/ghostty/commit/b202c192522911d3d8af50d038b6d4057f6e4fee) clean up ([@mitchellh](https://github.com/mitchellh))
-- [`46423a4`](https://github.com/ghostty-org/ghostty/commit/46423a4255138c79d1525301ac50e0b6e3c50beb) add --require-vouch ([@mitchellh](https://github.com/mitchellh))
-- [`4af4625`](https://github.com/ghostty-org/ghostty/commit/4af46252497d424b9d54262d8997d7e7c3ec934c) vouch can manage denouncement ([@mitchellh](https://github.com/mitchellh))
-- [`dd77c2e`](https://github.com/ghostty-org/ghostty/commit/dd77c2e797b8df6c68992672f2ce73e6376c63e1) update our GitHub actions ([@mitchellh](https://github.com/mitchellh))
-- [`00c33ea`](https://github.com/ghostty-org/ghostty/commit/00c33eaf72af6c9b93d9fd8d54b6f7086612a95b) update our guidelines, templates ([@mitchellh](https://github.com/mitchellh))
-- [`309a1c4`](https://github.com/ghostty-org/ghostty/commit/309a1c4f30d92f5fddbdd7316ec0badb219123ea) vouch README ([@mitchellh](https://github.com/mitchellh))
-- [`d09a314`](https://github.com/ghostty-org/ghostty/commit/d09a3148798ee302ff14ec31c4d3fadb2b0d690a) prettier ([@mitchellh](https://github.com/mitchellh))
-- [`3e5dbb2`](https://github.com/ghostty-org/ghostty/commit/3e5dbb2a34a03fe81edd4d3736b2f63edab3f451) pinact ([@mitchellh](https://github.com/mitchellh))
-- [`f1145bb`](https://github.com/ghostty-org/ghostty/commit/f1145bbb4b92924e58ce61398d47c44da601d9d9) remove one screen vagueness ([@mitchellh](https://github.com/mitchellh))
-- [`c40641a`](https://github.com/ghostty-org/ghostty/commit/c40641a9bc172fe445e74895165e55a85cfa4edc) fix typos ([@mitchellh](https://github.com/mitchellh))
-- [`83a4200`](https://github.com/ghostty-org/ghostty/commit/83a4200fcb8365cbd9fbd1bd87015cadf1dd8e61) vouch: add platform prefix support ([@mitchellh](https://github.com/mitchellh))
-- [`21be48a`](https://github.com/ghostty-org/ghostty/commit/21be48ae4dd8c9a7289edff06d0740e7467c618d) vouch: add/denounce output to stdout by default, add -w flag ([@mitchellh](https://github.com/mitchellh))
-- [`089f7f2`](https://github.com/ghostty-org/ghostty/commit/089f7f21289d01d52011c49e9341b16cb7ea5852) vouch: clean up platform stuff ([@mitchellh](https://github.com/mitchellh))
-- [`d3b8e91`](https://github.com/ghostty-org/ghostty/commit/d3b8e91ed93b0bfa13ad4ae3f9661dd45e4f3aa7) add `td` extension to the files ([@mitchellh](https://github.com/mitchellh))
-- [`5e22d4b`](https://github.com/ghostty-org/ghostty/commit/5e22d4b01d5a0b13f9336a01bd6b879e7404ed1a) remove built-in vouch, prep to replace with upstream ([@mitchellh](https://github.com/mitchellh))
-- [`ad6921f`](https://github.com/ghostty-org/ghostty/commit/ad6921f27615350357e1578bf5e4e074c9e4a860) Use mitchellh/vouch ([@mitchellh](https://github.com/mitchellh))
-- [`bb679ac`](https://github.com/ghostty-org/ghostty/commit/bb679acbf7feb06e2210f3698fab596c179f9adb) add discussion template ([@mitchellh](https://github.com/mitchellh))
-- [`c2cb050`](https://github.com/ghostty-org/ghostty/commit/c2cb0507131fa59748deba50acca54beb20a0e24) fix pins ([@mitchellh](https://github.com/mitchellh))
-- [`7f6c2b5`](https://github.com/ghostty-org/ghostty/commit/7f6c2b57b1d074e00a9821bd7cb03ce8c4d07e28) remove the issue template ([@mitchellh](https://github.com/mitchellh))
-- [`2aa773a`](https://github.com/ghostty-org/ghostty/commit/2aa773a23a87289175bd022dfb617a5e8c27e824) fix old lgtm ([@mitchellh](https://github.com/mitchellh))
-- [`eb68d98`](https://github.com/ghostty-org/ghostty/commit/eb68d98bad6b72977e5631948be2b94e5780bb8d) update vouch ([@mitchellh](https://github.com/mitchellh))
-- [`ea2b674`](https://github.com/ghostty-org/ghostty/commit/ea2b674a0048fee676aaac34e016cf996618b4ae) Introduce the Vouch/Denouncement Contribution Model ([#10559](https://github.com/ghostty-org/ghostty/issues/10559)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This moves Ghostty to a vouch-based contribution system. The high-level
-  idea is that only vouched users can participate in contributing to
-  Ghostty. Users are vouched by maintainers commenting "lgtm" on an issue
-  they opened.
-  
-  The system also supports explicit **denouncement**: bad actors can be
-  added to the denounced list which blocks them from contributing
-  entirely. We maintain this as a public record so other projects can
-  adopt our prior knowledge about bad actors if they choose. In this PR,
-  only maintainers can denounce by responding `denounce`, `denounce [user]
-  [reason]` to any issue or PR.
-  
-  This also updates our contribution guidelines and templates to fit this
-  new model.
-  
-  This system is inspired very heavily by
-  [Pi](https://github.com/badlogic/pi-mono). The original commits were
-  based directly on their work.
-  
-  > [!IMPORTANT]
-  >
-  > This is experimental. We're going to continue testing and refining
-  this. It isn't a perfect system [yet]. This PR just adds the basics so
-  we can start proving it out.
-  
-  ## Why?
-  
-  Open source has always worked on a system of _trust and verify_.
-  
-  Historically, the effort required to understand a codebase, implement a
-  change, and submit that change for review was high enough that it
-  naturally filtered out many low quality contributions from unqualified
-  people. For over 20 years of my life, this was enough for my projects as
-  well as enough for most others.
-  
-  Unfortunately, the landscape has changed particularly with the advent of
-  AI tools that allow people to trivially create plausible-looking but
-  extremely low-quality contributions with little to no true
-  understanding. Contributors can no longer be trusted based on the
-  minimal barrier to entry to simply submit a change.
-  
-  But, open source still works on trust! And every project has a definite
-  group of trusted individuals (maintainers) and a larger group of
-  probably trusted individuals (active members of the community in any
-  form). So, let's move to an explicit trust model where trusted
-  individuals can vouch for others, and those vouched individuals can then
-  contribute.
-  
-  ## Web of Trust
-  
-  The `VOUCHED` file is purposely a basic, single, flat-file system that
-  is easy to manipulate with any standard POSIX-tooling or mainstream
-  languages without any external libraries.
-  
-  I hope that eventually projects can form a web of trust and share and
-  ingest VOUCH files from other projects they trust in order to get a
-  better default trust model across projects in the age of relentless AI
-  attack.
-  
-  The file also specifically is relaxed on the exact policy for being
-  vouched or denounced. If/when another project decides to trust an
-  upstream vouch file, they're expected to do the diligence to understand
-  if they also trust the upstream projects _reasoning_ for
-  vouching/denouncing. For example, if someone decides to create a vouch
-  file promoting their friends or denouncing their own personal shitlist,
-  that's fine, but downstreams can be aware of that and not trust it.
-  
-  ## A Generic System
-  
-  The vouch system is implemented as a standalone project currently in
-  `.github/vouch`. **It is forge-agnostic** but includes GitHub
-  integration to start. I plan on expanding this. My goal is that if this
-  works for us, other projects can quickly adopt it. I don't want to
-  extract this out to its own repo or generalize it more until we prove
-  out the edge cases with our usage. But, I will welcome contributions
-  here to improve this system.
-  
-  ### Usage
-  
-  Local files only:
-  
-  - `vouch.nu check <user>` - check if a user is vouched/denounced
-  - `vouch.nu add <user>` - add a user to the vouched list
-  - `vouch.nu denounce <user>` - denounce a user
-  
-  GitHub integration:
-  
-  - `vouch.nu gh-check-pr <pr>` - check PR author status, optionally
-  auto-close
-  - `vouch.nu gh-manage-by-issue <issue> <comment>` - vouch/denounce via
-  issue comments
-  ```
-- [`71d54c8`](https://github.com/ghostty-org/ghostty/commit/71d54c869977f65dc201ea1834675ec9de46ef8e) fix vouch-request discussion template ([@mitchellh](https://github.com/mitchellh))
 
