@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 22, 2026 at 21:06 UTC.
+> Last updated: February 23, 2026 at 00:21 UTC.
 
-## February 22, 2026
+## February 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22278639787), [2](https://github.com/ghostty-org/ghostty/actions/runs/22271139862), [3](https://github.com/ghostty-org/ghostty/actions/runs/22270853637), [4](https://github.com/ghostty-org/ghostty/actions/runs/22270626299)  
-Summary: 4 runs • 12 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
+Summary: 1 runs • 1 commits • 1 authors
 
 ### Changes
 
+- [`c61f184`](https://github.com/ghostty-org/ghostty/commit/c61f184069336c61f7840e2268c6f4dc183b60af) Sync CODEOWNERS vouch list ([#10959](https://github.com/ghostty-org/ghostty/issues/10959)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Sync CODEOWNERS owners with vouch list.
+  
+  ## Added Users
+  
+  - @Atomk
+  ```
+
+## February 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22287450777), [2](https://github.com/ghostty-org/ghostty/actions/runs/22286556611), [3](https://github.com/ghostty-org/ghostty/actions/runs/22278639787), [4](https://github.com/ghostty-org/ghostty/actions/runs/22271139862), [5](https://github.com/ghostty-org/ghostty/actions/runs/22270853637), [6](https://github.com/ghostty-org/ghostty/actions/runs/22270626299)  
+Summary: 6 runs • 16 commits • 4 authors
+
+### Changes
+
+- [`2a02b8f`](https://github.com/ghostty-org/ghostty/commit/2a02b8f0efb6a73eef2faba070283ea3752cd245) android: build improvements ([@jcollie](https://github.com/jcollie))
+  ```text
+  * Use a GitHub action to download the Android NDK
+  * Use helper functions available on `std.Build` to simplify
+    the build script.
+  * Use various Zig-isms to simplify the code.
+  
+  FYI, using Nix to seems to be a non-starter as getting any Android
+  development kits from nixpkgs requires accepting the Android license
+  agreement and allowing many packages to use unfree licenses. And since
+  the packages are unfree they are not cached by NixOS so the build
+  triggers massive memory-hungry builds.
+  ```
+- [`20fe661`](https://github.com/ghostty-org/ghostty/commit/20fe661c0681c9b7835233055d7f93a4178f631b) android: build improvements ([#10956](https://github.com/ghostty-org/ghostty/issues/10956)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  * Use a GitHub action to download the Android NDK
+  * Use helper functions available on `std.Build` to simplify the build
+  script.
+  * Use various Zig-isms to simplify the code.
+  
+  FYI, using Nix to seems to be a non-starter as getting any Android
+  development kits from nixpkgs requires accepting the Android license
+  agreement and allowing many packages to use unfree licenses. And since
+  the packages are unfree they are not cached by NixOS so the build
+  triggers massive memory-hungry builds.
+  ```
+- [`c6e7a7b`](https://github.com/ghostty-org/ghostty/commit/c6e7a7b85ad8cc721e8986ca4033313714f5c3f7) input: Disallow table/chain= and make chain apply to the most recent table ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10039
+  
+  (Context is all there)
+  ```
+- [`f0f80d4`](https://github.com/ghostty-org/ghostty/commit/f0f80d4902f7d0e17df48b28f7208ea18e28e093) input: Disallow table/chain= and make chain apply to the most recent table ([#10954](https://github.com/ghostty-org/ghostty/issues/10954)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10039
+  
+  (Context is all there)
+  ```
 - [`504a361`](https://github.com/ghostty-org/ghostty/commit/504a3611f6f2d9a1cb1a4eb419b41aea3c8049ca) Update VOUCHED list ([#10947](https://github.com/ghostty-org/ghostty/issues/10947)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1596,488 +1650,5 @@ Summary: 10 runs • 33 commits • 8 authors
   
   AI disclosure: I used Claude Code to investigate the source code and
   generate code changes in this PR.
-  ```
-
-## February 16, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22079496822), [2](https://github.com/ghostty-org/ghostty/actions/runs/22079027675), [3](https://github.com/ghostty-org/ghostty/actions/runs/22076974065), [4](https://github.com/ghostty-org/ghostty/actions/runs/22075066249), [5](https://github.com/ghostty-org/ghostty/actions/runs/22074575139), [6](https://github.com/ghostty-org/ghostty/actions/runs/22073763432), [7](https://github.com/ghostty-org/ghostty/actions/runs/22068568385), [8](https://github.com/ghostty-org/ghostty/actions/runs/22066503993), [9](https://github.com/ghostty-org/ghostty/actions/runs/22061803027), [10](https://github.com/ghostty-org/ghostty/actions/runs/22056574414), [11](https://github.com/ghostty-org/ghostty/actions/runs/22048927946)  
-Summary: 11 runs • 57 commits • 13 authors
-
-### Changes
-
-- [`a03d721`](https://github.com/ghostty-org/ghostty/commit/a03d721599bbf0cb91e965ec0b18415e920e4ca6) gtk: Change tab title ([@dmatos2012](https://github.com/dmatos2012))
-- [`c6891da`](https://github.com/ghostty-org/ghostty/commit/c6891da01db43f4076cc4ca2cfedd27911827ee0) Refactor SurfaceTitleDialog to TitleDialog ([@dmatos2012](https://github.com/dmatos2012))
-- [`c418cad`](https://github.com/ghostty-org/ghostty/commit/c418cadf7f6dbda969d877f0e4fe3e8387e8164b) Merge branch 'main' into gtk-prompt-tab-title ([@dmatos2012](https://github.com/dmatos2012))
-- [`ed8027a`](https://github.com/ghostty-org/ghostty/commit/ed8027a976a0016193236330b41d1a198132fbbc) Add context menu tab ([@dmatos2012](https://github.com/dmatos2012))
-- [`fae3041`](https://github.com/ghostty-org/ghostty/commit/fae304105b9376aed1bbdb2b2290e4662e1ea2de) fix typo and add ellipsis for title ([@dmatos2012](https://github.com/dmatos2012))
-- [`c067f2b`](https://github.com/ghostty-org/ghostty/commit/c067f2b9110673dc041ff310b863892b43c22775) Merge branch 'main' into gtk-prompt-tab-title ([@dmatos2012](https://github.com/dmatos2012))
-- [`7e31078`](https://github.com/ghostty-org/ghostty/commit/7e31078882a54dd11522537bdc03d18cda2ded38) Update translations ([@dmatos2012](https://github.com/dmatos2012))
-- [`3c074b5`](https://github.com/ghostty-org/ghostty/commit/3c074b5aeccda10673ddcbca7ad58474c8147455) renderer: only compute and draw preedit cells if they change ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10424
-  Replaces #10431
-  
-  The issue is that when the row where preedit was wasn't dirty, we were
-  layering more preedit cells (identical ones) on top, so it'd appear to
-  get "thicker".
-  ```
-- [`6b6be83`](https://github.com/ghostty-org/ghostty/commit/6b6be837de77574285701fa475b04c8a25a3088d) gtk: Change tab title ([#9904](https://github.com/ghostty-org/ghostty/issues/9904)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Closes #9880.
-  
-  
-  
-  https://github.com/user-attachments/assets/7110fae1-a7ca-42b6-8956-833b8bdd5d98
-  
-  > [!NOTE]
-  >
-  > Used AI to get to explain to me some of the APIs and functionality
-  between `windows` and `tabs` and their connections. But the code itself,
-  I implemented everything, just used it for help with explaining some
-  things
-  
-  
-  ## If you feel like reading more:
-  - I feel there is a lot of duplication now with the `prompt surface
-  title` functionality. For the dialog creation, i basically copied-pasted
-  the `surface_title_dialog`, and some of the `titleOverride` and the
-  `TabDialogSet` functionality is identical to that of the
-  `prompt_surface_title`
-  
-  - I would think about abstracting it out, but first I think Id be nice
-  to think what the maintainers think about this approach before doing
-  anything else.
-  ```
-- [`cdcfac4`](https://github.com/ghostty-org/ghostty/commit/cdcfac4e4acf8358a9dd853b5ca00cf174b5a03e) renderer: only compute and draw preedit cells if they change ([#10772](https://github.com/ghostty-org/ghostty/issues/10772)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10424
-  Replaces #10431
-  
-  The issue is that when the row where preedit was wasn't dirty, we were
-  layering more preedit cells (identical ones) on top, so it'd appear to
-  get "thicker".
-  ```
-- [`4eee1ac`](https://github.com/ghostty-org/ghostty/commit/4eee1ac6a93c231cf5e41c400ae4adc52ea6215d) osc: parse OSC 5522 - Kitty clipboard protocol ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR only adds support for parsing the OSCs. No support has been
-  added to DECRQM/DECRPM/DECSET/DECRST for mode 5522.
-  ```
-- [`3cfb9d6`](https://github.com/ghostty-org/ghostty/commit/3cfb9d64d194bbe0c765524d9a6f89e7cb8facea) shell-integration: respect cursor-style-blink ([@jparise](https://github.com/jparise))
-  ```text
-  The `cursor` shell feature always used a blinking bar (beam), often to
-  the surprise of users who set `cursor-style-blink = false`.
-  
-  This change extends our GHOSTTY_SHELL_FEATURES format to include either
-  `cursor:blink` (default) or `cursor:steady` based on cursor-style-blink
-  when the `cursor` feature is enabled, and all shell integrations have
-  been updated to use that additional information to choose the DECSCUSR
-  cursor value (5=blinking bar, 6=steady bar).
-  
-  I also considered passing a DECSCUSR value in GHOSTTY_SHELL_FEATURES
-  (e.g. `cursor:5`). This mostly worked well, but zsh also needs the blink
-  state on its own for its block cursor. We also don't support any other
-  shell feature cursor configurability (e.g. the shape), so this was an
-  over generalization.
-  
-  This does change the behavior for users who like the blinking bar in the
-  shell but have `cursor-blink-style = false` for other reasons. We could
-  provide additional `cursor` shell feature configurability, but I think
-  that's best left to a separate change.
-  ```
-- [`e5e063c`](https://github.com/ghostty-org/ghostty/commit/e5e063c89d22da3ece5e7bc43797d3f0ff447717) zsh: update PS1 substitution to include 'cl=line' ([@jparise](https://github.com/jparise))
-  ```text
-  Our PS1 cleanup code (where we remove any markers we added) was still
-  looking for the previous 133;A form. Update it to include 'cl=line',
-  which was added in 8595558.
-  ```
-- [`65c9208`](https://github.com/ghostty-org/ghostty/commit/65c9208c08f8245532773560d5ae90dfe487e576) zsh: update PS1 substitution to include 'cl=line' ([#10768](https://github.com/ghostty-org/ghostty/issues/10768)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Our PS1 cleanup code (where we remove any markers we added) was still
-  looking for the previous 133;A form. Update it to include 'cl=line',
-  which was added in 8595558.
-  ```
-- [`f79906c`](https://github.com/ghostty-org/ghostty/commit/f79906c7b883f978d6ba97c79792dd8cca350a96) osc: parse OSC 5522 - Kitty clipboard protocol ([#10560](https://github.com/ghostty-org/ghostty/issues/10560)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR only adds support for parsing the OSCs. No support has been
-  added to DECRQM/DECRPM/DECSET/DECRST for mode 5522.
-  
-  Related to #10549
-  ```
-- [`7895bf1`](https://github.com/ghostty-org/ghostty/commit/7895bf1d029c25399ed692bc3574801d4638957b) shell-integration: respect cursor-style-blink ([#10643](https://github.com/ghostty-org/ghostty/issues/10643)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The `cursor` shell feature always used a blinking bar (beam), often to
-  the surprise of users who set `cursor-style-blink = false`.
-  
-  This change extends our GHOSTTY_SHELL_FEATURES format to include either
-  `cursor:blink` (default) or `cursor:steady` based on cursor-style-blink
-  when the `cursor` feature is enabled, and all shell integrations have
-  been updated to use that additional information to choose the DECSCUSR
-  cursor value (5=blinking bar, 6=steady bar).
-  
-  I also considered passing a DECSCUSR value in GHOSTTY_SHELL_FEATURES
-  (e.g. `cursor:5`). This mostly worked well, but zsh also needs the blink
-  state on its own for its block cursor. We also don't support any other
-  shell feature cursor configurability (e.g. the shape), so this was an
-  over generalization.
-  
-  This does change the behavior for users who like the blinking bar in the
-  shell but have `cursor-blink-style = false` for other reasons. We could
-  provide additional `cursor` shell feature configurability (e.g.
-  `cursor:blink` in `shell-integration-features`), but I'll propose that
-  as its own change.
-  
-  See: #2812
-  Closes: #8681
-  
-  ---
-  
-  **AI Disclosure:** I did a lot of rubber ducking with Claude Code while
-  trying out various ideas. It was particularly useful for this kind of
-  feature because I could try out one thing and have it evaluate the
-  impact on all of the shell integration scripts at once.
-  ```
-- [`bdcee2b`](https://github.com/ghostty-org/ghostty/commit/bdcee2b05a28fbd16f0c894cbc559eb66e741f64) Update VOUCHED list ([#10770](https://github.com/ghostty-org/ghostty/issues/10770)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10769) from
-  @jcollie.
-  ```
-- [`dc3a25c`](https://github.com/ghostty-org/ghostty/commit/dc3a25c2a33b56e131b3dbd179459220c34aaf22) ci: update vouch to 1.3.1 ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  For GH API retries
-  ```
-- [`d49ac65`](https://github.com/ghostty-org/ghostty/commit/d49ac65b16d4bf0d0be9056f705044ee50eed77e) macos: sort INFOPLIST_KEY_ names ([@jparise](https://github.com/jparise))
-  ```text
-  Xcode wants these to be sorted and will update this list when the
-  project file is saved so proactively make this change before it gets
-  mixed up in other work.
-  ```
-- [`df6feba`](https://github.com/ghostty-org/ghostty/commit/df6feba417c7dd893b1641f4bacc39c19519c34a) macos: rename shellQuoted() to Ghostty.Shell.quote() ([@jparise](https://github.com/jparise))
-  ```text
-  We already had an established Ghostty.Shell namespace (previously a
-  struct; now a more idiomatic enum), and locating these functions next to
-  each other makes it clearer how they relate to one another.
-  ```
-- [`d1774e1`](https://github.com/ghostty-org/ghostty/commit/d1774e1423beda84f399bf61b9249967967d1036) macos: sort INFOPLIST_KEY_ names ([#10764](https://github.com/ghostty-org/ghostty/issues/10764)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Xcode wants these to be sorted and will update this list when the
-  project file is saved so proactively make this change before it gets
-  mixed up in other work.
-  ```
-- [`b358705`](https://github.com/ghostty-org/ghostty/commit/b358705b655e0bce6056f8b963f02ca6938e727e) macos: rename shellQuoted() to Ghostty.Shell.quote() ([#10765](https://github.com/ghostty-org/ghostty/issues/10765)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We already had an established Ghostty.Shell namespace (previously a
-  struct; now a more idiomatic enum), and locating these functions next to
-  each other makes it clearer how they relate to one another.
-  ```
-- [`b4be13e`](https://github.com/ghostty-org/ghostty/commit/b4be13ed507628483853b5e0bdf85942d03d90f2) fix: copy_title_to_clipboard now respects user-overridden title ([@Priyans-hu](https://github.com/Priyans-hu))
-  ```text
-  When a user renames a surface via "Change Terminal Title" and then
-  uses copy_title_to_clipboard, the raw terminal title was copied
-  instead of the custom name.
-  
-  This adds a new `copy_title` apprt action so each platform resolves
-  the effective title (user override or terminal-set) before copying
-  to clipboard.
-  
-  Fixes #10345
-  ```
-- [`de49b7f`](https://github.com/ghostty-org/ghostty/commit/de49b7f27b654df2c3fd601a42dd0e4656a45ee7) rename copy_title action to copy_title_to_clipboard ([@Priyans-hu](https://github.com/Priyans-hu))
-- [`d284122`](https://github.com/ghostty-org/ghostty/commit/d2841220a86e3bde704b88f95f2a548c7fe0f3bb) move copyTitleToClipboard logic into Surface ([@Priyans-hu](https://github.com/Priyans-hu))
-- [`99e3427`](https://github.com/ghostty-org/ghostty/commit/99e342717b6565b96437cc1bda85f3c09e2ed5af) fix: copy_title_to_clipboard respects user-overridden title ([#10694](https://github.com/ghostty-org/ghostty/issues/10694)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  - Fixes #10345 — `copy_title_to_clipboard` now copies the user-set
-  custom title instead of the raw terminal title
-  - Adds a new `copy_title` apprt action as [suggested by
-  @mitchellh](https://github.com/ghostty-org/ghostty/issues/10345#issuecomment-2601002974)
-  - Each platform (GTK + macOS) resolves the effective title (user
-  override → terminal title fallback) before copying to clipboard
-  
-  ## Changes
-  - **`src/apprt/action.zig`** — New `copy_title` void action
-  - **`include/ghostty.h`** — C ABI enum entry
-  - **`src/Surface.zig`** — Binding handler now dispatches apprt action
-  instead of inline logic
-  - **`src/apprt/gtk/class/surface.zig`** — `getEffectiveTitle()` helper
-  (returns `title_override orelse title`)
-  - **`src/apprt/gtk/class/application.zig`** — GTK action handler
-  - **`macos/.../Ghostty.App.swift`** — macOS handler using
-  `surfaceView.title` + `NSPasteboard`
-  
-  *Note*: This PR was *AI* assisted.
-  ```
-- [`534f119`](https://github.com/ghostty-org/ghostty/commit/534f1190af4c2700de0fe43b1eba71276d83ae46) Update VOUCHED list ([#10763](https://github.com/ghostty-org/ghostty/issues/10763)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10694#issuecomment-3910186875)
-  from @jcollie.
-  ```
-- [`565abf5`](https://github.com/ghostty-org/ghostty/commit/565abf5621f5e5272f7974bc463ccf4bd2426a72) Update VOUCHED list ([#10748](https://github.com/ghostty-org/ghostty/issues/10748)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10663) from
-  @mitchellh.
-  ```
-- [`f46e335`](https://github.com/ghostty-org/ghostty/commit/f46e335b159eabf6f75b92103892fbcddb0ac9a1) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/10620#discussioncomment-DC_kwDOHFhdAs4A8YDa
-  ```
-- [`60298e9`](https://github.com/ghostty-org/ghostty/commit/60298e9ca584b7c102c9ea50b2ff4f143c353139) Update VOUCHED list ([#10753](https://github.com/ghostty-org/ghostty/issues/10753)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10620) from
-  @mitchellh.
-  ```
-- [`897b918`](https://github.com/ghostty-org/ghostty/commit/897b918f6743f04b660217d58e6b5d37d317ac05) bash: remove redundant out-of-band OSC 133;A ([@jparise](https://github.com/jparise))
-  ```text
-  The printf was part of the original script (9d6121245), and at the time,
-  this was the only place we'd emit the 133;A mark.
-  
-  A PS1-based 133;P;k=i mark was introduced in 2bf1f80f7, and then it
-  become a full 133;A mark in aa47047a6, making the original printf line
-  redundant (because bash will also redraw PS1 on SIGWINCH).
-  
-  The PS1-based 133;A was only missing the aid= option, and with that
-  added, it handles all of our cases (prompts, initial draw, and resizes).
-  ```
-- [`515d28f`](https://github.com/ghostty-org/ghostty/commit/515d28f05d94c0d998e7921649b5b8cca18c085a) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/10616#discussioncomment-DC_kwDOHFhdAs4A8YDu
-  ```
-- [`76ec24f`](https://github.com/ghostty-org/ghostty/commit/76ec24fc66885c531d4d0486fab986d3ee6b3a53) Update VOUCHED list ([#10755](https://github.com/ghostty-org/ghostty/issues/10755)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10616) from
-  @mitchellh.
-  ```
-- [`802516d`](https://github.com/ghostty-org/ghostty/commit/802516dc005179e53f9707126948999bbe3972ef) Update VOUCHED list ([#10754](https://github.com/ghostty-org/ghostty/issues/10754)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10616) from
-  @mitchellh.
-  ```
-- [`0e68c6e`](https://github.com/ghostty-org/ghostty/commit/0e68c6edb31454986c1bfa79949d6086a444a7d2) Update VOUCHED list ([#10752](https://github.com/ghostty-org/ghostty/issues/10752)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10620) from
-  @mitchellh.
-  ```
-- [`d993c70`](https://github.com/ghostty-org/ghostty/commit/d993c700af91b1f6722892954e3336d9bc14b2e7) bash: remove redundant out-of-band OSC 133;A ([#10747](https://github.com/ghostty-org/ghostty/issues/10747)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The printf was part of the original script (9d6121245), and at the time,
-  this was the only place we'd emit the 133;A mark.
-  
-  A PS1-based 133;P;k=i mark was introduced in 2bf1f80f7, and then it
-  become a full 133;A mark in aa47047a6, making the original printf line
-  redundant (because bash will also redraw PS1 on SIGWINCH).
-  
-  The PS1-based 133;A was only missing the aid= option, and with that
-  added, it handles all of our cases (prompts, initial draw, and resizes).
-  ```
-- [`bc4314b`](https://github.com/ghostty-org/ghostty/commit/bc4314b88263f4c531d84fec5e8e76659016c315) Update VOUCHED list ([#10757](https://github.com/ghostty-org/ghostty/issues/10757)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10606) from
-  @mitchellh.
-  ```
-- [`c8edac9`](https://github.com/ghostty-org/ghostty/commit/c8edac93eb6e2e289eb447d3004085eb9292b390) Update VOUCHED list ([#10759](https://github.com/ghostty-org/ghostty/issues/10759)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10600) from
-  @mitchellh.
-  ```
-- [`39c4a40`](https://github.com/ghostty-org/ghostty/commit/39c4a406f744e2d459d2aaa5ee9339b9208f3df5) Update VOUCHED list ([#10761](https://github.com/ghostty-org/ghostty/issues/10761)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10599) from
-  @mitchellh.
-  ```
-- [`37e902d`](https://github.com/ghostty-org/ghostty/commit/37e902d90e6c074e15d19e9e8b59036bf6264d18) input: paste encoding replaces unsafe control characters with spaces ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  For a hardcoded set of control characters, replace them with spaces when
-  encoding pasted text. This is to prevent unsafe control characters from being
-  pasted which could trick a user into executing commands unexpectedly.
-  
-  This happens regardless of bracketed paste mode, because certain
-  characters processed by the kernel pty line discipline can break
-  bracketed paste (source from zsh:
-  https://zsh-workers.zsh.narkive.com/Kd3evJ7t/bracketed-paste-mode-in-xterm-and-urxvt).
-  
-  This behavior is based on xterm's behavior, including the list of
-  characters. Note that as a comment in the code says, we should be
-  sourcing some of these from a tcgetattr call instead of hardcoding them,
-  but this is a good start.
-  ```
-- [`fe7427e`](https://github.com/ghostty-org/ghostty/commit/fe7427ed2a1a02aef85495b384cfb8f11ee5efc9) input: paste encoding replaces unsafe control characters with spaces ([#10746](https://github.com/ghostty-org/ghostty/issues/10746)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  For a hardcoded set of control characters, replace them with spaces when
-  encoding pasted text. This is to prevent unsafe control characters from
-  being pasted which could trick a user into executing commands
-  unexpectedly.
-  
-  This happens regardless of bracketed paste mode, because certain
-  characters processed by the kernel pty line discipline can break
-  bracketed paste (source from zsh:
-  
-  https://zsh-workers.zsh.narkive.com/Kd3evJ7t/bracketed-paste-mode-in-xterm-and-urxvt).
-  
-  This behavior is based on xterm's behavior
-  (https://github.com/ThomasDickey/xterm-snapshots/blob/caac5c35a22d116ed09a54c962fce3ee7a7f99d2/button.c#L2578-L2595),
-  including the list of characters. Note that as a comment in the code
-  says, we should be sourcing some of these from a tcgetattr call instead
-  of hardcoding them, but this is a good start.
-  ```
-- [`e94615e`](https://github.com/ghostty-org/ghostty/commit/e94615e850ac3cd59bf578edf01bdc1627594e41) i18n: Update Turkish translations ([@bitigchi](https://github.com/bitigchi))
-- [`deaca2f`](https://github.com/ghostty-org/ghostty/commit/deaca2f9a85e88868f36b5e9a42a1e3fc2b209c7) Update po/tr_TR.UTF-8.po ([@bitigchi](https://github.com/bitigchi))
-- [`7363069`](https://github.com/ghostty-org/ghostty/commit/7363069873a5a2b9e9673fea7f6b7c52204e6f63) Update po/tr_TR.UTF-8.po ([@bitigchi](https://github.com/bitigchi))
-- [`d15eb36`](https://github.com/ghostty-org/ghostty/commit/d15eb36545946522fc5410c7f182ef7c56b29bc9) Update VOUCHED list ([#10742](https://github.com/ghostty-org/ghostty/issues/10742)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/7879#issuecomment-3908933639)
-  from @mitchellh.
-  ```
-- [`ae58c0b`](https://github.com/ghostty-org/ghostty/commit/ae58c0b2921bb4bfddfc3660d7ca96ef171c37b0) Update VOUCHED list ([#10743](https://github.com/ghostty-org/ghostty/issues/10743)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10739) from
-  @mitchellh.
-  ```
-- [`9af69ea`](https://github.com/ghostty-org/ghostty/commit/9af69ea3e5c63b6f14a6b8f6dd45488e922a42a2) Update VOUCHED list ([#10744](https://github.com/ghostty-org/ghostty/issues/10744)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10735) from
-  @mitchellh.
-  ```
-- [`87f756f`](https://github.com/ghostty-org/ghostty/commit/87f756fb88118d9ea5671bad8be4b223e6d29ffe) Update VOUCHED list ([#10745](https://github.com/ghostty-org/ghostty/issues/10745)) ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10733) from
-  @mitchellh.
-  ```
-- [`e94c905`](https://github.com/ghostty-org/ghostty/commit/e94c90593e24d8d07aa7018cb667ac7a08f9a912) i18n: Update Turkish translations ([#10634](https://github.com/ghostty-org/ghostty/issues/10634)) ([@00-kat](https://github.com/00-kat))
-- [`98cc1c6`](https://github.com/ghostty-org/ghostty/commit/98cc1c6d11104cc4981e429b14df58dd68fe9ba9) Move docs on developing Ghostty out of CONTRIBUTING.md, attempt two. ([@00-kat](https://github.com/00-kat))
-  ```text
-  Follow-up to #8445, after a messed up rebase in #8339 brought it back
-  alongside an extra section.
-  
-  All text removed from CONTRIBUTING.md was identical to the version
-  present in HACKING.md (according to a textual diff), excluding the
-  “Developer Guide” heading, the callout under it, and the “Nix VM
-  Integration Tests” section introduced in #8339.
-  ```
-- [`e6341f1`](https://github.com/ghostty-org/ghostty/commit/e6341f16582ecd19646bfdc2aac86565083f028c) Move docs on developing Ghostty out of `CONTRIBUTING.md`, attempt two ([#10740](https://github.com/ghostty-org/ghostty/issues/10740)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Follow-up to #8445, after a messed up rebase in #8339 brought it back
-  alongside an extra section.
-  
-  All text removed from `CONTRIBUTING.md` was identical to the version
-  present in `HACKING.md` (according to a textual diff), excluding the
-  “Developer Guide” heading, the callout under it, and the “Nix VM
-  Integration Tests” section introduced in #8339.
-  ```
-- [`a129ea3`](https://github.com/ghostty-org/ghostty/commit/a129ea3270bcd41f1f4e80b9ef9716b490bb9a51) i18n: updated hr_HR translations for release 1.3.0 ([@Filip7](https://github.com/Filip7))
-  ```text
-  Ref: ghostty-org#10632
-  ```
-- [`7f61107`](https://github.com/ghostty-org/ghostty/commit/7f611078dc91167c42821a9da16cd9dad898b9ef) i18n: Updated hr_HR translations ([#10649](https://github.com/ghostty-org/ghostty/issues/10649)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Ref: ghostty-org#10632
-  
-  First pass of the translation.
-  ```
-- [`d0ee2f0`](https://github.com/ghostty-org/ghostty/commit/d0ee2f0dbbf2434bb71ac3afbc19664d3f3d018c) i18n: update Polish translations ([@Secrus](https://github.com/Secrus))
-- [`34c6685`](https://github.com/ghostty-org/ghostty/commit/34c6685e2e584ab683ba617f79e316073f4dcc86) i18n: update Polish translations ([#10665](https://github.com/ghostty-org/ghostty/issues/10665)) ([@trag1c](https://github.com/trag1c))
-- [`0eaa0c5`](https://github.com/ghostty-org/ghostty/commit/0eaa0c53badf0803398b7585e3032a93ac15ba2e) build(deps): bump cachix/install-nix-action from 31.9.0 to 31.9.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.9.0 to 31.9.1.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/4e002c8ec80594ecd40e759629461e26c8abed15...2126ae7fc54c9df00dd18f7f18754393182c73cd)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.9.1
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`32e319e`](https://github.com/ghostty-org/ghostty/commit/32e319ec71801e6ee7d957e6713cbdba5afe8b12) build(deps): bump cachix/install-nix-action from 31.9.0 to 31.9.1 ([#10732](https://github.com/ghostty-org/ghostty/issues/10732)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.9.0 to 31.9.1.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.9.1</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.33.0 -&gt; 2.33.3 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/266">cachix/install-nix-action#266</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31...v31.9.1">https://github.com/cachix/install-nix-action/compare/v31...v31.9.1</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/2126ae7fc54c9df00dd18f7f18754393182c73cd"><code>2126ae7</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/266">#266</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/eb3d7b01e89bd315de0002620c3840c9edbb8e54"><code>eb3d7b0</code></a>
-  nix: 2.33.0 -&gt; 2.33.3</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/4e002c8ec80594ecd40e759629461e26c8abed15...2126ae7fc54c9df00dd18f7f18754393182c73cd">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.9.0&new-version=31.9.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
   ```
 
