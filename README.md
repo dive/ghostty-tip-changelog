@@ -8,15 +8,25 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 23, 2026 at 12:13 UTC.
+> Last updated: February 23, 2026 at 15:18 UTC.
 
 ## February 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [2](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`79f0bfe`](https://github.com/ghostty-org/ghostty/commit/79f0bfe374c0a324cf3158f351ecce5aeb36770f) nix: update ucs-detect to latest master ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`05b4db5`](https://github.com/ghostty-org/ghostty/commit/05b4db574b4c3a36670172024ffc1998048f397f) nix: update ucs-detect to latest master ([#10965](https://github.com/ghostty-org/ghostty/issues/10965)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This updates [ucs-detect](https://github.com/jquast/ucs-detect) to the
+  latest `master` version from 2/7/2026.
+  
+  AI disclaimer: this was done almost entirely with the help of AI, with
+  this thread here:
+  https://ampcode.com/threads/T-019c8ac5-e8ab-738d-93a6-06ec5b20f5e2
+  ```
 - [`c61f184`](https://github.com/ghostty-org/ghostty/commit/c61f184069336c61f7840e2268c6f4dc183b60af) Sync CODEOWNERS vouch list ([#10959](https://github.com/ghostty-org/ghostty/issues/10959)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
