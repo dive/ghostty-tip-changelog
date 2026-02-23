@@ -8,15 +8,221 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 23, 2026 at 15:18 UTC.
+> Last updated: February 23, 2026 at 18:21 UTC.
 
 ## February 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [2](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [2](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [3](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [4](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [5](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
+Summary: 5 runs • 38 commits • 7 authors
 
 ### Changes
 
+- [`81c9c81`](https://github.com/ghostty-org/ghostty/commit/81c9c81ae3df165d239c73d739b71245ddc8b32d) Refactor glass effect into TerminalGlassView and add inactive window tint overlay ([@sunshine-syz](https://github.com/sunshine-syz))
+- [`daa2a9d`](https://github.com/ghostty-org/ghostty/commit/daa2a9d0d506378b18ec246f3b7a5b90005966b4) macos: allow renaming tab title on double-click ([@MiUPa](https://github.com/MiUPa))
+- [`feee444`](https://github.com/ghostty-org/ghostty/commit/feee4443da680e8f9077e9e11909b0172d72dbfa) macOS: add inline tab title editing ([@MiUPa](https://github.com/MiUPa))
+- [`f6e9b19`](https://github.com/ghostty-org/ghostty/commit/f6e9b19fd501b6354ffd471fa3bd626148635504) macOS: widen inline tab title editor ([@MiUPa](https://github.com/MiUPa))
+- [`368e190`](https://github.com/ghostty-org/ghostty/commit/368e190a4165f3446364b5b91168d18e99bfacd4) macOS: defer inline tab rename start to reduce flicker ([@MiUPa](https://github.com/MiUPa))
+- [`879d7cf`](https://github.com/ghostty-org/ghostty/commit/879d7cf337fa8a31703fe0bf417d5beb10295076) macOS: remove dead tab title edit helper ([@MiUPa](https://github.com/MiUPa))
+- [`b6a9d54`](https://github.com/ghostty-org/ghostty/commit/b6a9d54e98d1c65c4d941ee53f389b03c67c8caf) macos: extract inline title editing to standalone file ([@mitchellh](https://github.com/mitchellh))
+- [`f5e2561`](https://github.com/ghostty-org/ghostty/commit/f5e2561eb75e8dcfd018fd726ed06671dc6233e3) macos: rename to TabTitleEditor ([@mitchellh](https://github.com/mitchellh))
+- [`51f304e`](https://github.com/ghostty-org/ghostty/commit/51f304e9a08f66ff35419bfd33cb58024ee42a8c) macos: add AGENTS.md ([@mitchellh](https://github.com/mitchellh))
+- [`1c715de`](https://github.com/ghostty-org/ghostty/commit/1c715def07d81024a20223998785c305c6880329) macOS: add inline tab title editing ([#10963](https://github.com/ghostty-org/ghostty/issues/10963)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Double-clicking a tab allows you to edit the tab name inline.
+  - Implemented an inline editor that allows you to edit the tab title
+  directly.
+  - Press Enter to confirm, Esc to cancel.
+  ```
+- [`6a9a21a`](https://github.com/ghostty-org/ghostty/commit/6a9a21afb6123729b2f3964a0d19770f8a21f8c6) macOS: Add inactive window tint overlay for liquid glass ([#10943](https://github.com/ghostty-org/ghostty/issues/10943)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Summary:**
+  - Add tint overlay to dim terminal windows when inactive, fixes
+  https://github.com/ghostty-org/ghostty/discussions/10040
+  - Refactor the liquid glass effect into a dedicated `TerminalGlassView`
+  class
+  
+  Note: The tint overlay color and opacity values may not be ideal —
+  feedback is welcome.
+  
+  **AI Disclosure:** I used Claude Code to read the macos repo and
+  understand the liquid glass implementation. Implemented basic tint
+  overlay mainly by hand. Refactor the code and review changes with Claude
+  Code.
+  ```
+- [`335f0bf`](https://github.com/ghostty-org/ghostty/commit/335f0bff310f8de934431fc040d3684dec4e4799) Update VOUCHED list ([#10968](https://github.com/ghostty-org/ghostty/issues/10968)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/9932#issuecomment-3945908641)
+  from @mitchellh.
+  
+  Vouch: @MrMage
+  ```
+- [`6afdf34`](https://github.com/ghostty-org/ghostty/commit/6afdf3400e52d4eb83a058c9e43e8e1de755eb64) unicode: change cell to wide when grapheme width changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`556504a`](https://github.com/ghostty-org/ghostty/commit/556504a2d4239a0ff3c5df028fdfbbb2afabff71) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`a67cfb4`](https://github.com/ghostty-org/ghostty/commit/a67cfb4232f4bd41bb6d21b273ef4dd39549930d) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`96c69c9`](https://github.com/ghostty-org/ghostty/commit/96c69c9f9b92651d024107f311967dd2dd88dae0) Add comment for desired_wide = .wide when !width_zero_in_grapheme ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`d240a19`](https://github.com/ghostty-org/ghostty/commit/d240a194e1b3728b7819e21fc9a5f98dcccb618a) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`755c5b3`](https://github.com/ghostty-org/ghostty/commit/755c5b30965271805624fca593de1f39505081d9) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`a1c1d66`](https://github.com/ghostty-org/ghostty/commit/a1c1d66ec8f3c6d051973d60d6e0a42e148fa970) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`8020a88`](https://github.com/ghostty-org/ghostty/commit/8020a88205dbacba7e724d94cdc657d97d868f65) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`8d47081`](https://github.com/ghostty-org/ghostty/commit/8d470816cf45b4bdc570045cf90674dd13347d45) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`6b2caf6`](https://github.com/ghostty-org/ghostty/commit/6b2caf69db7c80aab9ec5b4c15982993d6517569) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`a7080b6`](https://github.com/ghostty-org/ghostty/commit/a7080b6fab66d1586fe4e0b30e340f62282dbdd6) Make VS15 test check that previous grapheme is not affected ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`5beeec0`](https://github.com/ghostty-org/ghostty/commit/5beeec0b8a818b4ead7102093bf1c0e5e824a51c) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`d5098f5`](https://github.com/ghostty-org/ghostty/commit/d5098f5896265bfcc13c95a86ff0f6ffde106fdb) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`77957aa`](https://github.com/ghostty-org/ghostty/commit/77957aa319e99a3ecfedb2300bf83bd382c7740d) Fix Bengali test due to wider grapheme ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`1c3fc06`](https://github.com/ghostty-org/ghostty/commit/1c3fc062e1efcf9d8c28e11c5cc6c48421264f2f) clarify comments ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`96c623e`](https://github.com/ghostty-org/ghostty/commit/96c623ee33189729b93c0a118be83795d0c4995c) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`bc7bbb2`](https://github.com/ghostty-org/ghostty/commit/bc7bbb27afd3077ec87771cc668262fe41a10520) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`bb9d37c`](https://github.com/ghostty-org/ghostty/commit/bb9d37c09c19b58e827c2bbd670505707a00645e) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`4f6fc32`](https://github.com/ghostty-org/ghostty/commit/4f6fc324f1043bca4e7123e45d660c3600107ccd) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.1 to 1.4.2.
+  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-cache-action
+    dependency-version: 1.4.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`f53e4b4`](https://github.com/ghostty-org/ghostty/commit/f53e4b43c4d2a30a6d98a902a124c5fa55acc893) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`327cdbe`](https://github.com/ghostty-org/ghostty/commit/327cdbefadefbbfbdc177a13f42e3d4d8bc97eef) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`35a5ea0`](https://github.com/ghostty-org/ghostty/commit/35a5ea0e83c44e95d228d1ae1ca4d4c130ba3a68) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([#10960](https://github.com/ghostty-org/ghostty/issues/10960)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
+  from 1.4.1 to 1.4.2.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.4.2</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Append error cause to failure message by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/104">namespacelabs/nscloud-cache-action#104</a></li>
+  <li>Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6 by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/107">namespacelabs/nscloud-cache-action#107</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2">https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9"><code>a90bb5d</code></a>
+  Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/60628686a062537fb52c6fdeacedb198d1379023"><code>6062868</code></a>
+  Append error cause to failure message (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/104">#104</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.4.1&new-version=1.4.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`d186613`](https://github.com/ghostty-org/ghostty/commit/d186613ca4a31389e1b624efcd981ebfe5354393) terminal: change cell width when wider grapheme detected ([#10465](https://github.com/ghostty-org/ghostty/issues/10465)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR updates the logic in Terminal `print` to include more cases of
+  changing a cell to be wide due to a grapheme cluster that needs to be
+  wide but starts off narrow. The existing case of this is a
+  text-presentation code point followed by VS16 to make it emoji
+  presentation. This PR handles more cases that are found in scripts such
+  as Devanagari where the correct grapheme width calculation sums up
+  multiple code points of non-zero widths. An example, as seen from
+  [uucode's issue #1](https://github.com/jacobsandlund/uucode/issues/1) is
+  `क्‍ष`, which now with https://github.com/ghostty-org/ghostty/pull/9680
+  merged is one grapheme cluster instead of two, but the U+0915 (first
+  code point) is width one and U+0937 (final code point) is also width
+  one, and the whole cluster should be width 1 + 1 = 2. This is important
+  to address with the grapheme break change otherwise these scripts would
+  show with narrow cells, incorrectly.
+  
+  Before:
+  
+  <img width="680" height="124" alt="CleanShot 2026-01-27 at 10 31 24@2x"
+  src="https://github.com/user-attachments/assets/4ff5959d-9c14-4062-8280-83004af38495"
+  />
+  
+  After:
+  
+  <img width="646" height="118" alt="CleanShot 2026-01-27 at 10 29 10@2x"
+  src="https://github.com/user-attachments/assets/3ad11afd-2141-46fb-b22b-9fa7b2546366"
+  />
+  
+  ---
+  
+  Note that the logic here just takes `width_zero_in_grapheme` and if it's
+  not zero width, makes the cell wide. This is actually wrong for
+  graphemes with `prepend` (usually/always? zero width) followed by a
+  character that should be narrow width, but that's affecting a much
+  smaller number of graphemes. To address that, we would need to run the
+  full `wcwidth` from `uucode` on the grapheme, and compare the width
+  output with the current cell's `Wide`. I figured it'd be better to
+  incrementally just handle the bulk of the cases with the
+  `width_zero_in_grapheme` check.
+  
+  This also adds tests to make sure moving the cell is handled correctly,
+  which was not the case for the existing VS16 logic.
+  
+  There's a lot of code here to handle transferring the graphemes when the
+  narrow cell should wrap to the next line to become wide. I'd like
+  feedback on the approach here before attempting to clean anything up, if
+  desired (pull it out into a separate method?).
+  
+  AI was used in some of the uucode changes in
+  https://github.com/ghostty-org/ghostty/pull/9678 (Amp--primarily for
+  tests), but everything was carefully vetted and much of it done by hand.
+  This PR was made without AI.
+  ```
 - [`79f0bfe`](https://github.com/ghostty-org/ghostty/commit/79f0bfe374c0a324cf3158f351ecce5aeb36770f) nix: update ucs-detect to latest master ([@jacobsandlund](https://github.com/jacobsandlund))
 - [`05b4db5`](https://github.com/ghostty-org/ghostty/commit/05b4db574b4c3a36670172024ffc1998048f397f) nix: update ucs-detect to latest master ([#10965](https://github.com/ghostty-org/ghostty/issues/10965)) ([@jcollie](https://github.com/jcollie))
   ```text
