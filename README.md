@@ -8,15 +8,91 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 23, 2026 at 18:21 UTC.
+> Last updated: February 23, 2026 at 21:17 UTC.
 
 ## February 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [2](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [3](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [4](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [5](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
-Summary: 5 runs • 38 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22323944108), [2](https://github.com/ghostty-org/ghostty/actions/runs/22319585055), [3](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [4](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [5](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [6](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [7](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
+Summary: 7 runs • 46 commits • 8 authors
 
 ### Changes
 
+- [`47577c7`](https://github.com/ghostty-org/ghostty/commit/47577c7623efc859c7f7a9c7da3f712807487f29) Make top visual space for surface drag handles ([@martinemde](https://github.com/martinemde))
+- [`2842b18`](https://github.com/ghostty-org/ghostty/commit/2842b18a3fc6de1b5ad6f15832a4f28419cd5051) Only show drag handle on hovered surface ([@martinemde](https://github.com/martinemde))
+- [`40e6a6d`](https://github.com/ghostty-org/ghostty/commit/40e6a6dd58b7fe5422c9811a81c236ecb14b26b3) Refine spacing and header usage ([@martinemde](https://github.com/martinemde))
+  ```text
+  This is 4pt header space, 12pt clickable frame height
+  ```
+- [`0316154`](https://github.com/ghostty-org/ghostty/commit/03161547f6847e43f6b3fd308c0387ddb714f5ad) Remove the top padding for macOS grab bar ([@mitchellh](https://github.com/mitchellh))
+- [`ba593d8`](https://github.com/ghostty-org/ghostty/commit/ba593d823cbf69f733a5d7ca84c6a908581134a3) feat(macos): Refine MacOS surface drag handle UI ([#10280](https://github.com/ghostty-org/ghostty/issues/10280)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  <img width="638" height="476" alt="Screenshot 2026-01-11 at 1 41 52 PM"
+  src="https://github.com/user-attachments/assets/bf3457e8-1b1c-4b2d-b6d1-312d48739108"
+  />
+  
+  This PR makes 3 small changes:
+  
+  1. Makes the surface move grab handle present when the surface is
+  hovered and the mouse cursor is not hidden.
+  2. Makes the grab handle partial width, allowing space to more easily
+  grab the divider for resize (anywhere but the center) and increasing the
+  grabbable area for the grab handle.
+  3. Adds appropriate padding to the top of the surface (in the metal
+  stack so shaders can apply) to give space for the header so that text is
+  not occluded by the grab handle.
+  
+  I think it looks good and works well, but I suggest trying it out since
+  the interaction is the most important part.
+  
+  Problems I was trying to solve:
+  1. The old grab bar overlays actual clickable area on TUIs and can make
+  them hard to use
+  2. The old bar makes the entire divider also a grab area, making divider
+  resizing more difficult.
+  3. The old bar is not always present, making it hard to discover until
+  you're going to resize something, which then is confusing
+  4. The old bar is not colored with the style.
+  
+  
+  https://github.com/user-attachments/assets/588a35b5-ba2f-4074-8edb-e090e0006224
+  
+  
+  AI Disclosure: I originally did this with Claude, but at this point I've
+  gone over this code manually enough to feel somewhat familiar. I think
+  the video and design speak for themselves and the code change is
+  minimal, but I'm not a Swift programmer, so I can't evaluate whether
+  this is the best possible solution.
+  
+  Human Disclosure: I don't have a linux machine to check that the padding
+  doesn't apply outside of MacOS. I find it hard to believe that it
+  wouldn't work, but worth calling out.
+  ```
+- [`0830ecf`](https://github.com/ghostty-org/ghostty/commit/0830ecfb65dbd44cbb61fcefe65a932928e12b76) ci: enable macOS caching (Zig, Xcode) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Namespace now supports cache volumes on macOS.
+  
+  This enables caching for Zig and Xcode artifacts. We can't do Nix yet because
+  we can't create `/nix` and there's a chicken/egg with how Nix installation
+  works on macOS. I'm emailing Namespace support about it... But still, a big
+  win for Zig and Xcode!
+  ```
+- [`7dad801`](https://github.com/ghostty-org/ghostty/commit/7dad801abc86204a123f2395842965f41d4bfcc3) ci: enable macOS caching (Zig, Xcode) ([#10969](https://github.com/ghostty-org/ghostty/issues/10969)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Namespace now supports cache volumes on macOS.
+  
+  This enables caching for Zig and Xcode artifacts. We can't do Nix yet
+  because we can't create `/nix` and there's a chicken/egg with how Nix
+  installation works on macOS. I'm emailing Namespace support about it...
+  But still, a big win for Zig and Xcode!
+  ```
+- [`dcbc765`](https://github.com/ghostty-org/ghostty/commit/dcbc765dc0cd84f190013b5085b08bd6e2f800c4) Update VOUCHED list ([#10970](https://github.com/ghostty-org/ghostty/issues/10970)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/10767#issuecomment-3946557197)
+  from @mitchellh.
+  
+  Unvouch: @prsweet
+  ```
 - [`81c9c81`](https://github.com/ghostty-org/ghostty/commit/81c9c81ae3df165d239c73d739b71245ddc8b32d) Refactor glass effect into TerminalGlassView and add inactive window tint overlay ([@sunshine-syz](https://github.com/sunshine-syz))
 - [`daa2a9d`](https://github.com/ghostty-org/ghostty/commit/daa2a9d0d506378b18ec246f3b7a5b90005966b4) macos: allow renaming tab title on double-click ([@MiUPa](https://github.com/MiUPa))
 - [`feee444`](https://github.com/ghostty-org/ghostty/commit/feee4443da680e8f9077e9e11909b0172d72dbfa) macOS: add inline tab title editing ([@MiUPa](https://github.com/MiUPa))
