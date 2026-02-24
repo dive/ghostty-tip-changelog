@@ -8,15 +8,86 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 24, 2026 at 18:20 UTC.
+> Last updated: February 24, 2026 at 21:11 UTC.
 
 ## February 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22363144492), [2](https://github.com/ghostty-org/ghostty/actions/runs/22348279554), [3](https://github.com/ghostty-org/ghostty/actions/runs/22346359578), [4](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [5](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [6](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
-Summary: 6 runs • 15 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22368804680), [2](https://github.com/ghostty-org/ghostty/actions/runs/22365398434), [3](https://github.com/ghostty-org/ghostty/actions/runs/22363144492), [4](https://github.com/ghostty-org/ghostty/actions/runs/22348279554), [5](https://github.com/ghostty-org/ghostty/actions/runs/22346359578), [6](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [7](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [8](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
+Summary: 8 runs • 28 commits • 9 authors
 
 ### Changes
 
+- [`45525a0`](https://github.com/ghostty-org/ghostty/commit/45525a0a85a7ef318ca0962941aa5afc00f50e1a) macOS: use `NSDockTilePlugIn` to update app icons ([@bo2themax](https://github.com/bo2themax))
+- [`a79557f`](https://github.com/ghostty-org/ghostty/commit/a79557f5214bda88de13a9de2c109ad9020ee7d6) macOS: stop cycling icons when AboutWindow is closed ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  and start cycling with current icon
+  ```
+- [`2c28c27`](https://github.com/ghostty-org/ghostty/commit/2c28c27ca52f130fa743ae3314cdbb0cd5ebd710) moving lots of files, removing unused stuff ([@mitchellh](https://github.com/mitchellh))
+- [`4b1178e`](https://github.com/ghostty-org/ghostty/commit/4b1178e4f647119b93b004e86f95f2d99485468f) macos: rename a bunch of files ([@mitchellh](https://github.com/mitchellh))
+- [`f831f68`](https://github.com/ghostty-org/ghostty/commit/f831f68f1aab3148e8d46362cb9991425e62f395) macOS: update AppIcon encoding ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  - make `ColorizedGhosttyIcon` codable
+  - remove deprecated string encoding introduced in tip
+  ```
+- [`c727888`](https://github.com/ghostty-org/ghostty/commit/c72788894e11c0d60368ba138f3f346b8c1eb145) ci: fix linting and delete non-useful tests ([@bo2themax](https://github.com/bo2themax))
+- [`f451ea8`](https://github.com/ghostty-org/ghostty/commit/f451ea8e4603a63058a9f019623a8d18b103b98f) macos: move icon codable/equatable to extension ([@mitchellh](https://github.com/mitchellh))
+- [`eaf7d8a`](https://github.com/ghostty-org/ghostty/commit/eaf7d8a012636d51aa304d59147ea656e1edd615) macos: icon tests ([@mitchellh](https://github.com/mitchellh))
+- [`06084cd`](https://github.com/ghostty-org/ghostty/commit/06084cd840daa053d80e56c78b03490b36dd67cd) macos: various dock tile cleanups ([@mitchellh](https://github.com/mitchellh))
+- [`99a4723`](https://github.com/ghostty-org/ghostty/commit/99a47233afcdb8274d60d0b7d9bf6cfb6c52f63b) macOS: use `NSDockTilePlugIn` to update app icons ([#9983](https://github.com/ghostty-org/ghostty/issues/9983)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  * Using MAP prohibited `NSDockTilePlugIn` to update custom icons more
+  reliably. And it also fixes the corner radius issue on older os: #8870
+  * Changes in AboutWindow cc @jparise
+    * Start cycling with current icon
+    * Stop cycling icons when AboutWindow is closed
+    * Add menu to copy icon config
+  
+  <img width="166" height="63" alt="Xnip2025-12-20_18-40-58"
+  src="https://github.com/user-attachments/assets/52fc1215-909e-49c7-a37a-b7c73eef61f1"
+  />
+  
+  > [!WARNING]
+  > Upgrading from `macOS-custom-icon` needs to manually open the app once
+  to update the icon, since this plugin is running under
+  `com.apple.dock.external.extra.arm64`, which has sandbox enabled.
+  >
+  > When first upgraded to this commit, a notification about the dock
+  plugin will pop up. The user has to enable this to change the icon
+  smoothly.
+  > <img width="389" height="159" alt="image"
+  src="https://github.com/user-attachments/assets/a883ac6b-0b4d-4794-8c61-50b60707f6a2"
+  />
+  
+  
+  
+  Here are the testing results on
+  [Tahoe](https://github.com/user-attachments/assets/e5fc8354-5f5c-4280-805f-88f043ceadca)
+  and
+  [Sequoia](https://github.com/user-attachments/assets/633d9a07-7d9d-4806-8496-82ddaffb8833):
+  
+  > When you see some pause in the recording, that's when I rebuild or
+  replace the older version with the latest.
+  
+  This also fixes some issues when changing between different styles,
+  consistency issues, and resetting from others to `official`.
+  
+  
+  ### Developer's Note
+  
+  This shouldn't affect current CI flow, since this new target is just a
+  bundle not runnable, and I tested with archiving, exporting and signing
+  in Xcode, nothing big changed.
+  
+  
+  > [!NOTE]
+  > AI helped me to write the typo ignore-re and proofread my comments
+  ```
+- [`6132597`](https://github.com/ghostty-org/ghostty/commit/6132597563596a12ced386f3760786b62e2dd216) ci: codesign DockTilePlugin ([@mitchellh](https://github.com/mitchellh))
+- [`57d5705`](https://github.com/ghostty-org/ghostty/commit/57d570525b3ee4e365ec7bde237230d429760e41) gtk: clean up title renaming and fix a small leak ([@jcollie](https://github.com/jcollie))
+- [`0cf93a3`](https://github.com/ghostty-org/ghostty/commit/0cf93a3e2f4d5ec473699394805a7314e46ae1be) gtk: clean up title renaming and fix a small leak ([#10997](https://github.com/ghostty-org/ghostty/issues/10997)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Also enables the "Change Title…" item in the main menu.
+  ```
 - [`245ea56`](https://github.com/ghostty-org/ghostty/commit/245ea565975a1199e048699759a839c790c76d79) update vouch to 1.4.2 ([@mitchellh](https://github.com/mitchellh))
 - [`1087751`](https://github.com/ghostty-org/ghostty/commit/1087751d265364e2b52eb4069505852edd48b8b7) Update VOUCHED list ([#10996](https://github.com/ghostty-org/ghostty/issues/10996)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
