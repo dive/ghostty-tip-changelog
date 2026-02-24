@@ -8,15 +8,24 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 24, 2026 at 15:20 UTC.
+> Last updated: February 24, 2026 at 18:20 UTC.
 
 ## February 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22348279554), [2](https://github.com/ghostty-org/ghostty/actions/runs/22346359578), [3](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [4](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [5](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
-Summary: 5 runs • 13 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22363144492), [2](https://github.com/ghostty-org/ghostty/actions/runs/22348279554), [3](https://github.com/ghostty-org/ghostty/actions/runs/22346359578), [4](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [5](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [6](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
+Summary: 6 runs • 15 commits • 8 authors
 
 ### Changes
 
+- [`245ea56`](https://github.com/ghostty-org/ghostty/commit/245ea565975a1199e048699759a839c790c76d79) update vouch to 1.4.2 ([@mitchellh](https://github.com/mitchellh))
+- [`1087751`](https://github.com/ghostty-org/ghostty/commit/1087751d265364e2b52eb4069505852edd48b8b7) Update VOUCHED list ([#10996](https://github.com/ghostty-org/ghostty/issues/10996)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10981#discussioncomment-15913757)
+  from @mitchellh.
+  
+  Vouch: @Koranir
+  ```
 - [`9f3f97b`](https://github.com/ghostty-org/ghostty/commit/9f3f97b231ac738eb4413bb0d948525510025531) i18n: Updated mk translations with new strings (Andrej Daskalov)
 - [`d0e308f`](https://github.com/ghostty-org/ghostty/commit/d0e308f32b0024d2203232626e605b2fd4417d21) i18n: Updated mk translations with new strings ([#10985](https://github.com/ghostty-org/ghostty/issues/10985)) ([@00-kat](https://github.com/00-kat))
   ```text
