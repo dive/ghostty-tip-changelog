@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 24, 2026 at 09:18 UTC.
+> Last updated: February 24, 2026 at 12:14 UTC.
 
 ## February 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [2](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [3](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
-Summary: 3 runs • 9 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22348279554), [2](https://github.com/ghostty-org/ghostty/actions/runs/22346359578), [3](https://github.com/ghostty-org/ghostty/actions/runs/22343590519), [4](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [5](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
+Summary: 5 runs • 13 commits • 7 authors
 
 ### Changes
 
+- [`9f3f97b`](https://github.com/ghostty-org/ghostty/commit/9f3f97b231ac738eb4413bb0d948525510025531) i18n: Updated mk translations with new strings (Andrej Daskalov)
+- [`d0e308f`](https://github.com/ghostty-org/ghostty/commit/d0e308f32b0024d2203232626e605b2fd4417d21) i18n: Updated mk translations with new strings ([#10985](https://github.com/ghostty-org/ghostty/issues/10985)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Issue #10632
+  ```
+- [`3fde784`](https://github.com/ghostty-org/ghostty/commit/3fde7842935deff7cf4328d4ce0e066f2e82cb67) i18n: update zh_TW translation ([@pan93412](https://github.com/pan93412))
+- [`8e135c4`](https://github.com/ghostty-org/ghostty/commit/8e135c4f9b94593ffe0e9d56ca3ee8ddb1ba640b) i18n: update zh_TW translation ([#10819](https://github.com/ghostty-org/ghostty/issues/10819)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Update to 2860dd29bb117b3d9dbe4a94736484b410614d02
+  
+  Related to #10814
+  ```
 - [`4989f1c`](https://github.com/ghostty-org/ghostty/commit/4989f1c0121e42324e4ee9b7c85e31a2a0b02a80) i18n: Add new translations for nl_NL ([@nwehg](https://github.com/nwehg))
 - [`d816e83`](https://github.com/ghostty-org/ghostty/commit/d816e835a82f3050cae9de6d52ad9b45205f67fd) Update translations to imperative form ([@nwehg](https://github.com/nwehg))
 - [`2a9d963`](https://github.com/ghostty-org/ghostty/commit/2a9d963631152bafe0f540551b5ed423fcb66635) i18n: Add new translations for nl_NL ([#10838](https://github.com/ghostty-org/ghostty/issues/10838)) ([@00-kat](https://github.com/00-kat))
