@@ -8,15 +8,60 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 23, 2026 at 21:17 UTC.
+> Last updated: February 24, 2026 at 00:21 UTC.
 
 ## February 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22323944108), [2](https://github.com/ghostty-org/ghostty/actions/runs/22319585055), [3](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [4](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [5](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [6](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [7](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
-Summary: 7 runs • 46 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22327612320), [2](https://github.com/ghostty-org/ghostty/actions/runs/22327402698), [3](https://github.com/ghostty-org/ghostty/actions/runs/22323944108), [4](https://github.com/ghostty-org/ghostty/actions/runs/22319585055), [5](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [6](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [7](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [8](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [9](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
+Summary: 9 runs • 50 commits • 9 authors
 
 ### Changes
 
+- [`b2a7f71`](https://github.com/ghostty-org/ghostty/commit/b2a7f71b586b83d3b2bb6a17b8c2d79b123dc33f) Update VOUCHED list ([#10972](https://github.com/ghostty-org/ghostty/issues/10972)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10801) from
+  @mitchellh.
+  
+  Vouch: @curtismoncoq
+  ```
+- [`7a4bddd`](https://github.com/ghostty-org/ghostty/commit/7a4bddd37bfb1f758a2302c04ec8e77ecae3e49b) renderer: added cursor style and visibility uniforms ([@ClearAspect](https://github.com/ClearAspect))
+  ```text
+  Specifically:
+  iCurrentCursorStyle
+  iPreviousCursorStyle
+  iCurrentCursorVisible
+  iPreviousCursorVisible
+  
+  Visibility calculated and updated independently from the typical cursor
+  unifrom updates to preserve cursor style even when not in the viewport
+  or set to be hidden
+  ```
+- [`81f21a0`](https://github.com/ghostty-org/ghostty/commit/81f21a04de4d9f9cb12597ec887646ae01a850d9) custom shader: added cursor style and visibility uniforms ([#9572](https://github.com/ghostty-org/ghostty/issues/9572)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes: #9416
+  
+  Specifically:
+    iCurrentCursorStyle
+    iPreviousCursorStyle
+    iCurrentCursorVisible
+    iPreviousCursorVisible
+  
+  Visibility calculated and updated independently from the typical cursor
+  uniform updates to preserve cursor style even when not in the viewport
+  or set to be hidden
+  
+  I used Claude-Code to initially navigate and gauge an understanding of
+  the rendering system. Otherwise I authored the rest of the PR
+  ```
+- [`375a631`](https://github.com/ghostty-org/ghostty/commit/375a6313c94d913c456c33c5d033a3fa910739ac) Update VOUCHED list ([#10971](https://github.com/ghostty-org/ghostty/issues/10971)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10942) from
+  @mitchellh.
+  
+  Vouch: @aalhendi
+  ```
 - [`47577c7`](https://github.com/ghostty-org/ghostty/commit/47577c7623efc859c7f7a9c7da3f712807487f29) Make top visual space for surface drag handles ([@martinemde](https://github.com/martinemde))
 - [`2842b18`](https://github.com/ghostty-org/ghostty/commit/2842b18a3fc6de1b5ad6f15832a4f28419cd5051) Only show drag handle on hovered surface ([@martinemde](https://github.com/martinemde))
 - [`40e6a6d`](https://github.com/ghostty-org/ghostty/commit/40e6a6dd58b7fe5422c9811a81c236ecb14b26b3) Refine spacing and header usage ([@martinemde](https://github.com/martinemde))
@@ -1753,194 +1798,5 @@ Summary: 26 runs • 78 commits • 20 authors
   <img width="1132" height="135" alt="Screenshot From 2026-02-07 16-31-14"
   src="https://github.com/user-attachments/assets/81dffd0b-8801-4695-adf4-213647cdf0c3"
   />
-  ```
-
-## February 17, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22118811858), [2](https://github.com/ghostty-org/ghostty/actions/runs/22115783027), [3](https://github.com/ghostty-org/ghostty/actions/runs/22111436128), [4](https://github.com/ghostty-org/ghostty/actions/runs/22110174817), [5](https://github.com/ghostty-org/ghostty/actions/runs/22108851024), [6](https://github.com/ghostty-org/ghostty/actions/runs/22106407405), [7](https://github.com/ghostty-org/ghostty/actions/runs/22105926169), [8](https://github.com/ghostty-org/ghostty/actions/runs/22104793847), [9](https://github.com/ghostty-org/ghostty/actions/runs/22086597324), [10](https://github.com/ghostty-org/ghostty/actions/runs/22085565158)  
-Summary: 10 runs • 33 commits • 8 authors
-
-### Changes
-
-- [`b652a1c`](https://github.com/ghostty-org/ghostty/commit/b652a1ced3de5d7d08bac98d672db936eaba9ab6) Update VOUCHED list ([#10804](https://github.com/ghostty-org/ghostty/issues/10804)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10803) from
-  @jcollie.
-  ```
-- [`5e265c9`](https://github.com/ghostty-org/ghostty/commit/5e265c9c0d5c5bf145e904b1da587e3780ca28fe) feat: add osc8 to <a> tag handling for html formatter ([@matthew-hre](https://github.com/matthew-hre))
-- [`9868bf3`](https://github.com/ghostty-org/ghostty/commit/9868bf37896ee1b50228a46a48b9dd7db6c333a7) fix: replaced redundant writeHtmlEscaped method with writeCodepoint ([@matthew-hre](https://github.com/matthew-hre))
-- [`62968e4`](https://github.com/ghostty-org/ghostty/commit/62968e423d0eb0b9e7d6ff9d57878f653c5e61fa) terminal: clean up HTML OSC8 formatting ([@mitchellh](https://github.com/mitchellh))
-- [`16cc707`](https://github.com/ghostty-org/ghostty/commit/16cc707c80eb1de0e1361b10f8bdb31ea771e054) terminal: add osc8 tag handling for HTML formatter ([#9415](https://github.com/ghostty-org/ghostty/issues/9415)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The HTML page formatter can now track hyperlink state so <a> tags open
-  and close when the OSC 8 data changes. Also added a new
-  `writeHtmlEscaped` helper to keep generated markup safe.
-  
-  Originally written with Copilot, revised by hand.
-  ```
-- [`b25edc3`](https://github.com/ghostty-org/ghostty/commit/b25edc3e9367b4bd26d64e24dd819a72d5e48cf4) termio: don't auto-generate palette if user didn't customize any ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This fixes the issue where our palette generation was changing our
-  default palette. The default palette is based on some well known values
-  chosen from various terminals and it was a bit jarring to have it
-  change.
-  
-  We now only auto-generate the palette if the user has customized at
-  least one entry.
-  ```
-- [`41cea50`](https://github.com/ghostty-org/ghostty/commit/41cea500f452b93f2a2346bb20d8df44a79f9a54) termio: don't auto-generate palette if user didn't customize any ([#10802](https://github.com/ghostty-org/ghostty/issues/10802)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This fixes the issue where our palette generation was changing our
-  default palette. The default palette is based on some well known values
-  chosen from various terminals and it was a bit jarring to have it
-  change.
-  
-  We now only auto-generate the palette if the user has customized at
-  least one entry.
-  ```
-- [`54f2be8`](https://github.com/ghostty-org/ghostty/commit/54f2be8e7de69ff9bea2ccf5e728c86d89974bdc) bash: avoid mapfile for bash 3.2 compatibility ([@jparise](https://github.com/jparise))
-  ```text
-  We continue to support bash 3.2 for compatibility with /bin/bash on
-  macOS. `mapfile` was introduced in bash 4.0, so this change introduces a
-  `read -r`-based helper function for populating COMPREPLY from a list of
-  lines.
-  ```
-- [`10039da`](https://github.com/ghostty-org/ghostty/commit/10039da572d9451cf4051490ee9509c11ac7147a) bash: avoid mapfile for bash 3.2 compatibility ([#10800](https://github.com/ghostty-org/ghostty/issues/10800)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We continue to support bash 3.2 for compatibility with /bin/bash on
-  macOS. `mapfile` was introduced in bash 4.0, so this change introduces a
-  `read -r`-based helper function for populating COMPREPLY from a list of
-  lines.
-  
-  See: #3042
-  ```
-- [`fad72e0`](https://github.com/ghostty-org/ghostty/commit/fad72e0ed1895e89458e3d80d7de6bb716ff04af) generate 256 palette ([@jake-stewart](https://github.com/jake-stewart))
-- [`5f89228`](https://github.com/ghostty-org/ghostty/commit/5f89228a7a00c41068eafdb26fdceccf12bb1a45) refactor lab colors ([@jake-stewart](https://github.com/jake-stewart))
-- [`7729714`](https://github.com/ghostty-org/ghostty/commit/7729714935bb27a11018eb34358fa5e71ad95037) refactor 256 color gen ([@jake-stewart](https://github.com/jake-stewart))
-- [`e268ff9`](https://github.com/ghostty-org/ghostty/commit/e268ff9a8b0c429fd09b627b4d52776116a1725c) rename param ([@jake-stewart](https://github.com/jake-stewart))
-- [`44d2ea2`](https://github.com/ghostty-org/ghostty/commit/44d2ea25d06d4364ad2640e815e11793309fa1d5) explain mask ([@jake-stewart](https://github.com/jake-stewart))
-- [`50698c5`](https://github.com/ghostty-org/ghostty/commit/50698c5c727ad5d7d2c8ea9bb1ff1c6afe8a3e5d) fmt ([@mitchellh](https://github.com/mitchellh))
-- [`fded0e9`](https://github.com/ghostty-org/ghostty/commit/fded0e97cbe6e64089762f910e6902861fb0d99d) terminal: clean up LAB methods, add tests, comments ([@mitchellh](https://github.com/mitchellh))
-- [`89dfb76`](https://github.com/ghostty-org/ghostty/commit/89dfb76778f3cc0eb6ae64ced3c3a944d0d5d6fb) terminal: clean up 256 color gen ([@mitchellh](https://github.com/mitchellh))
-- [`f0a1b05`](https://github.com/ghostty-org/ghostty/commit/f0a1b05f63f69ef9db9ecf852c0108893d75c3a2) rename config ([@mitchellh](https://github.com/mitchellh))
-- [`8435dff`](https://github.com/ghostty-org/ghostty/commit/8435dffea94d1745db16b4a7c09e1675c84e3216) generate 256 palette ([#10554](https://github.com/ghostty-org/ghostty/issues/10554)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Hi Ghostty team,
-  
-  I believe that terminals should generate the 256-color palette based on
-  the user's base16 theme.
-  
-  The rationale and approach is written up
-  [here](https://gist.github.com/jake-stewart/0a8ea46159a7da2c808e5be2177e1783).
-  
-  I consider it important that terminals support this out of the box so
-  that such behaviour can become normal and expected, because then
-  terminal program maintainers will consider the palette a viable choice.
-  
-  I have created a PR for kitty and the maintainer seems interested. I
-  plan to offer this to more terminals soon.
-  ```
-- [`34637b8`](https://github.com/ghostty-org/ghostty/commit/34637b843ec51c0ab0853293c831fea7d8838662) Update VOUCHED list ([#10796](https://github.com/ghostty-org/ghostty/issues/10796)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10785) from
-  @mitchellh.
-  ```
-- [`e67a8b2`](https://github.com/ghostty-org/ghostty/commit/e67a8b2da485a6151e1993490d515d1fd6d0394b) Update VOUCHED list ([#10797](https://github.com/ghostty-org/ghostty/issues/10797)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10784) from
-  @mitchellh.
-  ```
-- [`fa216ed`](https://github.com/ghostty-org/ghostty/commit/fa216edacc0f9bd2d5784365a54636887523b239) Update VOUCHED list ([#10798](https://github.com/ghostty-org/ghostty/issues/10798)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10782) from
-  @mitchellh.
-  ```
-- [`3e92aa2`](https://github.com/ghostty-org/ghostty/commit/3e92aa2c3ab0585d748957cb591e8086da098756) Update VOUCHED list ([#10795](https://github.com/ghostty-org/ghostty/issues/10795)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10794#issuecomment-3915601262)
-  from @trag1c.
-  ```
-- [`5c8d977`](https://github.com/ghostty-org/ghostty/commit/5c8d97730470d8b9b98fae9173ab1c4ccc1da18d) Update VOUCHED list ([#10793](https://github.com/ghostty-org/ghostty/issues/10793)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10792#issuecomment-3915522813)
-  from @trag1c.
-  ```
-- [`ebdf389`](https://github.com/ghostty-org/ghostty/commit/ebdf38999bcff8dbc546e00ee80b3fda54e11523) Update zh_TW Traditional Chinese locale, cc [#10632](https://github.com/ghostty-org/ghostty/issues/10632) ([@PeterDaveHello](https://github.com/PeterDaveHello))
-- [`0aa88e0`](https://github.com/ghostty-org/ghostty/commit/0aa88e0dac1e33395b028f547f550fe89e5dd10c) Update VOUCHED list ([#10790](https://github.com/ghostty-org/ghostty/issues/10790)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10788#issuecomment-3915336424)
-  from @00-kat.
-  ```
-- [`f07b92a`](https://github.com/ghostty-org/ghostty/commit/f07b92a0224a4553dd8006538d2ff21dafbc5757) Update zh_TW Traditional Chinese locale, cc [#10632](https://github.com/ghostty-org/ghostty/issues/10632) ([#10788](https://github.com/ghostty-org/ghostty/issues/10788)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  GitHub Copilot pull request summary:
-  
-  > This pull request updates the Traditional Chinese (zh_TW) translations
-  for the "Change Tab Title" strings in the application. These updates
-  provide accurate translations for UI elements related to changing tab
-  titles.
-  >
-  > **Translation updates:**
-  >
-  > * Added the Traditional Chinese translation for the "Change Tab
-  Title…" menu item in `po/zh_TW.UTF-8.po`
-  > * Added the Traditional Chinese translation for the "Change Tab Title"
-  dialog label in `po/zh_TW.UTF-8.po`
-  ```
-- [`39a10ec`](https://github.com/ghostty-org/ghostty/commit/39a10ecc0c06bf99099d4bd45aa12ba2b6e1db14) ci: vouch uses the Ghostty Vouch GitHub app to bypass merge restrictions ([#10779](https://github.com/ghostty-org/ghostty/issues/10779)) ([@mitchellh](https://github.com/mitchellh))
-- [`f127773`](https://github.com/ghostty-org/ghostty/commit/f1277737fff1a3c1b5caf901b230786e5e000c47) Update VOUCHED list ([#10780](https://github.com/ghostty-org/ghostty/issues/10780)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10379#issuecomment-3912261301)
-  from @mitchellh.
-  ```
-- [`a3dd93a`](https://github.com/ghostty-org/ghostty/commit/a3dd93ae752b79ea3fddfff891cd5fde92150736) Update VOUCHED list ([#10781](https://github.com/ghostty-org/ghostty/issues/10781)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10379#issuecomment-3912263144)
-  from @mitchellh.
-  ```
-- [`b6dbd44`](https://github.com/ghostty-org/ghostty/commit/b6dbd445d038c50be168dae81c1ca02da3316b8b) ci: update create-github-app-token ([@mitchellh](https://github.com/mitchellh))
-- [`b1dce5f`](https://github.com/ghostty-org/ghostty/commit/b1dce5f942ae686da0335c99566f74e12f01b4f7) renderer: drop opaque background for preedit cells ([@yamshta](https://github.com/yamshta))
-- [`b5bb871`](https://github.com/ghostty-org/ghostty/commit/b5bb87161b7965e5f4483c44edf706cbd0e3f23d) renderer: drop opaque background for preedit cells ([#10774](https://github.com/ghostty-org/ghostty/issues/10774)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Discussed in https://github.com/ghostty-org/ghostty/discussions/10739
-  
-  ## Summary
-  
-  Remove the hardcoded opaque background (alpha=255) from IME preedit
-  cells so they respect `background-opacity` like all other cells.
-  
-  When `background-opacity` is less than 1, preedit (composition) text was
-  rendered with a fully opaque background, causing the text to appear
-  highlighted and hard to read. This change removes the explicit per-cell
-  background from `addPreeditCell`, letting preedit cells fall through to
-  the global background. The underline indicator is preserved to mark the
-  preedit region.
-  
-  ---
-  
-  `background-opacity` が 1
-  未満のとき、IME入力中（preedit）のセルが完全不透明な背景で描画され、ハイライトされたように見えて読みづらくなる問題を修正しました。
-  
-  `addPreeditCell` のセル背景描画を削除し、グローバル背景に委ねることで通常セルと同じ透過表示になります。
-  preedit領域のアンダーラインは維持されます。
-  
-  ## Test plan
-  
-  - Set `background-opacity` to a value less than 1 (e.g. 0.5)
-  - Type Japanese (or other IME input) to trigger preedit
-  - Verify preedit text no longer appears highlighted
-  - Verify the underline indicator is still drawn under preedit text
-  
-  AI disclosure: I used Claude Code to investigate the source code and
-  generate code changes in this PR.
   ```
 
