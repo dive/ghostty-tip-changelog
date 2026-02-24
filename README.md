@@ -8,7 +8,118 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 24, 2026 at 00:21 UTC.
+> Last updated: February 24, 2026 at 03:49 UTC.
+
+## February 24, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`123438a`](https://github.com/ghostty-org/ghostty/commit/123438a4ebf249f4391b58af068bd5e7d0dbf80d) build(deps): bump namespacelabs/nscloud-setup from 0.0.10 to 0.0.11 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-setup](https://github.com/namespacelabs/nscloud-setup) from 0.0.10 to 0.0.11.
+  - [Release notes](https://github.com/namespacelabs/nscloud-setup/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-setup/compare/d1c625762f7c926a54bd39252efff0705fd11c64...f378676225212387f1283f4da878712af2c4cd60)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-setup
+    dependency-version: 0.0.11
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`d3bac33`](https://github.com/ghostty-org/ghostty/commit/d3bac33d2be44ce97187b644ddd245b84dfd7c83) build(deps): bump namespacelabs/nscloud-setup from 0.0.10 to 0.0.11 ([#10975](https://github.com/ghostty-org/ghostty/issues/10975)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-setup](https://github.com/namespacelabs/nscloud-setup)
+  from 0.0.10 to 0.0.11.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/namespacelabs/nscloud-setup/releases">namespacelabs/nscloud-setup's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v0.0.11</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Add exponential backoff retry for flaky network operations by <a
+  href="https://github.com/GabrielBianconi"><code>@​GabrielBianconi</code></a>
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-setup/pull/9">namespacelabs/nscloud-setup#9</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a
+  href="https://github.com/GabrielBianconi"><code>@​GabrielBianconi</code></a>
+  made their first contribution in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-setup/pull/9">namespacelabs/nscloud-setup#9</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/namespacelabs/nscloud-setup/compare/v0...v0.0.11">https://github.com/namespacelabs/nscloud-setup/compare/v0...v0.0.11</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup/commit/f378676225212387f1283f4da878712af2c4cd60"><code>f378676</code></a>
+  Change input from retries to max-attempts to match checkout action</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup/commit/57f47752a56c01ba3272917656ea6a0d75574664"><code>57f4775</code></a>
+  Add additional safety checks for unparsable number or thrown
+  non-error</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup/commit/7fca3e5502e36494541012a1cb9f5daf09c75e49"><code>7fca3e5</code></a>
+  Add exponential backoff retry for flaky network operations</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup/commit/d61c0c48a4247de5102d76b9a7281f985b2cfcb9"><code>d61c0c4</code></a>
+  Update README</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-setup/compare/d1c625762f7c926a54bd39252efff0705fd11c64...f378676225212387f1283f4da878712af2c4cd60">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-setup&package-manager=github_actions&previous-version=0.0.10&new-version=0.0.11)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## February 23, 2026
 
