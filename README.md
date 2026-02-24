@@ -8,15 +8,19 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 24, 2026 at 03:49 UTC.
+> Last updated: February 24, 2026 at 06:22 UTC.
 
 ## February 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22336124748), [2](https://github.com/ghostty-org/ghostty/actions/runs/22334890136)  
+Summary: 2 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`c3a900d`](https://github.com/ghostty-org/ghostty/commit/c3a900d1f4b67dd59d9fab89faf4b69026464390) ci: update vouch to 1.4.1 ([@mitchellh](https://github.com/mitchellh))
+- [`956b427`](https://github.com/ghostty-org/ghostty/commit/956b427d7a84d92401f14151b8f580cedfe2314e) ci: update vouch to 1.4.1 ([#10977](https://github.com/ghostty-org/ghostty/issues/10977)) ([@mitchellh](https://github.com/mitchellh))
+- [`e3a6ade`](https://github.com/ghostty-org/ghostty/commit/e3a6adeff5918fbbaecf98b738f9fb55c715370b) ci: point xcode to the mounted cache path by Namespace ([@mitchellh](https://github.com/mitchellh))
+- [`c51f0d7`](https://github.com/ghostty-org/ghostty/commit/c51f0d745d3f8048d9f1262c9f54c34a6e4ef422) ci: point xcode to the mounted cache path by Namespace ([#10978](https://github.com/ghostty-org/ghostty/issues/10978)) ([@mitchellh](https://github.com/mitchellh))
 - [`123438a`](https://github.com/ghostty-org/ghostty/commit/123438a4ebf249f4391b58af068bd5e7d0dbf80d) build(deps): bump namespacelabs/nscloud-setup from 0.0.10 to 0.0.11 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [namespacelabs/nscloud-setup](https://github.com/namespacelabs/nscloud-setup) from 0.0.10 to 0.0.11.
