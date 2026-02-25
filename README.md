@@ -8,15 +8,58 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 25, 2026 at 15:21 UTC.
+> Last updated: February 25, 2026 at 18:23 UTC.
 
 ## February 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22381369347), [2](https://github.com/ghostty-org/ghostty/actions/runs/22378200332)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22408105877), [2](https://github.com/ghostty-org/ghostty/actions/runs/22381369347), [3](https://github.com/ghostty-org/ghostty/actions/runs/22378200332)  
+Summary: 3 runs • 8 commits • 3 authors
 
 ### Changes
 
+- [`dd4e36f`](https://github.com/ghostty-org/ghostty/commit/dd4e36f921e479386a44a12c931bc21528ce683c) macOS: fix crash when adding tab from tab overview ([@nmggithub](https://github.com/nmggithub))
+- [`58acab6`](https://github.com/ghostty-org/ghostty/commit/58acab6c7d51d53b131d173f24b2bbcb35cc3c11) Merge branch 'ghostty-org:main' into fix-tabbing-from-tab-overview ([@nmggithub](https://github.com/nmggithub))
+- [`304823d`](https://github.com/ghostty-org/ghostty/commit/304823d560450ccde4e0f582a68fc88241eb76bd) macos: just some textual cleanup ([@mitchellh](https://github.com/mitchellh))
+- [`da045d2`](https://github.com/ghostty-org/ghostty/commit/da045d2fb3d7d7139a927d7f41f9db44ad7b8fd1) Remove ObjCExceptionCatcher from iOS target ([@mitchellh](https://github.com/mitchellh))
+- [`26146f5`](https://github.com/ghostty-org/ghostty/commit/26146f54c5c739c72ad11c774caff2826cfd7eb5) update comments ([@mitchellh](https://github.com/mitchellh))
+- [`8b1e4c6`](https://github.com/ghostty-org/ghostty/commit/8b1e4c66d7eedbc9455e5e06c15b531945b1ccc3) macOS: fix crash when adding tab from tab overview ([#11009](https://github.com/ghostty-org/ghostty/issues/11009)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  (moved from #11008)
+  
+  I have this branch up to fix #10252. It was written with AI (in Cursor),
+  but only after I made sure I thoroughly understood what was happening
+  (almost to an excessive extent). I had already determined that an
+  Objective-C helper was necessary, I just asked GPT 5.3 Codex in Cursor
+  to write it for me.
+  
+  **TL;DR: deep within AppKit, there is an Objective-C exception that is
+  _always_ thrown when opening a new tab from the visual tab picker ("tab
+  overview"). [Objective-C exceptions *cannot* be safely recovered from in
+  Swift.](http://developer.apple.com/documentation/swift/handling-cocoa-errors-in-swift#Handle-Exceptions-in-Objective-C-Only)
+  As Ghostty is primarily Swift, we must introduce some Objective-C
+  wrapper around tab creation to safely swallow this exception.**
+  
+  There is a lot more I know about this than the above, and can discuss it
+  at length if desired. Interestingly, it seems debug builds of Ghostty
+  (`zig build run`) *do* gracefully recover and don't crash. Release
+  builds (`zig build run -Doptimize=ReleaseFast`), however, *do* crash.
+  The crashing seems to be expected behavior and **_I don't think there's
+  any feasible way to get release builds to recover as debug builds do._**
+  The debug builds do, arguably, have better animation behavior. Not sure
+  how I can approach that part.
+  
+  Release build off of my commit:
+  
+  
+  https://github.com/user-attachments/assets/c81927be-b2d2-48b3-a18f-30b389a90f04
+  
+  
+  Debug build off `db1e31c7a69924913e8faafcedb290de3cb4a8b6` (current
+  `main`, as of writing):
+  
+  
+  https://github.com/user-attachments/assets/76367154-b039-4453-8d39-8a0465973deb
+  ```
 - [`4c8f2bc`](https://github.com/ghostty-org/ghostty/commit/4c8f2bc77b218349839b8e929a981a2bdf4734a8) Update VOUCHED list ([#11012](https://github.com/ghostty-org/ghostty/issues/11012)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
