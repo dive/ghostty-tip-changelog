@@ -8,7 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 26, 2026 at 00:19 UTC.
+> Last updated: February 26, 2026 at 03:48 UTC.
+
+## February 26, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [2](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
+Summary: 2 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`74ba971`](https://github.com/ghostty-org/ghostty/commit/74ba971ebaca7e5ce20b1e30ee916a8f0704bd8d) Update VOUCHED list ([#11028](https://github.com/ghostty-org/ghostty/issues/11028)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11027#issuecomment-3963449775)
+  from @jcollie.
+  
+  Vouch: @markhuot
+  ```
+- [`7db8346`](https://github.com/ghostty-org/ghostty/commit/7db8346fcafe945f0bc752a9341d7042c1f2fd4b) apprt/gtk: fix SIGSEGV on ImGui GLArea re-realize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10406
+  
+  ImGui_ImplOpenGL3_Shutdown() calls imgl3wShutdown() which dlcloses the
+  GL library handles but does not zero out the imgl3w function pointer
+  table (imgl3wProcs). When a GLArea is re-realized (e.g. during
+  reparenting), ImGui_ImplOpenGL3_Init() calls ImGui_ImplOpenGL3_InitLoader()
+  which checks "if (glGetIntegerv == nullptr)". Since the stale pointers
+  are non-null, it skips re-initialization. The next GL call through a
+  dangling function pointer causes a SIGSEGV.
+  
+  Fix this by introducing ImGui_ImplOpenGL3_ShutdownWithLoaderCleanup()
+  which calls the normal shutdown and then zeroes the imgl3wProcs table,
+  forcing the next Init to reload GL function pointers via imgl3wInit().
+  
+  Also properly destroy the ImGui context and reset widget state in
+  glAreaUnrealize so re-realize starts clean. This was extra but was
+  probably leaking memory.
+  ```
+- [`610e1f5`](https://github.com/ghostty-org/ghostty/commit/610e1f5f471a6b073d8be21f8c798096e645c59d) macos: add Weak to iOS build ([@mitchellh](https://github.com/mitchellh))
+- [`eb531ca`](https://github.com/ghostty-org/ghostty/commit/eb531caa31d54f683f3a6a3b3d1282900c53d2c0) apprt/gtk: fix SIGSEGV on ImGui GLArea re-realize ([#11025](https://github.com/ghostty-org/ghostty/issues/11025)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10406
+  
+  ImGui_ImplOpenGL3_Shutdown() calls imgl3wShutdown() which dlcloses the
+  GL library handles but does not zero out the imgl3w function pointer
+  table (imgl3wProcs). When a GLArea is re-realized (e.g. during
+  reparenting), ImGui_ImplOpenGL3_Init() calls
+  ImGui_ImplOpenGL3_InitLoader() which checks "if (glGetIntegerv ==
+  nullptr)". Since the stale pointers are non-null, it skips
+  re-initialization. The next GL call through a dangling function pointer
+  causes a SIGSEGV.
+  
+  Fix this by introducing ImGui_ImplOpenGL3_ShutdownWithLoaderCleanup()
+  which calls the normal shutdown and then zeroes the imgl3wProcs table,
+  forcing the next Init to reload GL function pointers via imgl3wInit().
+  
+  Also properly destroy the ImGui context and reset widget state in
+  glAreaUnrealize so re-realize starts clean. This was extra but was
+  probably leaking memory.
+  ```
 
 ## February 25, 2026
 
