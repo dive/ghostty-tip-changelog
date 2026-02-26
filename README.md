@@ -8,15 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 25, 2026 at 21:11 UTC.
+> Last updated: February 26, 2026 at 00:19 UTC.
 
 ## February 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22408105877), [2](https://github.com/ghostty-org/ghostty/actions/runs/22381369347), [3](https://github.com/ghostty-org/ghostty/actions/runs/22378200332)  
-Summary: 3 runs • 8 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22418517986), [2](https://github.com/ghostty-org/ghostty/actions/runs/22408105877), [3](https://github.com/ghostty-org/ghostty/actions/runs/22381369347), [4](https://github.com/ghostty-org/ghostty/actions/runs/22378200332)  
+Summary: 4 runs • 11 commits • 3 authors
 
 ### Changes
 
+- [`36cbbeb`](https://github.com/ghostty-org/ghostty/commit/36cbbebc01f6bc24e4e6b27c9660b56525c72566) Update VOUCHED list ([#11021](https://github.com/ghostty-org/ghostty/issues/11021)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11014#discussioncomment-15925945)
+  from @mitchellh.
+  
+  Vouch: @amadeus
+  ```
+- [`1c3f760`](https://github.com/ghostty-org/ghostty/commit/1c3f7601a7bff2bde89bed482e0994109603f265) macos: pass last focused surface as env, use for focus detection ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10935
+  
+  This is a more robust way to detect "is my surface focused" because that
+  question usually means "is my surface the last focused surface" if a
+  _different_ surface is not focused. We already have used this pattern
+  all over but we should extend it to SwiftUI too.
+  ```
+- [`7935ae6`](https://github.com/ghostty-org/ghostty/commit/7935ae6649805aa29aa12edb23731d300db76de1) macos: pass last focused surface as env, use for focus detection ([#11024](https://github.com/ghostty-org/ghostty/issues/11024)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10935
+  
+  This is a more robust way to detect "is my surface focused" because that
+  question usually means "is my surface the last focused surface" if a
+  _different_ surface is not focused. We already have used this pattern
+  all over but we should extend it to SwiftUI too.
+  ```
 - [`dd4e36f`](https://github.com/ghostty-org/ghostty/commit/dd4e36f921e479386a44a12c931bc21528ce683c) macOS: fix crash when adding tab from tab overview ([@nmggithub](https://github.com/nmggithub))
 - [`58acab6`](https://github.com/ghostty-org/ghostty/commit/58acab6c7d51d53b131d173f24b2bbcb35cc3c11) Merge branch 'ghostty-org:main' into fix-tabbing-from-tab-overview ([@nmggithub](https://github.com/nmggithub))
 - [`304823d`](https://github.com/ghostty-org/ghostty/commit/304823d560450ccde4e0f582a68fc88241eb76bd) macos: just some textual cleanup ([@mitchellh](https://github.com/mitchellh))
@@ -1224,354 +1250,4 @@ Summary: 10 runs • 59 commits • 13 authors
 - [`ca700b2`](https://github.com/ghostty-org/ghostty/commit/ca700b2d7b8d9e9e9ed46df2e1bb49a13b2fe606) additional strings for 3.0 ([@phush0](https://github.com/phush0))
 - [`d1cb225`](https://github.com/ghostty-org/ghostty/commit/d1cb225895f6f3b195a5477d41d89b69216d5fc6) Fix translation for 'Open in Ghostty' ([@phush0](https://github.com/phush0))
 - [`42c81db`](https://github.com/ghostty-org/ghostty/commit/42c81dbccc7c62ccc1eaef7fd724af9e308814ef) bg_BG additional strings for 1.3 ([#10836](https://github.com/ghostty-org/ghostty/issues/10836)) ([@trag1c](https://github.com/trag1c))
-
-## February 19, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22203301071), [2](https://github.com/ghostty-org/ghostty/actions/runs/22203050588), [3](https://github.com/ghostty-org/ghostty/actions/runs/22201254557), [4](https://github.com/ghostty-org/ghostty/actions/runs/22191269216), [5](https://github.com/ghostty-org/ghostty/actions/runs/22187435492), [6](https://github.com/ghostty-org/ghostty/actions/runs/22173999761), [7](https://github.com/ghostty-org/ghostty/actions/runs/22170147524), [8](https://github.com/ghostty-org/ghostty/actions/runs/22163738596), [9](https://github.com/ghostty-org/ghostty/actions/runs/22162963278)  
-Summary: 9 runs • 31 commits • 11 authors
-
-### Changes
-
-- [`3d0da44`](https://github.com/ghostty-org/ghostty/commit/3d0da44e15cc8f4506acd17ad599229bc493f1c6) feat(config): allow fullscreen config to specify non-native mode directly ([@benodiwal](https://github.com/benodiwal))
-- [`0ad8db8`](https://github.com/ghostty-org/ghostty/commit/0ad8db85824a240fade7e3626da5455eb1f821d5) Merge branch 'main' into feat/fullscreen-non-native-config ([@benodiwal](https://github.com/benodiwal))
-- [`4289c1d`](https://github.com/ghostty-org/ghostty/commit/4289c1d63796afaf0c7ee665d12fe73564147ef9) feat(config): allow fullscreen config to specify non-native mode directly ([#9876](https://github.com/ghostty-org/ghostty/issues/9876)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Closes #8388
-  ```
-- [`81f537e`](https://github.com/ghostty-org/ghostty/commit/81f537e9927c94c84c5356424d6baabfabaee1b6) feat: implement scroll-to-bottom on output option ([@benodiwal](https://github.com/benodiwal))
-  ```text
-  Implements the `output` option for the `scroll-to-bottom` configuration,
-  which scrolls the viewport to the bottom when new lines are printed.
-  ```
-- [`e197b95`](https://github.com/ghostty-org/ghostty/commit/e197b95c32f12abe97fbc1b0ca1f0514367ef702) feat: scroll-to-bottom on output via renderer pin tracking ([@benodiwal](https://github.com/benodiwal))
-- [`2634697`](https://github.com/ghostty-org/ghostty/commit/263469755c56fa79474be2a56f2c85478cb1e25e) refactor: remove unused stream handler scroll-to-bottom code ([@benodiwal](https://github.com/benodiwal))
-  ```text
-  The renderer approach doesn't need termio changes.
-  ```
-- [`eb335fb`](https://github.com/ghostty-org/ghostty/commit/eb335fb8ddc8cc088c2c96924aaec979e1fea39f) cleanup by just scrolling in the renderer ([@mitchellh](https://github.com/mitchellh))
-- [`2a62f21`](https://github.com/ghostty-org/ghostty/commit/2a62f21bf079f253245e0b9f752dbcdbb49eb95a) fix tests ([@mitchellh](https://github.com/mitchellh))
-- [`410ee0d`](https://github.com/ghostty-org/ghostty/commit/410ee0d5c707f33437389c77252e2186468dc8dd) feat: implement scroll-to-bottom on output option ([#9938](https://github.com/ghostty-org/ghostty/issues/9938)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Closes #8408
-  ```
-- [`70cc121`](https://github.com/ghostty-org/ghostty/commit/70cc121736c55415c4f97f75294f6f29b1b65698) Update VOUCHED list ([#10873](https://github.com/ghostty-org/ghostty/issues/10873)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10789) from
-  @mitchellh.
-  
-  Vouch: @MiUPa
-  ```
-- [`faead2d`](https://github.com/ghostty-org/ghostty/commit/faead2d559b3cc90760bd17fdf902c69b2f40814) Update VOUCHED list ([#10874](https://github.com/ghostty-org/ghostty/issues/10874)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10807) from
-  @mitchellh.
-  
-  Vouch: @nicosuave
-  ```
-- [`cc17e96`](https://github.com/ghostty-org/ghostty/commit/cc17e968955b57d770f7bf01891b520c35ed41ce) Update VOUCHED list ([#10875](https://github.com/ghostty-org/ghostty/issues/10875)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/9876#issuecomment-3930522015)
-  from @mitchellh.
-  
-  Vouch: @benodiwal
-  ```
-- [`21ea946`](https://github.com/ghostty-org/ghostty/commit/21ea94610abedabb37bbcbbd82429e5d2a274847) macos: lint Swift files using SwiftLint ([@jparise](https://github.com/jparise))
-  ```text
-  SwiftLint <https://realm.github.io/SwiftLint/> is both a linter and
-  formatting. It's a popular way to spot issues and enforce a consistent
-  style.
-  
-  Our SwiftLint configuration lives in macos/.swiftlint.yml, where is is
-  automatically discovered. It's very configurable, and I made an initial
-  pass as some basic, weakly-opinionated rules. The "TODO" section lists
-  rules that currently have violations but can be easily (auto)fixed in
-  follow-up commits.
-  
-  Our integration is CLI-based. Similar to our other support tools, we
-  expect developers to install `swiftlint` via nix or e.g. Homebrew.
-  This is documented in HACKING.md.
-  
-  We also have an optional Xcode integration, for in-editor feedback. When
-  `swiftlint` is available, it's run as a script-based Build Phase.
-  
-  SwiftLint supports an auto-fix mode (--fix). Agents are aware of this
-  via AGENTS.md.
-  
-  The rules are enforced using a (nix-based) CI job.
-  ```
-- [`a5dd7a7`](https://github.com/ghostty-org/ghostty/commit/a5dd7a750b2986da303f60fa4a4e4d24516b884d) ci: only run 'swiftlint' when macos/ changes ([@jparise](https://github.com/jparise))
-  ```text
-  This saves us some work on the majority of our commits. I think we'd
-  only miss commits to .github/ and the nix environment with this filter,
-  but we can expand the filter's scope as needed.
-  ```
-- [`c5488af`](https://github.com/ghostty-org/ghostty/commit/c5488afc75a9f9bd2e4c6b718e7828925b276f4a) url: improve space in path handling ([@bkircher](https://github.com/bkircher))
-  ```text
-  The space-segment patterns in the path regex (dotted_path_space_segments
-  and any_path_space_segments) greedily consume text after a space even
-  when we know that the text is the start of a new independent path (e.g.,
-  `/tmp/bar` in `/tmp/foo /tmp/bar`).
-  
-  Fix: Add two negative lookaheads after the space in both patterns:
-  - `(?!\.{0,2}\/)` →  don't match if the next segment starts with `/`,
-    `./`, or `../`
-  - `(?!~\/)` →  don't match if the next segment starts with `~/`
-  ```
-- [`f66064b`](https://github.com/ghostty-org/ghostty/commit/f66064b0b09e99d8877f9201f8c90f9b2edbbf25) url: fix regression with unified diff lines ([@bkircher](https://github.com/bkircher))
-  ```text
-  Bare relative paths don't need space-continuation semantics.
-  
-  Fixes #10773
-  ```
-- [`7928883`](https://github.com/ghostty-org/ghostty/commit/7928883f73dfc432ce3723305774f594ca75a80e) ci: add sync-codeowners action so that codeowners auto-vouch ([@mitchellh](https://github.com/mitchellh))
-- [`57a16f7`](https://github.com/ghostty-org/ghostty/commit/57a16f7f60eb359de9208cc68ab64e124f984587) ci: add sync-codeowners action so that codeowners auto-vouch ([#10869](https://github.com/ghostty-org/ghostty/issues/10869)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This isn't attached to a tag yet because I have to test it.
-  ```
-- [`df7cd0f`](https://github.com/ghostty-org/ghostty/commit/df7cd0fb37714f8bd13310635c39c829ff983079) Sync CODEOWNERS vouch list ([#10872](https://github.com/ghostty-org/ghostty/issues/10872)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Sync CODEOWNERS owners with vouch list.
-  
-  ## Added Users
-  
-  - @00-kat
-  - @abudvytis
-  - @aindriu80
-  - @andrejdaskalov
-  - @balazs-szucs
-  - @Beryesa
-  - @bo2themax
-  - @charliie-dev
-  - @CraziestOwl
-  - @d-Dudas
-  - @damyanbogoev
-  - @danulqua
-  - @flou
-  - @francescarpi
-  - @gagbo
-  - @ghokun
-  - @gmile
-  - @gordonbondon
-  - @gpanders
-  - @guilhermetk
-  - @halosatrio
-  - @johnslavik
-  - @jparise
-  - @kenvandine
-  - @Kirwiisp
-  - @kjvdven
-  - @kloneets
-  - @kristina8888
-  - @liby
-  - @lonsagisawa
-  - @marijagjorgjieva
-  - @MatkoTiric
-  - @Misairuzame
-  - @mtak
-  - @OshDubh
-  - @piedrahitac
-  - @reo101
-  - @RMEngelbrecht
-  - @rockorager
-  - @rpfaeffle
-  - @silveirapf
-  - @tdslot
-  - @TicClick
-  - @tnagatomi
-  - @trag1c
-  - @tristan957
-  - @uhojin
-  - @zenyr
-  - @zeshi09
-  ```
-- [`35e2645`](https://github.com/ghostty-org/ghostty/commit/35e2645ab30f8525749b9bb6a15749bdc4cea90c) clickable file path fixes ([#10867](https://github.com/ghostty-org/ghostty/issues/10867)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  - **url: improve space in path handling**
-  The space-segment patterns in the path regex (dotted_path_space_segments
-    and any_path_space_segments) greedily consume text after a space even
-  when we know that the text is the start of a new independent path (e.g.,
-    `/tmp/bar` in `/tmp/foo /tmp/bar`).
-  
-    Fix: Add two negative lookaheads after the space in both patterns:
-    - `(?!\.{0,2}\/)` →  don't match if the next segment starts with `/`,
-      `./`, or `../`
-    - `(?!~\/)` →  don't match if the next segment starts with `~/`
-  
-  
-  - **url: fix regression with unified diff lines**
-    Bare relative paths don't need space-continuation semantics.
-  
-    Fixes #10773
-  ```
-- [`f2a5f36`](https://github.com/ghostty-org/ghostty/commit/f2a5f36f26559d882078972052ebd63dafa54f96) macos: lint Swift files using SwiftLint ([#10860](https://github.com/ghostty-org/ghostty/issues/10860)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  SwiftLint <https://realm.github.io/SwiftLint/> is both a linter and
-  formatting. It's a popular way to spot issues and enforce a consistent
-  style.
-  
-  Our SwiftLint configuration lives in `macos/.swiftlint.yml`, where is is
-  automatically discovered. It's very configurable, and I made an initial
-  pass as some basic, weakly-opinionated rules. The "TODO" section lists
-  rules that currently have violations but can be easily (auto)fixed in
-  follow-up commits.
-  
-  Our integration is CLI-based. Similar to our other support tools, we
-  expect developers to install `swiftlint` via nix or e.g. Homebrew. This
-  is documented in HACKING.md.
-  
-  We also have an optional Xcode integration, for in-editor feedback. When
-  `swiftlint` is available, it's run as a script-based Build Phase.
-  
-  SwiftLint supports an auto-fix mode (`--fix`). Agents are aware of this
-  via AGENTS.md.
-  
-  The rules are enforced using a (nix-based) CI job.
-  ```
-- [`2ac3c1f`](https://github.com/ghostty-org/ghostty/commit/2ac3c1f1da69a7b3474fb1adcc8c2280001cf23d) Update VOUCHED list ([#10862](https://github.com/ghostty-org/ghostty/issues/10862)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10861#issuecomment-3928416623)
-  from @trag1c.
-  ```
-- [`16b320c`](https://github.com/ghostty-org/ghostty/commit/16b320ca8aafc81bd977a2c74d2cffa46340e637) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.1 to 1.4.2.
-  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
-  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/4d61c33d0b4333a518e975a0c4de7633d28713bb...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: namespacelabs/nscloud-cache-action
-    dependency-version: 1.4.2
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`9f2d66c`](https://github.com/ghostty-org/ghostty/commit/9f2d66c9c9a90d15b6d7ad01af5eef25d4cfd539) toggle command palette works on gtk ([@jcollie](https://github.com/jcollie))
-- [`74c1555`](https://github.com/ghostty-org/ghostty/commit/74c15555917179943b51cb447fcb043b1327e897) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([#10854](https://github.com/ghostty-org/ghostty/issues/10854)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
-  from 1.4.1 to 1.4.2.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v1.4.2</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>Append error cause to failure message by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/104">namespacelabs/nscloud-cache-action#104</a></li>
-  <li>Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6 by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/107">namespacelabs/nscloud-cache-action#107</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2">https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9"><code>a90bb5d</code></a>
-  Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/60628686a062537fb52c6fdeacedb198d1379023"><code>6062868</code></a>
-  Append error cause to failure message (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/104">#104</a>)</li>
-  <li>See full diff in <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/4d61c33d0b4333a518e975a0c4de7633d28713bb...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.4.1&new-version=1.4.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`c11db66`](https://github.com/ghostty-org/ghostty/commit/c11db662e6f514350cbd8fcef06f81dc95260d00) toggle command palette works on gtk ([#10856](https://github.com/ghostty-org/ghostty/issues/10856)) ([@mitchellh](https://github.com/mitchellh))
-- [`6692be4`](https://github.com/ghostty-org/ghostty/commit/6692be477d40f9eba49b861aa63ac67640b4bb4e) i18n: update hr locale with new strings ([#10792](https://github.com/ghostty-org/ghostty/issues/10792)) ([@Filip7](https://github.com/Filip7))
-  ```text
-  Translated freshly added tab and nautilus strings
-  ```
-- [`09c5d36`](https://github.com/ghostty-org/ghostty/commit/09c5d36d3fe3f246e4d6231a18af8db83c1b34a3) i18n: Update Hebrew (he_IL) translations for 1.3 (3 new strings) ([#10841](https://github.com/ghostty-org/ghostty/issues/10841)) ([@slsrepo](https://github.com/slsrepo))
-  ```text
-  Addressing the three newer strings [requested by Kat] in #10632.
-  
-  [requested by Kat]: https://github.com/ghostty-org/ghostty/issues/10632#issuecomment-3919649650
-  ```
-- [`2982bfa`](https://github.com/ghostty-org/ghostty/commit/2982bfa21a0172ca8918619b2bb3cf49172b1728) i18n: update ja_JP translation ([@kawarimidoll](https://github.com/kawarimidoll))
-- [`3288a6e`](https://github.com/ghostty-org/ghostty/commit/3288a6e0a41c508bef5333fb2f4c7d2491f6cbad) i18n: update ja_JP translation ([#10829](https://github.com/ghostty-org/ghostty/issues/10829)) ([@00-kat](https://github.com/00-kat))
-  ````text
-  as requested in
-  https://github.com/ghostty-org/ghostty/issues/10632#issuecomment-3919649650
-  
-  for Japanese reviewers:
-  
-  既存の以下に合わせ、
-  
-  ```
-  msgid "Change Title…"
-  msgstr "タイトルを変更…"
-  
-  msgid "Change Terminal Title"
-  msgstr "ターミナルのタイトルを変更する"
-  ```
-  
-  以下の2つでは末尾の表現を変えました。
-  
-  ```
-  msgid "Change Tab Title…"
-  msgstr "タブのタイトルを変更…"
-  
-  msgid "Change Tab Title"
-  msgstr "タブのタイトルを変更する"
-  ```
-  ````
-- [`7e19135`](https://github.com/ghostty-org/ghostty/commit/7e1913527a0ceab1a1958c96947e2593e07b9eba) Update VOUCHED list ([#10853](https://github.com/ghostty-org/ghostty/issues/10853)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10702#issuecomment-3923898649)
-  from @trag1c.
-  ```
 
