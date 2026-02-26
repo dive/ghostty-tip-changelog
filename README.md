@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 26, 2026 at 12:14 UTC.
+> Last updated: February 26, 2026 at 15:18 UTC.
 
 ## February 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [2](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
-Summary: 2 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [2](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [3](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [4](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
+Summary: 4 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`20351a7`](https://github.com/ghostty-org/ghostty/commit/20351a71d0a1e44357a78e7a5f761823a533151f) Fix Palette.C array size typo: [265] → [256] ([@markhuot](https://github.com/markhuot))
+  ```text
+  The C struct Palette.C declared colors as [265]Color.C, but the
+  terminal palette is 256 colors (terminal.color.Palette = [256]RGB)
+  and the C header ghostty_config_palette_s correctly uses colors[256].
+  
+  The mismatch causes ghostty_config_get to write 265×3 = 795 bytes
+  through a pointer sized for 256×3 = 768 bytes, producing a 27-byte
+  buffer overflow. On macOS Release builds with stack protector enabled,
+  this triggers __stack_chk_fail → SIGABRT on launch.
+  ```
+- [`05a1255`](https://github.com/ghostty-org/ghostty/commit/05a125533be72460c2e596bb44dd5c906a4e93b0) macos: fix glass tinting when theme changes ([@bo2themax](https://github.com/bo2themax))
+- [`6ebc796`](https://github.com/ghostty-org/ghostty/commit/6ebc796c4cca7d8c9053cfd81deba56f1997e98b) Fix Palette.C array size typo: [265] → [256] ([#11027](https://github.com/ghostty-org/ghostty/issues/11027)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The C struct Palette.C declared colors as [265]Color.C, but the terminal
+  palette is 256 colors (terminal.color.Palette = [256]RGB) and the C
+  header ghostty_config_palette_s correctly uses colors[256].
+  
+  The mismatch causes ghostty_config_get to write 265×3 = 795 bytes
+  through a pointer sized for 256×3 = 768 bytes, producing a 27-byte
+  buffer overflow. On macOS Release builds with stack protector enabled,
+  this triggers __stack_chk_fail → SIGABRT on launch.
+  
+  Discovered this while working on https://github.com/markhuot/watchtower.
+  Builds were succeeding but the app was crashing on launch because we use
+  the new C bindings to get the foreground/background colors to set window
+  theming like "selection" color.
+  ```
+- [`87428bd`](https://github.com/ghostty-org/ghostty/commit/87428bd1ebde2635bd9e726c90dc3fc054bb2012) macos: fix glass tinting when theme changes ([#11030](https://github.com/ghostty-org/ghostty/issues/11030)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a minimal and temporary workaround for #11017
+  ```
+- [`e6da439`](https://github.com/ghostty-org/ghostty/commit/e6da439e431e8c8a978c0abf82645a14f52e673f) macos: style changes ([@mitchellh](https://github.com/mitchellh))
+- [`de4ee28`](https://github.com/ghostty-org/ghostty/commit/de4ee288f54ba7878040efbd146257507758910d) pkg/dcimgui: only add the OpenGL3 shutdown helper if backend enabled ([@mitchellh](https://github.com/mitchellh))
+- [`3dcc8e6`](https://github.com/ghostty-org/ghostty/commit/3dcc8e6235d5207cca23397a9dc7b72fed48dba5) Update VOUCHED list ([#11032](https://github.com/ghostty-org/ghostty/issues/11032)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11031#discussioncomment-15935875)
+  from @mitchellh.
+  
+  Vouch: @mihi314
+  ```
 - [`74ba971`](https://github.com/ghostty-org/ghostty/commit/74ba971ebaca7e5ce20b1e30ee916a8f0704bd8d) Update VOUCHED list ([#11028](https://github.com/ghostty-org/ghostty/issues/11028)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
