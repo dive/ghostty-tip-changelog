@@ -8,15 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 26, 2026 at 15:18 UTC.
+> Last updated: February 26, 2026 at 18:15 UTC.
 
 ## February 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [2](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [3](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [4](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
-Summary: 4 runs • 11 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [2](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [3](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [4](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [5](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
+Summary: 5 runs • 18 commits • 5 authors
 
 ### Changes
 
+- [`f38234b`](https://github.com/ghostty-org/ghostty/commit/f38234bc5bf7c3c6e9688c6129718b04d1fd9366) apprt: show title override in command palette jump commands ([@bernsno](https://github.com/bernsno))
+- [`62c1d50`](https://github.com/ghostty-org/ghostty/commit/62c1d50757218db6e9458a91364bea2e7886d316) Update macos/Sources/Features/Command Palette/TerminalCommandPalette.swift ([@bernsno](https://github.com/bernsno))
+- [`c4766df`](https://github.com/ghostty-org/ghostty/commit/c4766dff77d5c11c9279d83b5b3c75fc526279e5) fix: restore terminalTitle variable removed in previous edit ([@bernsno](https://github.com/bernsno))
+- [`9fe3cc1`](https://github.com/ghostty-org/ghostty/commit/9fe3cc125d76530d095c78510fa5e6fb1f6be5ac) apprt/gtk: use new get effective title ([@mitchellh](https://github.com/mitchellh))
+- [`e3d68e2`](https://github.com/ghostty-org/ghostty/commit/e3d68e28c91e83e03ed6d9ddeb038d08dcc4c916) apprt: show title override in command palette jump commands ([#10458](https://github.com/ghostty-org/ghostty/issues/10458)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Relates to https://github.com/ghostty-org/ghostty/discussions/3709
+  
+  When a surface has a title override set (via `prompt_surface_title`),
+  the command palette's "Focus:" jump commands now display the override
+  instead of the terminal title.
+  
+  **No title override:**
+  <img width="515" height="265" alt="Screenshot 2026-01-26 at 6 11 56 PM"
+  src="https://github.com/user-attachments/assets/55f49878-87fd-498d-be4e-098ea42b7aaf"
+  />
+  
+  **With title override**
+  <img width="519" height="270" alt="Screenshot 2026-01-26 at 6 11 30 PM"
+  src="https://github.com/user-attachments/assets/e2a293ef-0c29-4fab-94ff-b6b357193321"
+  />
+  
+  **AI DISCLAIMER**
+  
+  I leveraged Claude Code to understand the codebase, make a plan and
+  write the first draft of the code. I reviewed and edited the code
+  written by claude and manually tested the change on iOS.
+  ```
+- [`c60e24d`](https://github.com/ghostty-org/ghostty/commit/c60e24d2001e178c478df757385d286955761a29) macos: update to Sparkle 2.9 ([@mitchellh](https://github.com/mitchellh))
+- [`aa5ef9c`](https://github.com/ghostty-org/ghostty/commit/aa5ef9c64cfbb7080d58ee1e6585aaf2e3422cc8) macos: update to Sparkle 2.9 ([#11034](https://github.com/ghostty-org/ghostty/issues/11034)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Nothing critical, though we may make use of some of the new features
+  like Markdown and signed feeds in a follow up PR.
+  ```
 - [`20351a7`](https://github.com/ghostty-org/ghostty/commit/20351a71d0a1e44357a78e7a5f761823a533151f) Fix Palette.C array size typo: [265] → [256] ([@markhuot](https://github.com/markhuot))
   ```text
   The C struct Palette.C declared colors as [265]Color.C, but the
