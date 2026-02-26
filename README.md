@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 26, 2026 at 18:15 UTC.
+> Last updated: February 26, 2026 at 21:11 UTC.
 
 ## February 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [2](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [3](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [4](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [5](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
-Summary: 5 runs • 18 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22458670934), [2](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [3](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [4](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [5](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [6](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
+Summary: 6 runs • 29 commits • 7 authors
 
 ### Changes
 
+- [`d05fb65`](https://github.com/ghostty-org/ghostty/commit/d05fb652ed51727300f701e5c2f71f5624c64cdb) macos: update AGENTS.md ([@mitchellh](https://github.com/mitchellh))
+- [`ea8bf17`](https://github.com/ghostty-org/ghostty/commit/ea8bf17df8b86b055f4fcc209cfe31e603928d3a) macos: use combine to coalesce bell values ([@mitchellh](https://github.com/mitchellh))
+- [`79ca4da`](https://github.com/ghostty-org/ghostty/commit/79ca4daea6565545cf6bce230bf73ff8c94f90ca) macos: try to clean up Appdelegate combine mess ([@mitchellh](https://github.com/mitchellh))
+- [`3aca722`](https://github.com/ghostty-org/ghostty/commit/3aca7224159c3b06d5d1b120b47cab4cd89e33b2) macos: further simplication of AppDelegate bell state ([@mitchellh](https://github.com/mitchellh))
+- [`454a89e`](https://github.com/ghostty-org/ghostty/commit/454a89e011c51c1943400aec2788e1aa544b4ad1) macos: clean up badge request state ([@mitchellh](https://github.com/mitchellh))
+- [`5389fdf`](https://github.com/ghostty-org/ghostty/commit/5389fdfbafea8f45f1a291703d57693d52c31c07) macos: lint ([@mitchellh](https://github.com/mitchellh))
+- [`dcb7c9a`](https://github.com/ghostty-org/ghostty/commit/dcb7c9a4b8eace183b1da65eac4c78a1c073f61e) macos: show the notification count number in the badge ([@mitchellh](https://github.com/mitchellh))
+- [`dc514c9`](https://github.com/ghostty-org/ghostty/commit/dc514c9e116ba32641365702e52760c6365d797f) build: don't build OpenGL support into imgui on iOS ([@mitchellh](https://github.com/mitchellh))
+- [`4b7a55a`](https://github.com/ghostty-org/ghostty/commit/4b7a55a50e6eb5922517336618c6423fddf77f06) macOS: Clear badge icon when no surfaces have an active bell ([#11035](https://github.com/ghostty-org/ghostty/issues/11035)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #8487
+  
+  I did this by setting up a publisher on `BaseTerminalController` for any
+  bell state change on any surfaces in the tree (including removing
+  surfaces). By listening to this event at AppDelegate and reinspecting
+  all our windows, we can reliably set the badge.
+  
+  **This also includes a change to show the number of terminals with an
+  active bell!** We can now determine the number, so we show it!
+  ```
+- [`eb4aa11`](https://github.com/ghostty-org/ghostty/commit/eb4aa113d7bf2e2634021b822c9bc61c459472ce) i18n: add missing nb_NO strings ([@Uzaaft](https://github.com/Uzaaft))
+- [`9d6a8d0`](https://github.com/ghostty-org/ghostty/commit/9d6a8d0fc15a42ae9815484c9830a63e21b97413) i18n: add missing nb_NO strings ([#11036](https://github.com/ghostty-org/ghostty/issues/11036)) ([@trag1c](https://github.com/trag1c))
 - [`f38234b`](https://github.com/ghostty-org/ghostty/commit/f38234bc5bf7c3c6e9688c6129718b04d1fd9366) apprt: show title override in command palette jump commands ([@bernsno](https://github.com/bernsno))
 - [`62c1d50`](https://github.com/ghostty-org/ghostty/commit/62c1d50757218db6e9458a91364bea2e7886d316) Update macos/Sources/Features/Command Palette/TerminalCommandPalette.swift ([@bernsno](https://github.com/bernsno))
 - [`c4766df`](https://github.com/ghostty-org/ghostty/commit/c4766dff77d5c11c9279d83b5b3c75fc526279e5) fix: restore terminalTitle variable removed in previous edit ([@bernsno](https://github.com/bernsno))
