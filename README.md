@@ -8,7 +8,288 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 00:22 UTC.
+> Last updated: February 27, 2026 at 03:47 UTC.
+
+## February 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 1 runs • 6 commits • 3 authors
+
+### Changes
+
+- [`d5f6210`](https://github.com/ghostty-org/ghostty/commit/d5f621044deb8cc37612e2a5a890f8adb71107f0) Update `language` config option's documentation. ([@00-kat](https://github.com/00-kat))
+  ```text
+  Follow-up to #10976.
+  ```
+- [`64fd8d7`](https://github.com/ghostty-org/ghostty/commit/64fd8d794c20e33b1e02e22957ce1665d0350aea) build(deps): bump actions/upload-artifact from 6.0.0 to 7.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/upload-artifact](https://github.com/actions/upload-artifact) from 6.0.0 to 7.0.0.
+  - [Release notes](https://github.com/actions/upload-artifact/releases)
+  - [Commits](https://github.com/actions/upload-artifact/compare/v6...bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/upload-artifact
+    dependency-version: 7.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`5319d8d`](https://github.com/ghostty-org/ghostty/commit/5319d8d41c86e1be96f36b967e4be1006782a1da) build(deps): bump actions/download-artifact from 7.0.0 to 8.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/download-artifact](https://github.com/actions/download-artifact) from 7.0.0 to 8.0.0.
+  - [Release notes](https://github.com/actions/download-artifact/releases)
+  - [Commits](https://github.com/actions/download-artifact/compare/37930b1c2abaa49bbe596cd826c3c89aef350131...70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/download-artifact
+    dependency-version: 8.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`48e4f12`](https://github.com/ghostty-org/ghostty/commit/48e4f126d28c8b0ec7c0e33f63d52f077e52b817) build(deps): bump actions/download-artifact from 7.0.0 to 8.0.0 ([#11045](https://github.com/ghostty-org/ghostty/issues/11045)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [actions/download-artifact](https://github.com/actions/download-artifact)
+  from 7.0.0 to 8.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/download-artifact/releases">actions/download-artifact's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v8.0.0</h2>
+  <h2>v8 - What's new</h2>
+  <h3>Direct downloads</h3>
+  <p>To support direct uploads in <code>actions/upload-artifact</code>,
+  the action will no longer attempt to unzip all downloaded files.
+  Instead, the action checks the <code>Content-Type</code> header ahead of
+  unzipping and skips non-zipped files. Callers wishing to download a
+  zipped file as-is can also set the new <code>skip-decompress</code>
+  parameter to <code>false</code>.</p>
+  <h3>Enforced checks (breaking)</h3>
+  <p>A previous release introduced digest checks on the download. If a
+  download hash didn't match the expected hash from the server, the action
+  would log a warning. Callers can now configure the behavior on mismatch
+  with the <code>digest-mismatch</code> parameter. To be secure by
+  default, we are now defaulting the behavior to <code>error</code> which
+  will fail the workflow run.</p>
+  <h3>ESM</h3>
+  <p>To support new versions of the @actions/* packages, we've upgraded
+  the package to ESM.</p>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Don't attempt to un-zip non-zipped downloads by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/download-artifact/pull/460">actions/download-artifact#460</a></li>
+  <li>Add a setting to specify what to do on hash mismatch and default it
+  to <code>error</code> by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/download-artifact/pull/461">actions/download-artifact#461</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/actions/download-artifact/compare/v7...v8.0.0">https://github.com/actions/download-artifact/compare/v7...v8.0.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3"><code>70fc10c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/actions/download-artifact/issues/461">#461</a>
+  from actions/danwkennedy/digest-mismatch-behavior</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/f258da9a506b755b84a09a531814700b86ccfc62"><code>f258da9</code></a>
+  Add change docs</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/ccc058e5fbb0bb2352213eaec3491e117cbc4a5c"><code>ccc058e</code></a>
+  Fix linting issues</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/bd7976ba57ecea96e6f3df575eb922d11a12a9fd"><code>bd7976b</code></a>
+  Add a setting to specify what to do on hash mismatch and default it to
+  <code>error</code></li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/ac21fcf45e0aaee541c0f7030558bdad38d77d6c"><code>ac21fcf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/actions/download-artifact/issues/460">#460</a>
+  from actions/danwkennedy/download-no-unzip</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/15999bff51058bc7c19b50ebbba518eaef7c26c0"><code>15999bf</code></a>
+  Add note about package bumps</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/974686ed5098c7f9c9289ec946b9058e496a2561"><code>974686e</code></a>
+  Bump the version to <code>v8</code> and add release notes</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/fbe48b1d2756394be4cd4358ed3bc1343b330e75"><code>fbe48b1</code></a>
+  Update test names to make it clearer what they do</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/96bf374a614d4360e225874c3efd6893a3f285e7"><code>96bf374</code></a>
+  One more test fix</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/b8c4819ef592cbe04fd93534534b38f853864332"><code>b8c4819</code></a>
+  Fix skip decompress test</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/actions/download-artifact/compare/37930b1c2abaa49bbe596cd826c3c89aef350131...70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/download-artifact&package-manager=github_actions&previous-version=7.0.0&new-version=8.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`f9c57f0`](https://github.com/ghostty-org/ghostty/commit/f9c57f0bf6a705e4a3755f24dd591878607b5ca7) build(deps): bump actions/upload-artifact from 6.0.0 to 7.0.0 ([#11044](https://github.com/ghostty-org/ghostty/issues/11044)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [actions/upload-artifact](https://github.com/actions/upload-artifact)
+  from 6.0.0 to 7.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/upload-artifact/releases">actions/upload-artifact's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.0.0</h2>
+  <h2>v7 What's new</h2>
+  <h3>Direct Uploads</h3>
+  <p>Adds support for uploading single files directly (unzipped). Callers
+  can set the new <code>archive</code> parameter to <code>false</code> to
+  skip zipping the file during upload. Right now, we only support single
+  files. The action will fail if the glob passed resolves to multiple
+  files. The <code>name</code> parameter is also ignored with this
+  setting. Instead, the name of the artifact will be the name of the
+  uploaded file.</p>
+  <h3>ESM</h3>
+  <p>To support new versions of the <code>@actions/*</code> packages,
+  we've upgraded the package to ESM.</p>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Add proxy integration test by <a
+  href="https://github.com/Link"><code>@​Link</code></a>- in <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/754">actions/upload-artifact#754</a></li>
+  <li>Upgrade the module to ESM and bump dependencies by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/762">actions/upload-artifact#762</a></li>
+  <li>Support direct file uploads by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/764">actions/upload-artifact#764</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a href="https://github.com/Link"><code>@​Link</code></a>- made
+  their first contribution in <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/754">actions/upload-artifact#754</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/actions/upload-artifact/compare/v6...v7.0.0">https://github.com/actions/upload-artifact/compare/v6...v7.0.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/bbbca2ddaa5d8feaa63e36b76fdaad77386f024f"><code>bbbca2d</code></a>
+  Support direct file uploads (<a
+  href="https://redirect.github.com/actions/upload-artifact/issues/764">#764</a>)</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/589182c5a4cec8920b8c1bce3e2fab1c97a02296"><code>589182c</code></a>
+  Upgrade the module to ESM and bump dependencies (<a
+  href="https://redirect.github.com/actions/upload-artifact/issues/762">#762</a>)</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/47309c993abb98030a35d55ef7ff34b7fa1074b5"><code>47309c9</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/actions/upload-artifact/issues/754">#754</a>
+  from actions/Link-/add-proxy-integration-tests</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/02a8460834e70dab0ce194c64360c59dc1475ef0"><code>02a8460</code></a>
+  Add proxy integration test</li>
+  <li>See full diff in <a
+  href="https://github.com/actions/upload-artifact/compare/v6...bbbca2ddaa5d8feaa63e36b76fdaad77386f024f">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/upload-artifact&package-manager=github_actions&previous-version=6.0.0&new-version=7.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`336ca18`](https://github.com/ghostty-org/ghostty/commit/336ca188457f08df89f5682cdb39288f7b40c946) Update `language` config option's documentation ([#11043](https://github.com/ghostty-org/ghostty/issues/11043)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow-up to #10976.
+  ```
 
 ## February 26, 2026
 
