@@ -8,15 +8,92 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 26, 2026 at 21:11 UTC.
+> Last updated: February 27, 2026 at 00:22 UTC.
 
 ## February 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22458670934), [2](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [3](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [4](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [5](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [6](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
-Summary: 6 runs • 29 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22463045986), [2](https://github.com/ghostty-org/ghostty/actions/runs/22462019157), [3](https://github.com/ghostty-org/ghostty/actions/runs/22458670934), [4](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [5](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [6](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [7](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [8](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
+Summary: 8 runs • 37 commits • 10 authors
 
 ### Changes
 
+- [`3b5a7b7`](https://github.com/ghostty-org/ghostty/commit/3b5a7b77d3feedbee460f70a644b64edc5d8a6a4) macos: implement notify on command finish ([@JosephMart](https://github.com/JosephMart))
+- [`f4ddddc`](https://github.com/ghostty-org/ghostty/commit/f4ddddc4b797e5bc185bbfb486f74231a331dfff) macos: refactor command finish notification duration handling ([@JosephMart](https://github.com/JosephMart))
+- [`a5909df`](https://github.com/ghostty-org/ghostty/commit/a5909dfa1dabd005073ccab9d5c57ce8496addc6) macos: command finished notifications always show up ([@mitchellh](https://github.com/mitchellh))
+- [`ca09c0e`](https://github.com/ghostty-org/ghostty/commit/ca09c0ef2e806479eebd6edf7fa69e4ea3bcbefe) macOS: add "command finished" notifications ([#10934](https://github.com/ghostty-org/ghostty/issues/10934)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  fixes https://github.com/ghostty-org/ghostty/issues/10840
+  
+  Implement command finished notifications for MacOS. Building on the work
+  of #8992
+  
+  ### AI Tools Used
+  * Cursor
+  * Models
+      * Opus 4.6
+      * Composer 1.5
+  ```
+- [`875985d`](https://github.com/ghostty-org/ghostty/commit/875985dbd708023abea882520ce567e1473fe02a) zsh: fix ssh-terminfo shell integration to not interpret escape characters ([@mihi314](https://github.com/mihi314))
+- [`45d1787`](https://github.com/ghostty-org/ghostty/commit/45d1787effd01bd7f21d1e621e149bfbb2f27130) i18n: rename `.po` files ([@jcollie](https://github.com/jcollie))
+  ```text
+  This seems to be the defacto standard for naming `.po` files. See the
+  GTK source code [1] as an example. I was unable to find any definitive
+  documentation on the naming.
+  
+  Replaces: #10905
+  
+  [1] https://gitlab.gnome.org/GNOME/gtk/-/tree/main/po?ref_type=heads
+  ```
+- [`39d163f`](https://github.com/ghostty-org/ghostty/commit/39d163fee270963570b0d6b3d09d775f7d91f708) zsh: fix ssh-terminfo shell integration to not interpret escape characters ([#11038](https://github.com/ghostty-org/ghostty/issues/11038)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  With zsh, when installing the ghostty terminfo on a server via the
+  ssh-terminfo shell integration, parts of the terminfo get mangled. In
+  particular, the newline escape sequence in
+  ```
+  > infocmp -0 -x xterm-ghostty | grep ind=
+   ...,ind=\n,indn=...
+   ```
+  gets interpreted by `print` as a literal newline, which then just gets ignored / does not have the intended effect.
+  
+  Documentation for the `-r` flag of `print` used in the fix is [here](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#:~:text=Ignore%20the%20escape%20conventions%20of%20echo.).
+  
+  ### Testing locally
+  You can directly demonstrate this locally. This outputs a host of warning messages:
+  ```
+  ssh_terminfo=$(infocmp -0 -x xterm-ghostty 2>/dev/null)
+  print "$ssh_terminfo" | tic -x -
+  ```
+  Whereas
+  ```print -r "$ssh_terminfo" | tic -x -```
+  or
+  ```infocmp -0 -x xterm-ghostty | tic -x -```
+  work without issue.
+  
+  ### Testing remotely
+  The most visible way is to observe the output of `htop` before and after the change.
+  
+  More directly, the output of `infocmp -x xterm-ghostty | grep " ind="` should be
+  ```ich=\E[%p1%d@, ich1=\E[@, il=\E[%p1%dL, il1=\E[L, ind=\n,```
+  instead of
+  ```ich=\E[%p1%d@, ich1=\E[@, il=\E[%p1%dL, il1=\E[L, ind=,```
+  
+  ---
+  
+  Discussed in #11031.
+  
+  ---
+  AI disclosure: I used Claude for parts of figuring out what was going on. The fix itself and the rest was written and tested by myself.
+  ````
+- [`62873f6`](https://github.com/ghostty-org/ghostty/commit/62873f60c53d726e9f94e768a1300ee9e72dc1f7) i18n: rename `.po` files ([#10976](https://github.com/ghostty-org/ghostty/issues/10976)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This seems to be the defacto standard for naming `.po` files. See the
+  GTK source code [1] as an example. I was unable to find any definitive
+  documentation on the naming.
+  
+  Replaces: #10905
+  
+  [1] https://gitlab.gnome.org/GNOME/gtk/-/tree/main/po?ref_type=heads
+  ```
 - [`d05fb65`](https://github.com/ghostty-org/ghostty/commit/d05fb652ed51727300f701e5c2f71f5624c64cdb) macos: update AGENTS.md ([@mitchellh](https://github.com/mitchellh))
 - [`ea8bf17`](https://github.com/ghostty-org/ghostty/commit/ea8bf17df8b86b055f4fcc209cfe31e603928d3a) macos: use combine to coalesce bell values ([@mitchellh](https://github.com/mitchellh))
 - [`79ca4da`](https://github.com/ghostty-org/ghostty/commit/79ca4daea6565545cf6bce230bf73ff8c94f90ca) macos: try to clean up Appdelegate combine mess ([@mitchellh](https://github.com/mitchellh))
@@ -1112,298 +1189,4 @@ Summary: 10 runs • 33 commits • 9 authors
   
   Vouch: @NateSmyth
   ```
-
-## February 20, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22242592203), [2](https://github.com/ghostty-org/ghostty/actions/runs/22237663080), [3](https://github.com/ghostty-org/ghostty/actions/runs/22235836482), [4](https://github.com/ghostty-org/ghostty/actions/runs/22235046074), [5](https://github.com/ghostty-org/ghostty/actions/runs/22234176983), [6](https://github.com/ghostty-org/ghostty/actions/runs/22232199017), [7](https://github.com/ghostty-org/ghostty/actions/runs/22219871214), [8](https://github.com/ghostty-org/ghostty/actions/runs/22211628446), [9](https://github.com/ghostty-org/ghostty/actions/runs/22210903027), [10](https://github.com/ghostty-org/ghostty/actions/runs/22206371589)  
-Summary: 10 runs • 59 commits • 13 authors
-
-### Changes
-
-- [`7e90e26`](https://github.com/ghostty-org/ghostty/commit/7e90e26ae1a422d3e4b62fac5eb2928be3cc74b4) macos: optimize secure input overlay animation ([@brentschroeter](https://github.com/brentschroeter))
-  ```text
-  Rendering the Secure Keyboard Input overlay using
-  innerShadow() can strain the resources of the main
-  thread, leading to elevated CPU load and in some
-  cases extended disruptions to the main thread's
-  DispatchQueue that result in lag or frozen frames.
-  
-  This change achieves the same animated visual
-  effect with ~35% lower CPU usage and resolves most
-  or all of the terminal rendering issues associated
-  with the overlay.
-  ```
-- [`3d3ea3f`](https://github.com/ghostty-org/ghostty/commit/3d3ea3fa596a27075a1cef601217a0780edca20c) macos: swiftlint 'no_fallthrough_only' rule ([@jparise](https://github.com/jparise))
-  ```text
-  This rule is generally trying to be helpful, but it doesn't like a few
-  places in our code base where we're intentionally listing out all of the
-  well-known cases. Given that, just disable it.
-  
-  https://realm.github.io/SwiftLint/no_fallthrough_only.html
-  ```
-- [`2ed3414`](https://github.com/ghostty-org/ghostty/commit/2ed341495f2de5c9254b17511378d38c7960ac3f) macos: optimize secure input overlay animation ([#10903](https://github.com/ghostty-org/ghostty/issues/10903)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Addresses discussion in #3729 and issues relating to #7333, #9590, and
-  #9617.
-  
-  Rendering the Secure Keyboard Input overlay using innerShadow() can
-  strain the resources of the main thread, leading to elevated CPU load
-  and in some cases extended disruptions to the main thread's
-  DispatchQueue that result in lag or frozen frames. This change achieves
-  the same animated visual effect with ~35% lower CPU usage and resolves
-  most or all of the terminal rendering issues associated with the
-  overlay.
-  ```
-- [`5db9f03`](https://github.com/ghostty-org/ghostty/commit/5db9f03f6282141f084a8a4c8c9cb3d752b0ae9e) macos: swiftlint 'no_fallthrough_only' rule ([#10899](https://github.com/ghostty-org/ghostty/issues/10899)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This rule is generally trying to be helpful, but it doesn't like a few
-  places in our code base where we're intentionally listing out all of the
-  well-known cases. Given that, just disable it.
-  
-  https://realm.github.io/SwiftLint/no_fallthrough_only.html
-  ```
-- [`8699a67`](https://github.com/ghostty-org/ghostty/commit/8699a67ecf94e65f7b9037df22353e475546b661) ci: Add a `skips` job where we can accumulate skip conditions ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a new job that we can use to set outputs to accumulate skip
-  conditions for other tests. The major change here is skipping all tests
-  if we're only updating vouches, to save our CI.
-  
-  I also included a number of minor skips based on filepaths.
-  ```
-- [`db1e31c`](https://github.com/ghostty-org/ghostty/commit/db1e31c7a69924913e8faafcedb290de3cb4a8b6) ci: Add a `skips` job where we can accumulate skip conditions ([#10901](https://github.com/ghostty-org/ghostty/issues/10901)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a new job that we can use to set outputs to accumulate skip
-  conditions for other tests. The major change here is skipping all tests
-  if we're only updating vouches, to save our CI.
-  
-  I also included a number of minor skips based on filepaths.
-  ```
-- [`89e06a8`](https://github.com/ghostty-org/ghostty/commit/89e06a8402288d3d40568db2da6540ae3fbf82a1) Update VOUCHED list ([#10898](https://github.com/ghostty-org/ghostty/issues/10898)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10863#issuecomment-3936322278)
-  from @mitchellh.
-  
-  Vouch: @AlexFeijoo44
-  ```
-- [`727446f`](https://github.com/ghostty-org/ghostty/commit/727446fa8bdb7322b954022476c046a4f094b427) gtk: for a new window's first tab, inherit the parent's initial size hints ([@EriksRemess](https://github.com/EriksRemess))
-- [`8e862e6`](https://github.com/ghostty-org/ghostty/commit/8e862e611b3ac8b390b6879a9c265edce64a26de) GTK: Pass parent's computed default/min sizes to the new window ([#10805](https://github.com/ghostty-org/ghostty/issues/10805)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes for #10532
-  ```
-- [`d2098d8`](https://github.com/ghostty-org/ghostty/commit/d2098d830c804c528d772f9f3352ec334f547f17) deps: Update uucode to 0.2.0 (with unicode 17) ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`e887527`](https://github.com/ghostty-org/ghostty/commit/e887527e59a67f869b1fef1f6bcd61302b24e01c) macos: swiftlint 'unused_enumerated' rule ([@jparise](https://github.com/jparise))
-- [`c2eab3b`](https://github.com/ghostty-org/ghostty/commit/c2eab3b43d142cc54d02aee3af9e9f80a51090dd) macos: add root-level .swiftlint.yml ([@jparise](https://github.com/jparise))
-  ```text
-  In order to support running from both the repository root and from
-  within Xcode project, and to keep things generally organized, our
-  primary .swiftlint.yml configuration file lives under macos/.
-  
-  This change introduces a root-level .swiftlint.yml which limits the file
-  scope to macos/ and then includes macos/.swiftlint.yml for the rest of
-  the directives.
-  
-  This unlocks a few benefits:
-  
-  - We no longer need to pass an explicit `macos` path argument in any of
-    our invocations. SwiftLint will do the right thing when run either
-    from the repository root or from within the macos/ directory.
-  - It lets us easily exclude the macos/build/ directory (and re-enable
-    the 'deployment_target' rule). In the previous setup, this was more
-    challenging than you'd expect due to SwiftLint's path resolution rules
-    and required passing even more arguments like `--working-directory`.
-  
-  The only downside is adding a new file to the repository root, but that
-  feels like the right trade-off given the benefits and conveniences.
-  ```
-- [`454d53e`](https://github.com/ghostty-org/ghostty/commit/454d53e26441b0d3603745a6e7bfef631bad1d54) macos: ignore swiftlint 'line_length' rule ([@jparise](https://github.com/jparise))
-  ```text
-  Also, there are no more outstanding 'mark' issues.
-  ```
-- [`add991b`](https://github.com/ghostty-org/ghostty/commit/add991b66abd46225309816685110d067c8d1eea) Merge remote-tracking branch 'upstream/main' into uucode-unicode-17 ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`e06ac6d`](https://github.com/ghostty-org/ghostty/commit/e06ac6d33e6adb7dbd98d782723ec58e8e4eeff0) Force prepend to use wcwidth_standalone ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`0ac8104`](https://github.com/ghostty-org/ghostty/commit/0ac810461a2af268d6700e55bf3c9991e7cbe221) deps: Update uucode to v0.2.0 (with unicode 17) ([#10895](https://github.com/ghostty-org/ghostty/issues/10895)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR updates `uucode` to v0.2.0, with several new Unicode files being
-  parsed, various fixes (not affecting Ghostty), `wcwidth` grapheme
-  support, code point iteration, and finally an upgrade to Unicode 17. As
-  far as this impacting Ghostty, the Unicode 17 upgrade is the biggest
-  change, and even that is relatively minor.
-  
-  
-  https://github.com/jacobsandlund/uucode/compare/31655fba3c638229989cc524363ef5e3c7b580c1...v0.2.0
-  
-  The only needed change to the configuration is to revert `prepend`
-  characters to being non-zero width for Ghostty. See the comment.
-  
-  No AI was used except to check the grammar of the comment. AI was used a
-  bit in the `uucode` changes, but mostly done by hand and closely
-  reviewed when used.
-  ```
-- [`d4e5ba8`](https://github.com/ghostty-org/ghostty/commit/d4e5ba8c166d40719544678858629b1d65e7f5f9) macos: ignore swiftlint 'line_length' rule ([#10893](https://github.com/ghostty-org/ghostty/issues/10893)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Also, there are no more outstanding 'mark' issues.
-  ```
-- [`6ca8009`](https://github.com/ghostty-org/ghostty/commit/6ca80091c5126e7539254b0215e17728adbc8a56) macos: add root-level .swiftlint.yml ([#10890](https://github.com/ghostty-org/ghostty/issues/10890)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  In order to support running from both the repository root and from
-  within Xcode project, and to keep things generally organized, our
-  primary .swiftlint.yml configuration file lives under macos/.
-  
-  This change introduces a root-level .swiftlint.yml which limits the file
-  scope to macos/ and then includes macos/.swiftlint.yml for the rest of
-  the directives.
-  
-  This unlocks a few benefits:
-  
-  - We no longer need to pass an explicit `macos` path argument in any of
-  our invocations. SwiftLint will do the right thing when run either from
-  the repository root or from within the macos/ directory.
-  - It lets us easily exclude the macos/build/ directory (and re-enable
-  the 'deployment_target' rule). In the previous setup, this was more
-  challenging than you'd expect due to SwiftLint's path resolution rules
-  and required passing even more arguments like `--working-directory`.
-  
-  The only downside is adding a new file to the repository root, but that
-  feels like the right trade-off given the benefits and conveniences.
-  ```
-- [`3ba6d81`](https://github.com/ghostty-org/ghostty/commit/3ba6d8174dd93e85ad53a39664346edaf84c2ad2) macos: swiftlint 'unused_enumerated' rule ([#10888](https://github.com/ghostty-org/ghostty/issues/10888)) ([@mitchellh](https://github.com/mitchellh))
-- [`125e96f`](https://github.com/ghostty-org/ghostty/commit/125e96ff9ea0db8d4f59711c3e50fe2e63f1647b) Update VOUCHED list ([#10896](https://github.com/ghostty-org/ghostty/issues/10896)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10895#issuecomment-3936131923)
-  from @trag1c.
-  
-  Vouch: @jacobsandlund
-  ```
-- [`b0f00a6`](https://github.com/ghostty-org/ghostty/commit/b0f00a65edcd029a0670a669506de778edc39cfd) Add ghostty_config_get tests ([@nicosuave](https://github.com/nicosuave))
-  ```text
-  I mostly did this to familiarize myself with the codebase and figured it
-  doesn't hurt to cover this with tests if I add more in this area,
-  despite receiving indirect coverage elsewhere.
-  ```
-- [`b6c1a26`](https://github.com/ghostty-org/ghostty/commit/b6c1a264378ea8616d9e71d941731ded400ca83e) Update VOUCHED list ([#10887](https://github.com/ghostty-org/ghostty/issues/10887)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10882) from
-  @jcollie.
-  
-  Vouch: @brentschroeter
-  ```
-- [`5008d7e`](https://github.com/ghostty-org/ghostty/commit/5008d7eb9323e642510426bef9887e7d32dff402) Add ghostty_config_get tests ([#10891](https://github.com/ghostty-org/ghostty/issues/10891)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  I mostly did this to familiarize myself with the codebase and figured it
-  doesn't hurt to cover this with tests if more added logic in this area,
-  despite this logic receiving indirect coverage elsewhere. [Here's my
-  related
-  proposal](https://github.com/ghostty-org/ghostty/discussions/10807).
-  
-  I gave more thought around how to expose some of these config values and
-  their metadata in the C api to eventually drive a settings UI and was
-  hoping for feedback before I proceed.
-  
-  The cleanest path forward feels like annotating config values with
-  formal metadata around things like: supported platforms, whether or not
-  a restart is required, presentation metadata like grouping + ordering,
-  tolerated ranges for values, possible enum values, etc. My intent is
-  that Swift & other consumers can enumerate potential settings values
-  with metadata such as to drive the UI from the metadata.
-  
-  ---
-  
-  AI Disclosure: I used Codex 5.3 to help me understand how the config
-  subsystem in zig is exposed to Swift via the C API. Codex wrote these
-  tests; but we brainstormed on a pragmatic coverage balance and I
-  understand how the tests work.
-  ```
-- [`585bf3f`](https://github.com/ghostty-org/ghostty/commit/585bf3fcd25be3d1d70383a0f1b55e0f6744d639) Update es_AR translations with additional strings for 1.3 ([#10861](https://github.com/ghostty-org/ghostty/issues/10861)) ([@alanmoyano](https://github.com/alanmoyano))
-  ```text
-  - Adds the three new string
-  - Changes one string for better wording
-  ```
-- [`c4c87f8`](https://github.com/ghostty-org/ghostty/commit/c4c87f8c85fb7339c093538196847fc3d0eed3c8) make palette inversion opt-in ([@jake-stewart](https://github.com/jake-stewart))
-- [`f66a84b`](https://github.com/ghostty-org/ghostty/commit/f66a84b18a44838831af5819cdad1ba85d9592e4) improve light theme detection ([@jake-stewart](https://github.com/jake-stewart))
-- [`acf8cc7`](https://github.com/ghostty-org/ghostty/commit/acf8cc74195f8f778e933a3e8c218891d79a36e4) i18n: Update and slightly clean up Russian translation ([#10633](https://github.com/ghostty-org/ghostty/issues/10633)) ([@TicClick](https://github.com/TicClick))
-  ```text
-  as per #10632
-  ```
-- [`0eaf77d`](https://github.com/ghostty-org/ghostty/commit/0eaf77da5fe0cbfe24ac5e0585a04d80d51fb952) WIP: Make palette inversion opt-in ([#10877](https://github.com/ghostty-org/ghostty/issues/10877)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  From #10554
-  
-  > I can see there being space for some kind of new sequence that tells
-  the terminal that "hey, I want a semantic palette" or something, that is
-  better adjusted to themes automatically. But, I don't think we should
-  this by default.
-  
-  > So my concrete proposal is to eliminate the inversion and bg => fg
-  ramp and do a more typical dark => light ramp (still taking into account
-  bg/fg, but keeping 16 black and 231 white). I think this is the only way
-  we can really make this a default on feature. I think this would address
-  all the negative reactions we've gotten to it.
-  
-  This adds a new `palette-harmonious`, disabled by default, which allows
-  generated light themes to be inverted.
-  ```
-- [`2863849`](https://github.com/ghostty-org/ghostty/commit/2863849fcae7ef46342e14af30fc3d850cd2109a) ci: milestone workflow should use our vouch app token ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This increases our rate limits and the vouch app already has the
-  permissions required for the milestone workflow.
-  ```
-- [`c316472`](https://github.com/ghostty-org/ghostty/commit/c316472362dc9d6ced051b2d07c4ea5ee542822e) ci: milestone workflow should use our vouch app token ([#10879](https://github.com/ghostty-org/ghostty/issues/10879)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This increases our rate limits and the vouch app already has the
-  permissions required for the milestone workflow.
-  
-  cc @trag1c
-  ```
-- [`df47dc1`](https://github.com/ghostty-org/ghostty/commit/df47dc1a98b9df29152ee1b24daea5f50883c99a) ci: milestone workflow should use our vouch app token ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This increases our rate limits and the vouch app already has the
-  permissions required for the milestone workflow.
-  ```
-- [`a6b6033`](https://github.com/ghostty-org/ghostty/commit/a6b603385236bad5a592eb078d3e72a39c8215c1) ci: pass milestone token via github-token parameter ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If I am reading the upstream action right, even if you set GITHUB_TOKEN
-  env var its defaulting to `github.token`, so we need to specify as a
-  param.
-  ```
-- [`1fa4e78`](https://github.com/ghostty-org/ghostty/commit/1fa4e787eb1f50729153d09b7f455ebb9fc4ccc9) ci: pass milestone token via github-token parameter ([#10881](https://github.com/ghostty-org/ghostty/issues/10881)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If I am reading the upstream action right, even if you set GITHUB_TOKEN
-  env var its defaulting to `github.token`, so we need to specify as a
-  param.
-  ```
-- [`786bad9`](https://github.com/ghostty-org/ghostty/commit/786bad9774cfa4753a11f8bb46b47aedc974bf3e) macos: swiftlint 'colon' rule ([@jparise](https://github.com/jparise))
-- [`6ade5df`](https://github.com/ghostty-org/ghostty/commit/6ade5df7990d8f2fbd7dce5c05f43ba43bd510e5) macos: swiftlint 'comma' rule ([@jparise](https://github.com/jparise))
-- [`a8903c1`](https://github.com/ghostty-org/ghostty/commit/a8903c1bb199aa52b63d20593361672f27a4d4ba) macos: swiftlint 'comment_spacing' rule ([@jparise](https://github.com/jparise))
-- [`56d67ce`](https://github.com/ghostty-org/ghostty/commit/56d67ce88f05f9cf499ae483f34212722475ebf4) macos: swiftlint 'control_statement' rule ([@jparise](https://github.com/jparise))
-- [`1b827e3`](https://github.com/ghostty-org/ghostty/commit/1b827e3e45f93b30767bfc4aa5e2131594dc60d0) macos: swiftlint 'empty_enum_arguments' rule ([@jparise](https://github.com/jparise))
-- [`a83c8f8`](https://github.com/ghostty-org/ghostty/commit/a83c8f8a9d2b82956a02c24f82f5ab0ddaf9998c) macos: swiftlint 'empty_parentheses_with_trailing_closure' rule ([@jparise](https://github.com/jparise))
-- [`9287a61`](https://github.com/ghostty-org/ghostty/commit/9287a61920da4262cd6c544dbd51c3e918d50174) macos: swiftlint 'implicit_optional_initialization' rule ([@jparise](https://github.com/jparise))
-- [`32e540c`](https://github.com/ghostty-org/ghostty/commit/32e540c248815bed6a09bcf76ea1df536e25bf4f) macos: swiftlint 'legacy_constant' rule ([@jparise](https://github.com/jparise))
-- [`b10dcc9`](https://github.com/ghostty-org/ghostty/commit/b10dcc96299aea9e4c276896a7331a3a2ded837f) macos: swiftlint 'legacy_constructor' rule ([@jparise](https://github.com/jparise))
-- [`6052f66`](https://github.com/ghostty-org/ghostty/commit/6052f664cf83921114d05c6db19bb3ff1fb23063) macos: swiftlint 'opening_brace' rule ([@jparise](https://github.com/jparise))
-- [`25b38b2`](https://github.com/ghostty-org/ghostty/commit/25b38b291e8128df96258b342fff914f71f80cac) macos: swiftlint 'private_over_fileprivate' rule ([@jparise](https://github.com/jparise))
-- [`6af9599`](https://github.com/ghostty-org/ghostty/commit/6af959920e9815750998ea8e3dcb11a1264fee86) macos: swiftlint 'syntactic_sugar' rule ([@jparise](https://github.com/jparise))
-- [`33dce85`](https://github.com/ghostty-org/ghostty/commit/33dce8511efa5432059e7593e20f0c53d7da080d) macos: swiftlint 'trailing_semicolon' rule ([@jparise](https://github.com/jparise))
-- [`b532cd5`](https://github.com/ghostty-org/ghostty/commit/b532cd55d626fd1e472c288ce42151f8e6945634) macos: swiftlint 'trailing_whitespace' rule ([@jparise](https://github.com/jparise))
-- [`540adb0`](https://github.com/ghostty-org/ghostty/commit/540adb0da3494cfdae9264782e9e38281ca0997f) macos: swiftlint 'unneeded_synthesized_initializer' rule ([@jparise](https://github.com/jparise))
-- [`a36d2f5`](https://github.com/ghostty-org/ghostty/commit/a36d2f5420dee5b0ac1d0c55e83e1ea6dea3b879) macos: swiftlint 'unused_closure_parameter' rule ([@jparise](https://github.com/jparise))
-- [`629a656`](https://github.com/ghostty-org/ghostty/commit/629a656e5329b35c970fdba3ee10fc5b366d2ba0) macos: swiftlint 'vertical_whitespace' rule ([@jparise](https://github.com/jparise))
-- [`f4d70df`](https://github.com/ghostty-org/ghostty/commit/f4d70df34c8d564a7824144433d9bf30dfcef3e0) macos: swiftlint 'implicit_getter' rule ([@jparise](https://github.com/jparise))
-- [`9bae26a`](https://github.com/ghostty-org/ghostty/commit/9bae26ab455110a7b28872c65dc82efb9d352027) macos: swiftlint 'orphaned_doc_comment' rule ([@jparise](https://github.com/jparise))
-- [`a7719a8`](https://github.com/ghostty-org/ghostty/commit/a7719a8db6bae10c57bad6a73b94def4826fff5b) macos: swiftlint 'shorthand_operator' rule ([@jparise](https://github.com/jparise))
-- [`c418e4b`](https://github.com/ghostty-org/ghostty/commit/c418e4b581d61969d3f02c2adae4e2e862f07b58) macos: swiftlint 'unused_optional_binding' rule ([@jparise](https://github.com/jparise))
-- [`dbf2e0e`](https://github.com/ghostty-org/ghostty/commit/dbf2e0e087ced90a8f844fc028d73d9b2e40e668) macos: swiftlint 'vertical_parameter_alignment' rule ([@jparise](https://github.com/jparise))
-- [`a6fcb46`](https://github.com/ghostty-org/ghostty/commit/a6fcb46e18b14a9199446dd0f053ebe08ef33bc9) macos: autofixable swiftlint rules ([#10878](https://github.com/ghostty-org/ghostty/issues/10878)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Apply fixes for all of the SwiftLint rules that can be automatically
-  fixed (`--fix`) or addressed via some minor reformatting.
-  
-  Each rule is in its own commit for easier review.
-  ```
-- [`ca700b2`](https://github.com/ghostty-org/ghostty/commit/ca700b2d7b8d9e9e9ed46df2e1bb49a13b2fe606) additional strings for 3.0 ([@phush0](https://github.com/phush0))
-- [`d1cb225`](https://github.com/ghostty-org/ghostty/commit/d1cb225895f6f3b195a5477d41d89b69216d5fc6) Fix translation for 'Open in Ghostty' ([@phush0](https://github.com/phush0))
-- [`42c81db`](https://github.com/ghostty-org/ghostty/commit/42c81dbccc7c62ccc1eaef7fd724af9e308814ef) bg_BG additional strings for 1.3 ([#10836](https://github.com/ghostty-org/ghostty/issues/10836)) ([@trag1c](https://github.com/trag1c))
 
