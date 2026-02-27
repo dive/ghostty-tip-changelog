@@ -8,15 +8,188 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 18:11 UTC.
+> Last updated: February 27, 2026 at 21:07 UTC.
 
 ## February 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22495419202), [2](https://github.com/ghostty-org/ghostty/actions/runs/22492229290), [3](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [4](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [5](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [6](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
-Summary: 6 runs • 25 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22501525531), [2](https://github.com/ghostty-org/ghostty/actions/runs/22500996171), [3](https://github.com/ghostty-org/ghostty/actions/runs/22499732917), [4](https://github.com/ghostty-org/ghostty/actions/runs/22495419202), [5](https://github.com/ghostty-org/ghostty/actions/runs/22492229290), [6](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [7](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [8](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [9](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 9 runs • 36 commits • 8 authors
 
 ### Changes
 
+- [`c78d9cb`](https://github.com/ghostty-org/ghostty/commit/c78d9cba9e3e82aacaeec0b827b56b66e85866bc) config: disable palette-generate by default ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Following the discussion at #10852, I believe this is the right default.
+  I'm willing to continue to revisit this decisions, but Ghostty 1.3 is
+  around the corner and I don't think such a change like this should be
+  pushed into it.
+  
+  I think palette generation is best left as a _theme author_ tool. A
+  Ghostty color theme could include `palette-generate=true` if it wants
+  to customize the 256-color palette more easily. Of course, end users can
+  as well anytime.
+  
+  Another part of my reasoning is that TUI programs who want this behavior
+  can already achieve it themselves by mixing dark/light theme detection
+  via CSI 996 (https://contour-terminal.org/vt-extensions/color-palette-update-notifications/)
+  with OSC 4/10/11 color query and change sequences, both of which are
+  decently supported in the terminal ecosystem and fully supported in
+  Ghostty.
+  
+  I'm also open to considering some kind of new sequence to make this
+  easier for TUIs (probably a mode) where they can opt-in to palette
+  generation plus "harmonius" palettes (see `palette-harmonius`) and
+  Ghostty does it on demand then. I think that'd solve the legacy vs new
+  TUI argument where legacy programs can continue to make assumptions
+  about the palette and new programs can opt-in to a more dynamic palette
+  without having to do a lot of work themselves.
+  ```
+- [`705d8c6`](https://github.com/ghostty-org/ghostty/commit/705d8c61ce045ddc588176e155f04eebafdb39e7) config: disable palette-generate by default ([#11067](https://github.com/ghostty-org/ghostty/issues/11067)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Following the discussion at #10852, I believe this is the right default.
+  I'm willing to continue to revisit this decisions, but Ghostty 1.3 is
+  around the corner and I don't think such a change like this should be
+  pushed into it.
+  
+  This was proposed before but I wanted to wait to iron out any bugs here
+  and I think we have. Namely we identified one bug where we were
+  accidentally overriding our _default_ palette which shouldn't happen.
+  But now that it has sat awhile and we've gathered enough feedback, I'm
+  willing to commit to it.
+  
+  In general, we got **very little negative feedback.** The linked
+  discussion shows very little activity relative to other more
+  controversial changes we've made. It has basically 1 upvote with around
+  5 participants whereas our most popular or breaking features/bugs have
+  had at least dozens if not over a hundred. I think this shows that this
+  change isn't that disruptive, either because the colors work fine or
+  because not that many things use the 256-color palette (probably the
+  latter moreso but a mix for sure). For that reason, I do think
+  revisiting this at some point is warranted.
+  
+  I think palette generation is best left as a _theme author_ tool. A
+  Ghostty color theme could include `palette-generate=true` if it wants to
+  customize the 256-color palette more easily. Of course, end users can as
+  well anytime.
+  
+  Another part of my reasoning is that TUI programs who want this behavior
+  can already achieve it themselves by mixing dark/light theme detection
+  via CSI 996
+  (https://contour-terminal.org/vt-extensions/color-palette-update-notifications/)
+  with OSC 4/10/11 color query and change sequences, both of which are
+  decently supported in the terminal ecosystem and fully supported in
+  Ghostty.
+  
+  I'm also open to considering some kind of new sequence to make this
+  easier for TUIs (probably a mode) where they can opt-in to palette
+  generation plus "harmonius" palettes (see `palette-harmonius`) and
+  Ghostty does it on demand then. I think that'd solve the legacy vs new
+  TUI argument where legacy programs can continue to make assumptions
+  about the palette and new programs can opt-in to a more dynamic palette
+  without having to do a lot of work themselves.
+  
+  cc @jake-stewart
+  ```
+- [`2a41401`](https://github.com/ghostty-org/ghostty/commit/2a41401463c36a73a6d9c1ce9f250d628cd4153c) fix(macOS): filter phantom mouse events that defeat mouse-hide-while-typing ([@linustalacko](https://github.com/linustalacko))
+  ```text
+  On macOS, TUI apps like Zellij that frequently update the window title
+  cause phantom mouse-move events to be generated at the same coordinates.
+  These phantom events reach cursorPosCallback in the core, which calls
+  showMouse() and explicitly unhides the cursor via
+  NSCursor.setHiddenUntilMouseMoves(false), defeating the
+  mouse-hide-while-typing feature.
+  
+  This ports the same position-equality check already present in the GTK
+  runtime (added in PR #4973 for issue #3345) to the embedded runtime used
+  by macOS. If the cursor position hasn't changed by more than 1px, the
+  event is discarded.
+  ```
+- [`3a21305`](https://github.com/ghostty-org/ghostty/commit/3a21305d09bd73c99fad5977cff83c55b0421a1d) fix(macOS): filter phantom mouse events that defeat mouse-hide-while-typing ([#11066](https://github.com/ghostty-org/ghostty/issues/11066)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  ## Summary
+  
+  Ports the phantom mouse-motion position-equality check from the GTK
+  runtime to the embedded runtime (used by macOS).
+  
+  On macOS, TUI apps like Zellij that frequently update the window title
+  cause phantom `mouseMoved` events at the same coordinates. These flow
+  through `embedded.zig` → `Surface.zig` `cursorPosCallback` →
+  `showMouse()`, which explicitly calls
+  `NSCursor.setHiddenUntilMouseMoves(false)` and unhides the cursor,
+  defeating `mouse-hide-while-typing`.
+  
+  The GTK runtime already filters these in PR #4973 (for #3345):
+  
+  ```zig
+  const is_cursor_still = @abs(priv.cursor_pos.x - pos.x) < 1 and
+      @abs(priv.cursor_pos.y - pos.y) < 1;
+  if (is_cursor_still) return;
+  ```
+  
+  This PR adds the same check to `embedded.zig`'s `cursorPosCallback`,
+  using the already-stored `self.cursor_pos` field.
+  
+  ## Test plan
+  
+  - [x] Enable `mouse-hide-while-typing = true` in Ghostty config
+  - [ ] Run a TUI app that updates the window title frequently (e.g.
+  Zellij)
+  - [ ] Type — cursor should hide and stay hidden despite title updates
+  - [ ] Move the mouse — cursor should reappear normally
+  - [ ] Verify no regressions with normal mouse movement,
+  focus-follows-mouse, or link hovering
+  ````
+- [`9da6588`](https://github.com/ghostty-org/ghostty/commit/9da6588c168c785e01c59d89ec9d99a149c8c9fd) feat(vt): Parse UAPI OSC 3008 hierarchical context signalling ([@Prakhar54-byte](https://github.com/Prakhar54-byte))
+  ```text
+  Implements parsing for OSC 3008, which allows terminal emulators to keep track of the stack of processes that have current control over the tty. The implementation mirrors existing `semantic_prompt.zig` architecture and natively maps UAPI definitions to Zig structures with lazy evaluation for optional metadata.
+  
+  Fixes #10900
+  ```
+- [`3e10047`](https://github.com/ghostty-org/ghostty/commit/3e1004717b7af345dd73629153cbccb458b457fc) refactor: apply PR feedback ([@Prakhar54-byte](https://github.com/Prakhar54-byte))
+  ```text
+  - Use `std.meta.stringToEnum` in ContextType and ExitStatus
+  - Ensure `parseInt` only accepts digits for pids
+  - Use `@tagName` for string representation in Field
+  - Rename `fields_raw` to `metadata`
+  - Rename `readField` to `readOption`
+  ```
+- [`99311e8`](https://github.com/ghostty-org/ghostty/commit/99311e8c2702d3541d14096c1c140d1808246673) Update VOUCHED list ([#11062](https://github.com/ghostty-org/ghostty/issues/11062)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11061#discussioncomment-15949027)
+  from @mitchellh.
+  
+  Vouch: @adrum
+  ```
+- [`eafdbaa`](https://github.com/ghostty-org/ghostty/commit/eafdbaaadad375f62e2a8e825ca9fe931fb2708e) refactor: simplify Enum parse call and loop parsing logic ([@Prakhar54-byte](https://github.com/Prakhar54-byte))
+- [`0bdd3bb`](https://github.com/ghostty-org/ghostty/commit/0bdd3bb6b5cefa58cb1d6dd3fb1b9bd6f909db12) feat(vt): Parse UAPI OSC 3008 hierarchical context signalling ([#11057](https://github.com/ghostty-org/ghostty/issues/11057)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Implements parsing for OSC 3008, which allows terminal emulators to keep
+  track of the stack of processes that have current control over the tty.
+  The implementation mirrors existing `semantic_prompt.zig` architecture
+  and natively maps UAPI definitions to Zig structures with lazy
+  evaluation for optional metadata.
+  
+  Fixes #10900
+  ```
+- [`b065703`](https://github.com/ghostty-org/ghostty/commit/b0657036a08179b092a1080798064846bc9d7f58) Update VOUCHED list ([#11065](https://github.com/ghostty-org/ghostty/issues/11065)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11064#issuecomment-3974502615)
+  from @mitchellh.
+  
+  Vouch: @linustalacko
+  ```
+- [`df53f75`](https://github.com/ghostty-org/ghostty/commit/df53f75ad1b1e469d04afd035f941fbd2605903f) macOS: refine window tint for liquid glass ([#11018](https://github.com/ghostty-org/ghostty/issues/11018)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Depends on #11030
+  
+  - Update constraints of `TerminalGlassView`
+  - Use `TerminalViewContainer.DerivedConfig` to map styling properties
+  - Add TerminalViewContainerTests
+  - Instead of using delay, now the view updates are explicitly called by
+  window controllers
+  ```
 - [`b30db91`](https://github.com/ghostty-org/ghostty/commit/b30db91e69c68b724cc0410b5d703dd6ba66c2aa) build: test that `ghostty.h` compiles during a normal `zig build test` ([@jcollie](https://github.com/jcollie))
 - [`ea5b07d`](https://github.com/ghostty-org/ghostty/commit/ea5b07d20f6ee76b54db67984b3e7926bc8c62e2) core: add tests for `ghostty.h` ([@jcollie](https://github.com/jcollie))
   ```text
