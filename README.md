@@ -8,15 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 03:47 UTC.
+> Last updated: February 27, 2026 at 06:18 UTC.
 
 ## February 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
-Summary: 1 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [2](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [3](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 3 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`3ee6303`](https://github.com/ghostty-org/ghostty/commit/3ee63035d310c1290e631b51ec84bc5507f5d36e) macos: DockTilePlugin finds app bundle via `.app` suffix ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11029 (probably)
+  
+  If you renamed the app bundle, the prior check would infinite loop due
+  to the combination of two bugs: invalid termination checks and
+  hardcoding "Ghostty.app"
+  ```
+- [`32a9d35`](https://github.com/ghostty-org/ghostty/commit/32a9d35c8110a5f528e8c86eaa8128b92ae4d976) macos: DockTilePlugin finds app bundle via `.app` suffix ([#11049](https://github.com/ghostty-org/ghostty/issues/11049)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11029 (probably)
+  
+  If you renamed the app bundle, the prior check would infinite loop due
+  to the combination of two bugs: invalid termination checks and
+  hardcoding "Ghostty.app"
+  ```
+- [`3b4e2bb`](https://github.com/ghostty-org/ghostty/commit/3b4e2bbcbef7f5f786818457f8ef88f7ea08ea93) core: parse cmdline and cmdline_url semantic prompt options ([@jcollie](https://github.com/jcollie))
+- [`f19d847`](https://github.com/ghostty-org/ghostty/commit/f19d847f95d3f775b26a5f4bc0fc2ea944bf946d) core: parse cmdline and cmdline_url semantic prompt options ([#11046](https://github.com/ghostty-org/ghostty/issues/11046)) ([@mitchellh](https://github.com/mitchellh))
 - [`d5f6210`](https://github.com/ghostty-org/ghostty/commit/d5f621044deb8cc37612e2a5a890f8adb71107f0) Update `language` config option's documentation. ([@00-kat](https://github.com/00-kat))
   ```text
   Follow-up to #10976.
