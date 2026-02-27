@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 12:10 UTC.
+> Last updated: February 27, 2026 at 15:14 UTC.
 
 ## February 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [2](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [3](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
-Summary: 3 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [2](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [3](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [4](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 4 runs • 11 commits • 5 authors
 
 ### Changes
 
+- [`eb5b736`](https://github.com/ghostty-org/ghostty/commit/eb5b73639bf2127fc8f604d1f7156f11e7376076) Update VOUCHED list ([#11055](https://github.com/ghostty-org/ghostty/issues/11055)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11053#discussioncomment-15946894)
+  from @jcollie.
+  
+  Vouch: @icodesign
+  ```
 - [`3ee6303`](https://github.com/ghostty-org/ghostty/commit/3ee63035d310c1290e631b51ec84bc5507f5d36e) macos: DockTilePlugin finds app bundle via `.app` suffix ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #11029 (probably)
