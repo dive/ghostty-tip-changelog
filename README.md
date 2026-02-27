@@ -8,15 +8,82 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 15:14 UTC.
+> Last updated: February 27, 2026 at 18:11 UTC.
 
 ## February 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [2](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [3](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [4](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
-Summary: 4 runs • 11 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22495419202), [2](https://github.com/ghostty-org/ghostty/actions/runs/22492229290), [3](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [4](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [5](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [6](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 6 runs • 25 commits • 6 authors
 
 ### Changes
 
+- [`b30db91`](https://github.com/ghostty-org/ghostty/commit/b30db91e69c68b724cc0410b5d703dd6ba66c2aa) build: test that `ghostty.h` compiles during a normal `zig build test` ([@jcollie](https://github.com/jcollie))
+- [`ea5b07d`](https://github.com/ghostty-org/ghostty/commit/ea5b07d20f6ee76b54db67984b3e7926bc8c62e2) core: add tests for `ghostty.h` ([@jcollie](https://github.com/jcollie))
+  ```text
+  * ensure that `ghostty.h` compiles during basic Zig tests
+  * ensure that non-exhaustive enums are kept synchronized between
+    `ghostty.h` and their respective Zig counterpart.
+  * adjust some enums that varied from established conventions
+  ```
+- [`537a2bc`](https://github.com/ghostty-org/ghostty/commit/537a2bccefef4c7bd371b18de3f2f6616657c140) Update VOUCHED list ([#11058](https://github.com/ghostty-org/ghostty/issues/11058)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11057#issuecomment-3973652560)
+  from @mitchellh.
+  
+  Vouch: @Prakhar54-byte
+  ```
+- [`cdf0dd1`](https://github.com/ghostty-org/ghostty/commit/cdf0dd15e90996db24f88a2104fc9c798b8d4cbf) testing: use std.Build.TranslateC instead of @cImport ([@jcollie](https://github.com/jcollie))
+- [`c61c8f9`](https://github.com/ghostty-org/ghostty/commit/c61c8f9e300d67de3f983fcb0296972ef1472b38) minor moving stuff ([@mitchellh](https://github.com/mitchellh))
+- [`b6d26f2`](https://github.com/ghostty-org/ghostty/commit/b6d26f258be01b849fd629583235be60aa87f493) core: add tests for `ghostty.h` ([#11051](https://github.com/ghostty-org/ghostty/issues/11051)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  * ensure that `ghostty.h` compiles during basic Zig tests
+  * ensure that non-exhaustive enums are kept synchronized between
+  `ghostty.h` and their respective Zig counterpart.
+  * adjust some enums that varied from established conventions
+  ```
+- [`dea263a`](https://github.com/ghostty-org/ghostty/commit/dea263a8ae42ae0281e571ff511001cfa1124846) Correct “i.e. de, es, and fr” to use “e.g”. ([@00-kat](https://github.com/00-kat))
+  ```text
+  That isn't a rephrasing of “language codes”, but rather lists examples.
+  ```
+- [`848d8af`](https://github.com/ghostty-org/ghostty/commit/848d8afecc71f63cf81a3698cdf655fc7be32480) Document common mistakes in translations. ([@00-kat](https://github.com/00-kat))
+  ```text
+  trag1c or I point these out manually whenever we see them, but they're
+  extremely common and probably deserve being explicitly documented.
+  
+  “Style Guide” was made sentence case because no other title is in title
+  case.
+  
+  Before anyone comments: I use “full stop” instead of “period” because
+  the Unicode Character Database uses “full stop” instead of “period”, and
+  I avoid “dot” because Unicode has a plethora of dots.
+  ```
+- [`d503681`](https://github.com/ghostty-org/ghostty/commit/d50368137f9885cd9fc19f188b5ad3b42bcbdf82) Elaborate on viewing translations. ([@00-kat](https://github.com/00-kat))
+  ```text
+  Documenting `--language` was suggested by @Filip7 in
+  https://github.com/ghostty-org/ghostty/pull/10976#issuecomment-3969285334
+  ```
+- [`d68f516`](https://github.com/ghostty-org/ghostty/commit/d68f51672e48a3c27ce2e0a2ffda6132d5acbe7d) Prefer present over future tense in translators' guide. ([@00-kat](https://github.com/00-kat))
+- [`f833928`](https://github.com/ghostty-org/ghostty/commit/f833928fcdc2e47c356d4a4aacfaad1b5d8baf94) Document localization teams. ([@00-kat](https://github.com/00-kat))
+- [`e55ebf0`](https://github.com/ghostty-org/ghostty/commit/e55ebf0008da55f10ce379fe0f7025fd18c51a84) macos: workaround for TabTitleEditor alignment issue ([@bo2themax](https://github.com/bo2themax))
+- [`6074e8b`](https://github.com/ghostty-org/ghostty/commit/6074e8b1fa626bb8a36f574e3218fd6b213b4cda) macos: workaround for `TabTitleEditor` alignment issue ([#11052](https://github.com/ghostty-org/ghostty/issues/11052)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10993
+  
+  
+  
+  https://github.com/user-attachments/assets/666803f9-05aa-4c86-ab4a-7a183d471e33
+  ```
+- [`a476bef`](https://github.com/ghostty-org/ghostty/commit/a476bef11810dead6e61c996a3549a2a8c0bbcac) Assorted additions to `README_TRANSLATORS` ([#11047](https://github.com/ghostty-org/ghostty/issues/11047)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Optionally see individual commit descriptions.
+  
+  Re review requests:
+  - I'm requesting a review from @pluiedev because she wrote the document.
+  Feel free to ignore or remove your request.
+  - @jcollie's text about CODEOWNERS from #10976 was rewritten, so I felt
+  it would be appropriate to ask jcollie to check the new text.
+  ```
 - [`eb5b736`](https://github.com/ghostty-org/ghostty/commit/eb5b73639bf2127fc8f604d1f7156f11e7376076) Update VOUCHED list ([#11055](https://github.com/ghostty-org/ghostty/issues/11055)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
