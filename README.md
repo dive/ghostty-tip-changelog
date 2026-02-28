@@ -8,7 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 28, 2026 at 03:36 UTC.
+> Last updated: February 28, 2026 at 06:08 UTC.
+
+## February 28, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
+Summary: 1 runs • 1 commits • 1 authors
+
+### Changes
+
+- [`6d6dc9a`](https://github.com/ghostty-org/ghostty/commit/6d6dc9a114aaff7a35ecbaf2de0057dcb7630dc0) Update VOUCHED list ([#11071](https://github.com/ghostty-org/ghostty/issues/11071)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11070#issuecomment-3976278687)
+  from @mitchellh.
+  
+  Vouch: @abdurrahmanski
+  ```
 
 ## February 27, 2026
 
