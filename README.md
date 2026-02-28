@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 28, 2026 at 15:04 UTC.
+> Last updated: February 28, 2026 at 18:05 UTC.
 
 ## February 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22517662185), [2](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [3](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
-Summary: 3 runs • 5 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22523375318), [2](https://github.com/ghostty-org/ghostty/actions/runs/22517662185), [3](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [4](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
+Summary: 4 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`889a945`](https://github.com/ghostty-org/ghostty/commit/889a945f74014b411ed4bf96d09dfc982d0f77e0) Update VOUCHED list ([#11078](https://github.com/ghostty-org/ghostty/issues/11078)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11076#discussioncomment-15955432)
+  from @jcollie.
+  
+  Vouch: @DiaaEddin
+  ```
 - [`de62821`](https://github.com/ghostty-org/ghostty/commit/de62821973b0369f8e3586f7e8fd35d0aa1c838b) Rename ko.po back to ko_KR.po. ([@00-kat](https://github.com/00-kat))
   ```text
   While it was renamed from ko_KR.UTF-8.po to ko.po in #10976, @uhojin,
