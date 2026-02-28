@@ -8,15 +8,29 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 27, 2026 at 21:07 UTC.
+> Last updated: February 28, 2026 at 00:18 UTC.
 
 ## February 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22501525531), [2](https://github.com/ghostty-org/ghostty/actions/runs/22500996171), [3](https://github.com/ghostty-org/ghostty/actions/runs/22499732917), [4](https://github.com/ghostty-org/ghostty/actions/runs/22495419202), [5](https://github.com/ghostty-org/ghostty/actions/runs/22492229290), [6](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [7](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [8](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [9](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
-Summary: 9 runs • 36 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22504821858), [2](https://github.com/ghostty-org/ghostty/actions/runs/22501525531), [3](https://github.com/ghostty-org/ghostty/actions/runs/22500996171), [4](https://github.com/ghostty-org/ghostty/actions/runs/22499732917), [5](https://github.com/ghostty-org/ghostty/actions/runs/22495419202), [6](https://github.com/ghostty-org/ghostty/actions/runs/22492229290), [7](https://github.com/ghostty-org/ghostty/actions/runs/22488004135), [8](https://github.com/ghostty-org/ghostty/actions/runs/22472504190), [9](https://github.com/ghostty-org/ghostty/actions/runs/22471926489), [10](https://github.com/ghostty-org/ghostty/actions/runs/22467433202)  
+Summary: 10 runs • 40 commits • 9 authors
 
 ### Changes
 
+- [`d75725b`](https://github.com/ghostty-org/ghostty/commit/d75725bd4dcfe493a7a5a8360a4548a2324c66bd) Remove duplicate word in README_TRANSLATORS § CODEOWNERS. ([@00-kat](https://github.com/00-kat))
+- [`414c80c`](https://github.com/ghostty-org/ghostty/commit/414c80ce35ea061fc2be2e6621c45deef9381dfb) Improve word grouping w.r.t. localization team names. ([@00-kat](https://github.com/00-kat))
+  ```text
+  “always include a language and a country code” reads as “always include
+  a language, and also always include a country code”, while the intended
+  meaning was that it includes both a language *code* and a country code.
+  ```
+- [`608da64`](https://github.com/ghostty-org/ghostty/commit/608da647cb984df3f909a5b32bb8318ed87a39d0) Elaborate on X-Generator removal. ([@00-kat](https://github.com/00-kat))
+  ```text
+  That line was intended to guide those who do not normally edit po files
+  with a plain text editor, but ended up sounding like it states the
+  obvious (“to do X, do X”) before this change.
+  ```
+- [`71cb9de`](https://github.com/ghostty-org/ghostty/commit/71cb9debb9e47077a9b8d67fde35908db7ae7d85) Fix a few typos ([#11068](https://github.com/ghostty-org/ghostty/issues/11068)) ([@trag1c](https://github.com/trag1c))
 - [`c78d9cb`](https://github.com/ghostty-org/ghostty/commit/c78d9cba9e3e82aacaeec0b827b56b66e85866bc) config: disable palette-generate by default ([@mitchellh](https://github.com/mitchellh))
   ```text
   Following the discussion at #10852, I believe this is the right default.
@@ -1531,209 +1545,5 @@ Summary: 6 runs • 16 commits • 4 authors
   ```text
   Upstream release:
   https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260216-151611-fc73ce3
-  ```
-
-## February 21, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22266631328), [2](https://github.com/ghostty-org/ghostty/actions/runs/22266137820), [3](https://github.com/ghostty-org/ghostty/actions/runs/22265821791), [4](https://github.com/ghostty-org/ghostty/actions/runs/22265014052), [5](https://github.com/ghostty-org/ghostty/actions/runs/22260952552), [6](https://github.com/ghostty-org/ghostty/actions/runs/22259478775), [7](https://github.com/ghostty-org/ghostty/actions/runs/22253414227), [8](https://github.com/ghostty-org/ghostty/actions/runs/22250871348), [9](https://github.com/ghostty-org/ghostty/actions/runs/22250367020), [10](https://github.com/ghostty-org/ghostty/actions/runs/22250298660)  
-Summary: 10 runs • 33 commits • 9 authors
-
-### Changes
-
-- [`27180d5`](https://github.com/ghostty-org/ghostty/commit/27180d560c6fa2094f54677246adaac760acf6d7) i18n: add 1.3 it_IT translations ([@Misairuzame](https://github.com/Misairuzame))
-- [`b28b0b0`](https://github.com/ghostty-org/ghostty/commit/b28b0b02376a2a361d5ebcd22a3d6d7a47964685) Apply suggestions ([@Misairuzame](https://github.com/Misairuzame))
-- [`5c7cf6d`](https://github.com/ghostty-org/ghostty/commit/5c7cf6dd70ddac7816787b88a53b7595da13580a) Merge branch 'ghostty-org:main' into i18n-it_IT-1.3-translation ([@Misairuzame](https://github.com/Misairuzame))
-- [`a73c5b2`](https://github.com/ghostty-org/ghostty/commit/a73c5b2835396abe5cafc1bee6718c5b86275c85) Translate 3 additional strings ([@Misairuzame](https://github.com/Misairuzame))
-- [`d991372`](https://github.com/ghostty-org/ghostty/commit/d991372bc8958f30114eee47a5a083fd9f9e31e4) translation update for lt_LT - filled in missing strings ([@tdslot](https://github.com/tdslot))
-  ```text
-  added translations for:
-  - Open in Ghostty (Nautilus)
-  - Change Tab Title menu/dialog
-  
-  all 74 messages done now
-  ```
-- [`850e9b5`](https://github.com/ghostty-org/ghostty/commit/850e9b58fced90947506a46ba0dda95aab0cbf8e) Merge branch 'main' into i18n-update-translation-lt-LT-for-v1.3 ([@tdslot](https://github.com/tdslot))
-- [`266e910`](https://github.com/ghostty-org/ghostty/commit/266e910cd148d41e339a9a4c132b89698b924fd3) translation update for lt_LT - filled in missing strings ([#10886](https://github.com/ghostty-org/ghostty/issues/10886)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  added translations for:
-  - Open in Ghostty (Nautilus)
-  - Change Tab Title menu/dialog
-  
-  all 74 messages done now
-  ```
-- [`1e380e8`](https://github.com/ghostty-org/ghostty/commit/1e380e8bf132b1993275e8e365aa6d46adb9cd8c) i18n: add 1.3 it_IT translations ([#10708](https://github.com/ghostty-org/ghostty/issues/10708)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Added the new Italian translations for 1.3.0. Any feedback is
-  appreciated, as always!
-  ```
-- [`cdfa73b`](https://github.com/ghostty-org/ghostty/commit/cdfa73b403d2c7c26201311c9a7706da4ef11129) config: selection-word-chars parses escape sequences ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10548
-  
-  Escaped characters in selection-word-chars are now correctly parsed,
-  allowing for characters like `\t` to be included in the set of word
-  characters.
-  ```
-- [`4f3e897`](https://github.com/ghostty-org/ghostty/commit/4f3e8971a0fcb75c39664081a381dffc36fde264) config: selection-word-chars parses escape sequences ([#10933](https://github.com/ghostty-org/ghostty/issues/10933)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10548
-  
-  Escaped characters in selection-word-chars are now correctly parsed,
-  allowing for characters like `\t` to be included in the set of word
-  characters.
-  ```
-- [`3de6922`](https://github.com/ghostty-org/ghostty/commit/3de6922295782cec35e155cfb43635c1da8704ab) Update VOUCHED list ([#10936](https://github.com/ghostty-org/ghostty/issues/10936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10824) from
-  @mitchellh.
-  
-  Vouch: @rgehan
-  ```
-- [`caec9e0`](https://github.com/ghostty-org/ghostty/commit/caec9e04d21db3bb1dabe2186529b6e5e9baa1f0) renderer: kitty image update requires draw_mutex ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10680
-  
-  The image state is used for drawing, so when we update it, we need to
-  acquire the draw mutex. All our other state updates already acquire the
-  draw mutex but Kitty images are odd in that they happen in the critical
-  area (due to their size).
-  ```
-- [`548930a`](https://github.com/ghostty-org/ghostty/commit/548930a7424b87beecfa9f6b5e7407e5f530a4de) renderer: kitty image update requires draw_mutex ([#10932](https://github.com/ghostty-org/ghostty/issues/10932)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10680
-  
-  The image state is used for drawing, so when we update it, we need to
-  acquire the draw mutex. All our other state updates already acquire the
-  draw mutex but Kitty images are odd in that they happen in the critical
-  area (due to their size).
-  ```
-- [`dd29617`](https://github.com/ghostty-org/ghostty/commit/dd29617cd33225b865a3ba0e1a865f0c98142f23) macos: swiftlint 'multiple_closures_with_trailing_closure' rule ([@jparise](https://github.com/jparise))
-  ```text
-  Also, re-enable the 'force_cast' rule, which was addressed earlier.
-  ```
-- [`255b0c9`](https://github.com/ghostty-org/ghostty/commit/255b0c9964ad8c622be81c2f3f5a9f3a82c7e573) macos: swiftlint 'multiple_closures_with_trailing_closure' rule ([#10929](https://github.com/ghostty-org/ghostty/issues/10929)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Also, re-enable the 'force_cast' rule, which was addressed earlier.
-  ```
-- [`2e102b0`](https://github.com/ghostty-org/ghostty/commit/2e102b015facfa82432d09bd5d8151d239552800) Update VOUCHED list ([#10931](https://github.com/ghostty-org/ghostty/issues/10931)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10840#issuecomment-3939561550)
-  from @trag1c.
-  
-  Vouch: @JosephMart
-  ```
-- [`2e172ee`](https://github.com/ghostty-org/ghostty/commit/2e172eeb60b0096f2946eb631b2e8bc294e45c62) Update VOUCHED list ([#10927](https://github.com/ghostty-org/ghostty/issues/10927)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10920) from
-  @mitchellh.
-  
-  Vouch: @sunshine-syz
-  ```
-- [`407b3c0`](https://github.com/ghostty-org/ghostty/commit/407b3c082fb700be57ebf5c114b5d4f686c72c30) macos: fix new tab crash ([@tristan957](https://github.com/tristan957))
-  ```text
-  It was introduced in 2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe[0]. We
-  lost the subview. prefix of from the contains() call.
-  
-  Fixes: https://github.com/ghostty-org/ghostty/issues/10923
-  Link: https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe [0]
-  ```
-- [`4581392`](https://github.com/ghostty-org/ghostty/commit/4581392625c09524ba330bba0b9fd37f4494d2de) macos: fix new tab crash ([#10924](https://github.com/ghostty-org/ghostty/issues/10924)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  It was introduced in 2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe[0]. We
-  lost the subview. prefix of from the contains() call.
-  
-  
-  Fixes: https://github.com/ghostty-org/ghostty/issues/10923
-  Link:
-  https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe
-  [0]
-  ```
-- [`791c949`](https://github.com/ghostty-org/ghostty/commit/791c94919059d73aa1df69eb034c9e105e85cbae) i18n/zh: update strings ([@pluiedev](https://github.com/pluiedev))
-- [`02ca33d`](https://github.com/ghostty-org/ghostty/commit/02ca33d119eb46bb6eb07632caed98e989e21334) i18n/zh: update strings ([#10844](https://github.com/ghostty-org/ghostty/issues/10844)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  See #10632
-  ```
-- [`f7e6639`](https://github.com/ghostty-org/ghostty/commit/f7e6639c43b9537f0fb4ebfa1544652c24a715ff) macos: swiftlint 'switch_case_alignment' rule ([@jparise](https://github.com/jparise))
-- [`2d6fa92`](https://github.com/ghostty-org/ghostty/commit/2d6fa92d7837f3e19db495da9c159138380188a0) macos: swiftlint 'for_where' rule ([@jparise](https://github.com/jparise))
-- [`b65261e`](https://github.com/ghostty-org/ghostty/commit/b65261eb6643ace961e5ea548c329b3cbd646c40) macOS: expand tilde in file paths before opening ([@AlexFeijoo44](https://github.com/AlexFeijoo44))
-  ```text
-  `URL(filePath:)` treats `~` as a literal directory name, so
-  cmd-clicking a path like `~/Documents/file.txt` would fail to
-  open because the resulting file URL doesn't point to a real file.
-  
-  Use `NSString.expandingTildeInPath` to resolve `~` to the user's
-  home directory before constructing the file URL.
-  ```
-- [`6ec8744`](https://github.com/ghostty-org/ghostty/commit/6ec8744b16cbb2a35a86b89e4dbc7ca8ad43788c) macOS: expand tilde in file paths before opening ([#10863](https://github.com/ghostty-org/ghostty/issues/10863)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  ## Summary
-  
-  Cmd-clicking a file path containing `~` (e.g. `~/Documents/file.txt`)
-  fails to open the file on macOS because `URL(filePath:)` treats `~` as a
-  literal directory name rather than the user's home directory.
-  
-  This uses `NSString.expandingTildeInPath` to resolve `~` before
-  constructing the file URL.
-  
-  ## Root Cause
-  
-  In `openURL()`, when the URL string has no scheme it falls through to:
-  
-  ```swift
-  url = URL(filePath: action.url)
-  ```
-  
-  Swift's `URL(filePath:)` does not perform tilde expansion. A path like
-  `~/Documents/file.txt` produces a URL pointing to a non-existent file,
-  and `NSWorkspace.open` silently fails.
-  
-  ## Fix
-  
-  ```swift
-  let expandedPath = NSString(string: action.url).expandingTildeInPath
-  url = URL(filePath: expandedPath)
-  ```
-  
-  ## Reproduction
-  
-  1. Have a terminal application (e.g. Claude Code) that outputs file
-  paths with `~` prefixes
-  2. Cmd-click the path in Ghostty on macOS
-  3. The file does not open (fails silently)
-  
-  With this fix, the path resolves correctly and opens in the default
-  editor.
-  ````
-- [`ce46cae`](https://github.com/ghostty-org/ghostty/commit/ce46caeacb76f7056c2e82e86b7ffdc2099746e0) macos: swiftlint 'switch_case_alignment' rule ([#10908](https://github.com/ghostty-org/ghostty/issues/10908)) ([@mitchellh](https://github.com/mitchellh))
-- [`7c50464`](https://github.com/ghostty-org/ghostty/commit/7c504649fd0b2b6d12a9a60a3e9c073315d09d64) ci: use explicit PAT with path-filter for higher rate limits ([@mitchellh](https://github.com/mitchellh))
-- [`c17844c`](https://github.com/ghostty-org/ghostty/commit/c17844c2dbeba6c7186c8662191e4f5e3456a297) ci: use explicit PAT with path-filter for higher rate limits ([#10915](https://github.com/ghostty-org/ghostty/issues/10915)) ([@mitchellh](https://github.com/mitchellh))
-- [`2a81d8c`](https://github.com/ghostty-org/ghostty/commit/2a81d8cd2910b12fe007f0bc5fb5d6be57f0f0fe) macos: swiftlint 'for_where' rule ([#10909](https://github.com/ghostty-org/ghostty/issues/10909)) ([@mitchellh](https://github.com/mitchellh))
-- [`07a68b3`](https://github.com/ghostty-org/ghostty/commit/07a68b3e6521e74922fcc099ffb9e34d8f6a44ad) ci: use `every` to filter vouch paths ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The prior filter wasn't working because the default quantifier is
-  `any`.
-  ```
-- [`1e7f470`](https://github.com/ghostty-org/ghostty/commit/1e7f470eb852ca8be509cdb77426a5b1c3bd1933) ci: use `every` to filter vouch paths ([#10913](https://github.com/ghostty-org/ghostty/issues/10913)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The prior filter wasn't working because the default quantifier is `any`.
-  ```
-- [`e7b8e73`](https://github.com/ghostty-org/ghostty/commit/e7b8e731eb60733cc09a04d9ddec383244f97d0e) Update VOUCHED list ([#10914](https://github.com/ghostty-org/ghostty/issues/10914)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10581) from
-  @mitchellh.
-  
-  Vouch: @neo773
-  ```
-- [`3404595`](https://github.com/ghostty-org/ghostty/commit/3404595c72d755d34c01fdb252a4b7fe8917c179) Update VOUCHED list ([#10912](https://github.com/ghostty-org/ghostty/issues/10912)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10906) from
-  @mitchellh.
-  
-  Vouch: @NateSmyth
   ```
 
