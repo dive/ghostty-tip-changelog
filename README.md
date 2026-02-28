@@ -8,15 +8,50 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 28, 2026 at 09:06 UTC.
+> Last updated: February 28, 2026 at 12:07 UTC.
 
 ## February 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [2](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22517662185), [2](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [3](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
+Summary: 3 runs • 5 commits • 3 authors
 
 ### Changes
 
+- [`de62821`](https://github.com/ghostty-org/ghostty/commit/de62821973b0369f8e3586f7e8fd35d0aa1c838b) Rename ko.po back to ko_KR.po. ([@00-kat](https://github.com/00-kat))
+  ```text
+  While it was renamed from ko_KR.UTF-8.po to ko.po in #10976, @uhojin,
+  a Korean locale maintainer, notes [1] that “ko_KR [*South* Korean] makes
+  more sense in locale context just to avoid any potential confusion
+  between 한국어 vs 조선어”.
+  
+  Despite ko_KP (North Korean) not being present in glibc (as of version
+  2.43), and the ISO639 maintainers expressing disapproval of ko_KP [2],
+  it is possible opinions may change in the future, and individual
+  opinions may be contested—disambiguating doesn't hurt.
+  
+  [1]: https://github.com/ghostty-org/ghostty/pull/10976#discussion_r2861424171
+  [2]: https://github.com/ghostty-org/ghostty/pull/10976#discussion_r2861359240
+  ```
+- [`14166bc`](https://github.com/ghostty-org/ghostty/commit/14166bc84c49eef8dee1c82add03ba9b672275fc) Rename `ko.po` back to `ko_KR.po` ([#11074](https://github.com/ghostty-org/ghostty/issues/11074)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  While it was renamed from `ko_KR.UTF-8.po` to `ko.po` in #10976,
+  @uhojin, a Korean locale maintainer, [notes] that “ko_KR [*South*
+  Korean] makes more sense in locale context just to avoid any potential
+  confusion between 한국어 vs 조선어”.
+  
+  Despite `ko_KP` (North Korean) not being present in glibc (as of version
+  2.43), and the ISO639 maintainers [expressing disapproval of `ko_KP`],
+  it is possible opinions may change in the future, and individual
+  opinions may be contested—disambiguating doesn't hurt.
+  
+  Requesting a review from all involved parties; I wish you ***all* opine
+  before merging**.
+  
+  [notes]:
+  https://github.com/ghostty-org/ghostty/pull/10976#discussion_r2861424171
+  [expressing disapproval of `ko_KP`]:
+  https://github.com/ghostty-org/ghostty/pull/10976#discussion_r2861359240
+  ```
 - [`9192276`](https://github.com/ghostty-org/ghostty/commit/9192276d3e4795deccc04760359b371400540d16) Rename pt.po back to pt_BR.po. ([@00-kat](https://github.com/00-kat))
   ```text
   Portugal exists! Wikipedia notes [1] it to be the main other dialect.
