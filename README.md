@@ -8,15 +8,34 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 28, 2026 at 06:08 UTC.
+> Last updated: February 28, 2026 at 09:06 UTC.
 
 ## February 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [2](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`9192276`](https://github.com/ghostty-org/ghostty/commit/9192276d3e4795deccc04760359b371400540d16) Rename pt.po back to pt_BR.po. ([@00-kat](https://github.com/00-kat))
+  ```text
+  Portugal exists! Wikipedia notes [1] it to be the main other dialect.
+  There's already a PR for pt_PT support too:
+  https://github.com/ghostty-org/ghostty/pull/9078.
+  
+  It was renamed from pt_BR.UTF-8.po to pt.po in #10976.
+  
+  [1]: https://en.wikipedia.org/wiki/Portuguese_dialects
+  ```
+- [`ee0e0ae`](https://github.com/ghostty-org/ghostty/commit/ee0e0ae3dd3d5462728f40c3b9f80575bd195d1a) Rename `pt.po` back to `pt_BR.po` ([#11073](https://github.com/ghostty-org/ghostty/issues/11073)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Follow-up to #10976.
+  
+  Portugal exists! [Wikipedia notes it] to be the main other dialect.
+  There's already a PR for `pt_PT` support too: #9078.
+  
+  [Wikipedia notes it]: https://en.wikipedia.org/wiki/Portuguese_dialects
+  ```
 - [`6d6dc9a`](https://github.com/ghostty-org/ghostty/commit/6d6dc9a114aaff7a35ecbaf2de0057dcb7630dc0) Update VOUCHED list ([#11071](https://github.com/ghostty-org/ghostty/issues/11071)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
