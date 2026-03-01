@@ -8,15 +8,62 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 1, 2026 at 12:07 UTC.
+> Last updated: March 1, 2026 at 15:04 UTC.
 
 ## March 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22540291186), [2](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22545810012), [2](https://github.com/ghostty-org/ghostty/actions/runs/22545426741), [3](https://github.com/ghostty-org/ghostty/actions/runs/22545388100), [4](https://github.com/ghostty-org/ghostty/actions/runs/22540291186), [5](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
+Summary: 5 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`851b62d`](https://github.com/ghostty-org/ghostty/commit/851b62d73860a7cc09d3803bbfaeda1f0eb9b990) 🐛 Prevent git log output with signature information ([@drepper](https://github.com/drepper))
+  ```text
+  When users have something like
+  
+  [log]
+          showSignature = true
+  
+  in their .gitconfig files, invocations of the log or show git sub-command
+  emit additional information about signatures.  This additional output
+  disturbs the generation of short_hash in GitVersion.zig, the additional text
+  is copied verbatim into the string and then shown in the CSI >q output.
+  
+  To fix it always suppress the output of the signature information.  This
+  has no effects when the setting is disabled anyway.
+  ```
+- [`9771aaa`](https://github.com/ghostty-org/ghostty/commit/9771aaaebb7dfe681744a58084cecd8d8017ce16) 🐛 Prevent git log output with signature information ([#11094](https://github.com/ghostty-org/ghostty/issues/11094)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When users have something like
+  
+  [log]
+          showSignature = true
+  
+  in their .gitconfig files, invocations of the log or show git
+  sub-command emit additional information about signatures. This
+  additional output disturbs the generation of short_hash in
+  GitVersion.zig, the additional text is copied verbatim into the string
+  and then shown in the CSI >q output.
+  
+  To fix it always suppress the output of the signature information. This
+  has no effects when the setting is disabled anyway.
+  ```
+- [`4bef13a`](https://github.com/ghostty-org/ghostty/commit/4bef13a4d033f22fd392d51df415e047d3ffb6f1) Update VOUCHED list ([#11099](https://github.com/ghostty-org/ghostty/issues/11099)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11090#discussioncomment-15962101)
+  from @jcollie.
+  
+  Vouch: @cespare
+  ```
+- [`6cf8f13`](https://github.com/ghostty-org/ghostty/commit/6cf8f13189c6793579a78cd2aa3c444e90a28980) Update VOUCHED list ([#11098](https://github.com/ghostty-org/ghostty/issues/11098)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11094#issuecomment-3980080445)
+  from @jcollie.
+  
+  Vouch: @drepper
+  ```
 - [`33c855e`](https://github.com/ghostty-org/ghostty/commit/33c855e0478809c1c944f55cc2b86172e445b891) Update VOUCHED list ([#11093](https://github.com/ghostty-org/ghostty/issues/11093)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
