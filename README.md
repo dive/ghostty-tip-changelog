@@ -8,7 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 1, 2026 at 03:52 UTC.
+> Last updated: March 1, 2026 at 06:15 UTC.
+
+## March 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`12f43df`](https://github.com/ghostty-org/ghostty/commit/12f43dfb7df9d04352616e29bfe0b2be9120bd96) fix(terminal): bounds check params in DCS passthrough entry ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a DCS sequence has more than MAX_PARAMS parameters, entering
+  dcs_passthrough would write to params[params_idx] without a bounds
+  check, causing an out-of-bounds access. Drop the entire DCS hook
+  when params overflow, consistent with how csi_dispatch handles it.
+  
+  Found by AFL fuzzing.
+  ```
+- [`25f1208`](https://github.com/ghostty-org/ghostty/commit/25f12080cb567a1a78980effbfe8692dbdcbba44) terminal: bounds check params in DCS passthrough entry ([#11088](https://github.com/ghostty-org/ghostty/issues/11088)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a DCS sequence has more than MAX_PARAMS parameters, entering
+  dcs_passthrough would write to params[params_idx] without a bounds
+  check, causing an out-of-bounds access. Add the same guard that
+  csi_dispatch already has.
+  
+  Found by AFL fuzzing, test and fix produced by Codex.
+  ```
 
 ## February 28, 2026
 
