@@ -8,15 +8,71 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: February 28, 2026 at 21:04 UTC.
+> Last updated: March 1, 2026 at 00:23 UTC.
 
 ## February 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22523375318), [2](https://github.com/ghostty-org/ghostty/actions/runs/22517662185), [3](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [4](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
-Summary: 4 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22530851345), [2](https://github.com/ghostty-org/ghostty/actions/runs/22530301190), [3](https://github.com/ghostty-org/ghostty/actions/runs/22523375318), [4](https://github.com/ghostty-org/ghostty/actions/runs/22517662185), [5](https://github.com/ghostty-org/ghostty/actions/runs/22516696749), [6](https://github.com/ghostty-org/ghostty/actions/runs/22512782769)  
+Summary: 6 runs • 12 commits • 5 authors
 
 ### Changes
 
+- [`981901a`](https://github.com/ghostty-org/ghostty/commit/981901a01172311f5bfb7123242d9949347137e4) Remove old "acceptance tests" ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We haven't used or run these in forever (literally like 3+ years).
+  They're just wasting cognitive space and confuse some users as to what
+  they're for. Remove them.
+  ```
+- [`1499491`](https://github.com/ghostty-org/ghostty/commit/149949190ee5cf1e013dd2c70c84dc12f745369f) Remove old "acceptance tests" ([#11086](https://github.com/ghostty-org/ghostty/issues/11086)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We haven't used or run these in forever (literally like 3+ years).
+  They're just wasting cognitive space and confuse some users as to what
+  they're for. Remove them.
+  ```
+- [`0db32ab`](https://github.com/ghostty-org/ghostty/commit/0db32ab9a8ff72d0c1eaf9c9e0cc94c3b27b2dd1) macos: fix window size/position restoration on Cmd+W close ([@abdurrahmanski](https://github.com/abdurrahmanski))
+  ```text
+  This fixes two overlapping issues regarding window positioning and Cmd+W window closures on macOS:
+  
+  1. `window-position-x` and `window-position-y` coordinates were being ignored on initial launch because `TerminalWindow.setInitialWindowPosition` depended on the `TerminalController`, which isn't fully attached during `awakeFromNib`. This logic was moved so explicit coordinates are correctly enforced.
+  2. When closing a window via Cmd+W (leaving the app active), reopening the window would continuously cascade down and to the right rather than restoring to the previous position. It now checks if there are other windows open before cascading.
+  3. `LastWindowPosition` was updated to save both the frame origin and size (width/height), ensuring that restoring a closed window correctly mimics native AppKit State Restoration size behaviors while honoring explicit configurations.
+  ```
+- [`6e622f8`](https://github.com/ghostty-org/ghostty/commit/6e622f8c75d6a80b17e1ba5e40d3f9efca410855) fix(macos): extract window cascade logic into helper function ([@abdurrahmanski](https://github.com/abdurrahmanski))
+- [`0d5b9d5`](https://github.com/ghostty-org/ghostty/commit/0d5b9d554c14bc1b574267fa63dd95eee84edff3) Update macos/Sources/Features/Terminal/TerminalController.swift ([@abdurrahmanski](https://github.com/abdurrahmanski))
+  ```text
+  apply reviewer suggestion for cascading
+  ```
+- [`b40404b`](https://github.com/ghostty-org/ghostty/commit/b40404b0d97353f427f1378464624cf951f55edc) macOS: fix for Cmd+W window position/size restoration ([#11070](https://github.com/ghostty-org/ghostty/issues/11070)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  I'd like to contribute a fix for an issue I found regarding how macOS
+  window restoration works when a window is closed via Cmd+W (leaving the
+  app active).
+  
+  Currently, the position cascades down and to the right on every reopen,
+  and size explicitly resets. Also, explicit `window-position-x/y` configs
+  get ignored on first launch.
+  
+  I've diagnosed the issues:
+  1. In `TerminalWindow.swift`, `setInitialWindowPosition` relies on the
+  `TerminalController` which isn't present during `awakeFromNib`. I moved
+  the `screen.origin` calculation directly into the window class to ensure
+  fixed coordinates are respected immediately.
+  2. In `TerminalController.swift`, I consolidated the window spawning
+  cascade logic into a new `applyCascade(to:hasFixedPos:)` helper. It now
+  only calls `cascadeTopLeft` if `TerminalController.all.count > 1`
+  (meaning another window is active) and fixed coords aren't set. If it's
+  the only window, it anchors exactly where `LastWindowPosition` placed
+  it.
+  3. In `LastWindowPosition.swift`, I updated the `save` and `restore`
+  logic to persist the full `window.frame` (origin + size) instead of just
+  the origin.
+  
+  *Disclosure: I used Cursor (Tab) to assist in navigating the codebase
+  and formatting the Swift code, but I fully understand the AppKit
+  lifecycle changes and edge cases I'm proposing.*
+  
+  I have the commit locally formatted with `swiftlint` and ready to push!
+  ```
 - [`889a945`](https://github.com/ghostty-org/ghostty/commit/889a945f74014b411ed4bf96d09dfc982d0f77e0) Update VOUCHED list ([#11078](https://github.com/ghostty-org/ghostty/issues/11078)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1539,89 +1595,5 @@ Summary: 9 runs • 50 commits • 9 authors
   ## Added Users
   
   - @Atomk
-  ```
-
-## February 22, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22287450777), [2](https://github.com/ghostty-org/ghostty/actions/runs/22286556611), [3](https://github.com/ghostty-org/ghostty/actions/runs/22278639787), [4](https://github.com/ghostty-org/ghostty/actions/runs/22271139862), [5](https://github.com/ghostty-org/ghostty/actions/runs/22270853637), [6](https://github.com/ghostty-org/ghostty/actions/runs/22270626299)  
-Summary: 6 runs • 16 commits • 4 authors
-
-### Changes
-
-- [`2a02b8f`](https://github.com/ghostty-org/ghostty/commit/2a02b8f0efb6a73eef2faba070283ea3752cd245) android: build improvements ([@jcollie](https://github.com/jcollie))
-  ```text
-  * Use a GitHub action to download the Android NDK
-  * Use helper functions available on `std.Build` to simplify
-    the build script.
-  * Use various Zig-isms to simplify the code.
-  
-  FYI, using Nix to seems to be a non-starter as getting any Android
-  development kits from nixpkgs requires accepting the Android license
-  agreement and allowing many packages to use unfree licenses. And since
-  the packages are unfree they are not cached by NixOS so the build
-  triggers massive memory-hungry builds.
-  ```
-- [`20fe661`](https://github.com/ghostty-org/ghostty/commit/20fe661c0681c9b7835233055d7f93a4178f631b) android: build improvements ([#10956](https://github.com/ghostty-org/ghostty/issues/10956)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  * Use a GitHub action to download the Android NDK
-  * Use helper functions available on `std.Build` to simplify the build
-  script.
-  * Use various Zig-isms to simplify the code.
-  
-  FYI, using Nix to seems to be a non-starter as getting any Android
-  development kits from nixpkgs requires accepting the Android license
-  agreement and allowing many packages to use unfree licenses. And since
-  the packages are unfree they are not cached by NixOS so the build
-  triggers massive memory-hungry builds.
-  ```
-- [`c6e7a7b`](https://github.com/ghostty-org/ghostty/commit/c6e7a7b85ad8cc721e8986ca4033313714f5c3f7) input: Disallow table/chain= and make chain apply to the most recent table ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10039
-  
-  (Context is all there)
-  ```
-- [`f0f80d4`](https://github.com/ghostty-org/ghostty/commit/f0f80d4902f7d0e17df48b28f7208ea18e28e093) input: Disallow table/chain= and make chain apply to the most recent table ([#10954](https://github.com/ghostty-org/ghostty/issues/10954)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10039
-  
-  (Context is all there)
-  ```
-- [`504a361`](https://github.com/ghostty-org/ghostty/commit/504a3611f6f2d9a1cb1a4eb419b41aea3c8049ca) Update VOUCHED list ([#10947](https://github.com/ghostty-org/ghostty/issues/10947)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10946) from
-  @00-kat.
-  
-  Vouch: @Laxystem
-  ```
-- [`bd96116`](https://github.com/ghostty-org/ghostty/commit/bd9611650fd1c8e72367cf781270ddf3494ff451) build: add support for Android NDK path configuration ([@elias8](https://github.com/elias8))
-- [`e7cfb17`](https://github.com/ghostty-org/ghostty/commit/e7cfb17d5a28c5eebe33c0f733de1d80a51773f2) build: support 16kb page sizes for Android 15+ ([@elias8](https://github.com/elias8))
-- [`b728e41`](https://github.com/ghostty-org/ghostty/commit/b728e41d77617188f38a20b10dfc5698b2ffe297) build: clarify ANDROID_NDK_HOME variable description ([@elias8](https://github.com/elias8))
-- [`88a6e8a`](https://github.com/ghostty-org/ghostty/commit/88a6e8ae4b4030cacf41c25a8790e0dbf0f02698) build: add Android build target for libghostty-vt ([@elias8](https://github.com/elias8))
-- [`12c2f5c`](https://github.com/ghostty-org/ghostty/commit/12c2f5c3590631cbfa37597d9ec3ca785592f3d4) prettier ([@mitchellh](https://github.com/mitchellh))
-- [`79e530a`](https://github.com/ghostty-org/ghostty/commit/79e530a0f3e2aa86062a6b15da6984cfa4abba6b) ci: fix CI for NDK ([@mitchellh](https://github.com/mitchellh))
-- [`861a9cf`](https://github.com/ghostty-org/ghostty/commit/861a9cf537a58a380bc6a0784573b3de3a70415e) ci: Add `lib-vt` Android support ([#10925](https://github.com/ghostty-org/ghostty/issues/10925)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The PR introduces `lib-vt` Android support as discussed in #10902.
-  
-  A few more notes:
-  
-  - Introduces new CI for Android builds as a change requires NDK to be
-  configured.
-  - To build locally, it is required to have the NDK installed in the
-  system and either have the path exported via `ANDROID_NDK_HOME` pointing
-  to the exact NDK path or `ANDROID_HOME` or `ANDROID_SDK_ROOT` pointing
-  at the Android SDK path from which the build system will infer the NDK
-  path and version.
-  - 16kb page size alignment is configured for Android 15+. Builds are
-  backward compatible with 4kb page size devices.
-  ```
-- [`c4c58a9`](https://github.com/ghostty-org/ghostty/commit/c4c58a9f584d269c2e991292c209e708a0ec2f60) update deps to mirror ([@mitchellh](https://github.com/mitchellh))
-- [`3fca5bd`](https://github.com/ghostty-org/ghostty/commit/3fca5bd18ba7c03121da9f7bfd845d18f4185995) update deps to mirror ([#10939](https://github.com/ghostty-org/ghostty/issues/10939)) ([@mitchellh](https://github.com/mitchellh))
-- [`fad5599`](https://github.com/ghostty-org/ghostty/commit/fad5599c32581d4bdfdf1fc3230b906e18c90500) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`84b7d14`](https://github.com/ghostty-org/ghostty/commit/84b7d14aa069a15d248f7166a92a95dec5da6efc) Update iTerm2 colorschemes ([#10938](https://github.com/ghostty-org/ghostty/issues/10938)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260216-151611-fc73ce3
   ```
 
