@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 1, 2026 at 09:07 UTC.
+> Last updated: March 1, 2026 at 12:07 UTC.
 
 ## March 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22540291186), [2](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
+Summary: 2 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`33c855e`](https://github.com/ghostty-org/ghostty/commit/33c855e0478809c1c944f55cc2b86172e445b891) Update VOUCHED list ([#11093](https://github.com/ghostty-org/ghostty/issues/11093)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/5036#issuecomment-3979553300)
+  from @jcollie.
+  
+  Vouch: @AlexJuca
+  ```
 - [`12f43df`](https://github.com/ghostty-org/ghostty/commit/12f43dfb7df9d04352616e29bfe0b2be9120bd96) fix(terminal): bounds check params in DCS passthrough entry ([@mitchellh](https://github.com/mitchellh))
   ```text
   When a DCS sequence has more than MAX_PARAMS parameters, entering
