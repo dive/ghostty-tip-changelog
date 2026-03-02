@@ -8,15 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 2, 2026 at 12:11 UTC.
+> Last updated: March 2, 2026 at 15:15 UTC.
 
 ## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [2](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [3](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [4](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [5](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [6](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 6 runs • 9 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [2](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [3](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [4](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [5](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [6](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [7](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 7 runs • 11 commits • 3 authors
 
 ### Changes
 
+- [`90e96a3`](https://github.com/ghostty-org/ghostty/commit/90e96a3891b7718ff98819ee51ecbd7c133d422f) terminal: fix insertBlanks integrity violation with wide char at right margin ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  insertBlanks checks whether the last source cell being shifted is wide
+  and clears it to avoid splitting, but it did not check the destination
+  cells at the right edge of the scroll region. When a wide character
+  straddles the right scroll margin (head at the margin, spacer_tail just
+  beyond it), the swap loop displaced the wide head without clearing the
+  orphaned spacer_tail, causing a page integrity violation
+  (InvalidSpacerTailLocation).
+  
+  Fix by checking the cell at the right margin (last destination cell)
+  before the swap loop and clearing it along with its spacer_tail when it
+  is wide.
+  
+  Found by AFL++ stream fuzzer. #11109
+  ```
+- [`9d3c46c`](https://github.com/ghostty-org/ghostty/commit/9d3c46c4bc2348594148f809c01433ce768173ce) terminal: fix insertBlanks integrity violation with wide char at right margin ([#11132](https://github.com/ghostty-org/ghostty/issues/11132)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  insertBlanks checks whether the last source cell being shifted is wide
+  and clears it to avoid splitting, but it did not check the destination
+  cells at the right edge of the scroll region. When a wide character
+  straddles the right scroll margin (head at the margin, spacer_tail just
+  beyond it), the swap loop displaced the wide head without clearing the
+  orphaned spacer_tail, causing a page integrity violation
+  (InvalidSpacerTailLocation).
+  
+  Fix by checking the cell at the right margin (last destination cell)
+  before the swap loop and clearing it along with its spacer_tail when it
+  is wide.
+  
+  Found by AFL++ stream fuzzer. #11109
+  ```
 - [`913c120`](https://github.com/ghostty-org/ghostty/commit/913c12097bad2feb8977853cf1a60c137a968b50) Update VOUCHED list ([#11123](https://github.com/ghostty-org/ghostty/issues/11123)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
