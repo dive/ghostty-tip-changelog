@@ -8,15 +8,28 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 2, 2026 at 00:20 UTC.
+> Last updated: March 2, 2026 at 03:47 UTC.
 
 ## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [2](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [3](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 3 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`ca31828`](https://github.com/ghostty-org/ghostty/commit/ca31828c9387e2743f2b41d0405e2ed80590cd7f) Update VOUCHED list ([#11116](https://github.com/ghostty-org/ghostty/issues/11116)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11115#issuecomment-3981600125)
+  from @mitchellh.
+  
+  Vouch: @markdorison
+  ```
+- [`533ad9e`](https://github.com/ghostty-org/ghostty/commit/533ad9e3fadf4eb1e5d28cb2d4b40ef4a8b311e3) i18n: update pt_BR translations ([#10635](https://github.com/ghostty-org/ghostty/issues/10635)) ([@guilhermetk](https://github.com/guilhermetk))
+  ```text
+  Add missing pt_BR translations reported in
+  https://github.com/ghostty-org/ghostty/issues/10632 for version 1.3
+  ```
 - [`2454642`](https://github.com/ghostty-org/ghostty/commit/24546426c8de75d11c8448464fb4cd614663da46) Sync CODEOWNERS vouch list ([#11114](https://github.com/ghostty-org/ghostty/issues/11114)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
