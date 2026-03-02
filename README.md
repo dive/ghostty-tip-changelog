@@ -8,15 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 2, 2026 at 03:47 UTC.
+> Last updated: March 2, 2026 at 06:19 UTC.
 
 ## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [2](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [3](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 3 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [2](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [3](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [4](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [5](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [6](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 6 runs • 9 commits • 3 authors
 
 ### Changes
 
+- [`913c120`](https://github.com/ghostty-org/ghostty/commit/913c12097bad2feb8977853cf1a60c137a968b50) Update VOUCHED list ([#11123](https://github.com/ghostty-org/ghostty/issues/11123)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11118#discussioncomment-15967576)
+  from @pluiedev.
+  
+  Vouch: @jguthmiller
+  ```
+- [`22e29bb`](https://github.com/ghostty-org/ghostty/commit/22e29bb1f00b11c4ca1caf6d1302f67b2e9fa970) Update VOUCHED list ([#11122](https://github.com/ghostty-org/ghostty/issues/11122)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11121#issuecomment-3982187512)
+  from @jcollie.
+  
+  Vouch: @rhodes-b
+  ```
+- [`97c11af`](https://github.com/ghostty-org/ghostty/commit/97c11af347be4ab8fd66ff0048048ee4209a03e9) terminal: fix integrity violation printing wide char with hyperlink at right edge ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Printing a wide character at the right edge of the screen with an active
+  hyperlink triggered a page integrity violation (UnwrappedSpacerHead).
+  printCell wrote the spacer_head to the cell and then called
+  cursorSetHyperlink, whose internal integrity check observed the
+  spacer_head before printWrap had a chance to set the row wrap flag.
+  
+  Fix by setting row.wrap = true before calling printCell for the
+  spacer_head case, so all integrity checks see a consistent state.
+  printWrap sets wrap again afterward, which is harmless. Found by AFL++
+  stream fuzzer.
+  ```
+- [`43ec4ac`](https://github.com/ghostty-org/ghostty/commit/43ec4ace47ec47d7dea66826e0ebdfb3cae51a02) fuzz: add replay-crashes.nu to help find crash repros ([@mitchellh](https://github.com/mitchellh))
+- [`f3da60a`](https://github.com/ghostty-org/ghostty/commit/f3da60aef59e3c9c645dc016e0377eb0af748a05) terminal: fix integrity violation printing wide char with hyperlink at right edge ([#11119](https://github.com/ghostty-org/ghostty/issues/11119)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Printing a wide character at the right edge of the screen with an active
+  hyperlink triggered a page integrity violation (UnwrappedSpacerHead).
+  printCell wrote the spacer_head to the cell and then called
+  cursorSetHyperlink, whose internal integrity check observed the
+  spacer_head before printWrap had a chance to set the row wrap flag.
+  
+  Fix by setting row.wrap = true before calling printCell for the
+  spacer_head case, so all integrity checks see a consistent state.
+  printWrap sets wrap again afterward, which is harmless. Found by AFL++
+  stream fuzzer.
+  
+  #11109
+  ```
+- [`7665efc`](https://github.com/ghostty-org/ghostty/commit/7665efc3a161e3424267846216e913ba324aeb1c) fuzz: new stream corpus from 2 hour run ([@mitchellh](https://github.com/mitchellh))
 - [`ca31828`](https://github.com/ghostty-org/ghostty/commit/ca31828c9387e2743f2b41d0405e2ed80590cd7f) Update VOUCHED list ([#11116](https://github.com/ghostty-org/ghostty/issues/11116)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
