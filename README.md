@@ -8,15 +8,229 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 1, 2026 at 21:05 UTC.
+> Last updated: March 2, 2026 at 00:20 UTC.
 
-## March 1, 2026
+## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22545810012), [2](https://github.com/ghostty-org/ghostty/actions/runs/22545426741), [3](https://github.com/ghostty-org/ghostty/actions/runs/22545388100), [4](https://github.com/ghostty-org/ghostty/actions/runs/22540291186), [5](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
-Summary: 5 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 1 runs • 1 commits • 1 authors
 
 ### Changes
 
+- [`2454642`](https://github.com/ghostty-org/ghostty/commit/24546426c8de75d11c8448464fb4cd614663da46) Sync CODEOWNERS vouch list ([#11114](https://github.com/ghostty-org/ghostty/issues/11114)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Sync CODEOWNERS owners with vouch list.
+  
+  ## Added Users
+  
+  - @derVedro
+  ```
+
+## March 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22555802707), [2](https://github.com/ghostty-org/ghostty/actions/runs/22555273087), [3](https://github.com/ghostty-org/ghostty/actions/runs/22554564893), [4](https://github.com/ghostty-org/ghostty/actions/runs/22553094056), [5](https://github.com/ghostty-org/ghostty/actions/runs/22545810012), [6](https://github.com/ghostty-org/ghostty/actions/runs/22545426741), [7](https://github.com/ghostty-org/ghostty/actions/runs/22545388100), [8](https://github.com/ghostty-org/ghostty/actions/runs/22540291186), [9](https://github.com/ghostty-org/ghostty/actions/runs/22536791173)  
+Summary: 9 runs • 55 commits • 5 authors
+
+### Changes
+
+- [`a595c00`](https://github.com/ghostty-org/ghostty/commit/a595c00f3c9e61bbd6ea9430a5444e5f026c1a0a) terminal: fix panic on CSI g (TBC) with overflowing param ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A fuzz crash found that CSI g with a parameter that saturates to
+  u16 max (65535) causes @enumFromInt to panic when narrowing to
+  TabClear (enum(u8)). Use std.meta.intToEnum instead, which safely
+  returns an error for out-of-range values.
+  ```
+- [`f253c54`](https://github.com/ghostty-org/ghostty/commit/f253c54facb6fc00a4f408e1ab641f616b7d9f91) terminal: handle trailing colon in SGR underline parsing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A trailing colon with no following sub-parameter (e.g. "ESC[58:4:m")
+  leaves the colon separator bit set on the last param without adding
+  another entry to the params array. When the SGR parser later iterates
+  to that param (4 = underline) and sees the colon bit, it entered the
+  colon path which asserted slice.len >= 2, but the slice only had one
+  element.
+  
+  Replace the assert with a bounds check that treats the malformed
+  sequence as a default single underline.
+  
+  Add a regression test reproducing the crash from AFL++ fuzzing
+  (afl-out/stream/default/crashes/id:000021).
+  ```
+- [`ec4c5f9`](https://github.com/ghostty-org/ghostty/commit/ec4c5f90a8a825f06881307cf0b8d1735ac2c249) terminal: fix panic on CSI g (TBC) with overflowing param ([#11112](https://github.com/ghostty-org/ghostty/issues/11112)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A fuzz crash found that CSI g with a parameter that saturates to u16 max
+  (65535) causes @enumFromInt to panic when narrowing to TabClear
+  (enum(u8)). Use std.meta.intToEnum instead, which safely returns an
+  error for out-of-range values.
+  
+  #11109
+  ```
+- [`2d69568`](https://github.com/ghostty-org/ghostty/commit/2d69568a67b5662000d0ccc3e7e70d3217e77034) terminal: handle trailing colon in SGR underline parsing ([#11113](https://github.com/ghostty-org/ghostty/issues/11113)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A trailing colon with no following sub-parameter (e.g. "ESC[58:4:m")
+  leaves the colon separator bit set on the last param without adding
+  another entry to the params array. When the SGR parser later iterates to
+  that param (4 = underline) and sees the colon bit, it entered the colon
+  path which asserted slice.len >= 2, but the slice only had one element.
+  
+  Replace the assert with a bounds check that treats the malformed
+  sequence as a default single underline.
+  
+  Add a regression test reproducing the crash from AFL++ fuzzing
+  (afl-out/stream/default/crashes/id:000021).
+  
+  #11109
+  ```
+- [`9157eb4`](https://github.com/ghostty-org/ghostty/commit/9157eb439a3dfe34579e5030fcd03a6bb32585c7) terminal: insertBlanks should not crash with count 0 and CSI @ clamps [1,) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  CSI @ (ICH) with an explicit parameter of 0 should be clamped to 1,
+  matching xterm behavior. Previously, a zero count reached
+  Terminal.insertBlanks which called clearCells with an empty slice,
+  triggering an out-of-bounds panic.
+  
+  Fix the stream dispatch to clamp 0 to 1 via @max, and add a defensive
+  guard in insertBlanks for count == 0. Found by AFL++ stream fuzzer.
+  ```
+- [`1e027c9`](https://github.com/ghostty-org/ghostty/commit/1e027c9f206b220b61bccb930202f59b00a38407) terminal: insertBlanks should not crash with count 0 and CSI @ clamps to 1 min ([#11111](https://github.com/ghostty-org/ghostty/issues/11111)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  CSI @ (ICH) with an explicit parameter of 0 should be clamped to 1,
+  matching xterm behavior. Previously, a zero count reached
+  Terminal.insertBlanks which called clearCells with an empty slice,
+  triggering an out-of-bounds panic.
+  
+  Fix the stream dispatch to clamp 0 to 1 via @max, and add a defensive
+  guard in insertBlanks for count == 0. Found by AFL++ stream fuzzer.
+  #11109
+  ```
+- [`e081a4a`](https://github.com/ghostty-org/ghostty/commit/e081a4abb4a9212ca99a797fa4497c08b1a3e5f3) fuzz/vt-stream ([@mitchellh](https://github.com/mitchellh))
+- [`4f44879`](https://github.com/ghostty-org/ghostty/commit/4f44879c3b044264be558b1bf79e80c8f8bb1fd7) Clean up how fuzzers are laid out ([@mitchellh](https://github.com/mitchellh))
+- [`33fbd73`](https://github.com/ghostty-org/ghostty/commit/33fbd73247de1024c2be2224447fd01bf6012529) fuzz/stream: clean up ([@mitchellh](https://github.com/mitchellh))
+- [`1c65611`](https://github.com/ghostty-org/ghostty/commit/1c6561144603c94a38c4bfcf69c8f3a0119ca435) prettier should ignore various fuzz files ([@mitchellh](https://github.com/mitchellh))
+- [`dce2326`](https://github.com/ghostty-org/ghostty/commit/dce2326c4ce4e1be34563aa6f65f26aa18251ed0) fix up gitattributes ([@mitchellh](https://github.com/mitchellh))
+- [`8cebcaa`](https://github.com/ghostty-org/ghostty/commit/8cebcaa468589500e40e376d1c17586fc87d66e0) fuzz: stream cmin ([@mitchellh](https://github.com/mitchellh))
+- [`1ead8f4`](https://github.com/ghostty-org/ghostty/commit/1ead8f4275edda26ca2981e664406bd8bce2c6e9) fuzz: `terminal.vtStream` fuzzer ([#11109](https://github.com/ghostty-org/ghostty/issues/11109)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This augments our libghostty fuzzing to add fuzzing for
+  `terminal.vtStream` which exercises a LOT more codepaths than the pure
+  parser (thousands of tuples compared to hundreds with `afl-showmap` on
+  the two binaries). I also fixed up a few more minor things: prettier
+  ignores AFL related files, lib-vt exports the readonly streams, etc.
+  ```
+- [`dcaa8f3`](https://github.com/ghostty-org/ghostty/commit/dcaa8f3979ea53a27fcd7b297fb5beab6f338709) terminal: fix out-of-bounds access in CSI W handler with no params ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  CSI ? W (cursor tabulation control) accessed input.params[0] without
+  first checking that params.len > 0, causing an index out-of-bounds
+  panic when the sequence had an intermediate but no parameters.
+  
+  Add a params.len == 1 guard before accessing params[0].
+  
+  Found by AFL++ fuzzing.
+  ```
+- [`8c22cb0`](https://github.com/ghostty-org/ghostty/commit/8c22cb060138aa6f1d26be7ced2fa30da15af7c5) terminal: fix out-of-bounds access in CSI W handler with no params ([#11110](https://github.com/ghostty-org/ghostty/issues/11110)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  CSI ? W (cursor tabulation control) accessed input.params[0] without
+  first checking that params.len > 0, causing an index out-of-bounds panic
+  when the sequence had an intermediate but no parameters.
+  
+  Add a params.len == 1 guard before accessing params[0].
+  
+  Found by AFL++ fuzzing #11109
+  ```
+- [`adbb432`](https://github.com/ghostty-org/ghostty/commit/adbb432930ad66bc7f8d700a8701560efd038439) test/fuzz-libghostty: basic afl++-based fuzzer for libghostty ([@mitchellh](https://github.com/mitchellh))
+- [`4e47c22`](https://github.com/ghostty-org/ghostty/commit/4e47c225b1541339600d24fd0d8d8689292ce848) pkg/afl++ ([@mitchellh](https://github.com/mitchellh))
+- [`3294621`](https://github.com/ghostty-org/ghostty/commit/3294621430504ea776c094a33ccfa3e99945b117) switch to pkg/afl++ for fuzz ([@mitchellh](https://github.com/mitchellh))
+- [`673dd47`](https://github.com/ghostty-org/ghostty/commit/673dd474f80fc0c99569a401f7f3863046634ddd) test/fuzz-libghostty: gitignore and initial corpus ([@mitchellh](https://github.com/mitchellh))
+- [`2a34053`](https://github.com/ghostty-org/ghostty/commit/2a340536a6588c0a1f6aabde64cb03248a674d6d) test/fuzz-libghostty: add zig build run ([@mitchellh](https://github.com/mitchellh))
+- [`54bdbdf`](https://github.com/ghostty-org/ghostty/commit/54bdbdf87d789ac1cc33c397d4573e8ce8f81a14) pkg/afl++: clean up, comments ([@mitchellh](https://github.com/mitchellh))
+- [`afabbaf`](https://github.com/ghostty-org/ghostty/commit/afabbaf012a7f3b208ff42aeaf3366446418510a) pkg/afl++: extract runner ([@mitchellh](https://github.com/mitchellh))
+- [`1d9f080`](https://github.com/ghostty-org/ghostty/commit/1d9f080309cc403200e22171b03703271cad8716) test/fuzz-libghostty: add README ([@mitchellh](https://github.com/mitchellh))
+- [`eb7d28d`](https://github.com/ghostty-org/ghostty/commit/eb7d28d1800e9f5f2f82dac3ba4743aa830ce1e2) Corpus management update ([@mitchellh](https://github.com/mitchellh))
+- [`2bd0952`](https://github.com/ghostty-org/ghostty/commit/2bd09523c80454ad994f2d653d60d79a08453487) pkg/afl++: use usize for len ([@mitchellh](https://github.com/mitchellh))
+- [`23f6b1a`](https://github.com/ghostty-org/ghostty/commit/23f6b1af650aa9a0ca6feea72d2b2c4f305d9d4f) pkg/afl++: fuzzer takes a file argument ([@mitchellh](https://github.com/mitchellh))
+- [`3462482`](https://github.com/ghostty-org/ghostty/commit/346248251e1697e8d7e154c8d18430c446c1e503) typos ([@mitchellh](https://github.com/mitchellh))
+- [`2685efc`](https://github.com/ghostty-org/ghostty/commit/2685efca7a1667e6205f26bce98b80e1b9a70ff0) pkg/afl++: remove file arg ([@mitchellh](https://github.com/mitchellh))
+- [`0ccaf3d`](https://github.com/ghostty-org/ghostty/commit/0ccaf3d5d61697672664601e0d87e681f0c97ef3) Clear key state overlay on "ignore" action ([@cespare](https://github.com/cespare))
+- [`7cf8e0c`](https://github.com/ghostty-org/ghostty/commit/7cf8e0ccc000649e0b556a0bc781b9c97ba915a0) docs: clarify if pre-vouching contributors are also required to apply to get vouched before contributing to Ghostty ([@AlexJuca](https://github.com/AlexJuca))
+- [`fc4d5a4`](https://github.com/ghostty-org/ghostty/commit/fc4d5a40dd10c1f69ee038e3bd4dee73659c60f8) chore: add improvements ([@AlexJuca](https://github.com/AlexJuca))
+- [`2ed0e3b`](https://github.com/ghostty-org/ghostty/commit/2ed0e3b82b92de149bd4d58aca01a1d9269c1780) fix: format with prettier ([@AlexJuca](https://github.com/AlexJuca))
+- [`4f34a0b`](https://github.com/ghostty-org/ghostty/commit/4f34a0b7d298dc202d4e48e18bd00fb280bb88b1) ci: fix windows CI checkouts with afl-min filenames ([@mitchellh](https://github.com/mitchellh))
+- [`e8f861f`](https://github.com/ghostty-org/ghostty/commit/e8f861f561ee81a29cd06ad727a353a08a548eac) fuzz: replace : with _ for Windows ([@mitchellh](https://github.com/mitchellh))
+- [`41870c1`](https://github.com/ghostty-org/ghostty/commit/41870c14aded310907dab03b28df8e63f9561765) ci: test libghostty fuzzer build ([@mitchellh](https://github.com/mitchellh))
+- [`7bc44e7`](https://github.com/ghostty-org/ghostty/commit/7bc44e77d08ec2b3e3f209b2d6d1941b4d1f6e2d) shellcheck ([@mitchellh](https://github.com/mitchellh))
+- [`f43874a`](https://github.com/ghostty-org/ghostty/commit/f43874a168dc8bd560ca1d7819d9a34c2ff318bf) fuzz: update corpus ([@mitchellh](https://github.com/mitchellh))
+- [`683de81`](https://github.com/ghostty-org/ghostty/commit/683de81ee9546b52f7b8720dbe2b67f8ede914a8) typos: ignore fuzz corpus ([@mitchellh](https://github.com/mitchellh))
+- [`a0b7714`](https://github.com/ghostty-org/ghostty/commit/a0b771489892aff695b8b1d834bc27adbc6011d9) Update CONTRIBUTING.md ([@AlexJuca](https://github.com/AlexJuca))
+- [`059b02e`](https://github.com/ghostty-org/ghostty/commit/059b02eacb2145c9fe8a1c14e5a8fcbce9efc9a3) Update CONTRIBUTING.md ([@AlexJuca](https://github.com/AlexJuca))
+- [`56f3b3d`](https://github.com/ghostty-org/ghostty/commit/56f3b3d0604428cfc2612d2aee450c2dd2a397f5) Update CONTRIBUTING.md ([@AlexJuca](https://github.com/AlexJuca))
+- [`fa2a74d`](https://github.com/ghostty-org/ghostty/commit/fa2a74d7654b645afbc0da7742fd85a158c11f06) Update CONTRIBUTING.md ([@AlexJuca](https://github.com/AlexJuca))
+- [`3972426`](https://github.com/ghostty-org/ghostty/commit/39724268527e9120ae24fdf0e73f6b085e72bb76) chore: improve grammer ([@AlexJuca](https://github.com/AlexJuca))
+- [`c735fd8`](https://github.com/ghostty-org/ghostty/commit/c735fd8c4724a275fef9d8263c1986694649b62b) Update CONTRIBUTING.md ([@AlexJuca](https://github.com/AlexJuca))
+- [`125b6e9`](https://github.com/ghostty-org/ghostty/commit/125b6e9f6ca90f3683716ac0cfb9e41d7787b58c) Clear key state overlay on "ignore" action ([#11103](https://github.com/ghostty-org/ghostty/issues/11103)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes a bug in the key state sequence overlay.
+  
+  ## Demo
+  
+  In my ghostty config, I have
+  
+      keybind = ctrl+space>escape=ignore
+      keybind = ctrl+space>p=toggle_command_palette
+      ...
+  
+  because I use `ctrl+space>` sequences for most things and so hitting
+  `esc` is my way to bail out of the sequence if I change my mind.
+  
+  I just switched to tip and got the new GTK key sequence overlay. Here's
+  what I saw. In these screen recordings, the sequence of keys I press is
+  
+  ctrl+space, escape, ctrl+space, escape, ctrl+space, escape, ctrl+space,
+  p
+  
+  
+  https://github.com/user-attachments/assets/4a37bc7e-b75c-4bd1-99de-f21f4211b5b5
+  
+  after the fix:
+  
+  
+  https://github.com/user-attachments/assets/023be88e-1299-4219-920c-1b1134b2888c
+  
+  ## Notes
+  
+  I believe this was also a leak, since the queued keys wouldn't be
+  deinited.
+  
+  **AI usage:** Claude Code suggested the fix, then I read enough code to
+  convince myself that it makes sense.
+  ```
+- [`a48cb63`](https://github.com/ghostty-org/ghostty/commit/a48cb630a8bcfda9ab0f3a6a05939482754fe839) libghostty-vt parser fuzzing, generic fuzz harness, using AFL++ ([#11089](https://github.com/ghostty-org/ghostty/issues/11089)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a `test/fuzz-libghostty` which is a standalone `zig build`
+  target for building an AFL++ instrumented executable for fuzzing the
+  libghostty-vt parser. I also added a `pkg/afl++` (based on zig-afl-kit)
+  so instrumenting objects and using AFL++ is a bit easier.
+  
+  Fuzzing `libghostty-vt`'s parser is as easy as `zig build run`, but see
+  the README for a lot more details. I ran the fuzzer for ~14 hours total
+  and only found one crash #11088. I'm pretty confident at this point our
+  Parser layer isn't obviously crash-able, but need to instrument more
+  places to fuzz.
+  
+  We don't use Zig's built-in fuzzing yet because as of 0.15 (our current
+  stable), it isn't ready and AFL++ is an industry proven tool to do this.
+  ```
+- [`db7c140`](https://github.com/ghostty-org/ghostty/commit/db7c140100371305f1fa755e478282871908d672) Update VOUCHED list ([#11107](https://github.com/ghostty-org/ghostty/issues/11107)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11102#discussioncomment-15964699)
+  from @mitchellh.
+  
+  Vouch: @mischief
+  ```
+- [`72df30f`](https://github.com/ghostty-org/ghostty/commit/72df30f14bd61f49d52341950ccac7db22d3c21a) docs: add clarification for pre-vouching contributors  ([#11096](https://github.com/ghostty-org/ghostty/issues/11096)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If this PR is accepted, it will add a clarification to the contribution
+  guidelines to inform pre-vouching contributors that they are still
+  required to apply for vouching as would a first-time contributor.
+  ```
 - [`851b62d`](https://github.com/ghostty-org/ghostty/commit/851b62d73860a7cc09d3803bbfaeda1f0eb9b990) 🐛 Prevent git log output with signature information ([@drepper](https://github.com/drepper))
   ```text
   When users have something like
@@ -1323,358 +1537,5 @@ Summary: 8 runs • 28 commits • 9 authors
   
   
   </details>
-  ```
-
-## February 23, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22327612320), [2](https://github.com/ghostty-org/ghostty/actions/runs/22327402698), [3](https://github.com/ghostty-org/ghostty/actions/runs/22323944108), [4](https://github.com/ghostty-org/ghostty/actions/runs/22319585055), [5](https://github.com/ghostty-org/ghostty/actions/runs/22316769133), [6](https://github.com/ghostty-org/ghostty/actions/runs/22315574597), [7](https://github.com/ghostty-org/ghostty/actions/runs/22314803568), [8](https://github.com/ghostty-org/ghostty/actions/runs/22311275840), [9](https://github.com/ghostty-org/ghostty/actions/runs/22288273568)  
-Summary: 9 runs • 50 commits • 9 authors
-
-### Changes
-
-- [`b2a7f71`](https://github.com/ghostty-org/ghostty/commit/b2a7f71b586b83d3b2bb6a17b8c2d79b123dc33f) Update VOUCHED list ([#10972](https://github.com/ghostty-org/ghostty/issues/10972)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10801) from
-  @mitchellh.
-  
-  Vouch: @curtismoncoq
-  ```
-- [`7a4bddd`](https://github.com/ghostty-org/ghostty/commit/7a4bddd37bfb1f758a2302c04ec8e77ecae3e49b) renderer: added cursor style and visibility uniforms ([@ClearAspect](https://github.com/ClearAspect))
-  ```text
-  Specifically:
-  iCurrentCursorStyle
-  iPreviousCursorStyle
-  iCurrentCursorVisible
-  iPreviousCursorVisible
-  
-  Visibility calculated and updated independently from the typical cursor
-  unifrom updates to preserve cursor style even when not in the viewport
-  or set to be hidden
-  ```
-- [`81f21a0`](https://github.com/ghostty-org/ghostty/commit/81f21a04de4d9f9cb12597ec887646ae01a850d9) custom shader: added cursor style and visibility uniforms ([#9572](https://github.com/ghostty-org/ghostty/issues/9572)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes: #9416
-  
-  Specifically:
-    iCurrentCursorStyle
-    iPreviousCursorStyle
-    iCurrentCursorVisible
-    iPreviousCursorVisible
-  
-  Visibility calculated and updated independently from the typical cursor
-  uniform updates to preserve cursor style even when not in the viewport
-  or set to be hidden
-  
-  I used Claude-Code to initially navigate and gauge an understanding of
-  the rendering system. Otherwise I authored the rest of the PR
-  ```
-- [`375a631`](https://github.com/ghostty-org/ghostty/commit/375a6313c94d913c456c33c5d033a3fa910739ac) Update VOUCHED list ([#10971](https://github.com/ghostty-org/ghostty/issues/10971)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10942) from
-  @mitchellh.
-  
-  Vouch: @aalhendi
-  ```
-- [`47577c7`](https://github.com/ghostty-org/ghostty/commit/47577c7623efc859c7f7a9c7da3f712807487f29) Make top visual space for surface drag handles ([@martinemde](https://github.com/martinemde))
-- [`2842b18`](https://github.com/ghostty-org/ghostty/commit/2842b18a3fc6de1b5ad6f15832a4f28419cd5051) Only show drag handle on hovered surface ([@martinemde](https://github.com/martinemde))
-- [`40e6a6d`](https://github.com/ghostty-org/ghostty/commit/40e6a6dd58b7fe5422c9811a81c236ecb14b26b3) Refine spacing and header usage ([@martinemde](https://github.com/martinemde))
-  ```text
-  This is 4pt header space, 12pt clickable frame height
-  ```
-- [`0316154`](https://github.com/ghostty-org/ghostty/commit/03161547f6847e43f6b3fd308c0387ddb714f5ad) Remove the top padding for macOS grab bar ([@mitchellh](https://github.com/mitchellh))
-- [`ba593d8`](https://github.com/ghostty-org/ghostty/commit/ba593d823cbf69f733a5d7ca84c6a908581134a3) feat(macos): Refine MacOS surface drag handle UI ([#10280](https://github.com/ghostty-org/ghostty/issues/10280)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  <img width="638" height="476" alt="Screenshot 2026-01-11 at 1 41 52 PM"
-  src="https://github.com/user-attachments/assets/bf3457e8-1b1c-4b2d-b6d1-312d48739108"
-  />
-  
-  This PR makes 3 small changes:
-  
-  1. Makes the surface move grab handle present when the surface is
-  hovered and the mouse cursor is not hidden.
-  2. Makes the grab handle partial width, allowing space to more easily
-  grab the divider for resize (anywhere but the center) and increasing the
-  grabbable area for the grab handle.
-  3. Adds appropriate padding to the top of the surface (in the metal
-  stack so shaders can apply) to give space for the header so that text is
-  not occluded by the grab handle.
-  
-  I think it looks good and works well, but I suggest trying it out since
-  the interaction is the most important part.
-  
-  Problems I was trying to solve:
-  1. The old grab bar overlays actual clickable area on TUIs and can make
-  them hard to use
-  2. The old bar makes the entire divider also a grab area, making divider
-  resizing more difficult.
-  3. The old bar is not always present, making it hard to discover until
-  you're going to resize something, which then is confusing
-  4. The old bar is not colored with the style.
-  
-  
-  https://github.com/user-attachments/assets/588a35b5-ba2f-4074-8edb-e090e0006224
-  
-  
-  AI Disclosure: I originally did this with Claude, but at this point I've
-  gone over this code manually enough to feel somewhat familiar. I think
-  the video and design speak for themselves and the code change is
-  minimal, but I'm not a Swift programmer, so I can't evaluate whether
-  this is the best possible solution.
-  
-  Human Disclosure: I don't have a linux machine to check that the padding
-  doesn't apply outside of MacOS. I find it hard to believe that it
-  wouldn't work, but worth calling out.
-  ```
-- [`0830ecf`](https://github.com/ghostty-org/ghostty/commit/0830ecfb65dbd44cbb61fcefe65a932928e12b76) ci: enable macOS caching (Zig, Xcode) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Namespace now supports cache volumes on macOS.
-  
-  This enables caching for Zig and Xcode artifacts. We can't do Nix yet because
-  we can't create `/nix` and there's a chicken/egg with how Nix installation
-  works on macOS. I'm emailing Namespace support about it... But still, a big
-  win for Zig and Xcode!
-  ```
-- [`7dad801`](https://github.com/ghostty-org/ghostty/commit/7dad801abc86204a123f2395842965f41d4bfcc3) ci: enable macOS caching (Zig, Xcode) ([#10969](https://github.com/ghostty-org/ghostty/issues/10969)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Namespace now supports cache volumes on macOS.
-  
-  This enables caching for Zig and Xcode artifacts. We can't do Nix yet
-  because we can't create `/nix` and there's a chicken/egg with how Nix
-  installation works on macOS. I'm emailing Namespace support about it...
-  But still, a big win for Zig and Xcode!
-  ```
-- [`dcbc765`](https://github.com/ghostty-org/ghostty/commit/dcbc765dc0cd84f190013b5085b08bd6e2f800c4) Update VOUCHED list ([#10970](https://github.com/ghostty-org/ghostty/issues/10970)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/10767#issuecomment-3946557197)
-  from @mitchellh.
-  
-  Unvouch: @prsweet
-  ```
-- [`81c9c81`](https://github.com/ghostty-org/ghostty/commit/81c9c81ae3df165d239c73d739b71245ddc8b32d) Refactor glass effect into TerminalGlassView and add inactive window tint overlay ([@sunshine-syz](https://github.com/sunshine-syz))
-- [`daa2a9d`](https://github.com/ghostty-org/ghostty/commit/daa2a9d0d506378b18ec246f3b7a5b90005966b4) macos: allow renaming tab title on double-click ([@MiUPa](https://github.com/MiUPa))
-- [`feee444`](https://github.com/ghostty-org/ghostty/commit/feee4443da680e8f9077e9e11909b0172d72dbfa) macOS: add inline tab title editing ([@MiUPa](https://github.com/MiUPa))
-- [`f6e9b19`](https://github.com/ghostty-org/ghostty/commit/f6e9b19fd501b6354ffd471fa3bd626148635504) macOS: widen inline tab title editor ([@MiUPa](https://github.com/MiUPa))
-- [`368e190`](https://github.com/ghostty-org/ghostty/commit/368e190a4165f3446364b5b91168d18e99bfacd4) macOS: defer inline tab rename start to reduce flicker ([@MiUPa](https://github.com/MiUPa))
-- [`879d7cf`](https://github.com/ghostty-org/ghostty/commit/879d7cf337fa8a31703fe0bf417d5beb10295076) macOS: remove dead tab title edit helper ([@MiUPa](https://github.com/MiUPa))
-- [`b6a9d54`](https://github.com/ghostty-org/ghostty/commit/b6a9d54e98d1c65c4d941ee53f389b03c67c8caf) macos: extract inline title editing to standalone file ([@mitchellh](https://github.com/mitchellh))
-- [`f5e2561`](https://github.com/ghostty-org/ghostty/commit/f5e2561eb75e8dcfd018fd726ed06671dc6233e3) macos: rename to TabTitleEditor ([@mitchellh](https://github.com/mitchellh))
-- [`51f304e`](https://github.com/ghostty-org/ghostty/commit/51f304e9a08f66ff35419bfd33cb58024ee42a8c) macos: add AGENTS.md ([@mitchellh](https://github.com/mitchellh))
-- [`1c715de`](https://github.com/ghostty-org/ghostty/commit/1c715def07d81024a20223998785c305c6880329) macOS: add inline tab title editing ([#10963](https://github.com/ghostty-org/ghostty/issues/10963)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Double-clicking a tab allows you to edit the tab name inline.
-  - Implemented an inline editor that allows you to edit the tab title
-  directly.
-  - Press Enter to confirm, Esc to cancel.
-  ```
-- [`6a9a21a`](https://github.com/ghostty-org/ghostty/commit/6a9a21afb6123729b2f3964a0d19770f8a21f8c6) macOS: Add inactive window tint overlay for liquid glass ([#10943](https://github.com/ghostty-org/ghostty/issues/10943)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  **Summary:**
-  - Add tint overlay to dim terminal windows when inactive, fixes
-  https://github.com/ghostty-org/ghostty/discussions/10040
-  - Refactor the liquid glass effect into a dedicated `TerminalGlassView`
-  class
-  
-  Note: The tint overlay color and opacity values may not be ideal —
-  feedback is welcome.
-  
-  **AI Disclosure:** I used Claude Code to read the macos repo and
-  understand the liquid glass implementation. Implemented basic tint
-  overlay mainly by hand. Refactor the code and review changes with Claude
-  Code.
-  ```
-- [`335f0bf`](https://github.com/ghostty-org/ghostty/commit/335f0bff310f8de934431fc040d3684dec4e4799) Update VOUCHED list ([#10968](https://github.com/ghostty-org/ghostty/issues/10968)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/9932#issuecomment-3945908641)
-  from @mitchellh.
-  
-  Vouch: @MrMage
-  ```
-- [`6afdf34`](https://github.com/ghostty-org/ghostty/commit/6afdf3400e52d4eb83a058c9e43e8e1de755eb64) unicode: change cell to wide when grapheme width changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`556504a`](https://github.com/ghostty-org/ghostty/commit/556504a2d4239a0ff3c5df028fdfbbb2afabff71) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`a67cfb4`](https://github.com/ghostty-org/ghostty/commit/a67cfb4232f4bd41bb6d21b273ef4dd39549930d) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`96c69c9`](https://github.com/ghostty-org/ghostty/commit/96c69c9f9b92651d024107f311967dd2dd88dae0) Add comment for desired_wide = .wide when !width_zero_in_grapheme ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`d240a19`](https://github.com/ghostty-org/ghostty/commit/d240a194e1b3728b7819e21fc9a5f98dcccb618a) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`755c5b3`](https://github.com/ghostty-org/ghostty/commit/755c5b30965271805624fca593de1f39505081d9) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`a1c1d66`](https://github.com/ghostty-org/ghostty/commit/a1c1d66ec8f3c6d051973d60d6e0a42e148fa970) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`8020a88`](https://github.com/ghostty-org/ghostty/commit/8020a88205dbacba7e724d94cdc657d97d868f65) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`8d47081`](https://github.com/ghostty-org/ghostty/commit/8d470816cf45b4bdc570045cf90674dd13347d45) Merge branch 'grapheme-break' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`6b2caf6`](https://github.com/ghostty-org/ghostty/commit/6b2caf69db7c80aab9ec5b4c15982993d6517569) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`a7080b6`](https://github.com/ghostty-org/ghostty/commit/a7080b6fab66d1586fe4e0b30e340f62282dbdd6) Make VS15 test check that previous grapheme is not affected ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`5beeec0`](https://github.com/ghostty-org/ghostty/commit/5beeec0b8a818b4ead7102093bf1c0e5e824a51c) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`d5098f5`](https://github.com/ghostty-org/ghostty/commit/d5098f5896265bfcc13c95a86ff0f6ffde106fdb) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`77957aa`](https://github.com/ghostty-org/ghostty/commit/77957aa319e99a3ecfedb2300bf83bd382c7740d) Fix Bengali test due to wider grapheme ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`1c3fc06`](https://github.com/ghostty-org/ghostty/commit/1c3fc062e1efcf9d8c28e11c5cc6c48421264f2f) clarify comments ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`96c623e`](https://github.com/ghostty-org/ghostty/commit/96c623ee33189729b93c0a118be83795d0c4995c) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`bc7bbb2`](https://github.com/ghostty-org/ghostty/commit/bc7bbb27afd3077ec87771cc668262fe41a10520) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`bb9d37c`](https://github.com/ghostty-org/ghostty/commit/bb9d37c09c19b58e827c2bbd670505707a00645e) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`4f6fc32`](https://github.com/ghostty-org/ghostty/commit/4f6fc324f1043bca4e7123e45d660c3600107ccd) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.1 to 1.4.2.
-  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
-  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: namespacelabs/nscloud-cache-action
-    dependency-version: 1.4.2
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`f53e4b4`](https://github.com/ghostty-org/ghostty/commit/f53e4b43c4d2a30a6d98a902a124c5fa55acc893) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`327cdbe`](https://github.com/ghostty-org/ghostty/commit/327cdbefadefbbfbdc177a13f42e3d4d8bc97eef) Merge remote-tracking branch 'upstream/main' into grapheme-width-changes ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`35a5ea0`](https://github.com/ghostty-org/ghostty/commit/35a5ea0e83c44e95d228d1ae1ca4d4c130ba3a68) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.1 to 1.4.2 ([#10960](https://github.com/ghostty-org/ghostty/issues/10960)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
-  from 1.4.1 to 1.4.2.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v1.4.2</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>Append error cause to failure message by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/104">namespacelabs/nscloud-cache-action#104</a></li>
-  <li>Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6 by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/107">namespacelabs/nscloud-cache-action#107</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2">https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...v1.4.2</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9"><code>a90bb5d</code></a>
-  Update <code>@​namespacelabs/actions-toolkit</code> to 0.2.6</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/60628686a062537fb52c6fdeacedb198d1379023"><code>6062868</code></a>
-  Append error cause to failure message (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/104">#104</a>)</li>
-  <li>See full diff in <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.4.1...a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.4.1&new-version=1.4.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`d186613`](https://github.com/ghostty-org/ghostty/commit/d186613ca4a31389e1b624efcd981ebfe5354393) terminal: change cell width when wider grapheme detected ([#10465](https://github.com/ghostty-org/ghostty/issues/10465)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR updates the logic in Terminal `print` to include more cases of
-  changing a cell to be wide due to a grapheme cluster that needs to be
-  wide but starts off narrow. The existing case of this is a
-  text-presentation code point followed by VS16 to make it emoji
-  presentation. This PR handles more cases that are found in scripts such
-  as Devanagari where the correct grapheme width calculation sums up
-  multiple code points of non-zero widths. An example, as seen from
-  [uucode's issue #1](https://github.com/jacobsandlund/uucode/issues/1) is
-  `क्‍ष`, which now with https://github.com/ghostty-org/ghostty/pull/9680
-  merged is one grapheme cluster instead of two, but the U+0915 (first
-  code point) is width one and U+0937 (final code point) is also width
-  one, and the whole cluster should be width 1 + 1 = 2. This is important
-  to address with the grapheme break change otherwise these scripts would
-  show with narrow cells, incorrectly.
-  
-  Before:
-  
-  <img width="680" height="124" alt="CleanShot 2026-01-27 at 10 31 24@2x"
-  src="https://github.com/user-attachments/assets/4ff5959d-9c14-4062-8280-83004af38495"
-  />
-  
-  After:
-  
-  <img width="646" height="118" alt="CleanShot 2026-01-27 at 10 29 10@2x"
-  src="https://github.com/user-attachments/assets/3ad11afd-2141-46fb-b22b-9fa7b2546366"
-  />
-  
-  ---
-  
-  Note that the logic here just takes `width_zero_in_grapheme` and if it's
-  not zero width, makes the cell wide. This is actually wrong for
-  graphemes with `prepend` (usually/always? zero width) followed by a
-  character that should be narrow width, but that's affecting a much
-  smaller number of graphemes. To address that, we would need to run the
-  full `wcwidth` from `uucode` on the grapheme, and compare the width
-  output with the current cell's `Wide`. I figured it'd be better to
-  incrementally just handle the bulk of the cases with the
-  `width_zero_in_grapheme` check.
-  
-  This also adds tests to make sure moving the cell is handled correctly,
-  which was not the case for the existing VS16 logic.
-  
-  There's a lot of code here to handle transferring the graphemes when the
-  narrow cell should wrap to the next line to become wide. I'd like
-  feedback on the approach here before attempting to clean anything up, if
-  desired (pull it out into a separate method?).
-  
-  AI was used in some of the uucode changes in
-  https://github.com/ghostty-org/ghostty/pull/9678 (Amp--primarily for
-  tests), but everything was carefully vetted and much of it done by hand.
-  This PR was made without AI.
-  ```
-- [`79f0bfe`](https://github.com/ghostty-org/ghostty/commit/79f0bfe374c0a324cf3158f351ecce5aeb36770f) nix: update ucs-detect to latest master ([@jacobsandlund](https://github.com/jacobsandlund))
-- [`05b4db5`](https://github.com/ghostty-org/ghostty/commit/05b4db574b4c3a36670172024ffc1998048f397f) nix: update ucs-detect to latest master ([#10965](https://github.com/ghostty-org/ghostty/issues/10965)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This updates [ucs-detect](https://github.com/jquast/ucs-detect) to the
-  latest `master` version from 2/7/2026.
-  
-  AI disclaimer: this was done almost entirely with the help of AI, with
-  this thread here:
-  https://ampcode.com/threads/T-019c8ac5-e8ab-738d-93a6-06ec5b20f5e2
-  ```
-- [`c61f184`](https://github.com/ghostty-org/ghostty/commit/c61f184069336c61f7840e2268c6f4dc183b60af) Sync CODEOWNERS vouch list ([#10959](https://github.com/ghostty-org/ghostty/issues/10959)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Sync CODEOWNERS owners with vouch list.
-  
-  ## Added Users
-  
-  - @Atomk
   ```
 
