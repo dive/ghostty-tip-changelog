@@ -8,15 +8,107 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 2, 2026 at 18:13 UTC.
+> Last updated: March 2, 2026 at 21:10 UTC.
 
 ## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22583700515), [2](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [3](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [4](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [5](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [6](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [7](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [8](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 8 runs • 13 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22592783895), [2](https://github.com/ghostty-org/ghostty/actions/runs/22591766134), [3](https://github.com/ghostty-org/ghostty/actions/runs/22583700515), [4](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [5](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [6](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [7](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [8](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [9](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [10](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 10 runs • 20 commits • 3 authors
 
 ### Changes
 
+- [`177612a`](https://github.com/ghostty-org/ghostty/commit/177612a4cf239b2c3d8c36a45c9fa5e9d4a22ba0) terminal: fix insertBlanks orphaned spacer_tail beyond right margin ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When insertBlanks clears the entire region from cursor to the right
+  margin (scroll_amount == 0), a wide character whose head is at the right
+  margin gets cleared but its spacer_tail just beyond the margin is left
+  behind, causing a "spacer tail not following wide" page integrity
+  violation.
+  
+  Move the right-margin wide-char cleanup from inside the scroll_amount >
+  0 block to before it, so it runs unconditionally — matching the
+  rowWillBeShifted pattern of cleaning up boundary-straddling wide chars
+  up front.
+  
+  Found via AFL++ fuzzing. #11109
+  ```
+- [`5fa42dd`](https://github.com/ghostty-org/ghostty/commit/5fa42dd80235bf3493d4e8d7d6817597d8f3e1c8) Update VOUCHED list ([#11139](https://github.com/ghostty-org/ghostty/issues/11139)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11128#discussioncomment-15976454)
+  from @mitchellh.
+  
+  Vouch: @noib3
+  ```
+- [`aa157c0`](https://github.com/ghostty-org/ghostty/commit/aa157c09abf6384e38cd4d9c19c35bfab8f7a3b8) terminal: fix insertBlanks orphaned spacer_tail beyond right margin ([#11137](https://github.com/ghostty-org/ghostty/issues/11137)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When insertBlanks clears the entire region from cursor to the right
+  margin (scroll_amount == 0), a wide character whose head is at the right
+  margin gets cleared but its spacer_tail just beyond the margin is left
+  behind, causing a "spacer tail not following wide" page integrity
+  violation.
+  
+  Move the right-margin wide-char cleanup from inside the scroll_amount >
+  0 block to before it, so it runs unconditionally — matching the
+  rowWillBeShifted pattern of cleaning up boundary-straddling wide chars
+  up front.
+  
+  Found via AFL++ fuzzing. #11109
+  ```
+- [`1ba9f91`](https://github.com/ghostty-org/ghostty/commit/1ba9f9187ef09a507cf58a3c38de493aacb090c4) terminal: fix no-reflow resize leaving stale spacer heads ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  resizeWithoutReflowGrowCols has a fast path that reuses existing page
+  capacity when growing columns: it simply bumps page.size.cols without
+  touching cell data. If any row has a spacer_head at the old last column
+  (from a wide char that did not fit), that cell is no longer at the end
+  of the now-wider row, causing a page integrity violation.
+  
+  Fix by checking for spacer_head cells at the old last column before
+  taking the fast path. If any are found, fall through to the slow path
+  which handles spacer heads correctly via cloneRowFrom.
+  
+  Found by AFL++ stream fuzzer. #11109
+  ```
+- [`b39a00d`](https://github.com/ghostty-org/ghostty/commit/b39a00ddfa9003572e058d6ba1e87c449e575967) terminal: fix insertLines/deleteLines orphaned cells on full clear ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When deleteLines or insertLines count >= scroll region height, all rows
+  go through the clear-only path (no shifting). This path did not call
+  rowWillBeShifted, leaving orphaned spacer_tail cells when wide characters
+  straddled the right margin boundary, causing a "spacer tail not following
+  wide" page integrity violation.
+  
+  Add rowWillBeShifted before clearCells in the else branch of both
+  functions.
+  
+  Found via AFL++ fuzzing. #11109
+  ```
+- [`678601d`](https://github.com/ghostty-org/ghostty/commit/678601d94a4d7fe0828b6f67b1a2b0d690c73aa9) terminal: fix no-reflow resize leaving stale spacer heads ([#11135](https://github.com/ghostty-org/ghostty/issues/11135)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  resizeWithoutReflowGrowCols has a fast path that reuses existing page
+  capacity when growing columns: it simply bumps page.size.cols without
+  touching cell data. If any row has a spacer_head at the old last column
+  (from a wide char that did not fit), that cell is no longer at the end
+  of the now-wider row, causing a page integrity violation.
+  
+  Fix by checking for spacer_head cells at the old last column before
+  taking the fast path. If any are found, fall through to the slow path
+  which handles spacer heads correctly via cloneRowFrom.
+  
+  Found by AFL++ stream fuzzer. #11109
+  ```
+- [`4768fff`](https://github.com/ghostty-org/ghostty/commit/4768ffff7396fb78578a61a6e488f16e1e961bf7) terminal: fix insertLines/deleteLines orphaned cells on full clear ([#11136](https://github.com/ghostty-org/ghostty/issues/11136)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When deleteLines or insertLines count >= scroll region height, all rows
+  go through the clear-only path (no shifting). This path did not call
+  rowWillBeShifted, leaving orphaned spacer_tail cells when wide
+  characters straddled the right margin boundary, causing a "spacer tail
+  not following wide" page integrity violation.
+  
+  Add rowWillBeShifted before clearCells in the else branch of both
+  functions.
+  
+  Found via AFL++ fuzzing. #11109
+  ```
 - [`e7030e7`](https://github.com/ghostty-org/ghostty/commit/e7030e73dbafd3f986c57b1a015d16cd53e7435b) terminal: fix printCell corrupting previous row when overwriting wide char ([@mitchellh](https://github.com/mitchellh))
   ```text
   printCell, when overwriting a wide cell with a narrow cell at x<=1 and
