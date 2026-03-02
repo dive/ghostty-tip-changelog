@@ -8,15 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 2, 2026 at 15:15 UTC.
+> Last updated: March 2, 2026 at 18:13 UTC.
 
 ## March 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [2](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [3](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [4](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [5](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [6](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [7](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 7 runs • 11 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22583700515), [2](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [3](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [4](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [5](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [6](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [7](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [8](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
+Summary: 8 runs • 13 commits • 3 authors
 
 ### Changes
 
+- [`e7030e7`](https://github.com/ghostty-org/ghostty/commit/e7030e73dbafd3f986c57b1a015d16cd53e7435b) terminal: fix printCell corrupting previous row when overwriting wide char ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  printCell, when overwriting a wide cell with a narrow cell at x<=1 and
+  y>0, unconditionally sets the last cell of the previous row to .narrow.
+  This is intended to clear a spacer_head left by a wrapped wide char, but
+  the cell could be a spacer_tail if a wide char fit entirely on the
+  previous row. Setting a spacer_tail to .narrow orphans the preceding
+  .wide cell, which later causes an integrity violation in insertBlanks
+  (assert that the cell after a .wide is .spacer_tail).
+  
+  Fix by guarding the assignment so it only fires when the previous row's
+  last cell is actually a .spacer_head. The same fix is applied in both
+  the .wide and .spacer_tail branches of printCell.
+  
+  Found by AFL++ stream fuzzer.
+  ```
+- [`8cddd38`](https://github.com/ghostty-org/ghostty/commit/8cddd384c6ef614a373cf52b2a0e835c7e85134a) terminal: fix printCell corrupting previous row when overwriting wide char ([#11134](https://github.com/ghostty-org/ghostty/issues/11134)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  printCell, when overwriting a wide cell with a narrow cell at x<=1 and
+  y>0, unconditionally sets the last cell of the previous row to .narrow.
+  This is intended to clear a spacer_head left by a wrapped wide char, but
+  the cell could be a spacer_tail if a wide char fit entirely on the
+  previous row. Setting a spacer_tail to .narrow orphans the preceding
+  .wide cell, which later causes an integrity violation in insertBlanks
+  (assert that the cell after a .wide is .spacer_tail).
+  
+  Fix by guarding the assignment so it only fires when the previous row's
+  last cell is actually a .spacer_head. The same fix is applied in both
+  the .wide and .spacer_tail branches of printCell.
+  
+  Found by AFL++ stream fuzzer. #11109
+  ```
 - [`90e96a3`](https://github.com/ghostty-org/ghostty/commit/90e96a3891b7718ff98819ee51ecbd7c133d422f) terminal: fix insertBlanks integrity violation with wide char at right margin ([@mitchellh](https://github.com/mitchellh))
   ```text
   insertBlanks checks whether the last source cell being shifted is wide
