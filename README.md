@@ -8,15 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 3, 2026 at 15:17 UTC.
+> Last updated: March 3, 2026 at 18:15 UTC.
 
 ## March 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22608444462), [2](https://github.com/ghostty-org/ghostty/actions/runs/22607408000), [3](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
-Summary: 3 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22634551065), [2](https://github.com/ghostty-org/ghostty/actions/runs/22633830469), [3](https://github.com/ghostty-org/ghostty/actions/runs/22632962784), [4](https://github.com/ghostty-org/ghostty/actions/runs/22630103557), [5](https://github.com/ghostty-org/ghostty/actions/runs/22608444462), [6](https://github.com/ghostty-org/ghostty/actions/runs/22607408000), [7](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
+Summary: 7 runs • 18 commits • 7 authors
 
 ### Changes
 
+- [`fdfc9fe`](https://github.com/ghostty-org/ghostty/commit/fdfc9fea2ff291436685e7ff6158ffbccbc8a36e) input: send composed text in kitty keyboard protocol ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When the kitty keyboard protocol "report all keys as escape codes" mode
+  was active, composed/IME text (e.g. from dead keys or compose sequences)
+  was silently dropped.
+  
+  This happened because the composed text is sent within our GTK apprt
+  with key=unidentified and no unshifted_codepoint, so no kitty entry was
+  found and the encoder returned without producing any output. The
+  plain-text fallback was also skipped because report_all bypasses it.
+  
+  Send composed text as raw UTF-8 when no kitty entry is found, matching
+  the behavior of Kitty on Linux for me.
+  
+  Fixes #10049
+  ```
+- [`2d5bb18`](https://github.com/ghostty-org/ghostty/commit/2d5bb18e29bc9f50eb2783973f5ed4599285ac1b) input: send composed text in kitty keyboard protocol ([#11149](https://github.com/ghostty-org/ghostty/issues/11149)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When the kitty keyboard protocol "report all keys as escape codes" mode
+  was active, composed/IME text (e.g. from dead keys or compose sequences)
+  was silently dropped.
+  
+  This happened because the composed text is sent within our GTK apprt
+  with key=unidentified and no unshifted_codepoint, so no kitty entry was
+  found and the encoder returned without producing any output. The
+  plain-text fallback was also skipped because report_all bypasses it.
+  
+  Send composed text as raw UTF-8 when no kitty entry is found, matching
+  the behavior of Kitty on Linux for me.
+  
+  Fixes #10049
+  ```
+- [`d2175d1`](https://github.com/ghostty-org/ghostty/commit/d2175d1b56e2f821745ee5ef08056bc918a43ea2) fuzz: add OSC parser fuzzer ([@mitchellh](https://github.com/mitchellh))
+- [`562721e`](https://github.com/ghostty-org/ghostty/commit/562721e6d18a64f267ce1da132df2b236152434c) fuzz: add OSC parser fuzzer ([#11148](https://github.com/ghostty-org/ghostty/issues/11148)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  I'm running this now, 10 minutes with nothing but I figure this is a big
+  enough target we should also add this.
+  ```
+- [`d9d65fd`](https://github.com/ghostty-org/ghostty/commit/d9d65fdb9f20c7190609009717a680c18b977425) fix: calculate cell size before presenting gtk window ([@ajbucci](https://github.com/ajbucci))
+- [`0af3477`](https://github.com/ghostty-org/ghostty/commit/0af3477e3540c5ad6748d67d7519a3092e219838) fix: remove max() and magic numbers ([@ajbucci](https://github.com/ajbucci))
+- [`733d307`](https://github.com/ghostty-org/ghostty/commit/733d307bf4138fe66b8eff01f1d923941c9fe7f0) gtk: update some comments/function names, take min sizes into account ([@jcollie](https://github.com/jcollie))
+- [`e6e5f3f`](https://github.com/ghostty-org/ghostty/commit/e6e5f3ffe18871359a812bdba68fd325e8ecb359) macos: finish editing tab title when the window resigns as key window ([@bo2themax](https://github.com/bo2themax))
+- [`c8a0092`](https://github.com/ghostty-org/ghostty/commit/c8a0092301a3274dac0ccb982d4b05fca98d0468) fix: calculate cell size before presenting gtk window ([#10459](https://github.com/ghostty-org/ghostty/issues/10459)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #7937
+  
+  Added `computeInitialSize` to GTK `Surface` and call it in GTK
+  `Application` before the first `present()`, so the window manager
+  centers the correct size on initial show.
+  
+  The issue occurs because the core `Surface.recomputeInitialSize()` runs
+  only after the renderer is initialized. In GTK, the `GLArea` isn’t
+  realized until after `present()`, so the initial size arrives too late
+  for WM centering.
+  
+  **Limitations**: when we precompute size before `present()` we do not
+  have access to padding, so the sizing will be very slightly off... but
+  since it is only off a few pixels I was unable to tell visually that it
+  wasn't perfectly centered.
+  
+  **Other thoughts**: I was hesitant to make changes to core `Surface`
+  because the issue is Linux-specific, but it may make sense to extract a
+  helper from `recomputeInitialSize` to avoid duplicating the sizing math.
+  
+  **AI Disclosure:** I used AI to explore the project, help with any
+  language / API questions (I've never used zig before and rarely use
+  gtk), and make implementation suggestions.
+  ```
+- [`2f0039d`](https://github.com/ghostty-org/ghostty/commit/2f0039d419022cd827d3c7023947c48a478e3137) macos: finish editing tab title when the window resigns as key window ([#11147](https://github.com/ghostty-org/ghostty/issues/11147)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes #11146 and also #10993. Updated the comments added in #11052.
+  
+  > After finishing editing when the window resigns as the key window,
+  using `labelFrame.minY` is fine with the same usage as #10993, but when
+  double-clicking with text selected it will move up again 🤷🏻‍♂️.
+  
+  This makes focus state more accurate with cursor shape on the surface,
+  when editing the title for a tab in another window group.
+  
+  [Incorrect
+  example](https://github.com/user-attachments/assets/c3c4e774-a683-44e7-9bb6-3be79ac72ec2)
+  ```
+- [`4ce782b`](https://github.com/ghostty-org/ghostty/commit/4ce782b63f7348867cb6fd00695740b3970ec77a) terminfo: add support for SGR dim ([@noib3](https://github.com/noib3))
+  ```text
+  This PR implements the fix discussed in
+  https://github.com/ghostty-org/ghostty/discussions/11128
+  ```
+- [`cb06b9b`](https://github.com/ghostty-org/ghostty/commit/cb06b9b0018508b04702e9a4580963eed8d00cdd) terminfo: add support for SGR dim ([#11144](https://github.com/ghostty-org/ghostty/issues/11144)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR implements the fix discussed in
+  https://github.com/ghostty-org/ghostty/discussions/11128.
+  
+  Before:
+  
+  <img width="818" height="96" alt="before"
+  src="https://github.com/user-attachments/assets/788f981f-3d1b-4c60-bf85-0c297641cae7"
+  />
+  
+  After:
+  
+  <img width="813" height="93" alt="after"
+  src="https://github.com/user-attachments/assets/a530015a-053a-4680-9a85-812aa8df3d91"
+  />
+  ```
 - [`bb64692`](https://github.com/ghostty-org/ghostty/commit/bb646926f8c4c242365cd2e915140760f95c1c75) config: respect cursor-click-to-move for OSC133 click to move ([@mitchellh](https://github.com/mitchellh))
   ```text
   When cursor-click-to-move is set to false, disable all prompt
