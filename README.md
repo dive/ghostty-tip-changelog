@@ -8,7 +8,18 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 3, 2026 at 00:22 UTC.
+> Last updated: March 3, 2026 at 03:48 UTC.
+
+## March 3, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
+Summary: 1 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`5e7a5cc`](https://github.com/ghostty-org/ghostty/commit/5e7a5cc9c1b4b198e226e2b88df5b3eb66299dcf) pin python depds to latest tag ([@rhodes-b](https://github.com/rhodes-b))
+- [`eaa83b8`](https://github.com/ghostty-org/ghostty/commit/eaa83b82b3f637ab1c07ac78ea8e69e3f620cc4d) address comments ([@rhodes-b](https://github.com/rhodes-b))
+- [`d3c3770`](https://github.com/ghostty-org/ghostty/commit/d3c37704359cdc863a85a0d67baa8a9cd09f88af) Nix pkgs pin dependencies ([#11121](https://github.com/ghostty-org/ghostty/issues/11121)) ([@pluiedev](https://github.com/pluiedev))
 
 ## March 2, 2026
 
