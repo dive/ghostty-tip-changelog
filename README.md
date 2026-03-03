@@ -8,15 +8,42 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 3, 2026 at 03:48 UTC.
+> Last updated: March 3, 2026 at 06:16 UTC.
 
 ## March 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
-Summary: 1 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22608444462), [2](https://github.com/ghostty-org/ghostty/actions/runs/22607408000), [3](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
+Summary: 3 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`bb64692`](https://github.com/ghostty-org/ghostty/commit/bb646926f8c4c242365cd2e915140760f95c1c75) config: respect cursor-click-to-move for OSC133 click to move ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When cursor-click-to-move is set to false, disable all prompt
+  click-to-move mechanisms including shell-native methods such as OSC 133
+  cl= (arrow key synthesis) and click_events.
+  
+  I forgot to port this config over when we did the OSC133 stuff.
+  
+  Also update the config documentation to accurately describe the current
+  behavior.
+  
+  Fixes #11138
+  ```
+- [`2502ca2`](https://github.com/ghostty-org/ghostty/commit/2502ca294efe5aa9722c36e25b2252b0150054e9) config: respect cursor-click-to-move for OSC133 click to move ([#11141](https://github.com/ghostty-org/ghostty/issues/11141)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When cursor-click-to-move is set to false, disable all prompt
+  click-to-move mechanisms including shell-native methods such as OSC 133
+  cl= (arrow key synthesis) and click_events.
+  
+  I forgot to port this config over when we did the OSC133 stuff.
+  
+  Also update the config documentation to accurately describe the current
+  behavior.
+  
+  Fixes #11138
+  ```
+- [`391c904`](https://github.com/ghostty-org/ghostty/commit/391c9044bc62bd001ab842e52bde0bd398837823) pkg/afl++: remove @@ from run target since we use in-memory targets ([@mitchellh](https://github.com/mitchellh))
 - [`5e7a5cc`](https://github.com/ghostty-org/ghostty/commit/5e7a5cc9c1b4b198e226e2b88df5b3eb66299dcf) pin python depds to latest tag ([@rhodes-b](https://github.com/rhodes-b))
 - [`eaa83b8`](https://github.com/ghostty-org/ghostty/commit/eaa83b82b3f637ab1c07ac78ea8e69e3f620cc4d) address comments ([@rhodes-b](https://github.com/rhodes-b))
 - [`d3c3770`](https://github.com/ghostty-org/ghostty/commit/d3c37704359cdc863a85a0d67baa8a9cd09f88af) Nix pkgs pin dependencies ([#11121](https://github.com/ghostty-org/ghostty/issues/11121)) ([@pluiedev](https://github.com/pluiedev))
