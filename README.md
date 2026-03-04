@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 4, 2026 at 15:13 UTC.
+> Last updated: March 4, 2026 at 18:13 UTC.
 
 ## March 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
-Summary: 1 runs • 6 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [2](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
+Summary: 2 runs • 8 commits • 6 authors
 
 ### Changes
 
+- [`a716b9c`](https://github.com/ghostty-org/ghostty/commit/a716b9c4d421a3ab94f93fe301ddc28a5a086361) macos: Ghostty.Shell.escape unit tests ([@jparise](https://github.com/jparise))
+- [`53ef422`](https://github.com/ghostty-org/ghostty/commit/53ef42266a422c23b1523a3347caf7433fb63983) macos: Ghostty.Shell.escape unit tests ([#11162](https://github.com/ghostty-org/ghostty/issues/11162)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  *AI Disclosure:* These were written using the Claude Agent in Xcode
+  26.3, partly as an excuse to try out that latest integration.
+  ```
 - [`b215291`](https://github.com/ghostty-org/ghostty/commit/b2152919141de84a71052dd6f298d24dc1b08d63) macos: implement audio bell support with bell-audio-path ([@alaasdk](https://github.com/alaasdk))
   ```text
   Extends the macOS bell implementation to support the `audio` bell
