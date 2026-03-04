@@ -8,15 +8,125 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 4, 2026 at 18:13 UTC.
+> Last updated: March 4, 2026 at 21:09 UTC.
 
 ## March 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [2](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
-Summary: 2 runs • 8 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22685396526), [2](https://github.com/ghostty-org/ghostty/actions/runs/22684084893), [3](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [4](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
+Summary: 4 runs • 18 commits • 9 authors
 
 ### Changes
 
+- [`9a3dbe1`](https://github.com/ghostty-org/ghostty/commit/9a3dbe10b05912ee30061dae6d730d8d9db0bc46) zsh: fix extra newlines with leading-newline prompts ([@jparise](https://github.com/jparise))
+  ```text
+  In our multiline prompt logic, skip the newline immediately after the
+  first mark to avoid introducing a double newline due to OSC 133;A's
+  fresh-line behavior.
+  
+  Fixes: #11003
+  ```
+- [`9386fa6`](https://github.com/ghostty-org/ghostty/commit/9386fa64997db6124f1cdbd4730938edb49f2a85) zsh: emit missing prompt markers in line-init ([@jparise](https://github.com/jparise))
+  ```text
+  Emit semantic prompt markers at line-init if PS1 doesn't contain our
+  marks. This ensures the terminal sees prompt markers even if another
+  plugin (like zinit or oh-my-posh) regenerated PS1 after our precmd ran.
+  We use 133;P instead of 133;A to avoid fresh-line behavior which would
+  disrupt the display since the prompt has already been drawn. We also
+  emit 133;B to mark the input area, which is needed for click-to-move.
+  
+  Fixes: #10555
+  ```
+- [`3ee8ef4`](https://github.com/ghostty-org/ghostty/commit/3ee8ef4f650f550698ee1e8e81e591511e195bf4) macos: suppress split-focus click mouse reports ([@rockorager](https://github.com/rockorager))
+  ```text
+  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
+  ```
+- [`0fa12f8`](https://github.com/ghostty-org/ghostty/commit/0fa12f89151d5332233c97308bdda8925f6627b9) gtk: suppress mouse reports on focus-transfer clicks ([@rockorager](https://github.com/rockorager))
+  ```text
+  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
+  ```
+- [`d146808`](https://github.com/ghostty-org/ghostty/commit/d1468086efcb7ae83498c4660ecfa5c3aebd8b6a) macos: defer key-window focus sync to reduce churn ([@rockorager](https://github.com/rockorager))
+  ```text
+  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
+  ```
+- [`3bcf329`](https://github.com/ghostty-org/ghostty/commit/3bcf329c2b5894e64e129542742db305a51d463e) zsh: emit missing prompt markers in line-init ([#11165](https://github.com/ghostty-org/ghostty/issues/11165)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Emit semantic prompt markers at line-init if PS1 doesn't contain our
+  marks. This ensures the terminal sees prompt markers even if another
+  plugin (like zinit or oh-my-posh) regenerated PS1 after our precmd ran.
+  We use 133;P instead of 133;A to avoid fresh-line behavior which would
+  disrupt the display since the prompt has already been drawn. We also
+  emit 133;B to mark the input area, which is needed for click-to-move.
+  
+  Fixes: #10572, #10555
+  ```
+- [`226d0b9`](https://github.com/ghostty-org/ghostty/commit/226d0b9918b6c6149d21f79a05a432d4c10da0bf) zsh: fix extra newlines with leading-newline prompts ([#11166](https://github.com/ghostty-org/ghostty/issues/11166)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In our multiline prompt logic, skip the newline immediately after the
+  first mark to avoid introducing a double newline due to OSC 133;A's
+  fresh-line behavior.
+  
+  Fixes: #11003
+  ```
+- [`c3febab`](https://github.com/ghostty-org/ghostty/commit/c3febabd286dfaa47c3d7d251ede22e8e382b6f3) apprt: unify split-click focus behavior across macOS and GTK; suppress focus-transfer mouse events ([#11167](https://github.com/ghostty-org/ghostty/issues/11167)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  This PR aligns split-pane click behavior across macOS and GTK when focus
+  changes due to click.
+  
+  When a left-click is used to transfer focus (window activation or
+  switching to another split), Ghostty now treats that click as focus-only
+  and suppresses forwarding mouse press/release events for that
+  focus-transfer click.
+  
+  ## Changes
+  
+  1. macOS: suppress focus-transfer left mouse-down and matching mouse-up
+  in `SurfaceView_AppKit.swift`.
+  1. GTK: suppress focus-transfer left mouse-down and matching mouse-up in
+  `src/apprt/gtk/class/surface.zig`.
+  1. macOS: defer key-window focus sync to next runloop tick to reduce
+  transient focus churn in `BaseTerminalController.swift`.
+  1. macOS build/lint: exclude generated/dependency paths from SwiftLint
+  during build in `.swiftlint.yml` and
+  `Ghostty.xcodeproj/project.pbxproj`.
+  
+  ## Behavior
+  
+  1. Focus-transfer split clicks are now focus-only on both macOS and GTK.
+  1. Matching release is also suppressed for those clicks, avoiding
+  release-without-press sequences.
+  1. Platform behavior is consistent for split focus transitions.
+  
+  ## Validation
+  
+  1. Built macOS target with `xcodebuild -target Ghostty -configuration
+  Debug -arch arm64`.
+  1. Ran targeted Zig test command `zig build test
+  -Dtest-filter=computeFraction`.
+  1. Ran format/lint for touched files (`swiftlint lint --fix`, `zig
+  fmt`).
+  4. Build and (human) tested click scenarios on macOS
+  
+  ## AI Disclosure
+  
+  AI-assisted.
+  
+  Thread:
+  https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
+  ```
+- [`2772c90`](https://github.com/ghostty-org/ghostty/commit/2772c90885d2ffc27fdf5e7e758c5ecca2af6f8c) i18n: add Kazakh translation (kk) ([@crayxt](https://github.com/crayxt))
+- [`0797b28`](https://github.com/ghostty-org/ghostty/commit/0797b281ec0268f2df65399b1aede85eaea0d31a) Add Kazakh translation ([#10670](https://github.com/ghostty-org/ghostty/issues/10670)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Dear maintainers,
+  
+  This PR adds Kazakh language translation file and necessary edits to
+  CODEOWNERS and i18n file with the list of locales.
+  
+  Please review (and squash when committing)
+  
+  Thank you!
+  ```
 - [`a716b9c`](https://github.com/ghostty-org/ghostty/commit/a716b9c4d421a3ab94f93fe301ddc28a5a086361) macos: Ghostty.Shell.escape unit tests ([@jparise](https://github.com/jparise))
 - [`53ef422`](https://github.com/ghostty-org/ghostty/commit/53ef42266a422c23b1523a3347caf7433fb63983) macos: Ghostty.Shell.escape unit tests ([#11162](https://github.com/ghostty-org/ghostty/issues/11162)) ([@mitchellh](https://github.com/mitchellh))
   ```text
