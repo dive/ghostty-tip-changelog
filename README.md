@@ -8,7 +8,181 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 4, 2026 at 03:46 UTC.
+> Last updated: March 4, 2026 at 06:15 UTC.
+
+## March 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
+Summary: 1 runs • 6 commits • 5 authors
+
+### Changes
+
+- [`b215291`](https://github.com/ghostty-org/ghostty/commit/b2152919141de84a71052dd6f298d24dc1b08d63) macos: implement audio bell support with bell-audio-path ([@alaasdk](https://github.com/alaasdk))
+  ```text
+  Extends the macOS bell implementation to support the `audio` bell
+  feature by playing a user-specified audio file via NSSound.
+  
+  Previously, macOS only supported the `system` feature (NSSound.beep()).
+  This change adds support for:
+  - `audio` bell feature: plays the file at `bell-audio-path` using
+    NSSound, respecting the `bell-audio-volume` setting
+  - Adds `cval()` to the `Path` type so it can be returned via the C API
+  
+  Also removes the "(GTK only)" restriction from `bell-audio-path` and
+  `bell-audio-volume` documentation, as these options now work on macOS.
+  
+  Example config:
+    bell-features = audio
+    bell-audio-path = /System/Library/Sounds/Glass.aiff
+    bell-audio-volume = 0.8
+  ```
+- [`c93cf52`](https://github.com/ghostty-org/ghostty/commit/c93cf521088594649a6c2d54e1c916c3906c0a0f) Update VOUCHED list ([#11156](https://github.com/ghostty-org/ghostty/issues/11156)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10982#discussioncomment-15990906)
+  from @jcollie.
+  
+  Vouch: @cmwetherell
+  ```
+- [`69df92b`](https://github.com/ghostty-org/ghostty/commit/69df92b56a85d1ae883dc8f034fb19665161c498) build(deps): bump cachix/install-nix-action from 31.9.1 to 31.10.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.9.1 to 31.10.0.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/2126ae7fc54c9df00dd18f7f18754393182c73cd...19effe9fe722874e6d46dd7182e4b8b7a43c4a99)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`73ce40c`](https://github.com/ghostty-org/ghostty/commit/73ce40c6235af6028dac5dfd4502b50c779b7bf5) build(deps): bump cachix/install-nix-action from 31.9.1 to 31.10.0 ([#11157](https://github.com/ghostty-org/ghostty/issues/11157)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.9.1 to 31.10.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.0</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.33.3 -&gt; 2.34.0 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/267">cachix/install-nix-action#267</a>
+  Release notes: <a
+  href="https://discourse.nixos.org/t/nix-2-34-0-released/75818">https://discourse.nixos.org/t/nix-2-34-0-released/75818</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.9.1...v31.10.0">https://github.com/cachix/install-nix-action/compare/v31.9.1...v31.10.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/19effe9fe722874e6d46dd7182e4b8b7a43c4a99"><code>19effe9</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/267">#267</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/d3f3b99dd19236cb244609944767f2864ec646ee"><code>d3f3b99</code></a>
+  nix: 2.33.3 -&gt; 2.34.0</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/2126ae7fc54c9df00dd18f7f18754393182c73cd...19effe9fe722874e6d46dd7182e4b8b7a43c4a99">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.9.1&new-version=31.10.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`98ad1d9`](https://github.com/ghostty-org/ghostty/commit/98ad1d955cf8d66cf5548f581a6502cf10f2f852) use proper type for optional path ([@mitchellh](https://github.com/mitchellh))
+- [`619e33a`](https://github.com/ghostty-org/ghostty/commit/619e33a4febec871c0d655f51d85e7f5f21ba289) macos: implement audio bell support with bell-audio-path ([#11154](https://github.com/ghostty-org/ghostty/issues/11154)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  ## Summary
+  
+  This extends the macOS bell implementation to support the `audio` bell
+  feature, bringing it to parity with GTK/Linux.
+  
+  Previously, macOS only had the `system` feature (`NSSound.beep()`). This
+  PR adds:
+  
+  - **`audio` bell feature on macOS**: plays the file at `bell-audio-path`
+  using `NSSound(contentsOfFile:)`, respecting `bell-audio-volume`
+  - **`cval()` on the `Path` type**: allows `Path` values (a union type)
+  to be returned through the C API, which is needed for Swift to read
+  `bell-audio-path`
+  - **Removes `(GTK only)` restriction** from `bell-audio-path` and
+  `bell-audio-volume` documentation
+  
+  ## How it works
+  
+  In `AppDelegate.swift`, when the bell rings and the `audio` feature is
+  enabled, Ghostty now:
+  1. Reads `bell-audio-path` from config
+  2. Loads it as an `NSSound`
+  3. Applies `bell-audio-volume` and plays it
+  
+  Falls back gracefully if the path is not set or the file cannot be
+  loaded.
+  
+  ## Example config
+  
+  ```
+  bell-features = audio
+  bell-audio-path = /System/Library/Sounds/Glass.aiff
+  bell-audio-volume = 0.8
+  ```
+  
+  ## Testing
+  
+  - Set `bell-features = audio` and `bell-audio-path` to any valid audio
+  file
+  - Trigger a bell with `echo -e '\a'`
+  - Audio should play at the configured volume
+  ````
 
 ## March 3, 2026
 
