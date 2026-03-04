@@ -8,15 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 3, 2026 at 21:09 UTC.
+> Last updated: March 4, 2026 at 00:20 UTC.
 
 ## March 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22634551065), [2](https://github.com/ghostty-org/ghostty/actions/runs/22633830469), [3](https://github.com/ghostty-org/ghostty/actions/runs/22632962784), [4](https://github.com/ghostty-org/ghostty/actions/runs/22630103557), [5](https://github.com/ghostty-org/ghostty/actions/runs/22608444462), [6](https://github.com/ghostty-org/ghostty/actions/runs/22607408000), [7](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
-Summary: 7 runs • 18 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22645694880), [2](https://github.com/ghostty-org/ghostty/actions/runs/22644801904), [3](https://github.com/ghostty-org/ghostty/actions/runs/22643251900), [4](https://github.com/ghostty-org/ghostty/actions/runs/22634551065), [5](https://github.com/ghostty-org/ghostty/actions/runs/22633830469), [6](https://github.com/ghostty-org/ghostty/actions/runs/22632962784), [7](https://github.com/ghostty-org/ghostty/actions/runs/22630103557), [8](https://github.com/ghostty-org/ghostty/actions/runs/22608444462), [9](https://github.com/ghostty-org/ghostty/actions/runs/22607408000), [10](https://github.com/ghostty-org/ghostty/actions/runs/22603105482)  
+Summary: 10 runs • 26 commits • 8 authors
 
 ### Changes
 
+- [`205c05d`](https://github.com/ghostty-org/ghostty/commit/205c05d59d016222b350b63dd10f8745b1a5d831) macos: passthrough mouse down event to TabTitleEditor if needed ([@bo2themax](https://github.com/bo2themax))
+- [`6614708`](https://github.com/ghostty-org/ghostty/commit/661470897e878b766254e59f30531192d7ae2771) macos: passthrough right mouse down event to TabTitleEditor if needed ([@bo2themax](https://github.com/bo2themax))
+- [`78fdff3`](https://github.com/ghostty-org/ghostty/commit/78fdff34a969d3864ae5a471f673a19ab5e064cf) macos: hide close button when editing tab title ([@bo2themax](https://github.com/bo2themax))
+- [`4437707`](https://github.com/ghostty-org/ghostty/commit/44377071323b629480a367abf80862a1d7b084b0) macos: use a separated struct to hide and restore tab states ([@bo2themax](https://github.com/bo2themax))
+- [`4c83872`](https://github.com/ghostty-org/ghostty/commit/4c838723173da757a16a2f3afd4c94f16732ef6a) macOS: Refine tab title editing ([#11150](https://github.com/ghostty-org/ghostty/issues/11150)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Pass through mouse down event to `TabTitleEditor` if needed
+  - Pass through right mouse down event to `TabTitleEditor` if needed
+  - Hide close button when editing tab title
+  
+  Refactor:
+  - Use a separated struct to hide and restore tab states
+  
+  
+  https://github.com/user-attachments/assets/e69838f5-e199-437c-b53b-a491e9d5b752
+  ```
+- [`0149fd7`](https://github.com/ghostty-org/ghostty/commit/0149fd7139ce76f89357d9ab9bbfba439d1d8445) Update VOUCHED list ([#11155](https://github.com/ghostty-org/ghostty/issues/11155)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11154#issuecomment-3993830083)
+  from @mitchellh.
+  
+  Vouch: @alaasdk
+  ```
+- [`89f9dd7`](https://github.com/ghostty-org/ghostty/commit/89f9dd7848111b28287a70388d610d66227a53f4) build: link to the system FontConfig by default on non-macOS systems ([@jcollie](https://github.com/jcollie))
+  ```text
+  Because of the global shared state that FontConfig maintains, FontConfig
+  must be linked dynamically to the same system FontConfig shared library
+  that GTK uses. Ghostty's default has been changed to always link to the
+  system FontConfig library on non-macOS systems. If that is overridden
+  (by specifying `-fno-sys=fontconfig` during the build) Ghostty may crash
+  when trying to locate glyphs that are not available in the default font.
+  
+  Fixes #10432
+  ```
+- [`ee4c6f8`](https://github.com/ghostty-org/ghostty/commit/ee4c6f88c5517d242b73427f66da4d54d41e35a8) build: link to the system FontConfig by default on non-macOS systems ([#11152](https://github.com/ghostty-org/ghostty/issues/11152)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Because of the global shared state that FontConfig maintains, FontConfig
+  must be linked dynamically to the same system FontConfig shared library
+  that GTK uses. Ghostty's default has been changed to always link to the
+  system FontConfig library on non-macOS systems. If that is overridden
+  (by specifying `-fno-sys=fontconfig` during the build) Ghostty may crash
+  when trying to locate glyphs that are not available in the default font.
+  
+  Fixes #10432
+  ```
 - [`fdfc9fe`](https://github.com/ghostty-org/ghostty/commit/fdfc9fea2ff291436685e7ff6158ffbccbc8a36e) input: send composed text in kitty keyboard protocol ([@mitchellh](https://github.com/mitchellh))
   ```text
   When the kitty keyboard protocol "report all keys as escape codes" mode
@@ -1588,98 +1634,5 @@ Summary: 8 runs • 37 commits • 10 authors
   Also properly destroy the ImGui context and reset widget state in
   glAreaUnrealize so re-realize starts clean. This was extra but was
   probably leaking memory.
-  ```
-
-## February 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22418517986), [2](https://github.com/ghostty-org/ghostty/actions/runs/22408105877), [3](https://github.com/ghostty-org/ghostty/actions/runs/22381369347), [4](https://github.com/ghostty-org/ghostty/actions/runs/22378200332)  
-Summary: 4 runs • 11 commits • 3 authors
-
-### Changes
-
-- [`36cbbeb`](https://github.com/ghostty-org/ghostty/commit/36cbbebc01f6bc24e4e6b27c9660b56525c72566) Update VOUCHED list ([#11021](https://github.com/ghostty-org/ghostty/issues/11021)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11014#discussioncomment-15925945)
-  from @mitchellh.
-  
-  Vouch: @amadeus
-  ```
-- [`1c3f760`](https://github.com/ghostty-org/ghostty/commit/1c3f7601a7bff2bde89bed482e0994109603f265) macos: pass last focused surface as env, use for focus detection ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10935
-  
-  This is a more robust way to detect "is my surface focused" because that
-  question usually means "is my surface the last focused surface" if a
-  _different_ surface is not focused. We already have used this pattern
-  all over but we should extend it to SwiftUI too.
-  ```
-- [`7935ae6`](https://github.com/ghostty-org/ghostty/commit/7935ae6649805aa29aa12edb23731d300db76de1) macos: pass last focused surface as env, use for focus detection ([#11024](https://github.com/ghostty-org/ghostty/issues/11024)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10935
-  
-  This is a more robust way to detect "is my surface focused" because that
-  question usually means "is my surface the last focused surface" if a
-  _different_ surface is not focused. We already have used this pattern
-  all over but we should extend it to SwiftUI too.
-  ```
-- [`dd4e36f`](https://github.com/ghostty-org/ghostty/commit/dd4e36f921e479386a44a12c931bc21528ce683c) macOS: fix crash when adding tab from tab overview ([@nmggithub](https://github.com/nmggithub))
-- [`58acab6`](https://github.com/ghostty-org/ghostty/commit/58acab6c7d51d53b131d173f24b2bbcb35cc3c11) Merge branch 'ghostty-org:main' into fix-tabbing-from-tab-overview ([@nmggithub](https://github.com/nmggithub))
-- [`304823d`](https://github.com/ghostty-org/ghostty/commit/304823d560450ccde4e0f582a68fc88241eb76bd) macos: just some textual cleanup ([@mitchellh](https://github.com/mitchellh))
-- [`da045d2`](https://github.com/ghostty-org/ghostty/commit/da045d2fb3d7d7139a927d7f41f9db44ad7b8fd1) Remove ObjCExceptionCatcher from iOS target ([@mitchellh](https://github.com/mitchellh))
-- [`26146f5`](https://github.com/ghostty-org/ghostty/commit/26146f54c5c739c72ad11c774caff2826cfd7eb5) update comments ([@mitchellh](https://github.com/mitchellh))
-- [`8b1e4c6`](https://github.com/ghostty-org/ghostty/commit/8b1e4c66d7eedbc9455e5e06c15b531945b1ccc3) macOS: fix crash when adding tab from tab overview ([#11009](https://github.com/ghostty-org/ghostty/issues/11009)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  (moved from #11008)
-  
-  I have this branch up to fix #10252. It was written with AI (in Cursor),
-  but only after I made sure I thoroughly understood what was happening
-  (almost to an excessive extent). I had already determined that an
-  Objective-C helper was necessary, I just asked GPT 5.3 Codex in Cursor
-  to write it for me.
-  
-  **TL;DR: deep within AppKit, there is an Objective-C exception that is
-  _always_ thrown when opening a new tab from the visual tab picker ("tab
-  overview"). [Objective-C exceptions *cannot* be safely recovered from in
-  Swift.](http://developer.apple.com/documentation/swift/handling-cocoa-errors-in-swift#Handle-Exceptions-in-Objective-C-Only)
-  As Ghostty is primarily Swift, we must introduce some Objective-C
-  wrapper around tab creation to safely swallow this exception.**
-  
-  There is a lot more I know about this than the above, and can discuss it
-  at length if desired. Interestingly, it seems debug builds of Ghostty
-  (`zig build run`) *do* gracefully recover and don't crash. Release
-  builds (`zig build run -Doptimize=ReleaseFast`), however, *do* crash.
-  The crashing seems to be expected behavior and **_I don't think there's
-  any feasible way to get release builds to recover as debug builds do._**
-  The debug builds do, arguably, have better animation behavior. Not sure
-  how I can approach that part.
-  
-  Release build off of my commit:
-  
-  
-  https://github.com/user-attachments/assets/c81927be-b2d2-48b3-a18f-30b389a90f04
-  
-  
-  Debug build off `db1e31c7a69924913e8faafcedb290de3cb4a8b6` (current
-  `main`, as of writing):
-  
-  
-  https://github.com/user-attachments/assets/76367154-b039-4453-8d39-8a0465973deb
-  ```
-- [`4c8f2bc`](https://github.com/ghostty-org/ghostty/commit/4c8f2bc77b218349839b8e929a981a2bdf4734a8) Update VOUCHED list ([#11012](https://github.com/ghostty-org/ghostty/issues/11012)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11010#issuecomment-3956559518)
-  from @jcollie.
-  
-  Vouch: @douglance
-  ```
-- [`d1a32d3`](https://github.com/ghostty-org/ghostty/commit/d1a32d382bfa261065ba6b2481cd39513f08d7f9) Update VOUCHED list ([#11007](https://github.com/ghostty-org/ghostty/issues/11007)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11006#discussioncomment-15917730)
-  from @jcollie.
-  
-  Vouch: @nmggithub
   ```
 
