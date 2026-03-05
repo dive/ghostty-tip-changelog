@@ -8,7 +8,72 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 5, 2026 at 03:47 UTC.
+> Last updated: March 5, 2026 at 06:17 UTC.
+
+## March 5, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [2](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [3](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [4](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
+Summary: 4 runs • 10 commits • 5 authors
+
+### Changes
+
+- [`2fe5515`](https://github.com/ghostty-org/ghostty/commit/2fe55152ca6fe74219f129ee6339b265a41d0252) i18n: add Vietnamese translation ([@anhthang](https://github.com/anhthang))
+- [`4d30d88`](https://github.com/ghostty-org/ghostty/commit/4d30d886c636305875748b84ec06d489af669921) update translation ([@anhthang](https://github.com/anhthang))
+- [`e2a01be`](https://github.com/ghostty-org/ghostty/commit/e2a01beca7bed7974f1e700cef1ad0eecea2d13d) Merge branch 'main' into vi_VN ([@anhthang](https://github.com/anhthang))
+- [`0b802e7`](https://github.com/ghostty-org/ghostty/commit/0b802e7c2e228b246bb0daee925ab87f66c6ec5c) i18n: add Vietnamese translation ([#8912](https://github.com/ghostty-org/ghostty/issues/8912)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Adds support for the Vietnamese language
+  ```
+- [`3dde6e2`](https://github.com/ghostty-org/ghostty/commit/3dde6e2559e0aa67e04a6001485d87b80ed4c1dd) terminal: bound link regex search work with Oniguruma retry limits ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11177
+  
+  Use per-search Oniguruma match params (retry_limit_in_search) in
+  StringMap-backed link detection to avoid pathological backtracking hangs
+  on very long lines.
+  
+  The units are ticks in the internal loop so its kind of opaque but
+  this seems to still match some very long URLs. The test case in question
+  was a 169K character line (which is now rejected).
+  ```
+- [`fe1e25f`](https://github.com/ghostty-org/ghostty/commit/fe1e25f7a6cec06c45f3c11ef8cc259a617697d4) terminal: bound link regex search work with Oniguruma retry limits ([#11181](https://github.com/ghostty-org/ghostty/issues/11181)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11177
+  
+  Use per-search Oniguruma match params (retry_limit_in_search) in
+  StringMap-backed link detection to avoid pathological backtracking hangs
+  on very long lines.
+  
+  The units are ticks in the internal loop so its kind of opaque but this
+  seems to still match some very long URLs. The test case in question was
+  a 169K character line (which is now rejected).
+  ```
+- [`961bf46`](https://github.com/ghostty-org/ghostty/commit/961bf46884dc7f75a4bfd8640bf7f57baed6b540) Fix Windows test in src/Command.zig ([@jcollie](https://github.com/jcollie))
+  ```text
+  This was introduced in #10611. This doesn't fix all of the current
+  Windows build problems, but at least fixes one that I introduced.
+  ```
+- [`320d9c2`](https://github.com/ghostty-org/ghostty/commit/320d9c2f1cba79a8a9ab32c4d8c337571e435c20) Fix Windows test in src/Command.zig ([#11180](https://github.com/ghostty-org/ghostty/issues/11180)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This was introduced in #10611. This doesn't fix all of the current
+  Windows build problems, but at least fixes one that I introduced.
+  ```
+- [`dfa968d`](https://github.com/ghostty-org/ghostty/commit/dfa968d932ecb6928ebab9a9d460ae0ac629f985) Update VOUCHED list ([#11176](https://github.com/ghostty-org/ghostty/issues/11176)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11175#issuecomment-4001807388)
+  from @jcollie.
+  
+  Vouch: @douglas
+  ```
+- [`a5327a5`](https://github.com/ghostty-org/ghostty/commit/a5327a51f3fedea890f59ad75e7666a57bb743c4) Update VOUCHED list ([#11179](https://github.com/ghostty-org/ghostty/issues/11179)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11164#discussioncomment-16005149)
+  from @mitchellh.
+  
+  Vouch: @Michielvk
+  ```
 
 ## March 4, 2026
 
