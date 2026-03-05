@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 5, 2026 at 06:17 UTC.
+> Last updated: March 5, 2026 at 09:14 UTC.
 
 ## March 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [2](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [3](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [4](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
-Summary: 4 runs • 10 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22707501732), [2](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [3](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [4](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [5](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
+Summary: 5 runs • 12 commits • 6 authors
 
 ### Changes
 
+- [`c920a88`](https://github.com/ghostty-org/ghostty/commit/c920a88cdcc19ed42ab013c1ba2bb9ad41592ada) GTK: add 'move' to the drop target actions ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #11175
+  ```
+- [`dd575c7`](https://github.com/ghostty-org/ghostty/commit/dd575c716077e0e2d12881fe0c5f65b067978176) GTK: add 'move' to the drop target actions ([#11182](https://github.com/ghostty-org/ghostty/issues/11182)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Fixes #11175
+  ```
 - [`2fe5515`](https://github.com/ghostty-org/ghostty/commit/2fe55152ca6fe74219f129ee6339b265a41d0252) i18n: add Vietnamese translation ([@anhthang](https://github.com/anhthang))
 - [`4d30d88`](https://github.com/ghostty-org/ghostty/commit/4d30d886c636305875748b84ec06d489af669921) update translation ([@anhthang](https://github.com/anhthang))
 - [`e2a01be`](https://github.com/ghostty-org/ghostty/commit/e2a01beca7bed7974f1e700cef1ad0eecea2d13d) Merge branch 'main' into vi_VN ([@anhthang](https://github.com/anhthang))
