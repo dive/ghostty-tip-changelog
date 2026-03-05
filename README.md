@@ -8,15 +8,53 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 5, 2026 at 12:11 UTC.
+> Last updated: March 5, 2026 at 15:17 UTC.
 
 ## March 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22707501732), [2](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [3](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [4](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [5](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
-Summary: 5 runs • 12 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22723550848), [2](https://github.com/ghostty-org/ghostty/actions/runs/22723016503), [3](https://github.com/ghostty-org/ghostty/actions/runs/22722387895), [4](https://github.com/ghostty-org/ghostty/actions/runs/22707501732), [5](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [6](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [7](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [8](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
+Summary: 8 runs • 16 commits • 8 authors
 
 ### Changes
 
+- [`e1f4ee7`](https://github.com/ghostty-org/ghostty/commit/e1f4ee7fdd4d5fc4b6b86dd70986be75a0bacabd) Update VOUCHED list ([#11192](https://github.com/ghostty-org/ghostty/issues/11192)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11184#discussioncomment-16011801)
+  from @mitchellh.
+  
+  Vouch: @mac0ne
+  ```
+- [`f36b903`](https://github.com/ghostty-org/ghostty/commit/f36b903479f54fc7202a95ca10509f3eac06e007) Update VOUCHED list ([#11191](https://github.com/ghostty-org/ghostty/issues/11191)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11190#issuecomment-4005537826)
+  from @00-kat.
+  
+  Vouch: @AnthonyZhOon
+  ```
+- [`e07aefa`](https://github.com/ghostty-org/ghostty/commit/e07aefa6010716ccc51c745b8e0dde9598b58812) fix: zsh shell integration when `sudo` and `ssh` aliases are defined ([@Michielvk](https://github.com/Michielvk))
+- [`42540f4`](https://github.com/ghostty-org/ghostty/commit/42540f44cd717a0e1169fb5008443c6ebb9a073d) fix: zsh shell integration when `sudo` and `ssh` aliases are defined ([#11185](https://github.com/ghostty-org/ghostty/issues/11185)) ([@jparise](https://github.com/jparise))
+  ````text
+  I encountered an issue related to
+  https://github.com/ghostty-org/ghostty/discussions/8641 and
+  https://github.com/ghostty-org/ghostty/pull/8647, but in `zsh` instead
+  of `bash`.
+  
+  One of my aliases is:
+  
+  ```bash
+  alias sudo='sudo '
+  ```
+  
+  Which causes following error when sourcing the zsh shell integrations:
+  
+  ```shell
+  source /usr/share/ghostty/shell-integration/zsh/ghostty-integration
+  /usr/share/ghostty/shell-integration/zsh/ghostty-integration:149: defining function based on alias `sudo'
+  /usr/share/ghostty/shell-integration/zsh/ghostty-integration:233: parse error near `()'
+  ```
+  ````
 - [`c920a88`](https://github.com/ghostty-org/ghostty/commit/c920a88cdcc19ed42ab013c1ba2bb9ad41592ada) GTK: add 'move' to the drop target actions ([@jcollie](https://github.com/jcollie))
   ```text
   Fixes #11175
