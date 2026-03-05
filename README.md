@@ -8,15 +8,110 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 4, 2026 at 21:09 UTC.
+> Last updated: March 5, 2026 at 00:21 UTC.
 
 ## March 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22685396526), [2](https://github.com/ghostty-org/ghostty/actions/runs/22684084893), [3](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [4](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
-Summary: 4 runs • 18 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22694000891), [2](https://github.com/ghostty-org/ghostty/actions/runs/22691416275), [3](https://github.com/ghostty-org/ghostty/actions/runs/22685396526), [4](https://github.com/ghostty-org/ghostty/actions/runs/22684084893), [5](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [6](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
+Summary: 6 runs • 30 commits • 9 authors
 
 ### Changes
 
+- [`6961c22`](https://github.com/ghostty-org/ghostty/commit/6961c2265e3b760dda9146aa285f11eee1e16abe) gtk: `+new-window` now respects `--working-directory` and `-e` ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes: #8862
+  Fixes: #10716
+  
+  This adds the machinery to pass configuration settings received over
+  DBus down to the GObject Surface so that that configuration information
+  can be used to override some settings from the current "live" config
+  when creating a new window. Currently it's only possible to override
+  `--working-directory` and `--command`. `-e` on the `ghostty +new-window`
+  CLI works as well.
+  
+  Adding more overridable settings is possible, but being able to fully
+  override any possible setting would better be served with a major
+  revamp of how Ghostty handles configs, which I is way out of scope at
+  the moment.
+  ```
+- [`ec0f9ef`](https://github.com/ghostty-org/ghostty/commit/ec0f9ef4163ee8262a31c779a9062c21b7486d5c) gtk: `+new-window` now respects `--title` ([@jcollie](https://github.com/jcollie))
+- [`f2ce7c3`](https://github.com/ghostty-org/ghostty/commit/f2ce7c348edbd635dd74cae9b3b330825768ba76) gtk: `+new-window` document `--title` ([@jcollie](https://github.com/jcollie))
+- [`002a6cc`](https://github.com/ghostty-org/ghostty/commit/002a6cc76526240b19cee9792a79de05077bb09a) gtk: use simpler method for passing overrides around ([@jcollie](https://github.com/jcollie))
+  ```text
+  As discussed in Discord, this commit drops the `ConfigOverride` object
+  in favor of a simpler method of passing the overrides around. Completely
+  avoiding changes to the core wasn't possible but it's very minimal now.
+  ```
+- [`e27956f`](https://github.com/ghostty-org/ghostty/commit/e27956fdde1b3964d689f8f0c038b29f6e7d5157) gtk: remove modifications to the core for overrides ([@jcollie](https://github.com/jcollie))
+- [`5bc5820`](https://github.com/ghostty-org/ghostty/commit/5bc5820f3255cc8dfbf6c30e3f7edb4a947add3d) gtk: simplify new-window action memory management with an arena ([@jcollie](https://github.com/jcollie))
+- [`58d6021`](https://github.com/ghostty-org/ghostty/commit/58d6021ec44c2383344f2c08214ebe3dd754ea4d) apprt/gtk: reduce split-tree flicker by reusing leaf widgets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #8208
+  
+  Split-tree updates currently clear `tree_bin` and then wait for every surface
+  to become parentless before rebuilding. That leaves the split area blank for
+  one or more frames, which is the visible flicker during split create/close/
+  resize/equalize actions.
+  
+  Keep the previous widget tree attached until the idle rebuild runs, then
+  swap in the rebuilt tree in one step. During rebuild, reuse existing
+  leaf widgets by detaching and reparenting them into the new `GtkPaned`
+  hierarchy instead of recreating wrappers for every leaf.
+  
+  This removes the parent-settling rebuild path and avoids transient blank
+  frames while preserving debounced rebuild behavior.
+  ```
+- [`436a11d`](https://github.com/ghostty-org/ghostty/commit/436a11dd59598ddfcc74434cd6283017753eed0f) apprt/gtk: reduce split-tree flicker by reusing leaf widgets ([#11170](https://github.com/ghostty-org/ghostty/issues/11170)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #8208
+  
+  Split-tree updates currently clear `tree_bin` and then wait for every
+  surface to become parentless before rebuilding. That leaves the split
+  area blank for one or more frames, which is the visible flicker during
+  split create/close/ resize/equalize actions.
+  
+  Keep the previous widget tree attached until the idle rebuild runs, then
+  swap in the rebuilt tree in one step. During rebuild, reuse existing
+  leaf widgets by detaching and reparenting them into the new `GtkPaned`
+  hierarchy instead of recreating wrappers for every leaf.
+  
+  This removes the parent-settling rebuild path and avoids transient blank
+  frames while preserving debounced rebuild behavior.
+  ```
+- [`46522a8`](https://github.com/ghostty-org/ghostty/commit/46522a8779ba44e47d4f68ab633ace5382971624) gtk: `+new-window` now respects `--working-directory` and `-e` ([#10809](https://github.com/ghostty-org/ghostty/issues/10809)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes: #8862
+  Fixes: #10716
+  
+  This adds the machinery to pass configuration settings received over
+  DBus down to the GObject Surface so that that configuration information
+  can be used to override some settings from the current "live" config
+  when creating a new window. Currently it's only possible to override
+  `--working-directory`, `--command`, and `--title`. `-e` on the `ghostty
+  +new-window` CLI works as well.
+  
+  Adding more overridable settings is possible, but being able to fully
+  override any possible setting would better be served with a major revamp
+  of how Ghostty handles configs, which is way out of scope at the moment.
+  ```
+- [`05807f0`](https://github.com/ghostty-org/ghostty/commit/05807f0d72d44ba24048cce56bf716d2c629ff30) Revert "build: link to the system FontConfig by default on non-macOS systems ([#11152](https://github.com/ghostty-org/ghostty/issues/11152))" ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit ee4c6f88c5517d242b73427f66da4d54d41e35a8.
+  ```
+- [`57d877a`](https://github.com/ghostty-org/ghostty/commit/57d877a0d622a01381688cbafd8d227612640fc7) Revert "build: link to the system FontConfig by default on non-macOS systems" ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit 89f9dd7848111b28287a70388d610d66227a53f4.
+  ```
+- [`2cfc9d3`](https://github.com/ghostty-org/ghostty/commit/2cfc9d36d8ea81722d9ecfad027ba8558879b780) Revert "build: link to the system FontConfig by default ([#11169](https://github.com/ghostty-org/ghostty/issues/11169)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit ee4c6f88c5517d242b73427f66da4d54d41e35a8.
+  
+  This breaks standard `zig build run` from a dev shell in Nix/NixOS. I
+  think we need to rethink some of the protections here, possibly only to
+  apply to packaging/release modes or something.
+  
+  cc @jcollie
+  ```
 - [`9a3dbe1`](https://github.com/ghostty-org/ghostty/commit/9a3dbe10b05912ee30061dae6d730d8d9db0bc46) zsh: fix extra newlines with leading-newline prompts ([@jparise](https://github.com/jparise))
   ```text
   In our multiline prompt logic, skip the newline immediately after the
@@ -1691,238 +1786,5 @@ Summary: 10 runs • 40 commits • 9 authors
 - [`336ca18`](https://github.com/ghostty-org/ghostty/commit/336ca188457f08df89f5682cdb39288f7b40c946) Update `language` config option's documentation ([#11043](https://github.com/ghostty-org/ghostty/issues/11043)) ([@mitchellh](https://github.com/mitchellh))
   ```text
   Follow-up to #10976.
-  ```
-
-## February 26, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22463045986), [2](https://github.com/ghostty-org/ghostty/actions/runs/22462019157), [3](https://github.com/ghostty-org/ghostty/actions/runs/22458670934), [4](https://github.com/ghostty-org/ghostty/actions/runs/22452954838), [5](https://github.com/ghostty-org/ghostty/actions/runs/22448005878), [6](https://github.com/ghostty-org/ghostty/actions/runs/22447594199), [7](https://github.com/ghostty-org/ghostty/actions/runs/22424533999), [8](https://github.com/ghostty-org/ghostty/actions/runs/22421985597)  
-Summary: 8 runs • 37 commits • 10 authors
-
-### Changes
-
-- [`3b5a7b7`](https://github.com/ghostty-org/ghostty/commit/3b5a7b77d3feedbee460f70a644b64edc5d8a6a4) macos: implement notify on command finish ([@JosephMart](https://github.com/JosephMart))
-- [`f4ddddc`](https://github.com/ghostty-org/ghostty/commit/f4ddddc4b797e5bc185bbfb486f74231a331dfff) macos: refactor command finish notification duration handling ([@JosephMart](https://github.com/JosephMart))
-- [`a5909df`](https://github.com/ghostty-org/ghostty/commit/a5909dfa1dabd005073ccab9d5c57ce8496addc6) macos: command finished notifications always show up ([@mitchellh](https://github.com/mitchellh))
-- [`ca09c0e`](https://github.com/ghostty-org/ghostty/commit/ca09c0ef2e806479eebd6edf7fa69e4ea3bcbefe) macOS: add "command finished" notifications ([#10934](https://github.com/ghostty-org/ghostty/issues/10934)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  fixes https://github.com/ghostty-org/ghostty/issues/10840
-  
-  Implement command finished notifications for MacOS. Building on the work
-  of #8992
-  
-  ### AI Tools Used
-  * Cursor
-  * Models
-      * Opus 4.6
-      * Composer 1.5
-  ```
-- [`875985d`](https://github.com/ghostty-org/ghostty/commit/875985dbd708023abea882520ce567e1473fe02a) zsh: fix ssh-terminfo shell integration to not interpret escape characters ([@mihi314](https://github.com/mihi314))
-- [`45d1787`](https://github.com/ghostty-org/ghostty/commit/45d1787effd01bd7f21d1e621e149bfbb2f27130) i18n: rename `.po` files ([@jcollie](https://github.com/jcollie))
-  ```text
-  This seems to be the defacto standard for naming `.po` files. See the
-  GTK source code [1] as an example. I was unable to find any definitive
-  documentation on the naming.
-  
-  Replaces: #10905
-  
-  [1] https://gitlab.gnome.org/GNOME/gtk/-/tree/main/po?ref_type=heads
-  ```
-- [`39d163f`](https://github.com/ghostty-org/ghostty/commit/39d163fee270963570b0d6b3d09d775f7d91f708) zsh: fix ssh-terminfo shell integration to not interpret escape characters ([#11038](https://github.com/ghostty-org/ghostty/issues/11038)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  With zsh, when installing the ghostty terminfo on a server via the
-  ssh-terminfo shell integration, parts of the terminfo get mangled. In
-  particular, the newline escape sequence in
-  ```
-  > infocmp -0 -x xterm-ghostty | grep ind=
-   ...,ind=\n,indn=...
-   ```
-  gets interpreted by `print` as a literal newline, which then just gets ignored / does not have the intended effect.
-  
-  Documentation for the `-r` flag of `print` used in the fix is [here](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html#:~:text=Ignore%20the%20escape%20conventions%20of%20echo.).
-  
-  ### Testing locally
-  You can directly demonstrate this locally. This outputs a host of warning messages:
-  ```
-  ssh_terminfo=$(infocmp -0 -x xterm-ghostty 2>/dev/null)
-  print "$ssh_terminfo" | tic -x -
-  ```
-  Whereas
-  ```print -r "$ssh_terminfo" | tic -x -```
-  or
-  ```infocmp -0 -x xterm-ghostty | tic -x -```
-  work without issue.
-  
-  ### Testing remotely
-  The most visible way is to observe the output of `htop` before and after the change.
-  
-  More directly, the output of `infocmp -x xterm-ghostty | grep " ind="` should be
-  ```ich=\E[%p1%d@, ich1=\E[@, il=\E[%p1%dL, il1=\E[L, ind=\n,```
-  instead of
-  ```ich=\E[%p1%d@, ich1=\E[@, il=\E[%p1%dL, il1=\E[L, ind=,```
-  
-  ---
-  
-  Discussed in #11031.
-  
-  ---
-  AI disclosure: I used Claude for parts of figuring out what was going on. The fix itself and the rest was written and tested by myself.
-  ````
-- [`62873f6`](https://github.com/ghostty-org/ghostty/commit/62873f60c53d726e9f94e768a1300ee9e72dc1f7) i18n: rename `.po` files ([#10976](https://github.com/ghostty-org/ghostty/issues/10976)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This seems to be the defacto standard for naming `.po` files. See the
-  GTK source code [1] as an example. I was unable to find any definitive
-  documentation on the naming.
-  
-  Replaces: #10905
-  
-  [1] https://gitlab.gnome.org/GNOME/gtk/-/tree/main/po?ref_type=heads
-  ```
-- [`d05fb65`](https://github.com/ghostty-org/ghostty/commit/d05fb652ed51727300f701e5c2f71f5624c64cdb) macos: update AGENTS.md ([@mitchellh](https://github.com/mitchellh))
-- [`ea8bf17`](https://github.com/ghostty-org/ghostty/commit/ea8bf17df8b86b055f4fcc209cfe31e603928d3a) macos: use combine to coalesce bell values ([@mitchellh](https://github.com/mitchellh))
-- [`79ca4da`](https://github.com/ghostty-org/ghostty/commit/79ca4daea6565545cf6bce230bf73ff8c94f90ca) macos: try to clean up Appdelegate combine mess ([@mitchellh](https://github.com/mitchellh))
-- [`3aca722`](https://github.com/ghostty-org/ghostty/commit/3aca7224159c3b06d5d1b120b47cab4cd89e33b2) macos: further simplication of AppDelegate bell state ([@mitchellh](https://github.com/mitchellh))
-- [`454a89e`](https://github.com/ghostty-org/ghostty/commit/454a89e011c51c1943400aec2788e1aa544b4ad1) macos: clean up badge request state ([@mitchellh](https://github.com/mitchellh))
-- [`5389fdf`](https://github.com/ghostty-org/ghostty/commit/5389fdfbafea8f45f1a291703d57693d52c31c07) macos: lint ([@mitchellh](https://github.com/mitchellh))
-- [`dcb7c9a`](https://github.com/ghostty-org/ghostty/commit/dcb7c9a4b8eace183b1da65eac4c78a1c073f61e) macos: show the notification count number in the badge ([@mitchellh](https://github.com/mitchellh))
-- [`dc514c9`](https://github.com/ghostty-org/ghostty/commit/dc514c9e116ba32641365702e52760c6365d797f) build: don't build OpenGL support into imgui on iOS ([@mitchellh](https://github.com/mitchellh))
-- [`4b7a55a`](https://github.com/ghostty-org/ghostty/commit/4b7a55a50e6eb5922517336618c6423fddf77f06) macOS: Clear badge icon when no surfaces have an active bell ([#11035](https://github.com/ghostty-org/ghostty/issues/11035)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #8487
-  
-  I did this by setting up a publisher on `BaseTerminalController` for any
-  bell state change on any surfaces in the tree (including removing
-  surfaces). By listening to this event at AppDelegate and reinspecting
-  all our windows, we can reliably set the badge.
-  
-  **This also includes a change to show the number of terminals with an
-  active bell!** We can now determine the number, so we show it!
-  ```
-- [`eb4aa11`](https://github.com/ghostty-org/ghostty/commit/eb4aa113d7bf2e2634021b822c9bc61c459472ce) i18n: add missing nb_NO strings ([@Uzaaft](https://github.com/Uzaaft))
-- [`9d6a8d0`](https://github.com/ghostty-org/ghostty/commit/9d6a8d0fc15a42ae9815484c9830a63e21b97413) i18n: add missing nb_NO strings ([#11036](https://github.com/ghostty-org/ghostty/issues/11036)) ([@trag1c](https://github.com/trag1c))
-- [`f38234b`](https://github.com/ghostty-org/ghostty/commit/f38234bc5bf7c3c6e9688c6129718b04d1fd9366) apprt: show title override in command palette jump commands ([@bernsno](https://github.com/bernsno))
-- [`62c1d50`](https://github.com/ghostty-org/ghostty/commit/62c1d50757218db6e9458a91364bea2e7886d316) Update macos/Sources/Features/Command Palette/TerminalCommandPalette.swift ([@bernsno](https://github.com/bernsno))
-- [`c4766df`](https://github.com/ghostty-org/ghostty/commit/c4766dff77d5c11c9279d83b5b3c75fc526279e5) fix: restore terminalTitle variable removed in previous edit ([@bernsno](https://github.com/bernsno))
-- [`9fe3cc1`](https://github.com/ghostty-org/ghostty/commit/9fe3cc125d76530d095c78510fa5e6fb1f6be5ac) apprt/gtk: use new get effective title ([@mitchellh](https://github.com/mitchellh))
-- [`e3d68e2`](https://github.com/ghostty-org/ghostty/commit/e3d68e28c91e83e03ed6d9ddeb038d08dcc4c916) apprt: show title override in command palette jump commands ([#10458](https://github.com/ghostty-org/ghostty/issues/10458)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Relates to https://github.com/ghostty-org/ghostty/discussions/3709
-  
-  When a surface has a title override set (via `prompt_surface_title`),
-  the command palette's "Focus:" jump commands now display the override
-  instead of the terminal title.
-  
-  **No title override:**
-  <img width="515" height="265" alt="Screenshot 2026-01-26 at 6 11 56 PM"
-  src="https://github.com/user-attachments/assets/55f49878-87fd-498d-be4e-098ea42b7aaf"
-  />
-  
-  **With title override**
-  <img width="519" height="270" alt="Screenshot 2026-01-26 at 6 11 30 PM"
-  src="https://github.com/user-attachments/assets/e2a293ef-0c29-4fab-94ff-b6b357193321"
-  />
-  
-  **AI DISCLAIMER**
-  
-  I leveraged Claude Code to understand the codebase, make a plan and
-  write the first draft of the code. I reviewed and edited the code
-  written by claude and manually tested the change on iOS.
-  ```
-- [`c60e24d`](https://github.com/ghostty-org/ghostty/commit/c60e24d2001e178c478df757385d286955761a29) macos: update to Sparkle 2.9 ([@mitchellh](https://github.com/mitchellh))
-- [`aa5ef9c`](https://github.com/ghostty-org/ghostty/commit/aa5ef9c64cfbb7080d58ee1e6585aaf2e3422cc8) macos: update to Sparkle 2.9 ([#11034](https://github.com/ghostty-org/ghostty/issues/11034)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Nothing critical, though we may make use of some of the new features
-  like Markdown and signed feeds in a follow up PR.
-  ```
-- [`20351a7`](https://github.com/ghostty-org/ghostty/commit/20351a71d0a1e44357a78e7a5f761823a533151f) Fix Palette.C array size typo: [265] → [256] ([@markhuot](https://github.com/markhuot))
-  ```text
-  The C struct Palette.C declared colors as [265]Color.C, but the
-  terminal palette is 256 colors (terminal.color.Palette = [256]RGB)
-  and the C header ghostty_config_palette_s correctly uses colors[256].
-  
-  The mismatch causes ghostty_config_get to write 265×3 = 795 bytes
-  through a pointer sized for 256×3 = 768 bytes, producing a 27-byte
-  buffer overflow. On macOS Release builds with stack protector enabled,
-  this triggers __stack_chk_fail → SIGABRT on launch.
-  ```
-- [`05a1255`](https://github.com/ghostty-org/ghostty/commit/05a125533be72460c2e596bb44dd5c906a4e93b0) macos: fix glass tinting when theme changes ([@bo2themax](https://github.com/bo2themax))
-- [`6ebc796`](https://github.com/ghostty-org/ghostty/commit/6ebc796c4cca7d8c9053cfd81deba56f1997e98b) Fix Palette.C array size typo: [265] → [256] ([#11027](https://github.com/ghostty-org/ghostty/issues/11027)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The C struct Palette.C declared colors as [265]Color.C, but the terminal
-  palette is 256 colors (terminal.color.Palette = [256]RGB) and the C
-  header ghostty_config_palette_s correctly uses colors[256].
-  
-  The mismatch causes ghostty_config_get to write 265×3 = 795 bytes
-  through a pointer sized for 256×3 = 768 bytes, producing a 27-byte
-  buffer overflow. On macOS Release builds with stack protector enabled,
-  this triggers __stack_chk_fail → SIGABRT on launch.
-  
-  Discovered this while working on https://github.com/markhuot/watchtower.
-  Builds were succeeding but the app was crashing on launch because we use
-  the new C bindings to get the foreground/background colors to set window
-  theming like "selection" color.
-  ```
-- [`87428bd`](https://github.com/ghostty-org/ghostty/commit/87428bd1ebde2635bd9e726c90dc3fc054bb2012) macos: fix glass tinting when theme changes ([#11030](https://github.com/ghostty-org/ghostty/issues/11030)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This is a minimal and temporary workaround for #11017
-  ```
-- [`e6da439`](https://github.com/ghostty-org/ghostty/commit/e6da439e431e8c8a978c0abf82645a14f52e673f) macos: style changes ([@mitchellh](https://github.com/mitchellh))
-- [`de4ee28`](https://github.com/ghostty-org/ghostty/commit/de4ee288f54ba7878040efbd146257507758910d) pkg/dcimgui: only add the OpenGL3 shutdown helper if backend enabled ([@mitchellh](https://github.com/mitchellh))
-- [`3dcc8e6`](https://github.com/ghostty-org/ghostty/commit/3dcc8e6235d5207cca23397a9dc7b72fed48dba5) Update VOUCHED list ([#11032](https://github.com/ghostty-org/ghostty/issues/11032)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11031#discussioncomment-15935875)
-  from @mitchellh.
-  
-  Vouch: @mihi314
-  ```
-- [`74ba971`](https://github.com/ghostty-org/ghostty/commit/74ba971ebaca7e5ce20b1e30ee916a8f0704bd8d) Update VOUCHED list ([#11028](https://github.com/ghostty-org/ghostty/issues/11028)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11027#issuecomment-3963449775)
-  from @jcollie.
-  
-  Vouch: @markhuot
-  ```
-- [`7db8346`](https://github.com/ghostty-org/ghostty/commit/7db8346fcafe945f0bc752a9341d7042c1f2fd4b) apprt/gtk: fix SIGSEGV on ImGui GLArea re-realize ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10406
-  
-  ImGui_ImplOpenGL3_Shutdown() calls imgl3wShutdown() which dlcloses the
-  GL library handles but does not zero out the imgl3w function pointer
-  table (imgl3wProcs). When a GLArea is re-realized (e.g. during
-  reparenting), ImGui_ImplOpenGL3_Init() calls ImGui_ImplOpenGL3_InitLoader()
-  which checks "if (glGetIntegerv == nullptr)". Since the stale pointers
-  are non-null, it skips re-initialization. The next GL call through a
-  dangling function pointer causes a SIGSEGV.
-  
-  Fix this by introducing ImGui_ImplOpenGL3_ShutdownWithLoaderCleanup()
-  which calls the normal shutdown and then zeroes the imgl3wProcs table,
-  forcing the next Init to reload GL function pointers via imgl3wInit().
-  
-  Also properly destroy the ImGui context and reset widget state in
-  glAreaUnrealize so re-realize starts clean. This was extra but was
-  probably leaking memory.
-  ```
-- [`610e1f5`](https://github.com/ghostty-org/ghostty/commit/610e1f5f471a6b073d8be21f8c798096e645c59d) macos: add Weak to iOS build ([@mitchellh](https://github.com/mitchellh))
-- [`eb531ca`](https://github.com/ghostty-org/ghostty/commit/eb531caa31d54f683f3a6a3b3d1282900c53d2c0) apprt/gtk: fix SIGSEGV on ImGui GLArea re-realize ([#11025](https://github.com/ghostty-org/ghostty/issues/11025)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10406
-  
-  ImGui_ImplOpenGL3_Shutdown() calls imgl3wShutdown() which dlcloses the
-  GL library handles but does not zero out the imgl3w function pointer
-  table (imgl3wProcs). When a GLArea is re-realized (e.g. during
-  reparenting), ImGui_ImplOpenGL3_Init() calls
-  ImGui_ImplOpenGL3_InitLoader() which checks "if (glGetIntegerv ==
-  nullptr)". Since the stale pointers are non-null, it skips
-  re-initialization. The next GL call through a dangling function pointer
-  causes a SIGSEGV.
-  
-  Fix this by introducing ImGui_ImplOpenGL3_ShutdownWithLoaderCleanup()
-  which calls the normal shutdown and then zeroes the imgl3wProcs table,
-  forcing the next Init to reload GL function pointers via imgl3wInit().
-  
-  Also properly destroy the ImGui context and reset widget state in
-  glAreaUnrealize so re-realize starts clean. This was extra but was
-  probably leaking memory.
   ```
 
