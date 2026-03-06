@@ -8,7 +8,174 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 6, 2026 at 03:47 UTC.
+> Last updated: March 6, 2026 at 06:15 UTC.
+
+## March 6, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22748794179)  
+Summary: 1 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`96a5e71`](https://github.com/ghostty-org/ghostty/commit/96a5e71871dc583bdb4c04554a0ac6760e2db32a) build(deps): bump docker/build-push-action from 6.19.2 to 7.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 6.19.2 to 7.0.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases)
+  - [Commits](https://github.com/docker/build-push-action/compare/10e90e3645eae34f1e60eeb005ba3a3d33f178e8...d08e5c354a6adb9ed34480a06d141179aa583294)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: docker/build-push-action
+    dependency-version: 7.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`adab5f6`](https://github.com/ghostty-org/ghostty/commit/adab5f6f0e51621be1ac2549871b97ddf89e7407) build(deps): bump docker/build-push-action from 6.19.2 to 7.0.0 ([#11199](https://github.com/ghostty-org/ghostty/issues/11199)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [docker/build-push-action](https://github.com/docker/build-push-action)
+  from 6.19.2 to 7.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/docker/build-push-action/releases">docker/build-push-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.0.0</h2>
+  <ul>
+  <li>Node 24 as default runtime (requires <a
+  href="https://github.com/actions/runner/releases/tag/v2.327.1">Actions
+  Runner v2.327.1</a> or later) by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1470">docker/build-push-action#1470</a></li>
+  <li>Remove deprecated <code>DOCKER_BUILD_NO_SUMMARY</code> and
+  <code>DOCKER_BUILD_EXPORT_RETENTION_DAYS</code> envs by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1473">docker/build-push-action#1473</a></li>
+  <li>Remove legacy export-build tool support for build summary by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1474">docker/build-push-action#1474</a></li>
+  <li>Switch to ESM and update config/test wiring by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1466">docker/build-push-action#1466</a></li>
+  <li>Bump <code>@​actions/core</code> from 1.11.1 to 3.0.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1454">docker/build-push-action#1454</a></li>
+  <li>Bump <code>@​docker/actions-toolkit</code> from 0.62.1 to 0.79.0 in
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1453">docker/build-push-action#1453</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1472">docker/build-push-action#1472</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1479">docker/build-push-action#1479</a></li>
+  <li>Bump minimatch from 3.1.2 to 3.1.5 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1463">docker/build-push-action#1463</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/docker/build-push-action/compare/v6.19.2...v7.0.0">https://github.com/docker/build-push-action/compare/v6.19.2...v7.0.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/d08e5c354a6adb9ed34480a06d141179aa583294"><code>d08e5c3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1479">#1479</a>
+  from docker/dependabot/npm_and_yarn/docker/actions-t...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/cbd2dff9a0f0ef650dcce9c635bb2f877ab37be5"><code>cbd2dff</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/f76f51f12900bb84aa9d1a498f35870ef1f76675"><code>f76f51f</code></a>
+  chore(deps): Bump <code>@​docker/actions-toolkit</code> from 0.78.0 to
+  0.79.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/7d03e66b5f24d6b390ab64b132795fd3ef4152c8"><code>7d03e66</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1473">#1473</a>
+  from crazy-max/rm-deprecated-envs</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/98f853d923dd281a3bcbbb98a0712a91aa913322"><code>98f853d</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/cadccf6e8c7385c86d9cb0800cf07672645cc238"><code>cadccf6</code></a>
+  remove deprecated envs</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/03fe8775e325e34fffbda44c73316f8287aea372"><code>03fe877</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1478">#1478</a>
+  from docker/dependabot/github_actions/docker/setup-b...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/827e36650e1fa7386d09422b5ba3c068fdbe0a1d"><code>827e366</code></a>
+  chore(deps): Bump docker/setup-buildx-action from 3 to 4</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/e25db879d025485a4eebd64fea9bb88a43632da6"><code>e25db87</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1474">#1474</a>
+  from crazy-max/rm-export-build-tool</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/1ac2573b5c8b4e4621d5453ab2a99e83725242bd"><code>1ac2573</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1470">#1470</a>
+  from crazy-max/node24</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/docker/build-push-action/compare/10e90e3645eae34f1e60eeb005ba3a3d33f178e8...d08e5c354a6adb9ed34480a06d141179aa583294">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=docker/build-push-action&package-manager=github_actions&previous-version=6.19.2&new-version=7.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`04aff46`](https://github.com/ghostty-org/ghostty/commit/04aff46022f679cf607b6987031c4f4fe5273b86) macos: add build script, update AGENTS.md, skip UI tests ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is an update to address common agentic issues I run into,
+  but the `build.nu` script may be generally helpful to people using
+  the Nix env since `xcodebuild` is broken by default in Nix due to the
+  compiler/linker overrides Nix shell does.
+  ```
+- [`055ed28`](https://github.com/ghostty-org/ghostty/commit/055ed28580e140f2a21b752946349750b963a7aa) macos: add build script, update AGENTS.md, skip UI tests ([#11202](https://github.com/ghostty-org/ghostty/issues/11202)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is an update to address common agentic issues I run into, but the
+  `build.nu` script may be generally helpful to people using the Nix env
+  since `xcodebuild` is broken by default in Nix due to the
+  compiler/linker overrides Nix shell does.
+  ```
 
 ## March 5, 2026
 
