@@ -8,15 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 15:05 UTC.
+> Last updated: March 8, 2026 at 18:06 UTC.
 
 ## March 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [3](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [4](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [5](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 5 runs • 12 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [5](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [6](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [7](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 7 runs • 15 commits • 9 authors
 
 ### Changes
 
+- [`235dde6`](https://github.com/ghostty-org/ghostty/commit/235dde6844d697e73e974c2311c69abf3a57b0f8) fix: list-actions outputs without `--docs` ([@dmehala](https://github.com/dmehala))
+  ```text
+  Explicitly flush the buffer once the generation is complete.
+  
+  Resolves #11221
+  ```
+- [`2d9dc5c`](https://github.com/ghostty-org/ghostty/commit/2d9dc5cfd1aa8bb9a7dda5a273197535b0e6fbee) fix: list-actions outputs without `--docs` ([#11231](https://github.com/ghostty-org/ghostty/issues/11231)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Explicitly flush the buffer once the generation is complete.
+  
+  Resolves #11221
+  ```
+- [`686fd34`](https://github.com/ghostty-org/ghostty/commit/686fd34e96409dcf9ab095294f3d073a7ea04b7d) Update VOUCHED list ([#11232](https://github.com/ghostty-org/ghostty/issues/11232)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11231#issuecomment-4019204219)
+  from @mitchellh.
+  
+  Vouch: @dmehala
+  ```
 - [`059bd54`](https://github.com/ghostty-org/ghostty/commit/059bd54a5d9188d2f7c6fc3a56afc35b934f4ff1) elvish: improve OSC 133 semantic prompt support ([@jparise](https://github.com/jparise))
   ```text
   Add `aid=$pid` to 133;A and 133;D for nested shell tracking, and fix the
