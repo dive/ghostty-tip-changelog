@@ -8,15 +8,84 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 12:07 UTC.
+> Last updated: March 8, 2026 at 15:05 UTC.
 
 ## March 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [2](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 2 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [3](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [4](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [5](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 5 runs • 12 commits • 8 authors
 
 ### Changes
 
+- [`059bd54`](https://github.com/ghostty-org/ghostty/commit/059bd54a5d9188d2f7c6fc3a56afc35b934f4ff1) elvish: improve OSC 133 semantic prompt support ([@jparise](https://github.com/jparise))
+  ```text
+  Add `aid=$pid` to 133;A and 133;D for nested shell tracking, and fix the
+  state comparison which was incorrectly using `constantly` (comparing a
+  string to a function, which always evaluated to true).
+  
+  OSC 133;B (input start) and 133;P;k=r (right prompt) cannot be reliably
+  implemented at the script level because Elvish escapes control
+  characters in prompt function output, and writing directly to /dev/tty
+  has timing issues because Elvish renders its prompts on a background
+  thread. Full semantic prompt support requires a native implementation:
+  https://github.com/elves/elvish/pull/1917
+  
+  See: #10523
+  ```
+- [`df4d9bc`](https://github.com/ghostty-org/ghostty/commit/df4d9bc0d00a3fc309dc68bdc81254e32816c298) macos: fix quick terminal glassy background ([@bo2themax](https://github.com/bo2themax))
+- [`1d76820`](https://github.com/ghostty-org/ghostty/commit/1d76820937c6d4c8008a74a80e5c0c03cac1f8fd) elvish: improve OSC 133 semantic prompt support ([#11222](https://github.com/ghostty-org/ghostty/issues/11222)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add `aid=$pid` to 133;A and 133;D for nested shell tracking, and fix the
+  state comparison which was incorrectly using `constantly` (comparing a
+  string to a function, which always evaluated to true).
+  
+  OSC 133;B (input start) and 133;P;k=r (right prompt) cannot be reliably
+  implemented at the script level because Elvish escapes control
+  characters in prompt function output, and writing directly to /dev/tty
+  has timing issues because Elvish renders its prompts on a background
+  thread. Full semantic prompt support requires a native implementation:
+  https://github.com/elves/elvish/pull/1917
+  
+  See: #10523
+  ```
+- [`602db55`](https://github.com/ghostty-org/ghostty/commit/602db55a283adeabfbd082c678eddf1a6ee1ae43) macos: fix quick terminal glassy background ([#11229](https://github.com/ghostty-org/ghostty/issues/11229)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes a regression from
+  [#9032096](https://github.com/ghostty-org/ghostty/commit/9032096) 🥲 and
+  clean some dead code
+  
+  On first launch of the quick terminal window, the container style is not
+  properly updated; you'll have to reload the config to show the
+  background.
+  
+  <img width="571" height="312" alt="IMG_4783"
+  src="https://github.com/user-attachments/assets/c5d920ea-9ad8-494d-98c0-c560e36c4a31"
+  />
+  ```
+- [`360c369`](https://github.com/ghostty-org/ghostty/commit/360c369d235e36092ba0ac4319de0e7a8be1eaa7) Update VOUCHED list ([#11230](https://github.com/ghostty-org/ghostty/issues/11230)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11125#discussioncomment-16041168)
+  from @mitchellh.
+  
+  Vouch: @pauley-unsaturated
+  ```
+- [`1a15fc0`](https://github.com/ghostty-org/ghostty/commit/1a15fc0adba90bddce5c95a04c9ea30254186925) i18n: update Indonesian translation (id_ID) ([@halosatrio](https://github.com/halosatrio))
+- [`97c479a`](https://github.com/ghostty-org/ghostty/commit/97c479a3476d1a1ebb278b86b883cf7715beeab0) i18n: update Indonesian translation (id_ID) ([#11226](https://github.com/ghostty-org/ghostty/issues/11226)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Updated translation for Indonesian (id_ID). This is a duplicate of PR
+  #10794, as the original PR has not been updated since last week. I think
+  it would be better to merge this updated translation before the 1.3
+  release.
+  ```
+- [`eaef109`](https://github.com/ghostty-org/ghostty/commit/eaef1094d92c579fbfc0ce204cc1fc09c41059cf) Update VOUCHED list ([#11228](https://github.com/ghostty-org/ghostty/issues/11228)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11227#issuecomment-4019112158)
+  from @00-kat.
+  
+  Vouch: @dariogriffo
+  ```
 - [`e9dc03b`](https://github.com/ghostty-org/ghostty/commit/e9dc03b0b4fd5b23d0791987a517851656831ddb) i18n: update Hungarian translations ([@balazs-szucs](https://github.com/balazs-szucs))
 - [`42d3635`](https://github.com/ghostty-org/ghostty/commit/42d36359dbe3cb13adacf8e40ddf3c37c8a2e564) i18n: update Hungarian translations ([#11039](https://github.com/ghostty-org/ghostty/issues/11039)) ([@00-kat](https://github.com/00-kat))
   ```text
