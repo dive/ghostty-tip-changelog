@@ -8,7 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 06:13 UTC.
+> Last updated: March 8, 2026 at 09:07 UTC.
+
+## March 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`adc6794`](https://github.com/ghostty-org/ghostty/commit/adc6794f3b1a1f46048f86e61397bc4736567589) Add es_ES.UTF-8 translation ([@alosarjos](https://github.com/alosarjos))
+- [`4d89f1b`](https://github.com/ghostty-org/ghostty/commit/4d89f1bcaeacd64ced18dc20504362b759f22e65) Add es_ES.UTF-8 translation ([#10722](https://github.com/ghostty-org/ghostty/issues/10722)) ([@00-kat](https://github.com/00-kat))
 
 ## March 7, 2026
 
