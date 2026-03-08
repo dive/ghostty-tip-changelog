@@ -8,15 +8,22 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 09:07 UTC.
+> Last updated: March 8, 2026 at 12:07 UTC.
 
 ## March 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [2](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 2 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`e9dc03b`](https://github.com/ghostty-org/ghostty/commit/e9dc03b0b4fd5b23d0791987a517851656831ddb) i18n: update Hungarian translations ([@balazs-szucs](https://github.com/balazs-szucs))
+- [`42d3635`](https://github.com/ghostty-org/ghostty/commit/42d36359dbe3cb13adacf8e40ddf3c37c8a2e564) i18n: update Hungarian translations ([#11039](https://github.com/ghostty-org/ghostty/issues/11039)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  New string translated with this!
+  
+  Part of: #10632
+  ```
 - [`adc6794`](https://github.com/ghostty-org/ghostty/commit/adc6794f3b1a1f46048f86e61397bc4736567589) Add es_ES.UTF-8 translation ([@alosarjos](https://github.com/alosarjos))
 - [`4d89f1b`](https://github.com/ghostty-org/ghostty/commit/4d89f1bcaeacd64ced18dc20504362b759f22e65) Add es_ES.UTF-8 translation ([#10722](https://github.com/ghostty-org/ghostty/issues/10722)) ([@00-kat](https://github.com/00-kat))
 
