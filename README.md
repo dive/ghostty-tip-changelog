@@ -8,15 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 18:06 UTC.
+> Last updated: March 8, 2026 at 21:05 UTC.
 
 ## March 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [5](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [6](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [7](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 7 runs • 15 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22828977678), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [5](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [6](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [7](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [8](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 8 runs • 18 commits • 9 authors
 
 ### Changes
 
+- [`a384af5`](https://github.com/ghostty-org/ghostty/commit/a384af5e25228b5b342c717abb5387bd4c3b0b58) vt: align SGR C enum tags with parser output ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the stale GHOSTTY_SGR_ATTR_RESET_UNDERLINE entry from the C header
+  and renumber subsequent GhosttySgrAttributeTag values to match
+  src/terminal/sgr.zig Attribute.Tag ordering.
+  
+  This fixes misclassified attributes from ghostty_sgr_next for C consumers
+  that switch on the enum tags from include/ghostty/vt/sgr.h.
+  ```
+- [`a2ea5b5`](https://github.com/ghostty-org/ghostty/commit/a2ea5b5d7940c97205fba9452517f75213328e03) Update VOUCHED list ([#11240](https://github.com/ghostty-org/ghostty/issues/11240)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11207#discussioncomment-16043795)
+  from @mitchellh.
+  
+  Vouch: @MOlechowski
+  ```
+- [`43f3d2c`](https://github.com/ghostty-org/ghostty/commit/43f3d2ca9206220040b66d9b8b7bd281d32b1795) vt: align SGR C enum tags with parser output ([#11239](https://github.com/ghostty-org/ghostty/issues/11239)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the stale GHOSTTY_SGR_ATTR_RESET_UNDERLINE entry from the C
+  header and renumber subsequent GhosttySgrAttributeTag values to match
+  src/terminal/sgr.zig Attribute.Tag ordering.
+  
+  This fixes misclassified attributes from ghostty_sgr_next for C
+  consumers that switch on the enum tags from include/ghostty/vt/sgr.h.
+  ```
 - [`235dde6`](https://github.com/ghostty-org/ghostty/commit/235dde6844d697e73e974c2311c69abf3a57b0f8) fix: list-actions outputs without `--docs` ([@dmehala](https://github.com/dmehala))
   ```text
   Explicitly flush the buffer once the generation is complete.
