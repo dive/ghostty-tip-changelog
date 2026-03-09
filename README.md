@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 9, 2026 at 15:20 UTC.
+> Last updated: March 9, 2026 at 18:16 UTC.
 
 ## March 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [2](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [3](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [4](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
-Summary: 4 runs • 12 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22862195455), [2](https://github.com/ghostty-org/ghostty/actions/runs/22861709161), [3](https://github.com/ghostty-org/ghostty/actions/runs/22861225605), [4](https://github.com/ghostty-org/ghostty/actions/runs/22860218660), [5](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [6](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [7](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [8](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
+Summary: 8 runs • 20 commits • 6 authors
 
 ### Changes
 
+- [`703d11c`](https://github.com/ghostty-org/ghostty/commit/703d11c642a96af9e54b55b04f131bf3888948a9) Bump version to 1.3.0 ([@mitchellh](https://github.com/mitchellh))
+- [`a6ee1fb`](https://github.com/ghostty-org/ghostty/commit/a6ee1fb292d2361bd3fca7998d1d86f6509b3272) macos: increase window-width/height apply delay from 10ms to 40ms ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Band-aid for #10304
+  
+  We don't have a robust fix yet but this should help mitigate more
+  scenarios.
+  ```
+- [`8dde269`](https://github.com/ghostty-org/ghostty/commit/8dde2693bcd55e72a48c1b771f3e685e9bdfcfb6) macos: increase window-width/height apply delay from 10ms to 40ms ([#11265](https://github.com/ghostty-org/ghostty/issues/11265)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Band-aid for #10304
+  
+  We don't have a robust fix yet but this should help mitigate more
+  scenarios.
+  ```
+- [`3c93c35`](https://github.com/ghostty-org/ghostty/commit/3c93c35869f40bd95db3e729549f05f48a371089) macOS: filter proper intrinsicContentSize when opening new window ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Fixes #11256
+  ```
+- [`3445c9a`](https://github.com/ghostty-org/ghostty/commit/3445c9afdad7d459ba42e0c66e25e0c09dda7eff) macOS: filter proper intrinsicContentSize when opening new window ([#11257](https://github.com/ghostty-org/ghostty/issues/11257)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11256, which is rather hard to reproduce on macOS 26, but after
+  adding breaking points on size update, we can see that it happens when
+  the `intrinsicContentSize` is not properly updated.
+  
+  <img width="998" height="556" alt="Xnip2026-03-09_11-38-40"
+  src="https://github.com/user-attachments/assets/8ac1de91-5895-45fc-a443-002eb016a1ce"
+  />
+  ```
+- [`dd3d72c`](https://github.com/ghostty-org/ghostty/commit/dd3d72c3de474c10da7e1576e39c7e2e7ad7617f) Revert "macOS: filter proper intrinsicContentSize when opening new window ([#11257](https://github.com/ghostty-org/ghostty/issues/11257))" ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit 3445c9afdad7d459ba42e0c66e25e0c09dda7eff, reversing
+  changes made to 1e981f858a4833ae63e7e53f9f0c84c516b4241e.
+  ```
+- [`3ba49a7`](https://github.com/ghostty-org/ghostty/commit/3ba49a784f4313e301efb68362158e8e338662da) terminal: fix grapheme edge-wrap hyperlink integrity panic ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a grapheme expands to width 2 at the screen edge, this path can write
+  spacer_head before printWrap() sets row.wrap. With an active hyperlink,
+  printCell triggers hyperlink bookkeeping and page integrity checks in that
+  intermediate state, causing UnwrappedSpacerHead.
+  
+  Mark row.wrap before writing spacer_head in this grapheme-wrap path to keep
+  the intermediate state valid.
+  ```
+- [`1e981f8`](https://github.com/ghostty-org/ghostty/commit/1e981f858a4833ae63e7e53f9f0c84c516b4241e) terminal: fix grapheme edge-wrap hyperlink integrity panic ([#11264](https://github.com/ghostty-org/ghostty/issues/11264)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a grapheme expands to width 2 at the screen edge, this path can
+  write spacer_head before printWrap() sets row.wrap. With an active
+  hyperlink, printCell triggers hyperlink bookkeeping and page integrity
+  checks in that intermediate state, causing UnwrappedSpacerHead.
+  
+  Mark row.wrap before writing spacer_head in this grapheme-wrap path to
+  keep the intermediate state valid.
+  ```
 - [`fd557e8`](https://github.com/ghostty-org/ghostty/commit/fd557e83474e23b42d0f5133df319a79eda66653) bash: only define $__ghostty_ps0 when unset ([@jparise](https://github.com/jparise))
   ```text
   This fixes an error if the script was sourced a second time:
