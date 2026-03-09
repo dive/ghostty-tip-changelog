@@ -8,15 +8,28 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 8, 2026 at 21:05 UTC.
+> Last updated: March 9, 2026 at 00:20 UTC.
 
 ## March 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22828977678), [2](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [5](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [6](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [7](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [8](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 8 runs • 18 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22830044719), [2](https://github.com/ghostty-org/ghostty/actions/runs/22828977678), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [5](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [6](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [7](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [8](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [9](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
+Summary: 9 runs • 21 commits • 10 authors
 
 ### Changes
 
+- [`8635fef`](https://github.com/ghostty-org/ghostty/commit/8635fef7a5dc6185b67982dc94892d6ddb3b9ac0) if search is active dont apply unfocused options ([@rhodes-b](https://github.com/rhodes-b))
+- [`1d59f5d`](https://github.com/ghostty-org/ghostty/commit/1d59f5dbcdbe0fc7065a6ed9c46c42d22584add4) pass search active state through blueprint ([@rhodes-b](https://github.com/rhodes-b))
+- [`2d347ca`](https://github.com/ghostty-org/ghostty/commit/2d347cad336b6d4bd461f33fe87d90e6aa269843) GTK: Don't apply unfocused options when searching ([#11224](https://github.com/ghostty-org/ghostty/issues/11224)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If you have multiple splits and start searching naturally the focus
+  transfers over to the search widget which would apply the unfocused
+  options. This could make it difficult to view your matches from
+  searching without re-focusing the surface.
+  
+  This was discovered when I tested
+  https://github.com/ghostty-org/ghostty/discussions/11218 (which is a
+  different issue)
+  ```
 - [`a384af5`](https://github.com/ghostty-org/ghostty/commit/a384af5e25228b5b342c717abb5387bd4c3b0b58) vt: align SGR C enum tags with parser output ([@mitchellh](https://github.com/mitchellh))
   ```text
   Remove the stale GHOSTTY_SGR_ATTR_RESET_UNDERLINE entry from the C header
@@ -1346,235 +1359,4 @@ Summary: 10 runs • 26 commits • 8 authors
 - [`5e7a5cc`](https://github.com/ghostty-org/ghostty/commit/5e7a5cc9c1b4b198e226e2b88df5b3eb66299dcf) pin python depds to latest tag ([@rhodes-b](https://github.com/rhodes-b))
 - [`eaa83b8`](https://github.com/ghostty-org/ghostty/commit/eaa83b82b3f637ab1c07ac78ea8e69e3f620cc4d) address comments ([@rhodes-b](https://github.com/rhodes-b))
 - [`d3c3770`](https://github.com/ghostty-org/ghostty/commit/d3c37704359cdc863a85a0d67baa8a9cd09f88af) Nix pkgs pin dependencies ([#11121](https://github.com/ghostty-org/ghostty/issues/11121)) ([@pluiedev](https://github.com/pluiedev))
-
-## March 2, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22592783895), [2](https://github.com/ghostty-org/ghostty/actions/runs/22591766134), [3](https://github.com/ghostty-org/ghostty/actions/runs/22583700515), [4](https://github.com/ghostty-org/ghostty/actions/runs/22581513590), [5](https://github.com/ghostty-org/ghostty/actions/runs/22562974731), [6](https://github.com/ghostty-org/ghostty/actions/runs/22562509161), [7](https://github.com/ghostty-org/ghostty/actions/runs/22561514943), [8](https://github.com/ghostty-org/ghostty/actions/runs/22558361524), [9](https://github.com/ghostty-org/ghostty/actions/runs/22558023945), [10](https://github.com/ghostty-org/ghostty/actions/runs/22556024652)  
-Summary: 10 runs • 20 commits • 3 authors
-
-### Changes
-
-- [`177612a`](https://github.com/ghostty-org/ghostty/commit/177612a4cf239b2c3d8c36a45c9fa5e9d4a22ba0) terminal: fix insertBlanks orphaned spacer_tail beyond right margin ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When insertBlanks clears the entire region from cursor to the right
-  margin (scroll_amount == 0), a wide character whose head is at the right
-  margin gets cleared but its spacer_tail just beyond the margin is left
-  behind, causing a "spacer tail not following wide" page integrity
-  violation.
-  
-  Move the right-margin wide-char cleanup from inside the scroll_amount >
-  0 block to before it, so it runs unconditionally — matching the
-  rowWillBeShifted pattern of cleaning up boundary-straddling wide chars
-  up front.
-  
-  Found via AFL++ fuzzing. #11109
-  ```
-- [`5fa42dd`](https://github.com/ghostty-org/ghostty/commit/5fa42dd80235bf3493d4e8d7d6817597d8f3e1c8) Update VOUCHED list ([#11139](https://github.com/ghostty-org/ghostty/issues/11139)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11128#discussioncomment-15976454)
-  from @mitchellh.
-  
-  Vouch: @noib3
-  ```
-- [`aa157c0`](https://github.com/ghostty-org/ghostty/commit/aa157c09abf6384e38cd4d9c19c35bfab8f7a3b8) terminal: fix insertBlanks orphaned spacer_tail beyond right margin ([#11137](https://github.com/ghostty-org/ghostty/issues/11137)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When insertBlanks clears the entire region from cursor to the right
-  margin (scroll_amount == 0), a wide character whose head is at the right
-  margin gets cleared but its spacer_tail just beyond the margin is left
-  behind, causing a "spacer tail not following wide" page integrity
-  violation.
-  
-  Move the right-margin wide-char cleanup from inside the scroll_amount >
-  0 block to before it, so it runs unconditionally — matching the
-  rowWillBeShifted pattern of cleaning up boundary-straddling wide chars
-  up front.
-  
-  Found via AFL++ fuzzing. #11109
-  ```
-- [`1ba9f91`](https://github.com/ghostty-org/ghostty/commit/1ba9f9187ef09a507cf58a3c38de493aacb090c4) terminal: fix no-reflow resize leaving stale spacer heads ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  resizeWithoutReflowGrowCols has a fast path that reuses existing page
-  capacity when growing columns: it simply bumps page.size.cols without
-  touching cell data. If any row has a spacer_head at the old last column
-  (from a wide char that did not fit), that cell is no longer at the end
-  of the now-wider row, causing a page integrity violation.
-  
-  Fix by checking for spacer_head cells at the old last column before
-  taking the fast path. If any are found, fall through to the slow path
-  which handles spacer heads correctly via cloneRowFrom.
-  
-  Found by AFL++ stream fuzzer. #11109
-  ```
-- [`b39a00d`](https://github.com/ghostty-org/ghostty/commit/b39a00ddfa9003572e058d6ba1e87c449e575967) terminal: fix insertLines/deleteLines orphaned cells on full clear ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When deleteLines or insertLines count >= scroll region height, all rows
-  go through the clear-only path (no shifting). This path did not call
-  rowWillBeShifted, leaving orphaned spacer_tail cells when wide characters
-  straddled the right margin boundary, causing a "spacer tail not following
-  wide" page integrity violation.
-  
-  Add rowWillBeShifted before clearCells in the else branch of both
-  functions.
-  
-  Found via AFL++ fuzzing. #11109
-  ```
-- [`678601d`](https://github.com/ghostty-org/ghostty/commit/678601d94a4d7fe0828b6f67b1a2b0d690c73aa9) terminal: fix no-reflow resize leaving stale spacer heads ([#11135](https://github.com/ghostty-org/ghostty/issues/11135)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  resizeWithoutReflowGrowCols has a fast path that reuses existing page
-  capacity when growing columns: it simply bumps page.size.cols without
-  touching cell data. If any row has a spacer_head at the old last column
-  (from a wide char that did not fit), that cell is no longer at the end
-  of the now-wider row, causing a page integrity violation.
-  
-  Fix by checking for spacer_head cells at the old last column before
-  taking the fast path. If any are found, fall through to the slow path
-  which handles spacer heads correctly via cloneRowFrom.
-  
-  Found by AFL++ stream fuzzer. #11109
-  ```
-- [`4768fff`](https://github.com/ghostty-org/ghostty/commit/4768ffff7396fb78578a61a6e488f16e1e961bf7) terminal: fix insertLines/deleteLines orphaned cells on full clear ([#11136](https://github.com/ghostty-org/ghostty/issues/11136)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When deleteLines or insertLines count >= scroll region height, all rows
-  go through the clear-only path (no shifting). This path did not call
-  rowWillBeShifted, leaving orphaned spacer_tail cells when wide
-  characters straddled the right margin boundary, causing a "spacer tail
-  not following wide" page integrity violation.
-  
-  Add rowWillBeShifted before clearCells in the else branch of both
-  functions.
-  
-  Found via AFL++ fuzzing. #11109
-  ```
-- [`e7030e7`](https://github.com/ghostty-org/ghostty/commit/e7030e73dbafd3f986c57b1a015d16cd53e7435b) terminal: fix printCell corrupting previous row when overwriting wide char ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  printCell, when overwriting a wide cell with a narrow cell at x<=1 and
-  y>0, unconditionally sets the last cell of the previous row to .narrow.
-  This is intended to clear a spacer_head left by a wrapped wide char, but
-  the cell could be a spacer_tail if a wide char fit entirely on the
-  previous row. Setting a spacer_tail to .narrow orphans the preceding
-  .wide cell, which later causes an integrity violation in insertBlanks
-  (assert that the cell after a .wide is .spacer_tail).
-  
-  Fix by guarding the assignment so it only fires when the previous row's
-  last cell is actually a .spacer_head. The same fix is applied in both
-  the .wide and .spacer_tail branches of printCell.
-  
-  Found by AFL++ stream fuzzer.
-  ```
-- [`8cddd38`](https://github.com/ghostty-org/ghostty/commit/8cddd384c6ef614a373cf52b2a0e835c7e85134a) terminal: fix printCell corrupting previous row when overwriting wide char ([#11134](https://github.com/ghostty-org/ghostty/issues/11134)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  printCell, when overwriting a wide cell with a narrow cell at x<=1 and
-  y>0, unconditionally sets the last cell of the previous row to .narrow.
-  This is intended to clear a spacer_head left by a wrapped wide char, but
-  the cell could be a spacer_tail if a wide char fit entirely on the
-  previous row. Setting a spacer_tail to .narrow orphans the preceding
-  .wide cell, which later causes an integrity violation in insertBlanks
-  (assert that the cell after a .wide is .spacer_tail).
-  
-  Fix by guarding the assignment so it only fires when the previous row's
-  last cell is actually a .spacer_head. The same fix is applied in both
-  the .wide and .spacer_tail branches of printCell.
-  
-  Found by AFL++ stream fuzzer. #11109
-  ```
-- [`90e96a3`](https://github.com/ghostty-org/ghostty/commit/90e96a3891b7718ff98819ee51ecbd7c133d422f) terminal: fix insertBlanks integrity violation with wide char at right margin ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  insertBlanks checks whether the last source cell being shifted is wide
-  and clears it to avoid splitting, but it did not check the destination
-  cells at the right edge of the scroll region. When a wide character
-  straddles the right scroll margin (head at the margin, spacer_tail just
-  beyond it), the swap loop displaced the wide head without clearing the
-  orphaned spacer_tail, causing a page integrity violation
-  (InvalidSpacerTailLocation).
-  
-  Fix by checking the cell at the right margin (last destination cell)
-  before the swap loop and clearing it along with its spacer_tail when it
-  is wide.
-  
-  Found by AFL++ stream fuzzer. #11109
-  ```
-- [`9d3c46c`](https://github.com/ghostty-org/ghostty/commit/9d3c46c4bc2348594148f809c01433ce768173ce) terminal: fix insertBlanks integrity violation with wide char at right margin ([#11132](https://github.com/ghostty-org/ghostty/issues/11132)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  insertBlanks checks whether the last source cell being shifted is wide
-  and clears it to avoid splitting, but it did not check the destination
-  cells at the right edge of the scroll region. When a wide character
-  straddles the right scroll margin (head at the margin, spacer_tail just
-  beyond it), the swap loop displaced the wide head without clearing the
-  orphaned spacer_tail, causing a page integrity violation
-  (InvalidSpacerTailLocation).
-  
-  Fix by checking the cell at the right margin (last destination cell)
-  before the swap loop and clearing it along with its spacer_tail when it
-  is wide.
-  
-  Found by AFL++ stream fuzzer. #11109
-  ```
-- [`913c120`](https://github.com/ghostty-org/ghostty/commit/913c12097bad2feb8977853cf1a60c137a968b50) Update VOUCHED list ([#11123](https://github.com/ghostty-org/ghostty/issues/11123)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11118#discussioncomment-15967576)
-  from @pluiedev.
-  
-  Vouch: @jguthmiller
-  ```
-- [`22e29bb`](https://github.com/ghostty-org/ghostty/commit/22e29bb1f00b11c4ca1caf6d1302f67b2e9fa970) Update VOUCHED list ([#11122](https://github.com/ghostty-org/ghostty/issues/11122)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11121#issuecomment-3982187512)
-  from @jcollie.
-  
-  Vouch: @rhodes-b
-  ```
-- [`97c11af`](https://github.com/ghostty-org/ghostty/commit/97c11af347be4ab8fd66ff0048048ee4209a03e9) terminal: fix integrity violation printing wide char with hyperlink at right edge ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Printing a wide character at the right edge of the screen with an active
-  hyperlink triggered a page integrity violation (UnwrappedSpacerHead).
-  printCell wrote the spacer_head to the cell and then called
-  cursorSetHyperlink, whose internal integrity check observed the
-  spacer_head before printWrap had a chance to set the row wrap flag.
-  
-  Fix by setting row.wrap = true before calling printCell for the
-  spacer_head case, so all integrity checks see a consistent state.
-  printWrap sets wrap again afterward, which is harmless. Found by AFL++
-  stream fuzzer.
-  ```
-- [`43ec4ac`](https://github.com/ghostty-org/ghostty/commit/43ec4ace47ec47d7dea66826e0ebdfb3cae51a02) fuzz: add replay-crashes.nu to help find crash repros ([@mitchellh](https://github.com/mitchellh))
-- [`f3da60a`](https://github.com/ghostty-org/ghostty/commit/f3da60aef59e3c9c645dc016e0377eb0af748a05) terminal: fix integrity violation printing wide char with hyperlink at right edge ([#11119](https://github.com/ghostty-org/ghostty/issues/11119)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Printing a wide character at the right edge of the screen with an active
-  hyperlink triggered a page integrity violation (UnwrappedSpacerHead).
-  printCell wrote the spacer_head to the cell and then called
-  cursorSetHyperlink, whose internal integrity check observed the
-  spacer_head before printWrap had a chance to set the row wrap flag.
-  
-  Fix by setting row.wrap = true before calling printCell for the
-  spacer_head case, so all integrity checks see a consistent state.
-  printWrap sets wrap again afterward, which is harmless. Found by AFL++
-  stream fuzzer.
-  
-  #11109
-  ```
-- [`7665efc`](https://github.com/ghostty-org/ghostty/commit/7665efc3a161e3424267846216e913ba324aeb1c) fuzz: new stream corpus from 2 hour run ([@mitchellh](https://github.com/mitchellh))
-- [`ca31828`](https://github.com/ghostty-org/ghostty/commit/ca31828c9387e2743f2b41d0405e2ed80590cd7f) Update VOUCHED list ([#11116](https://github.com/ghostty-org/ghostty/issues/11116)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11115#issuecomment-3981600125)
-  from @mitchellh.
-  
-  Vouch: @markdorison
-  ```
-- [`533ad9e`](https://github.com/ghostty-org/ghostty/commit/533ad9e3fadf4eb1e5d28cb2d4b40ef4a8b311e3) i18n: update pt_BR translations ([#10635](https://github.com/ghostty-org/ghostty/issues/10635)) ([@guilhermetk](https://github.com/guilhermetk))
-  ```text
-  Add missing pt_BR translations reported in
-  https://github.com/ghostty-org/ghostty/issues/10632 for version 1.3
-  ```
-- [`2454642`](https://github.com/ghostty-org/ghostty/commit/24546426c8de75d11c8448464fb4cd614663da46) Sync CODEOWNERS vouch list ([#11114](https://github.com/ghostty-org/ghostty/issues/11114)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Sync CODEOWNERS owners with vouch list.
-  
-  ## Added Users
-  
-  - @derVedro
-  ```
 
