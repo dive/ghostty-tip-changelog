@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 9, 2026 at 18:16 UTC.
+> Last updated: March 9, 2026 at 21:08 UTC.
 
 ## March 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22862195455), [2](https://github.com/ghostty-org/ghostty/actions/runs/22861709161), [3](https://github.com/ghostty-org/ghostty/actions/runs/22861225605), [4](https://github.com/ghostty-org/ghostty/actions/runs/22860218660), [5](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [6](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [7](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [8](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
-Summary: 8 runs • 20 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22870694331), [2](https://github.com/ghostty-org/ghostty/actions/runs/22862195455), [3](https://github.com/ghostty-org/ghostty/actions/runs/22861709161), [4](https://github.com/ghostty-org/ghostty/actions/runs/22861225605), [5](https://github.com/ghostty-org/ghostty/actions/runs/22860218660), [6](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [7](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [8](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [9](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
+Summary: 9 runs • 21 commits • 6 authors
 
 ### Changes
 
+- [`f8a0a45`](https://github.com/ghostty-org/ghostty/commit/f8a0a45963010e5cb3baa8069dbcc07a60c5d26d) Update VOUCHED list ([#11275](https://github.com/ghostty-org/ghostty/issues/11275)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11274#discussioncomment-16057271)
+  from @jcollie.
+  
+  Vouch: @seruman
+  ```
 - [`703d11c`](https://github.com/ghostty-org/ghostty/commit/703d11c642a96af9e54b55b04f131bf3888948a9) Bump version to 1.3.0 ([@mitchellh](https://github.com/mitchellh))
 - [`a6ee1fb`](https://github.com/ghostty-org/ghostty/commit/a6ee1fb292d2361bd3fca7998d1d86f6509b3272) macos: increase window-width/height apply delay from 10ms to 40ms ([@mitchellh](https://github.com/mitchellh))
   ```text
