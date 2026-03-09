@@ -8,15 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 9, 2026 at 03:48 UTC.
+> Last updated: March 9, 2026 at 06:22 UTC.
 
 ## March 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [2](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [2](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [3](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
+Summary: 3 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`aee9361`](https://github.com/ghostty-org/ghostty/commit/aee9361fa3fdd95177823fe1ffa2b8ff19e7e413) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
+  ```text
+  Minor updates
+  ```
+- [`2cb8f61`](https://github.com/ghostty-org/ghostty/commit/2cb8f61bcfafeae1382edd23a1c105ab25c7a8c8) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
+- [`c570d53`](https://github.com/ghostty-org/ghostty/commit/c570d53d45218aae294c52fa81d48220755fe692) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
+- [`4969b0c`](https://github.com/ghostty-org/ghostty/commit/4969b0c56ecf65e0639e978a6bb9e7f076273afe) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
+- [`9dc6f67`](https://github.com/ghostty-org/ghostty/commit/9dc6f6763f12d056e286ca62e02f960b19a8fb9e) Update es_AR.po translation for "Unable to acquire an OpenGL context for rendering." ([#11227](https://github.com/ghostty-org/ghostty/issues/11227)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  - "Unable to acquire an OpenGL context for rendering."
+  This could be translated to "No se puede" or "No se pudo", depends on
+  the context of the message.
+  If the message is showing a current intent the translation should be "No
+  se puede", if the message is communicating that Ghostty failed to
+  acquire the OpenGL then the translation should be "No se pudo", here I
+  need more context.
+  Either case the wording "No se puedo" is incorrect.
+  ```
 - [`233fb12`](https://github.com/ghostty-org/ghostty/commit/233fb12081009fee649295d323c93716655fc671) macos: add AppleScript front window and focused terminal properties ([@mitchellh](https://github.com/mitchellh))
   ```text
   This adds two new propeties to make it easy to get the frontmost (main)
