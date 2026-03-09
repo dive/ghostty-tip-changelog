@@ -8,15 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 9, 2026 at 12:11 UTC.
+> Last updated: March 9, 2026 at 15:20 UTC.
 
 ## March 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [2](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [3](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
-Summary: 3 runs • 8 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [2](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [3](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [4](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
+Summary: 4 runs • 12 commits • 5 authors
 
 ### Changes
 
+- [`fd557e8`](https://github.com/ghostty-org/ghostty/commit/fd557e83474e23b42d0f5133df319a79eda66653) bash: only define $__ghostty_ps0 when unset ([@jparise](https://github.com/jparise))
+  ```text
+  This fixes an error if the script was sourced a second time:
+  
+      bash: __ghostty_ps0: readonly variable
+  
+  Because this is a non-exported variable, this would only happen if the
+  script was sourced multiple times in the same bash session.
+  ```
+- [`0a659af`](https://github.com/ghostty-org/ghostty/commit/0a659af55ff214c781347def6f41d7aaed63b84a) bash: handle existing ; in PROMPT_COMMAND ([@jparise](https://github.com/jparise))
+  ```text
+  If an existing PROMPT_COMMAND was a string ending in ; (and maybe some
+  spaces), we'd add a redundant ;, resulting in a syntax error. Now we
+  strip any trailing `;[[:space:]]*` characters from the original string
+  before add ours.
+  ```
+- [`308b713`](https://github.com/ghostty-org/ghostty/commit/308b713e5828a3e1b07238f3ab56d75914389e3b) bash: handle existing ; in PROMPT_COMMAND ([#11260](https://github.com/ghostty-org/ghostty/issues/11260)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If an existing PROMPT_COMMAND was a string ending in ; (and maybe some
+  spaces), we'd add a redundant ;, resulting in a syntax error. Now we
+  strip any trailing `;[[:space:]]*` characters from the original string
+  before add ours.
+  
+  Fixes #11259
+  ```
+- [`f4c40c7`](https://github.com/ghostty-org/ghostty/commit/f4c40c7d53c1de1fcc97413fd6d543a561924e89) bash: only define $__ghostty_ps0 when unset ([#11258](https://github.com/ghostty-org/ghostty/issues/11258)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes an error if the script was sourced a second time:
+  
+      bash: __ghostty_ps0: readonly variable
+  
+  Because this is a non-exported variable, this would only happen if the
+  script was sourced multiple times in the same bash session.
+  ```
 - [`aee9361`](https://github.com/ghostty-org/ghostty/commit/aee9361fa3fdd95177823fe1ffa2b8ff19e7e413) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
   ```text
   Minor updates
