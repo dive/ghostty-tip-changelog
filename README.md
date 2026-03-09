@@ -8,7 +8,56 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 9, 2026 at 00:20 UTC.
+> Last updated: March 9, 2026 at 03:48 UTC.
+
+## March 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [2](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
+Summary: 2 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`233fb12`](https://github.com/ghostty-org/ghostty/commit/233fb12081009fee649295d323c93716655fc671) macos: add AppleScript front window and focused terminal properties ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds two new propeties to make it easy to get the frontmost (main)
+  window and the focused terminal within a tab. We already had a property
+  to get the selected tab of a tab group.
+  ```
+- [`b82d452`](https://github.com/ghostty-org/ghostty/commit/b82d452f486bbff6977ee4e5472e3cf9163e9b7a) macos: add AppleScript front window and focused terminal properties ([#11251](https://github.com/ghostty-org/ghostty/issues/11251)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds two new propeties to make it easy to get the frontmost (main)
+  window and the focused terminal within a tab. We already had a property
+  to get the selected tab of a tab group.
+  
+  ## Examples
+  
+  ### Send Input to Focused Terminal
+  
+  ```AppleScript
+  tell application "Ghostty"
+    set term to focused terminal of selected tab of front window
+    input text "pwd\n" to term
+  end tell
+  ```
+  
+  ### Split the Focused Terminal
+  
+  ```applescript
+  tell application "Ghostty"
+    set currentTerm to focused terminal of selected tab of front window
+    set newTerm to split currentTerm direction right
+    input text "echo split-ready\n" to newTerm
+  end tell
+  ```
+  ````
+- [`ec1ca4c`](https://github.com/ghostty-org/ghostty/commit/ec1ca4c0c903d13a15452c18b1df11b3cabddaf7) Update VOUCHED list ([#11247](https://github.com/ghostty-org/ghostty/issues/11247)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11246#discussioncomment-16045992)
+  from @jcollie.
+  
+  Vouch: @jmcgover
+  ```
 
 ## March 8, 2026
 
