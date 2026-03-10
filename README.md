@@ -8,15 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 10, 2026 at 18:16 UTC.
+> Last updated: March 10, 2026 at 21:09 UTC.
 
 ## March 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [2](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [3](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [4](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [5](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [6](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [7](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [8](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
-Summary: 8 runs • 23 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22919665780), [2](https://github.com/ghostty-org/ghostty/actions/runs/22918391292), [3](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [4](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [5](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [6](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [7](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [8](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [9](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [10](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
+Summary: 10 runs • 28 commits • 6 authors
 
 ### Changes
 
+- [`96f9772`](https://github.com/ghostty-org/ghostty/commit/96f9772cd838fa9d562ed369ea6fa8e657f870e3) tests: disable tests that fail if you have locally installed fonts ([@jcollie](https://github.com/jcollie))
+  ```text
+  If you have "Noto Sans Tai Tham" and/or "Noto Sans Javanese" installed
+  locally on Linux, three tests fail. This PR disables those tests until a
+  more permanent solution can be found.
+  ```
+- [`c131329`](https://github.com/ghostty-org/ghostty/commit/c1313294cd765e41c02e0b8e048fbad1beb5f740) add comments about why tests are disabled ([@jcollie](https://github.com/jcollie))
+- [`a4cc37d`](https://github.com/ghostty-org/ghostty/commit/a4cc37db72bd345a7cdd90855e80339ed1caddd1) tests: disable tests that fail if you have locally installed fonts ([#11285](https://github.com/ghostty-org/ghostty/issues/11285)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If you have "Noto Sans Tai Tham" and/or "Noto Sans Javanese" installed
+  locally on Linux, three tests fail. This PR disables those tests until a
+  more permanent solution can be found.
+  ```
+- [`71f8152`](https://github.com/ghostty-org/ghostty/commit/71f81527ad8d3393609d1e9134987653249473d4) macos: remove IntrinsicSizeTimingTests temporarily ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  These were too flaky.
+  ```
+- [`8784636`](https://github.com/ghostty-org/ghostty/commit/8784636547520dc94d1b6ed2d58db00ed80eadfb) macos: remove IntrinsicSizeTimingTests temporarily ([#11332](https://github.com/ghostty-org/ghostty/issues/11332)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  These were too flaky.
+  
+  cc @bo2themax
+  ```
 - [`de0f2ab`](https://github.com/ghostty-org/ghostty/commit/de0f2ab22d941e270a4ba259ef2522f71bb84247) macos:  add enum type for macos-titlebar-style ([@bo2themax](https://github.com/bo2themax))
 - [`53637ec`](https://github.com/ghostty-org/ghostty/commit/53637ec7b2b91da8e19b79cd755874b3fc2cf0db) fix jump_to_prompt forward behavior for multiline prompts ([@mitchellh](https://github.com/mitchellh))
   ```text
