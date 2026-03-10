@@ -8,7 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 10, 2026 at 12:11 UTC.
+> Last updated: March 10, 2026 at 15:19 UTC.
+
+## March 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [2](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [3](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
+Summary: 3 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`f8f431b`](https://github.com/ghostty-org/ghostty/commit/f8f431ba67e32b7fa0d63c54bc736d55cf27532f) docs: update bell-features docs for macOS ([@jcollie](https://github.com/jcollie))
+  ```text
+  PR #11154 didn't fully update the docs regarding `bell-features=audio`
+  on macOS.
+  ```
+- [`e11f350`](https://github.com/ghostty-org/ghostty/commit/e11f350e8eb81ceda33a8267b6181c50e5be2789) docs: update bell-features docs for macOS ([#11279](https://github.com/ghostty-org/ghostty/issues/11279)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PR #11154 didn't fully update the docs regarding `bell-features=audio`
+  on macOS.
+  ```
+- [`6c73091`](https://github.com/ghostty-org/ghostty/commit/6c7309196fef805e1d0fbb0ce82944aab8edda7d) Update VOUCHED list ([#11321](https://github.com/ghostty-org/ghostty/issues/11321)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11320#issuecomment-4031703556)
+  from @mitchellh.
+  
+  Vouch: @chronologos
+  ```
+- [`c83dea4`](https://github.com/ghostty-org/ghostty/commit/c83dea49fd1c4b89eee2956f8638b80122596bdc) Update VOUCHED list ([#11318](https://github.com/ghostty-org/ghostty/issues/11318)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11309#discussioncomment-16069391)
+  from @mitchellh.
+  
+  Vouch: @dzhlobo
+  ```
+- [`327783f`](https://github.com/ghostty-org/ghostty/commit/327783ff6c86c5843eedaab20c7f394e4396daa4) Update VOUCHED list ([#11314](https://github.com/ghostty-org/ghostty/issues/11314)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11287#discussioncomment-16069141)
+  from @mitchellh.
+  
+  Vouch: @ocean6954
+  ```
 
 ## March 9, 2026
 
