@@ -8,15 +8,169 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 10, 2026 at 15:19 UTC.
+> Last updated: March 10, 2026 at 18:16 UTC.
 
 ## March 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [2](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [3](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
-Summary: 3 runs • 5 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [2](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [3](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [4](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [5](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [6](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [7](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [8](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
+Summary: 8 runs • 23 commits • 6 authors
 
 ### Changes
 
+- [`de0f2ab`](https://github.com/ghostty-org/ghostty/commit/de0f2ab22d941e270a4ba259ef2522f71bb84247) macos:  add enum type for macos-titlebar-style ([@bo2themax](https://github.com/bo2themax))
+- [`53637ec`](https://github.com/ghostty-org/ghostty/commit/53637ec7b2b91da8e19b79cd755874b3fc2cf0db) fix jump_to_prompt forward behavior for multiline prompts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11330.
+  
+  When jumping forward from prompt content, skip prompt continuation rows so a
+  multiline prompt is treated as a single prompt block.
+  ```
+- [`7fb8e0a`](https://github.com/ghostty-org/ghostty/commit/7fb8e0ac90eeba0413736dee5b5b451d1a79ae20) fix jump_to_prompt forward behavior for multiline prompts ([#11331](https://github.com/ghostty-org/ghostty/issues/11331)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11330.
+  
+  When jumping forward from prompt content, skip prompt continuation rows
+  so a multiline prompt is treated as a single prompt block.
+  ```
+- [`f88b42a`](https://github.com/ghostty-org/ghostty/commit/f88b42ad3968779168666eb03866f70e9a7568e4) macos: add enum type for macos-titlebar-style ([#11262](https://github.com/ghostty-org/ghostty/issues/11262)) ([@mitchellh](https://github.com/mitchellh))
+- [`aaad43c`](https://github.com/ghostty-org/ghostty/commit/aaad43c23569e75929d611a13483e96cec6b1060) macos: make paste_from_clipboard performable on macos ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10751
+  ```
+- [`c06ede5`](https://github.com/ghostty-org/ghostty/commit/c06ede584939979947336094c35b5a4c9a5ba267) macos: make paste_from_clipboard performable on macos ([#11328](https://github.com/ghostty-org/ghostty/issues/11328)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10751
+  ```
+- [`f8d7876`](https://github.com/ghostty-org/ghostty/commit/f8d7876203ad65572cd085ff89afb758252217cb) Update VOUCHED list ([#11329](https://github.com/ghostty-org/ghostty/issues/11329)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11313#issuecomment-4033213188)
+  from @mitchellh.
+  
+  Vouch: @VaughanAndrews
+  ```
+- [`6092c29`](https://github.com/ghostty-org/ghostty/commit/6092c299d55cd24ec72d3d5d2365279645c30ff3) macos: reset mouse state on focus loss to prevent phantom drag ([@seruman](https://github.com/seruman))
+  ```text
+  Fixes phantom mouse drag/selection when switching splits or apps.
+  The suppressNextLeftMouseUp flag and core mouse click_state were not
+  being reset on focus transitions, causing stale state that led to
+  unexpected drag behavior.
+  
+  - Reset suppressNextLeftMouseUp in focusDidChange when losing focus
+  - Defensively reset the flag when processing normal clicks
+  - Reset core mouse.click_state and left_click_count on focus loss
+  ```
+- [`119ce0b`](https://github.com/ghostty-org/ghostty/commit/119ce0bc1df37be42cd65c57b4a3e8c39013b6c5) macos: reset mouse state on focus loss to prevent phantom drag ([#11276](https://github.com/ghostty-org/ghostty/issues/11276)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/11203
+  
+  The `suppressNextLeftMouseUp` flag from #11167 wasn't being reset on
+  focus loss, causing stale state that led to phantom drags/selections and
+  scrolls if you're lucky enough.
+  
+  I've followed the #11167 's path and made it reset on focus loss.
+  
+  As I stated in the [vouch
+  request](https://github.com/ghostty-org/ghostty/discussions/11274); I'm
+  not experienced in Swift, just following the prior PR's steps to reset
+  the state. I've been using this patch for couple days and the change
+  looks trivial to me tho not 100% sure if I'm missing anything.
+  
+  > [!NOTE]
+  > Used Claude Code -Opus 4.6- for navigating the codebase and reviewing
+  the change.
+  ```
+- [`d9039eb`](https://github.com/ghostty-org/ghostty/commit/d9039eb85a6f12ff7de205c116d978482c80bdab) config: don't double load app support path on macOS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11323
+  ```
+- [`9759787`](https://github.com/ghostty-org/ghostty/commit/9759787847a0c6ed6983d1a8fe2b9c1d615b6010) config: don't double load app support path on macOS ([#11326](https://github.com/ghostty-org/ghostty/issues/11326)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11323
+  ```
+- [`4e24adf`](https://github.com/ghostty-org/ghostty/commit/4e24adf7177946af7f3d0e367d94fc8e2dead133) ci: skip xcode tests for freetype build ([@mitchellh](https://github.com/mitchellh))
+- [`cfedda1`](https://github.com/ghostty-org/ghostty/commit/cfedda1a0e9197dfa7463a3a3aeb90ad980ab86f) macOS: add regression tests for intrinsicContentSize race ([#11256](https://github.com/ghostty-org/ghostty/issues/11256)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Tests that validate intrinsicContentSize returns a correct value when
+  TerminalController.windowDidLoad() reads it. Currently fail, proving
+  the race condition where @FocusedValue hasn't propagated
+  lastFocusedSurface before the 40ms timer fires.
+  ```
+- [`a6cd1b0`](https://github.com/ghostty-org/ghostty/commit/a6cd1b08af240e7be0b07163d78dac5efa6b1752) macOS: fix intrinsicContentSize race in windowDidLoad ([#11256](https://github.com/ghostty-org/ghostty/issues/11256)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Add initialContentSize fallback on TerminalViewContainer so
+  intrinsicContentSize returns the correct value immediately,
+  without waiting for @FocusedValue to propagate. This removes
+  the need for the DispatchQueue.main.asyncAfter 40ms delay.
+  ```
+- [`1592caf`](https://github.com/ghostty-org/ghostty/commit/1592cafa32e99119cee0b074fde3f50070ac3dac) Update AGENTS.md ([@mitchellh](https://github.com/mitchellh))
+- [`7629130`](https://github.com/ghostty-org/ghostty/commit/7629130fb4f66262684d4b75d549b522d5943f59) macOS: restore keyboard focus after inline tab title edit ([@chronologos](https://github.com/chronologos))
+  ```text
+  After finishing an inline tab title edit (via keybind or double-click),
+  `TabTitleEditor.finishEditing()` calls `makeFirstResponder(nil)` to
+  clear focus from the text field, leaving the window itself as first
+  responder. No code path restores focus to the terminal surface, so all
+  keyboard input is lost until the user clicks into a pane.
+  
+  Add a `tabTitleEditorDidFinishEditing` delegate callback that fires
+  after every edit (commit or cancel). TerminalWindow implements it by
+  calling `makeFirstResponder(focusedSurface)` to hand focus back to the
+  terminal.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/11315
+  ```
+- [`85f0972`](https://github.com/ghostty-org/ghostty/commit/85f0972b395c045fb91488399aeb6597c6be94ec) macOS: fix intrinsicContentSize race in windowDidLoad ([#11322](https://github.com/ghostty-org/ghostty/issues/11322)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This should fix #11256 and #11271.
+  
+  Tested manually with various combination of `window-width/height` and
+  `macos-titlebar-style`.
+  
+  
+  https://github.com/user-attachments/assets/90c12728-b195-47bf-abfd-8a4034b1e7a2
+  
+  
+  ### AI Disclosure
+  
+  All the commits are generated by Claude, but orchestrated and manually
+  tested by myself.
+  ```
+- [`3782d11`](https://github.com/ghostty-org/ghostty/commit/3782d118e1123c839eaff139bceb268ba5892bc7) macOS: restore keyboard focus after inline tab title edit ([#11320](https://github.com/ghostty-org/ghostty/issues/11320)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  - After finishing an inline tab title edit (via keybind or
+  double-click), all keyboard input is lost because
+  `TabTitleEditor.finishEditing()` sets `makeFirstResponder(nil)`, leaving
+  the window itself as first responder with no path back to the terminal
+  surface.
+  - Adds a `tabTitleEditorDidFinishEditing` delegate callback to
+  `TabTitleEditorDelegate` that fires after every edit (commit or cancel).
+  - `TerminalWindow` implements it by calling
+  `makeFirstResponder(focusedSurface)` to restore keyboard focus to the
+  terminal.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/11315
+  
+  ## Testing
+  
+  - [x] Bind `prompt_tab_title` to a keybind (e.g. `keybind =
+  cmd+shift+i=prompt_tab_title`)
+  - [x] Trigger inline tab title edit via keybind, press Enter — verify
+  keyboard input works immediately
+  - [x] Trigger inline tab title edit via keybind, press Escape — verify
+  keyboard input works immediately
+  - [x] Double-click a tab title, press Enter — verify keyboard input
+  works immediately
+  - [x] Double-click a tab title, press Escape — verify keyboard input
+  works immediately
+  - [x] Verify Cmd+number tab switching works after all of the above
+  - [x] Verify split pane focus is correct after editing tab title with
+  splits open
+  
+  AI disclosure: Codebase exploration and review via [Claude
+  Code](https://claude.com/claude-code)
+  ```
 - [`f8f431b`](https://github.com/ghostty-org/ghostty/commit/f8f431ba67e32b7fa0d63c54bc736d55cf27532f) docs: update bell-features docs for macOS ([@jcollie](https://github.com/jcollie))
   ```text
   PR #11154 didn't fully update the docs regarding `bell-features=audio`
