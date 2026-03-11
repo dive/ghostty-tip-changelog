@@ -8,15 +8,43 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 18:18 UTC.
+> Last updated: March 11, 2026 at 21:08 UTC.
 
 ## March 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22964898207), [2](https://github.com/ghostty-org/ghostty/actions/runs/22964025677), [3](https://github.com/ghostty-org/ghostty/actions/runs/22963156248), [4](https://github.com/ghostty-org/ghostty/actions/runs/22961429369), [5](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [6](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [7](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [8](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [9](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [10](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 10 runs • 35 commits • 10 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22970467471), [2](https://github.com/ghostty-org/ghostty/actions/runs/22967683770), [3](https://github.com/ghostty-org/ghostty/actions/runs/22964898207), [4](https://github.com/ghostty-org/ghostty/actions/runs/22964025677), [5](https://github.com/ghostty-org/ghostty/actions/runs/22963156248), [6](https://github.com/ghostty-org/ghostty/actions/runs/22961429369), [7](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [8](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [9](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [10](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [11](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [12](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 12 runs • 38 commits • 10 authors
 
 ### Changes
 
+- [`0f745b5`](https://github.com/ghostty-org/ghostty/commit/0f745b56730ae0eff4de2e40e959d432cbdcb004) Update VOUCHED list ([#11389](https://github.com/ghostty-org/ghostty/issues/11389)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11388#discussioncomment-16087905)
+  from @jcollie.
+  
+  Vouch: @wyounas
+  ```
+- [`fe98f38`](https://github.com/ghostty-org/ghostty/commit/fe98f3884d7dd72f0988949ab661beb018a191b4) macos: only show split grab handle when the mouse is near it ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11379
+  
+  For this pass, I made it a very simple "within 20%" (height-wise) of the
+  split handle. There is no horizontal component. I want to find the right
+  balance between always visible (today mostly) to only visible on direct
+  hover, because I think it'll be too hard to discover on that far right
+  side.
+  ```
+- [`a0d3566`](https://github.com/ghostty-org/ghostty/commit/a0d3566872c3bca4a139be3a49aaa9944040f95c) macos: only show split grab handle when the mouse is near it ([#11383](https://github.com/ghostty-org/ghostty/issues/11383)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11379
+  
+  For this pass, I made it a very simple "within 20%" (height-wise) of the
+  split handle down. There is no horizontal component. I want to find the
+  right balance between always visible (today mostly) to only visible on
+  direct hover, because I think it'll be too hard to discover on that far
+  right side.
+  ```
 - [`9503fa0`](https://github.com/ghostty-org/ghostty/commit/9503fa0786d3e79a5862361ae59db6d5972b4eae) nix: bump zig-overlay version ([@faukah](https://github.com/faukah))
 - [`0af9938`](https://github.com/ghostty-org/ghostty/commit/0af9938ad2f2fb84d8e00501716933029bc0ba65) macos: add UI test for window position restore across titlebar styles ([@bo2themax](https://github.com/bo2themax))
   ```text
