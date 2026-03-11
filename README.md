@@ -8,7 +8,137 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 00:18 UTC.
+> Last updated: March 11, 2026 at 03:47 UTC.
+
+## March 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [2](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 2 runs • 7 commits • 4 authors
+
+### Changes
+
+- [`6dd5b85`](https://github.com/ghostty-org/ghostty/commit/6dd5b856b05fbcb76f415ad18fbdfac600c3abde) macos: disable Tahoe one-time codes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This disables all the automatic one-time code inputs in Ghostty.
+  It'd be really neat to actually dynamically change this (not sure if its
+  possible with NSTextContext or how often thats cached) but for now we
+  should just fully disable it.
+  ```
+- [`dc18b25`](https://github.com/ghostty-org/ghostty/commit/dc18b25f86f59c79055ece87e158a5b27f625b05) macos: disable Tahoe one-time codes ([#11351](https://github.com/ghostty-org/ghostty/issues/11351)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This disables all the automatic one-time code inputs in Ghostty. It'd be
+  really neat to actually dynamically change this (not sure if it's
+  possible with NSTextContext or how often thats cached) but for now we
+  should just fully disable it.
+  
+  Thanks to Ricky Mondello for the heads up on this.
+  ```
+- [`3293444`](https://github.com/ghostty-org/ghostty/commit/32934445cfb60e387013f4a7c4293352ac3aae44) macos: add TemporaryConfig for AI to write test cases ([@bo2themax](https://github.com/bo2themax))
+- [`90dc431`](https://github.com/ghostty-org/ghostty/commit/90dc4315e2632faeb9771536cf526c46d33fc539) macos: add test cases for Ghostty.Config properties ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Test boolean, string, enum, and numeric config properties using
+  TemporaryConfig to verify defaults and parsed values.
+  ```
+- [`85bec80`](https://github.com/ghostty-org/ghostty/commit/85bec8033474438182fbb33ded8dfcdcb009ea6a) build(deps): bump cachix/install-nix-action from 31.10.0 to 31.10.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.0 to 31.10.1.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/19effe9fe722874e6d46dd7182e4b8b7a43c4a99...1ca7d21a94afc7c957383a2d217460d980de4934)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`d5dab55`](https://github.com/ghostty-org/ghostty/commit/d5dab554aae398cc4b83c24d93bec20eaccbc5d9) build(deps): bump cachix/install-nix-action from 31.10.0 to 31.10.1 ([#11347](https://github.com/ghostty-org/ghostty/issues/11347)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.0 to 31.10.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.1</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.0 -&gt; 2.34.1 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/269">cachix/install-nix-action#269</a>
+  Fixes a bug introduced in 2.34.0 that made the Nix daemon fail to load
+  authentication keys configured by <code>cachix-action</code>.</li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.10.0...v31.10.1">https://github.com/cachix/install-nix-action/compare/v31.10.0...v31.10.1</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/1ca7d21a94afc7c957383a2d217460d980de4934"><code>1ca7d21</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/269">#269</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/b6137343272cafad497671822066f2a10ded6fef"><code>b613734</code></a>
+  nix: 2.34.0 -&gt; 2.34.1</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/19effe9fe722874e6d46dd7182e4b8b7a43c4a99...1ca7d21a94afc7c957383a2d217460d980de4934">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.0&new-version=31.10.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`2a170b5`](https://github.com/ghostty-org/ghostty/commit/2a170b50c3ec088910645894f2d2e958ec381b42) macos: add test cases for Ghostty.Config properties ([#11263](https://github.com/ghostty-org/ghostty/issues/11263)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### AI Disclosure
+  
+  Test cases is written using the Claude Agent in Xcode
+  ```
 
 ## March 10, 2026
 
