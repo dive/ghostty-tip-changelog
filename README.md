@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 06:17 UTC.
+> Last updated: March 11, 2026 at 09:15 UTC.
 
 ## March 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [2](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 2 runs • 7 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [2](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [3](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 3 runs • 8 commits • 5 authors
 
 ### Changes
 
+- [`a644fca`](https://github.com/ghostty-org/ghostty/commit/a644fca5c5e74850312f13ed69f9677556abcd27) Update VOUCHED list ([#11360](https://github.com/ghostty-org/ghostty/issues/11360)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11358#discussioncomment-16080010)
+  from @jcollie.
+  
+  Vouch: @puzza007
+  ```
 - [`6dd5b85`](https://github.com/ghostty-org/ghostty/commit/6dd5b856b05fbcb76f415ad18fbdfac600c3abde) macos: disable Tahoe one-time codes ([@mitchellh](https://github.com/mitchellh))
   ```text
   This disables all the automatic one-time code inputs in Ghostty.
