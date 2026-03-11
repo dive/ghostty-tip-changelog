@@ -8,15 +8,87 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 12:11 UTC.
+> Last updated: March 11, 2026 at 15:17 UTC.
 
 ## March 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [2](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [3](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [4](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [5](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 5 runs • 12 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [2](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [3](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [4](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [5](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [6](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 6 runs • 17 commits • 9 authors
 
 ### Changes
 
+- [`23f3cd5`](https://github.com/ghostty-org/ghostty/commit/23f3cd5f101fedcff6350648f8ba3993e6c55d90) zsh: improve prompt marking with dynamic themes ([@jparise](https://github.com/jparise))
+  ```text
+  Replace the strip-in-preexec / re-add-in-precmd pattern for OSC 133
+  marks with a save/restore approach. Instead of pattern-matching marks
+  out of PS1 (which exposes PS1 in intermediate states to other hooks), we
+  save the original PS1/PS2 before adding marks and then restore them.
+  
+  This also adds dynamic theme detection: if PS1 changed between cycles
+  (e.g., a theme rebuilt it), we skip injecting continuation marks into
+  newlines. This prevents breaking plugins like Pure that use pattern
+  matching to strip/rebuild the prompt.
+  
+  Additionally, move _ghostty_precmd to the end of precmd_functions in
+  _ghostty_deferred_init (instead of substituting in-place) so that the
+  first prompt is properly marked even when other hooks were appended
+  after our auto-injection.
+  
+  There's one scenario that we still don't complete cover:
+  
+      precmd_functions+=(_test_overwrite_ps1)
+      _test_overwrite_ps1() {
+          PS1="test> "
+      }
+  
+  ... which results in the first prompt not printing its prompt marks
+  because _test_overwrite_ps1 becomes the last thing to run, overwriting
+  our marks, but this will be fixed for subsequent prompts when we move
+  our handler back to the last index.
+  
+  Fixes: #11282
+  ```
+- [`87e496b`](https://github.com/ghostty-org/ghostty/commit/87e496b30ff62a08e6dbdea651d86ea18b50493a) Update VOUCHED list ([#11368](https://github.com/ghostty-org/ghostty/issues/11368)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11365#issuecomment-4039534706)
+  from @mitchellh.
+  
+  Vouch: @ydah
+  ```
+- [`c220654`](https://github.com/ghostty-org/ghostty/commit/c2206542d3bcb1b88eb4196620e553dad0717ca4) macos: fix tab title rename hit testing and focus handling in fullscreen mode ([@ydah](https://github.com/ydah))
+- [`048a2d0`](https://github.com/ghostty-org/ghostty/commit/048a2d043a84eca4e67345eab2cdacb1a6390a70) Merge fix-fullscreen-tab-title-rename-hit into main ([@mitchellh](https://github.com/mitchellh))
+- [`61865bc`](https://github.com/ghostty-org/ghostty/commit/61865bc37facf68056c4d0545a1dc4829550a8c1) zsh: improve prompt marking with dynamic themes ([#11367](https://github.com/ghostty-org/ghostty/issues/11367)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace the strip-in-preexec / re-add-in-precmd pattern for OSC 133
+  marks with a save/restore approach. Instead of pattern-matching marks
+  out of PS1 (which exposes PS1 in intermediate states to other hooks), we
+  save the original PS1/PS2 before adding marks and then restore them.
+  
+  This also adds dynamic theme detection: if PS1 changed between cycles
+  (e.g., a theme rebuilt it), we skip injecting continuation marks into
+  newlines. This prevents breaking plugins like Pure that use pattern
+  matching to strip/rebuild the prompt.
+  
+  Additionally, move _ghostty_precmd to the end of precmd_functions in
+  _ghostty_deferred_init (instead of substituting in-place) so that the
+  first prompt is properly marked even when other hooks were appended
+  after our auto-injection.
+  
+  There's one scenario that we still don't complete cover:
+  
+      precmd_functions+=(_test_overwrite_ps1)
+      _test_overwrite_ps1() {
+          PS1="test> "
+      }
+  
+  ... which results in the first prompt not printing its prompt marks
+  because _test_overwrite_ps1 becomes the last thing to run, overwriting
+  our marks, but this will be fixed for subsequent prompts when we move
+  our handler back to the last index.
+  
+  Fixes: #11282
+  ```
 - [`ad6d366`](https://github.com/ghostty-org/ghostty/commit/ad6d3665c29b7e2db4da7e2a5fe67239d0f3df32) gtk: fix +new-window `--working-directory` inferrence. ([@jcollie](https://github.com/jcollie))
   ```text
   If the CLI argument `--working-directory` is not used with
