@@ -8,15 +8,189 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 15:17 UTC.
+> Last updated: March 11, 2026 at 18:18 UTC.
 
 ## March 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [2](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [3](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [4](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [5](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [6](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 6 runs • 17 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22964898207), [2](https://github.com/ghostty-org/ghostty/actions/runs/22964025677), [3](https://github.com/ghostty-org/ghostty/actions/runs/22963156248), [4](https://github.com/ghostty-org/ghostty/actions/runs/22961429369), [5](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [6](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [7](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [8](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [9](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [10](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 10 runs • 35 commits • 10 authors
 
 ### Changes
 
+- [`9503fa0`](https://github.com/ghostty-org/ghostty/commit/9503fa0786d3e79a5862361ae59db6d5972b4eae) nix: bump zig-overlay version ([@faukah](https://github.com/faukah))
+- [`0af9938`](https://github.com/ghostty-org/ghostty/commit/0af9938ad2f2fb84d8e00501716933029bc0ba65) macos: add UI test for window position restore across titlebar styles ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Tests that window position and size are correctly restored after
+  reopen for all four macos-titlebar-style variants.
+  ```
+- [`e8c82ca`](https://github.com/ghostty-org/ghostty/commit/e8c82ca1af29a8e911f328abe89bcc2650ec1705) macOS: save frame only if the window is visible ([@bo2themax](https://github.com/bo2themax))
+- [`45d360d`](https://github.com/ghostty-org/ghostty/commit/45d360dc6879a80ca55f6f01ea36d9161732e099) macOS: set the initial window position after window is loaded ([@bo2themax](https://github.com/bo2themax))
+- [`596d502`](https://github.com/ghostty-org/ghostty/commit/596d502a756ce6454093b5d0782bc17d700804ab) macOS: restore window frame under certain conditions ([@bo2themax](https://github.com/bo2themax))
+- [`e31615d`](https://github.com/ghostty-org/ghostty/commit/e31615d00bf3811bdba4ae697c80fcb1ede3817a) bash: fix extra newlines with readline vi mode indicator ([@jparise](https://github.com/jparise))
+  ```text
+  Use OSC 133;P (prompt mark) instead of 133;A (fresh line + prompt mark)
+  inside PS1 and PS2. Readline redraws the prompt on vi mode switches,
+  Ctrl-L, and other events, and 133;A's fresh-line behavior would emit a
+  CR+LF whenever the cursor wasn't at column 0, causing visible extra
+  newlines.
+  
+  The one-time 133;A is now emitted via printf in __ghostty_precmd, which
+  only runs once per prompt cycle via PROMPT_COMMAND. On SIGWINCH, bash
+  redraws PS1 (firing the 133;P marks) but doesn't re-run PROMPT_COMMAND,
+  so there's no unwanted fresh-line on resize either. The redraw=last flag
+  persists from the initial printf.
+  
+  This is a little less optimal than our previous approach, in terms of
+  number of prompt marks we emit, but it produces an overall more correct
+  result, which is the important thing.
+  
+  Because readline prints its output outside the scope of PS1, those
+  characters "inherit" the surrounded prompt scope. This is usually fine,
+  but it can sometimes get out of sync (especially during redraws). This
+  is inherently a limitation of the fact that it's a separate output
+  channel, so we just have to accept that can happen.
+  
+  See: #11267
+  ```
+- [`7aff470`](https://github.com/ghostty-org/ghostty/commit/7aff470ceb220fbf58fd7e76cc7e342c7011d629) bash: fix extra newlines with readline vi mode indicator ([#11377](https://github.com/ghostty-org/ghostty/issues/11377)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use OSC 133;P (prompt mark) instead of 133;A (fresh line + prompt mark)
+  inside PS1 and PS2. Readline redraws the prompt on vi mode switches,
+  Ctrl-L, and other events, and 133;A's fresh-line behavior would emit a
+  CR+LF whenever the cursor wasn't at column 0, causing visible extra
+  newlines.
+  
+  The one-time 133;A is now emitted via printf in __ghostty_precmd, which
+  only runs once per prompt cycle via PROMPT_COMMAND. On SIGWINCH, bash
+  redraws PS1 (firing the 133;P marks) but doesn't re-run PROMPT_COMMAND,
+  so there's no unwanted fresh-line on resize either. The redraw=last flag
+  persists from the initial printf.
+  
+  This is a little less optimal than our previous approach, in terms of
+  number of prompt marks we emit, but it produces an overall more correct
+  result, which is the important thing.
+  
+  Because readline prints its output outside the scope of PS1, those
+  characters "inherit" the surrounded prompt scope. This is usually fine,
+  but it can sometimes get out of sync (especially during redraws). This
+  is inherently a limitation of the fact that it's a separate output
+  channel, so we just have to accept that can happen.
+  
+  Fixes: #10953
+  See: #11267
+  ```
+- [`12bc1e7`](https://github.com/ghostty-org/ghostty/commit/12bc1e786052a31d6f50cdbb0a703b45371a182d) macos: only show the grab handle in fullscreen if there are splits ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11376
+  ```
+- [`2296a82`](https://github.com/ghostty-org/ghostty/commit/2296a82c13f3621f25c2a5bb78280a80ac6c56b8) macOS: fix window frame when (re)opening new window ([#11380](https://github.com/ghostty-org/ghostty/issues/11380)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Claude wrote the fail path in the UI tests, or you can easily reproduce
+  this manually. This is kinda a regression after #11322, since we are not
+  delaying the frame update anymore, which exposes some of the "flaws" of
+  the previous implementation.
+  
+  The following three commits fix this step by step:
+  - We shouldn't save intermediate frames when the window is loading,
+  which is triggered by `windowDidResize` and `windowDidMove` during the
+  process.
+  - We should set the initial position (from the config) after the window
+  is loaded.
+  - A small refactor on `LastWindowPosition` to support restoring the
+  window frame under certain conditions.
+  
+  
+  https://github.com/user-attachments/assets/6f90f9a5-653d-4146-95c6-8e5c69bda656
+  
+  
+  
+  ### AI Disclosure
+  
+  Claude helped me write the UI tests.
+  ```
+- [`19e5053`](https://github.com/ghostty-org/ghostty/commit/19e5053b28c524317c77d482a65b68f56fe372a4) macos: only show the grab handle in fullscreen if there are splits ([#11381](https://github.com/ghostty-org/ghostty/issues/11381)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11376
+  ```
+- [`36c1450`](https://github.com/ghostty-org/ghostty/commit/36c1450dc950c67e9acb008dd778d4ad813835df) nix: bump zig-overlay version ([#11375](https://github.com/ghostty-org/ghostty/issues/11375)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bump of `zig-overlay`, allowing us to drop flake-utils from the flake
+  inputs. :)
+  ```
+- [`86c2a2e`](https://github.com/ghostty-org/ghostty/commit/86c2a2e87faa5996ac856c65718c0765be3fa3d0) input: add direct set_surface_title and set_tab_title actions ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11316
+  
+  This mirrors the `prompt` actions (hence why there is no window action
+  here) and enables setting titles via keybind actions which importantly
+  lets this work via command palettes, App Intents, AppleScript, etc.
+  ```
+- [`8ad9ec8`](https://github.com/ghostty-org/ghostty/commit/8ad9ec8e8806af12534080a38decc73322c877fe) add direct set_surface_title and set_tab_title actions ([#11373](https://github.com/ghostty-org/ghostty/issues/11373)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11316
+  
+  This mirrors the `prompt` actions (hence why there is no window action
+  here) and enables setting titles via keybind actions which importantly
+  lets this work via command palettes, App Intents, AppleScript, etc.
+  ```
+- [`f571c80`](https://github.com/ghostty-org/ghostty/commit/f571c806fec71a7de5b5ca0afc35eed92fa3cf9f) ci: skip vouched PRs for milestone attachment ([@mitchellh](https://github.com/mitchellh))
+- [`d48b6ba`](https://github.com/ghostty-org/ghostty/commit/d48b6ba085eb96d2253e8a7f00c12e942a362a54) ci: skip vouched PRs for milestone attachment ([#11371](https://github.com/ghostty-org/ghostty/issues/11371)) ([@mitchellh](https://github.com/mitchellh))
+- [`a8d38fe`](https://github.com/ghostty-org/ghostty/commit/a8d38fe5d807e8cf18f99dcef117355d02048d7c) Update VOUCHED list ([#11374](https://github.com/ghostty-org/ghostty/issues/11374)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11372#discussioncomment-16086042)
+  from @mitchellh.
+  
+  Vouch: @faukah
+  ```
+- [`26d8bd9`](https://github.com/ghostty-org/ghostty/commit/26d8bd9e71c27f1f7f31a1079bee3ca79e79b205) bash: fix multiline PS1 with command substitutions ([@jparise](https://github.com/jparise))
+  ```text
+  Only replace the \n prompt escape when inserting secondary prompt marks,
+  not literal newlines ($'\n'). Literal newlines may appear inside $(...)
+  or `...` command substitutions, and inserting escape sequences there
+  breaks the shell syntax. For example:
+  
+        PS1='$(if [ $? -eq 0 ]; then echo -e "P";
+                      else echo -e "F";
+                      fi) $ '
+  
+  The literal newlines between the if/else/fi are part of the shell syntax
+  inside the command substitution. The previous code replaced all literal
+  newlines in PS1 with newline + OSC 133 escape sequences, which injected
+  terminal escapes into the middle of the command substitution and caused
+  bash to report a syntax error when evaluating it.
+  
+  The \n prompt escape is PS1-specific and safe to replace globally. This
+  means prompts using literal newlines for line breaks (rather than \n)
+  won't get per-line secondary marks, but this is the conventional form
+  and avoids the need for complex shell parsing.
+  
+  Fixes: #11267
+  ```
+- [`660767c`](https://github.com/ghostty-org/ghostty/commit/660767c77d077c1b7cef441fc2fa44f7dd666b08) bash: fix multiline PS1 with command substitutions ([#11369](https://github.com/ghostty-org/ghostty/issues/11369)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Only replace the \n prompt escape when inserting secondary prompt marks,
+  not literal newlines `($'\n')`. Literal newlines may appear inside
+  `$(...)` or `...` command substitutions, and inserting escape sequences
+  there breaks the shell syntax. For example:
+  
+        PS1='$(if [ $? -eq 0 ]; then echo -e "P";
+                      else echo -e "F";
+                      fi) $ '
+  
+  The literal newlines between the if/else/fi are part of the shell syntax
+  inside the command substitution. The previous code replaced all literal
+  newlines in PS1 with newline + OSC 133 escape sequences, which injected
+  terminal escapes into the middle of the command substitution and caused
+  bash to report a syntax error when evaluating it.
+  
+  The \n prompt escape is PS1-specific and safe to replace globally. This
+  means prompts using literal newlines for line breaks (rather than \n)
+  won't get per-line secondary marks, but this is the conventional form
+  and avoids the need for complex shell parsing.
+  
+  Fixes: #11267
+  ```
 - [`23f3cd5`](https://github.com/ghostty-org/ghostty/commit/23f3cd5f101fedcff6350648f8ba3993e6c55d90) zsh: improve prompt marking with dynamic themes ([@jparise](https://github.com/jparise))
   ```text
   Replace the strip-in-preexec / re-add-in-precmd pattern for OSC 133
