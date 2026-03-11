@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 09:15 UTC.
+> Last updated: March 11, 2026 at 12:11 UTC.
 
 ## March 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [2](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [3](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 3 runs • 8 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [2](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [3](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [4](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [5](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
+Summary: 5 runs • 12 commits • 7 authors
 
 ### Changes
 
+- [`ad6d366`](https://github.com/ghostty-org/ghostty/commit/ad6d3665c29b7e2db4da7e2a5fe67239d0f3df32) gtk: fix +new-window `--working-directory` inferrence. ([@jcollie](https://github.com/jcollie))
+  ```text
+  If the CLI argument `--working-directory` is not used with
+  `+new-window`, the current working directory that `ghostty +new-window`
+  is run from will be appended to the list of configuration data sent
+  to the main Ghostty process. If `-e` _was_ used on the CLI, the
+  `--working-directory` that was appended will be interpreted as part of
+  the command to be executed, likely causing it to fail.
+  
+  Instead, insert `--working-directory` at the beginning of the list of
+  configuration that it sent to the main Ghostty process.
+  
+  Fixes #11356
+  ```
+- [`76e9ee7`](https://github.com/ghostty-org/ghostty/commit/76e9ee7d376445a04421a7a78f5cc3e4787bcad4) gtk: fix +new-window `--working-directory` inferrence. ([#11357](https://github.com/ghostty-org/ghostty/issues/11357)) ([@pluiedev](https://github.com/pluiedev))
+- [`82a8052`](https://github.com/ghostty-org/ghostty/commit/82a805296c3b45235571ecfa3b75821d9ca264b5) docs: fix backtick rendering in selection-word-chars default value ([@puzza007](https://github.com/puzza007))
+  ```text
+  The default value contains a literal backtick which broke inline code
+  rendering on the website. Use double backtick delimiters to properly
+  contain it.
+  ```
+- [`b992b66`](https://github.com/ghostty-org/ghostty/commit/b992b6605033d888c1c1afcf8015a6bf8cb9e7a5) docs: fix backtick rendering in selection-word-chars default value ([#11361](https://github.com/ghostty-org/ghostty/issues/11361)) ([@pluiedev](https://github.com/pluiedev))
 - [`a644fca`](https://github.com/ghostty-org/ghostty/commit/a644fca5c5e74850312f13ed69f9677556abcd27) Update VOUCHED list ([#11360](https://github.com/ghostty-org/ghostty/issues/11360)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
