@@ -8,15 +8,48 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 10, 2026 at 21:09 UTC.
+> Last updated: March 11, 2026 at 00:18 UTC.
 
 ## March 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22919665780), [2](https://github.com/ghostty-org/ghostty/actions/runs/22918391292), [3](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [4](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [5](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [6](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [7](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [8](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [9](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [10](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
-Summary: 10 runs • 28 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22929804807), [2](https://github.com/ghostty-org/ghostty/actions/runs/22928895181), [3](https://github.com/ghostty-org/ghostty/actions/runs/22926107536), [4](https://github.com/ghostty-org/ghostty/actions/runs/22919665780), [5](https://github.com/ghostty-org/ghostty/actions/runs/22918391292), [6](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [7](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [8](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [9](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [10](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [11](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [12](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [13](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
+Summary: 13 runs • 33 commits • 7 authors
 
 ### Changes
 
+- [`f9862cd`](https://github.com/ghostty-org/ghostty/commit/f9862cd4e27daf72e8e983646451a0954a47258b) GTK does support scrollbars ([@hulet](https://github.com/hulet))
+- [`818e170`](https://github.com/ghostty-org/ghostty/commit/818e170ec0a16b501a78adc5ea9e197e142e877b) GTK does support scrollbars ([#11345](https://github.com/ghostty-org/ghostty/issues/11345)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Native GTK scrollbars are supported in 1.3.0:
+  https://ghostty.org/docs/install/release-notes/1-3-0#scrollbars
+  ```
+- [`615af97`](https://github.com/ghostty-org/ghostty/commit/615af975f3365ea85594be7ebbc6ae90cac9558c) Update VOUCHED list ([#11344](https://github.com/ghostty-org/ghostty/issues/11344)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11343#discussioncomment-16075282)
+  from @jcollie.
+  
+  Vouch: @hulet
+  ```
+- [`04d5efc`](https://github.com/ghostty-org/ghostty/commit/04d5efc8eb7b5f660bf44c0b63b9366c881e9635) config: working-directory expands ~/ prefix ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11336
+  
+  Introduce a proper WorkingDirectory tagged union type with home, inherit,
+  and path variants. The field is now an optional (?WorkingDirectory) where
+  null represents "use platform default" which is resolved during Config.finalize
+  to .inherit (CLI) or .home (desktop launcher).
+  ```
+- [`0cb189b`](https://github.com/ghostty-org/ghostty/commit/0cb189bfbba4515797dee666e107d9b73b861ab0) config: working-directory expands ~/ prefix ([#11337](https://github.com/ghostty-org/ghostty/issues/11337)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11336
+  
+  Introduce a proper WorkingDirectory tagged union type with home,
+  inherit, and path variants. The field is now an optional
+  (?WorkingDirectory) where null represents "use platform default" which
+  is resolved during Config.finalize to .inherit (CLI) or .home (desktop
+  launcher).
+  ```
 - [`96f9772`](https://github.com/ghostty-org/ghostty/commit/96f9772cd838fa9d562ed369ea6fa8e657f870e3) tests: disable tests that fail if you have locally installed fonts ([@jcollie](https://github.com/jcollie))
   ```text
   If you have "Noto Sans Tai Tham" and/or "Noto Sans Javanese" installed
@@ -1168,389 +1201,4 @@ Summary: 9 runs • 22 commits • 8 authors
   
   Vouch: @Michielvk
   ```
-
-## March 4, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22694000891), [2](https://github.com/ghostty-org/ghostty/actions/runs/22691416275), [3](https://github.com/ghostty-org/ghostty/actions/runs/22685396526), [4](https://github.com/ghostty-org/ghostty/actions/runs/22684084893), [5](https://github.com/ghostty-org/ghostty/actions/runs/22678614686), [6](https://github.com/ghostty-org/ghostty/actions/runs/22654900798)  
-Summary: 6 runs • 30 commits • 9 authors
-
-### Changes
-
-- [`6961c22`](https://github.com/ghostty-org/ghostty/commit/6961c2265e3b760dda9146aa285f11eee1e16abe) gtk: `+new-window` now respects `--working-directory` and `-e` ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes: #8862
-  Fixes: #10716
-  
-  This adds the machinery to pass configuration settings received over
-  DBus down to the GObject Surface so that that configuration information
-  can be used to override some settings from the current "live" config
-  when creating a new window. Currently it's only possible to override
-  `--working-directory` and `--command`. `-e` on the `ghostty +new-window`
-  CLI works as well.
-  
-  Adding more overridable settings is possible, but being able to fully
-  override any possible setting would better be served with a major
-  revamp of how Ghostty handles configs, which I is way out of scope at
-  the moment.
-  ```
-- [`ec0f9ef`](https://github.com/ghostty-org/ghostty/commit/ec0f9ef4163ee8262a31c779a9062c21b7486d5c) gtk: `+new-window` now respects `--title` ([@jcollie](https://github.com/jcollie))
-- [`f2ce7c3`](https://github.com/ghostty-org/ghostty/commit/f2ce7c348edbd635dd74cae9b3b330825768ba76) gtk: `+new-window` document `--title` ([@jcollie](https://github.com/jcollie))
-- [`002a6cc`](https://github.com/ghostty-org/ghostty/commit/002a6cc76526240b19cee9792a79de05077bb09a) gtk: use simpler method for passing overrides around ([@jcollie](https://github.com/jcollie))
-  ```text
-  As discussed in Discord, this commit drops the `ConfigOverride` object
-  in favor of a simpler method of passing the overrides around. Completely
-  avoiding changes to the core wasn't possible but it's very minimal now.
-  ```
-- [`e27956f`](https://github.com/ghostty-org/ghostty/commit/e27956fdde1b3964d689f8f0c038b29f6e7d5157) gtk: remove modifications to the core for overrides ([@jcollie](https://github.com/jcollie))
-- [`5bc5820`](https://github.com/ghostty-org/ghostty/commit/5bc5820f3255cc8dfbf6c30e3f7edb4a947add3d) gtk: simplify new-window action memory management with an arena ([@jcollie](https://github.com/jcollie))
-- [`58d6021`](https://github.com/ghostty-org/ghostty/commit/58d6021ec44c2383344f2c08214ebe3dd754ea4d) apprt/gtk: reduce split-tree flicker by reusing leaf widgets ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #8208
-  
-  Split-tree updates currently clear `tree_bin` and then wait for every surface
-  to become parentless before rebuilding. That leaves the split area blank for
-  one or more frames, which is the visible flicker during split create/close/
-  resize/equalize actions.
-  
-  Keep the previous widget tree attached until the idle rebuild runs, then
-  swap in the rebuilt tree in one step. During rebuild, reuse existing
-  leaf widgets by detaching and reparenting them into the new `GtkPaned`
-  hierarchy instead of recreating wrappers for every leaf.
-  
-  This removes the parent-settling rebuild path and avoids transient blank
-  frames while preserving debounced rebuild behavior.
-  ```
-- [`436a11d`](https://github.com/ghostty-org/ghostty/commit/436a11dd59598ddfcc74434cd6283017753eed0f) apprt/gtk: reduce split-tree flicker by reusing leaf widgets ([#11170](https://github.com/ghostty-org/ghostty/issues/11170)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #8208
-  
-  Split-tree updates currently clear `tree_bin` and then wait for every
-  surface to become parentless before rebuilding. That leaves the split
-  area blank for one or more frames, which is the visible flicker during
-  split create/close/ resize/equalize actions.
-  
-  Keep the previous widget tree attached until the idle rebuild runs, then
-  swap in the rebuilt tree in one step. During rebuild, reuse existing
-  leaf widgets by detaching and reparenting them into the new `GtkPaned`
-  hierarchy instead of recreating wrappers for every leaf.
-  
-  This removes the parent-settling rebuild path and avoids transient blank
-  frames while preserving debounced rebuild behavior.
-  ```
-- [`46522a8`](https://github.com/ghostty-org/ghostty/commit/46522a8779ba44e47d4f68ab633ace5382971624) gtk: `+new-window` now respects `--working-directory` and `-e` ([#10809](https://github.com/ghostty-org/ghostty/issues/10809)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes: #8862
-  Fixes: #10716
-  
-  This adds the machinery to pass configuration settings received over
-  DBus down to the GObject Surface so that that configuration information
-  can be used to override some settings from the current "live" config
-  when creating a new window. Currently it's only possible to override
-  `--working-directory`, `--command`, and `--title`. `-e` on the `ghostty
-  +new-window` CLI works as well.
-  
-  Adding more overridable settings is possible, but being able to fully
-  override any possible setting would better be served with a major revamp
-  of how Ghostty handles configs, which is way out of scope at the moment.
-  ```
-- [`05807f0`](https://github.com/ghostty-org/ghostty/commit/05807f0d72d44ba24048cce56bf716d2c629ff30) Revert "build: link to the system FontConfig by default on non-macOS systems ([#11152](https://github.com/ghostty-org/ghostty/issues/11152))" ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This reverts commit ee4c6f88c5517d242b73427f66da4d54d41e35a8.
-  ```
-- [`57d877a`](https://github.com/ghostty-org/ghostty/commit/57d877a0d622a01381688cbafd8d227612640fc7) Revert "build: link to the system FontConfig by default on non-macOS systems" ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This reverts commit 89f9dd7848111b28287a70388d610d66227a53f4.
-  ```
-- [`2cfc9d3`](https://github.com/ghostty-org/ghostty/commit/2cfc9d36d8ea81722d9ecfad027ba8558879b780) Revert "build: link to the system FontConfig by default ([#11169](https://github.com/ghostty-org/ghostty/issues/11169)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This reverts commit ee4c6f88c5517d242b73427f66da4d54d41e35a8.
-  
-  This breaks standard `zig build run` from a dev shell in Nix/NixOS. I
-  think we need to rethink some of the protections here, possibly only to
-  apply to packaging/release modes or something.
-  
-  cc @jcollie
-  ```
-- [`9a3dbe1`](https://github.com/ghostty-org/ghostty/commit/9a3dbe10b05912ee30061dae6d730d8d9db0bc46) zsh: fix extra newlines with leading-newline prompts ([@jparise](https://github.com/jparise))
-  ```text
-  In our multiline prompt logic, skip the newline immediately after the
-  first mark to avoid introducing a double newline due to OSC 133;A's
-  fresh-line behavior.
-  
-  Fixes: #11003
-  ```
-- [`9386fa6`](https://github.com/ghostty-org/ghostty/commit/9386fa64997db6124f1cdbd4730938edb49f2a85) zsh: emit missing prompt markers in line-init ([@jparise](https://github.com/jparise))
-  ```text
-  Emit semantic prompt markers at line-init if PS1 doesn't contain our
-  marks. This ensures the terminal sees prompt markers even if another
-  plugin (like zinit or oh-my-posh) regenerated PS1 after our precmd ran.
-  We use 133;P instead of 133;A to avoid fresh-line behavior which would
-  disrupt the display since the prompt has already been drawn. We also
-  emit 133;B to mark the input area, which is needed for click-to-move.
-  
-  Fixes: #10555
-  ```
-- [`3ee8ef4`](https://github.com/ghostty-org/ghostty/commit/3ee8ef4f650f550698ee1e8e81e591511e195bf4) macos: suppress split-focus click mouse reports ([@rockorager](https://github.com/rockorager))
-  ```text
-  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
-  ```
-- [`0fa12f8`](https://github.com/ghostty-org/ghostty/commit/0fa12f89151d5332233c97308bdda8925f6627b9) gtk: suppress mouse reports on focus-transfer clicks ([@rockorager](https://github.com/rockorager))
-  ```text
-  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
-  ```
-- [`d146808`](https://github.com/ghostty-org/ghostty/commit/d1468086efcb7ae83498c4660ecfa5c3aebd8b6a) macos: defer key-window focus sync to reduce churn ([@rockorager](https://github.com/rockorager))
-  ```text
-  Amp-Thread-ID: https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
-  ```
-- [`3bcf329`](https://github.com/ghostty-org/ghostty/commit/3bcf329c2b5894e64e129542742db305a51d463e) zsh: emit missing prompt markers in line-init ([#11165](https://github.com/ghostty-org/ghostty/issues/11165)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Emit semantic prompt markers at line-init if PS1 doesn't contain our
-  marks. This ensures the terminal sees prompt markers even if another
-  plugin (like zinit or oh-my-posh) regenerated PS1 after our precmd ran.
-  We use 133;P instead of 133;A to avoid fresh-line behavior which would
-  disrupt the display since the prompt has already been drawn. We also
-  emit 133;B to mark the input area, which is needed for click-to-move.
-  
-  Fixes: #10572, #10555
-  ```
-- [`226d0b9`](https://github.com/ghostty-org/ghostty/commit/226d0b9918b6c6149d21f79a05a432d4c10da0bf) zsh: fix extra newlines with leading-newline prompts ([#11166](https://github.com/ghostty-org/ghostty/issues/11166)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  In our multiline prompt logic, skip the newline immediately after the
-  first mark to avoid introducing a double newline due to OSC 133;A's
-  fresh-line behavior.
-  
-  Fixes: #11003
-  ```
-- [`c3febab`](https://github.com/ghostty-org/ghostty/commit/c3febabd286dfaa47c3d7d251ede22e8e382b6f3) apprt: unify split-click focus behavior across macOS and GTK; suppress focus-transfer mouse events ([#11167](https://github.com/ghostty-org/ghostty/issues/11167)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  This PR aligns split-pane click behavior across macOS and GTK when focus
-  changes due to click.
-  
-  When a left-click is used to transfer focus (window activation or
-  switching to another split), Ghostty now treats that click as focus-only
-  and suppresses forwarding mouse press/release events for that
-  focus-transfer click.
-  
-  ## Changes
-  
-  1. macOS: suppress focus-transfer left mouse-down and matching mouse-up
-  in `SurfaceView_AppKit.swift`.
-  1. GTK: suppress focus-transfer left mouse-down and matching mouse-up in
-  `src/apprt/gtk/class/surface.zig`.
-  1. macOS: defer key-window focus sync to next runloop tick to reduce
-  transient focus churn in `BaseTerminalController.swift`.
-  1. macOS build/lint: exclude generated/dependency paths from SwiftLint
-  during build in `.swiftlint.yml` and
-  `Ghostty.xcodeproj/project.pbxproj`.
-  
-  ## Behavior
-  
-  1. Focus-transfer split clicks are now focus-only on both macOS and GTK.
-  1. Matching release is also suppressed for those clicks, avoiding
-  release-without-press sequences.
-  1. Platform behavior is consistent for split focus transitions.
-  
-  ## Validation
-  
-  1. Built macOS target with `xcodebuild -target Ghostty -configuration
-  Debug -arch arm64`.
-  1. Ran targeted Zig test command `zig build test
-  -Dtest-filter=computeFraction`.
-  1. Ran format/lint for touched files (`swiftlint lint --fix`, `zig
-  fmt`).
-  4. Build and (human) tested click scenarios on macOS
-  
-  ## AI Disclosure
-  
-  AI-assisted.
-  
-  Thread:
-  https://ampcode.com/threads/T-019cb9fe-b11b-753f-99e7-8ecc52b73ec4
-  ```
-- [`2772c90`](https://github.com/ghostty-org/ghostty/commit/2772c90885d2ffc27fdf5e7e758c5ecca2af6f8c) i18n: add Kazakh translation (kk) ([@crayxt](https://github.com/crayxt))
-- [`0797b28`](https://github.com/ghostty-org/ghostty/commit/0797b281ec0268f2df65399b1aede85eaea0d31a) Add Kazakh translation ([#10670](https://github.com/ghostty-org/ghostty/issues/10670)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Dear maintainers,
-  
-  This PR adds Kazakh language translation file and necessary edits to
-  CODEOWNERS and i18n file with the list of locales.
-  
-  Please review (and squash when committing)
-  
-  Thank you!
-  ```
-- [`a716b9c`](https://github.com/ghostty-org/ghostty/commit/a716b9c4d421a3ab94f93fe301ddc28a5a086361) macos: Ghostty.Shell.escape unit tests ([@jparise](https://github.com/jparise))
-- [`53ef422`](https://github.com/ghostty-org/ghostty/commit/53ef42266a422c23b1523a3347caf7433fb63983) macos: Ghostty.Shell.escape unit tests ([#11162](https://github.com/ghostty-org/ghostty/issues/11162)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  *AI Disclosure:* These were written using the Claude Agent in Xcode
-  26.3, partly as an excuse to try out that latest integration.
-  ```
-- [`b215291`](https://github.com/ghostty-org/ghostty/commit/b2152919141de84a71052dd6f298d24dc1b08d63) macos: implement audio bell support with bell-audio-path ([@alaasdk](https://github.com/alaasdk))
-  ```text
-  Extends the macOS bell implementation to support the `audio` bell
-  feature by playing a user-specified audio file via NSSound.
-  
-  Previously, macOS only supported the `system` feature (NSSound.beep()).
-  This change adds support for:
-  - `audio` bell feature: plays the file at `bell-audio-path` using
-    NSSound, respecting the `bell-audio-volume` setting
-  - Adds `cval()` to the `Path` type so it can be returned via the C API
-  
-  Also removes the "(GTK only)" restriction from `bell-audio-path` and
-  `bell-audio-volume` documentation, as these options now work on macOS.
-  
-  Example config:
-    bell-features = audio
-    bell-audio-path = /System/Library/Sounds/Glass.aiff
-    bell-audio-volume = 0.8
-  ```
-- [`c93cf52`](https://github.com/ghostty-org/ghostty/commit/c93cf521088594649a6c2d54e1c916c3906c0a0f) Update VOUCHED list ([#11156](https://github.com/ghostty-org/ghostty/issues/11156)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/10982#discussioncomment-15990906)
-  from @jcollie.
-  
-  Vouch: @cmwetherell
-  ```
-- [`69df92b`](https://github.com/ghostty-org/ghostty/commit/69df92b56a85d1ae883dc8f034fb19665161c498) build(deps): bump cachix/install-nix-action from 31.9.1 to 31.10.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.9.1 to 31.10.0.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/2126ae7fc54c9df00dd18f7f18754393182c73cd...19effe9fe722874e6d46dd7182e4b8b7a43c4a99)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.10.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`73ce40c`](https://github.com/ghostty-org/ghostty/commit/73ce40c6235af6028dac5dfd4502b50c779b7bf5) build(deps): bump cachix/install-nix-action from 31.9.1 to 31.10.0 ([#11157](https://github.com/ghostty-org/ghostty/issues/11157)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.9.1 to 31.10.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.10.0</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.33.3 -&gt; 2.34.0 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/267">cachix/install-nix-action#267</a>
-  Release notes: <a
-  href="https://discourse.nixos.org/t/nix-2-34-0-released/75818">https://discourse.nixos.org/t/nix-2-34-0-released/75818</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31.9.1...v31.10.0">https://github.com/cachix/install-nix-action/compare/v31.9.1...v31.10.0</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/19effe9fe722874e6d46dd7182e4b8b7a43c4a99"><code>19effe9</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/267">#267</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/d3f3b99dd19236cb244609944767f2864ec646ee"><code>d3f3b99</code></a>
-  nix: 2.33.3 -&gt; 2.34.0</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/2126ae7fc54c9df00dd18f7f18754393182c73cd...19effe9fe722874e6d46dd7182e4b8b7a43c4a99">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.9.1&new-version=31.10.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`98ad1d9`](https://github.com/ghostty-org/ghostty/commit/98ad1d955cf8d66cf5548f581a6502cf10f2f852) use proper type for optional path ([@mitchellh](https://github.com/mitchellh))
-- [`619e33a`](https://github.com/ghostty-org/ghostty/commit/619e33a4febec871c0d655f51d85e7f5f21ba289) macos: implement audio bell support with bell-audio-path ([#11154](https://github.com/ghostty-org/ghostty/issues/11154)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  ## Summary
-  
-  This extends the macOS bell implementation to support the `audio` bell
-  feature, bringing it to parity with GTK/Linux.
-  
-  Previously, macOS only had the `system` feature (`NSSound.beep()`). This
-  PR adds:
-  
-  - **`audio` bell feature on macOS**: plays the file at `bell-audio-path`
-  using `NSSound(contentsOfFile:)`, respecting `bell-audio-volume`
-  - **`cval()` on the `Path` type**: allows `Path` values (a union type)
-  to be returned through the C API, which is needed for Swift to read
-  `bell-audio-path`
-  - **Removes `(GTK only)` restriction** from `bell-audio-path` and
-  `bell-audio-volume` documentation
-  
-  ## How it works
-  
-  In `AppDelegate.swift`, when the bell rings and the `audio` feature is
-  enabled, Ghostty now:
-  1. Reads `bell-audio-path` from config
-  2. Loads it as an `NSSound`
-  3. Applies `bell-audio-volume` and plays it
-  
-  Falls back gracefully if the path is not set or the file cannot be
-  loaded.
-  
-  ## Example config
-  
-  ```
-  bell-features = audio
-  bell-audio-path = /System/Library/Sounds/Glass.aiff
-  bell-audio-volume = 0.8
-  ```
-  
-  ## Testing
-  
-  - Set `bell-features = audio` and `bell-audio-path` to any valid audio
-  file
-  - Trigger a bell with `echo -e '\a'`
-  - Audio should play at the configured volume
-  ````
 
