@@ -8,7 +8,126 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 12, 2026 at 00:18 UTC.
+> Last updated: March 12, 2026 at 03:48 UTC.
+
+## March 12, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
+Summary: 1 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`16ca952`](https://github.com/ghostty-org/ghostty/commit/16ca9527e95ea857a5cc6a30685bfcf58705af08) build(deps): bump actions/download-artifact from 8.0.0 to 8.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/download-artifact](https://github.com/actions/download-artifact) from 8.0.0 to 8.0.1.
+  - [Release notes](https://github.com/actions/download-artifact/releases)
+  - [Commits](https://github.com/actions/download-artifact/compare/70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3...3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/download-artifact
+    dependency-version: 8.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`8093695`](https://github.com/ghostty-org/ghostty/commit/809369505534b40c83560f9cd0cbee8e7ecb7516) macos: only run key equivalents for Ghostty-owned menu items ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11396
+  
+  Track menu items populated from Ghostty keybind actions and only trigger
+  those from SurfaceView performKeyEquivalent. This avoids app-default
+  shortcuts such as Hide from pre-empting explicit keybinds.
+  ```
+- [`8392255`](https://github.com/ghostty-org/ghostty/commit/8392255fd6ed12dd5aad87eae0357ab6e69ec4a0) build(deps): bump actions/download-artifact from 8.0.0 to 8.0.1 ([#11399](https://github.com/ghostty-org/ghostty/issues/11399)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [actions/download-artifact](https://github.com/actions/download-artifact)
+  from 8.0.0 to 8.0.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/download-artifact/releases">actions/download-artifact's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v8.0.1</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Support for CJK characters in the artifact name by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/download-artifact/pull/471">actions/download-artifact#471</a></li>
+  <li>Add a regression test for artifact name + content-type mismatches by
+  <a href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a>
+  in <a
+  href="https://redirect.github.com/actions/download-artifact/pull/472">actions/download-artifact#472</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/actions/download-artifact/compare/v8...v8.0.1">https://github.com/actions/download-artifact/compare/v8...v8.0.1</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c"><code>3e5f45b</code></a>
+  Add regression tests for CJK characters (<a
+  href="https://redirect.github.com/actions/download-artifact/issues/471">#471</a>)</li>
+  <li><a
+  href="https://github.com/actions/download-artifact/commit/e6d03f67377d4412c7aa56a8e2e4988e6ec479dd"><code>e6d03f6</code></a>
+  Add a regression test for artifact name + content-type mismatches (<a
+  href="https://redirect.github.com/actions/download-artifact/issues/472">#472</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/actions/download-artifact/compare/70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3...3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/download-artifact&package-manager=github_actions&previous-version=8.0.0&new-version=8.0.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`35f4d18`](https://github.com/ghostty-org/ghostty/commit/35f4d1880290d7f882f6f00fbafb46a49196e014) macos: only run key equivalents for Ghostty-owned menu items ([#11403](https://github.com/ghostty-org/ghostty/issues/11403)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11396
+  
+  Track menu items populated from Ghostty keybind actions and only trigger
+  those from SurfaceView performKeyEquivalent. This avoids app-default
+  shortcuts such as Hide from pre-empting explicit keybinds.
+  ```
 
 ## March 11, 2026
 
