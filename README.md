@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 12, 2026 at 15:19 UTC.
+> Last updated: March 12, 2026 at 18:17 UTC.
 
 ## March 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23006959585), [2](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [3](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
-Summary: 3 runs • 8 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23016405050), [2](https://github.com/ghostty-org/ghostty/actions/runs/23012255263), [3](https://github.com/ghostty-org/ghostty/actions/runs/23006959585), [4](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [5](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
+Summary: 5 runs • 16 commits • 4 authors
 
 ### Changes
 
+- [`77c2acf`](https://github.com/ghostty-org/ghostty/commit/77c2acf843e49c9566128fd2381a667077e4f2f8) macOS: add test case for window cascading without moving the window ([@bo2themax](https://github.com/bo2themax))
+- [`ea262cd`](https://github.com/ghostty-org/ghostty/commit/ea262cdd34c36ac848ddd417cdf29a4dc93d7fb6) macOS: fix window cascading for 3rd+ window ([@bo2themax](https://github.com/bo2themax))
+- [`5e38663`](https://github.com/ghostty-org/ghostty/commit/5e3866381b321bbc936f5de18e9f2b9622e0af4c) macOS: fix window cascading for the second window ([@bo2themax](https://github.com/bo2themax))
+- [`a91e747`](https://github.com/ghostty-org/ghostty/commit/a91e747cb187dc143054b5c17ed2451d19422ef1) macOS: fix window cascading ([#11426](https://github.com/ghostty-org/ghostty/issues/11426)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Added test case for cascading **without moving previous window**, #11161
+  will follow up for more accurate cascading after this.
+  
+  Fixed window cascading after last pr, now we should perform cascading
+  **after** showing the window.
+  ```
+- [`c399812`](https://github.com/ghostty-org/ghostty/commit/c399812036a3161a7c2cf3b7dc63f4240949c607) macOS: add test case for positioning the very first window ([@bo2themax](https://github.com/bo2themax))
+- [`4f849a1`](https://github.com/ghostty-org/ghostty/commit/4f849a15124b64dab955a489b77a80388b595523) macOS: fix window position for the very first window ([@bo2themax](https://github.com/bo2themax))
+- [`08107d3`](https://github.com/ghostty-org/ghostty/commit/08107d342a1404ea095e48b0ee7fcc5299c2024f) macOS: we don't need initialFrame anymore ([@bo2themax](https://github.com/bo2themax))
+- [`7068573`](https://github.com/ghostty-org/ghostty/commit/70685733c5947bdef9c8c7074419d0b15be86812) macOS: fix window position for the very first window ([#11421](https://github.com/ghostty-org/ghostty/issues/11421)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Depends on https://github.com/ghostty-org/ghostty/pull/11417
+  
+  Moved positioning part from `windowDidLoad` to `showWindow` to make new
+  users happy. Also deleted `initialFrame`, since we don't need it
+  anymore.
+  ```
 - [`d6dfaf2`](https://github.com/ghostty-org/ghostty/commit/d6dfaf28feb8e30834f18f987d1b909a3452e9fc) macOS: support injecting temporary defaults when testing ([@bo2themax](https://github.com/bo2themax))
 - [`8dde340`](https://github.com/ghostty-org/ghostty/commit/8dde340f88d87bf1fa83cbbd312cf7962eaf284b) macOS: support injecting temporary defaults when testing ([#11417](https://github.com/ghostty-org/ghostty/issues/11417)) ([@mitchellh](https://github.com/mitchellh))
 - [`84d48d1`](https://github.com/ghostty-org/ghostty/commit/84d48d1c6a9d4fb93eccd31cf0a731adbe174d02) config: add progress-style option ([@MOlechowski](https://github.com/MOlechowski))
