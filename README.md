@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 11, 2026 at 21:08 UTC.
+> Last updated: March 12, 2026 at 00:18 UTC.
 
 ## March 11, 2026
 
@@ -1511,128 +1511,5 @@ Summary: 1 runs • 4 commits • 2 authors
   `build.nu` script may be generally helpful to people using the Nix env
   since `xcodebuild` is broken by default in Nix due to the
   compiler/linker overrides Nix shell does.
-  ```
-
-## March 5, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22736924002), [2](https://github.com/ghostty-org/ghostty/actions/runs/22723550848), [3](https://github.com/ghostty-org/ghostty/actions/runs/22723016503), [4](https://github.com/ghostty-org/ghostty/actions/runs/22722387895), [5](https://github.com/ghostty-org/ghostty/actions/runs/22707501732), [6](https://github.com/ghostty-org/ghostty/actions/runs/22704188724), [7](https://github.com/ghostty-org/ghostty/actions/runs/22703620859), [8](https://github.com/ghostty-org/ghostty/actions/runs/22703142519), [9](https://github.com/ghostty-org/ghostty/actions/runs/22702479466)  
-Summary: 9 runs • 22 commits • 8 authors
-
-### Changes
-
-- [`acf54a9`](https://github.com/ghostty-org/ghostty/commit/acf54a91668b524d9a5e6e800c34ce2d08fd4d48) windows: use new callconv convention ([@jcollie](https://github.com/jcollie))
-- [`e8aad10`](https://github.com/ghostty-org/ghostty/commit/e8aad103263297d41335a27d9d1679a7ab47c08b) windows: avoid the use of wcwidth ([@jcollie](https://github.com/jcollie))
-- [`cccdb0d`](https://github.com/ghostty-org/ghostty/commit/cccdb0d2ade79c0d3ef37635c5c9fe90a0ac14bf) windows: add trivial implementation of expandHome ([@jcollie](https://github.com/jcollie))
-- [`d29e1cc`](https://github.com/ghostty-org/ghostty/commit/d29e1cc1375e0a700df73604c528a550813c8b1a) windows: use explicit error sets to work around lack of file locking ([@jcollie](https://github.com/jcollie))
-- [`b1d3e36`](https://github.com/ghostty-org/ghostty/commit/b1d3e36e2ea0d428dd333019c8346b6d4bcbc762) windows: add GetComputerNameA so that hostname-related functions work ([@jcollie](https://github.com/jcollie))
-- [`3e220ab`](https://github.com/ghostty-org/ghostty/commit/3e220ab3757243c45bbb999c185ae33de8f70da7) Windows build fixes ([#11195](https://github.com/ghostty-org/ghostty/issues/11195)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Some more fixes to get Windows building again. `zig build` on
-  x64_64-windows now succeeds but `zig build test` fails in
-  `src/terminal/page.zig` because Zig/Windows lacks a POSIX `mmap`
-  implementation.
-  ```
-- [`e1f4ee7`](https://github.com/ghostty-org/ghostty/commit/e1f4ee7fdd4d5fc4b6b86dd70986be75a0bacabd) Update VOUCHED list ([#11192](https://github.com/ghostty-org/ghostty/issues/11192)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11184#discussioncomment-16011801)
-  from @mitchellh.
-  
-  Vouch: @mac0ne
-  ```
-- [`f36b903`](https://github.com/ghostty-org/ghostty/commit/f36b903479f54fc7202a95ca10509f3eac06e007) Update VOUCHED list ([#11191](https://github.com/ghostty-org/ghostty/issues/11191)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11190#issuecomment-4005537826)
-  from @00-kat.
-  
-  Vouch: @AnthonyZhOon
-  ```
-- [`e07aefa`](https://github.com/ghostty-org/ghostty/commit/e07aefa6010716ccc51c745b8e0dde9598b58812) fix: zsh shell integration when `sudo` and `ssh` aliases are defined ([@Michielvk](https://github.com/Michielvk))
-- [`42540f4`](https://github.com/ghostty-org/ghostty/commit/42540f44cd717a0e1169fb5008443c6ebb9a073d) fix: zsh shell integration when `sudo` and `ssh` aliases are defined ([#11185](https://github.com/ghostty-org/ghostty/issues/11185)) ([@jparise](https://github.com/jparise))
-  ````text
-  I encountered an issue related to
-  https://github.com/ghostty-org/ghostty/discussions/8641 and
-  https://github.com/ghostty-org/ghostty/pull/8647, but in `zsh` instead
-  of `bash`.
-  
-  One of my aliases is:
-  
-  ```bash
-  alias sudo='sudo '
-  ```
-  
-  Which causes following error when sourcing the zsh shell integrations:
-  
-  ```shell
-  source /usr/share/ghostty/shell-integration/zsh/ghostty-integration
-  /usr/share/ghostty/shell-integration/zsh/ghostty-integration:149: defining function based on alias `sudo'
-  /usr/share/ghostty/shell-integration/zsh/ghostty-integration:233: parse error near `()'
-  ```
-  ````
-- [`c920a88`](https://github.com/ghostty-org/ghostty/commit/c920a88cdcc19ed42ab013c1ba2bb9ad41592ada) GTK: add 'move' to the drop target actions ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #11175
-  ```
-- [`dd575c7`](https://github.com/ghostty-org/ghostty/commit/dd575c716077e0e2d12881fe0c5f65b067978176) GTK: add 'move' to the drop target actions ([#11182](https://github.com/ghostty-org/ghostty/issues/11182)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Fixes #11175
-  ```
-- [`2fe5515`](https://github.com/ghostty-org/ghostty/commit/2fe55152ca6fe74219f129ee6339b265a41d0252) i18n: add Vietnamese translation ([@anhthang](https://github.com/anhthang))
-- [`4d30d88`](https://github.com/ghostty-org/ghostty/commit/4d30d886c636305875748b84ec06d489af669921) update translation ([@anhthang](https://github.com/anhthang))
-- [`e2a01be`](https://github.com/ghostty-org/ghostty/commit/e2a01beca7bed7974f1e700cef1ad0eecea2d13d) Merge branch 'main' into vi_VN ([@anhthang](https://github.com/anhthang))
-- [`0b802e7`](https://github.com/ghostty-org/ghostty/commit/0b802e7c2e228b246bb0daee925ab87f66c6ec5c) i18n: add Vietnamese translation ([#8912](https://github.com/ghostty-org/ghostty/issues/8912)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Adds support for the Vietnamese language
-  ```
-- [`3dde6e2`](https://github.com/ghostty-org/ghostty/commit/3dde6e2559e0aa67e04a6001485d87b80ed4c1dd) terminal: bound link regex search work with Oniguruma retry limits ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11177
-  
-  Use per-search Oniguruma match params (retry_limit_in_search) in
-  StringMap-backed link detection to avoid pathological backtracking hangs
-  on very long lines.
-  
-  The units are ticks in the internal loop so its kind of opaque but
-  this seems to still match some very long URLs. The test case in question
-  was a 169K character line (which is now rejected).
-  ```
-- [`fe1e25f`](https://github.com/ghostty-org/ghostty/commit/fe1e25f7a6cec06c45f3c11ef8cc259a617697d4) terminal: bound link regex search work with Oniguruma retry limits ([#11181](https://github.com/ghostty-org/ghostty/issues/11181)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11177
-  
-  Use per-search Oniguruma match params (retry_limit_in_search) in
-  StringMap-backed link detection to avoid pathological backtracking hangs
-  on very long lines.
-  
-  The units are ticks in the internal loop so its kind of opaque but this
-  seems to still match some very long URLs. The test case in question was
-  a 169K character line (which is now rejected).
-  ```
-- [`961bf46`](https://github.com/ghostty-org/ghostty/commit/961bf46884dc7f75a4bfd8640bf7f57baed6b540) Fix Windows test in src/Command.zig ([@jcollie](https://github.com/jcollie))
-  ```text
-  This was introduced in #10611. This doesn't fix all of the current
-  Windows build problems, but at least fixes one that I introduced.
-  ```
-- [`320d9c2`](https://github.com/ghostty-org/ghostty/commit/320d9c2f1cba79a8a9ab32c4d8c337571e435c20) Fix Windows test in src/Command.zig ([#11180](https://github.com/ghostty-org/ghostty/issues/11180)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This was introduced in #10611. This doesn't fix all of the current
-  Windows build problems, but at least fixes one that I introduced.
-  ```
-- [`dfa968d`](https://github.com/ghostty-org/ghostty/commit/dfa968d932ecb6928ebab9a9d460ae0ac629f985) Update VOUCHED list ([#11176](https://github.com/ghostty-org/ghostty/issues/11176)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11175#issuecomment-4001807388)
-  from @jcollie.
-  
-  Vouch: @douglas
-  ```
-- [`a5327a5`](https://github.com/ghostty-org/ghostty/commit/a5327a51f3fedea890f59ad75e7666a57bb743c4) Update VOUCHED list ([#11179](https://github.com/ghostty-org/ghostty/issues/11179)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11164#discussioncomment-16005149)
-  from @mitchellh.
-  
-  Vouch: @Michielvk
   ```
 
