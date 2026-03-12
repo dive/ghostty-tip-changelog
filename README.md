@@ -8,15 +8,32 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 12, 2026 at 03:48 UTC.
+> Last updated: March 12, 2026 at 06:18 UTC.
 
 ## March 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
-Summary: 1 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [2](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
+Summary: 2 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`84d48d1`](https://github.com/ghostty-org/ghostty/commit/84d48d1c6a9d4fb93eccd31cf0a731adbe174d02) config: add progress-style option ([@MOlechowski](https://github.com/MOlechowski))
+  ```text
+  Add option to disable OSC 9;4 ConEmu progress bars via config.
+  
+  Fixes #11241
+  ```
+- [`ab269e2`](https://github.com/ghostty-org/ghostty/commit/ab269e2c79d1540cd6d5aea74562ea4634c0104a) config: add progress-style option ([#11289](https://github.com/ghostty-org/ghostty/issues/11289)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds progress-style config to control OSC 9;4 progress bar visibility.
+  Defaults to true, set false to hide.
+  
+  Fixes #11241
+  
+  AI Disclosure: Claude Code (Opus 4.6) used for codebase exploration,
+  code review, and testing assistance. All code written and reviewed by
+  hand.
+  ```
 - [`16ca952`](https://github.com/ghostty-org/ghostty/commit/16ca9527e95ea857a5cc6a30685bfcf58705af08) build(deps): bump actions/download-artifact from 8.0.0 to 8.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [actions/download-artifact](https://github.com/actions/download-artifact) from 8.0.0 to 8.0.1.
