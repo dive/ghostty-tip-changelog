@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 12, 2026 at 18:17 UTC.
+> Last updated: March 12, 2026 at 21:10 UTC.
 
 ## March 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23016405050), [2](https://github.com/ghostty-org/ghostty/actions/runs/23012255263), [3](https://github.com/ghostty-org/ghostty/actions/runs/23006959585), [4](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [5](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
-Summary: 5 runs • 16 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23020014641), [2](https://github.com/ghostty-org/ghostty/actions/runs/23016405050), [3](https://github.com/ghostty-org/ghostty/actions/runs/23012255263), [4](https://github.com/ghostty-org/ghostty/actions/runs/23006959585), [5](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [6](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
+Summary: 6 runs • 21 commits • 4 authors
 
 ### Changes
 
+- [`d6d6fe4`](https://github.com/ghostty-org/ghostty/commit/d6d6fe4e5800f48846815a6cb2401c495e9ca57c) macOS: update window cascading ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Make it smaller and add comparisons between y values
+  ```
+- [`3022aa0`](https://github.com/ghostty-org/ghostty/commit/3022aa05ea82296adb598d340735f8339f5bf753) macOS: add test cases for drag-split ([@bo2themax](https://github.com/bo2themax))
+- [`07bc888`](https://github.com/ghostty-org/ghostty/commit/07bc8886822bdc19932efea54e6d01bd230078cc) macOS: fix window position when dragging split into a new window ([@bo2themax](https://github.com/bo2themax))
+- [`5c51603`](https://github.com/ghostty-org/ghostty/commit/5c51603b0b82a33c7461384e27ee67edbf3818fd) chore: make ci happy ([@bo2themax](https://github.com/bo2themax))
+- [`597e8cf`](https://github.com/ghostty-org/ghostty/commit/597e8cf1c592d23fa8e69f64d1f43a20c44726ef) macOS: fix window position when dragging split into a new window ([#11429](https://github.com/ghostty-org/ghostty/issues/11429)) ([@mitchellh](https://github.com/mitchellh))
 - [`77c2acf`](https://github.com/ghostty-org/ghostty/commit/77c2acf843e49c9566128fd2381a667077e4f2f8) macOS: add test case for window cascading without moving the window ([@bo2themax](https://github.com/bo2themax))
 - [`ea262cd`](https://github.com/ghostty-org/ghostty/commit/ea262cdd34c36ac848ddd417cdf29a4dc93d7fb6) macOS: fix window cascading for 3rd+ window ([@bo2themax](https://github.com/bo2themax))
 - [`5e38663`](https://github.com/ghostty-org/ghostty/commit/5e3866381b321bbc936f5de18e9f2b9622e0af4c) macOS: fix window cascading for the second window ([@bo2themax](https://github.com/bo2themax))
@@ -1154,7 +1162,7 @@ Summary: 9 runs • 21 commits • 10 authors
   
   Vouch: @dariogriffo
   ```
-- [`e9dc03b`](https://github.com/ghostty-org/ghostty/commit/e9dc03b0b4fd5b23d0791987a517851656831ddb) i18n: update Hungarian translations ([@balazs-szucs](https://github.com/balazs-szucs))
+- [`e9dc03b`](https://github.com/ghostty-org/ghostty/commit/e9dc03b0b4fd5b23d0791987a517851656831ddb) i18n: update Hungarian translations ([@szucs-b](https://github.com/szucs-b))
 - [`42d3635`](https://github.com/ghostty-org/ghostty/commit/42d36359dbe3cb13adacf8e40ddf3c37c8a2e564) i18n: update Hungarian translations ([#11039](https://github.com/ghostty-org/ghostty/issues/11039)) ([@00-kat](https://github.com/00-kat))
   ```text
   New string translated with this!
