@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 12, 2026 at 12:10 UTC.
+> Last updated: March 12, 2026 at 15:19 UTC.
 
 ## March 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [2](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
-Summary: 2 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23006959585), [2](https://github.com/ghostty-org/ghostty/actions/runs/22985944795), [3](https://github.com/ghostty-org/ghostty/actions/runs/22984951308)  
+Summary: 3 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`d6dfaf2`](https://github.com/ghostty-org/ghostty/commit/d6dfaf28feb8e30834f18f987d1b909a3452e9fc) macOS: support injecting temporary defaults when testing ([@bo2themax](https://github.com/bo2themax))
+- [`8dde340`](https://github.com/ghostty-org/ghostty/commit/8dde340f88d87bf1fa83cbbd312cf7962eaf284b) macOS: support injecting temporary defaults when testing ([#11417](https://github.com/ghostty-org/ghostty/issues/11417)) ([@mitchellh](https://github.com/mitchellh))
 - [`84d48d1`](https://github.com/ghostty-org/ghostty/commit/84d48d1c6a9d4fb93eccd31cf0a731adbe174d02) config: add progress-style option ([@MOlechowski](https://github.com/MOlechowski))
   ```text
   Add option to disable OSC 9;4 ConEmu progress bars via config.
