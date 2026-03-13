@@ -8,7 +8,255 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 13, 2026 at 00:21 UTC.
+> Last updated: March 13, 2026 at 03:47 UTC.
+
+## March 13, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23030892705)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`eccf960`](https://github.com/ghostty-org/ghostty/commit/eccf960def6f15dc33abaeff6f9b7ad3894db5dd) build(deps): bump dorny/paths-filter from 3.0.2 to 4.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 3.0.2 to 4.0.0.
+  - [Release notes](https://github.com/dorny/paths-filter/releases)
+  - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/dorny/paths-filter/compare/de90cc6fb38fc0963ad72b210f1f284cd68cea36...9d7afb8d214ad99e78fbd4247752c4caed2b6e4c)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: dorny/paths-filter
+    dependency-version: 4.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`d4019fa`](https://github.com/ghostty-org/ghostty/commit/d4019fa484c821b8d3a1ef73d42357ae8d86f2b7) build(deps): bump dorny/paths-filter from 3.0.2 to 4.0.0 ([#11436](https://github.com/ghostty-org/ghostty/issues/11436)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from
+  3.0.2 to 4.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/releases">dorny/paths-filter's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v4.0.0</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>feat: update action runtime to node24 by <a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/294">dorny/paths-filter#294</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  made their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/294">dorny/paths-filter#294</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/dorny/paths-filter/compare/v3.0.3...v4.0.0">https://github.com/dorny/paths-filter/compare/v3.0.3...v4.0.0</a></p>
+  <h2>v3.0.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Add missing predicate-quantifier by <a
+  href="https://github.com/wardpeet"><code>@​wardpeet</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/279">dorny/paths-filter#279</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a href="https://github.com/wardpeet"><code>@​wardpeet</code></a>
+  made their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/279">dorny/paths-filter#279</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/dorny/paths-filter/compare/v3...v3.0.3">https://github.com/dorny/paths-filter/compare/v3...v3.0.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md">dorny/paths-filter's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <h2>v4.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/294">Update
+  action runtime to node24</a></li>
+  </ul>
+  <h2>v3.0.3</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/279">Add
+  missing predicate-quantifier</a></li>
+  </ul>
+  <h2>v3.0.2</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/224">Add
+  config parameter for predicate quantifier</a></li>
+  </ul>
+  <h2>v3.0.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/133">Compare
+  base and ref when token is empty</a></li>
+  </ul>
+  <h2>v3.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/210">Update to
+  Node.js 20</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/215">Update
+  all dependencies</a></li>
+  </ul>
+  <h2>v2.11.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/167">Update
+  <code>@​actions/core</code> to v1.10.0 - Fixes warning about deprecated
+  set-output</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/168">Document
+  need for pull-requests: read permission</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/164">Updating
+  to actions/checkout@v3</a></li>
+  </ul>
+  <h2>v2.11.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/157">Set
+  list-files input parameter as not required</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/161">Update
+  Node.js</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/162">Fix
+  incorrect handling of Unicode characters in exec()</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/163">Use
+  Octokit pagination</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/160">Updates
+  real world links</a></li>
+  </ul>
+  <h2>v2.10.2</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/91">Fix
+  getLocalRef() returns wrong ref</a></li>
+  </ul>
+  <h2>v2.10.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/85">Improve
+  robustness of change detection</a></li>
+  </ul>
+  <h2>v2.10.0</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/82">Add
+  ref input parameter</a></li>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/83">Fix
+  change detection in PR when pullRequest.changed_files is
+  incorrect</a></li>
+  </ul>
+  <h2>v2.9.3</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/78">Fix
+  change detection when base is a tag</a></li>
+  </ul>
+  <h2>v2.9.2</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/75">Fix
+  fetching git history</a></li>
+  </ul>
+  <h2>v2.9.1</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/74">Fix
+  fetching git history + fallback to unshallow repo</a></li>
+  </ul>
+  <h2>v2.9.0</h2>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/9d7afb8d214ad99e78fbd4247752c4caed2b6e4c"><code>9d7afb8</code></a>
+  Update CHANGELOG for v4.0.0</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/782470c5d953cae2693d643172b14e01bacb71f3"><code>782470c</code></a>
+  Merge branch 'releases/v3'</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/d1c1ffe0248fe513906c8e24db8ea791d46f8590"><code>d1c1ffe</code></a>
+  Update CHANGELOG for v3.0.3</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/ce10459c8b92cd8901166c0a222fbb033ef39365"><code>ce10459</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/dorny/paths-filter/issues/294">#294</a>
+  from saschabratton/master</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/5f40380c5482e806c81cec080f5192e7234d8fe9"><code>5f40380</code></a>
+  feat: update action runtime to node24</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/668c092af3649c4b664c54e4b704aa46782f6f7c"><code>668c092</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/dorny/paths-filter/issues/279">#279</a>
+  from wardpeet/patch-1</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/209e61402dbca8aa44f967535da6666b284025ed"><code>209e614</code></a>
+  Add missing predicate-quantifier</li>
+  <li>See full diff in <a
+  href="https://github.com/dorny/paths-filter/compare/de90cc6fb38fc0963ad72b210f1f284cd68cea36...9d7afb8d214ad99e78fbd4247752c4caed2b6e4c">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=dorny/paths-filter&package-manager=github_actions&previous-version=3.0.2&new-version=4.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## March 12, 2026
 
