@@ -8,15 +8,52 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 13, 2026 at 15:15 UTC.
+> Last updated: March 13, 2026 at 18:11 UTC.
 
 ## March 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23030892705)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23062813936), [2](https://github.com/ghostty-org/ghostty/actions/runs/23060730419), [3](https://github.com/ghostty-org/ghostty/actions/runs/23059512011), [4](https://github.com/ghostty-org/ghostty/actions/runs/23030892705)  
+Summary: 4 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`6f8ffec`](https://github.com/ghostty-org/ghostty/commit/6f8ffecb89a4484a2fc587e0217263d28a7612e5) working basic search wrapping ([@rhodes-b](https://github.com/rhodes-b))
+- [`af84fdb`](https://github.com/ghostty-org/ghostty/commit/af84fdbea8fbb1f9418f000151f99d880051a3ba) fix tests ([@rhodes-b](https://github.com/rhodes-b))
+- [`04fa71e`](https://github.com/ghostty-org/ghostty/commit/04fa71e2377a386224cf6cf7af2ed0fbf757a9fd) Search wrap behavior ([#11449](https://github.com/ghostty-org/ghostty/issues/11449)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Search wrapping has been highly requested.
+  
+  some examples
+  https://github.com/ghostty-org/ghostty/discussions/11080
+  https://github.com/ghostty-org/ghostty/discussions/11440
+  https://github.com/ghostty-org/ghostty/discussions/11441
+  https://github.com/ghostty-org/ghostty/discussions/9762
+  https://github.com/ghostty-org/ghostty/discussions/9790
+  
+  I also think it makes sense as its the default behavior in browsers (and
+  I assume other apps)
+  
+  I tested where nothing is outputting and a loop where active was going
+  into history not anything where pages would start to get reused though
+  
+  the following comment seems to me it should be safe to have wrap around
+  behavior but maybe there was something else I missed about the active +
+  history buffer on why that isn't true, testing basic cases it worked
+  just fine for me
+  
+  
+  https://github.com/ghostty-org/ghostty/blob/main/src/terminal/highlight.zig#L107-L111
+  ```
+- [`5fa1a99`](https://github.com/ghostty-org/ghostty/commit/5fa1a991d0838d7bd08a1130de16b05b99efb445) up to 1.3.2-dev ([@mitchellh](https://github.com/mitchellh))
+- [`4c4e837`](https://github.com/ghostty-org/ghostty/commit/4c4e83784c5b8986d6d0a22c3f1e4fe79a4a3f03) macos: new tab applescript command should not activate application ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Related to #11457
+  ```
+- [`f3ac604`](https://github.com/ghostty-org/ghostty/commit/f3ac604fff76e29e6d827dae5f06e3eeebf7ebea) macos: select tab applescript command should not activate application ([#11459](https://github.com/ghostty-org/ghostty/issues/11459)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Related to #11457
+  ```
+- [`332b2ae`](https://github.com/ghostty-org/ghostty/commit/332b2aefc6e72d363aa93ab6ecfc86eeeeb5ed28) 1.3.1 ([@mitchellh](https://github.com/mitchellh))
 - [`eccf960`](https://github.com/ghostty-org/ghostty/commit/eccf960def6f15dc33abaeff6f9b7ad3894db5dd) build(deps): bump dorny/paths-filter from 3.0.2 to 4.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 3.0.2 to 4.0.0.
