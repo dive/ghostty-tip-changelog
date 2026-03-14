@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 13, 2026 at 21:10 UTC.
+> Last updated: March 14, 2026 at 00:19 UTC.
 
 ## March 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23062813936), [2](https://github.com/ghostty-org/ghostty/actions/runs/23060730419), [3](https://github.com/ghostty-org/ghostty/actions/runs/23059512011), [4](https://github.com/ghostty-org/ghostty/actions/runs/23030892705)  
-Summary: 4 runs • 9 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23070991378), [2](https://github.com/ghostty-org/ghostty/actions/runs/23062813936), [3](https://github.com/ghostty-org/ghostty/actions/runs/23060730419), [4](https://github.com/ghostty-org/ghostty/actions/runs/23059512011), [5](https://github.com/ghostty-org/ghostty/actions/runs/23030892705)  
+Summary: 5 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`2044e50`](https://github.com/ghostty-org/ghostty/commit/2044e5030ffaadf0361a2f4fca040b77408db0b5) terminal: make stream processing infallible ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The terminal.Stream next/nextSlice functions can now no longer fail.
+  All prior failure modes were fully isolated in the handler `vt`
+  callbacks. As such, vt callbacks are now required to not return an error
+  and handle their own errors somehow.
+  
+  Allowing streams to be fallible before was an incorrect design. It
+  caused problematic scenarios like in `nextSlice` early terminating
+  processing due to handler errors. This should not be possible.
+  
+  There is no safe way to bubble up vt errors through the stream because
+  if nextSlice is called and multiple errors are returned, we can't
+  coalesce them. We could modify that to return a partial result but its
+  just more work for stream that is unnecessary. The handler can do all of
+  this.
+  
+  This work was discovered due to cleanups to prepare for more C APIs.
+  Less errors make C APIs easier to implement! And, it helps clean up our
+  Zig, too.
+  ```
+- [`e75f895`](https://github.com/ghostty-org/ghostty/commit/e75f8956c576ea8acf6ee4e70d45f918738e7512) terminal: make stream processing infallible ([#11468](https://github.com/ghostty-org/ghostty/issues/11468)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The terminal.Stream next/nextSlice functions can now no longer fail. All
+  prior failure modes were fully isolated in the handler `vt` callbacks.
+  As such, vt callbacks are now required to not return an error and handle
+  their own errors somehow.
+  
+  Allowing streams to be fallible before was an incorrect design. It
+  caused problematic scenarios like in `nextSlice` early terminating
+  processing due to handler errors. This should not be possible.
+  
+  There is no safe way to bubble up vt errors through the stream because
+  if nextSlice is called and multiple errors are returned, we can't
+  coalesce them. We could modify that to return a partial result but its
+  just more work for stream that is unnecessary. The handler can do all of
+  this.
+  
+  This work was discovered due to cleanups to prepare for more C APIs.
+  Less errors make C APIs easier to implement! And, it helps clean up our
+  Zig, too.
+  ```
 - [`6f8ffec`](https://github.com/ghostty-org/ghostty/commit/6f8ffecb89a4484a2fc587e0217263d28a7612e5) working basic search wrapping ([@rhodes-b](https://github.com/rhodes-b))
 - [`af84fdb`](https://github.com/ghostty-org/ghostty/commit/af84fdbea8fbb1f9418f000151f99d880051a3ba) fix tests ([@rhodes-b](https://github.com/rhodes-b))
 - [`04fa71e`](https://github.com/ghostty-org/ghostty/commit/04fa71e2377a386224cf6cf7af2ed0fbf757a9fd) Search wrap behavior ([#11449](https://github.com/ghostty-org/ghostty/issues/11449)) ([@mitchellh](https://github.com/mitchellh))
@@ -1462,346 +1504,4 @@ Summary: 9 runs • 21 commits • 10 authors
   ```
 - [`adc6794`](https://github.com/ghostty-org/ghostty/commit/adc6794f3b1a1f46048f86e61397bc4736567589) Add es_ES.UTF-8 translation ([@alosarjos](https://github.com/alosarjos))
 - [`4d89f1b`](https://github.com/ghostty-org/ghostty/commit/4d89f1bcaeacd64ced18dc20504362b759f22e65) Add es_ES.UTF-8 translation ([#10722](https://github.com/ghostty-org/ghostty/issues/10722)) ([@00-kat](https://github.com/00-kat))
-
-## March 7, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22803119380), [2](https://github.com/ghostty-org/ghostty/actions/runs/22802362890), [3](https://github.com/ghostty-org/ghostty/actions/runs/22800843484)  
-Summary: 3 runs • 30 commits • 4 authors
-
-### Changes
-
-- [`4bb602b`](https://github.com/ghostty-org/ghostty/commit/4bb602b0e1a251f401e49d490400e4a2b51d0b5a) Fix snap EGL vendor dirs to include host NVIDIA ICD paths ([@04cb](https://github.com/04cb))
-- [`472b926`](https://github.com/ghostty-org/ghostty/commit/472b926a4d7abbacad4deea17aa0a0c69ffc12d3) Fix snap EGL vendor dirs to include host NVIDIA ICD paths ([#11209](https://github.com/ghostty-org/ghostty/issues/11209)) ([@kenvandine](https://github.com/kenvandine))
-  ```text
-  Fixes #10760. The snap launcher script was overriding the default system
-  EGL vendor directories, preventing NVIDIA's proprietary EGL driver from
-  being discovered. This caused crashes for users with NVIDIA GPUs on snap
-  systems.
-  
-  The fix adds the standard host system paths (/etc/glvnd/egl_vendor.d and
-  /usr/share/glvnd/egl_vendor.d) to __EGL_VENDOR_LIBRARY_DIRS before the
-  snap-internal path. This is safe for classic confinement snaps since the
-  host filesystem is fully accessible.
-  ```
-- [`291fbf5`](https://github.com/ghostty-org/ghostty/commit/291fbf55cb9c6946d7c080c90d8163d0b720dfe0) macos: AppleScript starting ([@mitchellh](https://github.com/mitchellh))
-- [`c90a782`](https://github.com/ghostty-org/ghostty/commit/c90a782e592aa90e3a1479b80d5b9a3acdc63dff) macos: implement basic read-only applescript stuff ([@mitchellh](https://github.com/mitchellh))
-- [`52c0709`](https://github.com/ghostty-org/ghostty/commit/52c0709d88c20f05edc1450d5e7105377f03206d) macos: add ability for agents to run debug app ([@mitchellh](https://github.com/mitchellh))
-- [`40c7481`](https://github.com/ghostty-org/ghostty/commit/40c74811f16236df9afeb522dcbd9a98ebcb4a3f) macos: fix perform action ([@mitchellh](https://github.com/mitchellh))
-- [`ef669ee`](https://github.com/ghostty-org/ghostty/commit/ef669eeae7574335631d6897c07f60ce4015727c) macos: add AppleScript `split` command ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new `split` command to the AppleScript scripting dictionary that
-  splits a terminal in a given direction (right, left, down, up) and
-  returns the newly created terminal.
-  
-  The command is exposed as:
-    split terminal <terminal> direction <direction>
-  
-  Also adds a `fourCharCode` String extension for converting four-character
-  ASCII strings to their FourCharCode (UInt32) representation.
-  ```
-- [`1742aed`](https://github.com/ghostty-org/ghostty/commit/1742aeda503c57979b7faa54c9ecffa9a176abde) macos: add focus and close AppleScript commands for terminals ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add two new AppleScript commands to the scripting dictionary:
-  
-  - `focus terminal <terminal>` — focuses the given terminal and brings
-    its window to the front.
-  - `close terminal <terminal>` — closes the given terminal without a
-    confirmation prompt.
-  
-  Each command is implemented as an NSScriptCommand subclass following
-  the same pattern as the existing split command.
-  ```
-- [`fd5ad1f`](https://github.com/ghostty-org/ghostty/commit/fd5ad1f574e3ad084db0e2a9b2161edaf53e85e5) macos: add AppleScript commands for text input, key, and mouse events ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add five new AppleScript commands to Ghostty.sdef mirroring the existing
-  App Intents for terminal input:
-  
-  - `input text`: send text to a terminal as if pasted
-  - `send key`: simulate a keyboard event with optional action and modifiers
-  - `send mouse button`: send a mouse button press/release event
-  - `send mouse position`: send a mouse cursor position event
-  - `send mouse scroll`: send a scroll event with precision and momentum
-  
-  A shared `input action` enumeration (press/release) is used by both key
-  and mouse button commands. Modifier keys are passed as a comma-separated
-  string parameter (shift, control, option, command).
-  ```
-- [`ffe622e`](https://github.com/ghostty-org/ghostty/commit/ffe622ed30c60eb2a0ed2fdd644b2b4f606b0ba0) macos: add standard application properties and commands ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add standard Cocoa scripting definitions to the AppleScript dictionary:
-  
-  - Application properties: name, frontmost, version
-  - Standard Suite commands: exists, quit
-  
-  These are backed by built-in Cocoa scripting classes (NSExistsCommand,
-  NSQuitCommand) and standard NSApplication KVC keys, so no Swift code
-  changes are needed.
-  ```
-- [`547fd6f`](https://github.com/ghostty-org/ghostty/commit/547fd6f748e9c504019513b3ec95fdf5a1ec4efb) typos: ignore apple four char codes ([@mitchellh](https://github.com/mitchellh))
-- [`d03338c`](https://github.com/ghostty-org/ghostty/commit/d03338c1b53e1f0bc1e5f711f91c5d474d27ceee) macos: fix iOS build ([@mitchellh](https://github.com/mitchellh))
-- [`341d8bd`](https://github.com/ghostty-org/ghostty/commit/341d8bdf754b85fe0dfaa57ceabe598e7eea0c59) macos: AppleScript windows/tabs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ScriptWindow and ScriptTab classes to expose window/tab hierarchy
-  to AppleScript, along with the corresponding sdef definitions.
-  ```
-- [`f72d416`](https://github.com/ghostty-org/ghostty/commit/f72d41675bfd1d912f71a00c1e8716ddd6ae9654) macos: fix AppleScript quit command being silently ignored ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The application class in Ghostty.sdef was missing a responds-to
-  declaration for the quit command. Apple's Cocoa Scripting requires
-  the application class to explicitly declare it responds to quit via
-  handleQuitScriptCommand: for the aevtquit event to be dispatched.
-  ```
-- [`e514035`](https://github.com/ghostty-org/ghostty/commit/e514035519a88fa593dd1047fa22bcb39a9022c0) macos: add terminals element to window and tab AppleScript classes ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Expose terminal surfaces as elements on both ScriptWindow and ScriptTab,
-  allowing AppleScript to enumerate terminals scoped to a specific window
-  or tab (e.g. `terminals of window 1`, `terminals of tab 1 of window 1`).
-  
-  Changes:
-  - Add `<element type="terminal">` to window and tab classes in Ghostty.sdef
-  - Add `terminals` computed property and `valueInTerminalsWithUniqueID:`
-    lookup to ScriptWindow (returns all surfaces across all tabs)
-  - Add `terminals` computed property and `valueInTerminalsWithUniqueID:`
-    lookup to ScriptTab (returns surfaces within that tab)
-  ```
-- [`122d0ec`](https://github.com/ghostty-org/ghostty/commit/122d0ecdfd9947d0c8c34953d0babc39502556e5) macos: expose name (title) on window, tab, and terminal via AppleScript ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a `name` property (code `pnam`, cocoa key `title`) to the window, tab,
-  and terminal classes in the scripting definition. This follows the standard
-  Cocoa scripting convention where `name`/`pnam` maps to the `title` KVC key,
-  matching what Apple does in CocoaStandard.sdef for NSWindow.
-  
-  Also fixes the pre-existing terminal `title` property which used a custom
-  four-char code (`Gttl`) that AppleScript could not resolve directly — only
-  via `properties of terminal`. All three classes now use the standard `pnam`
-  code so `name of window 1`, `name of tab 1 of window 1`, and
-  `name of terminal 1` all work correctly.
-  ```
-- [`959c2f5`](https://github.com/ghostty-org/ghostty/commit/959c2f51ac524e6556fe0e8d8b2db9ff090e0dd0) macos: add AppleScript new window command ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a `new window` command to the scripting dictionary and wire it to
-  `NSApplication` so AppleScript can create Ghostty windows.
-  
-  The command returns a scripting `window` object for the created window,
-  with a fallback to a direct wrapper when AppKit window ordering has not
-  yet refreshed in the current run loop.
-  ```
-- [`a3adeb0`](https://github.com/ghostty-org/ghostty/commit/a3adeb0166b2dc896045b71f8656b2605648e9c2) macos: use value-style AppleScript surface configuration records ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a `surface configuration` record type to the scripting dictionary,
-  implement `new surface configuration` (with optional copy-from), and allow
-  `new window` to accept `with configuration`.
-  ```
-- [`459eaa2`](https://github.com/ghostty-org/ghostty/commit/459eaa2640444b1b434f5508b807afd8f273e151) macos: order AppleScript dictionary definitions ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Document the preferred Ghostty.sdef top-level order in AGENTS.md and reorder
-  Ghostty Suite definitions to classes, records, enums, then commands.
-  ```
-- [`4d5de70`](https://github.com/ghostty-org/ghostty/commit/4d5de702f2613ea0130ec83eb7af867e51a9d8a0) macos: allow split command surface configuration ([@mitchellh](https://github.com/mitchellh))
-- [`d271c8c`](https://github.com/ghostty-org/ghostty/commit/d271c8ccaab0f08ab0092b2f0893c8e0d0e5283d) macos: add new tab command ([@mitchellh](https://github.com/mitchellh))
-- [`28b4e24`](https://github.com/ghostty-org/ghostty/commit/28b4e2495db53c707d4e6616af136eadd1eba393) macos: Add AppleScript commands for window and tab control ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add scripting dictionary commands for activating windows, selecting tabs,
-  closing tabs, and closing windows.
-  
-  Implement the corresponding Cocoa AppleScript command handlers and expose
-  minimal ScriptWindow/ScriptTab helpers needed to resolve live targets.
-  
-  Verified by building Ghostty and running osascript commands against the
-  absolute Debug app path to exercise all four new commands.
-  ```
-- [`25fa581`](https://github.com/ghostty-org/ghostty/commit/25fa58143ec6d8e6eb200b459838f16376423fdf) macos: add macos-applescript config ([@mitchellh](https://github.com/mitchellh))
-- [`221a163`](https://github.com/ghostty-org/ghostty/commit/221a1639af6060b485fd2ef214fa260b7aa7ddb1) swiftlint ([@mitchellh](https://github.com/mitchellh))
-- [`259a41d`](https://github.com/ghostty-org/ghostty/commit/259a41d503ad24eb9af83dd7f50566cf312ef87a) macos: rename surface config working directory to not be ambiguous ([@mitchellh](https://github.com/mitchellh))
-- [`038ebef`](https://github.com/ghostty-org/ghostty/commit/038ebef16cc8cea570f87a95771eb76528935210) address some PR feedback ([@mitchellh](https://github.com/mitchellh))
-- [`210b01a`](https://github.com/ghostty-org/ghostty/commit/210b01ad600f0dceff9ff2be1a16bbf6c9fa7f57) macos: use direct parameters for object-targeting commands ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Change split, focus, close, activate window, select tab, close tab, and
-  close window commands to accept their target object as a direct parameter
-  instead of a named parameter. This produces natural AppleScript syntax:
-  
-    activate window (window 1)
-    close tab (tab 1 of window 1)
-    split (terminal 1) direction right
-  
-  instead of the awkward redundant form:
-  
-    activate window window (window 1)
-    close tab tab (tab 1 of window 1)
-    split terminal (terminal 1) direction right
-  
-  The implementation moves command logic from NSScriptCommand subclasses
-  into responds-to handler methods on ScriptTerminal, ScriptWindow, and
-  ScriptTab, which is the standard Cocoa Scripting pattern for commands
-  whose direct parameter is an application class.
-  ```
-- [`ed9a6cb`](https://github.com/ghostty-org/ghostty/commit/ed9a6cb6488ff282a5061bbd016d9082d7c3e773) macos: implement the quit command ([@mitchellh](https://github.com/mitchellh))
-- [`fd3a62b`](https://github.com/ghostty-org/ghostty/commit/fd3a62b9c1712508516bdd18fdaf652929bff4ed) AppleScript ([#11208](https://github.com/ghostty-org/ghostty/issues/11208)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This adds AppleScript support to the macOS app.
-  
-  AppleScript is still one of the best ways to script macOS apps. It is
-  more CLI friendly and share-able than Apple Shortcuts and can be used by
-  other CLI programs like editors (Neovim plugins), launchers
-  (Raycast/Alfred), etc. It has been heavily requested to introduce more
-  scriptability into Ghostty and this is a really good, powerful option on
-  macOS.
-  
-  > [!NOTE]
-  >
-  > I definitely still want to do something cross-platform and more
-  official as a plugin/scripting API for Ghostty. But native integrations
-  like this are a goal of Ghostty as well and this implementation is just
-  some thin logic over already existing internals to expose it.
-  
-  I plan on merging this ahead of 1.3. Normally I wouldn't ship a feature
-  so late in the game but this is fairly hermetic (doesn't impact other
-  systems) and I plan on documenting it as a "preview" feature since the
-  API and stability are in question.
-  
-  ## Security
-  
-  Apple secures AppleScript via TCC by asking for permission when a script
-  is run whether an app is allowed to be controlled. Because this is
-  always asked, we do default AppleScript to being enabled. This is
-  typical of macOS native applications already.
-  
-  AppleScript can be wholesale disabled via `macos-applescript = false`.
-  
-  ## Future
-  
-  There is a big question of what else to expose to this to make it
-  useful. I'm going to make a call to action for the 1.3 cycle to gather
-  feedback on this, since we can expose mostly anything!
-  
-  ## Capabilities
-  
-  ### Objects
-  
-  | Object | Key Properties | Key Elements |
-  | --- | --- | --- |
-  | `application` | `name`, `frontmost`, `version` | `windows`,
-  `terminals` |
-  | `window` | `id`, `name`, `selected tab` | `tabs`, `terminals` |
-  | `tab` | `id`, `name`, `index`, `selected` | `terminals` |
-  | `terminal` | `id`, `name`, `working directory` | None |
-  
-  ### Commands
-  
-  | Category | Command | Purpose |
-  | --- | --- | --- |
-  | Application | `perform action` | Execute a Ghostty action string on a
-  terminal. |
-  | Configuration | `new surface configuration` | Create/copy a reusable
-  surface configuration record. |
-  | Creation | `new window` | Open a new Ghostty window (optional
-  configuration). |
-  | Creation | `new tab` | Open a new tab (optional target
-  window/configuration). |
-  | Layout | `split` | Split a terminal and return the new terminal. |
-  | Focus/Selection | `focus` | Focus a terminal. |
-  | Focus/Selection | `activate window` | Bring a window to front and
-  activate app. |
-  | Focus/Selection | `select tab` | Select and foreground a tab. |
-  | Lifecycle | `close` | Close a terminal. |
-  | Lifecycle | `close tab` | Close a tab. |
-  | Lifecycle | `close window` | Close a window. |
-  | Input | `input text` | Paste-style text input into terminal. |
-  | Input | `send key` | Send key press/release with optional modifiers. |
-  | Input | `send mouse button` | Send mouse button press/release. |
-  | Input | `send mouse position` | Send mouse position update. |
-  | Input | `send mouse scroll` | Send scroll event with
-  precision/momentum options. |
-  | Standard Suite | `count`, `exists`, `quit` | Standard Cocoa scripting
-  functionality. |
-  
-  ## Examples
-  
-  ### Layout
-  
-  ```AppleScript
-  -- Tmux-like layout: 4 panes in one tab (2x2), each with a job.
-  set projectDir to POSIX path of (path to home folder) & "src/ghostty"
-  
-  tell application "Ghostty"
-      activate
-  
-      -- Reusable config for all panes.
-      set cfg to new surface configuration
-      set initial working directory of cfg to projectDir
-  
-      -- Create the first window/tab + split into 4 panes.
-      set win to new window with configuration cfg
-      set paneEditor to terminal 1 of selected tab of win
-      set paneBuild to split paneEditor direction right with configuration cfg
-      set paneGit to split paneEditor direction down with configuration cfg
-      set paneLogs to split paneBuild direction down with configuration cfg
-  
-      -- Seed each pane with a command.
-      input text "nvim ." to paneEditor
-      send key "enter" to paneEditor
-  
-      input text "zig build -Demit-macos-app=false" to paneBuild
-  
-      input text "git status -sb" to paneGit
-  
-      input text "tail -f /tmp/dev.log" to paneLogs
-      send key "enter" to paneLogs
-  
-      -- Put focus back where you want to type.
-      focus paneEditor
-  end tell
-  ```
-  
-  ### Broadcast Commands
-  
-  ```AppleScript
-  -- Run one command across every open terminal surface.
-  set cmd to "echo sync && date"
-  
-  tell application "Ghostty"
-      set allTerms to terminals
-  
-      repeat with t in allTerms
-          input text cmd to t
-          send key "enter" to t
-      end repeat
-  
-      display dialog ("Broadcasted to " & (count of allTerms) & " terminal(s).")
-  end tell
-  ```
-  
-  ### Jump by Working Directory
-  
-  ```applescript
-  -- Find the first terminal whose cwd contains this text.
-  set needle to "ghostty"
-  
-  tell application "Ghostty"
-      set matches to every terminal whose working directory contains needle
-  
-      -- Fallback: try title if cwd had no match.
-      if (count of matches) = 0 then
-          set matches to every terminal whose name contains needle
-      end if
-  
-      if (count of matches) = 0 then
-          display dialog ("No terminal matched: " & needle)
-      else
-          set t to item 1 of matches
-          focus terminal t
-          input text "echo '[focused by AppleScript]'" to t
-          send key "enter" to t
-      end if
-  end tell
-  ```
-  ````
-- [`af43af1`](https://github.com/ghostty-org/ghostty/commit/af43af13c363e2819763ede819e3279cf778e993) Update VOUCHED list ([#11211](https://github.com/ghostty-org/ghostty/issues/11211)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11209#issuecomment-4016613771)
-  from @mitchellh.
-  
-  Vouch: @04cb
-  ```
 
