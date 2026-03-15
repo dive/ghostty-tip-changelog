@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 15, 2026 at 12:09 UTC.
+> Last updated: March 15, 2026 at 15:07 UTC.
 
 ## March 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [2](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
+Summary: 2 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`943d3d2`](https://github.com/ghostty-org/ghostty/commit/943d3d2e8906cbd610868c36eccfc3a1360e0fd2) vt: add setopt_from_terminal to C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose the key encoder Options.fromTerminal function to the C API as
+  ghostty_key_encoder_setopt_from_terminal. This lets C callers sync all
+  terminal-derived encoding options (cursor key application mode, keypad
+  mode, alt escape prefix, modifyOtherKeys, and Kitty flags) in a single
+  call instead of setting each option individually.
+  ```
+- [`a7514d3`](https://github.com/ghostty-org/ghostty/commit/a7514d389b6c2d543fa7d548989cbd219e96c758) vt: add setopt_from_terminal to C API ([#11524](https://github.com/ghostty-org/ghostty/issues/11524)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose the key encoder Options.fromTerminal function to the C API as
+  ghostty_key_encoder_setopt_from_terminal. This lets C callers sync all
+  terminal-derived encoding options (cursor key application mode, keypad
+  mode, alt escape prefix, modifyOtherKeys, and Kitty flags) in a single
+  call instead of setting each option individually.
+  ```
 - [`86d9a04`](https://github.com/ghostty-org/ghostty/commit/86d9a04ece47f2309e4882c1ca3334fbba23ba3c) config: add `equal` option to `window-padding-balance` ([@devsunb](https://github.com/devsunb))
   ```text
   Change `window-padding-balance` from `bool` to an enum with three
