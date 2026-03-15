@@ -8,15 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 15, 2026 at 15:07 UTC.
+> Last updated: March 15, 2026 at 18:08 UTC.
 
 ## March 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [2](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
-Summary: 2 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23114086713), [2](https://github.com/ghostty-org/ghostty/actions/runs/23114065115), [3](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [4](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
+Summary: 4 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`33263db`](https://github.com/ghostty-org/ghostty/commit/33263dbe6fea331b1be1acd4a7420d89f98ae806) Update VOUCHED list ([#11532](https://github.com/ghostty-org/ghostty/issues/11532)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11250#discussioncomment-16143210)
+  from @mitchellh.
+  
+  Vouch: @PowerUser64
+  ```
+- [`57428f3`](https://github.com/ghostty-org/ghostty/commit/57428f33c6af820a30efbb57600c030a4df693f6) Update VOUCHED list ([#11533](https://github.com/ghostty-org/ghostty/issues/11533)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11237#discussioncomment-16143212)
+  from @mitchellh.
+  
+  Vouch: @cadebrown
+  ```
+- [`0e272bf`](https://github.com/ghostty-org/ghostty/commit/0e272bfa10475cf98dc4967aa2b18f0257fafee5) Update VOUCHED list ([#11531](https://github.com/ghostty-org/ghostty/issues/11531)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11041#discussioncomment-16143204)
+  from @mitchellh.
+  
+  Vouch: @davidsanchez222
+  ```
 - [`943d3d2`](https://github.com/ghostty-org/ghostty/commit/943d3d2e8906cbd610868c36eccfc3a1360e0fd2) vt: add setopt_from_terminal to C API ([@mitchellh](https://github.com/mitchellh))
   ```text
   Expose the key encoder Options.fromTerminal function to the C API as
