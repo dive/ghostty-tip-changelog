@@ -8,7 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 15, 2026 at 03:58 UTC.
+> Last updated: March 15, 2026 at 06:21 UTC.
+
+## March 15, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`86d9a04`](https://github.com/ghostty-org/ghostty/commit/86d9a04ece47f2309e4882c1ca3334fbba23ba3c) config: add `equal` option to `window-padding-balance` ([@devsunb](https://github.com/devsunb))
+  ```text
+  Change `window-padding-balance` from `bool` to an enum with three
+  values:
+  
+  - `false` - no balancing (default, unchanged)
+  - `true` - balance with vshift that caps top padding and shifts excess
+    to bottom (existing behavior, unchanged)
+  - `equal` - balance whitespace equally on all four sides
+  
+  This gives users who prefer truly equal padding a way to opt in without
+  changing the default behavior.
+  ```
+- [`c923655`](https://github.com/ghostty-org/ghostty/commit/c9236558b10da592bbb0b928140bea8cb94c74ae) config: add `equal` option to `window-padding-balance` ([#11491](https://github.com/ghostty-org/ghostty/issues/11491)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Change `window-padding-balance` from `bool` to an enum with three
+  values:
+  
+  - `false` - no balancing (default, unchanged)
+  - `true` - balance with vshift that caps top padding and shifts excess
+  to bottom (existing behavior, unchanged)
+  - `equal` - balance whitespace equally on all four sides
+  
+  This gives users who prefer truly equal padding a way to opt in without
+  changing the default behavior.
+  ```
 
 ## March 14, 2026
 
