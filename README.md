@@ -8,15 +8,157 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 14, 2026 at 21:07 UTC.
+> Last updated: March 15, 2026 at 00:24 UTC.
 
 ## March 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23090671545), [2](https://github.com/ghostty-org/ghostty/actions/runs/23088656823)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23098143300), [2](https://github.com/ghostty-org/ghostty/actions/runs/23090671545), [3](https://github.com/ghostty-org/ghostty/actions/runs/23088656823)  
+Summary: 3 runs • 20 commits • 2 authors
 
 ### Changes
 
+- [`302e68f`](https://github.com/ghostty-org/ghostty/commit/302e68fd3d9891919a3b6f32f47ee7f954bef848) vt: expose ghostty_terminal_new/free ([@mitchellh](https://github.com/mitchellh))
+- [`18fdc15`](https://github.com/ghostty-org/ghostty/commit/18fdc15357a2f519d93987d09a2957b9369340cb) vt: ghostty_terminal_vt_write ([@mitchellh](https://github.com/mitchellh))
+- [`8b9afe3`](https://github.com/ghostty-org/ghostty/commit/8b9afe35a706ea230473c81637c3f43f07d736b7) vt: ghostty_terminal_scroll_viewport ([@mitchellh](https://github.com/mitchellh))
+- [`fe6e7fb`](https://github.com/ghostty-org/ghostty/commit/fe6e7fbc6b54c835f9a5229f0b19ee9f96ec5a92) vt: ghostty_terminal_resize ([@mitchellh](https://github.com/mitchellh))
+- [`aa3e6e2`](https://github.com/ghostty-org/ghostty/commit/aa3e6e23a227cfe4ba0026d844b54e7a89ea880b) vt: ghostty_terminal_reset ([@mitchellh](https://github.com/mitchellh))
+- [`34acdfc`](https://github.com/ghostty-org/ghostty/commit/34acdfcc4eca388d3d4fa1a5ce03525384db8e3e) vt: update terminal.h docs ([@mitchellh](https://github.com/mitchellh))
+- [`8e6bf82`](https://github.com/ghostty-org/ghostty/commit/8e6bf829a746be199bd30d4670fe855035562433) terminal/osc: don't export context/semantic prompts to libvt yet ([@mitchellh](https://github.com/mitchellh))
+- [`b5fb7ec`](https://github.com/ghostty-org/ghostty/commit/b5fb7ecaaaa2d788093809614d88b6294baaf672) vt: wip formatter api ([@mitchellh](https://github.com/mitchellh))
+- [`4e494cc`](https://github.com/ghostty-org/ghostty/commit/4e494ccd688cd44f92d010cdd6fa46412339f69e) lib: lib.Struct can convert packed structs to extern structs ([@mitchellh](https://github.com/mitchellh))
+- [`09d3ebd`](https://github.com/ghostty-org/ghostty/commit/09d3ebd80df2988dd48cc94a4826a226a7c2d269) vt: use explicit options structs ([@mitchellh](https://github.com/mitchellh))
+- [`a2d570b`](https://github.com/ghostty-org/ghostty/commit/a2d570b51e059fc9fc572dcb155e81215a9c51bc) vt: add sized struct pattern and types.h ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a size field as the first member of formatter option structs
+  (TerminalOptions, TerminalOptions.Extra, ScreenOptions.Extra) for ABI
+  compatibility. This allows adding new fields without breaking callers
+  compiled against older versions of the struct.
+  
+  Introduce include/ghostty/vt/types.h as the foundational header
+  containing GhosttyResult and the GHOSTTY_INIT_SIZED macro for
+  zero-initializing sized structs. Remove the separate result.h header,
+  moving its contents into types.h.
+  ```
+- [`7c12d6e`](https://github.com/ghostty-org/ghostty/commit/7c12d6e35d9e1cc28f71877559c17b4088f32532) agents: skill for writing commit messages ([@mitchellh](https://github.com/mitchellh))
+- [`3c8feda`](https://github.com/ghostty-org/ghostty/commit/3c8feda118cc4bd51cadc5f4c98e54158716a2c0) vt: add format_alloc to C API formatter ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename the existing format function to format_buf to clarify that it
+  writes into a caller-provided buffer. Add a new format_alloc variant
+  that allocates the output buffer internally using the provided
+  allocator (or the default if NULL). The caller receives the allocated
+  pointer and length and is responsible for freeing it.
+  
+  This is useful for consumers that do not know the required buffer size
+  ahead of time and want to avoid the two-pass query-then-format pattern
+  needed with format_buf.
+  ```
+- [`1e21ac1`](https://github.com/ghostty-org/ghostty/commit/1e21ac119079bf7bc4d965666ce1f691ce4d84c5) example: add c-vt-formatter example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add an example showing how to use the ghostty-vt terminal and
+  formatter APIs from C. The example creates a terminal, writes
+  VT-encoded content with cursor movement and styling sequences,
+  then formats the screen contents as plain text using the formatter
+  API.
+  ```
+- [`4ad7d03`](https://github.com/ghostty-org/ghostty/commit/4ad7d03c56de3216f2a82c8790d0c8edb216db07) terminal/formatter: safely cast discarding.count to usize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Discarding writer count field is u64, but appendNTimes expects
+  usize which is u32 on 32-bit targets like arm-linux-androideabi.
+  Use std.math.cast instead of @intCast to safely handle the
+  conversion, returning WriteFailed on overflow rather than risking
+  undefined behavior.
+  ```
+- [`647f5ad`](https://github.com/ghostty-org/ghostty/commit/647f5adf556e13abcbe4b38c185fb81458aa5711) terminal/formatter: safely cast discarding.count to usize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Discarding writer count field is u64, but several call sites
+  pass it where a usize is expected. On wasm32-freestanding, usize is
+  32-bit, so this caused compilation errors.
+  
+  Use std.math.cast instead of a bare @intCast so that overflow is
+  handled gracefully, returning WriteFailed rather than triggering
+  safety-checked undefined behavior at runtime.
+  ```
+- [`f730eed`](https://github.com/ghostty-org/ghostty/commit/f730eed213143db6e3082311f54afbf0c87bdd2d) vt: fix missing formatter docs in doxygen ([@mitchellh](https://github.com/mitchellh))
+- [`952fbce`](https://github.com/ghostty-org/ghostty/commit/952fbce0e50ded8fd8e6ee5f64e9650af962cd19) libghostty: add initial C API for terminal, formatter ([#11506](https://github.com/ghostty-org/ghostty/issues/11506)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds an initial C API for terminals and formatting. There is a new
+  example that shows how to use this.
+  
+  With these APIs in place, users of the C API can now create a terminal,
+  pass raw VT streams to it, and dump the terminal viewport to various
+  formats. As noted in the docs, **the formatter API is not a rendering
+  API**, it isn't high performance enough for that. But it's a simpler API
+  to implement than the render state API so I started with that.
+  
+  Both APIs are purposely fairly minimal, we're just setting the stage for
+  future functionality.
+  
+  ## Example
+  
+  ```c
+  #include <ghostty/vt.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  
+  int main() {
+    GhosttyTerminal term;
+    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
+    ghostty_terminal_new(NULL, &term, opts);
+  
+    const char *input = "Hello, \033[1mBold\033[0m World!\r\nLine 2\r\n";
+    ghostty_terminal_vt_write(term, (const uint8_t *)input, strlen(input));
+  
+    GhosttyFormatterTerminalOptions fmt = GHOSTTY_INIT_SIZED(GhosttyFormatterTerminalOptions);
+    fmt.emit = GHOSTTY_FORMATTER_FORMAT_PLAIN;
+    fmt.trim = true;
+  
+    GhosttyFormatter fmtr;
+    ghostty_formatter_terminal_new(NULL, &fmtr, term, fmt);
+  
+    uint8_t *buf;
+    size_t len;
+    ghostty_formatter_format_alloc(fmtr, NULL, &buf, &len);
+    fwrite(buf, 1, len, stdout);
+  
+    free(buf);
+    ghostty_formatter_free(fmtr);
+    ghostty_terminal_free(term);
+  }
+  ```
+  
+  ## New APIs
+  
+  | Function | Description |
+  |----------|-------------|
+  | `ghostty_terminal_new` | Create a new terminal instance |
+  | `ghostty_terminal_free` | Free a terminal instance |
+  | `ghostty_terminal_reset` | Full reset of the terminal (RIS) |
+  | `ghostty_terminal_resize` | Resize the terminal to given dimensions |
+  | `ghostty_terminal_vt_write` | Write VT-encoded data to the terminal |
+  | `ghostty_terminal_scroll_viewport` | Scroll the terminal viewport |
+  | `ghostty_formatter_terminal_new` | Create a formatter for a terminal's
+  active screen |
+  | `ghostty_formatter_format_buf` | Format into a caller-provided buffer
+  |
+  | `ghostty_formatter_format_alloc` | Format into an allocated buffer |
+  | `ghostty_formatter_free` | Free a formatter instance |
+  
+  ## Future
+  
+  - Obviously need to expose a lot more from the terminal:
+    * Read current set modes
+    * Read cursor information
+    * Read screen information
+    * etc...
+  - Need an optional callback system so that `vt_write` can invoke
+  callbacks for side effect sequences like clipboards, title setting,
+  responses, etc.
+  - `terminal.RenderState` C API so that people can build high performance
+  renderers on top of libghostty-vt
+  
+  And so on...
+  ````
 - [`1844a5f`](https://github.com/ghostty-org/ghostty/commit/1844a5f7bafbade1305e95d515eedcb010aae104) Update VOUCHED list ([#11492](https://github.com/ghostty-org/ghostty/issues/11492)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -1383,149 +1525,4 @@ Summary: 9 runs • 21 commits • 6 authors
   
   Vouch: @jmcgover
   ```
-
-## March 8, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22830044719), [2](https://github.com/ghostty-org/ghostty/actions/runs/22828977678), [3](https://github.com/ghostty-org/ghostty/actions/runs/22823777958), [4](https://github.com/ghostty-org/ghostty/actions/runs/22823564404), [5](https://github.com/ghostty-org/ghostty/actions/runs/22823301773), [6](https://github.com/ghostty-org/ghostty/actions/runs/22823118931), [7](https://github.com/ghostty-org/ghostty/actions/runs/22822697530), [8](https://github.com/ghostty-org/ghostty/actions/runs/22819402525), [9](https://github.com/ghostty-org/ghostty/actions/runs/22816478930)  
-Summary: 9 runs • 21 commits • 10 authors
-
-### Changes
-
-- [`8635fef`](https://github.com/ghostty-org/ghostty/commit/8635fef7a5dc6185b67982dc94892d6ddb3b9ac0) if search is active dont apply unfocused options ([@rhodes-b](https://github.com/rhodes-b))
-- [`1d59f5d`](https://github.com/ghostty-org/ghostty/commit/1d59f5dbcdbe0fc7065a6ed9c46c42d22584add4) pass search active state through blueprint ([@rhodes-b](https://github.com/rhodes-b))
-- [`2d347ca`](https://github.com/ghostty-org/ghostty/commit/2d347cad336b6d4bd461f33fe87d90e6aa269843) GTK: Don't apply unfocused options when searching ([#11224](https://github.com/ghostty-org/ghostty/issues/11224)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If you have multiple splits and start searching naturally the focus
-  transfers over to the search widget which would apply the unfocused
-  options. This could make it difficult to view your matches from
-  searching without re-focusing the surface.
-  
-  This was discovered when I tested
-  https://github.com/ghostty-org/ghostty/discussions/11218 (which is a
-  different issue)
-  ```
-- [`a384af5`](https://github.com/ghostty-org/ghostty/commit/a384af5e25228b5b342c717abb5387bd4c3b0b58) vt: align SGR C enum tags with parser output ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Remove the stale GHOSTTY_SGR_ATTR_RESET_UNDERLINE entry from the C header
-  and renumber subsequent GhosttySgrAttributeTag values to match
-  src/terminal/sgr.zig Attribute.Tag ordering.
-  
-  This fixes misclassified attributes from ghostty_sgr_next for C consumers
-  that switch on the enum tags from include/ghostty/vt/sgr.h.
-  ```
-- [`a2ea5b5`](https://github.com/ghostty-org/ghostty/commit/a2ea5b5d7940c97205fba9452517f75213328e03) Update VOUCHED list ([#11240](https://github.com/ghostty-org/ghostty/issues/11240)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11207#discussioncomment-16043795)
-  from @mitchellh.
-  
-  Vouch: @MOlechowski
-  ```
-- [`43f3d2c`](https://github.com/ghostty-org/ghostty/commit/43f3d2ca9206220040b66d9b8b7bd281d32b1795) vt: align SGR C enum tags with parser output ([#11239](https://github.com/ghostty-org/ghostty/issues/11239)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Remove the stale GHOSTTY_SGR_ATTR_RESET_UNDERLINE entry from the C
-  header and renumber subsequent GhosttySgrAttributeTag values to match
-  src/terminal/sgr.zig Attribute.Tag ordering.
-  
-  This fixes misclassified attributes from ghostty_sgr_next for C
-  consumers that switch on the enum tags from include/ghostty/vt/sgr.h.
-  ```
-- [`235dde6`](https://github.com/ghostty-org/ghostty/commit/235dde6844d697e73e974c2311c69abf3a57b0f8) fix: list-actions outputs without `--docs` ([@dmehala](https://github.com/dmehala))
-  ```text
-  Explicitly flush the buffer once the generation is complete.
-  
-  Resolves #11221
-  ```
-- [`2d9dc5c`](https://github.com/ghostty-org/ghostty/commit/2d9dc5cfd1aa8bb9a7dda5a273197535b0e6fbee) fix: list-actions outputs without `--docs` ([#11231](https://github.com/ghostty-org/ghostty/issues/11231)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Explicitly flush the buffer once the generation is complete.
-  
-  Resolves #11221
-  ```
-- [`686fd34`](https://github.com/ghostty-org/ghostty/commit/686fd34e96409dcf9ab095294f3d073a7ea04b7d) Update VOUCHED list ([#11232](https://github.com/ghostty-org/ghostty/issues/11232)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11231#issuecomment-4019204219)
-  from @mitchellh.
-  
-  Vouch: @dmehala
-  ```
-- [`059bd54`](https://github.com/ghostty-org/ghostty/commit/059bd54a5d9188d2f7c6fc3a56afc35b934f4ff1) elvish: improve OSC 133 semantic prompt support ([@jparise](https://github.com/jparise))
-  ```text
-  Add `aid=$pid` to 133;A and 133;D for nested shell tracking, and fix the
-  state comparison which was incorrectly using `constantly` (comparing a
-  string to a function, which always evaluated to true).
-  
-  OSC 133;B (input start) and 133;P;k=r (right prompt) cannot be reliably
-  implemented at the script level because Elvish escapes control
-  characters in prompt function output, and writing directly to /dev/tty
-  has timing issues because Elvish renders its prompts on a background
-  thread. Full semantic prompt support requires a native implementation:
-  https://github.com/elves/elvish/pull/1917
-  
-  See: #10523
-  ```
-- [`df4d9bc`](https://github.com/ghostty-org/ghostty/commit/df4d9bc0d00a3fc309dc68bdc81254e32816c298) macos: fix quick terminal glassy background ([@bo2themax](https://github.com/bo2themax))
-- [`1d76820`](https://github.com/ghostty-org/ghostty/commit/1d76820937c6d4c8008a74a80e5c0c03cac1f8fd) elvish: improve OSC 133 semantic prompt support ([#11222](https://github.com/ghostty-org/ghostty/issues/11222)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add `aid=$pid` to 133;A and 133;D for nested shell tracking, and fix the
-  state comparison which was incorrectly using `constantly` (comparing a
-  string to a function, which always evaluated to true).
-  
-  OSC 133;B (input start) and 133;P;k=r (right prompt) cannot be reliably
-  implemented at the script level because Elvish escapes control
-  characters in prompt function output, and writing directly to /dev/tty
-  has timing issues because Elvish renders its prompts on a background
-  thread. Full semantic prompt support requires a native implementation:
-  https://github.com/elves/elvish/pull/1917
-  
-  See: #10523
-  ```
-- [`602db55`](https://github.com/ghostty-org/ghostty/commit/602db55a283adeabfbd082c678eddf1a6ee1ae43) macos: fix quick terminal glassy background ([#11229](https://github.com/ghostty-org/ghostty/issues/11229)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes a regression from
-  [#9032096](https://github.com/ghostty-org/ghostty/commit/9032096) 🥲 and
-  clean some dead code
-  
-  On first launch of the quick terminal window, the container style is not
-  properly updated; you'll have to reload the config to show the
-  background.
-  
-  <img width="571" height="312" alt="IMG_4783"
-  src="https://github.com/user-attachments/assets/c5d920ea-9ad8-494d-98c0-c560e36c4a31"
-  />
-  ```
-- [`360c369`](https://github.com/ghostty-org/ghostty/commit/360c369d235e36092ba0ac4319de0e7a8be1eaa7) Update VOUCHED list ([#11230](https://github.com/ghostty-org/ghostty/issues/11230)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11125#discussioncomment-16041168)
-  from @mitchellh.
-  
-  Vouch: @pauley-unsaturated
-  ```
-- [`1a15fc0`](https://github.com/ghostty-org/ghostty/commit/1a15fc0adba90bddce5c95a04c9ea30254186925) i18n: update Indonesian translation (id_ID) ([@halosatrio](https://github.com/halosatrio))
-- [`97c479a`](https://github.com/ghostty-org/ghostty/commit/97c479a3476d1a1ebb278b86b883cf7715beeab0) i18n: update Indonesian translation (id_ID) ([#11226](https://github.com/ghostty-org/ghostty/issues/11226)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Updated translation for Indonesian (id_ID). This is a duplicate of PR
-  #10794, as the original PR has not been updated since last week. I think
-  it would be better to merge this updated translation before the 1.3
-  release.
-  ```
-- [`eaef109`](https://github.com/ghostty-org/ghostty/commit/eaef1094d92c579fbfc0ce204cc1fc09c41059cf) Update VOUCHED list ([#11228](https://github.com/ghostty-org/ghostty/issues/11228)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11227#issuecomment-4019112158)
-  from @00-kat.
-  
-  Vouch: @dariogriffo
-  ```
-- [`e9dc03b`](https://github.com/ghostty-org/ghostty/commit/e9dc03b0b4fd5b23d0791987a517851656831ddb) i18n: update Hungarian translations ([@balazs-szucs](https://github.com/balazs-szucs))
-- [`42d3635`](https://github.com/ghostty-org/ghostty/commit/42d36359dbe3cb13adacf8e40ddf3c37c8a2e564) i18n: update Hungarian translations ([#11039](https://github.com/ghostty-org/ghostty/issues/11039)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  New string translated with this!
-  
-  Part of: #10632
-  ```
-- [`adc6794`](https://github.com/ghostty-org/ghostty/commit/adc6794f3b1a1f46048f86e61397bc4736567589) Add es_ES.UTF-8 translation ([@alosarjos](https://github.com/alosarjos))
-- [`4d89f1b`](https://github.com/ghostty-org/ghostty/commit/4d89f1bcaeacd64ced18dc20504362b759f22e65) Add es_ES.UTF-8 translation ([#10722](https://github.com/ghostty-org/ghostty/issues/10722)) ([@00-kat](https://github.com/00-kat))
 
