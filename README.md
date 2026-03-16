@@ -8,15 +8,87 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 06:32 UTC.
+> Last updated: March 16, 2026 at 09:24 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [2](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [3](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [4](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 4 runs • 17 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [2](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [3](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [4](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [5](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 5 runs • 29 commits • 6 authors
 
 ### Changes
 
+- [`96f8f0d`](https://github.com/ghostty-org/ghostty/commit/96f8f0d93c19efec5cc349f71965a405f5c9c2a3) gtk: add setMonitor binding and kde-output-order-v1 protocol ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Add the missing setMonitor() function to the gtk4-layer-shell Zig
+  bindings and provide the gdk module so it can reference gdk.Monitor.
+  
+  Register the kde-output-order-v1 Wayland protocol from
+  plasma-wayland-protocols and generate its scanner binding. This
+  protocol reports the compositor's monitor priority ordering and is
+  needed to correctly identify the primary monitor for
+  quick-terminal-screen support on Linux.
+  ```
+- [`6da660a`](https://github.com/ghostty-org/ghostty/commit/6da660a9a5eb9e57175035d23434b4c44b1b4151) gtk: implement quick-terminal-screen for Wayland ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Implement the quick-terminal-screen config option on Linux/Wayland so
+  users can pin the quick terminal to a specific monitor instead of
+  always following the mouse cursor.
+  
+  Use the kde_output_order_v1 protocol to identify the compositor's
+  primary monitor by connector name (e.g. "DP-1"). When the protocol is
+  unavailable, fall back to the first monitor in the GDK list.
+  
+  - Add resolveQuickTerminalMonitor() to map config values to a
+    gdk.Monitor: .mouse returns null (compositor decides), .main and
+    .macos-menu-bar match by connector name via the protocol
+  - Call layer_shell.setMonitor() in both initQuickTerminal and
+    syncQuickTerminal so config reloads take effect
+  - Update enteredMonitor to size the window using the configured
+    monitor rather than whichever monitor was entered
+  - Update config documentation to reflect Linux support
+  ```
+- [`630c2df`](https://github.com/ghostty-org/ghostty/commit/630c2dff190af14b7915f3e0d4df639e95c4f21b) gtk: fix monitor ref ownership in Wayland quick terminal ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Handle g_list_model_get_object transfer-full semantics in resolveQuickTerminalMonitor by retaining exactly one monitor reference to return and unreffing the rest.
+  
+  Update init/sync/sizing call sites to unref the resolved monitor after setMonitor/getGeometry so monitor lifetimes are explicit and consistent.
+  ```
+- [`e25d8a6`](https://github.com/ghostty-org/ghostty/commit/e25d8a6f2f4a1d384866ab222f920f351b8905da) gtk: harden quick-terminal output-order state handling ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Install Wayland protocol listeners at bind time so late-added globals
+  still receive events and listener setup stays tied to object lifetime.
+  
+  Track whether kde_output_order_v1 emitted any outputs in a cycle and
+  clear cached primary-output state on empty or invalid updates. Also
+  reset this cycle tracking when the protocol global is removed to avoid
+  stale monitor selection.
+  ```
+- [`34473b0`](https://github.com/ghostty-org/ghostty/commit/34473b069bd74a729d001e3f71df3b03e890a739) gtk: simplify quick-terminal monitor resolution and state management ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Restructure resolveQuickTerminalMonitor into a two-phase approach
+  (match by name, then fall back to first monitor) to eliminate the
+  interleaved fallback/match ref tracking. Remove redundant switch in
+  enteredMonitor that duplicated the .mouse handling already in
+  resolveQuickTerminalMonitor. Hoist the primary_output_match_failed_logged
+  reset above the name-length branches in outputOrderListener.
+  ```
+- [`19feaa0`](https://github.com/ghostty-org/ghostty/commit/19feaa058b333a559697fa21f7d600db0f2386fc) gtk: improve readability of Wayland quick-terminal monitor code ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Flatten resolveQuickTerminalMonitor by replacing the labeled-block
+  switch with early returns, extract max_output_name_len constant, and
+  reduce nesting in the output-order event handler.
+  ```
+- [`c982253`](https://github.com/ghostty-org/ghostty/commit/c9822535436c60587d136129a7c5beb44829d81b) gtk: handle replacement Wayland globals before remove ([@jguthmiller](https://github.com/jguthmiller))
+  ```text
+  Track registry global names for kde decoration manager and kde_output_order bindings so we can distinguish same-global duplicates from valid replacements announced before global_remove.
+  
+  On global_remove, match and clear these bindings by registry global name to avoid dropping a replacement when the old global is removed.
+  ```
+- [`18fa161`](https://github.com/ghostty-org/ghostty/commit/18fa161222916c537fb5e71e6d7bbe2479805fb1) gtk: simplify Wayland output-order state handling ([@jguthmiller](https://github.com/jguthmiller))
+- [`beeb810`](https://github.com/ghostty-org/ghostty/commit/beeb810c04d0b7c93cd74d215dd194eb03759cdb) gtk: address PR review feedback for quick-terminal-screen ([@jguthmiller](https://github.com/jguthmiller))
+- [`b823c07`](https://github.com/ghostty-org/ghostty/commit/b823c07ae30635b4641d45db0f06f6f416756b94) PR feedback - simplify ([@jguthmiller](https://github.com/jguthmiller))
+- [`bec4c61`](https://github.com/ghostty-org/ghostty/commit/bec4c61d4dbbd1ad667e7cdcafaf15d0836c3143) PR feedback: heap-allocate primary_output_name ([@jguthmiller](https://github.com/jguthmiller))
+- [`600f59a`](https://github.com/ghostty-org/ghostty/commit/600f59ae313adf377c0bf0d754fa258257f5f65f) gtk: implement quick-terminal-screen for Linux/Wayland ([#11117](https://github.com/ghostty-org/ghostty/issues/11117)) ([@pluiedev](https://github.com/pluiedev))
 - [`44f403b`](https://github.com/ghostty-org/ghostty/commit/44f403bfe1b45fdd1b8be2ea5b3eb6bc4b593aa3) Update VOUCHED list ([#11556](https://github.com/ghostty-org/ghostty/issues/11556)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
