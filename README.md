@@ -8,15 +8,118 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 15:25 UTC.
+> Last updated: March 16, 2026 at 18:20 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [2](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [3](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [4](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [5](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [6](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [7](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 7 runs • 33 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23156954925), [2](https://github.com/ghostty-org/ghostty/actions/runs/23156018197), [3](https://github.com/ghostty-org/ghostty/actions/runs/23155406087), [4](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [5](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [6](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [7](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [8](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [9](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [10](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 10 runs • 41 commits • 8 authors
 
 ### Changes
 
+- [`c1326c5`](https://github.com/ghostty-org/ghostty/commit/c1326c57f92758065bfc18ffc610be03909d7c5c) Update VOUCHED list ([#11572](https://github.com/ghostty-org/ghostty/issues/11572)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/10478#discussioncomment-16163586)
+  from @mitchellh.
+  
+  Denounce: @highimpact-dev
+  ```
+- [`6fabf77`](https://github.com/ghostty-org/ghostty/commit/6fabf775bba63ae41396057fe0ee9458082e0723) Lots of duplicate word typos + typo. ([@00-kat](https://github.com/00-kat))
+- [`cef1f19`](https://github.com/ghostty-org/ghostty/commit/cef1f19d24d6aff9839dc67ae125c2a358b093de) cli: add +explain-config ([@jparise](https://github.com/jparise))
+  ```text
+  This is a new CLI action that prints an option or keybind's help
+  documentation to stdout.
+  
+      ghostty +explain-config font-size
+      ghostty +explain-config copy_to_clipboard
+      ghostty +explain-config --option=font-size
+      ghostty +explain-config --keybind=copy_to_clipboard
+  
+  The --option and --keybind flags perform a specific lookup. A string
+  passed as a positional argument attempts to look up the name first as an
+  option and then as a keybind.
+  
+  Our vim plugin uses this with &keywordprg, which allows you to look up
+  the documentation for the config option or keybind under the cursor (K).
+  ```
+- [`9783f6c`](https://github.com/ghostty-org/ghostty/commit/9783f6c79c7934efd590c7c13db6e5720848e028) cli: tests for +explain-config explain functions ([@jparise](https://github.com/jparise))
+- [`cce205d`](https://github.com/ghostty-org/ghostty/commit/cce205d01b122c7490183ca394ddee1d81a9408a) cli: add +explain-config ([#11546](https://github.com/ghostty-org/ghostty/issues/11546)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a new CLI action that prints an option or keybind's help
+  documentation to stdout.
+  
+      ghostty +explain-config font-size
+      ghostty +explain-config copy_to_clipboard
+      ghostty +explain-config --option=font-size
+      ghostty +explain-config --keybind=copy_to_clipboard
+  
+  The --option and --keybind flags perform a specific lookup. A string
+  passed as a positional argument attempts to look up the name first as an
+  option and then as a keybind.
+  
+  Our vim plugin uses this with &keywordprg, which allows you to look up
+  the documentation for the config option or keybind under the cursor (K).
+  ```
+- [`a811b60`](https://github.com/ghostty-org/ghostty/commit/a811b6074b6ec285471246525ef36cd10db8c447) Lots of duplicate word typos + typo ([#11539](https://github.com/ghostty-org/ghostty/issues/11539)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  TL;DR: this description is (intentionally) nonsense but I ran
+  `\b(\w+)\s\1\b` over `src` and stole a singular typo fix from #11528.
+  
+  Replacement of #11528 with 100% less slop and 99% less AI; I didn't feel
+  like saying no to free(ish) typo checking. Note that many of the fixes
+  there were outright incorrect (and clearly had no review from sentient
+  lifeforms, contrary to its—sorry, it's—description). A lot of extra
+  double words were caught with a handy `rg --pcre2 '\b(\w+)\s+\1\b' src`;
+  you could say this PR was “ripgrep-assisted” the way that one was
+  “AI-assisted”. Rather ironic since that PR also claims to have used grep
+  via Claude Code, but missed a lot of them.
+  
+  The its → it's changes from that PR were elided; I decided to run a `rg
+  "\bit'?s\b" src`, but someone REALLY likes their its, so I reverted my
+  changes as there were an extremely large number of changes (probably a
+  hundred files with multiple hundred cases). The only other change was
+  “baout” → “about”.
+  
+  # AI Usage
+  
+  Claude Code was used by proxy for finding baout. Claude Code was used by
+  proxy for realizing that the correct spelling is about. Claude Code was
+  not used for fixing it. Oh my god it was so difficult to fix, the
+  original PR had it so easy. I had to type out the file name (fish's AI
+  sorry I mean autocomplete helped though) and like, type /baout, press R,
+  press ab, then save and exit. This is so difficult you know we should
+  use an AI for this, like this is so hard I don't know how people manage.
+  
+  All changes were verified by me: I consulted the dictionary to delve
+  into double-checkment of “in existence; being in evidence; apparent.”
+  Uhhh insert assorted other AI impersonation here maybe? THE LLM IN ME
+  WANTS TO ESCAPE PLEASE HELP
+  ```
+- [`2d2d913`](https://github.com/ghostty-org/ghostty/commit/2d2d913f808934bcd0298c5cf7d0b3ce1390d8ff) ci: skip milestone workflow for bot-authored PRs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The milestone action currently runs for all merged pull_request_target
+  close events, including PRs opened by bots such as dependabot and
+  ghostty-vouch. That causes milestone binding to run on automated PRs
+  that should be ignored.
+  
+  Gate the update-milestone job so pull request events only run when the
+  author is not a bot, while still allowing closed-issue events to run.
+  This preserves existing issue milestone behavior and prevents bot PRs
+  from triggering the workflow.
+  ```
+- [`03806da`](https://github.com/ghostty-org/ghostty/commit/03806dad3aa0bb55d1f3b057a05748072ed2c103) ci: skip milestone workflow for bot-authored PRs ([#11570](https://github.com/ghostty-org/ghostty/issues/11570)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The milestone action currently runs for all merged pull_request_target
+  close events, including PRs opened by bots such as dependabot and
+  ghostty-vouch. That causes milestone binding to run on automated PRs
+  that should be ignored.
+  
+  Gate the update-milestone job so pull request events only run when the
+  author is not a bot, while still allowing closed-issue events to run.
+  This preserves existing issue milestone behavior and prevents bot PRs
+  from triggering the workflow.
+  ```
 - [`69554f4`](https://github.com/ghostty-org/ghostty/commit/69554f414c1402a69d4648952aa13ad5bf43b673) shell-integration: fix ssh-env SetEnv clobbering user SSH config ([@j0hnm4r5](https://github.com/j0hnm4r5))
 - [`925992a`](https://github.com/ghostty-org/ghostty/commit/925992abd98d83f08dc367f6b6c6265ee0510e60) shell-integration: fix ssh-env SetEnv clobbering user SSH config ([#11518](https://github.com/ghostty-org/ghostty/issues/11518)) ([@jparise](https://github.com/jparise))
   ````text
