@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 18:20 UTC.
+> Last updated: March 16, 2026 at 21:13 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23156954925), [2](https://github.com/ghostty-org/ghostty/actions/runs/23156018197), [3](https://github.com/ghostty-org/ghostty/actions/runs/23155406087), [4](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [5](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [6](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [7](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [8](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [9](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [10](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 10 runs • 41 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23159262528), [2](https://github.com/ghostty-org/ghostty/actions/runs/23156954925), [3](https://github.com/ghostty-org/ghostty/actions/runs/23156018197), [4](https://github.com/ghostty-org/ghostty/actions/runs/23155406087), [5](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [6](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [7](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [8](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [9](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [10](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [11](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 11 runs • 43 commits • 8 authors
 
 ### Changes
 
+- [`8966d37`](https://github.com/ghostty-org/ghostty/commit/8966d37985a22af8529f407686afdfd51c52cdce) gtk/wayland: refactor global handling ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  The way we originally handled globals gradually escalated into an unholy
+  mess of ad-hoc helper functions and special-case handlers, which proved
+  to be hard to scale. Using a type-erased EnumMap like this makes
+  everything *far* easier to work and reason with, I think.
+  
+  Also nuked the `xdg_wm_dialog_v1` hack that was necessary to prevent
+  old versions of gtk4-layer-shell crashing. If by the time of 1.4's
+  release people are still using those versions, it's on them.
+  ```
+- [`2318e18`](https://github.com/ghostty-org/ghostty/commit/2318e18df3577151f8c1fd130bd6b698e8ffde21) gtk/wayland: refactor global handling ([#11559](https://github.com/ghostty-org/ghostty/issues/11559)) ([@pluiedev](https://github.com/pluiedev))
 - [`c1326c5`](https://github.com/ghostty-org/ghostty/commit/c1326c57f92758065bfc18ffc610be03909d7c5c) Update VOUCHED list ([#11572](https://github.com/ghostty-org/ghostty/issues/11572)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
