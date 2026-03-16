@@ -8,15 +8,794 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 00:24 UTC.
+> Last updated: March 16, 2026 at 04:00 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [2](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [3](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 3 runs • 16 commits • 4 authors
 
 ### Changes
 
+- [`f9f92f2`](https://github.com/ghostty-org/ghostty/commit/f9f92f2e0f590ece488e06718ccbbeb4bd6fc601) terminal: consolidate mouse types into mouse.zig ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move MouseEvent and MouseFormat out of Terminal.zig and MouseShape out
+  of mouse_shape.zig into a new mouse.zig file. The types are named
+  without the Mouse prefix inside the module (Event, Format, Shape) and
+  re-exported with the prefix from terminal/main.zig for external use.
+  
+  Update all call sites (mouse_encode.zig, surface_mouse.zig, stream.zig)
+  to import through terminal/main.zig or directly from mouse.zig. Remove
+  the now-unused mouse_shape.zig.
+  ```
+- [`37efac9`](https://github.com/ghostty-org/ghostty/commit/37efac99b0c777a89d28503e7cace78cb394b4d2) terminal/mouse: convert Event and Format to lib.Enum ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Convert the Event and Format enums from fixed-size Zig enums to
+  lib.Enum so they are C ABI compatible when targeting C. The motion
+  method on Event becomes a free function eventIsMotion since lib.Enum
+  types cannot have declarations.
+  ```
+- [`79e023b`](https://github.com/ghostty-org/ghostty/commit/79e023b65eebcf56ee0a17ff3fca2609463b1bc3) terminal,renderer: convert structs to extern ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Convert Coordinate in terminal/point.zig and CellSize, ScreenSize,
+  GridSize, and Padding in renderer/size.zig to extern structs. All
+  fields are already extern-compatible types, so this gives them a
+  guaranteed C ABI layout with no functional change.
+  ```
+- [`9b35c2b`](https://github.com/ghostty-org/ghostty/commit/9b35c2bb65ef900c9eab5ab6920d582cb5333035) vt: add mouse encoding C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose the internal mouse encoding functionality through the C API,
+  following the same pattern as the existing key encoding API. This
+  allows external consumers of libvt to encode mouse events into
+  terminal escape sequences (X10, UTF-8, SGR, URxvt, SGR-Pixels).
+  
+  The API is split into two opaque handle types: GhosttyMouseEvent
+  for building normalized mouse events (action, button, modifiers,
+  position) and GhosttyMouseEncoder for converting those events into
+  escape sequences. The encoder is configured via a setopt interface
+  supporting tracking mode, output format, renderer geometry, button
+  state, and optional motion deduplication by last cell.
+  
+  Encoder state can also be bulk-configured from a terminal handle
+  via ghostty_mouse_encoder_setopt_from_terminal. Failed encodes due
+  to insufficient buffer space report the required size without
+  mutating deduplication state.
+  ```
+- [`33b05b9`](https://github.com/ghostty-org/ghostty/commit/33b05b9876ab8940e7ad2f98d3cf5ede277cf4d9) example: add C mouse encoding example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new c-vt-mouse-encode example that demonstrates how to use the
+  mouse encoder C API. The example creates a mouse encoder configured
+  with SGR format and normal tracking mode, sets up terminal geometry
+  for pixel-to-cell coordinate mapping, and encodes a left button press
+  event into a terminal escape sequence.
+  
+  Mirrors the structure of the existing c-vt-key-encode example. Also
+  adds the corresponding @example doxygen reference in vt.h.
+  ```
+- [`de87456`](https://github.com/ghostty-org/ghostty/commit/de87456a9b662065e7dbdc6433d1ff283bbf13af) lib/vt: export mouse encoding API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Export mouse_encode types and functions through the lib_vt public
+  input API, mirroring the existing key encoding exports. This adds
+  MouseAction, MouseButton, MouseEncodeOptions, MouseEncodeEvent,
+  and encodeMouse so that consumers of the Zig module can encode
+  mouse events without reaching into internal packages.
+  ```
+- [`0f2eaed`](https://github.com/ghostty-org/ghostty/commit/0f2eaed68cd2feb5a48e733fe7b39a73d341e5f2) libghostty: add mouse encoding Zig + C API ([#11553](https://github.com/ghostty-org/ghostty/issues/11553)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds a Zig and C API for mouse event encoding.
+  
+  With these APIs in place, users can now create mouse events, configure a
+  mouse encoder with tracking mode, output format, and terminal size, and
+  encode those events into terminal escape sequences. All standard mouse
+  protocols are supported: X10, UTF-8, SGR, URxvt, and SGR-Pixels.
+  
+  ## Example
+  
+  ```c
+  #include <assert.h>
+  #include <stddef.h>
+  #include <stdio.h>
+  #include <ghostty/vt.h>
+  
+  int main() {
+    GhosttyMouseEncoder encoder;
+    GhosttyResult result = ghostty_mouse_encoder_new(NULL, &encoder);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    // Set tracking mode to normal (button press/release)
+    ghostty_mouse_encoder_setopt(encoder, GHOSTTY_MOUSE_ENCODER_OPT_EVENT,
+                                 &(GhosttyMouseTrackingMode){GHOSTTY_MOUSE_TRACKING_NORMAL});
+  
+    // Set output format to SGR
+    ghostty_mouse_encoder_setopt(encoder, GHOSTTY_MOUSE_ENCODER_OPT_FORMAT,
+                                 &(GhosttyMouseFormat){GHOSTTY_MOUSE_FORMAT_SGR});
+  
+    // Set terminal geometry so the encoder can map pixel positions to cells
+    ghostty_mouse_encoder_setopt(encoder, GHOSTTY_MOUSE_ENCODER_OPT_SIZE,
+                                 &(GhosttyMouseEncoderSize){
+                                     .size = sizeof(GhosttyMouseEncoderSize),
+                                     .screen_width = 800, .screen_height = 600,
+                                     .cell_width = 10, .cell_height = 20,
+                                 });
+  
+    // Create mouse event: left button press at pixel position (50, 40)
+    GhosttyMouseEvent event;
+    result = ghostty_mouse_event_new(NULL, &event);
+    assert(result == GHOSTTY_SUCCESS);
+    ghostty_mouse_event_set_action(event, GHOSTTY_MOUSE_ACTION_PRESS);
+    ghostty_mouse_event_set_button(event, GHOSTTY_MOUSE_BUTTON_LEFT);
+    ghostty_mouse_event_set_position(event, (GhosttyMousePosition){.x = 50.0f, .y = 40.0f});
+  
+    // Encode the mouse event
+    char buf[128];
+    size_t written = 0;
+    result = ghostty_mouse_encoder_encode(encoder, event, buf, sizeof(buf), &written);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    fwrite(buf, 1, written, stdout);
+  
+    ghostty_mouse_event_free(event);
+    ghostty_mouse_encoder_free(encoder);
+    return 0;
+  }
+  ```
+  
+  ## New APIs
+  
+  | Function | Description |
+  |----------|-------------|
+  | `ghostty_mouse_event_new` | Create a new mouse event instance |
+  | `ghostty_mouse_event_free` | Free a mouse event instance |
+  | `ghostty_mouse_event_set_action` | Set the event action (press,
+  release, motion) |
+  | `ghostty_mouse_event_get_action` | Get the event action |
+  | `ghostty_mouse_event_set_button` | Set the event button |
+  | `ghostty_mouse_event_clear_button` | Clear the event button (for
+  motion events) |
+  | `ghostty_mouse_event_get_button` | Get the event button (returns
+  whether one is set) |
+  | `ghostty_mouse_event_set_mods` | Set keyboard modifiers held during
+  the event |
+  | `ghostty_mouse_event_get_mods` | Get keyboard modifiers held during
+  the event |
+  | `ghostty_mouse_event_set_position` | Set position in surface-space
+  pixels |
+  | `ghostty_mouse_event_get_position` | Get position in surface-space
+  pixels |
+  | `ghostty_mouse_encoder_new` | Create a new mouse encoder instance |
+  | `ghostty_mouse_encoder_free` | Free a mouse encoder instance |
+  | `ghostty_mouse_encoder_setopt` | Set an encoder option (tracking mode,
+  format, size, etc.) |
+  | `ghostty_mouse_encoder_setopt_from_terminal` | Sync encoder options
+  from a terminal's current state |
+  | `ghostty_mouse_encoder_reset` | Reset internal encoder state (motion
+  deduplication) |
+  | `ghostty_mouse_encoder_encode` | Encode a mouse event into a terminal
+  escape sequence |
+  ````
+- [`ef1560c`](https://github.com/ghostty-org/ghostty/commit/ef1560ce50d73632d55d879ce72a9aab006280fa) Add missing plural forms. ([@00-kat](https://github.com/00-kat))
+  ```text
+  mk and zh_* are still missing theirs, but neither gettext's table [1]
+  nor the documentation it copied from [2] list them.
+  
+  [1]: https://cgit.git.savannah.gnu.org/cgit/gettext.git/tree/gettext-tools/src/plural-table.c?id=dbf9d71e0c4707ca1b14359256b3dcccecb8e837
+  [2]: https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
+  ```
+- [`0fb1519`](https://github.com/ghostty-org/ghostty/commit/0fb1519cf2ca8a8e39a29e5a389c1272625a954b) build(deps): bump actions/create-github-app-token from 2.2.1 to 3.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 2.2.1 to 3.0.0.
+  - [Release notes](https://github.com/actions/create-github-app-token/releases)
+  - [Commits](https://github.com/actions/create-github-app-token/compare/29824e69f54612133e76f7eaac726eef6c875baf...f8d387b68d61c58ab83c6c016672934102569859)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/create-github-app-token
+    dependency-version: 3.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`d08c8e0`](https://github.com/ghostty-org/ghostty/commit/d08c8e0dbca944e40cc20f07e84a51d518116356) build(deps): bump softprops/action-gh-release from 2.5.0 to 2.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 2.5.0 to 2.6.0.
+  - [Release notes](https://github.com/softprops/action-gh-release/releases)
+  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/softprops/action-gh-release/compare/a06a81a03ee405af7f2048a818ed3f03bbf83c7b...26e8ad27a09a225049a7075d7ec1caa2df6ff332)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: softprops/action-gh-release
+    dependency-version: 2.6.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`7f81e12`](https://github.com/ghostty-org/ghostty/commit/7f81e12dc0197e8d055f1d722f2df4ae61c57081) build(deps): bump dorny/paths-filter from 4.0.0 to 4.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 4.0.0 to 4.0.1.
+  - [Release notes](https://github.com/dorny/paths-filter/releases)
+  - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/dorny/paths-filter/compare/9d7afb8d214ad99e78fbd4247752c4caed2b6e4c...fbd0ab8f3e69293af611ebaee6363fc25e6d187d)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: dorny/paths-filter
+    dependency-version: 4.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`f8e8a3f`](https://github.com/ghostty-org/ghostty/commit/f8e8a3fd71d37df193583a7ac194ab95f84fc8b6) build(deps): bump actions/create-github-app-token from 2.2.1 to 3.0.0 ([#11543](https://github.com/ghostty-org/ghostty/issues/11543)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
+  from 2.2.1 to 3.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.0.0</h2>
+  <h1><a
+  href="https://github.com/actions/create-github-app-token/compare/v2.2.2...v3.0.0">3.0.0</a>
+  (2026-03-14)</h1>
+  <ul>
+  <li>feat!: node 24 support (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/275">#275</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/2e564a0bb8e7cc2b907b2401a2afe177882d4325">2e564a0</a>)</li>
+  <li>fix!: require <code>NODE_USE_ENV_PROXY</code> for proxy support (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/342">#342</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/4451bcbc139f8124b0bf04f968ea2586b17df458">4451bcb</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>remove custom proxy handling (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/143">#143</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/dce0ab05f36f30b22fd14289fd36655c618e4e8e">dce0ab0</a>)</li>
+  </ul>
+  <h3>BREAKING CHANGES</h3>
+  <ul>
+  <li>Custom proxy handling has been removed. If you use HTTP_PROXY or
+  HTTPS_PROXY, you must now also set NODE_USE_ENV_PROXY=1 on the action
+  step.</li>
+  <li>Requires <a
+  href="https://github.com/actions/runner/releases/tag/v2.327.1">Actions
+  Runner v2.327.1</a> or later if you are using a self-hosted runner.</li>
+  </ul>
+  <h2>v3.0.0-beta.6</h2>
+  <h1><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.0.0-beta.5...v3.0.0-beta.6">3.0.0-beta.6</a>
+  (2026-03-13)</h1>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 1.11.1
+  to 3.0.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/337">#337</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/b04413352d4644ac2131b9a90c074f5e93ca18a1">b044133</a>)</li>
+  <li><strong>deps:</strong> bump minimatch from 9.0.5 to 9.0.9 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/335">#335</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/5cbc65624c9ddc4589492bda7c8b146223e8c3e4">5cbc656</a>)</li>
+  <li><strong>deps:</strong> bump the production-dependencies group with 4
+  updates (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/336">#336</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/6bda5bc1410576b9a0879ce6076d53345485bba9">6bda5bc</a>)</li>
+  <li><strong>deps:</strong> bump undici from 7.16.0 to 7.18.2 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/323">#323</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/b4f638f48ee0dcdbb0bc646c48e4cb2a2de847fe">b4f638f</a>)</li>
+  </ul>
+  <h2>v3.0.0-beta.5</h2>
+  <h1><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.0.0-beta.4...v3.0.0-beta.5">3.0.0-beta.5</a>
+  (2026-03-13)</h1>
+  <ul>
+  <li>fix!: require <code>NODE_USE_ENV_PROXY</code> for proxy support (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/342">#342</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/d53a1cdfde844c958786293adcaf739ecb8b5eb9">d53a1cd</a>)</li>
+  </ul>
+  <h3>BREAKING CHANGES</h3>
+  <ul>
+  <li>Custom proxy handling has been removed. If you use HTTP_PROXY or
+  HTTPS_PROXY, you must now also set NODE_USE_ENV_PROXY=1 on the action
+  step.</li>
+  </ul>
+  <h2>v3.0.0-beta.4</h2>
+  <h1><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.0.0-beta.3...v3.0.0-beta.4">3.0.0-beta.4</a>
+  (2026-03-13)</h1>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump <code>@​octokit/auth-app</code> from
+  7.2.1 to 8.0.1 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/257">#257</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/bef1eaf1c0ac2b148ee2a0a74c65fbe6db0631f1">bef1eaf</a>)</li>
+  <li><strong>deps:</strong> bump <code>@​octokit/request</code> from
+  9.2.3 to 10.0.2 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/256">#256</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/5d7307be63501c0070c634b0ae8fec74e8208130">5d7307b</a>)</li>
+  <li><strong>deps:</strong> bump glob from 10.4.5 to 10.5.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/305">#305</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/5480f4325a18c025ee16d7e081413854624e9edc">5480f43</a>)</li>
+  <li><strong>deps:</strong> bump p-retry from 6.2.1 to 7.1.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/294">#294</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/dce3be8b284f45e65caed11a610e2bef738d15b4">dce3be8</a>)</li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/f8d387b68d61c58ab83c6c016672934102569859"><code>f8d387b</code></a>
+  build(release): 3.0.0 [skip ci]</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/d2129bd463d4feb8723edeea9437baa7db58e41e"><code>d2129bd</code></a>
+  style: remove extra blank line in release workflow</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/77b94efc3e5f99a45abdd163fe04a4ebb95e98d6"><code>77b94ef</code></a>
+  build: refresh generated artifacts</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/3ab4c6689898955f913a485593b36b197c6dbbdc"><code>3ab4c66</code></a>
+  chore: move undici to devDependencies</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/739cf66feb937a443e4b6b7626bedd98f9fef6df"><code>739cf66</code></a>
+  docs: update README action versions</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/db40289976a36527816d4f6f45765fdee71f134b"><code>db40289</code></a>
+  build(deps): bump actions versions in test.yml</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/496a7ac4eb472eeac44d67818d1ce7f5e9e5fc97"><code>496a7ac</code></a>
+  test: migrate from AVA to Node.js native test runner (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/346">#346</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/3870dc3051e3f1fc3a2faa17bcbb00f31fe1dd6c"><code>3870dc3</code></a>
+  Rename end-to-end proxy job in test workflow</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/4451bcbc139f8124b0bf04f968ea2586b17df458"><code>4451bcb</code></a>
+  fix!: require <code>NODE_USE_ENV_PROXY</code> for proxy support (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/342">#342</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/dce0ab05f36f30b22fd14289fd36655c618e4e8e"><code>dce0ab0</code></a>
+  fix: remove custom proxy handling (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/143">#143</a>)</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/actions/create-github-app-token/compare/29824e69f54612133e76f7eaac726eef6c875baf...f8d387b68d61c58ab83c6c016672934102569859">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=2.2.1&new-version=3.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`671301c`](https://github.com/ghostty-org/ghostty/commit/671301c8075e01c4bcc47077697cbc36765b76ba) build(deps): bump softprops/action-gh-release from 2.5.0 to 2.6.0 ([#11544](https://github.com/ghostty-org/ghostty/issues/11544)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
+  from 2.5.0 to 2.6.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v2.6.0</h2>
+  <p><code>2.6.0</code> is a minor release centered on
+  <code>previous_tag</code> support for
+  <code>generate_release_notes</code>,
+  which lets workflows pin GitHub's comparison base explicitly instead of
+  relying on the default range.
+  It also includes the recent concurrent asset upload recovery fix, a
+  <code>working_directory</code> docs sync,
+  a checked-bundle freshness guard for maintainers, and clearer
+  immutable-prerelease guidance where
+  GitHub platform behavior imposes constraints on how prerelease asset
+  uploads can be published.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Exciting New Features 🎉</h3>
+  <ul>
+  <li>feat: support previous_tag for generate_release_notes by <a
+  href="https://github.com/pocesar"><code>@​pocesar</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/372">softprops/action-gh-release#372</a></li>
+  </ul>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: recover concurrent asset metadata 404s by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/760">softprops/action-gh-release#760</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>docs: clarify reused draft release behavior by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/759">softprops/action-gh-release#759</a></li>
+  <li>docs: clarify working_directory input by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/761">softprops/action-gh-release#761</a></li>
+  <li>ci: verify dist bundle freshness by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/762">softprops/action-gh-release#762</a></li>
+  <li>fix: clarify immutable prerelease uploads by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/763">softprops/action-gh-release#763</a></li>
+  </ul>
+  <h2>v2.5.3</h2>
+  <!-- raw HTML omitted -->
+  <p><code>2.5.3</code> is a patch release focused on the remaining
+  path-handling and release-selection bugs uncovered after
+  <code>2.5.2</code>.
+  It fixes
+  <code>[#639](https://github.com/softprops/action-gh-release/issues/639)</code>,
+  <code>[#571](https://github.com/softprops/action-gh-release/issues/571)</code>,
+  <code>[#280](https://github.com/softprops/action-gh-release/issues/280)</code>,
+  <code>[#614](https://github.com/softprops/action-gh-release/issues/614)</code>,
+  <code>[#311](https://github.com/softprops/action-gh-release/issues/311)</code>,
+  <code>[#403](https://github.com/softprops/action-gh-release/issues/403)</code>,
+  and
+  <code>[#368](https://github.com/softprops/action-gh-release/issues/368)</code>.
+  It also adds documentation clarifications for
+  <code>[#541](https://github.com/softprops/action-gh-release/issues/541)</code>,
+  <code>[#645](https://github.com/softprops/action-gh-release/issues/645)</code>,
+  <code>[#542](https://github.com/softprops/action-gh-release/issues/542)</code>,
+  <code>[#393](https://github.com/softprops/action-gh-release/issues/393)</code>,
+  and
+  <code>[#411](https://github.com/softprops/action-gh-release/issues/411)</code>,
+  where the current behavior is either usage-sensitive or constrained by
+  GitHub platform limits rather than an action-side runtime bug.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: prefer token input over GITHUB_TOKEN by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/751">softprops/action-gh-release#751</a></li>
+  <li>fix: clean up duplicate drafts after canonicalization by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/753">softprops/action-gh-release#753</a></li>
+  <li>fix: support Windows-style file globs by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/754">softprops/action-gh-release#754</a></li>
+  <li>fix: normalize refs-tag inputs by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/755">softprops/action-gh-release#755</a></li>
+  <li>fix: expand tilde file paths by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/756">softprops/action-gh-release#756</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>docs: clarify token precedence by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/752">softprops/action-gh-release#752</a></li>
+  <li>docs: clarify GitHub release limits by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/758">softprops/action-gh-release#758</a></li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h2>2.6.0</h2>
+  <p><code>2.6.0</code> is a minor release centered on
+  <code>previous_tag</code> support for
+  <code>generate_release_notes</code>,
+  which lets workflows pin GitHub's comparison base explicitly instead of
+  relying on the default range.
+  It also includes the recent concurrent asset upload recovery fix, a
+  <code>working_directory</code> docs sync,
+  a checked-bundle freshness guard for maintainers, and clearer
+  immutable-prerelease guidance where
+  GitHub platform behavior imposes constraints on how prerelease asset
+  uploads can be published.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Exciting New Features 🎉</h3>
+  <ul>
+  <li>feat: support previous_tag for generate_release_notes by <a
+  href="https://github.com/pocesar"><code>@​pocesar</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/372">softprops/action-gh-release#372</a></li>
+  </ul>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: recover concurrent asset metadata 404s by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/760">softprops/action-gh-release#760</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>docs: clarify reused draft release behavior by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/759">softprops/action-gh-release#759</a></li>
+  <li>docs: clarify working_directory input by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/761">softprops/action-gh-release#761</a></li>
+  <li>ci: verify dist bundle freshness by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/762">softprops/action-gh-release#762</a></li>
+  <li>fix: clarify immutable prerelease uploads by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/763">softprops/action-gh-release#763</a></li>
+  </ul>
+  <h2>2.5.3</h2>
+  <p><code>2.5.3</code> is a patch release focused on the remaining
+  path-handling and release-selection bugs uncovered after
+  <code>2.5.2</code>.
+  It fixes
+  <code>[#639](https://github.com/softprops/action-gh-release/issues/639)</code>,
+  <code>[#571](https://github.com/softprops/action-gh-release/issues/571)</code>,
+  <code>[#280](https://github.com/softprops/action-gh-release/issues/280)</code>,
+  <code>[#614](https://github.com/softprops/action-gh-release/issues/614)</code>,
+  <code>[#311](https://github.com/softprops/action-gh-release/issues/311)</code>,
+  <code>[#403](https://github.com/softprops/action-gh-release/issues/403)</code>,
+  and
+  <code>[#368](https://github.com/softprops/action-gh-release/issues/368)</code>.
+  It also adds documentation clarifications for
+  <code>[#541](https://github.com/softprops/action-gh-release/issues/541)</code>,
+  <code>[#645](https://github.com/softprops/action-gh-release/issues/645)</code>,
+  <code>[#542](https://github.com/softprops/action-gh-release/issues/542)</code>,
+  <code>[#393](https://github.com/softprops/action-gh-release/issues/393)</code>,
+  and
+  <code>[#411](https://github.com/softprops/action-gh-release/issues/411)</code>,
+  where the current behavior is either usage-sensitive or constrained by
+  GitHub platform limits rather than an action-side runtime bug.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: prefer token input over GITHUB_TOKEN by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/751">softprops/action-gh-release#751</a></li>
+  <li>fix: clean up duplicate drafts after canonicalization by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/753">softprops/action-gh-release#753</a></li>
+  <li>fix: support Windows-style file globs by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/754">softprops/action-gh-release#754</a></li>
+  <li>fix: normalize refs-tag inputs by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/755">softprops/action-gh-release#755</a></li>
+  <li>fix: expand tilde file paths by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/756">softprops/action-gh-release#756</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>docs: clarify token precedence by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/752">softprops/action-gh-release#752</a></li>
+  <li>docs: clarify GitHub release limits by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/758">softprops/action-gh-release#758</a></li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/26e8ad27a09a225049a7075d7ec1caa2df6ff332"><code>26e8ad2</code></a>
+  release 2.6.0</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/b959f31e968fb47fb7bb823087fc092d5613e0a4"><code>b959f31</code></a>
+  fix: clarify immutable prerelease uploads (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/763">#763</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/8a8510e3a0d8dfc9296171fd405ca8c8ea6206a4"><code>8a8510e</code></a>
+  ci: verify dist bundle freshness (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/762">#762</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/438c15ddf5b01e992ef98dc29cea3f9992ab54ac"><code>438c15d</code></a>
+  docs: clarify working_directory input (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/761">#761</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/6ca3b5d96e3a0fac11dc53f0809c2cb029e64902"><code>6ca3b5d</code></a>
+  fix: recover concurrent asset metadata 404s (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/760">#760</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/11f917660b31d6d56980ea3261f210556a812bd0"><code>11f9176</code></a>
+  chore: add RELEASE.md</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/1f3f350167714515d2bcf8a18afcc5e8e0a362a8"><code>1f3f350</code></a>
+  feat: add AGENTS.md</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/37819cb191890d306d21cfb5ac4e7a358f0a6e4f"><code>37819cb</code></a>
+  docs: clarify reused draft release behavior (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/759">#759</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/93128644907200fa339c3d25d38cbc775278b05a"><code>9312864</code></a>
+  feat: support previous_tag for generate_release_notes (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/372">#372</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/1853d73993c8ca1b2c9c1a7fede39682d0ab5c2a"><code>1853d73</code></a>
+  release 2.5.3</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/softprops/action-gh-release/compare/a06a81a03ee405af7f2048a818ed3f03bbf83c7b...26e8ad27a09a225049a7075d7ec1caa2df6ff332">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=2.5.0&new-version=2.6.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`36986f0`](https://github.com/ghostty-org/ghostty/commit/36986f0374c987fe4f3ed378e0bd49246250702f) build(deps): bump dorny/paths-filter from 4.0.0 to 4.0.1 ([#11545](https://github.com/ghostty-org/ghostty/issues/11545)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from
+  4.0.0 to 4.0.1.
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/fbd0ab8f3e69293af611ebaee6363fc25e6d187d"><code>fbd0ab8</code></a>
+  feat: add merge_group event support</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/efb1da7ce8d89bbc261191e5a2dc1453c3837339"><code>efb1da7</code></a>
+  feat: add dist/ freshness check to PR workflow</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/d8f7b061b24c30a325ff314b76c37adb05b041ce"><code>d8f7b06</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/dorny/paths-filter/issues/302">#302</a>
+  from dorny/issue-299</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/addbc147a95845176e1bc013a012fbf1d366389a"><code>addbc14</code></a>
+  Update README for v4</li>
+  <li>See full diff in <a
+  href="https://github.com/dorny/paths-filter/compare/9d7afb8d214ad99e78fbd4247752c4caed2b6e4c...fbd0ab8f3e69293af611ebaee6363fc25e6d187d">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=dorny/paths-filter&package-manager=github_actions&previous-version=4.0.0&new-version=4.0.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`41c7321`](https://github.com/ghostty-org/ghostty/commit/41c7321e94995347d74a66c9847ad0e2d45c4ad0) Add missing plural forms ([#11541](https://github.com/ghostty-org/ghostty/issues/11541)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Supersedes #11529; I did not use their plural forms because I trust
+  ctrl+c more than Claude Code.
+  
+  `mk` and `zh_*` are still missing theirs, but neither [gettext's table]
+  nor the [documentation it copied from] list them. That PR has them too,
+  with values magicked from… somewhere? The [data they linked] is
+  illegible to me.
+  
+  [gettext's table]:
+  https://cgit.git.savannah.gnu.org/cgit/gettext.git/tree/gettext-tools/src/plural-table.c?id=dbf9d71e0c4707ca1b14359256b3dcccecb8e837
+  [documentation it copied from]:
+  https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
+  [data they linked]:
+  https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+  ```
 - [`a945115`](https://github.com/ghostty-org/ghostty/commit/a945115d2f5004df9448df1cfe375bec931b9d79) Sync CODEOWNERS vouch list ([#11542](https://github.com/ghostty-org/ghostty/issues/11542)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
