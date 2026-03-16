@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 09:24 UTC.
+> Last updated: March 16, 2026 at 12:17 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [2](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [3](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [4](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [5](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 5 runs • 29 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [2](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [3](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [4](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [5](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [6](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 6 runs • 31 commits • 6 authors
 
 ### Changes
 
+- [`3b60ef3`](https://github.com/ghostty-org/ghostty/commit/3b60ef3b34006fbf20030e17ad268cf3952d4228) Add missing plural forms (or, the lack thereof) for Chinese. ([@00-kat](https://github.com/00-kat))
+- [`a3fe597`](https://github.com/ghostty-org/ghostty/commit/a3fe5974e8b476fcba7db07b576ce95fe170ca73) Add missing plural forms for Chinese ([#11562](https://github.com/ghostty-org/ghostty/issues/11562)) ([@pluiedev](https://github.com/pluiedev))
 - [`96f8f0d`](https://github.com/ghostty-org/ghostty/commit/96f8f0d93c19efec5cc349f71965a405f5c9c2a3) gtk: add setMonitor binding and kde-output-order-v1 protocol ([@jguthmiller](https://github.com/jguthmiller))
   ```text
   Add the missing setMonitor() function to the gtk4-layer-shell Zig
