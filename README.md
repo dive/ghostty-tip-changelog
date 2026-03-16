@@ -8,15 +8,72 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 12:17 UTC.
+> Last updated: March 16, 2026 at 15:25 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [2](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [3](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [4](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [5](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [6](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 6 runs • 31 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [2](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [3](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [4](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [5](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [6](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [7](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 7 runs • 33 commits • 8 authors
 
 ### Changes
 
+- [`69554f4`](https://github.com/ghostty-org/ghostty/commit/69554f414c1402a69d4648952aa13ad5bf43b673) shell-integration: fix ssh-env SetEnv clobbering user SSH config ([@j0hnm4r5](https://github.com/j0hnm4r5))
+- [`925992a`](https://github.com/ghostty-org/ghostty/commit/925992abd98d83f08dc367f6b6c6265ee0510e60) shell-integration: fix ssh-env SetEnv clobbering user SSH config ([#11518](https://github.com/ghostty-org/ghostty/issues/11518)) ([@jparise](https://github.com/jparise))
+  ````text
+  ## Problem
+  
+  Ghostty's `ssh-env` shell integration uses `-o "SetEnv
+  COLORTERM=truecolor"` when wrapping SSH commands. OpenSSH treats
+  command-line `-o SetEnv` options as **replacements** for all `SetEnv`
+  entries in `~/.ssh/config`, not additions. This silently drops any
+  user-configured `SetEnv` variables.
+  
+  For example, a user with this in their SSH config:
+  ```
+  Host myserver
+    SetEnv MY_VAR=hello
+  ```
+  ...would find `MY_VAR` empty after SSHing through Ghostty with `ssh-env`
+  enabled.
+  
+  Reference: https://github.com/ghostty-org/ghostty/discussions/10871
+  
+  ## Fix
+  
+  Replace `-o "SetEnv COLORTERM=truecolor"` with the additive pattern: set
+  `COLORTERM=truecolor` locally before the SSH call and forward it via
+  `SendEnv`.
+  
+  `SendEnv` is additive — it does not clobber `SetEnv` entries in
+  `~/.ssh/config`.
+  
+  **Trade-off:** `SendEnv` requires `AcceptEnv COLORTERM` on the remote
+  server (unlike `SetEnv`). But this was already the case for
+  `TERM_PROGRAM`/`TERM_PROGRAM_VERSION`, so it's a consistent and
+  acceptable approach.
+  
+  ## Changes
+  
+  All 5 shell integration files updated with the same pattern:
+  
+  - `SetEnv COLORTERM=truecolor` option removed
+  - `COLORTERM` added to the existing `SendEnv` option
+  - `COLORTERM=truecolor` set as a local env var on the execute line (so
+  `SendEnv` has something to forward)
+  
+  ## Test plan
+  
+  - [ ] Enable `ssh-env` in Ghostty config: `shell-integration-features =
+  ssh-env`
+  - [ ] Add `SetEnv MY_VAR=hello` under a host in `~/.ssh/config` and
+  `AcceptEnv MY_VAR` in `/etc/ssh/sshd_config` on the remote
+  - [ ] SSH to that host — `echo $MY_VAR` should return `hello` (was empty
+  before this fix)
+  - [ ] `echo $COLORTERM` returns `truecolor` (requires `AcceptEnv
+  COLORTERM`)
+  - [ ] `echo $TERM_PROGRAM` still propagates (same `AcceptEnv`
+  requirement as before)
+  ````
 - [`3b60ef3`](https://github.com/ghostty-org/ghostty/commit/3b60ef3b34006fbf20030e17ad268cf3952d4228) Add missing plural forms (or, the lack thereof) for Chinese. ([@00-kat](https://github.com/00-kat))
 - [`a3fe597`](https://github.com/ghostty-org/ghostty/commit/a3fe5974e8b476fcba7db07b576ce95fe170ca73) Add missing plural forms for Chinese ([#11562](https://github.com/ghostty-org/ghostty/issues/11562)) ([@pluiedev](https://github.com/pluiedev))
 - [`96f8f0d`](https://github.com/ghostty-org/ghostty/commit/96f8f0d93c19efec5cc349f71965a405f5c9c2a3) gtk: add setMonitor binding and kde-output-order-v1 protocol ([@jguthmiller](https://github.com/jguthmiller))
