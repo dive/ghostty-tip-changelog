@@ -8,15 +8,74 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 15, 2026 at 21:07 UTC.
+> Last updated: March 16, 2026 at 00:24 UTC.
 
-## March 15, 2026
+## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23114086713), [2](https://github.com/ghostty-org/ghostty/actions/runs/23114065115), [3](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [4](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
-Summary: 4 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 1 runs • 1 commits • 1 authors
 
 ### Changes
 
+- [`a945115`](https://github.com/ghostty-org/ghostty/commit/a945115d2f5004df9448df1cfe375bec931b9d79) Sync CODEOWNERS vouch list ([#11542](https://github.com/ghostty-org/ghostty/issues/11542)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Sync CODEOWNERS owners with vouch list.
+  
+  ## Added Users
+  
+  - @alosarjos
+  - @anhthang
+  - @AnmiTaliDev
+  - @crayxt
+  - @MicaelJarniac
+  ```
+
+## March 15, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23121125985), [2](https://github.com/ghostty-org/ghostty/actions/runs/23114086713), [3](https://github.com/ghostty-org/ghostty/actions/runs/23114065115), [4](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [5](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
+Summary: 5 runs • 10 commits • 3 authors
+
+### Changes
+
+- [`ac5e57c`](https://github.com/ghostty-org/ghostty/commit/ac5e57ce67d3c6913935aa265617cb4d3f46aba4) input: extract mouse encoding to a pure, testable file ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move mouse event encoding logic from Surface.zig into a new
+  input/mouse_encode.zig file.
+  
+  The new file encapsulates event filtering (shouldReport),
+  button code computation, viewport bounds checking, motion
+  deduplication, and all five wire formats (X10, UTF-8, SGR,
+  urxvt, SGR-pixels). This makes the encoding independently
+  testable and adds unit tests covering each format and edge
+  case.
+  
+  Additionally, Surface `mouseReport` can no longer fail, since the only
+  failure mode is no buffer space which should be impossible. Updated
+  the signature to remove the error set.
+  ```
+- [`f1fd21f`](https://github.com/ghostty-org/ghostty/commit/f1fd21fd762ce8c6a7fa415734f63b08f05e36e1) input: extract mouse encoding to a pure, testable file ([#11538](https://github.com/ghostty-org/ghostty/issues/11538)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move mouse event encoding logic from Surface.zig into a new
+  input/mouse_encode.zig file.
+  
+  The new file encapsulates event filtering (shouldReport), button code
+  computation, viewport bounds checking, motion deduplication, and all
+  five wire formats (X10, UTF-8, SGR, urxvt, SGR-pixels). This makes the
+  encoding independently testable and adds unit tests covering each format
+  and edge case.
+  
+  Additionally, Surface `mouseReport` can no longer fail, since the only
+  failure mode is no buffer space which should be impossible. Updated the
+  signature to remove the error set.
+  ```
+- [`a2b2b88`](https://github.com/ghostty-org/ghostty/commit/a2b2b883e8e74328463c23a6e925b31475b78330) Update VOUCHED list ([#11540](https://github.com/ghostty-org/ghostty/issues/11540)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11518#issuecomment-4064084617)
+  from @jparise.
+  
+  Vouch: @j0hnm4r5
+  ```
 - [`33263db`](https://github.com/ghostty-org/ghostty/commit/33263dbe6fea331b1be1acd4a7420d89f98ae806) Update VOUCHED list ([#11532](https://github.com/ghostty-org/ghostty/issues/11532)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1435,168 +1494,5 @@ Summary: 13 runs • 33 commits • 7 authors
   from @mitchellh.
   
   Vouch: @ocean6954
-  ```
-
-## March 9, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22870694331), [2](https://github.com/ghostty-org/ghostty/actions/runs/22862195455), [3](https://github.com/ghostty-org/ghostty/actions/runs/22861709161), [4](https://github.com/ghostty-org/ghostty/actions/runs/22861225605), [5](https://github.com/ghostty-org/ghostty/actions/runs/22860218660), [6](https://github.com/ghostty-org/ghostty/actions/runs/22856309252), [7](https://github.com/ghostty-org/ghostty/actions/runs/22839029556), [8](https://github.com/ghostty-org/ghostty/actions/runs/22837001539), [9](https://github.com/ghostty-org/ghostty/actions/runs/22833175636)  
-Summary: 9 runs • 21 commits • 6 authors
-
-### Changes
-
-- [`f8a0a45`](https://github.com/ghostty-org/ghostty/commit/f8a0a45963010e5cb3baa8069dbcc07a60c5d26d) Update VOUCHED list ([#11275](https://github.com/ghostty-org/ghostty/issues/11275)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11274#discussioncomment-16057271)
-  from @jcollie.
-  
-  Vouch: @seruman
-  ```
-- [`703d11c`](https://github.com/ghostty-org/ghostty/commit/703d11c642a96af9e54b55b04f131bf3888948a9) Bump version to 1.3.0 ([@mitchellh](https://github.com/mitchellh))
-- [`a6ee1fb`](https://github.com/ghostty-org/ghostty/commit/a6ee1fb292d2361bd3fca7998d1d86f6509b3272) macos: increase window-width/height apply delay from 10ms to 40ms ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Band-aid for #10304
-  
-  We don't have a robust fix yet but this should help mitigate more
-  scenarios.
-  ```
-- [`8dde269`](https://github.com/ghostty-org/ghostty/commit/8dde2693bcd55e72a48c1b771f3e685e9bdfcfb6) macos: increase window-width/height apply delay from 10ms to 40ms ([#11265](https://github.com/ghostty-org/ghostty/issues/11265)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Band-aid for #10304
-  
-  We don't have a robust fix yet but this should help mitigate more
-  scenarios.
-  ```
-- [`3c93c35`](https://github.com/ghostty-org/ghostty/commit/3c93c35869f40bd95db3e729549f05f48a371089) macOS: filter proper intrinsicContentSize when opening new window ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Fixes #11256
-  ```
-- [`3445c9a`](https://github.com/ghostty-org/ghostty/commit/3445c9afdad7d459ba42e0c66e25e0c09dda7eff) macOS: filter proper intrinsicContentSize when opening new window ([#11257](https://github.com/ghostty-org/ghostty/issues/11257)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11256, which is rather hard to reproduce on macOS 26, but after
-  adding breaking points on size update, we can see that it happens when
-  the `intrinsicContentSize` is not properly updated.
-  
-  <img width="998" height="556" alt="Xnip2026-03-09_11-38-40"
-  src="https://github.com/user-attachments/assets/8ac1de91-5895-45fc-a443-002eb016a1ce"
-  />
-  ```
-- [`dd3d72c`](https://github.com/ghostty-org/ghostty/commit/dd3d72c3de474c10da7e1576e39c7e2e7ad7617f) Revert "macOS: filter proper intrinsicContentSize when opening new window ([#11257](https://github.com/ghostty-org/ghostty/issues/11257))" ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This reverts commit 3445c9afdad7d459ba42e0c66e25e0c09dda7eff, reversing
-  changes made to 1e981f858a4833ae63e7e53f9f0c84c516b4241e.
-  ```
-- [`3ba49a7`](https://github.com/ghostty-org/ghostty/commit/3ba49a784f4313e301efb68362158e8e338662da) terminal: fix grapheme edge-wrap hyperlink integrity panic ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When a grapheme expands to width 2 at the screen edge, this path can write
-  spacer_head before printWrap() sets row.wrap. With an active hyperlink,
-  printCell triggers hyperlink bookkeeping and page integrity checks in that
-  intermediate state, causing UnwrappedSpacerHead.
-  
-  Mark row.wrap before writing spacer_head in this grapheme-wrap path to keep
-  the intermediate state valid.
-  ```
-- [`1e981f8`](https://github.com/ghostty-org/ghostty/commit/1e981f858a4833ae63e7e53f9f0c84c516b4241e) terminal: fix grapheme edge-wrap hyperlink integrity panic ([#11264](https://github.com/ghostty-org/ghostty/issues/11264)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When a grapheme expands to width 2 at the screen edge, this path can
-  write spacer_head before printWrap() sets row.wrap. With an active
-  hyperlink, printCell triggers hyperlink bookkeeping and page integrity
-  checks in that intermediate state, causing UnwrappedSpacerHead.
-  
-  Mark row.wrap before writing spacer_head in this grapheme-wrap path to
-  keep the intermediate state valid.
-  ```
-- [`fd557e8`](https://github.com/ghostty-org/ghostty/commit/fd557e83474e23b42d0f5133df319a79eda66653) bash: only define $__ghostty_ps0 when unset ([@jparise](https://github.com/jparise))
-  ```text
-  This fixes an error if the script was sourced a second time:
-  
-      bash: __ghostty_ps0: readonly variable
-  
-  Because this is a non-exported variable, this would only happen if the
-  script was sourced multiple times in the same bash session.
-  ```
-- [`0a659af`](https://github.com/ghostty-org/ghostty/commit/0a659af55ff214c781347def6f41d7aaed63b84a) bash: handle existing ; in PROMPT_COMMAND ([@jparise](https://github.com/jparise))
-  ```text
-  If an existing PROMPT_COMMAND was a string ending in ; (and maybe some
-  spaces), we'd add a redundant ;, resulting in a syntax error. Now we
-  strip any trailing `;[[:space:]]*` characters from the original string
-  before add ours.
-  ```
-- [`308b713`](https://github.com/ghostty-org/ghostty/commit/308b713e5828a3e1b07238f3ab56d75914389e3b) bash: handle existing ; in PROMPT_COMMAND ([#11260](https://github.com/ghostty-org/ghostty/issues/11260)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If an existing PROMPT_COMMAND was a string ending in ; (and maybe some
-  spaces), we'd add a redundant ;, resulting in a syntax error. Now we
-  strip any trailing `;[[:space:]]*` characters from the original string
-  before add ours.
-  
-  Fixes #11259
-  ```
-- [`f4c40c7`](https://github.com/ghostty-org/ghostty/commit/f4c40c7d53c1de1fcc97413fd6d543a561924e89) bash: only define $__ghostty_ps0 when unset ([#11258](https://github.com/ghostty-org/ghostty/issues/11258)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This fixes an error if the script was sourced a second time:
-  
-      bash: __ghostty_ps0: readonly variable
-  
-  Because this is a non-exported variable, this would only happen if the
-  script was sourced multiple times in the same bash session.
-  ```
-- [`aee9361`](https://github.com/ghostty-org/ghostty/commit/aee9361fa3fdd95177823fe1ffa2b8ff19e7e413) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
-  ```text
-  Minor updates
-  ```
-- [`2cb8f61`](https://github.com/ghostty-org/ghostty/commit/2cb8f61bcfafeae1382edd23a1c105ab25c7a8c8) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
-- [`c570d53`](https://github.com/ghostty-org/ghostty/commit/c570d53d45218aae294c52fa81d48220755fe692) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
-- [`4969b0c`](https://github.com/ghostty-org/ghostty/commit/4969b0c56ecf65e0639e978a6bb9e7f076273afe) Update es_AR.po ([@dariogriffo](https://github.com/dariogriffo))
-- [`9dc6f67`](https://github.com/ghostty-org/ghostty/commit/9dc6f6763f12d056e286ca62e02f960b19a8fb9e) Update es_AR.po translation for "Unable to acquire an OpenGL context for rendering." ([#11227](https://github.com/ghostty-org/ghostty/issues/11227)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  - "Unable to acquire an OpenGL context for rendering."
-  This could be translated to "No se puede" or "No se pudo", depends on
-  the context of the message.
-  If the message is showing a current intent the translation should be "No
-  se puede", if the message is communicating that Ghostty failed to
-  acquire the OpenGL then the translation should be "No se pudo", here I
-  need more context.
-  Either case the wording "No se puedo" is incorrect.
-  ```
-- [`233fb12`](https://github.com/ghostty-org/ghostty/commit/233fb12081009fee649295d323c93716655fc671) macos: add AppleScript front window and focused terminal properties ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds two new propeties to make it easy to get the frontmost (main)
-  window and the focused terminal within a tab. We already had a property
-  to get the selected tab of a tab group.
-  ```
-- [`b82d452`](https://github.com/ghostty-org/ghostty/commit/b82d452f486bbff6977ee4e5472e3cf9163e9b7a) macos: add AppleScript front window and focused terminal properties ([#11251](https://github.com/ghostty-org/ghostty/issues/11251)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This adds two new propeties to make it easy to get the frontmost (main)
-  window and the focused terminal within a tab. We already had a property
-  to get the selected tab of a tab group.
-  
-  ## Examples
-  
-  ### Send Input to Focused Terminal
-  
-  ```AppleScript
-  tell application "Ghostty"
-    set term to focused terminal of selected tab of front window
-    input text "pwd\n" to term
-  end tell
-  ```
-  
-  ### Split the Focused Terminal
-  
-  ```applescript
-  tell application "Ghostty"
-    set currentTerm to focused terminal of selected tab of front window
-    set newTerm to split currentTerm direction right
-    input text "echo split-ready\n" to newTerm
-  end tell
-  ```
-  ````
-- [`ec1ca4c`](https://github.com/ghostty-org/ghostty/commit/ec1ca4c0c903d13a15452c18b1df11b3cabddaf7) Update VOUCHED list ([#11247](https://github.com/ghostty-org/ghostty/issues/11247)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11246#discussioncomment-16045992)
-  from @jcollie.
-  
-  Vouch: @jmcgover
   ```
 
