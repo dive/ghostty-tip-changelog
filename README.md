@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 04:00 UTC.
+> Last updated: March 16, 2026 at 06:32 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [2](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [3](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 3 runs • 16 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [2](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [3](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [4](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 4 runs • 17 commits • 4 authors
 
 ### Changes
 
+- [`44f403b`](https://github.com/ghostty-org/ghostty/commit/44f403bfe1b45fdd1b8be2ea5b3eb6bc4b593aa3) Update VOUCHED list ([#11556](https://github.com/ghostty-org/ghostty/issues/11556)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11536#discussioncomment-16152546)
+  from @pluiedev.
+  
+  Vouch: @mvanhorn
+  ```
 - [`f9f92f2`](https://github.com/ghostty-org/ghostty/commit/f9f92f2e0f590ece488e06718ccbbeb4bd6fc601) terminal: consolidate mouse types into mouse.zig ([@mitchellh](https://github.com/mitchellh))
   ```text
   Move MouseEvent and MouseFormat out of Terminal.zig and MouseShape out
