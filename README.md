@@ -8,15 +8,148 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 16, 2026 at 21:13 UTC.
+> Last updated: March 17, 2026 at 00:22 UTC.
 
 ## March 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23159262528), [2](https://github.com/ghostty-org/ghostty/actions/runs/23156954925), [3](https://github.com/ghostty-org/ghostty/actions/runs/23156018197), [4](https://github.com/ghostty-org/ghostty/actions/runs/23155406087), [5](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [6](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [7](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [8](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [9](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [10](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [11](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
-Summary: 11 runs • 43 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23171373890), [2](https://github.com/ghostty-org/ghostty/actions/runs/23171148499), [3](https://github.com/ghostty-org/ghostty/actions/runs/23169456226), [4](https://github.com/ghostty-org/ghostty/actions/runs/23168451781), [5](https://github.com/ghostty-org/ghostty/actions/runs/23159262528), [6](https://github.com/ghostty-org/ghostty/actions/runs/23156954925), [7](https://github.com/ghostty-org/ghostty/actions/runs/23156018197), [8](https://github.com/ghostty-org/ghostty/actions/runs/23155406087), [9](https://github.com/ghostty-org/ghostty/actions/runs/23143106693), [10](https://github.com/ghostty-org/ghostty/actions/runs/23138543301), [11](https://github.com/ghostty-org/ghostty/actions/runs/23131302018), [12](https://github.com/ghostty-org/ghostty/actions/runs/23129702400), [13](https://github.com/ghostty-org/ghostty/actions/runs/23126902982), [14](https://github.com/ghostty-org/ghostty/actions/runs/23123185713), [15](https://github.com/ghostty-org/ghostty/actions/runs/23122447798)  
+Summary: 15 runs • 55 commits • 9 authors
 
 ### Changes
 
+- [`8a40e37`](https://github.com/ghostty-org/ghostty/commit/8a40e37b863aa42ae4f4d6b7d25f242d050e3333) gtk: refactor application id and resource path ([@jcollie](https://github.com/jcollie))
+- [`f6e92b6`](https://github.com/ghostty-org/ghostty/commit/f6e92b6895bd4429090a70da0a45765180bdb20c) gtk: refactor application id and resource path ([#11580](https://github.com/ghostty-org/ghostty/issues/11580)) ([@jcollie](https://github.com/jcollie))
+- [`25679f3`](https://github.com/ghostty-org/ghostty/commit/25679f3ae736d94a93d4778fbe3aa095633cd5cb) vt: add C API header for terminal mode tags ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add modes.h with GhosttyModeTag, a uint16_t typedef matching the
+  Zig ModeTag packed struct layout (bits 0-14 for the mode value,
+  bit 15 for the ANSI flag). Three inline helper functions provide
+  construction and inspection: ghostty_mode_tag_new,
+  ghostty_mode_tag_value, and ghostty_mode_tag_ansi.
+  ```
+- [`1c03770`](https://github.com/ghostty-org/ghostty/commit/1c03770e2be4700ee60db01750a323005ef5dc8b) vt: expose terminal modes to C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add modes.h with GhosttyModeTag (uint16_t) matching the Zig ModeTag
+  packed struct layout, along with inline helpers for constructing and
+  inspecting mode tags. Provide GHOSTTY_MODE_* macros for all 39
+  built-in modes (4 ANSI, 35 DEC), parenthesized for safety.
+  
+  Add ghostty_terminal_mode_get and ghostty_terminal_mode_set to
+  terminal.h, both returning GhosttyResult so that null terminals
+  and unknown mode tags return GHOSTTY_INVALID_VALUE. The get function
+  writes its result through a bool out-parameter.
+  
+  Add a note in the Zig mode entries reminding developers to update
+  modes.h when adding new modes.
+  ```
+- [`a460743`](https://github.com/ghostty-org/ghostty/commit/a460743b2ac036577ac46ee9c34946b37b214e67) vt: add mode report encoding to C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_mode_report_encode() which encodes a DECRPM response
+  sequence into a caller-provided buffer. The function takes a mode
+  tag, a report state integer, an output buffer, and writes the
+  appropriate CSI sequence (with ? prefix for DEC private modes).
+  
+  The Zig-side ReportState is a non-exhaustive c_int enum that uses
+  std.meta.intToEnum for safe conversion to the internal type,
+  returning GHOSTTY_INVALID_VALUE on overflow. The C header exposes
+  a GhosttyModeReportState enum with named constants for the five
+  standard DECRPM state values.
+  ```
+- [`bfaab04`](https://github.com/ghostty-org/ghostty/commit/bfaab044684e0209c9996e5b7b6bc77a778b1b89) vt: rename mode tag to mode ([@mitchellh](https://github.com/mitchellh))
+- [`b18705c`](https://github.com/ghostty-org/ghostty/commit/b18705c4697119fd86af690f0e85f644583a4d0a) libghostty: expose terminal modes and DECRPM report encoding through the C API. ([#11579](https://github.com/ghostty-org/ghostty/issues/11579)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Previously libghostty-vt had no way for C consumers to query, set, or
+  report on terminal modes. Callers that needed to respond to DECRPM
+  requests or inspect mode state had no public interface to do so.
+  
+  This adds three layers of mode support to the C API:
+  
+  - `GhosttyMode` — a 16-bit packed type with inline helpers to construct
+  and inspect mode tags, plus `GHOSTTY_MODE_*` macros for all supported
+  ANSI and DEC private modes.
+  - `ghostty_terminal_mode_get` / `ghostty_terminal_mode_set` — query and
+  set mode values on a terminal handle.
+  - `ghostty_mode_report_encode` — encode a DECRPM response sequence (`CSI
+  [?] Ps1 ; Ps2 $ y`) into a caller-provided buffer.
+  
+  ## Example
+  
+  ```c
+  #include <stdio.h>
+  #include <ghostty/vt.h>
+  
+  int main() {
+      char buf[32];
+      size_t written = 0;
+  
+      // Query a terminal's cursor visibility and encode a DECRPM report
+      GhosttyMode mode = GHOSTTY_MODE_CURSOR_VISIBLE;
+      bool value = false;
+      ghostty_terminal_mode_get(terminal, mode, &value);
+  
+      GhosttyModeReportState state = value
+          ? GHOSTTY_MODE_REPORT_SET
+          : GHOSTTY_MODE_REPORT_RESET;
+  
+      if (ghostty_mode_report_encode(mode, state, buf, sizeof(buf), &written)
+              == GHOSTTY_SUCCESS) {
+          // writes ESC[?25;1$y or ESC[?25;2$y
+          fwrite(buf, 1, written, stdout);
+      }
+  }
+  ```
+  ````
+- [`6abed20`](https://github.com/ghostty-org/ghostty/commit/6abed20fc89607134063f38107b210ed1ab31d25) Update VOUCHED list ([#11581](https://github.com/ghostty-org/ghostty/issues/11581)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11557#issuecomment-4071331120)
+  from @mitchellh.
+  
+  Unvouch: @mvanhorn
+  ```
+- [`d6b37ba`](https://github.com/ghostty-org/ghostty/commit/d6b37ba38f9b238b5bf30aebbeae261dd45290cd) terminal: extract DECRPM mode report encoding to terminal package ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This extracts our mode reporting from being hardcoded in termio
+  to being reusable in the existing `terminal.modes` namespace. The goal
+  is to expose this via the Zig API libghostty (done) and C API (to do
+  later).
+  ```
+- [`21eb30d`](https://github.com/ghostty-org/ghostty/commit/21eb30d9bcc94e3b1e39ba1294c7b390211ea7c1) terminal: extract DECRPM mode report encoding to terminal package ([#11578](https://github.com/ghostty-org/ghostty/issues/11578)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This extracts our mode reporting from being hardcoded in termio to being
+  reusable in the existing `terminal.modes` namespace. The goal is to
+  expose this via the Zig API libghostty (done) and C API (to do later).
+  ```
+- [`bed9d92`](https://github.com/ghostty-org/ghostty/commit/bed9d92f048835cfcae372361d3c741db8a3ed78) vt: expose focus encoding in C and Zig APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add focus event encoding (CSI I / CSI O) to the libghostty-vt public
+  API, following the same patterns as key and mouse encoding.
+  
+  The focus Event enum uses lib.Enum for C ABI compatibility. The C API
+  provides ghostty_focus_encode() which writes into a caller-provided
+  buffer and returns GHOSTTY_OUT_OF_SPACE with the required size when
+  the buffer is too small.
+  
+  Also update key and mouse encoders to return GHOSTTY_OUT_OF_SPACE
+  instead of GHOSTTY_OUT_OF_MEMORY for buffer-too-small errors,
+  reserving OUT_OF_MEMORY for actual allocation failures. Update all
+  corresponding header documentation.
+  ```
+- [`e90dbc9`](https://github.com/ghostty-org/ghostty/commit/e90dbc9da697816ef661156cb50cc320cada730c) vt: expose focus encoding in C and Zig APIs ([#11577](https://github.com/ghostty-org/ghostty/issues/11577)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add focus event encoding (CSI I / CSI O) to the libghostty-vt public
+  API, following the same patterns as key and mouse encoding.
+  
+  The focus Event enum uses lib.Enum for C ABI compatibility. The C API
+  provides ghostty_focus_encode() which writes into a caller-provided
+  buffer and returns GHOSTTY_OUT_OF_SPACE with the required size when the
+  buffer is too small.
+  
+  Also update key and mouse encoders to return GHOSTTY_OUT_OF_SPACE
+  instead of GHOSTTY_OUT_OF_MEMORY for buffer-too-small errors, reserving
+  OUT_OF_MEMORY for actual allocation failures. Update all corresponding
+  header documentation.
+  ```
 - [`8966d37`](https://github.com/ghostty-org/ghostty/commit/8966d37985a22af8529f407686afdfd51c52cdce) gtk/wayland: refactor global handling ([@pluiedev](https://github.com/pluiedev))
   ```text
   The way we originally handled globals gradually escalated into an unholy
@@ -2275,257 +2408,5 @@ Summary: 12 runs • 38 commits • 10 authors
   ### AI Disclosure
   
   Test cases is written using the Claude Agent in Xcode
-  ```
-
-## March 10, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22929804807), [2](https://github.com/ghostty-org/ghostty/actions/runs/22928895181), [3](https://github.com/ghostty-org/ghostty/actions/runs/22926107536), [4](https://github.com/ghostty-org/ghostty/actions/runs/22919665780), [5](https://github.com/ghostty-org/ghostty/actions/runs/22918391292), [6](https://github.com/ghostty-org/ghostty/actions/runs/22917096976), [7](https://github.com/ghostty-org/ghostty/actions/runs/22916232794), [8](https://github.com/ghostty-org/ghostty/actions/runs/22914796222), [9](https://github.com/ghostty-org/ghostty/actions/runs/22913587645), [10](https://github.com/ghostty-org/ghostty/actions/runs/22911767766), [11](https://github.com/ghostty-org/ghostty/actions/runs/22906920447), [12](https://github.com/ghostty-org/ghostty/actions/runs/22906644160), [13](https://github.com/ghostty-org/ghostty/actions/runs/22906186474)  
-Summary: 13 runs • 33 commits • 7 authors
-
-### Changes
-
-- [`f9862cd`](https://github.com/ghostty-org/ghostty/commit/f9862cd4e27daf72e8e983646451a0954a47258b) GTK does support scrollbars ([@hulet](https://github.com/hulet))
-- [`818e170`](https://github.com/ghostty-org/ghostty/commit/818e170ec0a16b501a78adc5ea9e197e142e877b) GTK does support scrollbars ([#11345](https://github.com/ghostty-org/ghostty/issues/11345)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Native GTK scrollbars are supported in 1.3.0:
-  https://ghostty.org/docs/install/release-notes/1-3-0#scrollbars
-  ```
-- [`615af97`](https://github.com/ghostty-org/ghostty/commit/615af975f3365ea85594be7ebbc6ae90cac9558c) Update VOUCHED list ([#11344](https://github.com/ghostty-org/ghostty/issues/11344)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11343#discussioncomment-16075282)
-  from @jcollie.
-  
-  Vouch: @hulet
-  ```
-- [`04d5efc`](https://github.com/ghostty-org/ghostty/commit/04d5efc8eb7b5f660bf44c0b63b9366c881e9635) config: working-directory expands ~/ prefix ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11336
-  
-  Introduce a proper WorkingDirectory tagged union type with home, inherit,
-  and path variants. The field is now an optional (?WorkingDirectory) where
-  null represents "use platform default" which is resolved during Config.finalize
-  to .inherit (CLI) or .home (desktop launcher).
-  ```
-- [`0cb189b`](https://github.com/ghostty-org/ghostty/commit/0cb189bfbba4515797dee666e107d9b73b861ab0) config: working-directory expands ~/ prefix ([#11337](https://github.com/ghostty-org/ghostty/issues/11337)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11336
-  
-  Introduce a proper WorkingDirectory tagged union type with home,
-  inherit, and path variants. The field is now an optional
-  (?WorkingDirectory) where null represents "use platform default" which
-  is resolved during Config.finalize to .inherit (CLI) or .home (desktop
-  launcher).
-  ```
-- [`96f9772`](https://github.com/ghostty-org/ghostty/commit/96f9772cd838fa9d562ed369ea6fa8e657f870e3) tests: disable tests that fail if you have locally installed fonts ([@jcollie](https://github.com/jcollie))
-  ```text
-  If you have "Noto Sans Tai Tham" and/or "Noto Sans Javanese" installed
-  locally on Linux, three tests fail. This PR disables those tests until a
-  more permanent solution can be found.
-  ```
-- [`c131329`](https://github.com/ghostty-org/ghostty/commit/c1313294cd765e41c02e0b8e048fbad1beb5f740) add comments about why tests are disabled ([@jcollie](https://github.com/jcollie))
-- [`a4cc37d`](https://github.com/ghostty-org/ghostty/commit/a4cc37db72bd345a7cdd90855e80339ed1caddd1) tests: disable tests that fail if you have locally installed fonts ([#11285](https://github.com/ghostty-org/ghostty/issues/11285)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If you have "Noto Sans Tai Tham" and/or "Noto Sans Javanese" installed
-  locally on Linux, three tests fail. This PR disables those tests until a
-  more permanent solution can be found.
-  ```
-- [`71f8152`](https://github.com/ghostty-org/ghostty/commit/71f81527ad8d3393609d1e9134987653249473d4) macos: remove IntrinsicSizeTimingTests temporarily ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  These were too flaky.
-  ```
-- [`8784636`](https://github.com/ghostty-org/ghostty/commit/8784636547520dc94d1b6ed2d58db00ed80eadfb) macos: remove IntrinsicSizeTimingTests temporarily ([#11332](https://github.com/ghostty-org/ghostty/issues/11332)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  These were too flaky.
-  
-  cc @bo2themax
-  ```
-- [`de0f2ab`](https://github.com/ghostty-org/ghostty/commit/de0f2ab22d941e270a4ba259ef2522f71bb84247) macos:  add enum type for macos-titlebar-style ([@bo2themax](https://github.com/bo2themax))
-- [`53637ec`](https://github.com/ghostty-org/ghostty/commit/53637ec7b2b91da8e19b79cd755874b3fc2cf0db) fix jump_to_prompt forward behavior for multiline prompts ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11330.
-  
-  When jumping forward from prompt content, skip prompt continuation rows so a
-  multiline prompt is treated as a single prompt block.
-  ```
-- [`7fb8e0a`](https://github.com/ghostty-org/ghostty/commit/7fb8e0ac90eeba0413736dee5b5b451d1a79ae20) fix jump_to_prompt forward behavior for multiline prompts ([#11331](https://github.com/ghostty-org/ghostty/issues/11331)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11330.
-  
-  When jumping forward from prompt content, skip prompt continuation rows
-  so a multiline prompt is treated as a single prompt block.
-  ```
-- [`f88b42a`](https://github.com/ghostty-org/ghostty/commit/f88b42ad3968779168666eb03866f70e9a7568e4) macos: add enum type for macos-titlebar-style ([#11262](https://github.com/ghostty-org/ghostty/issues/11262)) ([@mitchellh](https://github.com/mitchellh))
-- [`aaad43c`](https://github.com/ghostty-org/ghostty/commit/aaad43c23569e75929d611a13483e96cec6b1060) macos: make paste_from_clipboard performable on macos ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10751
-  ```
-- [`c06ede5`](https://github.com/ghostty-org/ghostty/commit/c06ede584939979947336094c35b5a4c9a5ba267) macos: make paste_from_clipboard performable on macos ([#11328](https://github.com/ghostty-org/ghostty/issues/11328)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10751
-  ```
-- [`f8d7876`](https://github.com/ghostty-org/ghostty/commit/f8d7876203ad65572cd085ff89afb758252217cb) Update VOUCHED list ([#11329](https://github.com/ghostty-org/ghostty/issues/11329)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11313#issuecomment-4033213188)
-  from @mitchellh.
-  
-  Vouch: @VaughanAndrews
-  ```
-- [`6092c29`](https://github.com/ghostty-org/ghostty/commit/6092c299d55cd24ec72d3d5d2365279645c30ff3) macos: reset mouse state on focus loss to prevent phantom drag ([@seruman](https://github.com/seruman))
-  ```text
-  Fixes phantom mouse drag/selection when switching splits or apps.
-  The suppressNextLeftMouseUp flag and core mouse click_state were not
-  being reset on focus transitions, causing stale state that led to
-  unexpected drag behavior.
-  
-  - Reset suppressNextLeftMouseUp in focusDidChange when losing focus
-  - Defensively reset the flag when processing normal clicks
-  - Reset core mouse.click_state and left_click_count on focus loss
-  ```
-- [`119ce0b`](https://github.com/ghostty-org/ghostty/commit/119ce0bc1df37be42cd65c57b4a3e8c39013b6c5) macos: reset mouse state on focus loss to prevent phantom drag ([#11276](https://github.com/ghostty-org/ghostty/issues/11276)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes https://github.com/ghostty-org/ghostty/discussions/11203
-  
-  The `suppressNextLeftMouseUp` flag from #11167 wasn't being reset on
-  focus loss, causing stale state that led to phantom drags/selections and
-  scrolls if you're lucky enough.
-  
-  I've followed the #11167 's path and made it reset on focus loss.
-  
-  As I stated in the [vouch
-  request](https://github.com/ghostty-org/ghostty/discussions/11274); I'm
-  not experienced in Swift, just following the prior PR's steps to reset
-  the state. I've been using this patch for couple days and the change
-  looks trivial to me tho not 100% sure if I'm missing anything.
-  
-  > [!NOTE]
-  > Used Claude Code -Opus 4.6- for navigating the codebase and reviewing
-  the change.
-  ```
-- [`d9039eb`](https://github.com/ghostty-org/ghostty/commit/d9039eb85a6f12ff7de205c116d978482c80bdab) config: don't double load app support path on macOS ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11323
-  ```
-- [`9759787`](https://github.com/ghostty-org/ghostty/commit/9759787847a0c6ed6983d1a8fe2b9c1d615b6010) config: don't double load app support path on macOS ([#11326](https://github.com/ghostty-org/ghostty/issues/11326)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11323
-  ```
-- [`4e24adf`](https://github.com/ghostty-org/ghostty/commit/4e24adf7177946af7f3d0e367d94fc8e2dead133) ci: skip xcode tests for freetype build ([@mitchellh](https://github.com/mitchellh))
-- [`cfedda1`](https://github.com/ghostty-org/ghostty/commit/cfedda1a0e9197dfa7463a3a3aeb90ad980ab86f) macOS: add regression tests for intrinsicContentSize race ([#11256](https://github.com/ghostty-org/ghostty/issues/11256)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Tests that validate intrinsicContentSize returns a correct value when
-  TerminalController.windowDidLoad() reads it. Currently fail, proving
-  the race condition where @FocusedValue hasn't propagated
-  lastFocusedSurface before the 40ms timer fires.
-  ```
-- [`a6cd1b0`](https://github.com/ghostty-org/ghostty/commit/a6cd1b08af240e7be0b07163d78dac5efa6b1752) macOS: fix intrinsicContentSize race in windowDidLoad ([#11256](https://github.com/ghostty-org/ghostty/issues/11256)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Add initialContentSize fallback on TerminalViewContainer so
-  intrinsicContentSize returns the correct value immediately,
-  without waiting for @FocusedValue to propagate. This removes
-  the need for the DispatchQueue.main.asyncAfter 40ms delay.
-  ```
-- [`1592caf`](https://github.com/ghostty-org/ghostty/commit/1592cafa32e99119cee0b074fde3f50070ac3dac) Update AGENTS.md ([@mitchellh](https://github.com/mitchellh))
-- [`7629130`](https://github.com/ghostty-org/ghostty/commit/7629130fb4f66262684d4b75d549b522d5943f59) macOS: restore keyboard focus after inline tab title edit ([@chronologos](https://github.com/chronologos))
-  ```text
-  After finishing an inline tab title edit (via keybind or double-click),
-  `TabTitleEditor.finishEditing()` calls `makeFirstResponder(nil)` to
-  clear focus from the text field, leaving the window itself as first
-  responder. No code path restores focus to the terminal surface, so all
-  keyboard input is lost until the user clicks into a pane.
-  
-  Add a `tabTitleEditorDidFinishEditing` delegate callback that fires
-  after every edit (commit or cancel). TerminalWindow implements it by
-  calling `makeFirstResponder(focusedSurface)` to hand focus back to the
-  terminal.
-  
-  Fixes https://github.com/ghostty-org/ghostty/discussions/11315
-  ```
-- [`85f0972`](https://github.com/ghostty-org/ghostty/commit/85f0972b395c045fb91488399aeb6597c6be94ec) macOS: fix intrinsicContentSize race in windowDidLoad ([#11322](https://github.com/ghostty-org/ghostty/issues/11322)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This should fix #11256 and #11271.
-  
-  Tested manually with various combination of `window-width/height` and
-  `macos-titlebar-style`.
-  
-  
-  https://github.com/user-attachments/assets/90c12728-b195-47bf-abfd-8a4034b1e7a2
-  
-  
-  ### AI Disclosure
-  
-  All the commits are generated by Claude, but orchestrated and manually
-  tested by myself.
-  ```
-- [`3782d11`](https://github.com/ghostty-org/ghostty/commit/3782d118e1123c839eaff139bceb268ba5892bc7) macOS: restore keyboard focus after inline tab title edit ([#11320](https://github.com/ghostty-org/ghostty/issues/11320)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  - After finishing an inline tab title edit (via keybind or
-  double-click), all keyboard input is lost because
-  `TabTitleEditor.finishEditing()` sets `makeFirstResponder(nil)`, leaving
-  the window itself as first responder with no path back to the terminal
-  surface.
-  - Adds a `tabTitleEditorDidFinishEditing` delegate callback to
-  `TabTitleEditorDelegate` that fires after every edit (commit or cancel).
-  - `TerminalWindow` implements it by calling
-  `makeFirstResponder(focusedSurface)` to restore keyboard focus to the
-  terminal.
-  
-  Fixes https://github.com/ghostty-org/ghostty/discussions/11315
-  
-  ## Testing
-  
-  - [x] Bind `prompt_tab_title` to a keybind (e.g. `keybind =
-  cmd+shift+i=prompt_tab_title`)
-  - [x] Trigger inline tab title edit via keybind, press Enter — verify
-  keyboard input works immediately
-  - [x] Trigger inline tab title edit via keybind, press Escape — verify
-  keyboard input works immediately
-  - [x] Double-click a tab title, press Enter — verify keyboard input
-  works immediately
-  - [x] Double-click a tab title, press Escape — verify keyboard input
-  works immediately
-  - [x] Verify Cmd+number tab switching works after all of the above
-  - [x] Verify split pane focus is correct after editing tab title with
-  splits open
-  
-  AI disclosure: Codebase exploration and review via [Claude
-  Code](https://claude.com/claude-code)
-  ```
-- [`f8f431b`](https://github.com/ghostty-org/ghostty/commit/f8f431ba67e32b7fa0d63c54bc736d55cf27532f) docs: update bell-features docs for macOS ([@jcollie](https://github.com/jcollie))
-  ```text
-  PR #11154 didn't fully update the docs regarding `bell-features=audio`
-  on macOS.
-  ```
-- [`e11f350`](https://github.com/ghostty-org/ghostty/commit/e11f350e8eb81ceda33a8267b6181c50e5be2789) docs: update bell-features docs for macOS ([#11279](https://github.com/ghostty-org/ghostty/issues/11279)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  PR #11154 didn't fully update the docs regarding `bell-features=audio`
-  on macOS.
-  ```
-- [`6c73091`](https://github.com/ghostty-org/ghostty/commit/6c7309196fef805e1d0fbb0ce82944aab8edda7d) Update VOUCHED list ([#11321](https://github.com/ghostty-org/ghostty/issues/11321)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11320#issuecomment-4031703556)
-  from @mitchellh.
-  
-  Vouch: @chronologos
-  ```
-- [`c83dea4`](https://github.com/ghostty-org/ghostty/commit/c83dea49fd1c4b89eee2956f8638b80122596bdc) Update VOUCHED list ([#11318](https://github.com/ghostty-org/ghostty/issues/11318)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11309#discussioncomment-16069391)
-  from @mitchellh.
-  
-  Vouch: @dzhlobo
-  ```
-- [`327783f`](https://github.com/ghostty-org/ghostty/commit/327783ff6c86c5843eedaab20c7f394e4396daa4) Update VOUCHED list ([#11314](https://github.com/ghostty-org/ghostty/issues/11314)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11287#discussioncomment-16069141)
-  from @mitchellh.
-  
-  Vouch: @ocean6954
   ```
 
