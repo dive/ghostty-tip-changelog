@@ -8,15 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 17, 2026 at 15:24 UTC.
+> Last updated: March 17, 2026 at 18:20 UTC.
 
 ## March 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [2](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [3](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
-Summary: 3 runs • 5 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23208321171), [2](https://github.com/ghostty-org/ghostty/actions/runs/23205740733), [3](https://github.com/ghostty-org/ghostty/actions/runs/23202794242), [4](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [5](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [6](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
+Summary: 6 runs • 12 commits • 7 authors
 
 ### Changes
 
+- [`978abde`](https://github.com/ghostty-org/ghostty/commit/978abdeebc4b346b8e9bc4395234b7bb046dc87f) Fix tmux control block terminator parsing ([@wyounas](https://github.com/wyounas))
+- [`4a88f46`](https://github.com/ghostty-org/ghostty/commit/4a88f460c4e505deeca7e4fea4135e958be06c74) terminal/tmux: stylistic cleanups ([@mitchellh](https://github.com/mitchellh))
+- [`d9070db`](https://github.com/ghostty-org/ghostty/commit/d9070dbee202bcf86411c8cbd2bd157609c9aee2) Fix tmux control parser premature %end/%error block termination ([#11597](https://github.com/ghostty-org/ghostty/issues/11597)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes [#11935.](https://github.com/ghostty-org/ghostty/issues/11395)
+  
+  I’m new to Zig, so I used AI assistance (Codex) while preparing this
+  change. Before opening this PR, I manually reviewed every line of the
+  final patch and stepped through the parser in LLDB to verify the
+  behavior. Happy to make any changes.
+  
+  To better understand the parser, I also built a small model-checker
+  model
+  [here](https://gist.github.com/wyounas/284036272ba5893b6e413cafe2fe2a24).
+  
+  Separately from this fix, I think formal verification and modeling could
+  be useful for parser work in Ghostty. The model is written in FizzBee,
+  which uses a Python-like Starlark syntax and is fairly readable. If that
+  seems useful, I’d be happy to open a separate discussion about whether
+  something like that belongs in the repository as executable
+  documentation or an additional safety net for future parser changes.
+  ```
+- [`b173b2d`](https://github.com/ghostty-org/ghostty/commit/b173b2dfb72e89075b4abc01587f059202692248) Update VOUCHED list ([#11599](https://github.com/ghostty-org/ghostty/issues/11599)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11594#discussioncomment-16180979)
+  from @jcollie.
+  
+  Vouch: @heddxh
+  ```
+- [`3e0d434`](https://github.com/ghostty-org/ghostty/commit/3e0d434e8a52577a1296acd29495924253497894) zsh: use OSC 133;P;k=s for secondary prompts ([@jparise](https://github.com/jparise))
+  ```text
+  This is consistent with our bash prompt handling and also lets us
+  simplify our multiline prompt logic (because it no longer needs to work
+  around 133;A's fresh-line behavior).
+  ```
+- [`3a65bd5`](https://github.com/ghostty-org/ghostty/commit/3a65bd5c4f1c4a2773bf520fe79da78f7cd40187) zsh: use OSC 133;P;k=s for secondary prompts ([#11596](https://github.com/ghostty-org/ghostty/issues/11596)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is consistent with our bash prompt handling and also lets us
+  simplify our multiline prompt logic (because it no longer needs to work
+  around 133;A's fresh-line behavior).
+  ```
+- [`739da49`](https://github.com/ghostty-org/ghostty/commit/739da492b8f21e8b129434ae2b2f685510d19587) Update VOUCHED list ([#11598](https://github.com/ghostty-org/ghostty/issues/11598)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11537#issuecomment-4075954392)
+  from @mitchellh.
+  
+  Unvouch: @cadebrown
+  ```
 - [`7916227`](https://github.com/ghostty-org/ghostty/commit/79162279d9d8a5fea5a26bbc2abda98e90ec5988) gtk: move audio playback into separate file, enabling reuse ([@jcollie](https://github.com/jcollie))
 - [`71d6f08`](https://github.com/ghostty-org/ghostty/commit/71d6f08e9bf51965fb8b5ef6f0ea58633692c9a0) gtk: move audio playback into separate file, enabling reuse ([#11588](https://github.com/ghostty-org/ghostty/issues/11588)) ([@pluiedev](https://github.com/pluiedev))
 - [`9f4e42a`](https://github.com/ghostty-org/ghostty/commit/9f4e42a52377a77c8e2f3ce5ce7ce26009947917) Update VOUCHED list ([#11587](https://github.com/ghostty-org/ghostty/issues/11587)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
