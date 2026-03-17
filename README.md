@@ -8,7 +8,218 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 17, 2026 at 00:22 UTC.
+> Last updated: March 17, 2026 at 03:48 UTC.
+
+## March 17, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [2](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`9f4e42a`](https://github.com/ghostty-org/ghostty/commit/9f4e42a52377a77c8e2f3ce5ce7ce26009947917) Update VOUCHED list ([#11587](https://github.com/ghostty-org/ghostty/issues/11587)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11585#discussioncomment-16170774)
+  from @jcollie.
+  
+  Vouch: @heaths
+  ```
+- [`67dcac0`](https://github.com/ghostty-org/ghostty/commit/67dcac02f9b4c40745f374d7f77d71761d21616d) build(deps): bump softprops/action-gh-release from 2.6.0 to 2.6.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 2.6.0 to 2.6.1.
+  - [Release notes](https://github.com/softprops/action-gh-release/releases)
+  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/softprops/action-gh-release/compare/26e8ad27a09a225049a7075d7ec1caa2df6ff332...153bb8e04406b158c6c84fc1615b65b24149a1fe)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: softprops/action-gh-release
+    dependency-version: 2.6.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`5e0db1b`](https://github.com/ghostty-org/ghostty/commit/5e0db1b60586d43ebaa2c7b9b7b9340183dcd305) build(deps): bump softprops/action-gh-release from 2.6.0 to 2.6.1 ([#11582](https://github.com/ghostty-org/ghostty/issues/11582)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
+  from 2.6.0 to 2.6.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v2.6.1</h2>
+  <p><code>2.6.1</code> is a patch release focused on restoring linked
+  discussion thread creation when
+  <code>discussion_category_name</code> is set. It fixes
+  <code>[#764](https://github.com/softprops/action-gh-release/issues/764)</code>,
+  where the draft-first publish flow
+  stopped carrying the discussion category through the final publish
+  step.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: preserve discussion category on publish by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/765">softprops/action-gh-release#765</a></li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h2>2.6.1</h2>
+  <p><code>2.6.1</code> is a patch release focused on restoring linked
+  discussion thread creation when
+  <code>discussion_category_name</code> is set. It fixes
+  <code>[#764](https://github.com/softprops/action-gh-release/issues/764)</code>,
+  where the draft-first publish flow
+  stopped carrying the discussion category through the final publish
+  step.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: preserve discussion category on publish by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/765">softprops/action-gh-release#765</a></li>
+  </ul>
+  <h2>2.6.0</h2>
+  <p><code>2.6.0</code> is a minor release centered on
+  <code>previous_tag</code> support for
+  <code>generate_release_notes</code>,
+  which lets workflows pin GitHub's comparison base explicitly instead of
+  relying on the default range.
+  It also includes the recent concurrent asset upload recovery fix, a
+  <code>working_directory</code> docs sync,
+  a checked-bundle freshness guard for maintainers, and clearer
+  immutable-prerelease guidance where
+  GitHub platform behavior imposes constraints on how prerelease asset
+  uploads can be published.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Exciting New Features 🎉</h3>
+  <ul>
+  <li>feat: support previous_tag for generate_release_notes by <a
+  href="https://github.com/pocesar"><code>@​pocesar</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/372">softprops/action-gh-release#372</a></li>
+  </ul>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: recover concurrent asset metadata 404s by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/760">softprops/action-gh-release#760</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>docs: clarify reused draft release behavior by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/759">softprops/action-gh-release#759</a></li>
+  <li>docs: clarify working_directory input by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/761">softprops/action-gh-release#761</a></li>
+  <li>ci: verify dist bundle freshness by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/762">softprops/action-gh-release#762</a></li>
+  <li>fix: clarify immutable prerelease uploads by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/763">softprops/action-gh-release#763</a></li>
+  </ul>
+  <h2>2.5.3</h2>
+  <p><code>2.5.3</code> is a patch release focused on the remaining
+  path-handling and release-selection bugs uncovered after
+  <code>2.5.2</code>.
+  It fixes
+  <code>[#639](https://github.com/softprops/action-gh-release/issues/639)</code>,
+  <code>[#571](https://github.com/softprops/action-gh-release/issues/571)</code>,
+  <code>[#280](https://github.com/softprops/action-gh-release/issues/280)</code>,
+  <code>[#614](https://github.com/softprops/action-gh-release/issues/614)</code>,
+  <code>[#311](https://github.com/softprops/action-gh-release/issues/311)</code>,
+  <code>[#403](https://github.com/softprops/action-gh-release/issues/403)</code>,
+  and
+  <code>[#368](https://github.com/softprops/action-gh-release/issues/368)</code>.
+  It also adds documentation clarifications for
+  <code>[#541](https://github.com/softprops/action-gh-release/issues/541)</code>,
+  <code>[#645](https://github.com/softprops/action-gh-release/issues/645)</code>,
+  <code>[#542](https://github.com/softprops/action-gh-release/issues/542)</code>,
+  <code>[#393](https://github.com/softprops/action-gh-release/issues/393)</code>,
+  and
+  <code>[#411](https://github.com/softprops/action-gh-release/issues/411)</code>,
+  where the current behavior is either usage-sensitive or constrained by
+  GitHub platform limits rather than an action-side runtime bug.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/153bb8e04406b158c6c84fc1615b65b24149a1fe"><code>153bb8e</code></a>
+  release 2.6.1</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/569deb874d08cd8cc0aa24af7c0b21160fe4b0e4"><code>569deb8</code></a>
+  fix: preserve discussion category when publishing releases (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/765">#765</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/softprops/action-gh-release/compare/26e8ad27a09a225049a7075d7ec1caa2df6ff332...153bb8e04406b158c6c84fc1615b65b24149a1fe">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=2.6.0&new-version=2.6.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## March 16, 2026
 
