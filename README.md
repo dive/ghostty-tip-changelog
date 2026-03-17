@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 17, 2026 at 03:48 UTC.
+> Last updated: March 17, 2026 at 06:23 UTC.
 
 ## March 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [2](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [2](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [3](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
+Summary: 3 runs • 5 commits • 5 authors
 
 ### Changes
 
+- [`7916227`](https://github.com/ghostty-org/ghostty/commit/79162279d9d8a5fea5a26bbc2abda98e90ec5988) gtk: move audio playback into separate file, enabling reuse ([@jcollie](https://github.com/jcollie))
+- [`71d6f08`](https://github.com/ghostty-org/ghostty/commit/71d6f08e9bf51965fb8b5ef6f0ea58633692c9a0) gtk: move audio playback into separate file, enabling reuse ([#11588](https://github.com/ghostty-org/ghostty/issues/11588)) ([@pluiedev](https://github.com/pluiedev))
 - [`9f4e42a`](https://github.com/ghostty-org/ghostty/commit/9f4e42a52377a77c8e2f3ce5ce7ce26009947917) Update VOUCHED list ([#11587](https://github.com/ghostty-org/ghostty/issues/11587)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
