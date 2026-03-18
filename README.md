@@ -8,15 +8,88 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 17, 2026 at 21:12 UTC.
+> Last updated: March 18, 2026 at 00:23 UTC.
 
-## March 17, 2026
+## March 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23208321171), [2](https://github.com/ghostty-org/ghostty/actions/runs/23205740733), [3](https://github.com/ghostty-org/ghostty/actions/runs/23202794242), [4](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [5](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [6](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
-Summary: 6 runs • 12 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
+Summary: 1 runs • 3 commits • 1 authors
 
 ### Changes
 
+- [`a1d7ad9`](https://github.com/ghostty-org/ghostty/commit/a1d7ad92434a6c1c5b5a2b436a15e0573790b6cc) terminal: extract size report encoder ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Size report escape sequences were previously formatted inline in
+  Termio.sizeReportLocked, and termio.Message carried a duplicate enum for
+  report styles. That made the encoding logic harder to reuse and kept
+  the style type scoped to termio.
+  
+  Move the encoding into terminal.size_report and export it through
+  terminal.main. The encoder now takes renderer.Size directly and derives
+  grid and pixel dimensions from one source of truth. termio.Message now
+  aliases terminal.size_report.Style, and Termio writes reports via the
+  shared encoder.
+  ```
+- [`7bf8974`](https://github.com/ghostty-org/ghostty/commit/7bf89740dd86c28f40c2d5ab9cd001cbf41b864a) vt: expose size_report encoding in the C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_size_report_encode() to libghostty-vt, following the
+  same pattern as focus encoding: a single stateless function that
+  writes a terminal size report escape sequence into a caller-provided
+  buffer.
+  
+  The size_report.zig Style enum and Size struct now use lib.Enum and
+  lib.Struct so the types are automatically C-compatible when building
+  with c_abi, eliminating the need for duplicate type definitions in
+  the C wrapper. The C wrapper in c/size_report.zig re-exports these
+  types directly and provides the callconv(.c) encode entry point.
+  
+  Supports mode 2048 in-band reports and XTWINOPS responses (CSI 14 t,
+  CSI 16 t, CSI 18 t).
+  ```
+- [`d3bd224`](https://github.com/ghostty-org/ghostty/commit/d3bd224081d3c7c5ee54df6815e44f0b5d25357b) terminal/vt: extract size report encoding to its own file ([#11607](https://github.com/ghostty-org/ghostty/issues/11607)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Extract size report encoding into a reusable module and expose it
+  through the libghostty-vt C API as `ghostty_size_report_encode()`.
+  
+  Size report escape sequences (mode 2048 in-band reports, XTWINOPS CSI
+  14/16/18 t responses) were formatted inline in
+  `Termio.sizeReportLocked`, and `termio.Message` carried its own
+  duplicate enum for report styles. This made the encoding logic
+  impossible to reuse from the C library and kept the style type
+  unnecessarily scoped to termio.
+  
+  ## Example
+  
+  ```c
+  GhosttySizeReportSize size = {
+      .rows = 24, .columns = 80,
+      .cell_width = 9, .cell_height = 18,
+  };
+  
+  char buf[64];
+  size_t written = 0;
+  ghostty_size_report_encode(
+      GHOSTTY_SIZE_REPORT_MODE_2048, size,
+      buf, sizeof(buf), &written);
+  // buf contains: "\x1b[48;24;80;432;720t"
+  ```
+  ````
+
+## March 17, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23216414166), [2](https://github.com/ghostty-org/ghostty/actions/runs/23208321171), [3](https://github.com/ghostty-org/ghostty/actions/runs/23205740733), [4](https://github.com/ghostty-org/ghostty/actions/runs/23202794242), [5](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [6](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [7](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
+Summary: 7 runs • 13 commits • 7 authors
+
+### Changes
+
+- [`45ccc69`](https://github.com/ghostty-org/ghostty/commit/45ccc69a4984af7dcda08ec34920b6a78031fee1) Update VOUCHED list ([#11605](https://github.com/ghostty-org/ghostty/issues/11605)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11603#discussioncomment-16184007)
+  from @jcollie.
+  
+  Vouch: @philocalyst
+  ```
 - [`978abde`](https://github.com/ghostty-org/ghostty/commit/978abdeebc4b346b8e9bc4395234b7bb046dc87f) Fix tmux control block terminator parsing ([@wyounas](https://github.com/wyounas))
 - [`4a88f46`](https://github.com/ghostty-org/ghostty/commit/4a88f460c4e505deeca7e4fea4135e958be06c74) terminal/tmux: stylistic cleanups ([@mitchellh](https://github.com/mitchellh))
 - [`d9070db`](https://github.com/ghostty-org/ghostty/commit/d9070dbee202bcf86411c8cbd2bd157609c9aee2) Fix tmux control parser premature %end/%error block termination ([#11597](https://github.com/ghostty-org/ghostty/issues/11597)) ([@mitchellh](https://github.com/mitchellh))
@@ -2237,439 +2310,5 @@ Summary: 7 runs • 23 commits • 5 authors
   Track menu items populated from Ghostty keybind actions and only trigger
   those from SurfaceView performKeyEquivalent. This avoids app-default
   shortcuts such as Hide from pre-empting explicit keybinds.
-  ```
-
-## March 11, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/22970467471), [2](https://github.com/ghostty-org/ghostty/actions/runs/22967683770), [3](https://github.com/ghostty-org/ghostty/actions/runs/22964898207), [4](https://github.com/ghostty-org/ghostty/actions/runs/22964025677), [5](https://github.com/ghostty-org/ghostty/actions/runs/22963156248), [6](https://github.com/ghostty-org/ghostty/actions/runs/22961429369), [7](https://github.com/ghostty-org/ghostty/actions/runs/22957941413), [8](https://github.com/ghostty-org/ghostty/actions/runs/22945785511), [9](https://github.com/ghostty-org/ghostty/actions/runs/22945215801), [10](https://github.com/ghostty-org/ghostty/actions/runs/22942691693), [11](https://github.com/ghostty-org/ghostty/actions/runs/22934741901), [12](https://github.com/ghostty-org/ghostty/actions/runs/22934034203)  
-Summary: 12 runs • 38 commits • 10 authors
-
-### Changes
-
-- [`0f745b5`](https://github.com/ghostty-org/ghostty/commit/0f745b56730ae0eff4de2e40e959d432cbdcb004) Update VOUCHED list ([#11389](https://github.com/ghostty-org/ghostty/issues/11389)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11388#discussioncomment-16087905)
-  from @jcollie.
-  
-  Vouch: @wyounas
-  ```
-- [`fe98f38`](https://github.com/ghostty-org/ghostty/commit/fe98f3884d7dd72f0988949ab661beb018a191b4) macos: only show split grab handle when the mouse is near it ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11379
-  
-  For this pass, I made it a very simple "within 20%" (height-wise) of the
-  split handle. There is no horizontal component. I want to find the right
-  balance between always visible (today mostly) to only visible on direct
-  hover, because I think it'll be too hard to discover on that far right
-  side.
-  ```
-- [`a0d3566`](https://github.com/ghostty-org/ghostty/commit/a0d3566872c3bca4a139be3a49aaa9944040f95c) macos: only show split grab handle when the mouse is near it ([#11383](https://github.com/ghostty-org/ghostty/issues/11383)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11379
-  
-  For this pass, I made it a very simple "within 20%" (height-wise) of the
-  split handle down. There is no horizontal component. I want to find the
-  right balance between always visible (today mostly) to only visible on
-  direct hover, because I think it'll be too hard to discover on that far
-  right side.
-  ```
-- [`9503fa0`](https://github.com/ghostty-org/ghostty/commit/9503fa0786d3e79a5862361ae59db6d5972b4eae) nix: bump zig-overlay version ([@faukah](https://github.com/faukah))
-- [`0af9938`](https://github.com/ghostty-org/ghostty/commit/0af9938ad2f2fb84d8e00501716933029bc0ba65) macos: add UI test for window position restore across titlebar styles ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Tests that window position and size are correctly restored after
-  reopen for all four macos-titlebar-style variants.
-  ```
-- [`e8c82ca`](https://github.com/ghostty-org/ghostty/commit/e8c82ca1af29a8e911f328abe89bcc2650ec1705) macOS: save frame only if the window is visible ([@bo2themax](https://github.com/bo2themax))
-- [`45d360d`](https://github.com/ghostty-org/ghostty/commit/45d360dc6879a80ca55f6f01ea36d9161732e099) macOS: set the initial window position after window is loaded ([@bo2themax](https://github.com/bo2themax))
-- [`596d502`](https://github.com/ghostty-org/ghostty/commit/596d502a756ce6454093b5d0782bc17d700804ab) macOS: restore window frame under certain conditions ([@bo2themax](https://github.com/bo2themax))
-- [`e31615d`](https://github.com/ghostty-org/ghostty/commit/e31615d00bf3811bdba4ae697c80fcb1ede3817a) bash: fix extra newlines with readline vi mode indicator ([@jparise](https://github.com/jparise))
-  ```text
-  Use OSC 133;P (prompt mark) instead of 133;A (fresh line + prompt mark)
-  inside PS1 and PS2. Readline redraws the prompt on vi mode switches,
-  Ctrl-L, and other events, and 133;A's fresh-line behavior would emit a
-  CR+LF whenever the cursor wasn't at column 0, causing visible extra
-  newlines.
-  
-  The one-time 133;A is now emitted via printf in __ghostty_precmd, which
-  only runs once per prompt cycle via PROMPT_COMMAND. On SIGWINCH, bash
-  redraws PS1 (firing the 133;P marks) but doesn't re-run PROMPT_COMMAND,
-  so there's no unwanted fresh-line on resize either. The redraw=last flag
-  persists from the initial printf.
-  
-  This is a little less optimal than our previous approach, in terms of
-  number of prompt marks we emit, but it produces an overall more correct
-  result, which is the important thing.
-  
-  Because readline prints its output outside the scope of PS1, those
-  characters "inherit" the surrounded prompt scope. This is usually fine,
-  but it can sometimes get out of sync (especially during redraws). This
-  is inherently a limitation of the fact that it's a separate output
-  channel, so we just have to accept that can happen.
-  
-  See: #11267
-  ```
-- [`7aff470`](https://github.com/ghostty-org/ghostty/commit/7aff470ceb220fbf58fd7e76cc7e342c7011d629) bash: fix extra newlines with readline vi mode indicator ([#11377](https://github.com/ghostty-org/ghostty/issues/11377)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Use OSC 133;P (prompt mark) instead of 133;A (fresh line + prompt mark)
-  inside PS1 and PS2. Readline redraws the prompt on vi mode switches,
-  Ctrl-L, and other events, and 133;A's fresh-line behavior would emit a
-  CR+LF whenever the cursor wasn't at column 0, causing visible extra
-  newlines.
-  
-  The one-time 133;A is now emitted via printf in __ghostty_precmd, which
-  only runs once per prompt cycle via PROMPT_COMMAND. On SIGWINCH, bash
-  redraws PS1 (firing the 133;P marks) but doesn't re-run PROMPT_COMMAND,
-  so there's no unwanted fresh-line on resize either. The redraw=last flag
-  persists from the initial printf.
-  
-  This is a little less optimal than our previous approach, in terms of
-  number of prompt marks we emit, but it produces an overall more correct
-  result, which is the important thing.
-  
-  Because readline prints its output outside the scope of PS1, those
-  characters "inherit" the surrounded prompt scope. This is usually fine,
-  but it can sometimes get out of sync (especially during redraws). This
-  is inherently a limitation of the fact that it's a separate output
-  channel, so we just have to accept that can happen.
-  
-  Fixes: #10953
-  See: #11267
-  ```
-- [`12bc1e7`](https://github.com/ghostty-org/ghostty/commit/12bc1e786052a31d6f50cdbb0a703b45371a182d) macos: only show the grab handle in fullscreen if there are splits ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11376
-  ```
-- [`2296a82`](https://github.com/ghostty-org/ghostty/commit/2296a82c13f3621f25c2a5bb78280a80ac6c56b8) macOS: fix window frame when (re)opening new window ([#11380](https://github.com/ghostty-org/ghostty/issues/11380)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Claude wrote the fail path in the UI tests, or you can easily reproduce
-  this manually. This is kinda a regression after #11322, since we are not
-  delaying the frame update anymore, which exposes some of the "flaws" of
-  the previous implementation.
-  
-  The following three commits fix this step by step:
-  - We shouldn't save intermediate frames when the window is loading,
-  which is triggered by `windowDidResize` and `windowDidMove` during the
-  process.
-  - We should set the initial position (from the config) after the window
-  is loaded.
-  - A small refactor on `LastWindowPosition` to support restoring the
-  window frame under certain conditions.
-  
-  
-  https://github.com/user-attachments/assets/6f90f9a5-653d-4146-95c6-8e5c69bda656
-  
-  
-  
-  ### AI Disclosure
-  
-  Claude helped me write the UI tests.
-  ```
-- [`19e5053`](https://github.com/ghostty-org/ghostty/commit/19e5053b28c524317c77d482a65b68f56fe372a4) macos: only show the grab handle in fullscreen if there are splits ([#11381](https://github.com/ghostty-org/ghostty/issues/11381)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11376
-  ```
-- [`36c1450`](https://github.com/ghostty-org/ghostty/commit/36c1450dc950c67e9acb008dd778d4ad813835df) nix: bump zig-overlay version ([#11375](https://github.com/ghostty-org/ghostty/issues/11375)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Bump of `zig-overlay`, allowing us to drop flake-utils from the flake
-  inputs. :)
-  ```
-- [`86c2a2e`](https://github.com/ghostty-org/ghostty/commit/86c2a2e87faa5996ac856c65718c0765be3fa3d0) input: add direct set_surface_title and set_tab_title actions ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11316
-  
-  This mirrors the `prompt` actions (hence why there is no window action
-  here) and enables setting titles via keybind actions which importantly
-  lets this work via command palettes, App Intents, AppleScript, etc.
-  ```
-- [`8ad9ec8`](https://github.com/ghostty-org/ghostty/commit/8ad9ec8e8806af12534080a38decc73322c877fe) add direct set_surface_title and set_tab_title actions ([#11373](https://github.com/ghostty-org/ghostty/issues/11373)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11316
-  
-  This mirrors the `prompt` actions (hence why there is no window action
-  here) and enables setting titles via keybind actions which importantly
-  lets this work via command palettes, App Intents, AppleScript, etc.
-  ```
-- [`f571c80`](https://github.com/ghostty-org/ghostty/commit/f571c806fec71a7de5b5ca0afc35eed92fa3cf9f) ci: skip vouched PRs for milestone attachment ([@mitchellh](https://github.com/mitchellh))
-- [`d48b6ba`](https://github.com/ghostty-org/ghostty/commit/d48b6ba085eb96d2253e8a7f00c12e942a362a54) ci: skip vouched PRs for milestone attachment ([#11371](https://github.com/ghostty-org/ghostty/issues/11371)) ([@mitchellh](https://github.com/mitchellh))
-- [`a8d38fe`](https://github.com/ghostty-org/ghostty/commit/a8d38fe5d807e8cf18f99dcef117355d02048d7c) Update VOUCHED list ([#11374](https://github.com/ghostty-org/ghostty/issues/11374)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11372#discussioncomment-16086042)
-  from @mitchellh.
-  
-  Vouch: @faukah
-  ```
-- [`26d8bd9`](https://github.com/ghostty-org/ghostty/commit/26d8bd9e71c27f1f7f31a1079bee3ca79e79b205) bash: fix multiline PS1 with command substitutions ([@jparise](https://github.com/jparise))
-  ```text
-  Only replace the \n prompt escape when inserting secondary prompt marks,
-  not literal newlines ($'\n'). Literal newlines may appear inside $(...)
-  or `...` command substitutions, and inserting escape sequences there
-  breaks the shell syntax. For example:
-  
-        PS1='$(if [ $? -eq 0 ]; then echo -e "P";
-                      else echo -e "F";
-                      fi) $ '
-  
-  The literal newlines between the if/else/fi are part of the shell syntax
-  inside the command substitution. The previous code replaced all literal
-  newlines in PS1 with newline + OSC 133 escape sequences, which injected
-  terminal escapes into the middle of the command substitution and caused
-  bash to report a syntax error when evaluating it.
-  
-  The \n prompt escape is PS1-specific and safe to replace globally. This
-  means prompts using literal newlines for line breaks (rather than \n)
-  won't get per-line secondary marks, but this is the conventional form
-  and avoids the need for complex shell parsing.
-  
-  Fixes: #11267
-  ```
-- [`660767c`](https://github.com/ghostty-org/ghostty/commit/660767c77d077c1b7cef441fc2fa44f7dd666b08) bash: fix multiline PS1 with command substitutions ([#11369](https://github.com/ghostty-org/ghostty/issues/11369)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Only replace the \n prompt escape when inserting secondary prompt marks,
-  not literal newlines `($'\n')`. Literal newlines may appear inside
-  `$(...)` or `...` command substitutions, and inserting escape sequences
-  there breaks the shell syntax. For example:
-  
-        PS1='$(if [ $? -eq 0 ]; then echo -e "P";
-                      else echo -e "F";
-                      fi) $ '
-  
-  The literal newlines between the if/else/fi are part of the shell syntax
-  inside the command substitution. The previous code replaced all literal
-  newlines in PS1 with newline + OSC 133 escape sequences, which injected
-  terminal escapes into the middle of the command substitution and caused
-  bash to report a syntax error when evaluating it.
-  
-  The \n prompt escape is PS1-specific and safe to replace globally. This
-  means prompts using literal newlines for line breaks (rather than \n)
-  won't get per-line secondary marks, but this is the conventional form
-  and avoids the need for complex shell parsing.
-  
-  Fixes: #11267
-  ```
-- [`23f3cd5`](https://github.com/ghostty-org/ghostty/commit/23f3cd5f101fedcff6350648f8ba3993e6c55d90) zsh: improve prompt marking with dynamic themes ([@jparise](https://github.com/jparise))
-  ```text
-  Replace the strip-in-preexec / re-add-in-precmd pattern for OSC 133
-  marks with a save/restore approach. Instead of pattern-matching marks
-  out of PS1 (which exposes PS1 in intermediate states to other hooks), we
-  save the original PS1/PS2 before adding marks and then restore them.
-  
-  This also adds dynamic theme detection: if PS1 changed between cycles
-  (e.g., a theme rebuilt it), we skip injecting continuation marks into
-  newlines. This prevents breaking plugins like Pure that use pattern
-  matching to strip/rebuild the prompt.
-  
-  Additionally, move _ghostty_precmd to the end of precmd_functions in
-  _ghostty_deferred_init (instead of substituting in-place) so that the
-  first prompt is properly marked even when other hooks were appended
-  after our auto-injection.
-  
-  There's one scenario that we still don't complete cover:
-  
-      precmd_functions+=(_test_overwrite_ps1)
-      _test_overwrite_ps1() {
-          PS1="test> "
-      }
-  
-  ... which results in the first prompt not printing its prompt marks
-  because _test_overwrite_ps1 becomes the last thing to run, overwriting
-  our marks, but this will be fixed for subsequent prompts when we move
-  our handler back to the last index.
-  
-  Fixes: #11282
-  ```
-- [`87e496b`](https://github.com/ghostty-org/ghostty/commit/87e496b30ff62a08e6dbdea651d86ea18b50493a) Update VOUCHED list ([#11368](https://github.com/ghostty-org/ghostty/issues/11368)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11365#issuecomment-4039534706)
-  from @mitchellh.
-  
-  Vouch: @ydah
-  ```
-- [`c220654`](https://github.com/ghostty-org/ghostty/commit/c2206542d3bcb1b88eb4196620e553dad0717ca4) macos: fix tab title rename hit testing and focus handling in fullscreen mode ([@ydah](https://github.com/ydah))
-- [`048a2d0`](https://github.com/ghostty-org/ghostty/commit/048a2d043a84eca4e67345eab2cdacb1a6390a70) Merge fix-fullscreen-tab-title-rename-hit into main ([@mitchellh](https://github.com/mitchellh))
-- [`61865bc`](https://github.com/ghostty-org/ghostty/commit/61865bc37facf68056c4d0545a1dc4829550a8c1) zsh: improve prompt marking with dynamic themes ([#11367](https://github.com/ghostty-org/ghostty/issues/11367)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Replace the strip-in-preexec / re-add-in-precmd pattern for OSC 133
-  marks with a save/restore approach. Instead of pattern-matching marks
-  out of PS1 (which exposes PS1 in intermediate states to other hooks), we
-  save the original PS1/PS2 before adding marks and then restore them.
-  
-  This also adds dynamic theme detection: if PS1 changed between cycles
-  (e.g., a theme rebuilt it), we skip injecting continuation marks into
-  newlines. This prevents breaking plugins like Pure that use pattern
-  matching to strip/rebuild the prompt.
-  
-  Additionally, move _ghostty_precmd to the end of precmd_functions in
-  _ghostty_deferred_init (instead of substituting in-place) so that the
-  first prompt is properly marked even when other hooks were appended
-  after our auto-injection.
-  
-  There's one scenario that we still don't complete cover:
-  
-      precmd_functions+=(_test_overwrite_ps1)
-      _test_overwrite_ps1() {
-          PS1="test> "
-      }
-  
-  ... which results in the first prompt not printing its prompt marks
-  because _test_overwrite_ps1 becomes the last thing to run, overwriting
-  our marks, but this will be fixed for subsequent prompts when we move
-  our handler back to the last index.
-  
-  Fixes: #11282
-  ```
-- [`ad6d366`](https://github.com/ghostty-org/ghostty/commit/ad6d3665c29b7e2db4da7e2a5fe67239d0f3df32) gtk: fix +new-window `--working-directory` inferrence. ([@jcollie](https://github.com/jcollie))
-  ```text
-  If the CLI argument `--working-directory` is not used with
-  `+new-window`, the current working directory that `ghostty +new-window`
-  is run from will be appended to the list of configuration data sent
-  to the main Ghostty process. If `-e` _was_ used on the CLI, the
-  `--working-directory` that was appended will be interpreted as part of
-  the command to be executed, likely causing it to fail.
-  
-  Instead, insert `--working-directory` at the beginning of the list of
-  configuration that it sent to the main Ghostty process.
-  
-  Fixes #11356
-  ```
-- [`76e9ee7`](https://github.com/ghostty-org/ghostty/commit/76e9ee7d376445a04421a7a78f5cc3e4787bcad4) gtk: fix +new-window `--working-directory` inferrence. ([#11357](https://github.com/ghostty-org/ghostty/issues/11357)) ([@pluiedev](https://github.com/pluiedev))
-- [`82a8052`](https://github.com/ghostty-org/ghostty/commit/82a805296c3b45235571ecfa3b75821d9ca264b5) docs: fix backtick rendering in selection-word-chars default value ([@puzza007](https://github.com/puzza007))
-  ```text
-  The default value contains a literal backtick which broke inline code
-  rendering on the website. Use double backtick delimiters to properly
-  contain it.
-  ```
-- [`b992b66`](https://github.com/ghostty-org/ghostty/commit/b992b6605033d888c1c1afcf8015a6bf8cb9e7a5) docs: fix backtick rendering in selection-word-chars default value ([#11361](https://github.com/ghostty-org/ghostty/issues/11361)) ([@pluiedev](https://github.com/pluiedev))
-- [`a644fca`](https://github.com/ghostty-org/ghostty/commit/a644fca5c5e74850312f13ed69f9677556abcd27) Update VOUCHED list ([#11360](https://github.com/ghostty-org/ghostty/issues/11360)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11358#discussioncomment-16080010)
-  from @jcollie.
-  
-  Vouch: @puzza007
-  ```
-- [`6dd5b85`](https://github.com/ghostty-org/ghostty/commit/6dd5b856b05fbcb76f415ad18fbdfac600c3abde) macos: disable Tahoe one-time codes ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This disables all the automatic one-time code inputs in Ghostty.
-  It'd be really neat to actually dynamically change this (not sure if its
-  possible with NSTextContext or how often thats cached) but for now we
-  should just fully disable it.
-  ```
-- [`dc18b25`](https://github.com/ghostty-org/ghostty/commit/dc18b25f86f59c79055ece87e158a5b27f625b05) macos: disable Tahoe one-time codes ([#11351](https://github.com/ghostty-org/ghostty/issues/11351)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This disables all the automatic one-time code inputs in Ghostty. It'd be
-  really neat to actually dynamically change this (not sure if it's
-  possible with NSTextContext or how often thats cached) but for now we
-  should just fully disable it.
-  
-  Thanks to Ricky Mondello for the heads up on this.
-  ```
-- [`3293444`](https://github.com/ghostty-org/ghostty/commit/32934445cfb60e387013f4a7c4293352ac3aae44) macos: add TemporaryConfig for AI to write test cases ([@bo2themax](https://github.com/bo2themax))
-- [`90dc431`](https://github.com/ghostty-org/ghostty/commit/90dc4315e2632faeb9771536cf526c46d33fc539) macos: add test cases for Ghostty.Config properties ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Test boolean, string, enum, and numeric config properties using
-  TemporaryConfig to verify defaults and parsed values.
-  ```
-- [`85bec80`](https://github.com/ghostty-org/ghostty/commit/85bec8033474438182fbb33ded8dfcdcb009ea6a) build(deps): bump cachix/install-nix-action from 31.10.0 to 31.10.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.0 to 31.10.1.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/19effe9fe722874e6d46dd7182e4b8b7a43c4a99...1ca7d21a94afc7c957383a2d217460d980de4934)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.10.1
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`d5dab55`](https://github.com/ghostty-org/ghostty/commit/d5dab554aae398cc4b83c24d93bec20eaccbc5d9) build(deps): bump cachix/install-nix-action from 31.10.0 to 31.10.1 ([#11347](https://github.com/ghostty-org/ghostty/issues/11347)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.10.0 to 31.10.1.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.10.1</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.34.0 -&gt; 2.34.1 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/269">cachix/install-nix-action#269</a>
-  Fixes a bug introduced in 2.34.0 that made the Nix daemon fail to load
-  authentication keys configured by <code>cachix-action</code>.</li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31.10.0...v31.10.1">https://github.com/cachix/install-nix-action/compare/v31.10.0...v31.10.1</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/1ca7d21a94afc7c957383a2d217460d980de4934"><code>1ca7d21</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/269">#269</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/b6137343272cafad497671822066f2a10ded6fef"><code>b613734</code></a>
-  nix: 2.34.0 -&gt; 2.34.1</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/19effe9fe722874e6d46dd7182e4b8b7a43c4a99...1ca7d21a94afc7c957383a2d217460d980de4934">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.0&new-version=31.10.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`2a170b5`](https://github.com/ghostty-org/ghostty/commit/2a170b50c3ec088910645894f2d2e958ec381b42) macos: add test cases for Ghostty.Config properties ([#11263](https://github.com/ghostty-org/ghostty/issues/11263)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ### AI Disclosure
-  
-  Test cases is written using the Claude Agent in Xcode
   ```
 
