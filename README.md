@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 18, 2026 at 12:17 UTC.
+> Last updated: March 18, 2026 at 15:28 UTC.
 
 ## March 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
-Summary: 1 runs • 3 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23248995028), [2](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
+Summary: 2 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`a74f437`](https://github.com/ghostty-org/ghostty/commit/a74f43760edce5a4b51d73c44cc39066cb24539e) Update VOUCHED list ([#11623](https://github.com/ghostty-org/ghostty/issues/11623)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11622#issuecomment-4082875090)
+  from @00-kat.
+  
+  Vouch: @EkaterinePapava
+  ```
 - [`a1d7ad9`](https://github.com/ghostty-org/ghostty/commit/a1d7ad92434a6c1c5b5a2b436a15e0573790b6cc) terminal: extract size report encoder ([@mitchellh](https://github.com/mitchellh))
   ```text
   Size report escape sequences were previously formatted inline in
