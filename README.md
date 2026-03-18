@@ -8,15 +8,110 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 18, 2026 at 15:28 UTC.
+> Last updated: March 18, 2026 at 18:21 UTC.
 
 ## March 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23248995028), [2](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
-Summary: 2 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23257063138), [2](https://github.com/ghostty-org/ghostty/actions/runs/23255200023), [3](https://github.com/ghostty-org/ghostty/actions/runs/23253545237), [4](https://github.com/ghostty-org/ghostty/actions/runs/23248995028), [5](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
+Summary: 5 runs • 17 commits • 5 authors
 
 ### Changes
 
+- [`2d51401`](https://github.com/ghostty-org/ghostty/commit/2d514013d51e9805305b5e93c5bd9eb9ada774a4) fix "open terminal here" action on Plasma ([@heddxh](https://github.com/heddxh))
+- [`4b1e48b`](https://github.com/ghostty-org/ghostty/commit/4b1e48b71e7e7b0317651a8c3173defff9ffffaa) swap arguments ([@heddxh](https://github.com/heddxh))
+- [`c9e1006`](https://github.com/ghostty-org/ghostty/commit/c9e1006213eb9234209924c91285d6863e59ce4c) Fix: correct "Open Ghostty Here" Dolphin action for Plasma ([#11614](https://github.com/ghostty-org/ghostty/issues/11614)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  See #11594
+  
+  The change allows "Open Ghostty Here" Dolphin action to launch new
+  ghostty window with gtk single instance.
+  ```
+- [`1f3a3b4`](https://github.com/ghostty-org/ghostty/commit/1f3a3b41f785d10906678394d13c180657d35210) bash: handle PROMPT_COMMAND ending in a newline ([@jparise](https://github.com/jparise))
+  ```text
+  We need to handle on more case: when an existing PROMPT_COMMAND ends in
+  a newline, we don't want to append a ; because that already counts as a
+  command separator.
+  
+  We now handle all of these PROMPT_COMMAND cases:
+  
+  - Ends with ; — no ; added
+  - Ends with \n or other whitespace — no ; added
+  - Ends with a command name — ; added as separator
+  
+  See: #11245
+  ```
+- [`3dc6998`](https://github.com/ghostty-org/ghostty/commit/3dc69981d2abf7e66eeb973229b86c6bb847c734) bash: handle PROMPT_COMMAND ending in a newline ([#11621](https://github.com/ghostty-org/ghostty/issues/11621)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We need to handle on more case: when an existing PROMPT_COMMAND ends in
+  a newline, we don't want to append a ; because that already counts as a
+  command separator.
+  
+  We now handle all of these PROMPT_COMMAND cases:
+  
+  - Ends with ; — no ; added
+  - Ends with \n or other whitespace — no ; added
+  - Ends with a command name — ; added as separator
+  
+  See: #11245
+  ```
+- [`e01046a`](https://github.com/ghostty-org/ghostty/commit/e01046af158cef2e324ae153e73381d544ed3cc6) docs: extract focus encoding example into standalone project ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extract the inline code example from focus.h into a standalone
+  buildable example at example/c-vt-encode-focus. The header now
+  uses a Doxygen @snippet tag to include the code from the example
+  source file, so the documentation stays in sync with code that
+  is verified to compile and run.
+  ```
+- [`bb3b3ba`](https://github.com/ghostty-org/ghostty/commit/bb3b3ba6150b55c251e05fd205a1da5b8c34ec5f) ci: dynamically discover example directories for build-examples ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace the hardcoded matrix list in the build-examples job with a
+  dynamic list-examples job that discovers all subdirectories under
+  example/ at runtime. This uses ls/jq to produce a JSON array and
+  fromJSON() to feed it into the matrix, so new examples are picked
+  up automatically without updating the workflow.
+  ```
+- [`15b8976`](https://github.com/ghostty-org/ghostty/commit/15b8976d643de69df2168aa99320557e6b95bc02) docs: extract inline code examples into standalone projects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extract inline @code blocks from vt headers (size_report.h, modes.h,
+  sgr.h, paste.h, mouse.h, key.h) into standalone buildable examples
+  under example/. Each header now uses Doxygen @snippet tags to include
+  code from the example source files, keeping documentation in sync
+  with code that is verified to compile and run.
+  
+  New example projects: c-vt-size-report and c-vt-modes. Existing
+  examples (c-vt-sgr, c-vt-paste, c-vt-mouse-encode, c-vt-key-encode)
+  gain snippet markers so their code can be referenced from the headers.
+  Conceptual snippets in key.h, mouse.h, and key/encoder.h that show
+  terminal-state usage patterns remain inline since they cannot be
+  compiled standalone.
+  ```
+- [`ceef806`](https://github.com/ghostty-org/ghostty/commit/ceef8065b02a8cf007e7a6ed3f6e71965fa20ad6) ci: filter build-examples to directories with build.zig.zon ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The dynamic example directory discovery added in bb3b3ba included
+  all subdirectories under example/, but some (wasm-key-encode,
+  wasm-sgr) are pure HTML examples with no build.zig.zon. Running
+  zig build in those directories falls back to the root build.zig
+  and attempts a full GTK binary build, which fails on CI.
+  
+  Filter the listing to only include directories that contain a
+  build.zig.zon file so non-Zig examples are excluded from the
+  build matrix.
+  ```
+- [`f037f41`](https://github.com/ghostty-org/ghostty/commit/f037f41f78fd96a98b4f612f40e117f80af6ca31) Add example AGENTS file ([@mitchellh](https://github.com/mitchellh))
+- [`383a7e1`](https://github.com/ghostty-org/ghostty/commit/383a7e14a7e4043dbfbd45aaa19781bba442952b) example: add README ([@mitchellh](https://github.com/mitchellh))
+- [`996ce03`](https://github.com/ghostty-org/ghostty/commit/996ce03f0b9e9407c0164e4a3c4f341ed91cc817) example: rename some examples ([@mitchellh](https://github.com/mitchellh))
+- [`9e6c875`](https://github.com/ghostty-org/ghostty/commit/9e6c875f334c43f1b1ea4cb8d23c1ec07c6d9f9c) Ensure all examples in libghostty C docs build and run in CI ([#11609](https://github.com/ghostty-org/ghostty/issues/11609)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This moves all our examples away from embedded source to `@snippet` and
+  files so that we can use our CI to actually run the builds and keep them
+  working.
+  
+  Note: I used AI to extract the examples, and it did some weird merging
+  stuff. It all works but I want to make sure all these examples are still
+  human friendly so I need to go back and review all that. I clicked
+  through the web docs and they look good, just need to verify the GitHub
+  flow.
+  ```
 - [`a74f437`](https://github.com/ghostty-org/ghostty/commit/a74f43760edce5a4b51d73c44cc39066cb24539e) Update VOUCHED list ([#11623](https://github.com/ghostty-org/ghostty/issues/11623)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
