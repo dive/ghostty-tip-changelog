@@ -8,15 +8,145 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 19, 2026 at 15:17 UTC.
+> Last updated: March 19, 2026 at 18:17 UTC.
 
 ## March 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23294986782)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23303726826), [2](https://github.com/ghostty-org/ghostty/actions/runs/23294986782)  
+Summary: 2 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`c08a211`](https://github.com/ghostty-org/ghostty/commit/c08a21180aa98ee813bc97bf04e1d0c31ec2f65d) build(deps): bump cachix/cachix-action from 16 to 17 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/cachix-action](https://github.com/cachix/cachix-action) from 16 to 17.
+  - [Release notes](https://github.com/cachix/cachix-action/releases)
+  - [Commits](https://github.com/cachix/cachix-action/compare/3ba601ff5bbb07c7220846facfa2cd81eeee15a1...1eb2ef646ac0255473d23a5907ad7b04ce94065c)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/cachix-action
+    dependency-version: '17'
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`b1ad24e`](https://github.com/ghostty-org/ghostty/commit/b1ad24e24f3c04d854ed2c516fd0b947cf800420) bash: emit 133;P (instead of 133;A) under ble.sh ([@jparise](https://github.com/jparise))
+  ```text
+  ble.sh performs its own cursor positioning so we get multiple newlines
+  with 133;A's fresh-line behavior. ble.sh is a large enough project to
+  justify this additional, unambiguous conditional.
+  
+  See: akinomyoga/ble.sh#684
+  See: wezterm/wezterm#5072
+  ```
+- [`2bbbca3`](https://github.com/ghostty-org/ghostty/commit/2bbbca369d5fc67da8f2084f0b8973ef4619ba78) bash: emit 133;P (instead of 133;A) under ble.sh ([#11644](https://github.com/ghostty-org/ghostty/issues/11644)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ble.sh performs its own cursor positioning so we get multiple newlines
+  with 133;A's fresh-line behavior. ble.sh is a large enough project to
+  justify this additional, unambiguous conditional.
+  
+  See: akinomyoga/ble.sh#684
+  See: wezterm/wezterm#5072
+  ```
+- [`c2e9de2`](https://github.com/ghostty-org/ghostty/commit/c2e9de224eaf09a2ce3e7cb2f6c26d6d577ed8f0) build(deps): bump cachix/cachix-action from 16 to 17 ([#11643](https://github.com/ghostty-org/ghostty/issues/11643)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps [cachix/cachix-action](https://github.com/cachix/cachix-action)
+  from 16 to 17.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/cachix-action/releases">cachix/cachix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v17</h2>
+  <h2>What's Changed</h2>
+  <h3>Breaking changes</h3>
+  <ul>
+  <li>Upgrade action to use Node 24 by <a
+  href="https://github.com/sandydoo"><code>@​sandydoo</code></a> in <a
+  href="https://redirect.github.com/cachix/cachix-action/pull/212">cachix/cachix-action#212</a>
+  <a
+  href="https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/">https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/cachix-action/compare/v16...v17">https://github.com/cachix/cachix-action/compare/v16...v17</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/1eb2ef646ac0255473d23a5907ad7b04ce94065c"><code>1eb2ef6</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/cachix-action/issues/212">#212</a>
+  from cachix/upgrade-node-24</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/75ce400143912180b47fa504676215ca47e1634f"><code>75ce400</code></a>
+  dist: re-build using esbuild targeting node24</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/2b33705a8232e51ac94414b3b8c203d0a5e42ca3"><code>2b33705</code></a>
+  deps: update devenv inputs</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/04937db281cae63d98e660f990648ab4eef1cec1"><code>04937db</code></a>
+  breaking: update action to Node 24</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/ca2e51995f0edefbb31bc858102abd109580c99c"><code>ca2e519</code></a>
+  ci: use 25.11 for tests</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/e7c5c1add25228c774d40ae0adbd520ea7c919c0"><code>e7c5c1a</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/cachix-action/issues/208">#208</a>
+  from cachix/dependabot/github_actions/actions/checkout-6</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/bea8a506457e59a062336709ee10a5677fd9a59e"><code>bea8a50</code></a>
+  ci: allow running tests manually and with a custom nix version</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/2e35755955435b7976b76834528c38a0fcf725c0"><code>2e35755</code></a>
+  chore(deps): bump actions/checkout from 5 to 6</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/cachix-action/compare/3ba601ff5bbb07c7220846facfa2cd81eeee15a1...1eb2ef646ac0255473d23a5907ad7b04ce94065c">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/cachix-action&package-manager=github_actions&previous-version=16&new-version=17)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 - [`c9729fb`](https://github.com/ghostty-org/ghostty/commit/c9729fbd269d72a20eb4a53846dd3cd7ae1dfc4a) ci: use local git commands for path-filter action ([@jparise](https://github.com/jparise))
   ```text
   Passing a `token` value causes this action to use the GitHub REST API,
