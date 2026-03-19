@@ -8,7 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 19, 2026 at 12:12 UTC.
+> Last updated: March 19, 2026 at 15:17 UTC.
+
+## March 19, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23294986782)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`c9729fb`](https://github.com/ghostty-org/ghostty/commit/c9729fbd269d72a20eb4a53846dd3cd7ae1dfc4a) ci: use local git commands for path-filter action ([@jparise](https://github.com/jparise))
+  ```text
+  Passing a `token` value causes this action to use the GitHub REST API,
+  which is subject to rate limits. We can chew through that allowance
+  quickly (1,000 requests/hour) given that we run two of these actions per
+  workflow run.
+  
+  `token` defaults to the workflow's token, but by setting it explicitly
+  to an empty string, the action will instead use `git diff` to determine
+  the modified paths. This works fine for our case because we're already
+  running the checkout action, so we have an up-to-date repository view.
+  
+  This also has the advantage of working around the 300 files GitHub REST
+  API limit for listing changed files.
+  
+  Ref: https://github.com/dorny/paths-filter
+  ```
+- [`69e0673`](https://github.com/ghostty-org/ghostty/commit/69e0673478b4e92d1a5f0a1e1c41091218f853af) ci: use local git commands for path-filter action ([#11652](https://github.com/ghostty-org/ghostty/issues/11652)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Passing a `token` value causes this action to use the GitHub REST API,
+  which is subject to rate limits. We can chew through that allowance
+  quickly (1,000 requests/hour) given that we run two of these actions per
+  workflow run.
+  
+  `token` defaults to the workflow's token, but by setting it explicitly
+  to an empty string, the action will instead use `git diff` to determine
+  the modified paths. This works fine for our case because we're already
+  running the checkout action, so we have an up-to-date repository view.
+  
+  This also has the advantage of working around the 300 files GitHub REST
+  API limit for listing changed files.
+  
+  Ref: https://github.com/dorny/paths-filter
+  ```
 
 ## March 18, 2026
 
