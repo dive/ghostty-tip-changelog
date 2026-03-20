@@ -8,15 +8,344 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 20, 2026 at 15:16 UTC.
+> Last updated: March 20, 2026 at 18:13 UTC.
 
 ## March 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [2](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [3](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [4](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
-Summary: 4 runs • 22 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23353940580), [2](https://github.com/ghostty-org/ghostty/actions/runs/23352929301), [3](https://github.com/ghostty-org/ghostty/actions/runs/23350746193), [4](https://github.com/ghostty-org/ghostty/actions/runs/23349031592), [5](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [6](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [7](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [8](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
+Summary: 8 runs • 49 commits • 8 authors
 
 ### Changes
 
+- [`542d6aa`](https://github.com/ghostty-org/ghostty/commit/542d6aa14d2f9a4d522f3ca614dbcc6264191740) windows: avoid fontconfig and ensure build compiles ([@marler8997](https://github.com/marler8997))
+- [`aac4916`](https://github.com/ghostty-org/ghostty/commit/aac491657be1c17f214a32c6ee0b1a221bf99bd1) windows: avoid fontconfig and ensure build compiles ([#11698](https://github.com/ghostty-org/ghostty/issues/11698)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This changes allows me to use ghostty as a zon dependency when building
+  on windows (for windows). Fixes
+  https://github.com/ghostty-org/ghostty/discussions/11697
+  ```
+- [`a0d7386`](https://github.com/ghostty-org/ghostty/commit/a0d738697e37046b77f3a391b39340a86235a4c0) vt: add c render state api and example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Introduce the first public C render-state surface for libghostty-vt.
+  Before this change, the render-state path was only available in Zig,
+  so C embedders had no direct way to create and update that cache.
+  
+  Add an opaque GhosttyRenderState type with new, update, and free
+  entry points, then wire those symbols through the C API bridge and
+  library exports. Keep the surface intentionally minimal for now so
+  ownership and update behavior are established before adding read
+  accessors.
+  ```
+- [`2876fb7`](https://github.com/ghostty-org/ghostty/commit/2876fb7a555708e8ac6884e4c4d5e251e5ab026a) vt: expose dirty state in C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Switch RenderState.Dirty to lib.Enum so it uses C-compatible enum
+  backing when building the C ABI target. Add GhosttyRenderStateDirty and
+  new ghostty_render_state_dirty_get/set declarations to the render header,
+  then wire both functions through src/terminal/c/main.zig and the lib_vt
+  export table.
+  ```
+- [`b830a0e`](https://github.com/ghostty-org/ghostty/commit/b830a0ee1d2d14f559a08191aa46ecb0ea1b524e) vt: add size getter for render state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_render_state_size_get() to return cols and rows from the
+  current render state using out pointers. The C wrapper validates null
+  inputs, the symbol is wired through the C API export layers, and tests
+  cover success and invalid-value paths.
+  ```
+- [`b35f8ed`](https://github.com/ghostty-org/ghostty/commit/b35f8ed16eeeb401045e139d8c658214aefd3248) vt: expose render state colors in C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a C-facing GhosttyRenderStateColors sized struct and a
+  ghostty_render_state_colors_get accessor so renderers can read
+  background, foreground, cursor color state, and palette data directly
+  from the render state.
+  ```
+- [`ad0e47e`](https://github.com/ghostty-org/ghostty/commit/ad0e47ebac90e4b1b1d4a816c3c7be4ae744688b) vt: cover c row iterator new/free ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a C ABI row-iterator handle for render state with
+  ghostty_render_state_row_iterator_new and
+  ghostty_render_state_row_iterator_free, and wire them through
+  src/terminal/c/main.zig, src/lib_vt.zig, and
+  include/ghostty/vt/render.h. The header now documents only the
+  currently exported iterator API.
+  ```
+- [`f610d7e`](https://github.com/ghostty-org/ghostty/commit/f610d7e00fed12d00c2731781ddabe9f4ef9e39a) vt: add render_row_iterator_next ([@mitchellh](https://github.com/mitchellh))
+- [`2147b9d`](https://github.com/ghostty-org/ghostty/commit/2147b9d65c6f5b04ef784c4c624709ff5c401dba) vt: row dirty tracking ([@mitchellh](https://github.com/mitchellh))
+- [`900afa7`](https://github.com/ghostty-org/ghostty/commit/900afa7b80e68dde673761e58bebf4b494eaae87) fix types ([@mitchellh](https://github.com/mitchellh))
+- [`459583a`](https://github.com/ghostty-org/ghostty/commit/459583a6c396f04d303d24dd635bc947b9204e90) vt: use get/set pattern for render state data access ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace the individual ghostty_render_state_size_get,
+  ghostty_render_state_dirty_get, and ghostty_render_state_dirty_set
+  functions with generic ghostty_render_state_get and
+  ghostty_render_state_set functions that use enum-dispatched data
+  kinds and option kinds, following the same InType/OutType pattern
+  used by the terminal and mouse encoder C APIs.
+  ```
+- [`33e81ff`](https://github.com/ghostty-org/ghostty/commit/33e81ffb7546dbe79bab074e3982ef5d74be4bb4) vt: use get/set pattern for row iterator data access ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace ghostty_render_state_row_dirty_get and
+  ghostty_render_state_row_dirty_set with generic
+  ghostty_render_state_row_get and ghostty_render_state_row_set
+  functions using enum-dispatched data/option kinds.
+  ```
+- [`75b4905`](https://github.com/ghostty-org/ghostty/commit/75b49051a3bb2cd8da564e0a72ef8b0abacf8dc2) vt: add GhosttyRenderStateRowCells opaque type ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new opaque RowCells type that wraps per-row cell data
+  (raw cells, graphemes, styles) for the C API. The caller
+  allocates a RowCells handle via row_cells_new, then populates
+  it by passing it to row_get with the new .cells data kind.
+  This queries the current row from the iterator and slices the
+  underlying MultiArrayList into the RowCellsWrapper fields.
+  
+  The new type and functions are wired through main.zig,
+  lib_vt.zig, and the render.h C header.
+  ```
+- [`ecd1d0d`](https://github.com/ghostty-org/ghostty/commit/ecd1d0d1e1a6337af31400c50bd9767f16636823) vt: decouple row iterator allocation from population ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Change row_iterator_new to only allocate with undefined fields,
+  matching the pattern used by row_cells_new. The iterator is now
+  populated via the render state get API with a new .row_iterator
+  data kind, which slices the row data and resets y to null.
+  
+  This separates the lifetime of the opaque handle from the render
+  state it iterates, letting callers allocate once and re-populate
+  from different states without reallocating.
+  ```
+- [`6ae17a0`](https://github.com/ghostty-org/ghostty/commit/6ae17a02af8e831c6a798acdcdd81d6c82f2bea8) vt: add cell-level iteration and data access to render state row cells ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add next, select, and get functions to the render state row cells
+  API, mirroring the row iterator pattern. row_cells_next advances to
+  the next cell sequentially, row_cells_select jumps to a specific
+  column index with bounds validation, and row_cells_get queries data
+  for the current cell position.
+  
+  The get function supports querying raw cell values (GhosttyCell),
+  resolved styles (GhosttyStyle), grapheme codepoint counts, and
+  writing grapheme codepoints into a caller-provided buffer.
+  
+  Also add Cell.C and Cell.cval() to page.zig, matching the existing
+  Row.C/Row.cval() pattern, so the render state can convert cells to
+  the C ABI type without a raw bitCast.
+  ```
+- [`60ea2d7`](https://github.com/ghostty-org/ghostty/commit/60ea2d76d46b6333357cece7e14a8ad841f6521a) vt: add color data getters to render state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add individual color data kinds to GhosttyRenderStateData so callers
+  can query background, foreground, cursor color, cursor-color presence,
+  and the full 256-color palette through ghostty_render_state_get()
+  without using the sized-struct colors API.
+  
+  COLOR_CURSOR returns GHOSTTY_INVALID_VALUE when no explicit cursor
+  color is set; callers can check COLOR_CURSOR_HAS_VALUE first.
+  ```
+- [`d9df415`](https://github.com/ghostty-org/ghostty/commit/d9df4154dbe6a21e43c96cc1537b3724a0c784ba) vt: add cursor field data getters to render state API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose the cursor fields from RenderState.Cursor through the C API
+  via new GhosttyRenderStateData enum values. This adds getters for
+  visual style, visibility, blink state, password input detection,
+  and viewport position (x, y, wide tail).
+  
+  A new GhosttyRenderStateCursorVisualStyle enum maps the Zig
+  cursor.Style values (bar, block, underline, block_hollow) to
+  stable C integer constants. Viewport position getters return
+  GHOSTTY_INVALID_VALUE when the cursor is not visible within
+  the viewport.
+  ```
+- [`e7a18ea`](https://github.com/ghostty-org/ghostty/commit/e7a18ea5b358afe2490fe61ef7cbd3321825f2f1) vt: fix render state cell style and graphemes_buf APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GRAPHEMES_BUF data kind previously required a double pointer
+  (pointer to a uint32_t*) because the OutType was [*]u32, making the
+  typed out parameter *[*]u32. Change OutType to u32 so that callers
+  pass a plain uint32_t* buffer directly, which is the natural C
+  calling convention. The implementation casts the out pointer to
+  [*]u32 internally to write into the buffer.
+  
+  The STYLE data kind read directly from the render state style array
+  without checking whether the cell actually had non-default styling.
+  The style data is undefined for unstyled cells, so this caused a
+  panic on a corrupt enum value when the caller read the style of an
+  unstyled cell. Now check cell.hasStyling() first and return the
+  default style for unstyled cells.
+  
+  Expand the c-vt-render example to exercise dirty tracking, color
+  retrieval, cursor state, row/cell iteration with style resolution,
+  and dirty state reset. Break the example into six doxygen snippet
+  regions and reference them from render.h.
+  ```
+- [`00ffc22`](https://github.com/ghostty-org/ghostty/commit/00ffc22ecbd769c62a597423540aea8ebf6afe54) libghostty: starting render state API in C ([#11664](https://github.com/ghostty-org/ghostty/issues/11664)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds the `terminal.RenderState` API for C.
+  
+  The render state API is the API that should be used to create a high
+  performance renderer. It limits access to a terminal instance to a very
+  optimized `update` call so that terminal IO is blocked for a tiny amount
+  of time. After that, all read access on the RenderState is safe to build
+  frame data.
+  
+  ## Example
+  
+  ```c
+  int main(void) {
+    GhosttyResult result;
+  
+    GhosttyTerminal terminal = NULL;
+    GhosttyTerminalOptions terminal_opts = {
+        .cols = 80,
+        .rows = 24,
+        .max_scrollback = 10000,
+    };
+    result = ghostty_terminal_new(NULL, &terminal, terminal_opts);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    GhosttyRenderState render_state = NULL;
+    result = ghostty_render_state_new(NULL, &render_state);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    const char* first_frame = "first frame\r\n";
+    ghostty_terminal_vt_write(
+        terminal,
+        (const uint8_t*)first_frame,
+        strlen(first_frame));
+    result = ghostty_render_state_update(render_state, terminal);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    const char* second_frame = "second frame\r\n";
+    ghostty_terminal_vt_write(
+        terminal,
+        (const uint8_t*)second_frame,
+        strlen(second_frame));
+    result = ghostty_render_state_update(render_state, terminal);
+    assert(result == GHOSTTY_SUCCESS);
+  
+    printf("Render state was updated successfully.\n");
+  
+    ghostty_render_state_free(render_state);
+    ghostty_terminal_free(terminal);
+    return 0;
+  }
+  ```
+  
+  ## API Changes
+  
+  New `GhosttyRenderState` C API (`include/ghostty/vt/render.h`):
+  
+  | Function | Description |
+  |---|---|
+  | `ghostty_render_state_new` | Allocate an empty render state. |
+  | `ghostty_render_state_free` | Destroy a render state. |
+  | `ghostty_render_state_update` | Snapshot a terminal instance into the
+  render state. |
+  | `ghostty_render_state_get` | Type-tagged read of dimensions, dirty
+  state, colors, cursor, palette. |
+  | `ghostty_render_state_set` | Type-tagged write (currently: dirty
+  state). |
+  | `ghostty_render_state_colors_get` | Bulk color read via sized-struct
+  for forward compatibility. |
+  | `ghostty_render_state_row_iterator_new` | Allocate a reusable row
+  iterator. |
+  | `ghostty_render_state_row_iterator_next` | Advance the row iterator. |
+  | `ghostty_render_state_row_iterator_free` | Destroy a row iterator. |
+  | `ghostty_render_state_row_get` | Read per-row data (dirty flag, raw
+  row, cells). |
+  | `ghostty_render_state_row_set` | Write per-row data (dirty flag). |
+  | `ghostty_render_state_row_cells_new` | Allocate a reusable cell
+  iterator. |
+  | `ghostty_render_state_row_cells_next` | Advance the cell iterator. |
+  | `ghostty_render_state_row_cells_select` | Jump the cell iterator to a
+  specific column. |
+  | `ghostty_render_state_row_cells_get` | Read per-cell data (raw cell,
+  style, graphemes). |
+  | `ghostty_render_state_row_cells_free` | Destroy a cell iterator. |
+  
+  `GhosttyRenderStateData` keys (for `_get`):
+  
+  | Key | Type | Description |
+  |---|---|---|
+  | `COLS` | `uint16_t` | Viewport width in cells. |
+  | `ROWS` | `uint16_t` | Viewport height in cells. |
+  | `DIRTY` | `GhosttyRenderStateDirty` | Global dirty state. |
+  | `ROW_ITERATOR` | `GhosttyRenderStateRowIterator` | Populate a
+  pre-allocated row iterator. |
+  | `COLOR_BACKGROUND` | `GhosttyColorRgb` | Default background color. |
+  | `COLOR_FOREGROUND` | `GhosttyColorRgb` | Default foreground color. |
+  | `COLOR_CURSOR` | `GhosttyColorRgb` | Explicit cursor color (invalid if
+  not set). |
+  | `COLOR_CURSOR_HAS_VALUE` | `bool` | Whether an explicit cursor color
+  is set. |
+  | `COLOR_PALETTE` | `GhosttyColorRgb[256]` | Active 256-color palette. |
+  | `CURSOR_VISUAL_STYLE` | `GhosttyRenderStateCursorVisualStyle` | Bar,
+  block, underline, or hollow block. |
+  | `CURSOR_VISIBLE` | `bool` | Cursor visibility from terminal modes. |
+  | `CURSOR_BLINKING` | `bool` | Cursor blink state from terminal modes. |
+  | `CURSOR_PASSWORD_INPUT` | `bool` | Whether cursor is at a password
+  field. |
+  | `CURSOR_VIEWPORT_HAS_VALUE` | `bool` | Whether cursor is in the
+  viewport. |
+  | `CURSOR_VIEWPORT_X` | `uint16_t` | Cursor viewport column. |
+  | `CURSOR_VIEWPORT_Y` | `uint16_t` | Cursor viewport row. |
+  | `CURSOR_VIEWPORT_WIDE_TAIL` | `bool` | Cursor on wide-char tail cell.
+  |
+  
+  `GhosttyRenderStateOption` keys (for `_set`):
+  
+  | Key | Type | Description |
+  |---|---|---|
+  | `DIRTY` | `GhosttyRenderStateDirty` | Reset global dirty state. |
+  
+  `GhosttyRenderStateRowData` keys (for `_row_get`):
+  
+  | Key | Type | Description |
+  |---|---|---|
+  | `DIRTY` | `bool` | Whether this row is dirty. |
+  | `RAW` | `GhosttyRow` | Raw row value. |
+  | `CELLS` | `GhosttyRenderStateRowCells` | Populate a pre-allocated cell
+  iterator. |
+  
+  `GhosttyRenderStateRowOption` keys (for `_row_set`):
+  
+  | Key | Type | Description |
+  |---|---|---|
+  | `DIRTY` | `bool` | Clear/set dirty flag for this row. |
+  
+  `GhosttyRenderStateRowCellsData` keys (for `_row_cells_get`):
+  
+  | Key | Type | Description |
+  |---|---|---|
+  | `RAW` | `GhosttyCell` | Raw cell value. |
+  | `STYLE` | `GhosttyStyle` | Resolved style for this cell. |
+  | `GRAPHEMES_LEN` | `uint32_t` | Total codepoints including base (0 if
+  empty). |
+  | `GRAPHEMES_BUF` | `uint32_t*` | Write codepoints into caller buffer. |
+  ````
+- [`e680cf9`](https://github.com/ghostty-org/ghostty/commit/e680cf9f358ce37a4e91d6025f567dff3e4c1f19) Update VOUCHED list ([#11699](https://github.com/ghostty-org/ghostty/issues/11699)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11698#issuecomment-4099492496)
+  from @mitchellh.
+  
+  Vouch: @marler8997
+  ```
+- [`220d6fd`](https://github.com/ghostty-org/ghostty/commit/220d6fd43d1199b160fca3f95a62b4a8c295b4d3) nix: add systems input and fix zig follows ([@luisnquin](https://github.com/luisnquin))
+- [`a888db9`](https://github.com/ghostty-org/ghostty/commit/a888db94b050bd267877ccdf0737f34efb6df7ea) nix: add systems input and fix zig follows ([#11686](https://github.com/ghostty-org/ghostty/issues/11686)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Currently I have to use [this unusual
+  syntax](https://github.com/luisnquin/nixos-config/blob/6e1c9f32e0f35bc3423af3b895c10a8fe97e7e18/flake.nix#L137)
+  in my flake inputs to ensure that I don't have systems repeated in my
+  flake.lock file. This will make more obvious the fact that you have to
+  do follows to that hidden input.
+  ```
+- [`9e2e99c`](https://github.com/ghostty-org/ghostty/commit/9e2e99c55fb5f2c0709938eb590b62112f3d7446) gtk/wayland: replace KDE blur with ext-background-effect-v1 ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  The venerable KDE blur protocol has been replaced with the compositor-
+  agnostic ext-background-effect-v1 protocol, to be implemented by Niri and
+  others. The new protocol is much easier to use overall, though we do need
+  to calculate the blur region manually like X11.
+  ```
+- [`5abf21c`](https://github.com/ghostty-org/ghostty/commit/5abf21c1e229266749fcc711b2b7a07e366a4542) gtk/wayland: complete blur region calculation ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  It took me a while and with lots of trial and error to arrive here,
+  but the end result looks pretty good.
+  ```
+- [`80ab5d9`](https://github.com/ghostty-org/ghostty/commit/80ab5d92eab280296bab23067d257b87d1244fab) gtk/x11: use BlurRegion ([@pluiedev](https://github.com/pluiedev))
+- [`27fd1c7`](https://github.com/ghostty-org/ghostty/commit/27fd1c7788a3ebdf347b54c5bc9c1c329f175397) gtk/winproto: fix memleak & other tweaks ([@pluiedev](https://github.com/pluiedev))
+- [`9c30bfa`](https://github.com/ghostty-org/ghostty/commit/9c30bfadc5d8e7ebf7ea6a7d7b45bf02c3b4ca7b) gtk: various blur-related fixes  ([#10727](https://github.com/ghostty-org/ghostty/issues/10727)) ([@pluiedev](https://github.com/pluiedev))
 - [`46ece22`](https://github.com/ghostty-org/ghostty/commit/46ece224ba4e7a4e3243a27a29d7aafaf1273436) Update VOUCHED list ([#11694](https://github.com/ghostty-org/ghostty/issues/11694)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
