@@ -8,7 +8,374 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 20, 2026 at 00:21 UTC.
+> Last updated: March 20, 2026 at 03:47 UTC.
+
+## March 20, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [2](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
+Summary: 2 runs • 18 commits • 5 authors
+
+### Changes
+
+- [`f168b3c`](https://github.com/ghostty-org/ghostty/commit/f168b3c098eae1db30811173ac7cc5d5ac4da3c2) vt: add ghostty_terminal_get for reading terminal state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a typed data query API to the terminal C interface, following
+  the same OutType pattern used by the OSC command data API. The new
+  ghostty_terminal_get function takes a GhosttyTerminalData tag and
+  an output pointer, returning GhosttyResult.
+  
+  Currently exposes cols, rows, cursor x/y position, and cursor
+  pending wrap state. The GhosttyTerminalData enum is placed with the
+  other types in the header (before functions) per the ordering
+  convention.
+  ```
+- [`7f36e8b`](https://github.com/ghostty-org/ghostty/commit/7f36e8bd43bdc52aa3398125ce8c42e5211adceb) vt: add style C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose the terminal Style struct to the C API as GhosttyStyle, a
+  sized struct with foreground, background, and underline colors
+  (as tagged unions) plus boolean text decoration flags.
+  
+  Add ghostty_style_default() to obtain the default style and
+  ghostty_style_is_default() to check whether a style has all
+  default values. Wire both through c/style.zig, main.zig, and
+  lib_vt.zig with the corresponding header in vt/style.h.
+  ```
+- [`d62f6df`](https://github.com/ghostty-org/ghostty/commit/d62f6df1d5370b6ec7a5de80dd15718a424e727e) vt: expose cursor_style via terminal_get ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add cursor_style to TerminalData, returning the current SGR style
+  of the cursor (the style applied to newly printed characters) as a
+  GhosttyStyle.
+  
+  Refactor the C style conversion helpers: replace the standalone
+  convertStyle and convertColor functions with fromStyle and fromColor
+  initializers on the Style and Color extern structs respectively.
+  ```
+- [`d827225`](https://github.com/ghostty-org/ghostty/commit/d827225573b673bc5c1756f2d14971638a472d53) vt: expand padding for color union to 64-bit to allow for a pointer ([@mitchellh](https://github.com/mitchellh))
+- [`5c8b9f3`](https://github.com/ghostty-org/ghostty/commit/5c8b9f3f434abee1e70f454ec00301010ea01edf) vt: add GhosttyCell and GhosttyRow C API with data getters ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add opaque GhosttyCell (uint64_t) and GhosttyRow (uint64_t) types that
+  bitcast to the internal packed Cell and Row structs from page.zig. Each
+  type has a corresponding data enum and getter function following the
+  same pattern as ghostty_terminal_get.
+  
+  ghostty_cell_get supports extracting codepoint, content tag, wide
+  property, has_text, has_styling, style_id, has_hyperlink, protected,
+  and semantic_content. ghostty_row_get supports wrap, wrap_continuation,
+  grapheme, styled, hyperlink, semantic_prompt, kitty_virtual_placeholder,
+  and dirty.
+  
+  The cell and row types and functions live in a new screen.h header,
+  separate from terminal.h, with terminal.h including screen.h for
+  convenience.
+  ```
+- [`057f227`](https://github.com/ghostty-org/ghostty/commit/057f227145fcce8d92678c16591d936f54f202b8) terminal: convert Point to lib.Enum/lib.TaggedUnion with C header ([@mitchellh](https://github.com/mitchellh))
+- [`0400de2`](https://github.com/ghostty-org/ghostty/commit/0400de28b40bc47b0fcd0f5a78a908413cb86be6) vt: add ghostty_terminal_cell for point-based cell lookup ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new C API function ghostty_terminal_cell that retrieves the
+  opaque cell and row values at a given point in the terminal grid.
+  The point is a tagged union supporting active, viewport, screen, and
+  history coordinate systems.
+  ```
+- [`2a952b4`](https://github.com/ghostty-org/ghostty/commit/2a952b4dfeac0acda22e67779dabdc415757a0a7) bash: move __ghostty_preexec_hook into __ghostty_hook ([@jparise](https://github.com/jparise))
+  ```text
+  We previously used a readonly variable (__ghostty_ps0) to define the
+  best __ghostty_preexec_hook expansion for the current bash version.
+  
+  This works pretty well, but it had the downside of managing another
+  variable (#11258).
+  
+  We can instead simplify this a bit by moving this into __ghostty_hook. I
+  didn't take that approach originally because I wanted to avoid the bash
+  version check on each command, but slightly loosening our guard check to
+  just look for "__ghostty_preexec_hook" (rather than the full expansion
+  expression) means we can bury the bash version check to the cold path.
+  
+  One small gap here is that we may not update PS0 to the correct syntax
+  if we start switching between significantly different bash versions in
+  interactive subshells, but that seems like a pretty rare case to handle
+  given the benefits of this approach.
+  ```
+- [`df8813b`](https://github.com/ghostty-org/ghostty/commit/df8813bf1b0a0526ee5da340b4398f85f0852c52) vt: replace ghostty_terminal_cell with GhosttyGridRef API ([@mitchellh](https://github.com/mitchellh))
+- [`5498248`](https://github.com/ghostty-org/ghostty/commit/549824842dd72b2e77caf0d443a3b3951480c764) vt: add style and grapheme accessors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_grid_ref_style and ghostty_grid_ref_graphemes to the grid
+  ref C API, allowing callers to extract the full style and grapheme
+  cluster directly from a grid reference without manually resolving
+  the page internals.
+  ```
+- [`93c597c`](https://github.com/ghostty-org/ghostty/commit/93c597ce6bb36179065d93a465d6ee679f7472f7) example: add grid reference traversal example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a c-vt-grid-ref example that demonstrates the terminal and grid
+  reference APIs end-to-end. The example creates a small 10x3 terminal,
+  writes text with mixed styles via VT sequences, then iterates over
+  every cell in the active area using ghostty_terminal_grid_ref. For
+  each cell it extracts the codepoint, and for each row it inspects
+  the wrap flag and the style bold attribute.
+  
+  The grid_ref.h defgroup gains a @snippet reference to the new example,
+  and vt.h gets the corresponding @example entry and @ref listing.
+  ```
+- [`d2a29de`](https://github.com/ghostty-org/ghostty/commit/d2a29de95989d739d2b2dfcf2df8762fbbb9b1c8) libghostty: terminal data, grid point and cell inspection APIs ([#11676](https://github.com/ghostty-org/ghostty/issues/11676)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds a complete set of APIs for inspecting individual cells and
+  rows in the terminal grid from C. Callers can now resolve any point in
+  the grid to a reference, then extract codepoints, grapheme clusters,
+  styles, wide-character state, semantic prompt tags, and row-level
+  metadata like wrap and dirty flags.
+  
+  This also adds a robust `ghostty_terminal_get` API for extracting
+  information like rows, cols, active screen, cursor information, etc.
+  from the terminal.
+  
+  ## Example
+  
+  ```c
+  // Write bold red text via SGR sequences
+  const char *text = "\033[1;31mHello\033[0m";
+  ghostty_terminal_vt_write(terminal, (const uint8_t *)text, strlen(text));
+  
+  // Resolve cell (0,0) to a grid reference
+  GhosttyGridRef ref = GHOSTTY_INIT_SIZED(GhosttyGridRef);
+  GhosttyPoint pt = {
+    .tag = GHOSTTY_POINT_TAG_ACTIVE,
+    .value = { .coordinate = { .x = 0, .y = 0 } },
+  };
+  ghostty_terminal_grid_ref(terminal, pt, &ref);
+  
+  // Read the codepoint ('H')
+  GhosttyCell cell;
+  ghostty_grid_ref_cell(&ref, &cell);
+  uint32_t codepoint = 0;
+  ghostty_cell_get(cell, GHOSTTY_CELL_DATA_CODEPOINT, &codepoint);
+  
+  // Read the resolved style (bold=true, fg=red)
+  GhosttyStyle style = GHOSTTY_INIT_SIZED(GhosttyStyle);
+  ghostty_grid_ref_style(&ref, &style);
+  assert(style.bold);
+  ```
+  
+  ## API Changes
+  
+  ### New Types
+  
+  | Type | Description |
+  |------|-------------|
+  | `GhosttyCell` | Opaque 64-bit cell value |
+  | `GhosttyRow` | Opaque 64-bit row value |
+  | `GhosttyCellData` | Enum for `ghostty_cell_get` data kinds (codepoint,
+  content tag, wide, has_text, etc.) |
+  | `GhosttyCellContentTag` | Cell content kind (codepoint, grapheme, bg
+  color palette/RGB) |
+  | `GhosttyCellWide` | Cell width (narrow, wide, spacer tail/head) |
+  | `GhosttyCellSemanticContent` | Semantic content type (output, input,
+  prompt) |
+  | `GhosttyRowData` | Enum for `ghostty_row_get` data kinds (wrap,
+  grapheme, styled, dirty, etc.) |
+  | `GhosttyRowSemanticPrompt` | Row-level semantic prompt state |
+  | `GhosttyGridRef` | Sized struct — resolved reference to a cell
+  position in the page structure |
+  | `GhosttyPoint` | Tagged union specifying a grid position in a given
+  coordinate system |
+  | `GhosttyPointTag` | Coordinate system tag: `ACTIVE`, `VIEWPORT`,
+  `SCREEN`, `HISTORY` |
+  | `GhosttyPointCoordinate` | x/y coordinate pair |
+  | `GhosttyStyleId` | Style identifier type (uint16) |
+  
+  ### New Functions
+  
+  | Function | Description |
+  |----------|-------------|
+  | `ghostty_cell_get` | Extract typed data from a cell (codepoint, wide,
+  style ID, etc.) |
+  | `ghostty_row_get` | Extract typed data from a row (wrap, dirty,
+  semantic prompt, etc.) |
+  | `ghostty_terminal_grid_ref` | Resolve a `GhosttyPoint` to a
+  `GhosttyGridRef` |
+  | `ghostty_grid_ref_cell` | Extract the `GhosttyCell` from a grid ref |
+  | `ghostty_grid_ref_row` | Extract the `GhosttyRow` from a grid ref |
+  | `ghostty_grid_ref_graphemes` | Get the full grapheme cluster
+  (codepoints) for the cell |
+  | `ghostty_grid_ref_style` | Get the resolved `GhosttyStyle` for the
+  cell |
+  ````
+- [`7966740`](https://github.com/ghostty-org/ghostty/commit/7966740b48b287f1ed1aa2a355afde3b81197933) bash: move __ghostty_preexec_hook into __ghostty_hook ([#11674](https://github.com/ghostty-org/ghostty/issues/11674)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We previously used a readonly variable (__ghostty_ps0) to define the
+  best __ghostty_preexec_hook expansion for the current bash version.
+  
+  This worked pretty well, but it had the downside of managing another
+  variable (#11258).
+  
+  We can instead simplify this a bit by moving this into __ghostty_hook. I
+  didn't take that approach originally because I wanted to avoid the bash
+  version check on each command, but slightly loosening our guard check to
+  just look for "__ghostty_preexec_hook" (rather than the full expansion
+  expression) means we can bury the bash version check to the cold path.
+  
+  One small gap here is that we may not update PS0 to the correct syntax
+  if we start switching between significantly different bash versions in
+  interactive subshells, but that seems like a pretty rare case to handle
+  given the benefits of this approach.
+  ```
+- [`10e6938`](https://github.com/ghostty-org/ghostty/commit/10e69384d7e6a59253dda2cc00482210f6e63ee7) build(deps): bump namespacelabs/nscloud-setup from 0.0.11 to 0.0.12 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-setup](https://github.com/namespacelabs/nscloud-setup) from 0.0.11 to 0.0.12.
+  - [Release notes](https://github.com/namespacelabs/nscloud-setup/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-setup/compare/f378676225212387f1283f4da878712af2c4cd60...df198f982fcecfb8264bea3f1274b56a61b6dfdc)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-setup
+    dependency-version: 0.0.12
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`7c14aec`](https://github.com/ghostty-org/ghostty/commit/7c14aecd3fb96cbc6c9c2035ebe830a38f1693e1) build(deps): bump namespacelabs/nscloud-setup-buildx-action ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-setup-buildx-action](https://github.com/namespacelabs/nscloud-setup-buildx-action) from 0.0.22 to 0.0.23.
+  - [Release notes](https://github.com/namespacelabs/nscloud-setup-buildx-action/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-setup-buildx-action/compare/f5814dcf37a16cce0624d5bec2ab879654294aa0...d059ed7184f0bc7c8b27e8810cea153d02bcc6dd)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-setup-buildx-action
+    dependency-version: 0.0.23
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`4531594`](https://github.com/ghostty-org/ghostty/commit/4531594d51f76b4350f6ec23d8916b59ae261ddc) build(deps): bump namespacelabs/nscloud-setup-buildx-action from 0.0.22 to 0.0.23 ([#11673](https://github.com/ghostty-org/ghostty/issues/11673)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-setup-buildx-action](https://github.com/namespacelabs/nscloud-setup-buildx-action)
+  from 0.0.22 to 0.0.23.
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup-buildx-action/commit/d059ed7184f0bc7c8b27e8810cea153d02bcc6dd"><code>d059ed7</code></a>
+  Update to node24 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-setup-buildx-action/issues/15">#15</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-setup-buildx-action/compare/f5814dcf37a16cce0624d5bec2ab879654294aa0...d059ed7184f0bc7c8b27e8810cea153d02bcc6dd">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-setup-buildx-action&package-manager=github_actions&previous-version=0.0.22&new-version=0.0.23)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`e9eac7d`](https://github.com/ghostty-org/ghostty/commit/e9eac7d4758c5b7692c59e4dda89b2184ad18960) build(deps): bump namespacelabs/nscloud-setup from 0.0.11 to 0.0.12 ([#11672](https://github.com/ghostty-org/ghostty/issues/11672)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  [//]: # (dependabot-start)
+  ⚠️  **Dependabot is rebasing this PR** ⚠️
+  
+  Rebasing might not happen immediately, so don't worry if this takes some
+  time.
+  
+  Note: if you make any changes to this PR yourself, they will take
+  precedence over the rebase.
+  
+  ---
+  
+  [//]: # (dependabot-end)
+  
+  Bumps
+  [namespacelabs/nscloud-setup](https://github.com/namespacelabs/nscloud-setup)
+  from 0.0.11 to 0.0.12.
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-setup/commit/df198f982fcecfb8264bea3f1274b56a61b6dfdc"><code>df198f9</code></a>
+  Update to node24 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-setup/issues/10">#10</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-setup/compare/f378676225212387f1283f4da878712af2c4cd60...df198f982fcecfb8264bea3f1274b56a61b6dfdc">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-setup&package-manager=github_actions&previous-version=0.0.11&new-version=0.0.12)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`1f89ce9`](https://github.com/ghostty-org/ghostty/commit/1f89ce91d97065f04c196b84c391c7212bd50de0) Update VOUCHED list ([#11675](https://github.com/ghostty-org/ghostty/issues/11675)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11671#discussioncomment-16218675)
+  from @jcollie.
+  
+  Vouch: @unphased
+  ```
 
 ## March 19, 2026
 
