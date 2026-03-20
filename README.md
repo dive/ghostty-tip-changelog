@@ -8,15 +8,59 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 20, 2026 at 12:10 UTC.
+> Last updated: March 20, 2026 at 15:16 UTC.
 
 ## March 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [2](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
-Summary: 2 runs • 18 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [2](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [3](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [4](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
+Summary: 4 runs • 22 commits • 5 authors
 
 ### Changes
 
+- [`46ece22`](https://github.com/ghostty-org/ghostty/commit/46ece224ba4e7a4e3243a27a29d7aafaf1273436) Update VOUCHED list ([#11694](https://github.com/ghostty-org/ghostty/issues/11694)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11420#discussioncomment-16227199)
+  from @mitchellh.
+  
+  Vouch: @hlcfan
+  ```
+- [`4b9324f`](https://github.com/ghostty-org/ghostty/commit/4b9324f48a3499ec2329ce2e39ab58d368d871e8) bash: suppress __ghostty_hook errors in inherited PROMPT_COMMAND ([@jparise](https://github.com/jparise))
+  ```text
+  When some tools spawn subshells, PROMPT_COMMAND may be inherited as an
+  environment variable while the __ghostty_hook function is not (bash
+  doesn't export functions by default). This causes "command not found"
+  errors on every prompt in the subshell.
+  
+  Add 2>/dev/null to the __ghostty_hook entry in PROMPT_COMMAND so that it
+  silently no-ops in subshells where the function isn't defined. This also
+  silences any errors from inside __ghostty_hook itself, but those are all
+  terminal escape sequences and non-actionable.
+  
+  See: #11245
+  ```
+- [`e2399de`](https://github.com/ghostty-org/ghostty/commit/e2399de38c3bb5edb222660448e10e143ac9fba6) bash: suppress __ghostty_hook errors in inherited PROMPT_COMMAND ([#11690](https://github.com/ghostty-org/ghostty/issues/11690)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When some tools spawn subshells, PROMPT_COMMAND may be inherited as an
+  environment variable while the __ghostty_hook function is not (bash
+  doesn't export functions by default). This causes "command not found"
+  errors on every prompt in the subshell.
+  
+  Add 2>/dev/null to the __ghostty_hook entry in PROMPT_COMMAND so that it
+  silently no-ops in subshells where the function isn't defined. This also
+  silences any errors from inside __ghostty_hook itself, but those are all
+  terminal escape sequences and non-actionable.
+  
+  See: #11245
+  ```
+- [`ff0ee36`](https://github.com/ghostty-org/ghostty/commit/ff0ee364bb04bdd554a81c80c43027a1f4f20edf) Update VOUCHED list ([#11691](https://github.com/ghostty-org/ghostty/issues/11691)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11686#issuecomment-4098087863)
+  from @mitchellh.
+  
+  Vouch: @luisnquin
+  ```
 - [`f168b3c`](https://github.com/ghostty-org/ghostty/commit/f168b3c098eae1db30811173ac7cc5d5ac4da3c2) vt: add ghostty_terminal_get for reading terminal state ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add a typed data query API to the terminal C interface, following
