@@ -8,15 +8,128 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 20, 2026 at 18:13 UTC.
+> Last updated: March 20, 2026 at 21:08 UTC.
 
 ## March 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23353940580), [2](https://github.com/ghostty-org/ghostty/actions/runs/23352929301), [3](https://github.com/ghostty-org/ghostty/actions/runs/23350746193), [4](https://github.com/ghostty-org/ghostty/actions/runs/23349031592), [5](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [6](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [7](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [8](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
-Summary: 8 runs • 49 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23359486964), [2](https://github.com/ghostty-org/ghostty/actions/runs/23358549711), [3](https://github.com/ghostty-org/ghostty/actions/runs/23353940580), [4](https://github.com/ghostty-org/ghostty/actions/runs/23352929301), [5](https://github.com/ghostty-org/ghostty/actions/runs/23350746193), [6](https://github.com/ghostty-org/ghostty/actions/runs/23349031592), [7](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [8](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [9](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [10](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
+Summary: 10 runs • 61 commits • 8 authors
 
 ### Changes
 
+- [`89ae0ea`](https://github.com/ghostty-org/ghostty/commit/89ae0ea6ef089389aec0011e53c9b00e380c4e65) core: add function to get process info from the surface ([@jcollie](https://github.com/jcollie))
+  ```text
+  This adds a function to the core surface to get process information
+  about the process(es) running in the terminal. Currently supported is
+  the PID of the foreground process and the name of the slave PTY.
+  
+  If there is an error retrieving the information, or the platform does
+  not support retieving that information `null` is returned.
+  
+  This will be useful in exposing the foreground PID and slave PTY name to
+  AppleScript or other APIs.
+  ```
+- [`64de418`](https://github.com/ghostty-org/ghostty/commit/64de418f38f8739ba2259b5e8cc6ba51a74cdc30) core: add macos system include path ([@jcollie](https://github.com/jcollie))
+- [`264a1a7`](https://github.com/ghostty-org/ghostty/commit/264a1a7cddee96b978c40ba538af3444d7a6c550) core: fix target for macos libc search ([@jcollie](https://github.com/jcollie))
+- [`2ea6029`](https://github.com/ghostty-org/ghostty/commit/2ea6029c7adc08f245ef243a77915ec40c7566b4) core: address getProcessInfo feedback ([@jcollie](https://github.com/jcollie))
+  ```text
+  * consolidate *.c files into a single file
+  * consolidate ProcessInfo enums into a single enum
+  ```
+- [`b0789af`](https://github.com/ghostty-org/ghostty/commit/b0789af583c9aac555bdc384041d02123dbbd2e7) core: fix c macro comparisons ([@jcollie](https://github.com/jcollie))
+- [`d5ce05f`](https://github.com/ghostty-org/ghostty/commit/d5ce05fd37d8f9c94025e71cfd0b7c9ec290a5ce) core: simplify pty.c macro usage ([@jcollie](https://github.com/jcollie))
+- [`7b9e49a`](https://github.com/ghostty-org/ghostty/commit/7b9e49a47fbacd2c776aab47470f1b769a6de58f) core: build pty.c only on certain platforms (avoids building os iOS) ([@jcollie](https://github.com/jcollie))
+- [`fa84b87`](https://github.com/ghostty-org/ghostty/commit/fa84b8709c7e42be1588da97c9cf957e1be66a98) ci: add build-cmake job to test cmake build of libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new CI job that builds the root CMakeLists.txt to ensure the
+  cmake wrapper for libghostty-vt works.
+  
+  This isn't the recommend way to build libghostty-vt, but its how
+  downstream CMake projects would consume it so we gotta keep it
+  working.
+  ```
+- [`0066dfa`](https://github.com/ghostty-org/ghostty/commit/0066dfa9f672e04451d6433db684d496c407422f) core: add function to get process info from the surface ([#11639](https://github.com/ghostty-org/ghostty/issues/11639)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a function to the core surface to get process information
+  about the process(es) running in the terminal. Currently supported is
+  the PID of the foreground process and the name of the slave PTY.
+  
+  If there is an error retrieving the information, or the platform does
+  not support retieving that information `null` is returned.
+  
+  This will be useful in exposing the foreground PID and slave PTY name to
+  AppleScript or other APIs.
+  ```
+- [`72fea09`](https://github.com/ghostty-org/ghostty/commit/72fea098dccc8b9a7b71b69f54975c698587a8ba) ci: add build-cmake job to test cmake build of libghostty-vt ([#11703](https://github.com/ghostty-org/ghostty/issues/11703)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new CI job that builds the root CMakeLists.txt to ensure the cmake
+  wrapper for libghostty-vt works.
+  
+  This isn't the recommend way to build libghostty-vt, but its how
+  downstream CMake projects would consume it so we gotta keep it working.
+  ```
+- [`3dee62f`](https://github.com/ghostty-org/ghostty/commit/3dee62f9046e0fcbc9841ccfe4a96d7f78fd90c4) build: add CMake support for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a top-level CMakeLists.txt that wraps `zig build lib-vt` so that
+  CMake-based downstream projects can consume libghostty-vt without
+  needing to interact with the Zig build system directly. A custom
+  command triggers the zig build during `cmake --build`, and the
+  resulting shared library is exposed as an IMPORTED target.
+  
+  Downstream projects can pull in the library via FetchContent, which
+  fetches the source and builds it as part of their own CMake build, or
+  via find_package after a manual install step. The package config
+  template in dist/cmake/ sets up the ghostty-vt::ghostty-vt target
+  with proper include paths and macOS rpath handling.
+  
+  A c-vt-cmake example demonstrates the FetchContent workflow, creating
+  a terminal, writing VT sequences, and formatting the output as plain
+  text. CI is updated to auto-discover and build CMake-based examples
+  alongside the existing Zig-based ones.
+  ```
+- [`9ba2614`](https://github.com/ghostty-org/ghostty/commit/9ba2614ac1926b64c884923f4be233daeec98643) build: add CMake support for libghostty-vt ([#11700](https://github.com/ghostty-org/ghostty/issues/11700)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Add a top-level CMakeLists.txt that wraps `zig build lib-vt` so that
+  CMake-based downstream projects can consume libghostty-vt without
+  needing to interact with the Zig build system directly. A custom command
+  triggers the zig build during `cmake --build`, and the resulting shared
+  library is exposed as an IMPORTED target.
+  
+  Downstream projects can pull in the library via FetchContent, which
+  fetches the source and builds it as part of their own CMake build, or
+  via find_package after a manual install step. The package config
+  template in dist/cmake/ sets up the ghostty-vt::ghostty-vt target with
+  proper include paths and macOS rpath handling.
+  
+  A c-vt-cmake example demonstrates the FetchContent workflow, creating a
+  terminal, writing VT sequences, and formatting the output as plain text.
+  CI is updated to auto-discover and build CMake-based examples alongside
+  the existing Zig-based ones.
+  
+  > [!WARNING]
+  >
+  > I am **very much not a CMake expert.** I leaned on LLMs heavily for
+  this. I did read the docs for what was chosen here and understand what's
+  going on, but if there is a better or more idiomatic way to do this I'm
+  all ears!
+  
+  ## Example CMake File
+  
+  ```cmake
+  cmake_minimum_required(VERSION 3.19)
+  project(c-vt-cmake LANGUAGES C)
+  
+  include(FetchContent)
+  FetchContent_Declare(ghostty
+      GIT_REPOSITORY https://github.com/ghostty-org/ghostty.git
+      GIT_TAG main
+  )
+  FetchContent_MakeAvailable(ghostty)
+  
+  add_executable(c_vt_cmake src/main.c)
+  target_link_libraries(c_vt_cmake PRIVATE ghostty-vt)
+  ```
+  ````
 - [`542d6aa`](https://github.com/ghostty-org/ghostty/commit/542d6aa14d2f9a4d522f3ca614dbcc6264191740) windows: avoid fontconfig and ensure build compiles ([@marler8997](https://github.com/marler8997))
 - [`aac4916`](https://github.com/ghostty-org/ghostty/commit/aac491657be1c17f214a32c6ee0b1a221bf99bd1) windows: avoid fontconfig and ensure build compiles ([#11698](https://github.com/ghostty-org/ghostty/issues/11698)) ([@mitchellh](https://github.com/mitchellh))
   ```text
