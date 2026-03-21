@@ -8,15 +8,62 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 21, 2026 at 12:07 UTC.
+> Last updated: March 21, 2026 at 15:06 UTC.
 
 ## March 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [2](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [3](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
+Summary: 3 runs • 7 commits • 1 authors
 
 ### Changes
 
+- [`c3b7fd8`](https://github.com/ghostty-org/ghostty/commit/c3b7fd8477ebbff36a379c6cc782f76cf3a5441f) vt: add ghostty_build_info API for querying build configuration ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new C API function ghostty_build_info() that exposes compile-time
+  build options to library consumers. This allows callers to query whether
+  SIMD, Kitty graphics protocol, and tmux control mode support were
+  enabled at build time.
+  ```
+- [`abefe5b`](https://github.com/ghostty-org/ghostty/commit/abefe5b40cfa7d627998b6fc91cc213260d18825) vt: add ghostty_build_info API for querying build configuration ([#11725](https://github.com/ghostty-org/ghostty/issues/11725)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new C API function ghostty_build_info() that exposes compile-time
+  build options to library consumers. This allows callers to query whether
+  SIMD, Kitty graphics protocol, and tmux control mode support were
+  enabled at build time.
+  ```
+- [`155bd3a`](https://github.com/ghostty-org/ghostty/commit/155bd3a58e6d18d01162614a1ac237f9b74e4a61) vt: expose optimize mode in build info API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add GHOSTTY_BUILD_INFO_OPTIMIZE to query the Zig optimization mode
+  (debug, release safe/small/fast) the library was compiled with. This
+  reads directly from builtin.mode at comptime so it requires no build
+  system plumbing.
+  ```
+- [`3fc04fd`](https://github.com/ghostty-org/ghostty/commit/3fc04fd4ae9bab243e6023acdf024abf78270e88) build: replace lib-vt step with -Demit-lib-vt option ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the dedicated `zig build lib-vt` step and replace it with a
+  `-Demit-lib-vt` build option. This fixes two problems:
+  
+  1. We can default XCFramework, app, etc. steps to false if emit-lib-vt
+     is true, so that the lib-vt build doesn't pull in unrelated
+     artifacts. **Most importantly, lib-vt alone can be build without
+     full Xcode installations.**
+  
+  2. We can build lib-vt as part of a bundle with other artifacts if we
+     really want.
+  ```
+- [`a49747d`](https://github.com/ghostty-org/ghostty/commit/a49747df52ad3a411b3019141a144678f59a3495) build: replace lib-vt step with -Demit-lib-vt option ([#11716](https://github.com/ghostty-org/ghostty/issues/11716)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the dedicated `zig build lib-vt` step and replace it with a
+  `-Demit-lib-vt` build option. This fixes two problems:
+  
+  1. We can default XCFramework, app, etc. steps to false if emit-lib-vt
+  is true, so that the lib-vt build doesn't pull in unrelated artifacts.
+  **Most importantly, lib-vt alone can be build without full Xcode
+  installations.**
+  
+  2. We can build lib-vt as part of a bundle with other artifacts if we
+  really want.
+  ```
 - [`b66120d`](https://github.com/ghostty-org/ghostty/commit/b66120d37d3001b3901f62d869266ba9dba0f60d) vt: add color_palette and color_rgb cell data types ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add two new CellData variants to extract background color values
