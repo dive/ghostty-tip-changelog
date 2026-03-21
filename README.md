@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 21, 2026 at 15:06 UTC.
+> Last updated: March 21, 2026 at 18:07 UTC.
 
 ## March 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [2](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [3](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
-Summary: 3 runs • 7 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [2](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [3](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [4](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
+Summary: 4 runs • 11 commits • 2 authors
 
 ### Changes
 
+- [`50113ab`](https://github.com/ghostty-org/ghostty/commit/50113ab67860893969bbfe568261a293d91bf92f) macOS: add mouse state tests for [#11276](https://github.com/ghostty-org/ghostty/issues/11276) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  It will fail on 4e24adf71 and success after #11276
+  ```
+- [`ac3893d`](https://github.com/ghostty-org/ghostty/commit/ac3893d0b9c91b3d3b023556e30783fabaf3f082) macOS: Add command palette tests ([@bo2themax](https://github.com/bo2themax))
+- [`d80d848`](https://github.com/ghostty-org/ghostty/commit/d80d84862e3b10bf97cfcda67b241152db2fe4e8) macOS: fix mouse not working correctly in CommandPaletteView ([#11658](https://github.com/ghostty-org/ghostty/issues/11658)) ([@bo2themax](https://github.com/bo2themax))
+- [`3da7fb9`](https://github.com/ghostty-org/ghostty/commit/3da7fb9fdee4eeab067a27bb4b368702a68f0533) macOS: fix mouse not working correctly in CommandPaletteView ([#11658](https://github.com/ghostty-org/ghostty/issues/11658)) ([#11665](https://github.com/ghostty-org/ghostty/issues/11665)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Also added a test case for
+  https://github.com/ghostty-org/ghostty/pull/11276, which will fail right
+  before that commit.
+  
+  ## AI Disclosure
+  
+  Claude helped me to write some dummy texts for testing
+  ```
 - [`c3b7fd8`](https://github.com/ghostty-org/ghostty/commit/c3b7fd8477ebbff36a379c6cc782f76cf3a5441f) vt: add ghostty_build_info API for querying build configuration ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add a new C API function ghostty_build_info() that exposes compile-time
