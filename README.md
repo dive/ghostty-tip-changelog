@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 20, 2026 at 21:08 UTC.
+> Last updated: March 21, 2026 at 00:19 UTC.
 
 ## March 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23359486964), [2](https://github.com/ghostty-org/ghostty/actions/runs/23358549711), [3](https://github.com/ghostty-org/ghostty/actions/runs/23353940580), [4](https://github.com/ghostty-org/ghostty/actions/runs/23352929301), [5](https://github.com/ghostty-org/ghostty/actions/runs/23350746193), [6](https://github.com/ghostty-org/ghostty/actions/runs/23349031592), [7](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [8](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [9](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [10](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
-Summary: 10 runs • 61 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23365823171), [2](https://github.com/ghostty-org/ghostty/actions/runs/23359486964), [3](https://github.com/ghostty-org/ghostty/actions/runs/23358549711), [4](https://github.com/ghostty-org/ghostty/actions/runs/23353940580), [5](https://github.com/ghostty-org/ghostty/actions/runs/23352929301), [6](https://github.com/ghostty-org/ghostty/actions/runs/23350746193), [7](https://github.com/ghostty-org/ghostty/actions/runs/23349031592), [8](https://github.com/ghostty-org/ghostty/actions/runs/23347190522), [9](https://github.com/ghostty-org/ghostty/actions/runs/23345798479), [10](https://github.com/ghostty-org/ghostty/actions/runs/23327743605), [11](https://github.com/ghostty-org/ghostty/actions/runs/23326999168)  
+Summary: 11 runs • 63 commits • 8 authors
 
 ### Changes
 
+- [`0e0db10`](https://github.com/ghostty-org/ghostty/commit/0e0db1074b3d4e4c6470215ea5226c636cbaafa4) build: set zig optimize flag for CMake release builds ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Map CMake release build types (Release, MinSizeRel, RelWithDebInfo)
+  to -Doptimize=ReleaseFast so that zig build automatically produces
+  optimized builds when CMake is configured for a release variant.
+  Debug builds remain unaffected, letting Zig use its default Debug
+  optimization level.
+  ```
+- [`e8fb7ea`](https://github.com/ghostty-org/ghostty/commit/e8fb7eabad8bd4bebb64ca7fcad80442763dcb84) build: set zig optimize flag for CMake release builds ([#11707](https://github.com/ghostty-org/ghostty/issues/11707)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Map CMake release build types (Release, MinSizeRel, RelWithDebInfo) to
+  -Doptimize=ReleaseFast so that zig build automatically produces
+  optimized builds when CMake is configured for a release variant. Debug
+  builds remain unaffected, letting Zig use its default Debug optimization
+  level.
+  ```
 - [`89ae0ea`](https://github.com/ghostty-org/ghostty/commit/89ae0ea6ef089389aec0011e53c9b00e380c4e65) core: add function to get process info from the surface ([@jcollie](https://github.com/jcollie))
   ```text
   This adds a function to the core surface to get process information
@@ -2771,171 +2787,5 @@ Summary: 5 runs • 10 commits • 3 authors
   
   This gives users who prefer truly equal padding a way to opt in without
   changing the default behavior.
-  ```
-
-## March 14, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23098143300), [2](https://github.com/ghostty-org/ghostty/actions/runs/23090671545), [3](https://github.com/ghostty-org/ghostty/actions/runs/23088656823)  
-Summary: 3 runs • 20 commits • 2 authors
-
-### Changes
-
-- [`302e68f`](https://github.com/ghostty-org/ghostty/commit/302e68fd3d9891919a3b6f32f47ee7f954bef848) vt: expose ghostty_terminal_new/free ([@mitchellh](https://github.com/mitchellh))
-- [`18fdc15`](https://github.com/ghostty-org/ghostty/commit/18fdc15357a2f519d93987d09a2957b9369340cb) vt: ghostty_terminal_vt_write ([@mitchellh](https://github.com/mitchellh))
-- [`8b9afe3`](https://github.com/ghostty-org/ghostty/commit/8b9afe35a706ea230473c81637c3f43f07d736b7) vt: ghostty_terminal_scroll_viewport ([@mitchellh](https://github.com/mitchellh))
-- [`fe6e7fb`](https://github.com/ghostty-org/ghostty/commit/fe6e7fbc6b54c835f9a5229f0b19ee9f96ec5a92) vt: ghostty_terminal_resize ([@mitchellh](https://github.com/mitchellh))
-- [`aa3e6e2`](https://github.com/ghostty-org/ghostty/commit/aa3e6e23a227cfe4ba0026d844b54e7a89ea880b) vt: ghostty_terminal_reset ([@mitchellh](https://github.com/mitchellh))
-- [`34acdfc`](https://github.com/ghostty-org/ghostty/commit/34acdfcc4eca388d3d4fa1a5ce03525384db8e3e) vt: update terminal.h docs ([@mitchellh](https://github.com/mitchellh))
-- [`8e6bf82`](https://github.com/ghostty-org/ghostty/commit/8e6bf829a746be199bd30d4670fe855035562433) terminal/osc: don't export context/semantic prompts to libvt yet ([@mitchellh](https://github.com/mitchellh))
-- [`b5fb7ec`](https://github.com/ghostty-org/ghostty/commit/b5fb7ecaaaa2d788093809614d88b6294baaf672) vt: wip formatter api ([@mitchellh](https://github.com/mitchellh))
-- [`4e494cc`](https://github.com/ghostty-org/ghostty/commit/4e494ccd688cd44f92d010cdd6fa46412339f69e) lib: lib.Struct can convert packed structs to extern structs ([@mitchellh](https://github.com/mitchellh))
-- [`09d3ebd`](https://github.com/ghostty-org/ghostty/commit/09d3ebd80df2988dd48cc94a4826a226a7c2d269) vt: use explicit options structs ([@mitchellh](https://github.com/mitchellh))
-- [`a2d570b`](https://github.com/ghostty-org/ghostty/commit/a2d570b51e059fc9fc572dcb155e81215a9c51bc) vt: add sized struct pattern and types.h ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a size field as the first member of formatter option structs
-  (TerminalOptions, TerminalOptions.Extra, ScreenOptions.Extra) for ABI
-  compatibility. This allows adding new fields without breaking callers
-  compiled against older versions of the struct.
-  
-  Introduce include/ghostty/vt/types.h as the foundational header
-  containing GhosttyResult and the GHOSTTY_INIT_SIZED macro for
-  zero-initializing sized structs. Remove the separate result.h header,
-  moving its contents into types.h.
-  ```
-- [`7c12d6e`](https://github.com/ghostty-org/ghostty/commit/7c12d6e35d9e1cc28f71877559c17b4088f32532) agents: skill for writing commit messages ([@mitchellh](https://github.com/mitchellh))
-- [`3c8feda`](https://github.com/ghostty-org/ghostty/commit/3c8feda118cc4bd51cadc5f4c98e54158716a2c0) vt: add format_alloc to C API formatter ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Rename the existing format function to format_buf to clarify that it
-  writes into a caller-provided buffer. Add a new format_alloc variant
-  that allocates the output buffer internally using the provided
-  allocator (or the default if NULL). The caller receives the allocated
-  pointer and length and is responsible for freeing it.
-  
-  This is useful for consumers that do not know the required buffer size
-  ahead of time and want to avoid the two-pass query-then-format pattern
-  needed with format_buf.
-  ```
-- [`1e21ac1`](https://github.com/ghostty-org/ghostty/commit/1e21ac119079bf7bc4d965666ce1f691ce4d84c5) example: add c-vt-formatter example ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add an example showing how to use the ghostty-vt terminal and
-  formatter APIs from C. The example creates a terminal, writes
-  VT-encoded content with cursor movement and styling sequences,
-  then formats the screen contents as plain text using the formatter
-  API.
-  ```
-- [`4ad7d03`](https://github.com/ghostty-org/ghostty/commit/4ad7d03c56de3216f2a82c8790d0c8edb216db07) terminal/formatter: safely cast discarding.count to usize ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Discarding writer count field is u64, but appendNTimes expects
-  usize which is u32 on 32-bit targets like arm-linux-androideabi.
-  Use std.math.cast instead of @intCast to safely handle the
-  conversion, returning WriteFailed on overflow rather than risking
-  undefined behavior.
-  ```
-- [`647f5ad`](https://github.com/ghostty-org/ghostty/commit/647f5adf556e13abcbe4b38c185fb81458aa5711) terminal/formatter: safely cast discarding.count to usize ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Discarding writer count field is u64, but several call sites
-  pass it where a usize is expected. On wasm32-freestanding, usize is
-  32-bit, so this caused compilation errors.
-  
-  Use std.math.cast instead of a bare @intCast so that overflow is
-  handled gracefully, returning WriteFailed rather than triggering
-  safety-checked undefined behavior at runtime.
-  ```
-- [`f730eed`](https://github.com/ghostty-org/ghostty/commit/f730eed213143db6e3082311f54afbf0c87bdd2d) vt: fix missing formatter docs in doxygen ([@mitchellh](https://github.com/mitchellh))
-- [`952fbce`](https://github.com/ghostty-org/ghostty/commit/952fbce0e50ded8fd8e6ee5f64e9650af962cd19) libghostty: add initial C API for terminal, formatter ([#11506](https://github.com/ghostty-org/ghostty/issues/11506)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This adds an initial C API for terminals and formatting. There is a new
-  example that shows how to use this.
-  
-  With these APIs in place, users of the C API can now create a terminal,
-  pass raw VT streams to it, and dump the terminal viewport to various
-  formats. As noted in the docs, **the formatter API is not a rendering
-  API**, it isn't high performance enough for that. But it's a simpler API
-  to implement than the render state API so I started with that.
-  
-  Both APIs are purposely fairly minimal, we're just setting the stage for
-  future functionality.
-  
-  ## Example
-  
-  ```c
-  #include <ghostty/vt.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  
-  int main() {
-    GhosttyTerminal term;
-    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
-    ghostty_terminal_new(NULL, &term, opts);
-  
-    const char *input = "Hello, \033[1mBold\033[0m World!\r\nLine 2\r\n";
-    ghostty_terminal_vt_write(term, (const uint8_t *)input, strlen(input));
-  
-    GhosttyFormatterTerminalOptions fmt = GHOSTTY_INIT_SIZED(GhosttyFormatterTerminalOptions);
-    fmt.emit = GHOSTTY_FORMATTER_FORMAT_PLAIN;
-    fmt.trim = true;
-  
-    GhosttyFormatter fmtr;
-    ghostty_formatter_terminal_new(NULL, &fmtr, term, fmt);
-  
-    uint8_t *buf;
-    size_t len;
-    ghostty_formatter_format_alloc(fmtr, NULL, &buf, &len);
-    fwrite(buf, 1, len, stdout);
-  
-    free(buf);
-    ghostty_formatter_free(fmtr);
-    ghostty_terminal_free(term);
-  }
-  ```
-  
-  ## New APIs
-  
-  | Function | Description |
-  |----------|-------------|
-  | `ghostty_terminal_new` | Create a new terminal instance |
-  | `ghostty_terminal_free` | Free a terminal instance |
-  | `ghostty_terminal_reset` | Full reset of the terminal (RIS) |
-  | `ghostty_terminal_resize` | Resize the terminal to given dimensions |
-  | `ghostty_terminal_vt_write` | Write VT-encoded data to the terminal |
-  | `ghostty_terminal_scroll_viewport` | Scroll the terminal viewport |
-  | `ghostty_formatter_terminal_new` | Create a formatter for a terminal's
-  active screen |
-  | `ghostty_formatter_format_buf` | Format into a caller-provided buffer
-  |
-  | `ghostty_formatter_format_alloc` | Format into an allocated buffer |
-  | `ghostty_formatter_free` | Free a formatter instance |
-  
-  ## Future
-  
-  - Obviously need to expose a lot more from the terminal:
-    * Read current set modes
-    * Read cursor information
-    * Read screen information
-    * etc...
-  - Need an optional callback system so that `vt_write` can invoke
-  callbacks for side effect sequences like clipboards, title setting,
-  responses, etc.
-  - `terminal.RenderState` C API so that people can build high performance
-  renderers on top of libghostty-vt
-  
-  And so on...
-  ````
-- [`1844a5f`](https://github.com/ghostty-org/ghostty/commit/1844a5f7bafbade1305e95d515eedcb010aae104) Update VOUCHED list ([#11492](https://github.com/ghostty-org/ghostty/issues/11492)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11491#issuecomment-4060704311)
-  from @mitchellh.
-  
-  Vouch: @devsunb
-  ```
-- [`6368b00`](https://github.com/ghostty-org/ghostty/commit/6368b00604e4543088eda552a8aa3f6776500332) Update VOUCHED list ([#11488](https://github.com/ghostty-org/ghostty/issues/11488)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11485#discussioncomment-16130186)
-  from @mitchellh.
-  
-  Vouch: @jesusvazquez
   ```
 
