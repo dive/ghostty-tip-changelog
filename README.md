@@ -8,7 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 21, 2026 at 03:44 UTC.
+> Last updated: March 21, 2026 at 06:13 UTC.
+
+## March 21, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`b66120d`](https://github.com/ghostty-org/ghostty/commit/b66120d37d3001b3901f62d869266ba9dba0f60d) vt: add color_palette and color_rgb cell data types ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add two new CellData variants to extract background color values
+  directly from cells. color_palette (10) returns the palette index
+  as a GhosttyColorPaletteIndex and color_rgb (11) returns the RGB
+  components as a GhosttyColorRgb. Both reuse the existing color
+  types from color.h rather than introducing new ones.
+  
+  These are only valid when the cell content_tag is
+  bg_color_palette or bg_color_rgb respectively; querying them
+  with a mismatched tag reads from the wrong union member.
+  ```
+- [`efb3523`](https://github.com/ghostty-org/ghostty/commit/efb35235919a38bb04ac8b8ef06537f0317b7045) vt: add color_palette and color_rgb cell data types ([#11717](https://github.com/ghostty-org/ghostty/issues/11717)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add two new CellData variants to extract background color values
+  directly from cells. color_palette (10) returns the palette index as a
+  GhosttyColorPaletteIndex and color_rgb (11) returns the RGB components
+  as a GhosttyColorRgb. Both reuse the existing color types from color.h
+  rather than introducing new ones.
+  
+  These are only valid when the cell content_tag is
+  bg_color_palette or bg_color_rgb respectively; querying them with a
+  mismatched tag reads from the wrong union member.
+  
+  Found via Ghostling.
+  ```
 
 ## March 20, 2026
 
