@@ -8,15 +8,51 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 21, 2026 at 18:07 UTC.
+> Last updated: March 21, 2026 at 21:06 UTC.
 
 ## March 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [2](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [3](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [4](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
-Summary: 4 runs • 11 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23388647037), [2](https://github.com/ghostty-org/ghostty/actions/runs/23386078903), [3](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [4](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [5](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [6](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
+Summary: 6 runs • 14 commits • 3 authors
 
 ### Changes
 
+- [`1438a2f`](https://github.com/ghostty-org/ghostty/commit/1438a2fe4bea11e31d36f106e6191f2796595121) Update VOUCHED list ([#11731](https://github.com/ghostty-org/ghostty/issues/11731)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11729#issuecomment-4104386360)
+  from @mitchellh.
+  
+  Vouch: @turbolent
+  ```
+- [`918840c`](https://github.com/ghostty-org/ghostty/commit/918840cf1d1d617d1c8bb63f738a56ca7c6f165d) vt: persist VT stream state across vt_write calls ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, every call to vt_write created a fresh ReadonlyStream with
+  new Parser and UTF8Decoder state. This meant escape sequences split
+  across write boundaries (e.g. ESC in one write, [27m in the next)
+  would lose parser state, causing the second write to start in ground
+  state and print the CSI parameters as literal text.
+  
+  The C API now stores a persistent ReadonlyStream in the TerminalWrapper
+  struct, which is created when the Terminal is initialized. The vt_write
+  function feeds bytes through this stored stream, allowing it to maintain
+  parser state across calls. This change ensures that escape sequences
+  split across write boundaries are correctly parsed and rendered.
+  ```
+- [`ed13978`](https://github.com/ghostty-org/ghostty/commit/ed1397826b03fc91eb07337d070290045bad0365) vt: persist VT stream state across vt_write calls ([#11728](https://github.com/ghostty-org/ghostty/issues/11728)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, every call to vt_write created a fresh ReadonlyStream with
+  new Parser and UTF8Decoder state. This meant escape sequences split
+  across write boundaries (e.g. ESC in one write, [27m in the next) would
+  lose parser state, causing the second write to start in ground state and
+  print the CSI parameters as literal text.
+  
+  The C API now stores a persistent ReadonlyStream in the TerminalWrapper
+  struct, which is created when the Terminal is initialized. The vt_write
+  function feeds bytes through this stored stream, allowing it to maintain
+  parser state across calls. This change ensures that escape sequences
+  split across write boundaries are correctly parsed and rendered.
+  ```
 - [`50113ab`](https://github.com/ghostty-org/ghostty/commit/50113ab67860893969bbfe568261a293d91bf92f) macOS: add mouse state tests for [#11276](https://github.com/ghostty-org/ghostty/issues/11276) ([@bo2themax](https://github.com/bo2themax))
   ```text
   It will fail on 4e24adf71 and success after #11276
