@@ -8,15 +8,46 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 22, 2026 at 12:08 UTC.
+> Last updated: March 22, 2026 at 15:06 UTC.
 
 ## March 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [2](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
-Summary: 2 runs • 5 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23404576910), [2](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [3](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
+Summary: 3 runs • 7 commits • 2 authors
 
 ### Changes
 
+- [`8bd3a49`](https://github.com/ghostty-org/ghostty/commit/8bd3a493be648aa7df12e45c531a7f30cffa6eb1) libghostty: add resolved bg_color and fg_color to cells API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11705
+  
+  Add bg_color and fg_color options to GhosttyRenderStateRowCellsData
+  that resolve the final RGB color for a cell, flattening the multiple
+  possible sources. For background, this handles content-tag bg_color_rgb,
+  content-tag bg_color_palette (looked up in the palette), and the
+  style bg_color. For foreground, this resolves palette indices through
+  the palette; bold color handling is not applied and is left to the
+  caller.
+  
+  Both return GHOSTTY_INVALID_VALUE when no explicit color is set, in
+  which case the caller should fall back to whatever default color it
+  wants (e.g. the terminal background/foreground).
+  ```
+- [`ecc55b9`](https://github.com/ghostty-org/ghostty/commit/ecc55b94c803789762682065ab68f227447909c5) libghostty: add resolved bg_color and fg_color to cells API ([#11735](https://github.com/ghostty-org/ghostty/issues/11735)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11705
+  
+  Add bg_color and fg_color options to GhosttyRenderStateRowCellsData that
+  resolve the final RGB color for a cell, flattening the multiple possible
+  sources. For background, this handles content-tag bg_color_rgb,
+  content-tag bg_color_palette (looked up in the palette), and the style
+  bg_color. For foreground, this resolves palette indices through the
+  palette; bold color handling is not applied and is left to the caller.
+  
+  Both return GHOSTTY_INVALID_VALUE when no explicit color is set, in
+  which case the caller should fall back to whatever default color it
+  wants (e.g. the terminal background/foreground).
+  ```
 - [`8a788a3`](https://github.com/ghostty-org/ghostty/commit/8a788a350e105398b1c32df74a4a962e3d723032) Update VOUCHED list ([#11741](https://github.com/ghostty-org/ghostty/issues/11741)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
