@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 22, 2026 at 18:07 UTC.
+> Last updated: March 22, 2026 at 21:07 UTC.
 
 ## March 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23405966563), [2](https://github.com/ghostty-org/ghostty/actions/runs/23404576910), [3](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [4](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
-Summary: 4 runs • 9 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23411835341), [2](https://github.com/ghostty-org/ghostty/actions/runs/23405966563), [3](https://github.com/ghostty-org/ghostty/actions/runs/23404576910), [4](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [5](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
+Summary: 5 runs • 10 commits • 2 authors
 
 ### Changes
 
+- [`1d54a94`](https://github.com/ghostty-org/ghostty/commit/1d54a94cedd4405584d2dcdde948262a33110018) Update VOUCHED list ([#11755](https://github.com/ghostty-org/ghostty/issues/11755)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11754#issuecomment-4106929553)
+  from @mitchellh.
+  
+  Vouch: @tdgroot
+  ```
 - [`1f2a3b8`](https://github.com/ghostty-org/ghostty/commit/1f2a3b8a830aad15a72fec41e386fa4db4ab6804) update README ([@mitchellh](https://github.com/mitchellh))
   ```text
   The README hasn't been updated in years basically!
