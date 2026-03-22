@@ -8,7 +8,63 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 22, 2026 at 00:22 UTC.
+> Last updated: March 22, 2026 at 03:49 UTC.
+
+## March 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
+Summary: 1 runs • 4 commits • 1 authors
+
+### Changes
+
+- [`47bfde3`](https://github.com/ghostty-org/ghostty/commit/47bfde328658ede90f2d1a98e0d7bc8fb99fda12) libghostty: expose mouse_tracking terminal data option ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #11706
+  
+  Add a new GHOSTTY_TERMINAL_DATA_MOUSE_TRACKING option to the
+  ghostty_terminal_get API. This returns true if any mouse tracking
+  mode is active (X10, normal, button, or any-event), replacing the
+  need for consumers to loop over four separate mode queries.
+  ```
+- [`0c2bafc`](https://github.com/ghostty-org/ghostty/commit/0c2bafcc2a63a49f0f747adf8ca454bd85336167) libghostty: expose mouse_tracking terminal data option ([#11734](https://github.com/ghostty-org/ghostty/issues/11734)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11706
+  
+  Add a new GHOSTTY_TERMINAL_DATA_MOUSE_TRACKING option to the
+  ghostty_terminal_get API. This returns true if any mouse tracking mode
+  is active (X10, normal, button, or any-event), replacing the need for
+  consumers to loop over four separate mode queries.
+  ```
+- [`32c97a0`](https://github.com/ghostty-org/ghostty/commit/32c97a019f3f30d379436ec1a636c3d1d0472fbd) terminal: default render state foreground to white ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11704
+  
+  The RenderState empty initializer set both background and foreground
+  to the default RGB value of black (0, 0, 0), making text unreadable
+  when a caller has not explicitly configured terminal colors via
+  DynamicRGB. This is the common case for libghostty consumers.
+  
+  Default the foreground to white so that the initial render state
+  provides readable white-on-black text out of the box.
+  
+  Long term we also need to expose setting the default colors for a
+  Terminal instance but this is a workable fix in the mean time.
+  ```
+- [`ad5e967`](https://github.com/ghostty-org/ghostty/commit/ad5e9679c882fac5ca68e734834d88da18f585d8) terminal: default render state foreground to white ([#11736](https://github.com/ghostty-org/ghostty/issues/11736)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11704
+  
+  The RenderState empty initializer set both background and foreground to
+  the default RGB value of black (0, 0, 0), making text unreadable when a
+  caller has not explicitly configured terminal colors via DynamicRGB.
+  This is the common case for libghostty consumers.
+  
+  Default the foreground to white so that the initial render state
+  provides readable white-on-black text out of the box.
+  
+  Long term we also need to expose setting the default colors for a
+  Terminal instance but this is a workable fix in the mean time.
+  ```
 
 ## March 21, 2026
 
