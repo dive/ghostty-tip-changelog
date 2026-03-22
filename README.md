@@ -8,15 +8,68 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 21, 2026 at 21:06 UTC.
+> Last updated: March 22, 2026 at 00:22 UTC.
 
 ## March 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23388647037), [2](https://github.com/ghostty-org/ghostty/actions/runs/23386078903), [3](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [4](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [5](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [6](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
-Summary: 6 runs • 14 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23390298154), [2](https://github.com/ghostty-org/ghostty/actions/runs/23388647037), [3](https://github.com/ghostty-org/ghostty/actions/runs/23386078903), [4](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [5](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [6](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [7](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
+Summary: 7 runs • 18 commits • 3 authors
 
 ### Changes
 
+- [`8d6be5a`](https://github.com/ghostty-org/ghostty/commit/8d6be5a3dd7e7a88670deb953b03532b22106758) build: add static library target for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Refactor GhosttyLibVt to support both shared and static library
+  builds via a shared initLib helper that accepts a LinkMode. The
+  shared and static entry points (initShared, initStatic) delegate
+  to this common path.
+  
+  For static builds, compiler_rt and ubsan_rt are bundled to avoid
+  undefined symbol errors. Debug symbols (dsymutil) are skipped for
+  static libs since they are not linked. The install artifact uses
+  a "-static" suffix internally but installs as "libghostty-vt.a"
+  via a new installLib method. Wasm is excluded from static builds
+  since it has no meaningful static vs shared distinction.
+  ```
+- [`555bf7e`](https://github.com/ghostty-org/ghostty/commit/555bf7e92292b40b3d5b6b450bf8b92c99fd174c) build: add cmake static library support ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose both shared and static libraries as separate CMake imported
+  targets (ghostty-vt and ghostty-vt-static) rather than toggling
+  between them with BUILD_SHARED_LIBS. The zig build already produces
+  both in a single invocation, so both are always available.
+  
+  The find_package config template is updated to export both targets
+  as ghostty-vt::ghostty-vt and ghostty-vt::ghostty-vt-static.
+  
+  Add a c-vt-cmake-static example that demonstrates linking the static
+  library via FetchContent with -Dsimd=false to avoid C++ runtime
+  dependencies.
+  ```
+- [`5fd36ea`](https://github.com/ghostty-org/ghostty/commit/5fd36ea69e1d69f0ae15424d736a30df7b07fc81) build: enable PIC for static libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The static library was built without position-independent code,
+  which caused linker errors when consumers tried to link it into
+  PIE executables (the default on most Linux distributions). The
+  linker would fail with "relocation R_X86_64_32 against symbol
+  cannot be used when making a PIE object."
+  
+  Enable PIC on the static library root module so it can be linked
+  into both PIE and non-PIE executables.
+  ```
+- [`1775c31`](https://github.com/ghostty-org/ghostty/commit/1775c312ae6e99f8c499997faa6c084c3a758931) libghostty: add static library support ([#11732](https://github.com/ghostty-org/ghostty/issues/11732)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Multiple changes:
+  
+  * `zig build -Demit-lib-vt` now produces both shared and static
+  libraries by default
+  * Ghosty as a zig build dependency exports the static lib as
+  `dep.artifact("ghostty-vt-static")`
+  * CMake exports the static lib as `ghostty-vt-static`
+  
+  Note that the static library is _not fat_. **If you enable SIMD you have
+  dependencies** and you need to manually link those: libc++, simdutf, and
+  highway. The `c-cmake-static` example disables SIMD.
+  ```
 - [`1438a2f`](https://github.com/ghostty-org/ghostty/commit/1438a2fe4bea11e31d36f106e6191f2796595121) Update VOUCHED list ([#11731](https://github.com/ghostty-org/ghostty/issues/11731)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -2807,118 +2860,5 @@ Summary: 15 runs • 55 commits • 9 authors
   - @AnmiTaliDev
   - @crayxt
   - @MicaelJarniac
-  ```
-
-## March 15, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23121125985), [2](https://github.com/ghostty-org/ghostty/actions/runs/23114086713), [3](https://github.com/ghostty-org/ghostty/actions/runs/23114065115), [4](https://github.com/ghostty-org/ghostty/actions/runs/23112492758), [5](https://github.com/ghostty-org/ghostty/actions/runs/23104004789)  
-Summary: 5 runs • 10 commits • 3 authors
-
-### Changes
-
-- [`ac5e57c`](https://github.com/ghostty-org/ghostty/commit/ac5e57ce67d3c6913935aa265617cb4d3f46aba4) input: extract mouse encoding to a pure, testable file ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Move mouse event encoding logic from Surface.zig into a new
-  input/mouse_encode.zig file.
-  
-  The new file encapsulates event filtering (shouldReport),
-  button code computation, viewport bounds checking, motion
-  deduplication, and all five wire formats (X10, UTF-8, SGR,
-  urxvt, SGR-pixels). This makes the encoding independently
-  testable and adds unit tests covering each format and edge
-  case.
-  
-  Additionally, Surface `mouseReport` can no longer fail, since the only
-  failure mode is no buffer space which should be impossible. Updated
-  the signature to remove the error set.
-  ```
-- [`f1fd21f`](https://github.com/ghostty-org/ghostty/commit/f1fd21fd762ce8c6a7fa415734f63b08f05e36e1) input: extract mouse encoding to a pure, testable file ([#11538](https://github.com/ghostty-org/ghostty/issues/11538)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Move mouse event encoding logic from Surface.zig into a new
-  input/mouse_encode.zig file.
-  
-  The new file encapsulates event filtering (shouldReport), button code
-  computation, viewport bounds checking, motion deduplication, and all
-  five wire formats (X10, UTF-8, SGR, urxvt, SGR-pixels). This makes the
-  encoding independently testable and adds unit tests covering each format
-  and edge case.
-  
-  Additionally, Surface `mouseReport` can no longer fail, since the only
-  failure mode is no buffer space which should be impossible. Updated the
-  signature to remove the error set.
-  ```
-- [`a2b2b88`](https://github.com/ghostty-org/ghostty/commit/a2b2b883e8e74328463c23a6e925b31475b78330) Update VOUCHED list ([#11540](https://github.com/ghostty-org/ghostty/issues/11540)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11518#issuecomment-4064084617)
-  from @jparise.
-  
-  Vouch: @j0hnm4r5
-  ```
-- [`33263db`](https://github.com/ghostty-org/ghostty/commit/33263dbe6fea331b1be1acd4a7420d89f98ae806) Update VOUCHED list ([#11532](https://github.com/ghostty-org/ghostty/issues/11532)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11250#discussioncomment-16143210)
-  from @mitchellh.
-  
-  Vouch: @PowerUser64
-  ```
-- [`57428f3`](https://github.com/ghostty-org/ghostty/commit/57428f33c6af820a30efbb57600c030a4df693f6) Update VOUCHED list ([#11533](https://github.com/ghostty-org/ghostty/issues/11533)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11237#discussioncomment-16143212)
-  from @mitchellh.
-  
-  Vouch: @cadebrown
-  ```
-- [`0e272bf`](https://github.com/ghostty-org/ghostty/commit/0e272bfa10475cf98dc4967aa2b18f0257fafee5) Update VOUCHED list ([#11531](https://github.com/ghostty-org/ghostty/issues/11531)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11041#discussioncomment-16143204)
-  from @mitchellh.
-  
-  Vouch: @davidsanchez222
-  ```
-- [`943d3d2`](https://github.com/ghostty-org/ghostty/commit/943d3d2e8906cbd610868c36eccfc3a1360e0fd2) vt: add setopt_from_terminal to C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Expose the key encoder Options.fromTerminal function to the C API as
-  ghostty_key_encoder_setopt_from_terminal. This lets C callers sync all
-  terminal-derived encoding options (cursor key application mode, keypad
-  mode, alt escape prefix, modifyOtherKeys, and Kitty flags) in a single
-  call instead of setting each option individually.
-  ```
-- [`a7514d3`](https://github.com/ghostty-org/ghostty/commit/a7514d389b6c2d543fa7d548989cbd219e96c758) vt: add setopt_from_terminal to C API ([#11524](https://github.com/ghostty-org/ghostty/issues/11524)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Expose the key encoder Options.fromTerminal function to the C API as
-  ghostty_key_encoder_setopt_from_terminal. This lets C callers sync all
-  terminal-derived encoding options (cursor key application mode, keypad
-  mode, alt escape prefix, modifyOtherKeys, and Kitty flags) in a single
-  call instead of setting each option individually.
-  ```
-- [`86d9a04`](https://github.com/ghostty-org/ghostty/commit/86d9a04ece47f2309e4882c1ca3334fbba23ba3c) config: add `equal` option to `window-padding-balance` ([@devsunb](https://github.com/devsunb))
-  ```text
-  Change `window-padding-balance` from `bool` to an enum with three
-  values:
-  
-  - `false` - no balancing (default, unchanged)
-  - `true` - balance with vshift that caps top padding and shifts excess
-    to bottom (existing behavior, unchanged)
-  - `equal` - balance whitespace equally on all four sides
-  
-  This gives users who prefer truly equal padding a way to opt in without
-  changing the default behavior.
-  ```
-- [`c923655`](https://github.com/ghostty-org/ghostty/commit/c9236558b10da592bbb0b928140bea8cb94c74ae) config: add `equal` option to `window-padding-balance` ([#11491](https://github.com/ghostty-org/ghostty/issues/11491)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Change `window-padding-balance` from `bool` to an enum with three
-  values:
-  
-  - `false` - no balancing (default, unchanged)
-  - `true` - balance with vshift that caps top padding and shifts excess
-  to bottom (existing behavior, unchanged)
-  - `equal` - balance whitespace equally on all four sides
-  
-  This gives users who prefer truly equal padding a way to opt in without
-  changing the default behavior.
   ```
 
