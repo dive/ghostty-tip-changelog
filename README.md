@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 22, 2026 at 06:17 UTC.
+> Last updated: March 22, 2026 at 09:09 UTC.
 
 ## March 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
-Summary: 1 runs • 4 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [2](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
+Summary: 2 runs • 5 commits • 2 authors
 
 ### Changes
 
+- [`8a788a3`](https://github.com/ghostty-org/ghostty/commit/8a788a350e105398b1c32df74a4a962e3d723032) Update VOUCHED list ([#11741](https://github.com/ghostty-org/ghostty/issues/11741)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11737#discussioncomment-16252675)
+  from @pluiedev.
+  
+  Denounce: @kody-w
+  ```
 - [`47bfde3`](https://github.com/ghostty-org/ghostty/commit/47bfde328658ede90f2d1a98e0d7bc8fb99fda12) libghostty: expose mouse_tracking terminal data option ([@mitchellh](https://github.com/mitchellh))
   ```text
   #11706
