@@ -8,15 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 22, 2026 at 15:06 UTC.
+> Last updated: March 22, 2026 at 18:07 UTC.
 
 ## March 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23404576910), [2](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [3](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
-Summary: 3 runs • 7 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23405966563), [2](https://github.com/ghostty-org/ghostty/actions/runs/23404576910), [3](https://github.com/ghostty-org/ghostty/actions/runs/23399074980), [4](https://github.com/ghostty-org/ghostty/actions/runs/23394861871)  
+Summary: 4 runs • 9 commits • 2 authors
 
 ### Changes
 
+- [`1f2a3b8`](https://github.com/ghostty-org/ghostty/commit/1f2a3b8a830aad15a72fec41e386fa4db4ab6804) update README ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The README hasn't been updated in years basically!
+  
+  This updates the README to make libghostty a first class citizen of the
+  project and to update our roadmap and goals for the project to more
+  accurately reflect our current state and future plans.
+  ```
+- [`7d816f8`](https://github.com/ghostty-org/ghostty/commit/7d816f8e81e6cd05fd846b0ec7e02ea706efde41) Update README ([#11748](https://github.com/ghostty-org/ghostty/issues/11748)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The README hasn't been updated in years basically!
+  
+  This updates the README to make libghostty a first class citizen of the
+  project and to update our roadmap and goals for the project to more
+  accurately reflect our current state and future plans.
+  
+  I notably updated our roadmap to be more accurate to our state, e.g.
+  we're stable now. I removed Windows because it's not a short term focus
+  and I think libghostty is more important and enables that ecosystem a
+  lot more (libghostty itself being already compatible with Windows). I
+  also expanded on "fancy features" and clarified its to make
+  Ghostty-specific sequences.
+  ```
 - [`8bd3a49`](https://github.com/ghostty-org/ghostty/commit/8bd3a493be648aa7df12e45c531a7f30cffa6eb1) libghostty: add resolved bg_color and fg_color to cells API ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #11705
