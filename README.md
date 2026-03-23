@@ -8,7 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 23, 2026 at 12:16 UTC.
+> Last updated: March 23, 2026 at 15:23 UTC.
+
+## March 23, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [2](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [3](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
+Summary: 3 runs • 7 commits • 3 authors
+
+### Changes
+
+- [`855a6b0`](https://github.com/ghostty-org/ghostty/commit/855a6b01fcb52a85434d13d4c554f8b551248541) gtk: Open urls with openuri portal ([@tdgroot](https://github.com/tdgroot))
+- [`37d297c`](https://github.com/ghostty-org/ghostty/commit/37d297c03c5494de34d37d77439f73cb0d953137) gtk/portal: General improvements ([@tdgroot](https://github.com/tdgroot))
+  ```text
+  - Token is formatted without allocation
+  - Reusable function for formatToken
+  - Tests in portal.zig are actuall included now
+  ```
+- [`919e586`](https://github.com/ghostty-org/ghostty/commit/919e586c516442b899f1f925f4aa37a100dee833) gtk/portal: Improve OpenURI lifecycle ([@tdgroot](https://github.com/tdgroot))
+- [`8bc7590`](https://github.com/ghostty-org/ghostty/commit/8bc75907b541673deba24d3075fa0818c8f7b633) gtk: Fix casing for openUri ([@tdgroot](https://github.com/tdgroot))
+- [`374ed27`](https://github.com/ghostty-org/ghostty/commit/374ed2721462ba2a9aaa8c6872a8c56eb4568b90) gtk: Open URIs with portals ([#11754](https://github.com/ghostty-org/ghostty/issues/11754)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This is a continuation of the solid work done by @jcollie in PR #7864. I
+  checked with him if I could take over to continue the implementation.
+  
+  His changes of last year have been adapted to be compatible with the
+  current GTK implementation. Aside from just "making it work", I also
+  dived into the portals and OpenURI implementation and made some
+  improvements there.
+  
+  Notable improvements were:
+  - Improved lifecycle management of glib resources in the OpenURI
+  implementation
+  - More forgiving error handling in OpenURI implementation by adding more
+  fallbacks
+  - Fixed some memory leaks
+  - Less memory allocations in Portals implementation
+  - Added tests for building the Portals request path
+  
+  Fixes #5991
+  ```
+- [`f0d59c2`](https://github.com/ghostty-org/ghostty/commit/f0d59c22b201d79ccc8fe2a326b5a2f2dbcb37b3) Update VOUCHED list ([#11775](https://github.com/ghostty-org/ghostty/issues/11775)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11768#issuecomment-4111147332)
+  from @jcollie.
+  
+  Vouch: @lynicis
+  ```
+- [`f6cf978`](https://github.com/ghostty-org/ghostty/commit/f6cf978b32c4c1f947aeb779694e8e48a008ae32) Update VOUCHED list ([#11773](https://github.com/ghostty-org/ghostty/issues/11773)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11771#issuecomment-4111016256)
+  from @jcollie.
+  
+  Vouch: @deblasis
+  ```
 
 ## March 22, 2026
 
