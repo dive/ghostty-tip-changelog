@@ -8,15 +8,265 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 23, 2026 at 18:16 UTC.
+> Last updated: March 23, 2026 at 21:12 UTC.
 
 ## March 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23451621230), [2](https://github.com/ghostty-org/ghostty/actions/runs/23449313767), [3](https://github.com/ghostty-org/ghostty/actions/runs/23447242926), [4](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [5](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [6](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
-Summary: 6 runs • 22 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23458735124), [2](https://github.com/ghostty-org/ghostty/actions/runs/23457617226), [3](https://github.com/ghostty-org/ghostty/actions/runs/23451621230), [4](https://github.com/ghostty-org/ghostty/actions/runs/23449313767), [5](https://github.com/ghostty-org/ghostty/actions/runs/23447242926), [6](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [7](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [8](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
+Summary: 8 runs • 42 commits • 6 authors
 
 ### Changes
 
+- [`f2773d4`](https://github.com/ghostty-org/ghostty/commit/f2773d42c1c4cc8750bfe6298397f2aa4a93340d) windows: skip expandHomeUnix test on Windows ([@deblasis](https://github.com/deblasis))
+  ```text
+  expandHomeUnix is a Unix-internal function that is never called on
+  Windows. The public expandHome function returns the path unchanged
+  on Windows since ~/ is not a standard Windows idiom. The test calls
+  expandHomeUnix directly, which invokes home() and expects Unix-style
+  forward-slash separators.
+  ```
+- [`fd49716`](https://github.com/ghostty-org/ghostty/commit/fd49716ea2084108aa098db390931c007495a1ab) windows: skip expandHomeUnix test on Windows ([#11784](https://github.com/ghostty-org/ghostty/issues/11784)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  ## What
+  
+  Skip the `expandHomeUnix` test on Windows with `SkipZigTest`.
+  
+  `expandHomeUnix` is a Unix-internal function that is never called on
+  Windows. The public `expandHome` already returns the path unchanged on
+  Windows (added upstream in cccdb0d2a). But the unit test calls
+  `expandHomeUnix` directly, which invokes `home()` and expects Unix-style
+  forward-slash separators, so it fails on Windows.
+  
+  ## How
+  
+  Two lines:
+  
+  ```zig
+  if (builtin.os.tag == .windows) return error.SkipZigTest;
+  
+  ```
+  
+  ## Verified
+  
+  - `zig build test-lib-vt` passes on Windows (exit 0)
+  - No behavior change on Linux/macOS
+  
+  ## What I Learnt
+  
+  - When upstream adds a platform dispatch for production code (like
+  `expandHome` returning unchanged on Windows), the unit tests for
+  internal platform-specific functions (like `expandHomeUnix`) may still
+  need a skip guard.
+  - Zig doesn't have something like Go's `//go:build` but damn... comptime
+  is insane, like supercharged C# `#if`
+  ````
+- [`5a46e61`](https://github.com/ghostty-org/ghostty/commit/5a46e61bee58e9170f00b3c1404f6ca78aabcf82) cmake: fix Windows build support ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On Windows, shared libraries (DLLs) require an import library (.lib)
+  for linking, and the DLL itself is placed in bin/ rather than lib/ by
+  the Zig build. The CMake wrapper was missing IMPORTED_IMPLIB on the
+  shared imported target, causing link failures, and assumed the shared
+  library was always in lib/.
+  
+  Add GHOSTTY_VT_IMPLIB for the import library name, set IMPORTED_IMPLIB
+  on the ghostty-vt target, and fix the shared library path to use bin/
+  on Windows. Install the DLL and PDB to bin/ and the import library to
+  lib/ following standard Windows conventions. Apply the same fixes to
+  ghostty-vt-config.cmake.in for the find_package path.
+  ```
+- [`f4998c6`](https://github.com/ghostty-org/ghostty/commit/f4998c6abbce862448d68fb2b4c3b17ba16d7b16) build: fix Windows build failures in helpgen and framegen ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use writerStreaming() instead of writer() for stdout in helpgen and
+  main_build_data. The positional writer calls setEndPos/ftruncate in
+  end(), which fails on Windows when stdout is redirected via
+  captureStdOut() because ftruncate maps INVALID_PARAMETER to
+  FileTooBig. Streaming mode skips truncation entirely since stdout
+  is inherently a sequential stream.
+  
+  Replace scandir with opendir/readdir plus qsort in framegen since
+  scandir is a POSIX extension not available on Windows.
+  ```
+- [`48cf3f3`](https://github.com/ghostty-org/ghostty/commit/48cf3f36cde2c28ba2f321636bf8612873bd274a) ci: run Windows CMake examples after building ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a "Run Example" step to the build-examples-cmake-windows job
+  so that each CMake example is executed after it is built, verifying
+  the resulting binaries actually work. The executable name is derived
+  from the matrix directory name by replacing hyphens with underscores,
+  matching the project convention.
+  ```
+- [`0fdddd5`](https://github.com/ghostty-org/ghostty/commit/0fdddd5bc2efe1cd8952ac4e248c84ff91c95cdf) Revert "build: fix Windows build failures in helpgen and framegen" ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit 704511465b8b04d6839fbaaf3323d9349693f04a.
+  ```
+- [`6ccc01a`](https://github.com/ghostty-org/ghostty/commit/6ccc01a85258634eb09d48fd906e6311b395a956) revert the build-windows ([@mitchellh](https://github.com/mitchellh))
+- [`2afadfc`](https://github.com/ghostty-org/ghostty/commit/2afadfc104ee4b0385afe19e9560da8afb58e7f1) build: fix Windows cmake example failures ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The cmake examples were failing at runtime on Windows CI for two
+  reasons.
+  
+  The static library was installed as "libghostty-vt.a" on all
+  platforms, but on Windows the DLL import library is also placed in
+  zig-out/lib/ as "ghostty-vt.lib". The CMakeLists.txt expected the
+  platform-native name "ghostty-vt.lib" for the static lib, so it
+  picked up the tiny DLL import lib instead, silently producing a
+  dynamically-linked executable. That executable then failed at
+  runtime because the DLL was not on PATH.
+  
+  Fix this by installing the static library as "ghostty-vt-static.lib"
+  on Windows to avoid the name collision, and updating CMakeLists.txt
+  to match. For the shared (DLL) example, add zig-out/bin to PATH in
+  the CI run step so the DLL can be found at runtime.
+  ```
+- [`31285e1`](https://github.com/ghostty-org/ghostty/commit/31285e1ac34d8a2dcd46ec682fba767d05ebd21e) build: disable bundled compiler_rt and ubsan_rt for MSVC targets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig's bundled compiler_rt and ubsan_rt produce object files with
+  ELF-style linker directives (/exclude-symbols) and COMDAT sections
+  that are incompatible with the MSVC linker, causing LNK1143 and
+  LNK4229 errors when linking the static library.
+  
+  MSVC provides its own compiler runtime so bundling Zig's versions
+  is unnecessary. Skip bundling both runtimes when the target ABI is
+  MSVC.
+  ```
+- [`1ce057f`](https://github.com/ghostty-org/ghostty/commit/1ce057f0535f3a0a57cb5c9ed34d3b7fecfb967c) build: disable ubsan and bundled runtimes for MSVC targets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig's ubsan instrumentation emits ELF-style /exclude-symbols linker
+  directives into the compiled object files, causing LNK4229 warnings
+  with the MSVC linker. The bundled compiler_rt also produces COMDAT
+  sections that are incompatible with MSVC, causing fatal LNK1143.
+  
+  Disable sanitize_c entirely on the root module for MSVC targets and
+  skip bundling both compiler_rt and ubsan_rt since MSVC provides its
+  own runtime.
+  ```
+- [`69f82ec`](https://github.com/ghostty-org/ghostty/commit/69f82ec7511950eef3d5f52c738d5da6bcac9b0c) build: disable bundled ubsan runtime on Windows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig's ubsan runtime emits /exclude-symbols linker directives that
+  are incompatible with the MSVC linker, causing LNK4229 warnings and
+  LNK1143 errors. Disable bundling ubsan_rt on Windows while keeping
+  compiler_rt which provides essential symbols like memcpy, memset,
+  memmove, and ___chkstk_ms.
+  
+  The previous check used target.result.abi == .msvc which never
+  matched because Zig defaults to the gnu ABI on Windows.
+  ```
+- [`2c89bef`](https://github.com/ghostty-org/ghostty/commit/2c89bef860efbd5518375edcce6f1f210a923c59) build: skip bundled compiler_rt and ubsan_rt in Windows static lib ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig's compiler_rt produces COFF objects with invalid COMDAT
+  sections that the MSVC linker rejects (LNK1143), and its ubsan_rt
+  emits /exclude-symbols directives that MSVC does not understand
+  (LNK4229). Skip bundling both in the static library on Windows
+  since the MSVC CRT provides the needed builtins (memcpy, memset,
+  etc.). The shared library continues to bundle compiler_rt as it
+  needs to be self-contained.
+  ```
+- [`01401ef`](https://github.com/ghostty-org/ghostty/commit/01401ef6756c0876b775e0bcdd06064abc68697e) build: fix Windows static lib linking with MSVC ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Three issues when linking the static library with the MSVC linker:
+  
+  Use the LLVM backend on Windows to produce valid COFF objects.
+  The self-hosted backend generates compiler_rt objects with invalid
+  COMDAT sections that the MSVC linker rejects (LNK1143).
+  
+  Disable bundling ubsan_rt on Windows. Zig's ubsan runtime emits
+  /exclude-symbols linker directives that MSVC does not understand
+  (LNK4229).
+  
+  Add ntdll and kernel32 as transitive link dependencies for the
+  static library on Windows. The Zig standard library uses NT API
+  functions (NtClose, NtCreateSection, etc.) that consumers must
+  link.
+  ```
+- [`1eed35d`](https://github.com/ghostty-org/ghostty/commit/1eed35dddccbcb3a47ffddf999df43ecd1f217ea) build: default to MSVC ABI on Windows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig defaults to the GNU ABI on Windows, which produces COFF objects
+  with invalid COMDAT sections in compiler_rt that the MSVC linker
+  rejects (LNK1143), and uses GNU conventions like ___chkstk_ms that
+  are unavailable in the MSVC CRT.
+  
+  Default to the MSVC ABI when no explicit ABI is requested, following
+  the same pattern as the existing macOS target override. This ensures
+  compiler_rt produces valid COFF and the generated code uses
+  MSVC-compatible symbols. Users can still explicitly request the GNU
+  ABI via -Dtarget.
+  
+  Also disable bundling ubsan_rt on Windows (its /exclude-symbols
+  directives are MSVC-incompatible) and add ntdll and kernel32 as
+  transitive link dependencies for the static library.
+  ```
+- [`afa8f05`](https://github.com/ghostty-org/ghostty/commit/afa8f059e5faeb6198ca64edb89762fb821df9e5) build: skip linkLibCpp on MSVC targets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig's bundled libc++/libc++abi conflicts with the MSVC C++ runtime
+  headers (vcruntime_typeinfo.h, vcruntime_exception.h, etc.) when
+  targeting native-native-msvc. This caused compilation failures in
+  the SIMD C++ code due to -nostdinc++ suppressing MSVC headers and
+  libc++ types clashing with MSVC runtime types.
+  
+  Skip linkLibCpp() for MSVC targets across all packages (highway,
+  simdutf, utfcpp) and the main build (SharedDeps, GhosttyZig) since
+  MSVC provides its own C++ standard library natively. Also add
+  missing <iterator> and <cstddef> includes that were previously
+  pulled in transitively through libc++ headers but are not
+  guaranteed by MSVC's headers.
+  ```
+- [`3d581eb`](https://github.com/ghostty-org/ghostty/commit/3d581eb92eade74bce9becdda50c0bf2877df366) build: use linkLibC instead of linkLibCpp on MSVC targets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When compiling C++ files, Zig unconditionally passes -nostdinc++ and,
+  if link_libcpp is set, adds its bundled libc++/libc++abi include paths
+  as replacements (see Compilation.zig). On MSVC targets this conflicts
+  with the MSVC C++ runtime headers (vcruntime_typeinfo.h,
+  vcruntime_exception.h, etc.), causing compilation failures in SIMD
+  C++ code.
+  
+  The fix is to use linkLibC instead of linkLibCpp on MSVC. Zig always
+  passes -nostdinc to strip default search paths, but LibCDirs.detect
+  re-adds the MSVC SDK include directories, which contain both C and
+  C++ standard library headers. This gives us proper access to MSVC's
+  own <optional>, <iterator>, <cstddef>, etc. without the libc++
+  conflicts.
+  
+  For the package builds (highway, simdutf, utfcpp) this means
+  switching from linkLibCpp to linkLibC on MSVC. For SharedDeps and
+  GhosttyZig, linkLibC is already called separately, so we just skip
+  linkLibCpp.
+  ```
+- [`b4c529a`](https://github.com/ghostty-org/ghostty/commit/b4c529a82722cb6f9425de531888ff3424be4732) build: add -std=c++17 for SIMD C++ files on MSVC ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The SIMD C++ files use C++17 features (std::optional, std::size).
+  With Zig's bundled libc++ these are available implicitly, but MSVC
+  headers guard C++17 features behind the standard version
+  (_HAS_CXX17). Without an explicit -std=c++17 flag, clang defaults
+  to a lower standard and the MSVC <optional> header does not define
+  std::optional.
+  ```
+- [`63260ec`](https://github.com/ghostty-org/ghostty/commit/63260ec7221741fb0c0a0e2f1018da094b116af9) build: disable ubsan for SIMD C++ files on MSVC ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The SIMD C++ files reference __ubsan_handle_* symbols when compiled
+  in debug mode, but we do not link or bundle the ubsan runtime on
+  MSVC. This matches what the highway and simdutf packages already do
+  in their own build files.
+  ```
+- [`b723f2a`](https://github.com/ghostty-org/ghostty/commit/b723f2a4377a196eaa594e42bc0a7ba0ad1ba09c) ci: remove run step from Windows cmake examples ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The "Run Example" step in the build-examples-cmake-windows job
+  hangs, so remove it entirely. The build step is still run so
+  compilation is verified, but the examples are no longer executed
+  on Windows.
+  ```
+- [`1213dac`](https://github.com/ghostty-org/ghostty/commit/1213dacd5be631a896b9618a0bfebd8efa2e5c79) cmake: fix Windows libghostty build support ([#11756](https://github.com/ghostty-org/ghostty/issues/11756)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On Windows, shared libraries (DLLs) require an import library (.lib) for
+  linking, and the DLL itself is placed in bin/ rather than lib/ by the
+  Zig build. The CMake wrapper was missing IMPORTED_IMPLIB on the shared
+  imported target, causing link failures, and assumed the shared library
+  was always in lib/.
+  
+  Add GHOSTTY_VT_IMPLIB for the import library name, set IMPORTED_IMPLIB
+  on the ghostty-vt target, and fix the shared library path to use bin/ on
+  Windows. Install the DLL and PDB to bin/ and the import library to lib/
+  following standard Windows conventions. Apply the same fixes to
+  ghostty-vt-config.cmake.in for the find_package path.
+  ```
 - [`aa969df`](https://github.com/ghostty-org/ghostty/commit/aa969df6794ed5018342920b20c65c5f74c6fb7a) ci: clean up Windows build job ([@mitchellh](https://github.com/mitchellh))
   ```text
   Rename build-windows to build-libghostty-vt-windows to reflect that
