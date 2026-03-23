@@ -8,15 +8,126 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 23, 2026 at 15:23 UTC.
+> Last updated: March 23, 2026 at 18:16 UTC.
 
 ## March 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [2](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [3](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
-Summary: 3 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23451621230), [2](https://github.com/ghostty-org/ghostty/actions/runs/23449313767), [3](https://github.com/ghostty-org/ghostty/actions/runs/23447242926), [4](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [5](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [6](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
+Summary: 6 runs • 22 commits • 5 authors
 
 ### Changes
 
+- [`aa969df`](https://github.com/ghostty-org/ghostty/commit/aa969df6794ed5018342920b20c65c5f74c6fb7a) ci: clean up Windows build job ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename build-windows to build-libghostty-vt-windows to reflect that
+  it only builds and tests libghostty-vt for now, and move it next to
+  the other build-libghostty-vt jobs.
+  
+  Replace the manual PowerShell zig download/install with mlugg/setup-zig,
+  which auto-detects the version from build.zig.zon and handles caching.
+  Upgrade the runner from windows-2022 to windows-2025. Remove the
+  generated-script-to-swallow-errors pattern in favor of direct zig
+  build commands.
+  ```
+- [`d568ce9`](https://github.com/ghostty-org/ghostty/commit/d568ce9cc838d97a5e323054e72f19e47c6cc0a9) terminal: support VirtualAlloc for page allocation on windows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extract the platform-specific page backing memory allocation into
+  AllocPosix and AllocWindows structs behind a PageAlloc comptime
+  switch. Previously, POSIX mmap calls were inlined at each call
+  site. This adds a Windows VirtualAlloc implementation and routes
+  all allocation through PageAlloc.alloc/free, making the backing
+  memory strategy consistent and easier to extend.
+  ```
+- [`e95fdd2`](https://github.com/ghostty-org/ghostty/commit/e95fdd2f21bda187c3a521417243d7280110f6a1) terminal: handle CRLF line endings in rgb.txt parsing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The X11 color map parser in x11_color.zig uses @embedFile to load
+  rgb.txt at comptime, then splits on \n. On Windows, git may check
+  out rgb.txt with CRLF line endings, leaving a trailing \r on each
+  line. This caused color names to be stored as e.g. "white\r" instead
+  of "white", so all X11 color lookups failed at runtime.
+  
+  Strip trailing \r from each line before parsing. Also mark rgb.txt
+  as -text in .gitattributes to prevent line ending conversion in
+  future checkouts.
+  ```
+- [`fa10237`](https://github.com/ghostty-org/ghostty/commit/fa10237fb0cb952dcc5760339890e50f25818111) build: fix windows build to properly run tests and build of libghostty-vt ([#11781](https://github.com/ghostty-org/ghostty/issues/11781)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Our Windows build has been broken for a _long_ time. It hasn't actually
+  worked and our CI was falsely passing when it was actually failing to
+  build/test. This PR fixes that and fixes the issues it found so
+  `libghostty-vt` can build and pass tests.
+  
+  **This is only for libghostty!** I'd still like to expand our _test_
+  coverage to all of Ghostty for Windows but libghostty is more important
+  for that platform in the short term and it's an incremental piece of
+  work.
+  
+  A couple windows compatibility issues fixed:
+  
+  - `terminal.Page` uses `VirtualAlloc` on Windows (thanks @deblasis)
+  - Our rgb.txt loading was not resilient to CRLF endings
+  ```
+- [`04b5dc7`](https://github.com/ghostty-org/ghostty/commit/04b5dc733243d85f0bbaa3aea25d65a19649cd64) terminal: guard ghostty.h checks on building the app ([@mitchellh](https://github.com/mitchellh))
+- [`7253668`](https://github.com/ghostty-org/ghostty/commit/7253668ec20b0a79e41930ec4ba9e189d605cc7e) config: move file formatter to dedicated file to prevent import bloat ([@mitchellh](https://github.com/mitchellh))
+- [`f60587f`](https://github.com/ghostty-org/ghostty/commit/f60587ffcc15886ee0dd2f24764da4e69f83a9d2) renderer/size: move PaddingBalance enum out of Config ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously WindowPaddingBalance was defined inside Config.zig, which
+  meant tests for renderer sizing had to pull in the full config
+  dependency. Move the enum into renderer/size.zig as PaddingBalance
+  and re-export it from Config so the public API is unchanged. This
+  lets size.zig tests run without depending on Config.
+  ```
+- [`51f8784`](https://github.com/ghostty-org/ghostty/commit/51f878417fede56716a3931b8a55fa4b0cbe15aa) reenable tests ([@mitchellh](https://github.com/mitchellh))
+- [`409f05c`](https://github.com/ghostty-org/ghostty/commit/409f05c92750e94c376b0c42ae7c70b2d9fbd62c) typos ([@mitchellh](https://github.com/mitchellh))
+- [`5828352`](https://github.com/ghostty-org/ghostty/commit/58283528c79de8f9d17bc5f4e280e43835696c67) vt: handle invalid enum before pointer cast in getters ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The inline else switch in each C API getter expands the .invalid
+  case, which has OutType void. When called with .invalid and a null
+  out pointer, the @ptrCast(@alignCast(out)) panics before getTyped
+  can return early.
+  
+  Handle .invalid explicitly in the outer switch of every getter to
+  short-circuit before the pointer cast. This affects build_info,
+  cell, row, terminal, osc, and render (three getters).
+  ```
+- [`f92bb74`](https://github.com/ghostty-org/ghostty/commit/f92bb7419692bfce765aa6571ec1d72ac5095a2c) ci: add test-lib-vt job ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new CI job that runs `zig build test-lib-vt` to test the
+  lib-vt build step. The job mirrors the existing test job structure
+  with the same nix/cachix setup and skip conditions. It is also
+  added to the required checks list.
+  ```
+- [`3c8d0a9`](https://github.com/ghostty-org/ghostty/commit/3c8d0a9c25493091b82bed88f2c6c7c171a51c11) vt: fix test failures in render and key_encode ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The colors_get function used structSizedFieldFits to guard the
+  palette copy, which required the entire palette array to fit in the
+  provided size. This prevented partial palette writes when the caller
+  passed a truncated sized struct, since the guard failed even though
+  the inner code already handled partial copies correctly. Remove the
+  outer guard so the existing partial-copy logic applies.
+  
+  The setopt_from_terminal test expected alt_esc_prefix to be false on
+  a fresh terminal, but the mode definition in modes.zig sets its
+  default to true. Update the test expectation to match.
+  ```
+- [`206f989`](https://github.com/ghostty-org/ghostty/commit/206f9894f7978f894a29d1a6d686284b489504ae) Fix `zig build test-lib-vt`  ([#11778](https://github.com/ghostty-org/ghostty/issues/11778)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Our `checkGhosttyH` calls need to be guarded on building Ghostty app
+  which has it
+  - Move FileFormatter to its own file to avoid poisoning test refs with
+  Config.zig which pulls in the world
+  - Move WindowPaddingBalance to renderer to avoid pulling in Config.zig
+  - Add a `zig build test-lib-vt` CI job
+  ```
+- [`d67f65e`](https://github.com/ghostty-org/ghostty/commit/d67f65e38c8362c066dbfc70f2425808833e7049) also build static libghostty-vt for wasm ([@turbolent](https://github.com/turbolent))
+- [`9b3f7a9`](https://github.com/ghostty-org/ghostty/commit/9b3f7a9287bcb0524d8ddfc78dc7ae35c641d187) vt: also build static libghostty-vt for wasm ([#11757](https://github.com/ghostty-org/ghostty/issues/11757)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A static libghostty-vt is also useful for wasm targets, as that allows
+  linking with an application into a larger wasm module.
+  
+  See
+  https://github.com/ghostty-org/ghostty/pull/11729#issuecomment-4106589379
+  ```
 - [`855a6b0`](https://github.com/ghostty-org/ghostty/commit/855a6b01fcb52a85434d13d4c554f8b551248541) gtk: Open urls with openuri portal ([@tdgroot](https://github.com/tdgroot))
 - [`37d297c`](https://github.com/ghostty-org/ghostty/commit/37d297c03c5494de34d37d77439f73cb0d953137) gtk/portal: General improvements ([@tdgroot](https://github.com/tdgroot))
   ```text
