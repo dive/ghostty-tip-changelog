@@ -8,15 +8,253 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 24, 2026 at 15:26 UTC.
+> Last updated: March 24, 2026 at 18:20 UTC.
 
 ## March 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [2](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [3](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [4](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 4 runs • 15 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [2](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [3](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [4](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [5](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
+Summary: 5 runs • 22 commits • 5 authors
 
 ### Changes
 
+- [`d5aef6e`](https://github.com/ghostty-org/ghostty/commit/d5aef6e845ed72584aba3a129268d40a9694b568) build: fix freetype compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  Gate HAVE_UNISTD_H and HAVE_FCNTL_H behind a non-Windows check since
+  these headers do not exist with MSVC. Freetype includes zlib headers
+  which conditionally include unistd.h based on this define.
+  ```
+- [`a35f84d`](https://github.com/ghostty-org/ghostty/commit/a35f84db32e88b93bcff19317365ee93f75839d1) build: define ssize_t for MSVC in ghostty.h ([@deblasis](https://github.com/deblasis))
+  ```text
+  MSVC's <sys/types.h> does not define ssize_t (it is a POSIX type).
+  This causes the translate-c build step to fail when translating
+  ghostty.h on Windows. Use SSIZE_T from <BaseTsd.h> which is the
+  Windows SDK equivalent.
+  ```
+- [`deeda46`](https://github.com/ghostty-org/ghostty/commit/deeda4618691525e977886135aa4ff18b7f81caa) build: skip linkLibCpp on MSVC for dcimgui, spirv-cross, harfbuzz ([@deblasis](https://github.com/deblasis))
+  ```text
+  Zig unconditionally passes -nostdinc++ and adds its bundled
+  libc++/libc++abi include paths, which conflict with MSVC's own C++
+  runtime headers. The MSVC SDK directories (added via linkLibC)
+  already contain both C and C++ headers, so linkLibCpp is not needed.
+  
+  This is the same fix already applied upstream to highway, simdutf,
+  utfcpp, glslang, SharedDeps, and GhosttyZig.
+  ```
+- [`ce99300`](https://github.com/ghostty-org/ghostty/commit/ce99300513dff19fade309ca4881fc45517424f7) build: fix freetype C enum signedness for MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  MSVC translates C enums as signed int, while GCC/Clang uses unsigned
+  int. The freetype Zig bindings hardcode c_uint for enum backing types,
+  causing type mismatches when compiling with MSVC target.
+  
+  Fix by adding @intCast at call sites where enum values are passed to
+  C functions, and @bitCast for the glyph format tag extraction where
+  bit-shift operations require unsigned integers.
+  ```
+- [`d14eab3`](https://github.com/ghostty-org/ghostty/commit/d14eab3124bc8ff9f3ca25b2a2bafeecf20a9133) build: fix freetype compilation on Windows with MSVC ([#11807](https://github.com/ghostty-org/ghostty/issues/11807)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  **Getting there!** Goal for today/tomorrow is to get it all green.
+  
+  This one is easy:
+  
+  - Gate `HAVE_UNISTD_H` and `HAVE_FCNTL_H` behind a non-Windows check
+  since these headers do not exist with MSVC
+  - Freetype's gzip module includes zlib headers which conditionally
+  include `unistd.h` based on this define
+  
+  ## Context
+  Same pattern as the zlib fix (010-* branch from my fork). Freetype
+  passes `-DHAVE_UNISTD_H` unconditionally, which causes zlib's `zconf.h`
+  to try including `unistd.h` when freetype compiles its gzip support. The
+  fix follows the same approach used in `pkg/zlib/build.zig` (line 36-38).
+  
+  ## Stack
+  Stacked on 013-windows/fix-helpgen-framegen.
+  
+  ## Test plan
+  
+  ### Cross-platform results (`zig build test` / `zig build
+  -Dapp-runtime=none test` on Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (f9d3b1aaf) | FAIL - 44/51 steps, 2 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  | **AFTER** (d5aef6e84) | FAIL - 47/51 steps, 1 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  
+  ### Windows: what changed (44 to 47 steps, 2 to 1 failure)
+  
+  **Fixed by this PR:**
+  - `compile lib freetype` - was `2 errors` (unistd.h/fcntl.h not found)
+  -> `success`
+  - 3 additional steps that depended on freetype now succeed
+  
+  **Remaining failure (pre-existing, tracked separately):**
+  - `translate-c` - 3 errors (`ssize_t` unknown in ghostty.h on MSVC)
+  
+  ### Linux/macOS: no regressions
+  Identical pass counts and test results before and after.
+  
+  ## Discussion
+  
+  ### Other build files with the same pattern
+  `pkg/fontconfig/build.zig` and `pkg/harfbuzz/build.zig` also pass
+  `-DHAVE_UNISTD_H` and/or `-DHAVE_FCNTL_H` unconditionally. They are not
+  in the Windows build path today, but will need the same fix when they
+  are.
+  
+  ## What I Learnt
+  
+  More of the same
+  ```
+- [`e7a23a3`](https://github.com/ghostty-org/ghostty/commit/e7a23a37e5f01ad5993447e966f19abaceebdb6b) build: define ssize_t for MSVC in ghostty.h ([#11810](https://github.com/ghostty-org/ghostty/issues/11810)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > [!WARNING]
+  > Review/approve this AFTER #11807 (this PR includes its commits)
+  
+  92% progress with the fixes!
+  
+  ## Summary
+  - Add a conditional `ssize_t` typedef for MSVC in `include/ghostty.h`
+  - MSVC's `<sys/types.h>` does not define `ssize_t` (it is a POSIX type),
+  which causes the `translate-c` build step to fail when translating
+  `ghostty.h` on Windows
+  - Uses `SSIZE_T` from `<BaseTsd.h>`, the standard Windows SDK equivalent
+  
+  ## Context
+  The `translate-c` step translates `ghostty.h` to Zig for test
+  compilation. On MSVC, it fails with 3 errors on `ssize_t` (used in
+  `ghostty_action_move_tab_s`, `ghostty_action_search_total_s`,
+  `ghostty_action_search_selected_s`).
+  
+  The `#ifdef _MSC_VER` guard means this only affects MSVC builds.
+  `BaseTsd.h` is a standard Windows SDK header and `SSIZE_T` is a signed
+  pointer-sized integer, matching POSIX `ssize_t` and Zig's `isize`. This
+  pattern is used by libuv, curl, and other cross-platform C projects.
+  
+  ## Test plan
+  
+  ### Cross-platform results (`zig build test` / `zig build
+  -Dapp-runtime=none test` on Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (d5aef6e84) | FAIL - 47/51 steps, 1 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  | **AFTER** (a35f84db3) | FAIL - 48/51 steps, 1 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  
+  ### Windows: what changed (47 -> 48 steps, translate-c fixed)
+  
+  **Fixed by this PR:**
+  - `translate-c` - was `3 errors` (unknown type name 'ssize_t' at lines
+  582, 842, 847) -> `success`
+  
+  **Remaining failure (pre-existing, unrelated):**
+  - `compile test ghostty-test` - 3 errors in libcxxabi
+  (`std::get_new_handler` not found, `type_info` redefinition). This is
+  Zig's bundled libc++ ABI conflicting with MSVC headers when compiling
+  the test binary. It was previously masked by the translate-c failure
+  blocking this step.
+  
+  ### Linux/macOS: no regressions
+  Identical pass counts and test results before and after.
+  
+  ## What Have I Learnt
+  - I tried fixing this issue the old way, googling and stuff, I
+  eventually figured out but it took me way more than I am prepared to
+  share. Yikes.
+  ```
+- [`7114721`](https://github.com/ghostty-org/ghostty/commit/7114721bd4323c776b4c93b0afd313c4785b98b3) build: fix C++ linking and enum signedness on MSVC ([#11812](https://github.com/ghostty-org/ghostty/issues/11812)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > [!WARNING]
+  > Review/approve this AFTER #11807 and #11810 (this PR includes their
+  commits)
+  
+  ## Summary
+  
+  ### **And `run test ghostty-test` finally runs on Windows! 🎉almost
+  there!**
+  
+  - Skip `linkLibCpp()` on MSVC for dcimgui, spirv-cross, and harfbuzz
+  (same fix already applied upstream to highway, simdutf, utfcpp, glslang,
+  SharedDeps, GhosttyZig)
+  - Fix freetype C enum signedness: MSVC translates C enums as signed
+  `int`, while GCC/Clang uses unsigned `int`. Add `@intCast` at call sites
+  and `@bitCast` for bit-shift operations on glyph format tags.
+  
+  ## Context
+  Zig unconditionally passes `-nostdinc++` and adds its bundled
+  libc++/libc++abi include paths, which conflict with MSVC's own C++
+  runtime headers. The MSVC SDK directories (added via `linkLibC`) already
+  contain both C and C++ headers, so `linkLibCpp` is not needed.
+  
+  The freetype enum issue is a different facet of the same MSVC vs
+  GCC/Clang divide: `FT_Render_Mode` and `FT_Glyph_Format` are C enums
+  that get different signedness on different compilers.
+  
+  ## Stack
+  Stacked on 015-windows/fix-ssize-t-msvc.
+  
+  ## Test plan
+  
+  ### Cross-platform results (`zig build test` / `zig build
+  -Dapp-runtime=none test` on Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (015, a35f84db3) | FAIL - 48/51, 1 failed (compile
+  ghostty-test) | PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160,
+  2655/2662, 7 skipped |
+  | **AFTER** (016, ce9930051) | FAIL - 49/51, 2630/2654 tests passed, 1
+  failed, 23 skipped | PASS - 86/86, 2655/2678, 23 skipped | PASS -
+  160/160, 2655/2662, 7 skipped |
+  
+  ### Windows: what changed (48 -> 49 steps, tests now run)
+  
+  **Fixed by this PR:**
+  - `compile test ghostty-test` - was `3 errors` (libcxxabi conflicts +
+  freetype type mismatches) -> `success`
+  - `run test ghostty-test` - now actually runs: 2630 passed, 23 skipped,
+  1 failed
+  
+  **Remaining test failure (pre-existing, unrelated):**
+  - `ghostty.h MouseShape` - `checkGhosttyHEnum` cannot find
+  `GHOSTTY_MOUSE_SHAPE_*` constants in the translate-c output. This is a
+  translate-c issue with how MSVC enum constants are exposed, not related
+  to C++ linking or enum signedness.
+  
+  ### Linux/macOS: no regressions
+  Identical pass counts and test results before and after.
+  
+  ## Discussion
+  
+  ### Grep wider: other unconditional linkLibCpp calls
+  `pkg/breakpad/build.zig` still calls `linkLibCpp()` unconditionally but
+  is behind sentry and not in the Windows build path. Noted for
+  completeness.
+  
+  ### Freetype enum signedness
+  The freetype Zig bindings define `RenderMode = enum(c_uint)` and
+  `Encoding = enum(u31)`. On MSVC, C enums are `int` (signed), so the
+  translated C functions expect `c_int` parameters. The fix adds
+  `@intCast` to convert between signed and unsigned at call sites. This is
+  safe because the enum values are small positive integers that fit in
+  both types.
+  
+  Also, not sure if there's a better way to make this change more
+  elegantly. The comments are replicated in each instance, probably
+  overkill but I have seen this same pattern elsewhere in the codebase.
+  
+  ## What I Learnt
+  - More of the same
+  ```
 - [`c5092b0`](https://github.com/ghostty-org/ghostty/commit/c5092b09ded689983b674d3d285e4796bf86f677) ci: remove continue-on-error from Windows CI jobs ([@deblasis](https://github.com/deblasis))
   ```text
   Windows tests and builds are now passing reliably. Remove the
