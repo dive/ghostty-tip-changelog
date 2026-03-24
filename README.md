@@ -8,15 +8,358 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 23, 2026 at 21:12 UTC.
+> Last updated: March 24, 2026 at 00:19 UTC.
 
 ## March 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23458735124), [2](https://github.com/ghostty-org/ghostty/actions/runs/23457617226), [3](https://github.com/ghostty-org/ghostty/actions/runs/23451621230), [4](https://github.com/ghostty-org/ghostty/actions/runs/23449313767), [5](https://github.com/ghostty-org/ghostty/actions/runs/23447242926), [6](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [7](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [8](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
-Summary: 8 runs • 42 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23465479473), [2](https://github.com/ghostty-org/ghostty/actions/runs/23463779213), [3](https://github.com/ghostty-org/ghostty/actions/runs/23461217695), [4](https://github.com/ghostty-org/ghostty/actions/runs/23458735124), [5](https://github.com/ghostty-org/ghostty/actions/runs/23457617226), [6](https://github.com/ghostty-org/ghostty/actions/runs/23451621230), [7](https://github.com/ghostty-org/ghostty/actions/runs/23449313767), [8](https://github.com/ghostty-org/ghostty/actions/runs/23447242926), [9](https://github.com/ghostty-org/ghostty/actions/runs/23443898888), [10](https://github.com/ghostty-org/ghostty/actions/runs/23443121106), [11](https://github.com/ghostty-org/ghostty/actions/runs/23442314075)  
+Summary: 11 runs • 64 commits • 6 authors
 
 ### Changes
 
+- [`c1e616c`](https://github.com/ghostty-org/ghostty/commit/c1e616c6cda402c6823d97dba89dde690808f2b7) libghostty: add ghostty_free for cross-runtime memory safety ([@deblasis](https://github.com/deblasis))
+  ```text
+  On Windows, Zig's built-in libc and MSVC's CRT maintain separate
+  heaps, so calling free() on memory allocated by the library causes
+  undefined behavior. Add ghostty_free() that frees through the same
+  allocator that performed the allocation, making it safe on all
+  platforms.
+  
+  Update format_alloc docs and all examples to use ghostty_free()
+  instead of free().
+  ```
+- [`7039f56`](https://github.com/ghostty-org/ghostty/commit/7039f566bb5db987707a9a4fd8637575b595ffaa) vt: move free_alloc to dedicated allocator.zig ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extract the inline free_alloc function from main.zig into a new
+  allocator.zig module in the C API layer. The function is renamed
+  to alloc_free in main.zig (and free in allocator.zig) for
+  consistency with the other C API naming conventions. Add tests
+  for null pointer, allocated memory, and null allocator fallback.
+  ```
+- [`b819ce0`](https://github.com/ghostty-org/ghostty/commit/b819ce0e20c14d649613c8fb39705b5893960b9c) vt: add ghostty_alloc for buffer allocation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a ghostty_alloc function that pairs with the existing
+  ghostty_free, giving embedders a symmetric malloc/free-style
+  API for buffer allocation through the libghostty allocator
+  interface. Returns NULL on allocation failure.
+  ```
+- [`67db6b8`](https://github.com/ghostty-org/ghostty/commit/67db6b896079a14f14d8e18492870e9b33443d4a) libghostty: add ghostty_free for cross-runtime memory safety ([#11785](https://github.com/ghostty-org/ghostty/issues/11785)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## What
+  
+  On Windows, calling `free()` on memory allocated by libghostty crashes
+  because Zig and MSVC use separate heaps.
+  
+  This adds `ghostty_free()` so consumers can free library-allocated
+  memory safely on all platforms.
+  
+  ## Why
+  
+  When Zig builds a DLL on Windows with `link_libc = true`, it does not
+  link the Windows C runtime (`ucrtbase.dll`). Instead it uses its own
+  libc built on top of `KERNEL32.dll`. So `builtin.link_libc` is true and
+  `c_allocator` is selected, but Zig's `malloc` and MSVC's `malloc` are
+  different implementations with different heaps. 💥
+  
+  On Linux/macOS this is not a problem because Zig links the system libc
+  and everyone shares the same heap. On Windows, `free(buf)` from MSVC
+  tries to free memory from Zig's heap and you get a debug assertion
+  failure or undefined behavior.
+  
+  The `format_alloc` docs said "the buffer can be freed with `free()`" but
+  that is only true when the library and consumer share the same C
+  runtime, which is not the case on Windows.
+  
+  ## How
+  
+  - Add `ghostty_free(allocator, ptr, len)` that frees through the same
+  allocator that did the allocation
+  - Update `format_alloc` docs to point to `ghostty_free()` instead of
+  `free()`
+  - Update all 3 examples to use `ghostty_free(NULL, buf, len)`
+  
+  The signature takes an allocator because raw buffers (unlike objects
+  like terminals or formatters) do not store their allocator internally.
+  The caller already has all three values: the allocator they passed, the
+  pointer, and the length they got back.
+  
+  I went back and forth on the naming. Other options I considered:
+  `ghostty_alloc_free(allocator, ptr, len)` or returning a `GhosttyBuffer`
+  wrapper with its own `_free`. Happy to change the naming if there is a
+  preference.
+  
+  No impact on Linux/macOS. `ghostty_free()` works correctly there too, it
+  just happens to call the same `free()` the consumer would have called
+  anyway.
+  
+  ## Verified
+  
+  - `zig build test-lib-vt` passes on Windows, macOS arm64, Linux x86_64
+  (exit 0)
+  - `zig build test` passes on Windows (2575/2619 passed, 1 pre-existing
+  font sprite failure) and macOS (exit 0)
+  - cmake shared example builds, links, and runs correctly on Windows with
+  `ghostty_free()` (no more heap crash)
+  
+  ## What I Learnt
+  
+  - What I wrote in Why
+  - Zig allocators require the length to free (no hidden metadata headers
+  like C's malloc). This is a deliberate design choice for explicit
+  control.
+  - The standard pattern for C libraries on Windows is "whoever allocates,
+  frees" (like `curl_free()`, `SDL_free()`). This avoids cross-runtime
+  heap issues entirely.
+  ```
+- [`07272ae`](https://github.com/ghostty-org/ghostty/commit/07272ae88f4e15608383f0cc786586ec84d66e41) stream: add bell effect callback support ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add an Effects struct to the readonly stream Handler that allows
+  callers to provide optional callbacks for side effects like bell.
+  Previously, the bell action was silently ignored along with other
+  query/response actions. Now it is handled separately and dispatched
+  through the effects callback if one is provided.
+  
+  Add a test that verifies bell with a null callback (default readonly
+  behavior) does not crash, and that a provided callback is invoked
+  the correct number of times.
+  ```
+- [`67d8d86`](https://github.com/ghostty-org/ghostty/commit/67d8d86efd8d180df43b35978648c59f2cabd477) terminal: rename ReadonlyStream to TerminalStream ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename stream_readonly.zig to stream_terminal.zig and its exported
+  types from ReadonlyStream/ReadonlyHandler to TerminalStream. The
+  "readonly" name is now wrong since the handler now supports
+  settable effects callbacks. The new name better reflects that this
+  is a stream handler for updating terminal state.
+  ```
+- [`e24cc1b`](https://github.com/ghostty-org/ghostty/commit/e24cc1b53bb8012d83fdb4e55fbedf6602611596) terminal: add write_pty effect and implement DECRQM ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a generic write_pty effect callback to the stream terminal
+  handler, allowing callers to receive pty response data. Use it to
+  implement request_mode and request_mode_unknown (DECRQM), which
+  encode the mode state as a DECRPM response and write it back
+  through the callback. Previously these were silently ignored.
+  
+  The write_pty data is stack-allocated and only valid for the
+  duration of the call.
+  ```
+- [`6366ce9`](https://github.com/ghostty-org/ghostty/commit/6366ce9a220e6a445d0632c3b75e9b336b3d424e) terminal: add set_window_title effect to stream handler ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously the window_title action was silently ignored in the
+  readonly stream handler. Add a set_window_title callback to the
+  Effects struct so callers can be notified when a window title is
+  set via OSC 2. Follows the same pattern as bell and write_pty
+  where the callback is optional and defaults to null in readonly
+  mode.
+  ```
+- [`08a44d7`](https://github.com/ghostty-org/ghostty/commit/08a44d7e696428737e2330fb275f94ea18f41b4b) terminal: store title set by escape sequences ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a title field to Terminal, mirroring the existing pwd field.
+  The title is set via setTitle/getTitle and tracks the most recent
+  value written by OSC 0/2 sequences. The stream handler now persists
+  the title in terminal state in addition to forwarding it to the
+  surface. The field is cleared on full reset.
+  ```
+- [`22c7edf`](https://github.com/ghostty-org/ghostty/commit/22c7edf3f8d17a189504323dc1a6267e43281c9b) terminal: rename set_window_title effect to title_changed ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The effect callback no longer receives the title string directly.
+  Instead, the handler stores the title in terminal state via setTitle
+  before invoking the callback, so consumers query it through
+  handler.terminal.getTitle(). This removes the redundant parameter
+  and keeps the effect signature consistent with the new terminal
+  title field. Tests now verify terminal state directly rather than
+  tracking the title through the callback.
+  ```
+- [`1345163`](https://github.com/ghostty-org/ghostty/commit/134516310d3b73d828c67de1eb107d0b754e111a) terminal: implement kitty_keyboard_query in stream_terminal ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously kitty_keyboard_query was listed as a no-op in the
+  readonly stream handler. This implements it using the write_pty
+  effect callback so that the current kitty keyboard flags are
+  reported back via the pty, matching the behavior in the full
+  stream handler.
+  ```
+- [`26c81b4`](https://github.com/ghostty-org/ghostty/commit/26c81b4b0e2f7e0c70ac7face8f33cff5f68c7f1) terminal: add xtversion effect to stream_terminal ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add an xtversion callback to the Effects struct so that
+  stream_terminal can respond to XTVERSION queries. The callback
+  returns the version string to embed in the DCS response. If the
+  callback is unset or returns an empty string, the response defaults
+  to "libghostty". The response is formatted and written back via the
+  existing write_pty effect.
+  ```
+- [`6083e9f`](https://github.com/ghostty-org/ghostty/commit/6083e9f80bc06de4b734e736cf07ed6f0575953a) terminal: expose size_report via stream_terminal effects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a `size` callback to the stream_terminal Effects struct that
+  returns a size_report.Size geometry snapshot for XTWINOPS size
+  queries (CSI 14/16/18 t). The handler owns all protocol encoding
+  using the existing size_report.encode, keeping VT knowledge out
+  of effect consumers. This follows the same pattern as the xtversion
+  effect: the callback supplies data, the handler formats the reply
+  and calls write_pty.
+  
+  CSI 21 t (title report) is handled internally from terminal state
+  since the title is already available via terminal.getTitle() and
+  does not require an external callback.
+  ```
+- [`b9669e1`](https://github.com/ghostty-org/ghostty/commit/b9669e10c40a0f3390f5d573656f25ba5e154716) fuzz: update stream fuzzer to use TerminalStream ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ReadonlyStream was removed from the public API. Update the stream
+  fuzzer to use TerminalStream, which is the type now returned by
+  Terminal.vtStream().
+  ```
+- [`165e036`](https://github.com/ghostty-org/ghostty/commit/165e03669ce53263b1763e42e9beaf39b0911fd6) terminal: port enquiry to Effects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously the ENQ (0x05) action was ignored in stream_terminal,
+  listed in the no-op group alongside other unhandled queries. The
+  real implementation in termio/stream_handler writes a configurable
+  response string back to the pty.
+  
+  Add an enquiry callback to Effects following the same query-style
+  pattern as xtversion: the callback returns the raw response bytes
+  and the handler owns writing them to the pty via writePty. When no
+  callback is set (readonly mode), ENQ is silently ignored. Empty
+  responses are also ignored. The response is capped at 256 bytes
+  using a stack buffer with sentinel conversion for writePty.
+  ```
+- [`2e7aa04`](https://github.com/ghostty-org/ghostty/commit/2e7aa047af3692ff6c6fa003f078d772c6db697d) terminal: port device_status to stream_terminal Effects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously device_status was in the ignored "no terminal-modifying
+  effect" group in stream_terminal.zig. This ports it to use the
+  Effects pattern, handling all three DSR request types.
+  
+  Operating status and cursor position are handled entirely within
+  stream_terminal since they only need terminal state and write_pty.
+  Cursor position respects origin mode and scrolling region offsets.
+  
+  Color scheme adds a new color_scheme effect callback that returns
+  a ColorScheme enum (light/dark). The handler encodes the response
+  internally, keeping protocol knowledge in the terminal layer. A
+  new ColorScheme type is added to device_status.zig so the terminal
+  layer does not depend on apprt.
+  ```
+- [`b31dcf9`](https://github.com/ghostty-org/ghostty/commit/b31dcf9a4cc0e00652d8fa62c4abb0364ad0263a) terminal: add device_attributes module ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Introduce a dedicated device_attributes.zig module that consolidates
+  all device attribute types and encoding logic. This moves
+  DeviceAttributeReq out of ansi.zig and adds structured response
+  types for DA1 (primary), DA2 (secondary), and DA3 (tertiary) with
+  self-encoding methods.
+  
+  Primary DA uses a ConformanceLevel enum covering VT100-series
+  per-model values and VT200+ conformance levels, plus a Feature
+  enum with all known xterm DA1 attribute codes (132-col, printer,
+  sixel, color, clipboard, etc.) as a simple slice. Secondary DA
+  uses a DeviceType enum matching the xterm decTerminalID values.
+  Tertiary DA encodes the DECRPTUI unit ID as a u32 formatted to
+  8 hex digits.
+  
+  This is preparatory work for exposing device attributes through
+  the stream_terminal Effects callback system.
+  ```
+- [`ba3f9bb`](https://github.com/ghostty-org/ghostty/commit/ba3f9bb400d2dd95ae99017f3f3ed8756a3eaf91) terminal: port device_attributes to stream_terminal Effects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a device_attributes effect callback to the stream_terminal
+  Handler. The callback returns a device_attributes.Attributes
+  struct which the handler encodes and writes back to the pty.
+  
+  Add Attributes.encode which dispatches to the correct sub-type
+  encoder based on the request type (primary, secondary, tertiary).
+  
+  In readonly mode the callback is null so all DA queries are
+  silently ignored, matching the previous behavior where
+  device_attributes was in the ignored actions list.
+  
+  Tests cover all three DA types with default attributes, custom
+  attributes, and readonly mode.
+  ```
+- [`701d1d5`](https://github.com/ghostty-org/ghostty/commit/701d1d55d23ae199785b56db05c92d74f157a2f3) terminal: fix secondary DA test to match default firmware version ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The default firmware_version for Secondary device attributes is 0,
+  but the test expected a value of 10. Update the test expectation to
+  match the actual default.
+  ```
+- [`69104fb`](https://github.com/ghostty-org/ghostty/commit/69104fb1f02a3daa8b41bf6d3ca32f71b86f5ac0) libghostty: introduce optional "effects" to handle queries and side effects for terminals ([#11787](https://github.com/ghostty-org/ghostty/issues/11787)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Renames `ReadonlyStream` to `TerminalStream` and introduces an
+  effects-based callback system so that the stream handler can optionally
+  respond to queries and side effects (bell, title changes, device
+  attributes, device status, size reports, XTVERSION, ENQ, DECRQM, kitty
+  keyboard queries).
+  
+  The default behavior is still read-only, callers have to opt-in to
+  setting callbacks to function pointers.
+  
+  This doesn't handle every possible side effect yet, e.g. this doesn't
+  include clipboards, pwd reporting, and others. But this covers the
+  important ones.
+  
+  This PR is Zig only, the C version of this will come later.
+  ```
+- [`5ef2da8`](https://github.com/ghostty-org/ghostty/commit/5ef2da8127501083abdeb623df45674b7439ea45) windows: fix XDG-related test failures on Windows ([@deblasis](https://github.com/deblasis))
+  ```text
+  Make the "cache directory paths" test cross-platform by using
+  std.fs.path.join for expected values and a platform-appropriate
+  mock home path, since the function under test uses native path
+  separators.
+  
+  Skip the two shell integration XDG_DATA_DIRS tests on Windows.
+  These tests use hardcoded Unix path separators (:) and Unix default
+  paths (/usr/local/share:/usr/share) which are not applicable on
+  Windows where the path delimiter is ; and XDG_DATA_DIRS is not a
+  standard concept.
+  ```
+- [`2fe89c3`](https://github.com/ghostty-org/ghostty/commit/2fe89c340a4680a36ded8a517266770f2dc42a4b) windows: fix XDG-related test failures on Windows ([#11783](https://github.com/ghostty-org/ghostty/issues/11783)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## What
+  
+  Two fixes for tests that fail on Windows due to Unix-specific
+  assumptions.
+  
+  1. The "cache directory paths" test in xdg.zig hardcodes Unix paths like
+  `/Users/test/.cache` in expected values. The function under test uses
+  `std.fs.path.join` which produces native separators, so the expectations
+  need to match. Fixed by using `std.fs.path.join` for expected values
+  too, with a platform-appropriate mock home path.
+  
+  2. Two shell integration tests for `setupXdgDataDirs` hardcode Unix path
+  separators (`:`) and Unix default paths (`/usr/local/share:/usr/share`).
+  These are not applicable on Windows where the delimiter is `;` and
+  `XDG_DATA_DIRS` is not a standard concept. Skipped on Windows with
+  `SkipZigTest`.
+  
+  
+  ## Why skip instead of fix for the shell integration tests?
+  
+  `setupXdgDataDirs` is used by fish, elvish, and nushell. On Windows,
+  `XDG_DATA_DIRS` is not standard. The equivalent would be `%ProgramData%`
+  (what Go's `adrg/xdg`, Python's `platformdirs`, and others map to).
+  Fixing this properly means adding a Windows-appropriate default, which
+  is a separate change. (How do you guys deal with these situations? Do
+  you create issues on the spot as reminders or do you wait for the
+  requirement to emerge by itself when the time comes?
+  
+  Worth noting: the production code on line 664 of `shell_integration.zig`
+  hardcodes the fallback to `"/usr/local/share:/usr/share"` with `:`
+  separators, while `prependEnv` correctly uses `std.fs.path.delimiter`
+  (`;` on Windows). If a shell that uses this runs on Windows, you would
+  get mixed separators. Tracked separately.
+  
+  ## Verified
+  
+  - `zig build test-lib-vt` passes on Windows (exit 0)
+  - No behavior change on Linux/macOS (xdg.zig fix produces same paths,
+  shell_integration skip only triggers on Windows)
+  
+  ## What I Learnt
+  
+  - `std.fs.path.join` uses the native path separator, so tests that
+  hardcode `/` in expected paths will fail on Windows even if the
+  production code is correct. Better to use `path.join` in test
+  expectations too.
+  - The XDG Base Directory spec is Unix-only but cross-platform libraries
+  have converged on mappings. Ghostty maps to `%LOCALAPPDATA%` which
+  matches common conventions. The missing piece is `XDG_DATA_DIRS` which
+  has no Windows default and falls through to Unix paths.
+  ```
 - [`f2773d4`](https://github.com/ghostty-org/ghostty/commit/f2773d42c1c4cc8750bfe6298397f2aa4a93340d) windows: skip expandHomeUnix test on Windows ([@deblasis](https://github.com/deblasis))
   ```text
   expandHomeUnix is a Unix-internal function that is never called on
@@ -1945,275 +2288,4 @@ Summary: 5 runs • 17 commits • 5 authors
   // buf contains: "\x1b[48;24;80;432;720t"
   ```
   ````
-
-## March 17, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23216414166), [2](https://github.com/ghostty-org/ghostty/actions/runs/23208321171), [3](https://github.com/ghostty-org/ghostty/actions/runs/23205740733), [4](https://github.com/ghostty-org/ghostty/actions/runs/23202794242), [5](https://github.com/ghostty-org/ghostty/actions/runs/23179110345), [6](https://github.com/ghostty-org/ghostty/actions/runs/23176582607), [7](https://github.com/ghostty-org/ghostty/actions/runs/23172468303)  
-Summary: 7 runs • 13 commits • 7 authors
-
-### Changes
-
-- [`45ccc69`](https://github.com/ghostty-org/ghostty/commit/45ccc69a4984af7dcda08ec34920b6a78031fee1) Update VOUCHED list ([#11605](https://github.com/ghostty-org/ghostty/issues/11605)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11603#discussioncomment-16184007)
-  from @jcollie.
-  
-  Vouch: @philocalyst
-  ```
-- [`978abde`](https://github.com/ghostty-org/ghostty/commit/978abdeebc4b346b8e9bc4395234b7bb046dc87f) Fix tmux control block terminator parsing ([@wyounas](https://github.com/wyounas))
-- [`4a88f46`](https://github.com/ghostty-org/ghostty/commit/4a88f460c4e505deeca7e4fea4135e958be06c74) terminal/tmux: stylistic cleanups ([@mitchellh](https://github.com/mitchellh))
-- [`d9070db`](https://github.com/ghostty-org/ghostty/commit/d9070dbee202bcf86411c8cbd2bd157609c9aee2) Fix tmux control parser premature %end/%error block termination ([#11597](https://github.com/ghostty-org/ghostty/issues/11597)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes [#11935.](https://github.com/ghostty-org/ghostty/issues/11395)
-  
-  I’m new to Zig, so I used AI assistance (Codex) while preparing this
-  change. Before opening this PR, I manually reviewed every line of the
-  final patch and stepped through the parser in LLDB to verify the
-  behavior. Happy to make any changes.
-  
-  To better understand the parser, I also built a small model-checker
-  model
-  [here](https://gist.github.com/wyounas/284036272ba5893b6e413cafe2fe2a24).
-  
-  Separately from this fix, I think formal verification and modeling could
-  be useful for parser work in Ghostty. The model is written in FizzBee,
-  which uses a Python-like Starlark syntax and is fairly readable. If that
-  seems useful, I’d be happy to open a separate discussion about whether
-  something like that belongs in the repository as executable
-  documentation or an additional safety net for future parser changes.
-  ```
-- [`b173b2d`](https://github.com/ghostty-org/ghostty/commit/b173b2dfb72e89075b4abc01587f059202692248) Update VOUCHED list ([#11599](https://github.com/ghostty-org/ghostty/issues/11599)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11594#discussioncomment-16180979)
-  from @jcollie.
-  
-  Vouch: @heddxh
-  ```
-- [`3e0d434`](https://github.com/ghostty-org/ghostty/commit/3e0d434e8a52577a1296acd29495924253497894) zsh: use OSC 133;P;k=s for secondary prompts ([@jparise](https://github.com/jparise))
-  ```text
-  This is consistent with our bash prompt handling and also lets us
-  simplify our multiline prompt logic (because it no longer needs to work
-  around 133;A's fresh-line behavior).
-  ```
-- [`3a65bd5`](https://github.com/ghostty-org/ghostty/commit/3a65bd5c4f1c4a2773bf520fe79da78f7cd40187) zsh: use OSC 133;P;k=s for secondary prompts ([#11596](https://github.com/ghostty-org/ghostty/issues/11596)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This is consistent with our bash prompt handling and also lets us
-  simplify our multiline prompt logic (because it no longer needs to work
-  around 133;A's fresh-line behavior).
-  ```
-- [`739da49`](https://github.com/ghostty-org/ghostty/commit/739da492b8f21e8b129434ae2b2f685510d19587) Update VOUCHED list ([#11598](https://github.com/ghostty-org/ghostty/issues/11598)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11537#issuecomment-4075954392)
-  from @mitchellh.
-  
-  Unvouch: @cadebrown
-  ```
-- [`7916227`](https://github.com/ghostty-org/ghostty/commit/79162279d9d8a5fea5a26bbc2abda98e90ec5988) gtk: move audio playback into separate file, enabling reuse ([@jcollie](https://github.com/jcollie))
-- [`71d6f08`](https://github.com/ghostty-org/ghostty/commit/71d6f08e9bf51965fb8b5ef6f0ea58633692c9a0) gtk: move audio playback into separate file, enabling reuse ([#11588](https://github.com/ghostty-org/ghostty/issues/11588)) ([@pluiedev](https://github.com/pluiedev))
-- [`9f4e42a`](https://github.com/ghostty-org/ghostty/commit/9f4e42a52377a77c8e2f3ce5ce7ce26009947917) Update VOUCHED list ([#11587](https://github.com/ghostty-org/ghostty/issues/11587)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11585#discussioncomment-16170774)
-  from @jcollie.
-  
-  Vouch: @heaths
-  ```
-- [`67dcac0`](https://github.com/ghostty-org/ghostty/commit/67dcac02f9b4c40745f374d7f77d71761d21616d) build(deps): bump softprops/action-gh-release from 2.6.0 to 2.6.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 2.6.0 to 2.6.1.
-  - [Release notes](https://github.com/softprops/action-gh-release/releases)
-  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
-  - [Commits](https://github.com/softprops/action-gh-release/compare/26e8ad27a09a225049a7075d7ec1caa2df6ff332...153bb8e04406b158c6c84fc1615b65b24149a1fe)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: softprops/action-gh-release
-    dependency-version: 2.6.1
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`5e0db1b`](https://github.com/ghostty-org/ghostty/commit/5e0db1b60586d43ebaa2c7b9b7b9340183dcd305) build(deps): bump softprops/action-gh-release from 2.6.0 to 2.6.1 ([#11582](https://github.com/ghostty-org/ghostty/issues/11582)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Bumps
-  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
-  from 2.6.0 to 2.6.1.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v2.6.1</h2>
-  <p><code>2.6.1</code> is a patch release focused on restoring linked
-  discussion thread creation when
-  <code>discussion_category_name</code> is set. It fixes
-  <code>[#764](https://github.com/softprops/action-gh-release/issues/764)</code>,
-  where the draft-first publish flow
-  stopped carrying the discussion category through the final publish
-  step.</p>
-  <p>If you still hit an issue after upgrading, please open a report with
-  the bug template and include a minimal repro or sanitized workflow
-  snippet where possible.</p>
-  <h2>What's Changed</h2>
-  <h3>Bug fixes 🐛</h3>
-  <ul>
-  <li>fix: preserve discussion category on publish by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/765">softprops/action-gh-release#765</a></li>
-  </ul>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Changelog</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
-  changelog</a>.</em></p>
-  <blockquote>
-  <h2>2.6.1</h2>
-  <p><code>2.6.1</code> is a patch release focused on restoring linked
-  discussion thread creation when
-  <code>discussion_category_name</code> is set. It fixes
-  <code>[#764](https://github.com/softprops/action-gh-release/issues/764)</code>,
-  where the draft-first publish flow
-  stopped carrying the discussion category through the final publish
-  step.</p>
-  <p>If you still hit an issue after upgrading, please open a report with
-  the bug template and include a minimal repro or sanitized workflow
-  snippet where possible.</p>
-  <h2>What's Changed</h2>
-  <h3>Bug fixes 🐛</h3>
-  <ul>
-  <li>fix: preserve discussion category on publish by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/765">softprops/action-gh-release#765</a></li>
-  </ul>
-  <h2>2.6.0</h2>
-  <p><code>2.6.0</code> is a minor release centered on
-  <code>previous_tag</code> support for
-  <code>generate_release_notes</code>,
-  which lets workflows pin GitHub's comparison base explicitly instead of
-  relying on the default range.
-  It also includes the recent concurrent asset upload recovery fix, a
-  <code>working_directory</code> docs sync,
-  a checked-bundle freshness guard for maintainers, and clearer
-  immutable-prerelease guidance where
-  GitHub platform behavior imposes constraints on how prerelease asset
-  uploads can be published.</p>
-  <p>If you still hit an issue after upgrading, please open a report with
-  the bug template and include a minimal repro or sanitized workflow
-  snippet where possible.</p>
-  <h2>What's Changed</h2>
-  <h3>Exciting New Features 🎉</h3>
-  <ul>
-  <li>feat: support previous_tag for generate_release_notes by <a
-  href="https://github.com/pocesar"><code>@​pocesar</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/372">softprops/action-gh-release#372</a></li>
-  </ul>
-  <h3>Bug fixes 🐛</h3>
-  <ul>
-  <li>fix: recover concurrent asset metadata 404s by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/760">softprops/action-gh-release#760</a></li>
-  </ul>
-  <h3>Other Changes 🔄</h3>
-  <ul>
-  <li>docs: clarify reused draft release behavior by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/759">softprops/action-gh-release#759</a></li>
-  <li>docs: clarify working_directory input by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/761">softprops/action-gh-release#761</a></li>
-  <li>ci: verify dist bundle freshness by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/762">softprops/action-gh-release#762</a></li>
-  <li>fix: clarify immutable prerelease uploads by <a
-  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
-  href="https://redirect.github.com/softprops/action-gh-release/pull/763">softprops/action-gh-release#763</a></li>
-  </ul>
-  <h2>2.5.3</h2>
-  <p><code>2.5.3</code> is a patch release focused on the remaining
-  path-handling and release-selection bugs uncovered after
-  <code>2.5.2</code>.
-  It fixes
-  <code>[#639](https://github.com/softprops/action-gh-release/issues/639)</code>,
-  <code>[#571](https://github.com/softprops/action-gh-release/issues/571)</code>,
-  <code>[#280](https://github.com/softprops/action-gh-release/issues/280)</code>,
-  <code>[#614](https://github.com/softprops/action-gh-release/issues/614)</code>,
-  <code>[#311](https://github.com/softprops/action-gh-release/issues/311)</code>,
-  <code>[#403](https://github.com/softprops/action-gh-release/issues/403)</code>,
-  and
-  <code>[#368](https://github.com/softprops/action-gh-release/issues/368)</code>.
-  It also adds documentation clarifications for
-  <code>[#541](https://github.com/softprops/action-gh-release/issues/541)</code>,
-  <code>[#645](https://github.com/softprops/action-gh-release/issues/645)</code>,
-  <code>[#542](https://github.com/softprops/action-gh-release/issues/542)</code>,
-  <code>[#393](https://github.com/softprops/action-gh-release/issues/393)</code>,
-  and
-  <code>[#411](https://github.com/softprops/action-gh-release/issues/411)</code>,
-  where the current behavior is either usage-sensitive or constrained by
-  GitHub platform limits rather than an action-side runtime bug.</p>
-  <p>If you still hit an issue after upgrading, please open a report with
-  the bug template and include a minimal repro or sanitized workflow
-  snippet where possible.</p>
-  <!-- raw HTML omitted -->
-  </blockquote>
-  <p>... (truncated)</p>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/softprops/action-gh-release/commit/153bb8e04406b158c6c84fc1615b65b24149a1fe"><code>153bb8e</code></a>
-  release 2.6.1</li>
-  <li><a
-  href="https://github.com/softprops/action-gh-release/commit/569deb874d08cd8cc0aa24af7c0b21160fe4b0e4"><code>569deb8</code></a>
-  fix: preserve discussion category when publishing releases (<a
-  href="https://redirect.github.com/softprops/action-gh-release/issues/765">#765</a>)</li>
-  <li>See full diff in <a
-  href="https://github.com/softprops/action-gh-release/compare/26e8ad27a09a225049a7075d7ec1caa2df6ff332...153bb8e04406b158c6c84fc1615b65b24149a1fe">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=2.6.0&new-version=2.6.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
 
