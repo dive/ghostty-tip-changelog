@@ -8,15 +8,354 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 24, 2026 at 12:16 UTC.
+> Last updated: March 24, 2026 at 15:26 UTC.
 
 ## March 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [2](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [3](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 3 runs • 5 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [2](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [3](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [4](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
+Summary: 4 runs • 15 commits • 5 authors
 
 ### Changes
 
+- [`c5092b0`](https://github.com/ghostty-org/ghostty/commit/c5092b09ded689983b674d3d285e4796bf86f677) ci: remove continue-on-error from Windows CI jobs ([@deblasis](https://github.com/deblasis))
+  ```text
+  Windows tests and builds are now passing reliably. Remove the
+  continue-on-error safety net so failures are visible immediately.
+  ```
+- [`4df71bc`](https://github.com/ghostty-org/ghostty/commit/4df71bcad75a6177b33bea33287982efadef69e8) build: fix zlib compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  Gate Z_HAVE_UNISTD_H behind a non-Windows check since unistd.h does
+  not exist on Windows. Add _CRT_SECURE_NO_DEPRECATE and
+  _CRT_NONSTDC_NO_DEPRECATE for MSVC to suppress deprecation errors
+  for standard C functions that zlib uses.
+  ```
+- [`014873e`](https://github.com/ghostty-org/ghostty/commit/014873e539a6183f82617234fe57ba3983a764ef) build: fix oniguruma compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  Conditionally disable POSIX-only header defines (alloca.h, sys/times.h,
+  sys/time.h, unistd.h) on Windows since they do not exist with MSVC.
+  Enable USE_CRNL_AS_LINE_TERMINATOR on Windows for correct line endings.
+  ```
+- [`74c6ffe`](https://github.com/ghostty-org/ghostty/commit/74c6ffe78e4b98e58600f22f37a8433f44b53876) build: fix glslang compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  Apply the same MSVC fixes used for simdutf and highway: conditionally
+  skip linkLibCpp on MSVC since Zig's bundled libc++ headers conflict
+  with MSVC's own C++ runtime, and add -std=c++17 for C++17 features
+  like std::variant and inline variables that glslang requires.
+  ```
+- [`f9d3b1a`](https://github.com/ghostty-org/ghostty/commit/f9d3b1aafb4131ab8f9d9a362832ec428bf1cabc) build: fix Windows build failures in helpgen and framegen ([@deblasis](https://github.com/deblasis))
+  ```text
+  Use writerStreaming() instead of writer() for stdout in helpgen and
+  main_build_data. The positional writer calls setEndPos/ftruncate in
+  end(), which fails on Windows because ftruncate on pipes maps
+  INVALID_PARAMETER to FileTooBig.
+  
+  Replace scandir with opendir/readdir plus qsort in framegen since
+  scandir is a POSIX extension not available on Windows.
+  
+  This was previously applied and reverted upstream (f4998c6ab, 0fdddd5bc)
+  as collateral from an unrelated example-execution hang that has since
+  been resolved.
+  ```
+- [`6854ecc`](https://github.com/ghostty-org/ghostty/commit/6854ecc5a928b92c66d09e6b46b66ec9daf7ea23) ci: remove continue-on-error from Windows CI jobs ([#11796](https://github.com/ghostty-org/ghostty/issues/11796)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Let's see what breaks and let's fix it.
+  ```
+- [`58e330a`](https://github.com/ghostty-org/ghostty/commit/58e330a8c0b45d026b4c7985a95389ea905c9fed) build: fix zlib compilation on Windows with MSVC ([#11798](https://github.com/ghostty-org/ghostty/issues/11798)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  - Gate `Z_HAVE_UNISTD_H` behind a non-Windows check since `unistd.h`
+  does not exist with MSVC
+  - Add `_CRT_SECURE_NO_DEPRECATE` and `_CRT_NONSTDC_NO_DEPRECATE` for
+  MSVC to suppress deprecation errors for standard C functions that zlib
+  uses
+  
+  ## Context
+  Part of the effort to get `zig build -Dapp-runtime=none test` passing on
+  Windows. This unblocks freetype, harfbuzz, libpng, and dcimgui which all
+  depend on zlib.
+  
+  My research shows that we should default to msvc in ci with zig build
+  ran without `-Dratget`.
+  
+  ## Stack
+  This is branch 010 in the stacked branches series (soon on Netflix).
+  Independent fix, no dependencies on other branches.
+  
+  ## Test plan
+  
+  ### test-lib-vt
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **Delta** | no change | no change | no change |
+  
+  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
+  Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | FAIL — 35/51 build steps, 6 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **AFTER** | FAIL — 37/51 build steps, 6 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **Delta** | +2 build steps (zlib + png unblocked) | no change | no
+  change |
+  
+  - Zero regressions on any platform
+  - Windows improved: zlib and png now compile (35 -> 37 steps)
+  - Remaining 6 Windows build failures (`ssize_t`, `helpgen`, `framegen`,
+  `harfbuzz`, `dcimgui`) are addressed by other PRs in the stack
+  
+  ## What I Learnt
+  - Always run tests with `--summary all` to get actual pass/skip/fail
+  counts. Without it, zig just exits 0 or 1 and you have no numbers to
+  compare. "You get confident if you got the numbers."
+  - Build dependencies cascade: fixing zlib also unblocked png (which
+  depends on it), giving us +2 build steps from a one-file change.
+  ```
+- [`5cc22c2`](https://github.com/ghostty-org/ghostty/commit/5cc22c23e6a6e4346fdad2480dca04e4b05a5c88) build: fix oniguruma compilation on Windows with MSVC ([#11800](https://github.com/ghostty-org/ghostty/issues/11800)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > [!WARNING]
+  > Review/approve this AFTER #11798 (this PR stacks on top of it... ergo,
+  it includes its commits)
+  
+  ## Summary
+  - Conditionally disable POSIX-only header defines (`alloca.h`,
+  `sys/times.h`, `sys/time.h`, `unistd.h`) on Windows since they do not
+  exist with MSVC
+  - Enable `USE_CRNL_AS_LINE_TERMINATOR` on Windows for correct line
+  endings
+  
+  ## Context
+  Oniguruma's `config.h` template had all POSIX header availability
+  defines hardcoded to `true`. On MSVC, these headers don't exist, causing
+  24 compilation errors (all `alloca.h` file not found).
+  
+  Uses a comptime `is_windows` constant to flip the config values, same
+  pattern as PR #11798 (zlib).
+  
+  ## Stack
+  Stacked on 010-windows/fix-zlib-msvc.
+  
+  ## Test plan
+  
+  ### test-lib-vt
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **Delta** | no change | no change | no change |
+  
+  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
+  Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | FAIL — 37/51 steps, 6 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **AFTER** | FAIL — 38/51 steps, 5 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **Delta** | +1 step, -1 failure (oniguruma unblocked) | no change | no
+  change |
+  
+  - Zero regressions on any platform
+  - Windows improved: oniguruma now compiles (37 -> 38 steps, 6 -> 5
+  failures)
+  - Remaining 5 Windows failures (`translate-c`/ssize_t, `helpgen`,
+  `framegen`, `glslang`, `harfbuzz` via freetype) are addressed by other
+  PRs in the stack
+  
+  ## What I Learnt
+  - comptime, man. It's the small things.
+  ```
+- [`57b9292`](https://github.com/ghostty-org/ghostty/commit/57b929203bde64614885133c949ef2ca1fb83b5c) build: fix glslang compilation on Windows with MSVC ([#11801](https://github.com/ghostty-org/ghostty/issues/11801)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > [!WARNING]
+  > Review/approve this AFTER #11798 and #11800 (this PR stacks on top of
+  rhem... ergo, it includes their commits)
+  > Don't cheat! Start from the oldest one! 😄 I know these are almost
+  one-liners but I am doing this mostly for documentation and karma
+  points.
+  
+  ## Summary
+  - Conditionally skip `linkLibCpp()` on MSVC since Zig's bundled libc++
+  headers conflict with MSVC's own C++ runtime
+  - Add `-std=c++17` flag for C++17 features (std::variant,
+  std::filesystem, inline variables) that glslang requires
+  
+  ## Context
+  The exact same `linkLibCpp` fix was applied to `simdutf` and `highway`
+  in commits 3d581eb92 and b4c529a82 but glslang was missed. Without this
+  fix, glslang fails with 297 compilation errors on MSVC.
+  
+  Thanks Claude for the forensic digging. A carpenter should always be
+  thankful for his tools. Even if they are borrowed, maybe even more so.
+  
+  ## Stack
+  Stacked on 011-windows/fix-oniguruma-msvc.
+  
+  ## Discussion points
+  
+  **`-std=c++17` scope:** Currently added unconditionally for all targets.
+  Tested on all three platforms with no regressions, but since this is
+  specifically fixing a Windows/MSVC issue, it could be gated behind
+  `target.result.abi == .msvc`. Donno. The reason it works unconditionally
+  is that Zig's bundled clang already defaults to C++17 on non-MSVC
+  targets, so the flag is a no-op there. Open to either approach.
+  
+  **Other packages with bare `linkLibCpp()`:** The same `linkLibCpp` guard
+  has been applied to `simdutf`, `highway`, `utfcpp`, and now `glslang`.
+  However, `spirv-cross`, `dcimgui`, `harfbuzz`, and `breakpad` still have
+  unconditional `linkLibCpp()` calls. These may need the same treatment
+  when they become buildable on MSVC (some are currently blocked by other
+  issues like freetype's `unistd.h`). Worth tracking as a follow-up?
+  
+  ## Test plan
+  
+  ### test-lib-vt
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
+  skipped | 3807/3839 passed, 32 skipped |
+  | **Delta** | no change | no change | no change |
+  
+  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
+  Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** | FAIL — 38/51 build steps, 5 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **AFTER** | FAIL — 39/51 build steps, 4 failed | 2655/2678 passed, 23
+  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
+  | **Delta** | +1 build step (glslang unblocked) | no change | no change
+  |
+  
+  - Zero regressions on any platform
+  - Windows improved: glslang now compiles (38 -> 39 steps, 5 -> 4
+  failures)
+  - Remaining 4 Windows failures (`helpgen`, `framegen`, `freetype`,
+  `translate-c`) are addressed by other PRs in the stack
+  
+  ## What I Learnt
+  
+  - **MSVC's clang doesn't default to C++17.** Zig's bundled clang uses
+  C++17 by default on Linux/Mac, but when targeting MSVC, the C++ standard
+  needs to be specified explicitly. Without `-std=c++17`, features like
+  `std::variant`, `std::filesystem`, and `inline` variables are gated
+  behind `_HAS_CXX17` and won't compile.
+  - **`linkLibCpp` conflicts with MSVC headers.** Zig's `linkLibCpp`
+  passes `-nostdinc++` and adds its own libc++/libc++abi headers, which
+  collide with the C++ headers already provided by the MSVC SDK through
+  `linkLibC`. On MSVC, you don't need `linkLibCpp` at all since the SDK
+  includes both C and C++ headers. I think yesterday we dealt with
+  something similar. Windows is fun. 🫠 Unironically and chronically.
+  - **Grep wider.** The `linkLibCpp` guard was already applied to simdutf,
+  highway, and utfcpp but missed glslang. When a fix follows a repeated
+  pattern across packages, search the whole codebase before declaring it
+  complete.
+  ```
+- [`aec3a6e`](https://github.com/ghostty-org/ghostty/commit/aec3a6ebf62eaa204f678ac2a075775012a2d3a3) build: fix Windows build failures in helpgen and framegen ([#11803](https://github.com/ghostty-org/ghostty/issues/11803)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > [!WARNING]
+  > Review/approve this AFTER #11798, #11800 and #11801 (this PR stacks on
+  top of rhem... ergo, it includes their commits)
+  > Don't cheat! Start from the oldest one! 😄 I know these are almost
+  one-liners but I am doing this mostly for documentation and karma
+  points. BTW, Github needs to level up this wankflow like a lot... IMHO
+  
+  ## Summary
+  - Use `writerStreaming()` instead of `writer()` for stdout in helpgen
+  and main_build_data (`ftruncate` on pipes fails on Windows with
+  `INVALID_PARAMETER` mapped to `FileTooBig`)
+  - Replace POSIX `scandir` with `opendir`/`readdir` plus `qsort` in
+  framegen since `scandir` is not available on Windows
+  
+  ## Context
+  This fix was previously applied upstream by Mitchell (f4998c6ab) and
+  reverted 15 minutes later (0fdddd5bc). The reason for the revert is not
+  clear. Around the same time, a CI step was added to execute cmake
+  examples on Windows, which was later removed (b723f2a43) with the note
+  "hangs, so remove it entirely". Whether the revert is related to the
+  hang or had a separate reason, we don't know.
+  
+  What we do know:
+  - Both `helpgen` and `framegen` run during normal builds on Windows (via
+  `SharedDeps`), not just during dist packaging. Claude had told me the
+  opposite before but "don't trust and verify".
+  - Without this fix, both tools fail: helpgen with `FileTooBig`
+  (ftruncate on pipes), framegen with `scandir` undeclared
+  - The fix does not regress Linux or macOS
+  
+  ## Stack
+  Stacked on 012-windows/fix-glslang-msvc.
+  
+  ## Test plan
+  
+  ### Cross-platform results (`zig build test` / `zig build
+  -Dapp-runtime=none test` on Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (74c6ffe78) | FAIL - 39/51 steps, 4 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  | **AFTER** (f9d3b1aaf) | FAIL - 44/51 steps, 2 failed | PASS - 86/86,
+  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
+  |
+  
+  ### Windows: what changed (39 > 44 steps, 4 > 2 failures)
+  
+  **Fixed by this PR:**
+  - `run exe helpgen` -> was `failure` (FileTooBig from ftruncate on
+  stdout pipe) -> `success`
+  - `compile exe framegen` -> was `1 errors` (scandir undeclared) ->.
+  `success`
+  
+  **Remaining failures (pre-existing, fixed by later PRs in stack):**
+  - `translate-c` -> 3 errors (`ssize_t` unknown in ghostty.h on MSVC)
+  - `compile lib freetype` -> 2 errors (`unistd.h` not found)
+  
+  ### Linux/macOS: no regressions
+  Identical pass counts and test results before and after.
+  
+  ## Discussion points
+  
+  ### "Grep wider"  other `stdout().writer()` callsites
+  There are 15+ other `stdout().writer(&buf)` callsites in the codebase.
+  Build-time generators that capture stdout (webgen, mdgen, unicode
+  generators) would have the same `ftruncate` issue if they ran on
+  Windows. Currently they don't appear in the Windows build graph, but
+  worth noting for future Windows work.
+  
+  ### `writerStreaming()` vs `writer()`
+  `writer()` calls `ftruncate` on flush/end to set the file size, which
+  fails on pipes (stdout captured by the build system).
+  `writerStreaming()` skips the truncate since the output goes to a pipe,
+  not a seekable file. This is the correct API for this use case on all
+  platforms, not just Windows.
+  
+  ## What I Learnt
+  - When upstream has applied and reverted something, state what you
+  observe rather than speculating about their reasoning. Let the reviewer
+  fill in context you don't have.
+  - "Grep wider" (testing pattern): `stdout().writer()` appears in 17
+  files. Only 2 are fixed here because only 2 are in the current Windows
+  build path. But the pattern exists more broadly.
+  - I feel like I am training my replacements. I mean, I am a parent, it
+  rhymes.
+  - I feel like my replacements are training me. It rhymes as well.
+  ```
 - [`7d31d9b`](https://github.com/ghostty-org/ghostty/commit/7d31d9b57f7064f74cd8a098189d2f9248ef4dd5) cmake: add import library to custom command OUTPUT ([@deblasis](https://github.com/deblasis))
   ```text
   Ninja requires all produced files to be listed as explicit outputs of
