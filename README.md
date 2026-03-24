@@ -8,15 +8,395 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 24, 2026 at 18:20 UTC.
+> Last updated: March 24, 2026 at 21:13 UTC.
 
 ## March 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [2](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [3](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [4](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [5](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 5 runs • 22 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23510832036), [2](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [3](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [4](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [5](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [6](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
+Summary: 6 runs • 40 commits • 5 authors
 
 ### Changes
 
+- [`68378a0`](https://github.com/ghostty-org/ghostty/commit/68378a0bb8a6e84e568838bfe5b1f92941c2ef50) build: increase comptime branch quota for ghostty.h enum checks ([@deblasis](https://github.com/deblasis))
+  ```text
+  The MSVC translate-c output includes Windows SDK declarations,
+  bringing the total to ~2173 declarations (vs ~1502 on Linux/Mac).
+  The nested inline for in checkGhosttyHEnum (enum fields x declarations)
+  exceeds the 1M comptime branch quota for larger enums like MouseShape
+  (34 variants). Increase to 10M to accommodate.
+  ```
+- [`b91cc86`](https://github.com/ghostty-org/ghostty/commit/b91cc867a815f1d26bd5b34d17b70b64abff88d1) vt: add ghostty_terminal_set for configuring effects callbacks ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a typed option setter ghostty_terminal_set() following the
+  existing setopt pattern used by the key encoder and render state
+  APIs. This is the first step toward exposing stream_terminal
+  Handler.Effects through the C API.
+  
+  The initial implementation includes a write_pty callback and a
+  shared userdata pointer. The write_pty callback is invoked
+  synchronously during ghostty_terminal_vt_write() when the terminal
+  needs to send a response back to the pty, such as DECRQM mode
+  reports or device status responses.
+  
+  Trampolines are always installed at terminal creation time and
+  no-op when no C callback is set, so callers can configure
+  callbacks at any point without reinitializing the stream. The C
+  callback state is grouped into an internal Effects struct on the
+  TerminalWrapper to simplify adding more callbacks in the future.
+  ```
+- [`b49e9f3`](https://github.com/ghostty-org/ghostty/commit/b49e9f37ff71cc007dafa592c5d7385d70a2dab1) vt: add bell effect callback and move types into Effects ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add GHOSTTY_TERMINAL_OPT_BELL so C consumers can receive bell
+  notifications during VT processing. The bell trampoline follows
+  the same pattern as write_pty.
+  
+  Move the C function pointer typedefs (WritePtyFn, BellFn) into
+  the Effects struct namespace to keep callback types co-located
+  with their storage and trampolines.
+  ```
+- [`c13a9bb`](https://github.com/ghostty-org/ghostty/commit/c13a9bb49ced768d7da3f6aff2e6d31fbed4641e) vt: add tests for write_pty and bell effect callbacks ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Test that the write_pty callback receives correct DECRQM response
+  data and userdata, that queries are silently ignored without a
+  callback, and that setting null clears the callback. Test that
+  the bell callback fires on single and multiple BEL characters
+  with correct userdata, and that BEL without a callback is safe.
+  ```
+- [`f9c34b4`](https://github.com/ghostty-org/ghostty/commit/f9c34b40f067cb40d63ce78aac00ead3ec77fabb) vt: add enquiry and xtversion effect callbacks ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add GHOSTTY_TERMINAL_OPT_ENQUIRY and GHOSTTY_TERMINAL_OPT_XTVERSION
+  so C consumers can respond to ENQ (0x05) and XTVERSION (CSI > q)
+  queries. Both callbacks return a GhosttyString rather than using
+  out-pointers.
+  
+  Introduce GhosttyString in types.h as a borrowed byte string
+  (ptr + len) backed by lib.String on the Zig side. This will be
+  reusable for future callbacks that need to return string data.
+  
+  Without an xtversion callback the trampoline returns an empty
+  string, which causes the handler to report the default
+  "libghostty" version. Without an enquiry callback no response
+  is sent.
+  ```
+- [`6f18d44`](https://github.com/ghostty-org/ghostty/commit/6f18d44ed69a5194a74ab72b6d86aaaf545f1dd6) vt: add title_changed effect callback ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add GHOSTTY_TERMINAL_OPT_TITLE_CHANGED so C consumers are notified
+  when the terminal title changes via OSC 0 or OSC 2 sequences. The
+  callback has the same fire-and-forget shape as bell.
+  ```
+- [`424e9b5`](https://github.com/ghostty-org/ghostty/commit/424e9b57cabb1e6040167df561e03335cb2714df) vt: add size effect callback for XTWINOPS queries ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add GHOSTTY_TERMINAL_OPT_SIZE so C consumers can respond to
+  XTWINOPS size queries (CSI 14/16/18 t). The callback receives a
+  GhosttySizeReportSize out-pointer and returns true if the size is
+  available, or false to silently ignore the query. The trampoline
+  converts the bool + out-pointer pattern to the optional that the
+  Zig handler expects.
+  ```
+- [`02d48c3`](https://github.com/ghostty-org/ghostty/commit/02d48c360b5c9e837844bac4ad3fdf6c8fa69b5c) vt: expose color_scheme effect callback ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Change device_status.ColorScheme from a plain Zig enum to
+  lib.Enum so it uses c_int backing when targeting the C ABI.
+  
+  Add a color_scheme callback to the C terminal effects, following
+  the bool + out-pointer pattern used by the size callback. The
+  trampoline converts between the C calling convention and the
+  internal stream handler color_scheme effect, returning null when
+  no callback is set.
+  
+  Add device_status.h header with GhosttyColorScheme enum and wire
+  it through terminal.h as GHOSTTY_TERMINAL_OPT_COLOR_SCHEME (= 7)
+  with GhosttyTerminalColorSchemeFn.
+  ```
+- [`b8fcb57`](https://github.com/ghostty-org/ghostty/commit/b8fcb57923ae3a5d39630650a05217f3536c87f8) vt: expose device_attributes effect in the C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename device_status.h to device.h and add C-compatible structs for
+  device attributes (DA1/DA2/DA3) responses. The new header includes
+  defines for all known conformance levels, DA1 feature codes, and DA2
+  device type identifiers.
+  
+  Add a GhosttyTerminalDeviceAttributesFn callback that C consumers can
+  set via GHOSTTY_TERMINAL_OPT_DEVICE_ATTRIBUTES. The callback follows
+  the existing bool + out-pointer pattern used by color_scheme and size
+  callbacks. When the callback is unset or returns false, the trampoline
+  returns a default VT220 response (conformance level 62, ANSI color).
+  
+  The DA1 primary features use a fixed [64]uint16_t inline array with a
+  num_features count rather than a pointer, so the entire struct is
+  value-typed and can be safely copied without lifetime concerns.
+  ```
+- [`bbfe1c2`](https://github.com/ghostty-org/ghostty/commit/bbfe1c278722c54ededd474b9567b58fd3ad801a) vt: use struct literal for handler effects assignment ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Assign handler.effects as a struct literal instead of setting fields
+  individually. This lets the compiler catch missing fields if new
+  effects are added to the Effects struct.
+  
+  Also sort the callback function typedefs in vt/terminal.h
+  alphabetically (Bell, ColorScheme, DeviceAttributes, Enquiry, Size,
+  TitleChanged, WritePty, Xtversion).
+  ```
+- [`4128e6a`](https://github.com/ghostty-org/ghostty/commit/4128e6a38c5c5c20d5119a46c691bf978b74c41a) vt: add effects documentation section with example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a comprehensive "Effects" section to the terminal module
+  documentation in terminal.h explaining the callback system that
+  lets embedding applications react to terminal-initiated events
+  (bell, title changes, pty writes, device queries, etc.). The
+  section includes a reference table of all available effects and
+  their triggers, plus @snippet references to the new example.
+  
+  Add c-vt-effects example project demonstrating how to register
+  write_pty, bell, and title_changed callbacks, attach userdata,
+  and feed VT data that triggers each effect.
+  ```
+- [`e36b745`](https://github.com/ghostty-org/ghostty/commit/e36b7453146099b3473b4d8a5c6638f6431448c4) fmt ([@mitchellh](https://github.com/mitchellh))
+- [`d2c6a3c`](https://github.com/ghostty-org/ghostty/commit/d2c6a3c775bc6952480442fe11ec2984a86b5c8c) vt: store DA1 feature buffer in wrapper struct ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The DA1 trampoline was converting C feature codes into a local
+  stack buffer and returning a slice pointing into it. This is
+  unsound because the slice outlives the stack frame once the
+  trampoline returns, leaving reportDeviceAttributes reading
+  invalid memory.
+  
+  Move the scratch buffer into the wrapper effects struct so that
+  its lifetime extends beyond the trampoline call, keeping the
+  returned slice valid for the caller.
+  ```
+- [`81e21e4`](https://github.com/ghostty-org/ghostty/commit/81e21e4d0a4e6f3a12004542a907c55c2f3b587a) build: refactor checkGhosttyHEnum to use @hasDecl instead of nested inline for ([@deblasis](https://github.com/deblasis))
+  ```text
+  Replace the O(N×M) nested inline for loop with direct @hasDecl lookups.
+  The old approach iterated over all translate-c declarations for each enum
+  field, which required a 10M comptime branch quota on MSVC (2173 decls ×
+  138 fields × ~20 branches). The new approach constructs the expected
+  declaration name and checks directly, reducing to O(N) and needing only
+  100K quota on all platforms.
+  ```
+- [`d5bd331`](https://github.com/ghostty-org/ghostty/commit/d5bd331c91b9cf988f805f0f71ecc74a287d04cb) libghostty: C API for terminal "effects" for processing output and side effects ([#11814](https://github.com/ghostty-org/ghostty/issues/11814)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds the terminal effects callback system to the libghostty-vt C
+  API.
+  
+  Previously, `ghostty_terminal_vt_write()` silently ignored VT sequences
+  that produce side effects or require responses (bell, title changes,
+  device status queries, etc.). With this change, embedders can register
+  callbacks via `ghostty_terminal_set()` to handle these sequences.
+  
+  This has already existed in the Zig API.
+  
+  ## Effects
+  
+  | Option | Callback Type | Trigger |
+  |--------|--------------|---------|
+  | `GHOSTTY_TERMINAL_OPT_WRITE_PTY` | `GhosttyTerminalWritePtyFn` | Query
+  responses written back to the pty |
+  | `GHOSTTY_TERMINAL_OPT_BELL` | `GhosttyTerminalBellFn` | BEL character
+  (0x07) |
+  | `GHOSTTY_TERMINAL_OPT_TITLE_CHANGED` | `GhosttyTerminalTitleChangedFn`
+  | Title change via OSC 0 / OSC 2 |
+  | `GHOSTTY_TERMINAL_OPT_ENQUIRY` | `GhosttyTerminalEnquiryFn` | ENQ
+  character (0x05) |
+  | `GHOSTTY_TERMINAL_OPT_XTVERSION` | `GhosttyTerminalXtversionFn` |
+  XTVERSION query (CSI > q) |
+  | `GHOSTTY_TERMINAL_OPT_SIZE` | `GhosttyTerminalSizeFn` | XTWINOPS size
+  query (CSI 14/16/18 t) |
+  | `GHOSTTY_TERMINAL_OPT_COLOR_SCHEME` | `GhosttyTerminalColorSchemeFn` |
+  Color scheme query (CSI ? 996 n) |
+  | `GHOSTTY_TERMINAL_OPT_DEVICE_ATTRIBUTES` |
+  `GhosttyTerminalDeviceAttributesFn` | Device attributes query (CSI c / >
+  c / = c) |
+  
+  ## Example
+  
+  ```c
+  #include <stdio.h>
+  #include <string.h>
+  #include <ghostty/vt.h>
+  
+  void on_write_pty(GhosttyTerminal terminal, void* userdata,
+                    const uint8_t* data, size_t len) {
+    (void)terminal; (void)userdata;
+    printf("  write_pty (%zu bytes): ", len);
+    fwrite(data, 1, len, stdout);
+    printf("\n");
+  }
+  
+  void on_bell(GhosttyTerminal terminal, void* userdata) {
+    (void)terminal;
+    int* count = (int*)userdata;
+    (*count)++;
+    printf("  bell! (count=%d)\n", *count);
+  }
+  
+  int main() {
+    GhosttyTerminal terminal = NULL;
+    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
+    if (ghostty_terminal_new(NULL, &terminal, opts) != GHOSTTY_SUCCESS)
+      return 1;
+  
+    // Attach userdata and callbacks
+    int bell_count = 0;
+    void* ud = &bell_count;
+    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_USERDATA, &ud);
+  
+    GhosttyTerminalWritePtyFn write_fn = on_write_pty;
+    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_WRITE_PTY, &write_fn);
+  
+    GhosttyTerminalBellFn bell_fn = on_bell;
+    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_BELL, &bell_fn);
+  
+    // BEL triggers the bell callback
+    const uint8_t bel = 0x07;
+    ghostty_terminal_vt_write(terminal, &bel, 1);
+  
+    // DECRQM triggers write_pty with the mode response
+    const char* decrqm = "\x1B[?7$p";
+    ghostty_terminal_vt_write(terminal, (const uint8_t*)decrqm, strlen(decrqm));
+  
+    ghostty_terminal_free(terminal);
+    return 0;
+  }
+  ```
+  ````
+- [`f21455b`](https://github.com/ghostty-org/ghostty/commit/f21455b7e7f1a765a93ce86530723667a4926535) build: refactor checkGhosttyHEnum to use @hasDecl for Windows compatibility ([#11813](https://github.com/ghostty-org/ghostty/issues/11813)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### This is it! This one (and the other stacked PRs) and #11782 should
+  finally give a clean test run on Windows!
+  
+  
+  ## Summary
+  
+  - Increase `@setEvalBranchQuota` from 1M to 10M (too much? how much is
+  too much?) in `checkGhosttyHEnum` (src/lib/enum.zig)
+  - Fixes the only remaining test failure on Windows MSVC: `ghostty.h
+  MouseShape`
+  
+  ## Context
+  This one was fun! Claude started blabbering, diminishing returns it
+  said. It couldn't figure out. So I called Dario and it worked.
+  Nah, much easier than that.
+  
+  On MSVC, the translate-c output for `ghostty.h` is ~360KB with ~2173
+  declarations (vs ~112KB / ~1502 on Linux/Mac) because `<sys/types.h>`
+  and `<BaseTsd.h>` pull in Windows SDK headers. The `checkGhosttyHEnum`
+  function uses a nested `inline for` (enum fields x declarations) with
+  comptime string comparisons. For MouseShape (34 variants), this
+  generates roughly 34 x 2173 x ~20 = ~1.5M comptime branches, exceeding
+  the 1M quota.
+  
+  The failure was confusing because it presented as a runtime error
+  ("ghostty.h is missing value for GHOSTTY_MOUSE_SHAPE_DEFAULT") rather
+  than a compile error. The constants exist in the translate-c output and
+  the test compiles, but the comptime loop silently stops matching when it
+  hits the branch limit, so `set.remove` is never called and the set
+  reports all entries as missing at runtime.
+  
+  ## How we found it
+  The translate-c output clearly had all 34 GHOSTTY_MOUSE_SHAPE_*
+  constants, yet the test reported all of them as missing. I asked Claude
+  to list 5 hypotheses (decl truncation, branch quota, string comparison
+  bug, declaration ordering, field access failure) and to write 7 targeted
+  POC tests in enum.zig to isolate each step of `checkGhosttyHEnum`:
+  
+  1. POC1-2: Module access and declaration count (both passed)
+  2. POC3: `@hasDecl` for the constant (passed)
+  3. POC4: Direct field value access (passed)
+  4. POC5: `inline for` over decls with string comparison - **compile
+  error: "evaluation exceeded 1000 backwards branches"**
+  5. POC6: Same but with 10M quota (passed)
+  6. POC7: Full `checkGhosttyHEnum` clone with 10M quota - **passed,
+  confirming the fix**
+  
+  POC5 was the key: the default 1000 branch limit for test code confirmed
+  the comptime budget mechanism. The existing 1M quota in
+  `checkGhosttyHEnum` was enough for Linux/Mac (1502 declarations) but not
+  for MSVC (2173 declarations) with larger enums.
+  
+  ## Stack
+  Stacked on 016-windows/fix-libcxx-msvc.
+  
+  ## Test plan
+  
+  ### Cross-platform results (`zig build test` / `zig build
+  -Dapp-runtime=none test` on Windows)
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (016, ce9930051) | FAIL - 49/51, 2630/2654, 1 test failed,
+  23 skipped | PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160,
+  2655/2662, 7 skipped |
+  | **AFTER** (017, 68378a0bb) | FAIL - 49/51, 2631/2654, 23 skipped |
+  PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160, 2655/2662, 7
+  skipped |
+  
+  ### Windows: what changed (2630 -> 2631 tests, MouseShape fixed)
+  
+  **Fixed by this PR:**
+  - `ghostty.h MouseShape` test - was failing because comptime branch
+  quota exhaustion silently prevented the inline for loop from matching
+  any constants
+  
+  **Remaining failure (pre-existing, unrelated):**
+  - `config.Config.test.clone can then change conditional state` -
+  segfaults (exit code 3) on Windows. We investigated this and it looked
+  familiar.. cherry-picking the `CommaSplitter `fix from PR #11782
+  resolved it! The backslash path handling in `CommaSplitter `breaks theme
+  path parsing on Windows, which is exactly what that PR addresses. So
+  once that lands, we should be in a good place... ready to ship to
+  Windows users! (just kidding)
+  
+  ### Linux/macOS: no regressions
+  Identical pass counts and test results before and after.
+  
+  ## What I Learnt
+  - Comptime branch quota exhaustion in Zig does not always surface as a
+  clean compile error. When it happens inside an `inline for` loop with
+  `comptime` string comparisons that gate runtime code (like
+  `set.remove`), the effect is that matching code is silently not
+  generated. The test compiles and runs, but the runtime behavior is wrong
+  because the matching branches were never emitted. This makes the failure
+  look like a data issue (missing declarations) rather than a compile
+  budget issue.
+  - When debugging comptime issues, writing small isolated POC tests that
+  exercise each step of the failing function independently is very
+  effective. It took 7 targeted tests to pinpoint the exact failure point.
+  - Cross-platform translate-c outputs can vary significantly in size. On
+  MSVC, system headers are much larger than on Linux/Mac, which affects
+  comptime budgets for any code that iterates over translated module
+  declarations.
+  ```
+- [`8f1ac0b`](https://github.com/ghostty-org/ghostty/commit/8f1ac0bd4e69e922167d4cf7560a6cdec12ba721) vt: expose title and pwd in C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add title and pwd as both gettable data keys
+  (GHOSTTY_TERMINAL_DATA_TITLE/PWD) and settable options
+  (GHOSTTY_TERMINAL_OPT_TITLE/PWD) in the C terminal API. Getting
+  returns a borrowed GhosttyString; setting copies the data into the
+  terminal via setTitle/setPwd.
+  
+  The underlying Terminal.setTitle/setPwd now append a null sentinel so
+  that getTitle/getPwd can return sentinel-terminated slices ([:0]const
+  u8), which is useful for downstream consumers that need C strings.
+  
+  Change ghostty_terminal_set to return GhosttyResult instead of void
+  so that the new title/pwd options can report allocation failures.
+  Existing option-setting calls cannot fail so the return value is
+  backwards-compatible for callers that discard it.
+  ```
+- [`82f7527`](https://github.com/ghostty-org/ghostty/commit/82f7527b302a655ed03be0f6f1f0d46f5aaadcb0) vt: expose title and pwd in C API ([#11815](https://github.com/ghostty-org/ghostty/issues/11815)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add title and pwd as both gettable data keys
+  (GHOSTTY_TERMINAL_DATA_TITLE/PWD) and settable options
+  (GHOSTTY_TERMINAL_OPT_TITLE/PWD) in the C terminal API. Getting returns
+  a borrowed GhosttyString; setting copies the data into the terminal via
+  setTitle/setPwd.
+  
+  The underlying Terminal.setTitle/setPwd now append a null sentinel so
+  that getTitle/getPwd can return sentinel-terminated slices ([:0]const
+  u8), which is useful for downstream consumers that need C strings.
+  
+  Change ghostty_terminal_set to return GhosttyResult instead of void so
+  that the new title/pwd options can report allocation failures. Existing
+  option-setting calls cannot fail so the return value is
+  backwards-compatible for callers that discard it.
+  ```
 - [`d5aef6e`](https://github.com/ghostty-org/ghostty/commit/d5aef6e845ed72584aba3a129268d40a9694b568) build: fix freetype compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
   ```text
   Gate HAVE_UNISTD_H and HAVE_FCNTL_H behind a non-Windows check since
