@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 24, 2026 at 03:48 UTC.
+> Last updated: March 24, 2026 at 06:24 UTC.
 
 ## March 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [2](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [2](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [3](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
+Summary: 3 runs • 5 commits • 5 authors
 
 ### Changes
 
+- [`7d31d9b`](https://github.com/ghostty-org/ghostty/commit/7d31d9b57f7064f74cd8a098189d2f9248ef4dd5) cmake: add import library to custom command OUTPUT ([@deblasis](https://github.com/deblasis))
+  ```text
+  Ninja requires all produced files to be listed as explicit outputs of
+  custom commands. The zig build produces a .lib import library alongside
+  the DLL, but it was not listed in the OUTPUT directive. This causes
+  Ninja to fail with "missing and no known rule to make it" when
+  IMPORTED_IMPLIB references the .lib file.
+  ```
+- [`d4a38c8`](https://github.com/ghostty-org/ghostty/commit/d4a38c8661453026bd1b1bb022ba2c37b347adce) cmake: add import library to custom command OUTPUT ([#11794](https://github.com/ghostty-org/ghostty/issues/11794)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  # What
+  
+  PR #11756 added IMPORTED_IMPLIB pointing to the .lib import library, but
+  the
+  import library is not listed in the OUTPUT directive of the
+  `add_custom_command`
+  that runs zig build. The file is produced as a side-effect of the build.
+  
+  This works with the Visual Studio generator (which is lenient about
+  undeclared outputs) but fails with Ninja:
+  
+  ninja: error: 'zig-out/lib/ghostty-vt.lib', needed by 'ghostling',
+  missing and no known rule to make it
+  
+  The fix adds "${ZIG_OUT_DIR}/lib/${GHOSTTY_VT_IMPLIB}" to the OUTPUT
+  list. No
+  behavioral change. The file was already being built, Ninja just needs to
+  know
+  about it.
+  
+  ## but_why.gif
+  
+  I am cleaning up https://github.com/ghostty-org/ghostling/pull/6 and I
+  realise that in order to get rid of the CMake workarounds we had before
+  #11756, this change is necessary.
+  
+  # POC
+  
+  I set up a branch pointing at my fork with a POC and it builds, this is
+  the cleaned up CMakeList
+  https://github.com/deblasis/winghostling/blob/test/cmake-implib-no-workaround/CMakeLists.txt
+  ```
 - [`147596d`](https://github.com/ghostty-org/ghostty/commit/147596d5608e3274e4b77fcdc201560f46fdb7c1) build(deps): bump cachix/install-nix-action from 31.10.1 to 31.10.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.1 to 31.10.2.
