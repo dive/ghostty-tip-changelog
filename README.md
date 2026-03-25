@@ -8,15 +8,85 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 24, 2026 at 21:13 UTC.
+> Last updated: March 25, 2026 at 00:22 UTC.
 
 ## March 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23510832036), [2](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [3](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [4](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [5](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [6](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 6 runs • 40 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23513636307), [2](https://github.com/ghostty-org/ghostty/actions/runs/23512601381), [3](https://github.com/ghostty-org/ghostty/actions/runs/23510832036), [4](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [5](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [6](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [7](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [8](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
+Summary: 8 runs • 46 commits • 5 authors
 
 ### Changes
 
+- [`c12f62c`](https://github.com/ghostty-org/ghostty/commit/c12f62c82d62f36c850a1e06221d84719948b2a4) vt: handle pixel sizes and size reports in ghostty_terminal_resize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The resize function now requires cell_width_px and cell_height_px
+  parameters and handles the full resize sequence: computing and
+  setting width_px/height_px on the terminal, clearing synchronized output mode
+  so changes display immediately, and encoding a mode 2048 in-band size report
+  via the write_pty callback when that mode is enabled.
+  
+  A valid width/height px is critical for some applications and protocols
+  and some applications rely directly on in-band size reports, so this
+  change is necessary to support those use cases.
+  ```
+- [`bebca84`](https://github.com/ghostty-org/ghostty/commit/bebca84668947bfc92b9a30ed58712e1c34eee1d) vt: handle pixel sizes and size reports in ghostty_terminal_resize ([#11818](https://github.com/ghostty-org/ghostty/issues/11818)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The resize function now requires cell_width_px and cell_height_px
+  parameters and handles the full resize sequence: computing and setting
+  width_px/height_px on the terminal, clearing synchronized output mode so
+  changes display immediately, and encoding a mode 2048 in-band size
+  report via the write_pty callback when that mode is enabled.
+  
+  A valid width/height px is critical for some applications and protocols
+  and some applications rely directly on in-band size reports, so this
+  change is necessary to support those use cases.
+  
+  I do wonder if for the Zig API we should be doing this in
+  `terminal.resize` or somewhere else, because as it stands this has to
+  all be manually done on the Zig side.
+  ```
+- [`6e34bc6`](https://github.com/ghostty-org/ghostty/commit/6e34bc686cbfd86c69418fffd9805d68c197b9a7) vt: pass pointer options directly to terminal_set ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously ghostty_terminal_set required all values to be passed as
+  pointers to the value, even when the value itself was already a
+  pointer (userdata, function pointer callbacks). This forced callers
+  into awkward patterns like compound literals or intermediate
+  variables just to take the address of a pointer.
+  
+  Now pointer-typed options (userdata and all callbacks) are passed
+  directly as the value parameter. Only non-pointer types like
+  GhosttyString still require a pointer to the value. This
+  simplifies InType to return the actual stored type for each option
+  and lets setTyped work with those types directly.
+  ```
+- [`a062c16`](https://github.com/ghostty-org/ghostty/commit/a062c16e13f389bae01f0e654fddf4a133748856) libghostty: pass pointer options directly to terminal_set ([#11816](https://github.com/ghostty-org/ghostty/issues/11816)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously ghostty_terminal_set required all values to be passed as
+  pointers to the value, even when the value itself was already a pointer
+  (userdata, function pointer callbacks). This forced callers into awkward
+  patterns like compound literals or intermediate variables just to take
+  the address of a pointer.
+  
+  Now pointer-typed options (userdata and all callbacks) are passed
+  directly as the value parameter. Only non-pointer types like
+  GhosttyString still require a pointer to the value. This simplifies
+  InType to return the actual stored type for each option and lets
+  setTyped work with those types directly.
+  ```
+- [`2c16c9e`](https://github.com/ghostty-org/ghostty/commit/2c16c9e40c8862342ea02a9f3ffae2a52c3735e3) vt: add total_rows and scrollback_rows to terminal get API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add total_rows and scrollback_rows as new TerminalData variants
+  queryable through the existing ghostty_terminal_get interface,
+  using the cached O(1) total_rows field from PageList rather than
+  introducing standalone functions.
+  ```
+- [`f452087`](https://github.com/ghostty-org/ghostty/commit/f452087eacde1efcbf1d845a02ccd23e73a0492e) vt: add total_rows and scrollback_rows to terminal get API ([#11817](https://github.com/ghostty-org/ghostty/issues/11817)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add total_rows and scrollback_rows as new TerminalData variants
+  queryable through the existing ghostty_terminal_get interface, using the
+  cached O(1) total_rows field from PageList rather than introducing
+  standalone functions.
+  ```
 - [`68378a0`](https://github.com/ghostty-org/ghostty/commit/68378a0bb8a6e84e568838bfe5b1f92941c2ef50) build: increase comptime branch quota for ghostty.h enum checks ([@deblasis](https://github.com/deblasis))
   ```text
   The MSVC translate-c output includes Windows SDK declarations,
@@ -3233,172 +3303,4 @@ Summary: 2 runs • 6 commits • 4 authors
   
   Ref: https://github.com/dorny/paths-filter
   ```
-
-## March 18, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23257063138), [2](https://github.com/ghostty-org/ghostty/actions/runs/23255200023), [3](https://github.com/ghostty-org/ghostty/actions/runs/23253545237), [4](https://github.com/ghostty-org/ghostty/actions/runs/23248995028), [5](https://github.com/ghostty-org/ghostty/actions/runs/23222237491)  
-Summary: 5 runs • 17 commits • 5 authors
-
-### Changes
-
-- [`2d51401`](https://github.com/ghostty-org/ghostty/commit/2d514013d51e9805305b5e93c5bd9eb9ada774a4) fix "open terminal here" action on Plasma ([@heddxh](https://github.com/heddxh))
-- [`4b1e48b`](https://github.com/ghostty-org/ghostty/commit/4b1e48b71e7e7b0317651a8c3173defff9ffffaa) swap arguments ([@heddxh](https://github.com/heddxh))
-- [`c9e1006`](https://github.com/ghostty-org/ghostty/commit/c9e1006213eb9234209924c91285d6863e59ce4c) Fix: correct "Open Ghostty Here" Dolphin action for Plasma ([#11614](https://github.com/ghostty-org/ghostty/issues/11614)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  See #11594
-  
-  The change allows "Open Ghostty Here" Dolphin action to launch new
-  ghostty window with gtk single instance.
-  ```
-- [`1f3a3b4`](https://github.com/ghostty-org/ghostty/commit/1f3a3b41f785d10906678394d13c180657d35210) bash: handle PROMPT_COMMAND ending in a newline ([@jparise](https://github.com/jparise))
-  ```text
-  We need to handle on more case: when an existing PROMPT_COMMAND ends in
-  a newline, we don't want to append a ; because that already counts as a
-  command separator.
-  
-  We now handle all of these PROMPT_COMMAND cases:
-  
-  - Ends with ; — no ; added
-  - Ends with \n or other whitespace — no ; added
-  - Ends with a command name — ; added as separator
-  
-  See: #11245
-  ```
-- [`3dc6998`](https://github.com/ghostty-org/ghostty/commit/3dc69981d2abf7e66eeb973229b86c6bb847c734) bash: handle PROMPT_COMMAND ending in a newline ([#11621](https://github.com/ghostty-org/ghostty/issues/11621)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We need to handle on more case: when an existing PROMPT_COMMAND ends in
-  a newline, we don't want to append a ; because that already counts as a
-  command separator.
-  
-  We now handle all of these PROMPT_COMMAND cases:
-  
-  - Ends with ; — no ; added
-  - Ends with \n or other whitespace — no ; added
-  - Ends with a command name — ; added as separator
-  
-  See: #11245
-  ```
-- [`e01046a`](https://github.com/ghostty-org/ghostty/commit/e01046af158cef2e324ae153e73381d544ed3cc6) docs: extract focus encoding example into standalone project ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Extract the inline code example from focus.h into a standalone
-  buildable example at example/c-vt-encode-focus. The header now
-  uses a Doxygen @snippet tag to include the code from the example
-  source file, so the documentation stays in sync with code that
-  is verified to compile and run.
-  ```
-- [`bb3b3ba`](https://github.com/ghostty-org/ghostty/commit/bb3b3ba6150b55c251e05fd205a1da5b8c34ec5f) ci: dynamically discover example directories for build-examples ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Replace the hardcoded matrix list in the build-examples job with a
-  dynamic list-examples job that discovers all subdirectories under
-  example/ at runtime. This uses ls/jq to produce a JSON array and
-  fromJSON() to feed it into the matrix, so new examples are picked
-  up automatically without updating the workflow.
-  ```
-- [`15b8976`](https://github.com/ghostty-org/ghostty/commit/15b8976d643de69df2168aa99320557e6b95bc02) docs: extract inline code examples into standalone projects ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Extract inline @code blocks from vt headers (size_report.h, modes.h,
-  sgr.h, paste.h, mouse.h, key.h) into standalone buildable examples
-  under example/. Each header now uses Doxygen @snippet tags to include
-  code from the example source files, keeping documentation in sync
-  with code that is verified to compile and run.
-  
-  New example projects: c-vt-size-report and c-vt-modes. Existing
-  examples (c-vt-sgr, c-vt-paste, c-vt-mouse-encode, c-vt-key-encode)
-  gain snippet markers so their code can be referenced from the headers.
-  Conceptual snippets in key.h, mouse.h, and key/encoder.h that show
-  terminal-state usage patterns remain inline since they cannot be
-  compiled standalone.
-  ```
-- [`ceef806`](https://github.com/ghostty-org/ghostty/commit/ceef8065b02a8cf007e7a6ed3f6e71965fa20ad6) ci: filter build-examples to directories with build.zig.zon ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The dynamic example directory discovery added in bb3b3ba included
-  all subdirectories under example/, but some (wasm-key-encode,
-  wasm-sgr) are pure HTML examples with no build.zig.zon. Running
-  zig build in those directories falls back to the root build.zig
-  and attempts a full GTK binary build, which fails on CI.
-  
-  Filter the listing to only include directories that contain a
-  build.zig.zon file so non-Zig examples are excluded from the
-  build matrix.
-  ```
-- [`f037f41`](https://github.com/ghostty-org/ghostty/commit/f037f41f78fd96a98b4f612f40e117f80af6ca31) Add example AGENTS file ([@mitchellh](https://github.com/mitchellh))
-- [`383a7e1`](https://github.com/ghostty-org/ghostty/commit/383a7e14a7e4043dbfbd45aaa19781bba442952b) example: add README ([@mitchellh](https://github.com/mitchellh))
-- [`996ce03`](https://github.com/ghostty-org/ghostty/commit/996ce03f0b9e9407c0164e4a3c4f341ed91cc817) example: rename some examples ([@mitchellh](https://github.com/mitchellh))
-- [`9e6c875`](https://github.com/ghostty-org/ghostty/commit/9e6c875f334c43f1b1ea4cb8d23c1ec07c6d9f9c) Ensure all examples in libghostty C docs build and run in CI ([#11609](https://github.com/ghostty-org/ghostty/issues/11609)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This moves all our examples away from embedded source to `@snippet` and
-  files so that we can use our CI to actually run the builds and keep them
-  working.
-  
-  Note: I used AI to extract the examples, and it did some weird merging
-  stuff. It all works but I want to make sure all these examples are still
-  human friendly so I need to go back and review all that. I clicked
-  through the web docs and they look good, just need to verify the GitHub
-  flow.
-  ```
-- [`a74f437`](https://github.com/ghostty-org/ghostty/commit/a74f43760edce5a4b51d73c44cc39066cb24539e) Update VOUCHED list ([#11623](https://github.com/ghostty-org/ghostty/issues/11623)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11622#issuecomment-4082875090)
-  from @00-kat.
-  
-  Vouch: @EkaterinePapava
-  ```
-- [`a1d7ad9`](https://github.com/ghostty-org/ghostty/commit/a1d7ad92434a6c1c5b5a2b436a15e0573790b6cc) terminal: extract size report encoder ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Size report escape sequences were previously formatted inline in
-  Termio.sizeReportLocked, and termio.Message carried a duplicate enum for
-  report styles. That made the encoding logic harder to reuse and kept
-  the style type scoped to termio.
-  
-  Move the encoding into terminal.size_report and export it through
-  terminal.main. The encoder now takes renderer.Size directly and derives
-  grid and pixel dimensions from one source of truth. termio.Message now
-  aliases terminal.size_report.Style, and Termio writes reports via the
-  shared encoder.
-  ```
-- [`7bf8974`](https://github.com/ghostty-org/ghostty/commit/7bf89740dd86c28f40c2d5ab9cd001cbf41b864a) vt: expose size_report encoding in the C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ghostty_size_report_encode() to libghostty-vt, following the
-  same pattern as focus encoding: a single stateless function that
-  writes a terminal size report escape sequence into a caller-provided
-  buffer.
-  
-  The size_report.zig Style enum and Size struct now use lib.Enum and
-  lib.Struct so the types are automatically C-compatible when building
-  with c_abi, eliminating the need for duplicate type definitions in
-  the C wrapper. The C wrapper in c/size_report.zig re-exports these
-  types directly and provides the callconv(.c) encode entry point.
-  
-  Supports mode 2048 in-band reports and XTWINOPS responses (CSI 14 t,
-  CSI 16 t, CSI 18 t).
-  ```
-- [`d3bd224`](https://github.com/ghostty-org/ghostty/commit/d3bd224081d3c7c5ee54df6815e44f0b5d25357b) terminal/vt: extract size report encoding to its own file ([#11607](https://github.com/ghostty-org/ghostty/issues/11607)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Extract size report encoding into a reusable module and expose it
-  through the libghostty-vt C API as `ghostty_size_report_encode()`.
-  
-  Size report escape sequences (mode 2048 in-band reports, XTWINOPS CSI
-  14/16/18 t responses) were formatted inline in
-  `Termio.sizeReportLocked`, and `termio.Message` carried its own
-  duplicate enum for report styles. This made the encoding logic
-  impossible to reuse from the C library and kept the style type
-  unnecessarily scoped to termio.
-  
-  ## Example
-  
-  ```c
-  GhosttySizeReportSize size = {
-      .rows = 24, .columns = 80,
-      .cell_width = 9, .cell_height = 18,
-  };
-  
-  char buf[64];
-  size_t written = 0;
-  ghostty_size_report_encode(
-      GHOSTTY_SIZE_REPORT_MODE_2048, size,
-      buf, sizeof(buf), &written);
-  // buf contains: "\x1b[48;24;80;432;720t"
-  ```
-  ````
 
