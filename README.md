@@ -8,7 +8,76 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 25, 2026 at 15:26 UTC.
+> Last updated: March 25, 2026 at 18:20 UTC.
+
+## March 25, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23550813743)  
+Summary: 1 runs • 7 commits • 2 authors
+
+### Changes
+
+- [`f50aa90`](https://github.com/ghostty-org/ghostty/commit/f50aa90ced49a05066fae4ee00071adb34dee6b5) terminal: add lib.zig to centralize lib target and re-exports ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously every file in the terminal package independently imported
+  build_options and ../lib/main.zig, then computed the same
+  lib_target constant. This was repetitive and meant each file needed
+  both imports just to get the target.
+  
+  Introduce src/terminal/lib.zig which computes the target once and
+  re-exports the commonly used lib types (Enum, TaggedUnion, Struct,
+  String, checkGhosttyHEnum, structSizedFieldFits). All terminal
+  package files now import lib.zig and use lib.target instead of the
+  local lib_target constant, removing the per-file boilerplate.
+  ```
+- [`2f2f003`](https://github.com/ghostty-org/ghostty/commit/2f2f003aa5f807f2b5b3b3be5f83f46fa9825fce) terminal/c: use lib.calling_conv to allow Zig calling conv ([@mitchellh](https://github.com/mitchellh))
+- [`3c9c3a4`](https://github.com/ghostty-org/ghostty/commit/3c9c3a4f54f3c01e3b28fe63d5797bb3334c8e18) terminal/c: use lib.alloc instead of direct lib/allocator.zig import ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Each C API file independently imported ../../lib/allocator.zig as
+  lib_alloc. Now that terminal/lib.zig re-exports the allocator module
+  as lib.alloc, use that instead. This removes the redundant import
+  and keeps all lib dependencies flowing through the single lib.zig
+  entry point.
+  ```
+- [`43f3dc5`](https://github.com/ghostty-org/ghostty/commit/43f3dc5f13d8bfb696702af4fc9b49cf7ca46d96) zsh: fix trailing '%' in PS1/PS2 combining with marks ([@jparise](https://github.com/jparise))
+  ```text
+  When PS1 ends with a bare '%' (e.g. `%3~ %`), concatenating our 133;B
+  mark (`%{...%}`) directly after it causes zsh's prompt expansion to
+  interpret the '%' + '{' result as a '%{' escape sequence. This swallows
+  the 133;B mark and produces a visible '{' in the prompt.
+  
+  Work around this by doubling a trailing '%' into '%%' before appending
+  marks, so it expands to a literal '%' and won't merge with the `%{`
+  token.
+  ```
+- [`ac85a2f`](https://github.com/ghostty-org/ghostty/commit/ac85a2f3d621758c8302a0c6956d5ca30b833e73) terminal: always use C ABI for now ([@mitchellh](https://github.com/mitchellh))
+- [`ad861d0`](https://github.com/ghostty-org/ghostty/commit/ad861d08210aca38f11f754d164581976c2f79b8) zsh: fix trailing '%' in PS1/PS2 combining with marks ([#11832](https://github.com/ghostty-org/ghostty/issues/11832)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When PS1 ends with a bare '%' (e.g. `%3~ %`), concatenating our 133;B
+  mark (`%{...%}`) directly after it causes zsh's prompt expansion to
+  interpret the '%' + '{' result as a '%{' escape sequence. This swallows
+  the 133;B mark and produces a visible '{' in the prompt.
+  
+  Work around this by doubling a trailing '%' into '%%' before appending
+  marks, so it expands to a literal '%' and won't merge with the `%{`
+  token.
+  ```
+- [`a8e65e8`](https://github.com/ghostty-org/ghostty/commit/a8e65e829af46273cf4760a2928e664e6907574a) libghostty: refactor lib calls into centralized terminal/lib.zig to prep for Zig to call C  ([#11831](https://github.com/ghostty-org/ghostty/issues/11831)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This parameterizes all our calling conventions on our C API based on
+  whether we're building the C lib or Zig lib. If we're building the C
+  lib, it's C calling convention, else Zig. This lets the Zig module call
+  the C API via `terminal.c_api.<func>`.
+  
+  Zig is perfectly capable of calling C ABI but we actually modify our
+  struct layouts depending on calling conv so you can't actually use the
+  API prior to this. This fixes that all up.
+  
+  **Why would you want to do this?** The C API has some different
+  semantics and stricter care about things like ABI compatibility (in how
+  it changes structs and so on). It actually might be a more API-stable
+  API to rely on even from Zig.
+  ```
 
 ## March 24, 2026
 
