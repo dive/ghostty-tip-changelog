@@ -8,15 +8,180 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 25, 2026 at 18:20 UTC.
+> Last updated: March 25, 2026 at 21:11 UTC.
 
 ## March 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23550813743)  
-Summary: 1 runs • 7 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23561957617), [2](https://github.com/ghostty-org/ghostty/actions/runs/23558342110), [3](https://github.com/ghostty-org/ghostty/actions/runs/23557158381), [4](https://github.com/ghostty-org/ghostty/actions/runs/23550813743)  
+Summary: 4 runs • 14 commits • 6 authors
 
 ### Changes
 
+- [`62aeabd`](https://github.com/ghostty-org/ghostty/commit/62aeabdc851f7b264721df2dea5527b9aec5788c) build: make sure CMake can clean up after libghostty-vt ([@paaloeye](https://github.com/paaloeye))
+- [`c5bb97b`](https://github.com/ghostty-org/ghostty/commit/c5bb97bcbda89ffb9e715a41727dcd61bdd70dd3) build: fix libghostty shared lib install for Windows ([@deblasis](https://github.com/deblasis))
+  ```text
+  On Windows, install as ghostty.dll + ghostty-static.lib instead of
+  libghostty.so + libghostty.a, following Windows naming conventions.
+  Guard ubsan_rt bundling in initStatic for MSVC compatibility.
+  ```
+- [`d8e8697`](https://github.com/ghostty-org/ghostty/commit/d8e8697badc2f0170c5d3e3e5b03e36cf0b09926) build: make sure CMake can clean up after libghostty-vt ([#11845](https://github.com/ghostty-org/ghostty/issues/11845)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Fixes `cmake --build build --target clean`
+  
+  Currently:
+  
+  ```
+  [1/1] Cleaning all built files...
+  FAILED: clean
+  ninja  -t clean
+  Cleaning... ninja: error: remove(_deps/ghostty-src/zig-out/lib): Directory not empty
+  ninja: error: remove(/...ghostling/build/_deps/ghostty-src/zig-out/lib): Directory not empty
+  33 files.
+  ninja: build stopped: subcommand failed.
+  ```
+  ````
+- [`2655aa4`](https://github.com/ghostty-org/ghostty/commit/2655aa47d3fee66048c56add145a55b15e1a01ca) build: fix libghostty shared lib install for Windows ([#11840](https://github.com/ghostty-org/ghostty/issues/11840)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  ## Summary
+  
+  - On Windows, install the shared lib as `ghostty.dll` and the static lib
+  as `ghostty-static.lib` instead of `libghostty.so` and `libghostty.a`
+  - The `-static` suffix on the static lib avoids collision with the
+  import lib that the DLL produces (same pattern as
+  `ghostty-vt-static.lib`)
+  - Guard `bundle_ubsan_rt` in `GhosttyLib.zig` `initStatic` for Windows,
+  since Zig's ubsan emits `/exclude-symbols` linker directives that are
+  incompatible with the MSVC linker (LNK4229). Matches the existing
+  pattern in `GhosttyLibVt.zig`
+  
+  Also includes a cherry-pick of PR #11782 (backslash path handling) to
+  keep the Windows test suite fully passing on this branch.
+  
+  ## Discussion
+  
+  - Is this better? This is me starting to question Claude's
+  training/output.
+  
+  ```zig
+  // Zig's ubsan emits /exclude-symbols linker directives that
+  // are incompatible with the MSVC linker (LNK4229).
+  lib.bundle_ubsan_rt = deps.config.target.result.os.tag != .windows;
+  ```
+  
+  More concise, still preserves the comment. Not sure which is preferred
+  here. The set-then-override matches `GhosttyLibVt.zig` exactly, but the
+  boolean is maybe cleaner? Open to either. Curious about your preference.
+  
+  ## Test results
+  
+  Tested before/after on all three platforms:
+  
+  | | Windows | Linux | Mac |
+  |---|---|---|---|
+  | **BEFORE** (upstream/main) | FAIL (pre-existing, fixed by PR 11782) |
+  PASS | PASS |
+  | **AFTER** (this branch) | PASS - 51/51 steps, 2604/2657 tests, 53
+  skipped | PASS | PASS |
+  
+  No regressions on any platform.
+  
+  ## What I Learnt
+  
+  - Zig's build system automatically generates an import `.lib` alongside
+  a `.dll` on Windows, so the static lib needs a distinct name to avoid
+  collision.
+  - The ubsan runtime emits MSVC-incompatible linker directives
+  ````
+- [`26ba9bf`](https://github.com/ghostty-org/ghostty/commit/26ba9bf57947b7799ebb0dae90f797c4777c1865) Update VOUCHED list ([#11844](https://github.com/ghostty-org/ghostty/issues/11844)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11843#discussioncomment-16314609)
+  from @jcollie.
+  
+  Vouch: @paaloeye
+  ```
+- [`909e733`](https://github.com/ghostty-org/ghostty/commit/909e733120672e643645605f8bfc2759a1cb4df2) windows: handle backslash paths in config value parsing ([@deblasis](https://github.com/deblasis))
+  ```text
+  CommaSplitter treats backslash as an escape character, which breaks
+  Windows paths like C:\Users\foo since \U is not a valid escape. On
+  Windows, treat backslash as a literal character outside of quoted
+  strings. Inside quotes, escape sequences still work as before.
+  
+  The platform behavior is controlled by a single comptime constant
+  (escape_outside_quotes) so the logic lives in one place. Escape-specific
+  tests are skipped on Windows with SkipZigTest, and Windows-specific
+  tests are added separately.
+  
+  Also fix Theme.parseCLI to not mistake the colon in a Windows drive
+  letter (C:\...) for a light/dark theme pair separator.
+  
+  Note: other places in the config parsing also use colon as a delimiter
+  without accounting for Windows drive letters (command.zig prefix
+  parsing, keybind parsing). Those are tracked separately.
+  ```
+- [`d5b6857`](https://github.com/ghostty-org/ghostty/commit/d5b6857673f0c6d745503a5b28777193cc2848ec) windows: handle backslash paths in config value parsing ([#11782](https://github.com/ghostty-org/ghostty/issues/11782)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  # What
+  
+  CommaSplitter treats backslash as an escape character, which breaks
+  Windows paths like
+  C:\Users\foo since \U is not a valid escape. On Windows, treat backslash
+  as a literal character
+  outside of quoted strings. Inside quotes, escape sequences still work as
+  before.
+  
+  Also fix Theme.parseCLI to not mistake the colon in a Windows drive
+  letter (C:\...) for a
+  light/dark theme pair separator.
+  
+  # How
+  
+  The platform behavior is controlled by a single comptime constant at the
+  top of CommaSplitter:
+  
+  const escape_outside_quotes = builtin.os.tag != .windows;
+  
+  The next() function checks this constant to decide whether backslash
+  triggers escape parsing
+  outside quoted strings. All behavior lives in one place.
+  
+  For Theme, skip colon detection at index 1 on Windows so drive letters
+  are not mistaken for pair
+  separators.
+  
+  Escape-specific tests are skipped on Windows with SkipZigTest.
+  Windows-specific tests are added
+  separately to cover paths, literal backslash, and
+  escapes-still-work-inside-quotes.
+  
+  # Note
+  
+  There are other places in config parsing that use colon as a delimiter
+  without accounting for
+  Windows drive letters (command.zig prefix parsing, keybind parsing).
+  Those are separate from this
+   PR.
+  
+  # Verified
+  
+  - zig build test-lib-vt passes on Windows (exit 0)
+  - No impact on Linux/macOS (the constant is true there, all existing
+  behavior unchanged)
+  
+  # What I Learnt
+  
+  - Platform behavior should live in a single constant or struct, not
+  scattered across if-else
+  branches in every test. The escape_outside_quotes constant mirrors the
+  pattern upstream uses with
+  PageAlloc = switch(builtin.os.tag) but for a simpler boolean case.
+  - Use error.SkipZigTest for tests that cannot run on a platform, never
+  silent returns. This way
+  the test runner reports them as skipped, not silently passed.
+  - When fixing a pattern (colon as delimiter), grep the whole codebase
+  for similar issues even if
+  you are not fixing them all in one PR. Note them for future work.
+  ```
 - [`f50aa90`](https://github.com/ghostty-org/ghostty/commit/f50aa90ced49a05066fae4ee00071adb34dee6b5) terminal: add lib.zig to centralize lib target and re-exports ([@mitchellh](https://github.com/mitchellh))
   ```text
   Previously every file in the terminal package independently imported
