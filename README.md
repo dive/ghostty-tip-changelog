@@ -8,7 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 26, 2026 at 00:24 UTC.
+> Last updated: March 26, 2026 at 03:57 UTC.
+
+## March 26, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`312ba7a`](https://github.com/ghostty-org/ghostty/commit/312ba7ac80dea8c9a4562c41ead6d25375953e89) ci: update to Xcode 26.3 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **WARNING:** We CANNOT upgrade to Xcode 26.4 with Zig 0.15 because:
+  https://codeberg.org/ziglang/zig/issues/31658
+  
+  We have to wait and see if Zig will backport that or if we just have to
+  roll forward to Zig 0.16 when it comes out. At the time of this commit,
+  no released Zig version has the fix for that issue.
+  ```
+- [`b839561`](https://github.com/ghostty-org/ghostty/commit/b839561e5db36589d6a999044c76bfe785a013d7) ci: update to Xcode 26.3 ([#11853](https://github.com/ghostty-org/ghostty/issues/11853)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **WARNING:** We CANNOT upgrade to Xcode 26.4 with Zig 0.15 because:
+  https://codeberg.org/ziglang/zig/issues/31658
+  
+  We have to wait and see if Zig will backport that or if we just have to
+  roll forward to Zig 0.16 when it comes out. At the time of this commit,
+  no released Zig version has the fix for that issue.
+  ```
 
 ## March 25, 2026
 
