@@ -8,15 +8,46 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 26, 2026 at 18:21 UTC.
+> Last updated: March 26, 2026 at 21:09 UTC.
 
 ## March 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23608022682), [2](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [3](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
-Summary: 3 runs • 11 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23612257629), [2](https://github.com/ghostty-org/ghostty/actions/runs/23608022682), [3](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [4](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
+Summary: 4 runs • 13 commits • 1 authors
 
 ### Changes
 
+- [`11574c3`](https://github.com/ghostty-org/ghostty/commit/11574c35a246100aa5d5fec2a2fb835e8d18e046) libghostty: expose paste encode to C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_paste_encode() which encodes paste data for writing to
+  the terminal pty. It strips unsafe control bytes, wraps in bracketed
+  paste sequences when requested, and replaces newlines with carriage
+  returns for unbracketed mode. The input buffer is modified in place
+  and the encoded result is written to a caller-provided output buffer,
+  following the same buffer/out_written pattern as the other encode
+  functions like ghostty_size_report_encode.
+  
+  Update the c-vt-paste example with an encode_example() demonstrating
+  the new function and add corresponding @snippet references in the
+  header documentation.
+  ```
+- [`7df353a`](https://github.com/ghostty-org/ghostty/commit/7df353a6199ae5ac2f515006b2e5d074a31ab4c8) libghostty: expose paste encode to C API ([#11871](https://github.com/ghostty-org/ghostty/issues/11871)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_paste_encode() which encodes paste data for writing to the
+  terminal pty. It strips unsafe control bytes, wraps in bracketed paste
+  sequences when requested, and replaces newlines with carriage returns
+  for unbracketed mode. The input buffer is modified in place and the
+  encoded result is written to a caller-provided output buffer, following
+  the same buffer/out_written pattern as the other encode functions like
+  ghostty_size_report_encode.
+  
+  Update the c-vt-paste example with an encode_example() demonstrating the
+  new function and add corresponding @snippet references in the header
+  documentation.
+  
+  Extracted this from #11870 since I can't figure out why that build is
+  failing.
+  ```
 - [`945920a`](https://github.com/ghostty-org/ghostty/commit/945920a1863fc05079b331fdc2f914ad122cd81d) vt: expose terminal default colors via C API ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add set/get support for foreground, background, cursor, and palette
