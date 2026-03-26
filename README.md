@@ -8,15 +8,98 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 26, 2026 at 15:29 UTC.
+> Last updated: March 26, 2026 at 18:21 UTC.
 
 ## March 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [2](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
-Summary: 2 runs • 9 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23608022682), [2](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [3](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
+Summary: 3 runs • 11 commits • 1 authors
 
 ### Changes
 
+- [`945920a`](https://github.com/ghostty-org/ghostty/commit/945920a1863fc05079b331fdc2f914ad122cd81d) vt: expose terminal default colors via C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add set/get support for foreground, background, cursor, and palette
+  default colors through ghostty_terminal_set and ghostty_terminal_get.
+  
+  Four new set options (COLOR_FOREGROUND, COLOR_BACKGROUND, COLOR_CURSOR,
+  COLOR_PALETTE) write directly to the terminal color defaults. Passing
+  NULL clears the value for RGB colors or resets the palette to the
+  built-in default. All set operations mark the palette dirty flag for
+  the renderer.
+  
+  Eight new get data types retrieve either the effective color (override
+  or default, via DynamicRGB.get) or the default color only (ignoring
+  any OSC overrides). Effective getters for RGB colors return the new
+  NO_VALUE result code when no color is configured. The palette getters
+  return the current or original palette respectively.
+  
+  Adds the GHOSTTY_NO_VALUE result code for cases where a queried value
+  is simply not configured, distinct from GHOSTTY_INVALID_VALUE which
+  indicates a caller error.
+  ```
+- [`6ebbd47`](https://github.com/ghostty-org/ghostty/commit/6ebbd4785bfca5d539d7afbe97177bd592f10573) libghostty: expose terminal default colors via C API ([#11868](https://github.com/ghostty-org/ghostty/issues/11868)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Add set/get support for foreground, background, cursor, and palette
+  default colors through ghostty_terminal_set and ghostty_terminal_get.
+  
+  Four new set options (COLOR_FOREGROUND, COLOR_BACKGROUND, COLOR_CURSOR,
+  COLOR_PALETTE) write directly to the terminal color defaults. Passing
+  NULL clears the value for RGB colors or resets the palette to the
+  built-in default. All set operations mark the palette dirty flag for the
+  renderer.
+  
+  Eight new get data types retrieve either the effective color (override
+  or default, via DynamicRGB.get) or the default color only (ignoring any
+  OSC overrides). Effective getters for RGB colors return the new NO_VALUE
+  result code when no color is configured. The palette getters return the
+  current or original palette respectively.
+  
+  Adds the GHOSTTY_NO_VALUE result code for cases where a queried value is
+  simply not configured, distinct from GHOSTTY_INVALID_VALUE which
+  indicates a caller error.
+  
+  ## Example
+  
+  ```c
+  #include <ghostty/vt.h>
+  #include <stdio.h>
+  
+  int main() {
+    GhosttyTerminal terminal = NULL;
+    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
+    ghostty_terminal_new(NULL, &terminal, opts);
+  
+    // Set default colors
+    GhosttyColorRgb fg = { .r = 0xDD, .g = 0xDD, .b = 0xDD };
+    GhosttyColorRgb bg = { .r = 0x1E, .g = 0x1E, .b = 0x2E };
+    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_COLOR_FOREGROUND, &fg);
+    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_COLOR_BACKGROUND, &bg);
+  
+    // Read back the effective foreground
+    GhosttyColorRgb color;
+    if (ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND, &color)
+        == GHOSTTY_SUCCESS) {
+      printf("fg: #%02X%02X%02X\n", color.r, color.g, color.b);  // #DDDDDD
+    }
+  
+    // After an OSC 10 override from a program inside the terminal:
+    ghostty_terminal_vt_write(terminal, (const uint8_t*)"\x1B]10;rgb:FF/00/00\x1B\\", 20);
+  
+    // Effective returns the override, default returns the original
+    ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND, &color);
+    printf("effective: #%02X%02X%02X\n", color.r, color.g, color.b);  // #FF0000
+  
+    ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND_DEFAULT, &color);
+    printf("default:   #%02X%02X%02X\n", color.r, color.g, color.b);  // #DDDDDD
+  
+    ghostty_terminal_free(terminal);
+    return 0;
+  }
+  ```
+  
+  A full working example is in `example/c-vt-colors/`.
+  ````
 - [`7a59e96`](https://github.com/ghostty-org/ghostty/commit/7a59e966b8896065c376079d4121a9210c40e50c) build: strip large files from lib-vt dist tarball ([@mitchellh](https://github.com/mitchellh))
   ```text
   When emit_lib_vt is set, the dist tarball is now named
