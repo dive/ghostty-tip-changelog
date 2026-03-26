@@ -8,15 +8,78 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 26, 2026 at 12:19 UTC.
+> Last updated: March 26, 2026 at 15:29 UTC.
 
 ## March 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [2](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
+Summary: 2 runs • 9 commits • 1 authors
 
 ### Changes
 
+- [`7a59e96`](https://github.com/ghostty-org/ghostty/commit/7a59e966b8896065c376079d4121a9210c40e50c) build: strip large files from lib-vt dist tarball ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When emit_lib_vt is set, the dist tarball is now named
+  ghostty-vt-<version>.tar.gz and excludes large files that are
+  unnecessary for building libghostty-vt. This reduces the archive
+  from ~36MB to ~2.8MB by excluding images, macOS app resources,
+  font assets, fuzz test corpus, crash testdata, and vendored
+  libraries not used by lib-vt.
+  
+  GTK resources and frame data generation are also skipped since
+  lib-vt does not need them, which removes the GTK build-time
+  dependency. The distcheck step runs test-lib-vt instead of the
+  full test suite for lib-vt archives.
+  ```
+- [`7ae1e32`](https://github.com/ghostty-org/ghostty/commit/7ae1e32ecbd10d93ce0c7ddb4850a3c62a999940) ci: add libghostty-vt source tarball to tip release ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a source-tarball-lib-vt job that builds the stripped lib-vt
+  dist tarball and publishes it as libghostty-vt-source.tar.gz to
+  the tip release. Also downsize the source-tarball runner from -md
+  to -sm since it does not need the extra resources.
+  ```
+- [`bfa3055`](https://github.com/ghostty-org/ghostty/commit/bfa3055309d5c292367c8ed3d876d59541a29e0c) ci: add distcheck for lib-vt source tarball ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a build-dist-lib-vt job that runs distcheck with
+  -Demit-lib-vt=true and verifies the resulting tarball stays under
+  5 MB. Also downsize the build-dist runner from -md to -sm.
+  ```
+- [`96c4145`](https://github.com/ghostty-org/ghostty/commit/96c414521a95e9c236e4ef5725fdf7f0bf7e1fe9) build: add cmake build verification to lib-vt distcheck ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Run cmake configure and build on the extracted lib-vt tarball as
+  part of distcheck to ensure the CMake wrapper works from the
+  stripped archive. Keep dist/cmake/ and dist/libghostty-vt/ in the
+  archive since the CMake build needs them.
+  ```
+- [`4e2b227`](https://github.com/ghostty-org/ghostty/commit/4e2b227b6a81cbb80356127e198eafb19e852395) Add libghostty-vt source tarball (2.8 MB vs. 38 MB for Ghostty GUI) ([#11863](https://github.com/ghostty-org/ghostty/issues/11863)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes it so that `zig build dist -Demit-lib-vt` produces a
+  `libghostty-vt-<version>.tar.gz` source tarball that only contains what
+  is needed to build and test libghostty-vt (it cannot build Ghostty GUI
+  on macOS or Linux). `distcheck` has been updated to also verify cmake
+  works.
+  
+  The source tarball goes from 38 MB to 2.8 MB for libghostty.
+  
+  I also updated CI to build and test this, and also contains an assertion
+  that our tarball is always less than 5 MB so we can be aware if/when we
+  blow it up.
+  
+  The `release-tip` job was also updated to add the libghostty-vt tarball
+  to our tip release on GH.
+  ```
+- [`4ffde26`](https://github.com/ghostty-org/ghostty/commit/4ffde268c537983c1faa44790aaacae85c094d23) ci: use namespace runners for windows jobs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Switch the two Windows CI jobs (build-examples-cmake-windows and
+  build-libghostty-vt-windows) from GitHub-hosted windows-2025 runners
+  to namespace-profile-ghostty-windows runners.
+  ```
+- [`0752320`](https://github.com/ghostty-org/ghostty/commit/0752320d3bf847d5fc78f08109fa67293a87a521) ci: use namespace runners for windows jobs ([#11864](https://github.com/ghostty-org/ghostty/issues/11864)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Switch the two Windows CI jobs (build-examples-cmake-windows and
+  build-libghostty-vt-windows) from GitHub-hosted windows-2025 runners to
+  namespace-profile-ghostty-windows runners.
+  ```
 - [`312ba7a`](https://github.com/ghostty-org/ghostty/commit/312ba7ac80dea8c9a4562c41ead6d25375953e89) ci: update to Xcode 26.3 ([@mitchellh](https://github.com/mitchellh))
   ```text
   **WARNING:** We CANNOT upgrade to Xcode 26.4 with Zig 0.15 because:
