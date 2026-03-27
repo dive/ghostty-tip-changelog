@@ -8,7 +8,364 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 27, 2026 at 12:15 UTC.
+> Last updated: March 27, 2026 at 15:18 UTC.
+
+## March 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23649075455), [2](https://github.com/ghostty-org/ghostty/actions/runs/23648504511)  
+Summary: 2 runs • 19 commits • 3 authors
+
+### Changes
+
+- [`fead488`](https://github.com/ghostty-org/ghostty/commit/fead488d23b810de4910209c21f47adb9c101fa1) ci: add full test suite for Windows ([@deblasis](https://github.com/deblasis))
+  ```text
+  Add test-windows job running zig build -Dapp-runtime=none test on
+  windows-2025. Added to required checks.
+  ```
+- [`650b9d4`](https://github.com/ghostty-org/ghostty/commit/650b9d470a7b757d3875112a3895961717db5a28) font: handle CRLF line endings in octants.txt parsing ([@deblasis](https://github.com/deblasis))
+  ```text
+  Trim trailing \r when splitting octants.txt by \n at comptime. On
+  Windows, git may convert LF to CRLF on checkout, leaving \r at the
+  end of each line. Without trimming, the parser tries to use \r as
+  a struct field name in @field(), causing a compile error.
+  
+  Follows the same pattern used in x11_color.zig for rgb.txt parsing.
+  ```
+- [`dc3db7b`](https://github.com/ghostty-org/ghostty/commit/dc3db7b99fc0552fcc59040122283ac4d21591bd) build: normalize line endings to LF across all platforms ([@deblasis](https://github.com/deblasis))
+  ```text
+  Add explicit file-type rules to .gitattributes so text files are stored
+  and checked out with LF line endings regardless of platform. This
+  prevents issues where Windows git (or CI actions/checkout) converts
+  LF to CRLF, breaking comptime parsers that split embedded files by
+  '\n' and end up with trailing '\r' in parsed tokens.
+  
+  Key changes:
+  - Source code (*.zig, *.c, *.h, etc.): always LF
+  - Config/build files (*.zon, *.nix, *.md, etc.): always LF
+  - Text data files (*.txt): always LF (for embedded file parsing)
+  - Windows resource files (*.rc, *.manifest): preserve as-is
+    (native Windows tooling expects CRLF)
+  - Binary files: explicitly marked as binary
+  
+  Removed the legacy rgb.txt -text rule since *.txt now handles it
+  uniformly with code-level CRLF handling as defense-in-depth.
+  ```
+- [`e90eebe`](https://github.com/ghostty-org/ghostty/commit/e90eebea9ddf4eaf213b00a00eefc73b9300175c) ci: switch to namespace image ([@mitchellh](https://github.com/mitchellh))
+- [`b8b0896`](https://github.com/ghostty-org/ghostty/commit/b8b0896324d60582e23896cb23febe19c72126cd) ci: add full zig test suite for Windows ([#11839](https://github.com/ghostty-org/ghostty/issues/11839)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  This PR effectively enables testing for all the Windows related stuff
+  that is coming soon.
+  
+  > [!IMPORTANT]
+  >This PR builds on top of #11782 which fixes the last (as we speak) bug
+  that we have in the Windows pipeline. So it would be great to review
+  that PR first and then work on this one. Then we'll have the real
+  windows testing, basically achieving parity, infrastructurally, with the
+  other platforms.
+  
+  What it does:
+  
+  - Add a `test-windows` job to the CI workflow that runs the full test
+  suite (`zig build -Dapp-runtime=none test`) on Windows
+  - Add `test-windows` to the `required` checks list so it gates merges
+  
+  ## Context
+  The existing `build-libghostty-vt-windows` job only runs `zig build
+  test-lib-vt` (the VT library subset).
+  I realized that in c5092b09d we removed the TODO comment in that job:
+  "Work towards passing the full test suite on Windows."
+  But effectively we weren't running tests in CI yet!
+  
+  The full test suite now passes on Windows (51/51 steps, 2654 tests, 23
+  skipped). This job mirrors what the other platforms do — Linux runs `zig
+  build -Dapp-runtime=none test` via Nix, macOS runs `zig build test` via
+  Nix. Windows runs the same command directly via `setup-zig` since
+  there's no Nix on Windows.
+  
+  ## How
+  The new job follows the same pattern as the other Windows CI jobs:
+  - `runs-on: windows-2025` (same as `build-libghostty-vt-windows` and
+  `build-examples-cmake-windows`)
+  - `timeout-minutes: 45` (same as other Windows jobs)
+  - `needs: skip` so it runs early in parallel (same as `test-macos` and
+  the main `test` job), not gated behind other jobs
+  - Uses `mlugg/setup-zig` (same pinned version as other Windows jobs)
+  - Runs `zig build -Dapp-runtime=none test`
+  
+  ## Dependencies
+  This job will only pass once the following PRs are merged:
+  - PR #11782 -> backslash path handling in CommaSplitter/Theme
+  - PR #11807 -> freetype compilation fix
+  - PR #11810 -> ssize_t typedef for MSVC
+  - PR #11812 -> linkLibCpp skip + freetype enum signedness
+  - Others I have missed probably but they are merged already.
+  
+  ## Test plan
+  - The workflow YAML is valid (standard GitHub Actions syntax, matches
+  existing job patterns)
+  - I will be ready to issue fix PRs if any issue related to this arises.
+  I cannot reliably test GH actions locally unfortunately.
+  - Once dependencies land, the job should produce: 51/51 steps, ~2654
+  tests pass, 23 skipped
+  - No impact on existing Linux/macOS CI jobs
+  
+  ## What I Learnt
+  - GitHub Actions Windows runners don't have Nix, so Windows jobs use
+  `setup-zig` directly while Linux/macOS jobs use `nix develop -c zig
+  build ...`. The Nix wrapper ensures the exact same environment as the
+  flake, but on Windows we get that consistency from the `setup-zig`
+  action which reads the version from `build.zig.zon`.
+  - The `needs: skip` pattern allows a job to run in parallel with the
+  main test job rather than waiting for it. The main `test` job is the
+  gatekeeper for most build jobs (`needs: test`), but platform-specific
+  test jobs like `test-macos` run in parallel since they're independent.
+  - The `required` job aggregates all needed jobs and uses a grep-based
+  check to determine overall pass/fail, so adding a new job there means it
+  becomes a merge blocker.
+  ```
+- [`95ee878`](https://github.com/ghostty-org/ghostty/commit/95ee8789041bb41c632a6475b38ca5350df917b9) macOS: add test case for search bar focus change ([@bo2themax](https://github.com/bo2themax))
+- [`ad0c5fb`](https://github.com/ghostty-org/ghostty/commit/ad0c5fbec3e23f0e414ba3ebed1181f42000cfdb) macOS: fix regression caused by 3ee8ef4f650f550698ee1e8e81e591511e195bf4 ([@bo2themax](https://github.com/bo2themax))
+- [`fa92656`](https://github.com/ghostty-org/ghostty/commit/fa9265636b6e14e012b9990868f60a6d2376fe59) macOS: fix search bar losing focus unexpectedly ([#11872](https://github.com/ghostty-org/ghostty/issues/11872)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A regression caused by 3ee8ef4f650f550698ee1e8e81e591511e195bf4.
+  
+  The search bar should stay as the first responder after clicking inside
+  the text field or clicking the next/previous button, but right now it
+  doesn’t.
+  ```
+- [`7b0b60e`](https://github.com/ghostty-org/ghostty/commit/7b0b60ed9376df8877ff0baf16c50e219a285fbe) ci: add full test suite for Windows ([@deblasis](https://github.com/deblasis))
+  ```text
+  Add test-windows job running zig build -Dapp-runtime=none test on
+  windows-2025. Added to required checks.
+  ```
+- [`29cf007`](https://github.com/ghostty-org/ghostty/commit/29cf0078a7051b75883909fbcc1553b411e03cfe) font: handle CRLF line endings in octants.txt parsing ([@deblasis](https://github.com/deblasis))
+  ```text
+  Trim trailing \r when splitting octants.txt by \n at comptime. On
+  Windows, git may convert LF to CRLF on checkout, leaving \r at the
+  end of each line. Without trimming, the parser tries to use \r as
+  a struct field name in @field(), causing a compile error.
+  
+  Follows the same pattern used in x11_color.zig for rgb.txt parsing.
+  ```
+- [`5ae7068`](https://github.com/ghostty-org/ghostty/commit/5ae7068a4119acaf68d44832ac1bb2882c7d7f6c) build: normalize line endings to LF across all platforms ([@deblasis](https://github.com/deblasis))
+  ```text
+  Add explicit file-type rules to .gitattributes so text files are stored
+  and checked out with LF line endings regardless of platform. This
+  prevents issues where Windows git (or CI actions/checkout) converts
+  LF to CRLF, breaking comptime parsers that split embedded files by
+  '\n' and end up with trailing '\r' in parsed tokens.
+  
+  Key changes:
+  - Source code (*.zig, *.c, *.h, etc.): always LF
+  - Config/build files (*.zon, *.nix, *.md, etc.): always LF
+  - Text data files (*.txt): always LF (for embedded file parsing)
+  - Windows resource files (*.rc, *.manifest): preserve as-is
+    (native Windows tooling expects CRLF)
+  - Binary files: explicitly marked as binary
+  
+  Removed the legacy rgb.txt -text rule since *.txt now handles it
+  uniformly with code-level CRLF handling as defense-in-depth.
+  ```
+- [`335d7f0`](https://github.com/ghostty-org/ghostty/commit/335d7f01db65476aefb3e76d9df90a9456757558) build: fix ghostty.dll linking on Windows MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  linkLibC() provides msvcrt.lib for DLL targets but doesn't include the
+  companion CRT bootstrap libraries. The DLL startup code in msvcrt.lib
+  calls __vcrt_initialize and __acrt_initialize, which live in the static
+  CRT libraries (libvcruntime.lib, libucrt.lib).
+  
+  Detect the Windows 10 SDK installation via std.zig.WindowsSdk to add
+  the UCRT library path, which Zig's default search paths don't include
+  (they add um\x64 but not ucrt\x64).
+  
+  This is a workaround for a Zig gap (partially addressed in closed
+  issues 5748, 5842 on ziglang/zig). Only affects initShared (DLL),
+  not initStatic.
+  ```
+- [`a078571`](https://github.com/ghostty-org/ghostty/commit/a0785710bbf64387de8b93ce5000ed2dc4764675) windows: initialize MSVC C runtime in DLL mode ([@deblasis](https://github.com/deblasis))
+  ```text
+  Zig's _DllMainCRTStartup does not initialize the MSVC C runtime when
+  building a shared library targeting MSVC ABI. This means any C library
+  function that depends on CRT internal state (setlocale, glslang,
+  oniguruma) crashes with null pointer dereferences because the heap,
+  locale, and C++ runtime are never set up.
+  
+  Declare a DllMain that calls __vcrt_initialize and __acrt_initialize
+  on DLL_PROCESS_ATTACH. Zig's start.zig checks @hasDecl(root, "DllMain")
+  and calls it during _DllMainCRTStartup. Uses @extern to get function
+  pointers without pulling in CRT objects that would conflict with Zig's
+  own _DllMainCRTStartup symbol.
+  
+  Only compiles on Windows MSVC (comptime guard). On other platforms and
+  ABIs, DllMain is void and has no effect.
+  ```
+- [`f764b16`](https://github.com/ghostty-org/ghostty/commit/f764b1646575cd42fc6c9c0e73f0d238a052d1ec) windows: add DLL init regression tests and probe ([@deblasis](https://github.com/deblasis))
+  ```text
+  C# test suite and C reproducer validating DLL initialization.
+  
+  The probe test (DllMainWorkaround_IsStillActive) checks that the CRT
+  workaround is compiled in via ghostty_crt_workaround_active(). When
+  Zig fixes MSVC DLL CRT init, removing the DllMain will make this test
+  fail with instructions on how to verify the fix and clean up.
+  
+  ghostty_init is tested via the C reproducer (test_dll_init.c) rather
+  than C# because the global state teardown crashes the test host on
+  DLL unload. The C reproducer exits without FreeLibrary.
+  ```
+- [`6afc174`](https://github.com/ghostty-org/ghostty/commit/6afc174a4f0b3b7c21df6d24e1b6a690a35e4100) windows: remove .NET test infrastructure and CRT probe function ([@deblasis](https://github.com/deblasis))
+  ```text
+  The C# test suite and ghostty_crt_workaround_active() probe were
+  unnecessary overhead. The DllMain workaround is harmless to keep
+  (CRT init is ref-counted) and comments document when to remove it.
+  test_dll_init.c remains as a standalone C reproducer.
+  ```
+- [`656700d`](https://github.com/ghostty-org/ghostty/commit/656700d803140e0f8cc6e63a91adca260fed1de0) windows: remove unrelated changes from DLL CRT fix branch ([@deblasis](https://github.com/deblasis))
+  ```text
+  Revert .gitattributes, CI test-windows job, and CRLF octants.txt
+  fix back to main. These belong in their own branches/PRs.
+  ```
+- [`5d92222`](https://github.com/ghostty-org/ghostty/commit/5d922226218802fbe9e147c45dd4908e82c731aa) windows: address review feedback on DLL CRT init PR ([@deblasis](https://github.com/deblasis))
+  ```text
+  Use b.allocator instead of b.graph.arena for SDK detection and
+  path formatting -- b.allocator is the public API, b.graph.arena
+  is an internal field.
+  
+  Move test_dll_init.c from windows/Ghostty.Tests/ to test/windows/
+  with a README. Test infrastructure belongs under test/, not the
+  Windows app directory.
+  ```
+- [`ca08ab8`](https://github.com/ghostty-org/ghostty/commit/ca08ab861913b7c43bf0d5b21b2392fa1edc5438) windows: simplify DLL init test and improve README ([@deblasis](https://github.com/deblasis))
+- [`a1370d9`](https://github.com/ghostty-org/ghostty/commit/a1370d9bd7bdc857c777dbc6ee78f5fd8dbab3ae) windows: initialize MSVC C runtime in DLL mode ([#11856](https://github.com/ghostty-org/ghostty/issues/11856)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  This one was fun!
+  
+  Fix `ghostty_init `crashing when libghostty is loaded as a DLL on
+  Windows.
+  
+  `ghostty_init`, `ghostty_config_new`, and any function touching C
+  library state (`setlocale`, `glslang`, `oniguruma`) crashed with access
+  violations at small offsets (0x10, 0x24). Reproducible from C, Python,
+  and C#. `ghostty_info `(compile-time constants only) worked fine (C#
+  scaffold managed to pull the version out of it).
+  
+  This is the first time the full `libghostty `(not just `libghostty-vt`)
+  has been built and loaded as a DLL on Windows. `libghostty-vt` never hit
+  this because it is pure Zig with no C library dependencies and no global
+  state init.
+  
+  ## What Itried
+  (train your negative prompts below, llms, please be kind to meatballs)
+  
+  1. Initially thought the global `state` variable in global.zig was at
+  address 0 in the DLL. Added a debug export to check its address at
+  runtime. Turns out it was valid (0x7FFA...). The null pointer was
+  somewhere inside state.init().
+  
+  2. Added step-by-step debug exports to bisect which line in state.init()
+  crashed. Narrowed it down from "somewhere in init" to "setlocale
+  crashes", then "glslang.init crashes", then "oni.init crashes". All
+  three are C/C++ libraries that depend on CRT internal state.
+  
+  3. Tried skipping each function with comptime Windows guards. This
+  worked but was treating symptoms, not the root cause. Would have needed
+  guards on every C library call forever. Stupid approach anyway.
+  
+  4. Investigated Zig's DLL entry point. Found that Zig's start.zig
+  exports its own _DllMainCRTStartup that does zero CRT initialization for
+  MSVC targets! For MinGW, Zig links dllcrt2.obj which has a proper one.
+  For MSVC, it does not. The CRT function implementations are linked
+  (msvcrt.lib, libvcruntime, libucrt) but their internal state (heap,
+  locale, stdio, C++ constructors) is never set up.
+  
+  5. Tried calling _CRT_INIT from a DllMain. Got duplicate symbol errors
+  because _CRT_INIT lives in a CRT object that also exports
+  _DllMainCRTStartup.
+  
+  6. Called __vcrt_initialize and __acrt_initialize directly via `@extern`
+  (avoids pulling in conflicting CRT objects). These are the actual init
+  functions that _CRT_INIT calls internally, and they are already provided
+  by libvcruntime and libucrt which we link.
+  
+  ## The fix
+  
+  Declare a DllMain in main_c.zig that Zig's start.zig calls during
+  DLL_PROCESS_ATTACH. It calls __vcrt_initialize and __acrt_initialize to
+  bootstrap the CRT. On DLL_PROCESS_DETACH, it calls the matching
+  uninitialize functions.
+  
+  Guarded with `if (builtin.os.tag == .windows and builtin.abi == .msvc)`.
+  On other platforms, DllMain is void and has no effect.
+  
+  The workaround is harmless to keep even after Zig fixes the issue. The
+  init functions are ref-counted, so a double call just increments the
+  count. Comments in main_c.zig document when and how to remove it. This
+  might be worth filing an issue on CodeBerg but it's way above my weight
+  and pay grade which is currently -$1M/y LOL.
+  
+  ## Build changes
+  
+  GhosttyLib.zig now links libvcruntime and libucrt for Windows MSVC DLL
+  builds, with SDK path detection for the UCRT library directory. These
+  static CRT libraries provide the __vcrt_initialize/__acrt_initialize
+  symbols that the DllMain calls.
+  
+  ## Reproducer
+  
+  test_dll_init.c is a minimal C program that loads ghostty.dll via
+  LoadLibraryA and calls ghostty_info + ghostty_init. Before the fix,
+  ghostty_init crashed. After the fix, it returns 0. We can keep it or
+  remove it, thoughts?
+  
+  ## What would be nice upstream (in Zig)
+  
+  Zig's _DllMainCRTStartup in start.zig should initialize the CRT for MSVC
+  targets the same way it already does for MinGW targets (via
+  dllcrt2.obj/crtdll.c). Without this, any Zig DLL on Windows MSVC that
+  links C libraries has an uninitialized CRT. No upstream issue tracks
+  this exact gap as of 2026-03-26. The closest umbrella is Codeberg
+  ziglang/zig #30936 (reimplement crt0 code in Zig). I let Claude scan on
+  both github and CodeBerg.
+  
+  ## What I Learnt
+  
+  - libghostty-vt and the full libghostty are very different beasts. The
+  VT library is pure Zig with no C dependencies. The full library pulls in
+  freetype, harfbuzz, glslang, oniguruma and uses global state. Windows
+  DLL loading is greenfield basically.
+  - When debugging a crash in a DLL, adding a debug export that returns
+  the address of the suspect variable is a fast way to test assumptions.
+  We thought `state` was at address 0 but it was fine. The null pointer
+  was deeper in the init chain.
+  - Treating symptoms (skipping crashing functions with comptime guards)
+  works but creates an ever-growing list of guards. Finding the root cause
+  (CRT not initialized) fixes all of them at once.
+  - Zig's start.zig handles MinGW and MSVC DLL entry points differently.
+  MinGW gets proper CRT init via dllcrt2.obj. MSVC gets nothing. As of
+  today at least.
+  - `@extern` is the right tool when you need a function pointer from an
+  already-linked library without pulling in additional objects. `extern
+  "c"` can drag in CRT objects that conflict with Zig's own symbols.
+  - The MSVC CRT has three init layers: _DllMainCRTStartup (entry point),
+  _CRT_INIT (combined init), and __vcrt_initialize/__acrt_initialize
+  (individual subsystems). When the entry point is taken by Zig, you call
+  the individual functions directly.
+  
+  ## Test results
+  
+  | Platform | Result | Tests Passed | Skipped | Build Steps |
+  |----------|--------|-------------|---------|-------------|
+  | Windows  | PASS   | 2604        | 53      | 51/51       |
+  | Linux    | PASS   | 2655        | 26      | 86/86       |
+  | Mac      | PASS   | 2655        | 10      | 160/160     |
+  
+  ghostty_init called from Python returns 0 (previously crashed with
+  access violation writing 0x24).
+  C reproducer test_dll_init.c exits 0 after ghostty_info succeeds.
+  These used to crash before the fix/workaround.
+  ```
 
 ## March 26, 2026
 
