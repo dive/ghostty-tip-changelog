@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 28, 2026 at 18:08 UTC.
+> Last updated: March 28, 2026 at 21:07 UTC.
 
 ## March 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23689562457), [2](https://github.com/ghostty-org/ghostty/actions/runs/23688983210), [3](https://github.com/ghostty-org/ghostty/actions/runs/23685326502), [4](https://github.com/ghostty-org/ghostty/actions/runs/23682100437)  
-Summary: 4 runs • 13 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23691384953), [2](https://github.com/ghostty-org/ghostty/actions/runs/23691146339), [3](https://github.com/ghostty-org/ghostty/actions/runs/23689562457), [4](https://github.com/ghostty-org/ghostty/actions/runs/23688983210), [5](https://github.com/ghostty-org/ghostty/actions/runs/23685326502), [6](https://github.com/ghostty-org/ghostty/actions/runs/23682100437)  
+Summary: 6 runs • 15 commits • 6 authors
 
 ### Changes
 
+- [`baad0aa`](https://github.com/ghostty-org/ghostty/commit/baad0aa6669dc576872831752be0f30debecbfd1) Update VOUCHED list ([#11938](https://github.com/ghostty-org/ghostty/issues/11938)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11823#discussioncomment-16358799)
+  from @mitchellh.
+  
+  Vouch: @karesansui-u
+  ```
+- [`e2b9e8c`](https://github.com/ghostty-org/ghostty/commit/e2b9e8c6a89a551e6adace0c79bfdad3f0893034) Update VOUCHED list ([#11936](https://github.com/ghostty-org/ghostty/issues/11936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11662#discussioncomment-16358710)
+  from @mitchellh.
+  
+  Vouch: @MrConnorKenway
+  ```
 - [`2b1ec5d`](https://github.com/ghostty-org/ghostty/commit/2b1ec5db6d70185f818283747ad6a974b7da8f5e) cli: dupe argument strings to retain their memory ([@jparise](https://github.com/jparise))
   ```text
   The argument iterator's .next() method returns a transient slice of the
