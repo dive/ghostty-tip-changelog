@@ -8,15 +8,96 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 28, 2026 at 15:08 UTC.
+> Last updated: March 28, 2026 at 18:08 UTC.
 
 ## March 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23685326502), [2](https://github.com/ghostty-org/ghostty/actions/runs/23682100437)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23689562457), [2](https://github.com/ghostty-org/ghostty/actions/runs/23688983210), [3](https://github.com/ghostty-org/ghostty/actions/runs/23685326502), [4](https://github.com/ghostty-org/ghostty/actions/runs/23682100437)  
+Summary: 4 runs • 13 commits • 6 authors
 
 ### Changes
 
+- [`2b1ec5d`](https://github.com/ghostty-org/ghostty/commit/2b1ec5db6d70185f818283747ad6a974b7da8f5e) cli: dupe argument strings to retain their memory ([@jparise](https://github.com/jparise))
+  ```text
+  The argument iterator's .next() method returns a transient slice of the
+  command line buffer so we need to make our own copies of these values to
+  avoid referencing stale memory.
+  ```
+- [`8fa50f8`](https://github.com/ghostty-org/ghostty/commit/8fa50f84d777391594b4ad91fea2d5753796667c) cli: dupe argument strings to retain their memory ([#11931](https://github.com/ghostty-org/ghostty/issues/11931)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The argument iterator's .next() method returns a transient slice of the
+  command line buffer so we need to make our own copies of these values to
+  avoid referencing stale memory.
+  ```
+- [`6491363`](https://github.com/ghostty-org/ghostty/commit/649136315719668a8691285404ad8667b701dd94) cli: +edit-config works properly when editor command contains arguments ([@jcollie](https://github.com/jcollie))
+  ```text
+  If `$EDITOR` or `$VISUAL` contained arguments, not just the path to
+  an editor (e.g. `zed --new`) `+edit-config` would fail because we were
+  treating the whole command as a path. Instead, wrap the command with
+  `/bin/sh -c <command>` so that the shell can separate the path from
+  the arguments.
+  
+  Fixes #11897
+  ```
+- [`cb3c20b`](https://github.com/ghostty-org/ghostty/commit/cb3c20befef1653862d8322df6dfc9e1b73da2f2) cli: escape path in +edit-config ([@jcollie](https://github.com/jcollie))
+- [`01abf4a`](https://github.com/ghostty-org/ghostty/commit/01abf4af210623dc9b21fb1789217434c97841f6) doc: clarify UTF-8 text handling in ghostty_key_event_get_composing ([@elias8](https://github.com/elias8))
+- [`f0badd3`](https://github.com/ghostty-org/ghostty/commit/f0badd34d395daa7c8e660703a3497f4bcdf4a83) fix: replace hardcoded locale.h constants with build-system TranslateC ([@i999rri](https://github.com/i999rri))
+  ```text
+  Replace hardcoded locale.h constants and extern function declarations
+  with build-system TranslateC, following the same pattern as pty.c.
+  
+  This fixes LC_ALL being hardcoded to 6 (musl/glibc value), which is
+  implementation-defined and differs on Windows MSVC (where LC_ALL is 0),
+  causing setlocale() to crash with an invalid parameter error.
+  ```
+- [`60c7e76`](https://github.com/ghostty-org/ghostty/commit/60c7e767a835054e8444e7d9ff3c0965e950a8df) benchmark: disable test on windows ([@jcollie](https://github.com/jcollie))
+  ```text
+  We don't appear to have a time source with enough resolution to get a
+  non-zero duration on the benchmark test so it fails.
+  ```
+- [`3187b18`](https://github.com/ghostty-org/ghostty/commit/3187b18a9491438d0dade786ddcac61914dfbd8e) benchmark: disable test on windows ([#11930](https://github.com/ghostty-org/ghostty/issues/11930)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We don't appear to have a time source with enough resolution to get a
+  non-zero duration on the benchmark test so it fails.
+  ```
+- [`94d1398`](https://github.com/ghostty-org/ghostty/commit/94d1398e60d44031c0c787e222b94c743fe6504d) doc: clarify utf8 text input contract for key event encoder ([#11910](https://github.com/ghostty-org/ghostty/issues/11910)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Documenting some hidden implementation details. Basically extracted from
+  the swift NSEvent extension.
+  ```
+- [`e20b506`](https://github.com/ghostty-org/ghostty/commit/e20b50652ad182af04f0f36d52d5c5e95a245e62) fix: replace hardcoded locale.h constants with build-system TranslateC ([#11920](https://github.com/ghostty-org/ghostty/issues/11920)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace hardcoded locale.h constants and extern function declarations
+  with build-system TranslateC, following the same pattern as pty.c.
+  
+  This fixes LC_ALL being hardcoded to 6 (the musl/glibc implementation
+  value), which is implementation-defined and differs on Windows MSVC
+  (where LC_ALL is 0), causing `setlocale()` to crash with an invalid
+  parameter error.
+  
+  ## Changes
+  
+  - Added `src/os/locale.c` — includes `locale.h` for TranslateC
+  - Added TranslateC step in `src/build/SharedDeps.zig` (same pattern as
+  pty.c)
+  - Replaced hardcoded constants and extern declarations in
+  `src/os/locale.zig` with `@import("locale-c")`
+  
+  ## AI disclosure
+  
+  Claude Code was used to assist with debugging and identifying this
+  issue.
+  ```
+- [`608bc7d`](https://github.com/ghostty-org/ghostty/commit/608bc7d24de760756c960852c75f5af08216f897) cli: +edit-config works properly when editor command contains arguments ([#11898](https://github.com/ghostty-org/ghostty/issues/11898)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If `$EDITOR` or `$VISUAL` contained arguments, not just the path to an
+  editor (e.g. `zed --new`) `+edit-config` would fail because we were
+  treating the whole command as a path. Instead, wrap the command with
+  `/bin/sh -c <command>` so that the shell can separate the path from the
+  arguments.
+  
+  Fixes #11897
+  ```
 - [`0d1f77b`](https://github.com/ghostty-org/ghostty/commit/0d1f77bc4d0ce5ad8db72d5d05b7d91740bea818) Update VOUCHED list ([#11925](https://github.com/ghostty-org/ghostty/issues/11925)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
