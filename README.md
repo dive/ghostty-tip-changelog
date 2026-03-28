@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 27, 2026 at 21:11 UTC.
+> Last updated: March 28, 2026 at 00:22 UTC.
 
 ## March 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23649075455), [2](https://github.com/ghostty-org/ghostty/actions/runs/23648504511)  
-Summary: 2 runs • 19 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23670782004), [2](https://github.com/ghostty-org/ghostty/actions/runs/23649075455), [3](https://github.com/ghostty-org/ghostty/actions/runs/23648504511)  
+Summary: 3 runs • 21 commits • 4 authors
 
 ### Changes
 
+- [`947bfbe`](https://github.com/ghostty-org/ghostty/commit/947bfbe8508da772b9e7b9fbd84b10c4257c493b) blp and glsl files are source files, not binary ([@jcollie](https://github.com/jcollie))
+- [`12458e3`](https://github.com/ghostty-org/ghostty/commit/12458e3ace41123899d48729dcf32ef58caf5160) blp and glsl files are source files, not binary ([#11906](https://github.com/ghostty-org/ghostty/issues/11906)) ([@mitchellh](https://github.com/mitchellh))
 - [`fead488`](https://github.com/ghostty-org/ghostty/commit/fead488d23b810de4910209c21f47adb9c101fa1) ci: add full test suite for Windows ([@deblasis](https://github.com/deblasis))
   ```text
   Add test-windows job running zig build -Dapp-runtime=none test on
@@ -2905,191 +2907,5 @@ Summary: 5 runs • 10 commits • 2 authors
   
   Long term we also need to expose setting the default colors for a
   Terminal instance but this is a workable fix in the mean time.
-  ```
-
-## March 21, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23390298154), [2](https://github.com/ghostty-org/ghostty/actions/runs/23388647037), [3](https://github.com/ghostty-org/ghostty/actions/runs/23386078903), [4](https://github.com/ghostty-org/ghostty/actions/runs/23385209490), [5](https://github.com/ghostty-org/ghostty/actions/runs/23381920473), [6](https://github.com/ghostty-org/ghostty/actions/runs/23381687422), [7](https://github.com/ghostty-org/ghostty/actions/runs/23372156958)  
-Summary: 7 runs • 18 commits • 3 authors
-
-### Changes
-
-- [`8d6be5a`](https://github.com/ghostty-org/ghostty/commit/8d6be5a3dd7e7a88670deb953b03532b22106758) build: add static library target for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Refactor GhosttyLibVt to support both shared and static library
-  builds via a shared initLib helper that accepts a LinkMode. The
-  shared and static entry points (initShared, initStatic) delegate
-  to this common path.
-  
-  For static builds, compiler_rt and ubsan_rt are bundled to avoid
-  undefined symbol errors. Debug symbols (dsymutil) are skipped for
-  static libs since they are not linked. The install artifact uses
-  a "-static" suffix internally but installs as "libghostty-vt.a"
-  via a new installLib method. Wasm is excluded from static builds
-  since it has no meaningful static vs shared distinction.
-  ```
-- [`555bf7e`](https://github.com/ghostty-org/ghostty/commit/555bf7e92292b40b3d5b6b450bf8b92c99fd174c) build: add cmake static library support ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Expose both shared and static libraries as separate CMake imported
-  targets (ghostty-vt and ghostty-vt-static) rather than toggling
-  between them with BUILD_SHARED_LIBS. The zig build already produces
-  both in a single invocation, so both are always available.
-  
-  The find_package config template is updated to export both targets
-  as ghostty-vt::ghostty-vt and ghostty-vt::ghostty-vt-static.
-  
-  Add a c-vt-cmake-static example that demonstrates linking the static
-  library via FetchContent with -Dsimd=false to avoid C++ runtime
-  dependencies.
-  ```
-- [`5fd36ea`](https://github.com/ghostty-org/ghostty/commit/5fd36ea69e1d69f0ae15424d736a30df7b07fc81) build: enable PIC for static libghostty-vt ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The static library was built without position-independent code,
-  which caused linker errors when consumers tried to link it into
-  PIE executables (the default on most Linux distributions). The
-  linker would fail with "relocation R_X86_64_32 against symbol
-  cannot be used when making a PIE object."
-  
-  Enable PIC on the static library root module so it can be linked
-  into both PIE and non-PIE executables.
-  ```
-- [`1775c31`](https://github.com/ghostty-org/ghostty/commit/1775c312ae6e99f8c499997faa6c084c3a758931) libghostty: add static library support ([#11732](https://github.com/ghostty-org/ghostty/issues/11732)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Multiple changes:
-  
-  * `zig build -Demit-lib-vt` now produces both shared and static
-  libraries by default
-  * Ghosty as a zig build dependency exports the static lib as
-  `dep.artifact("ghostty-vt-static")`
-  * CMake exports the static lib as `ghostty-vt-static`
-  
-  Note that the static library is _not fat_. **If you enable SIMD you have
-  dependencies** and you need to manually link those: libc++, simdutf, and
-  highway. The `c-cmake-static` example disables SIMD.
-  ```
-- [`1438a2f`](https://github.com/ghostty-org/ghostty/commit/1438a2fe4bea11e31d36f106e6191f2796595121) Update VOUCHED list ([#11731](https://github.com/ghostty-org/ghostty/issues/11731)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11729#issuecomment-4104386360)
-  from @mitchellh.
-  
-  Vouch: @turbolent
-  ```
-- [`918840c`](https://github.com/ghostty-org/ghostty/commit/918840cf1d1d617d1c8bb63f738a56ca7c6f165d) vt: persist VT stream state across vt_write calls ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Previously, every call to vt_write created a fresh ReadonlyStream with
-  new Parser and UTF8Decoder state. This meant escape sequences split
-  across write boundaries (e.g. ESC in one write, [27m in the next)
-  would lose parser state, causing the second write to start in ground
-  state and print the CSI parameters as literal text.
-  
-  The C API now stores a persistent ReadonlyStream in the TerminalWrapper
-  struct, which is created when the Terminal is initialized. The vt_write
-  function feeds bytes through this stored stream, allowing it to maintain
-  parser state across calls. This change ensures that escape sequences
-  split across write boundaries are correctly parsed and rendered.
-  ```
-- [`ed13978`](https://github.com/ghostty-org/ghostty/commit/ed1397826b03fc91eb07337d070290045bad0365) vt: persist VT stream state across vt_write calls ([#11728](https://github.com/ghostty-org/ghostty/issues/11728)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Previously, every call to vt_write created a fresh ReadonlyStream with
-  new Parser and UTF8Decoder state. This meant escape sequences split
-  across write boundaries (e.g. ESC in one write, [27m in the next) would
-  lose parser state, causing the second write to start in ground state and
-  print the CSI parameters as literal text.
-  
-  The C API now stores a persistent ReadonlyStream in the TerminalWrapper
-  struct, which is created when the Terminal is initialized. The vt_write
-  function feeds bytes through this stored stream, allowing it to maintain
-  parser state across calls. This change ensures that escape sequences
-  split across write boundaries are correctly parsed and rendered.
-  ```
-- [`50113ab`](https://github.com/ghostty-org/ghostty/commit/50113ab67860893969bbfe568261a293d91bf92f) macOS: add mouse state tests for [#11276](https://github.com/ghostty-org/ghostty/issues/11276) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  It will fail on 4e24adf71 and success after #11276
-  ```
-- [`ac3893d`](https://github.com/ghostty-org/ghostty/commit/ac3893d0b9c91b3d3b023556e30783fabaf3f082) macOS: Add command palette tests ([@bo2themax](https://github.com/bo2themax))
-- [`d80d848`](https://github.com/ghostty-org/ghostty/commit/d80d84862e3b10bf97cfcda67b241152db2fe4e8) macOS: fix mouse not working correctly in CommandPaletteView ([#11658](https://github.com/ghostty-org/ghostty/issues/11658)) ([@bo2themax](https://github.com/bo2themax))
-- [`3da7fb9`](https://github.com/ghostty-org/ghostty/commit/3da7fb9fdee4eeab067a27bb4b368702a68f0533) macOS: fix mouse not working correctly in CommandPaletteView ([#11658](https://github.com/ghostty-org/ghostty/issues/11658)) ([#11665](https://github.com/ghostty-org/ghostty/issues/11665)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Also added a test case for
-  https://github.com/ghostty-org/ghostty/pull/11276, which will fail right
-  before that commit.
-  
-  ## AI Disclosure
-  
-  Claude helped me to write some dummy texts for testing
-  ```
-- [`c3b7fd8`](https://github.com/ghostty-org/ghostty/commit/c3b7fd8477ebbff36a379c6cc782f76cf3a5441f) vt: add ghostty_build_info API for querying build configuration ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new C API function ghostty_build_info() that exposes compile-time
-  build options to library consumers. This allows callers to query whether
-  SIMD, Kitty graphics protocol, and tmux control mode support were
-  enabled at build time.
-  ```
-- [`abefe5b`](https://github.com/ghostty-org/ghostty/commit/abefe5b40cfa7d627998b6fc91cc213260d18825) vt: add ghostty_build_info API for querying build configuration ([#11725](https://github.com/ghostty-org/ghostty/issues/11725)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new C API function ghostty_build_info() that exposes compile-time
-  build options to library consumers. This allows callers to query whether
-  SIMD, Kitty graphics protocol, and tmux control mode support were
-  enabled at build time.
-  ```
-- [`155bd3a`](https://github.com/ghostty-org/ghostty/commit/155bd3a58e6d18d01162614a1ac237f9b74e4a61) vt: expose optimize mode in build info API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add GHOSTTY_BUILD_INFO_OPTIMIZE to query the Zig optimization mode
-  (debug, release safe/small/fast) the library was compiled with. This
-  reads directly from builtin.mode at comptime so it requires no build
-  system plumbing.
-  ```
-- [`3fc04fd`](https://github.com/ghostty-org/ghostty/commit/3fc04fd4ae9bab243e6023acdf024abf78270e88) build: replace lib-vt step with -Demit-lib-vt option ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Remove the dedicated `zig build lib-vt` step and replace it with a
-  `-Demit-lib-vt` build option. This fixes two problems:
-  
-  1. We can default XCFramework, app, etc. steps to false if emit-lib-vt
-     is true, so that the lib-vt build doesn't pull in unrelated
-     artifacts. **Most importantly, lib-vt alone can be build without
-     full Xcode installations.**
-  
-  2. We can build lib-vt as part of a bundle with other artifacts if we
-     really want.
-  ```
-- [`a49747d`](https://github.com/ghostty-org/ghostty/commit/a49747df52ad3a411b3019141a144678f59a3495) build: replace lib-vt step with -Demit-lib-vt option ([#11716](https://github.com/ghostty-org/ghostty/issues/11716)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Remove the dedicated `zig build lib-vt` step and replace it with a
-  `-Demit-lib-vt` build option. This fixes two problems:
-  
-  1. We can default XCFramework, app, etc. steps to false if emit-lib-vt
-  is true, so that the lib-vt build doesn't pull in unrelated artifacts.
-  **Most importantly, lib-vt alone can be build without full Xcode
-  installations.**
-  
-  2. We can build lib-vt as part of a bundle with other artifacts if we
-  really want.
-  ```
-- [`b66120d`](https://github.com/ghostty-org/ghostty/commit/b66120d37d3001b3901f62d869266ba9dba0f60d) vt: add color_palette and color_rgb cell data types ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add two new CellData variants to extract background color values
-  directly from cells. color_palette (10) returns the palette index
-  as a GhosttyColorPaletteIndex and color_rgb (11) returns the RGB
-  components as a GhosttyColorRgb. Both reuse the existing color
-  types from color.h rather than introducing new ones.
-  
-  These are only valid when the cell content_tag is
-  bg_color_palette or bg_color_rgb respectively; querying them
-  with a mismatched tag reads from the wrong union member.
-  ```
-- [`efb3523`](https://github.com/ghostty-org/ghostty/commit/efb35235919a38bb04ac8b8ef06537f0317b7045) vt: add color_palette and color_rgb cell data types ([#11717](https://github.com/ghostty-org/ghostty/issues/11717)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add two new CellData variants to extract background color values
-  directly from cells. color_palette (10) returns the palette index as a
-  GhosttyColorPaletteIndex and color_rgb (11) returns the RGB components
-  as a GhosttyColorRgb. Both reuse the existing color types from color.h
-  rather than introducing new ones.
-  
-  These are only valid when the cell content_tag is
-  bg_color_palette or bg_color_rgb respectively; querying them with a
-  mismatched tag reads from the wrong union member.
-  
-  Found via Ghostling.
   ```
 
