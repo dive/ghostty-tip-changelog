@@ -8,7 +8,124 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 29, 2026 at 00:25 UTC.
+> Last updated: March 29, 2026 at 04:00 UTC.
+
+## March 29, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23699075427), [2](https://github.com/ghostty-org/ghostty/actions/runs/23698830192), [3](https://github.com/ghostty-org/ghostty/actions/runs/23697570413)  
+Summary: 3 runs • 11 commits • 3 authors
+
+### Changes
+
+- [`741f1d1`](https://github.com/ghostty-org/ghostty/commit/741f1d129a44151a8d51f813a9eabc39dc4d4df1) example/c-vt-stream ([@mitchellh](https://github.com/mitchellh))
+- [`1fcd80d`](https://github.com/ghostty-org/ghostty/commit/1fcd80daab898e1543409986cd07d1db9e393570) libghostty: add cpp-vt-stream example and fix C++ header compatibility ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a cpp-vt-stream example that verifies libghostty headers compile
+  cleanly in C++ mode. The example is a simplified C++ port of
+  c-vt-stream.
+  
+  The headers used the C idiom `typedef struct Foo* Foo` for opaque
+  handles, which is invalid in C++ because struct tags and typedefs
+  share the same namespace. Fix all 12 opaque handle typedefs across the
+  headers to use a distinct struct tag with an Impl suffix, e.g.
+  `typedef struct GhosttyTerminalImpl* GhosttyTerminal`. This is a
+  source-compatible change for existing C consumers since the struct
+  tags were never referenced directly.
+  ```
+- [`debcffb`](https://github.com/ghostty-org/ghostty/commit/debcffbadb75221a030319c075fae12cfe114176) libghostty: make headers C++ compatible ([#11950](https://github.com/ghostty-org/ghostty/issues/11950)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The headers were not C++ compatible and would fail compiling before (see
+  https://github.com/ghostty-org/ghostty/discussions/11878). The only
+  reason is because our typedefs would conflict since we named them
+  identically.
+  
+  This also adds a `c-vt-stream` example and a `cpp-vt-stream` example,
+  the latter primarily to verify we can build in C++ mode.
+  ```
+- [`8813261`](https://github.com/ghostty-org/ghostty/commit/8813261341b52f4536ca91d05e9dc8794f521f51) libghostty: expose version information via build options and C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add version (std.SemanticVersion) to the terminal build options so that
+  the terminal module has access to the application version at comptime.
+  The add() function breaks it out into version_string, version_major,
+  version_minor, version_patch, and version_build terminal options.
+  
+  On the C API side, five new GhosttyBuildInfo variants expose these
+  through ghostty_build_info(). String values use GhosttyString; numeric
+  values use size_t. When no build metadata is present, version_build
+  returns a zero-length string.
+  
+  The c-vt-build-info example is updated to query and print all version
+  fields.
+  ```
+- [`bcb295d`](https://github.com/ghostty-org/ghostty/commit/bcb295d9fa49d2bcd89f37c279bf6edbcd4255a4) build: read version from VERSION file if available ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Read the app version from a VERSION file in the build root,
+  trimming whitespace, and fall back to build.zig.zon if the file
+  is not present. This allows source tarballs to carry a VERSION
+  file as the source of truth for the version string.
+  ```
+- [`73ce1cd`](https://github.com/ghostty-org/ghostty/commit/73ce1cd8e86e28c2cc82ca37c9d6efe8a33a212f) build: prep for separate lib version ([@mitchellh](https://github.com/mitchellh))
+- [`5421326`](https://github.com/ghostty-org/ghostty/commit/542132667867c5e782646f364676d1e4cc444025) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`a95bfdf`](https://github.com/ghostty-org/ghostty/commit/a95bfdfe1418691a827ce842b00c176e58d59916) Update iTerm2 colorschemes ([#11946](https://github.com/ghostty-org/ghostty/issues/11946)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260323-152405-a2c7b60
+  ```
+- [`0f6e733`](https://github.com/ghostty-org/ghostty/commit/0f6e733f8c8849cf2745b772833d8785c5a5c675) build: use VERSION file if present, expose via libghostty ([#11932](https://github.com/ghostty-org/ghostty/issues/11932)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  If a `VERSION` file is present from our build root, prefer that as our
+  version source of truth over `build.zig.zon`. This file is automatically
+  created in source tarballs and will allow us to cut pre-release tarballs
+  of libghostty in particular (but affects all) that has a more specific
+  version than what can be in build.zig.zon.
+  
+  This also adds the APIs necessary to extract this via the C API.
+  
+  I started prepping for a separate libghostty version but not sure if
+  I'll wire that up in this PR yet or not...
+  ```
+- [`c0a124f`](https://github.com/ghostty-org/ghostty/commit/c0a124f3cacdb0ad5bc16d3ffee9739719779536) gtk: disable kinetic scrolling for trackpads until 4.20.1 ([@viruslobster](https://github.com/viruslobster))
+  ```text
+  Until gtk 4.20.1 trackpads have kinetic scrolling behavior regardless
+  of `Gtk.ScrolledWindow.kinetic_scrolling`. As a workaround, set
+  EventControllerScroll.kinetic to false on all controllers.
+  
+  `observeControllers()` has this warning:
+  > Calling this function will enable extra internal bookkeeping to track controllers and emit signals on the returned listmodel. It may slow down operations a lot.
+  > Applications should try hard to avoid calling this function because of the slowdowns.
+  
+  but judging from the [source](https://github.com/GNOME/gtk/blob/5301a91f1c74764facb4d60f40ab8621dd7af198/gtk/gtkwidget.c#L12375-L12383)
+  this is a one time penalty since we free the result immediately afterwards.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/11460
+  ```
+- [`4903e28`](https://github.com/ghostty-org/ghostty/commit/4903e2821d0f17e83b75d1156ca93e6ac2d263c4) gtk: disable kinetic scrolling for trackpads until 4.20.1 ([#11793](https://github.com/ghostty-org/ghostty/issues/11793)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Until gtk 4.20.1 trackpads have kinetic scrolling behavior regardless of
+  `Gtk.ScrolledWindow.kinetic_scrolling`. As a workaround, set
+  EventControllerScroll.kinetic to false on all controllers.
+  
+  `observeControllers()` has this warning:
+  > Calling this function will enable extra internal bookkeeping to track
+  controllers and emit signals on the returned listmodel. It may slow down
+  operations a lot.
+  > Applications should try hard to avoid calling this function because of
+  the slowdowns.
+  
+  but judging from the
+  [source](https://github.com/GNOME/gtk/blob/5301a91f1c74764facb4d60f40ab8621dd7af198/gtk/gtkwidget.c#L12375-L12383)
+  this is a one time penalty since we free the result immediately
+  afterwards.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/11460.
+  
+  ### AI usage
+  Zed + Opus 4.5 generated the first pass, but it missed freeing the
+  result of `observeControllers()` and conveniently binding
+  `scrolled_window` to the blueprint. Figuring out what was going on also
+  took a lot of [human
+  debugging](https://github.com/ghostty-org/ghostty/discussions/11460#discussioncomment-16245664).
+  ```
 
 ## March 28, 2026
 
