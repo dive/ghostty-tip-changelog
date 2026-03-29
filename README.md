@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 29, 2026 at 12:10 UTC.
+> Last updated: March 29, 2026 at 15:08 UTC.
 
 ## March 29, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23699075427), [2](https://github.com/ghostty-org/ghostty/actions/runs/23698830192), [3](https://github.com/ghostty-org/ghostty/actions/runs/23697570413)  
-Summary: 3 runs • 11 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23710574113), [2](https://github.com/ghostty-org/ghostty/actions/runs/23699075427), [3](https://github.com/ghostty-org/ghostty/actions/runs/23698830192), [4](https://github.com/ghostty-org/ghostty/actions/runs/23697570413)  
+Summary: 4 runs • 13 commits • 4 authors
 
 ### Changes
 
+- [`420de12`](https://github.com/ghostty-org/ghostty/commit/420de124f04aa322bf250098cc62d7195db94bfd) fix: ensure memory is zeroed in runtime safety modes for wasm/freestanding ([@elias8](https://github.com/elias8))
+- [`1c14b96`](https://github.com/ghostty-org/ghostty/commit/1c14b9615b79cf222622c7e9019b16b266a84c61) fix(libghostty): ensure memory is zeroed in runtime safety modes for wasm/freestanding ([#11955](https://github.com/ghostty-org/ghostty/issues/11955)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zero page memory on freestanding/wasm where allocator reuses freed slots
+  without clearing. Allows recreating a new or multiple terminals.
+  ```
 - [`741f1d1`](https://github.com/ghostty-org/ghostty/commit/741f1d129a44151a8d51f813a9eabc39dc4d4df1) example/c-vt-stream ([@mitchellh](https://github.com/mitchellh))
 - [`1fcd80d`](https://github.com/ghostty-org/ghostty/commit/1fcd80daab898e1543409986cd07d1db9e393570) libghostty: add cpp-vt-stream example and fix C++ header compatibility ([@mitchellh](https://github.com/mitchellh))
   ```text
