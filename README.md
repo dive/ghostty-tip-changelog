@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 29, 2026 at 18:09 UTC.
+> Last updated: March 29, 2026 at 21:08 UTC.
 
 ## March 29, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23710574113), [2](https://github.com/ghostty-org/ghostty/actions/runs/23699075427), [3](https://github.com/ghostty-org/ghostty/actions/runs/23698830192), [4](https://github.com/ghostty-org/ghostty/actions/runs/23697570413)  
-Summary: 4 runs • 13 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23717805278), [2](https://github.com/ghostty-org/ghostty/actions/runs/23710574113), [3](https://github.com/ghostty-org/ghostty/actions/runs/23699075427), [4](https://github.com/ghostty-org/ghostty/actions/runs/23698830192), [5](https://github.com/ghostty-org/ghostty/actions/runs/23697570413)  
+Summary: 5 runs • 14 commits • 5 authors
 
 ### Changes
 
+- [`10956bf`](https://github.com/ghostty-org/ghostty/commit/10956bfa485f389167dd98cebf9d083d43d6f061) Update VOUCHED list ([#11961](https://github.com/ghostty-org/ghostty/issues/11961)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11960#discussioncomment-16371359)
+  from @jcollie.
+  
+  Vouch: @nicholas-ochoa
+  ```
 - [`420de12`](https://github.com/ghostty-org/ghostty/commit/420de124f04aa322bf250098cc62d7195db94bfd) fix: ensure memory is zeroed in runtime safety modes for wasm/freestanding ([@elias8](https://github.com/elias8))
 - [`1c14b96`](https://github.com/ghostty-org/ghostty/commit/1c14b9615b79cf222622c7e9019b16b266a84c61) fix(libghostty): ensure memory is zeroed in runtime safety modes for wasm/freestanding ([#11955](https://github.com/ghostty-org/ghostty/issues/11955)) ([@mitchellh](https://github.com/mitchellh))
   ```text
