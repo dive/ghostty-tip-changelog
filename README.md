@@ -8,7 +8,339 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 30, 2026 at 15:29 UTC.
+> Last updated: March 30, 2026 at 18:19 UTC.
+
+## March 30, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23760068061), [2](https://github.com/ghostty-org/ghostty/actions/runs/23758387957), [3](https://github.com/ghostty-org/ghostty/actions/runs/23755858760), [4](https://github.com/ghostty-org/ghostty/actions/runs/23753629101), [5](https://github.com/ghostty-org/ghostty/actions/runs/23752772466)  
+Summary: 5 runs • 34 commits • 6 authors
+
+### Changes
+
+- [`40d1085`](https://github.com/ghostty-org/ghostty/commit/40d108599f1e7f6fad03ed29621f6c7bc3d6c61d) lib: rename GHOSTTY_EXPORT to GHOSTTY_API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename the shared library visibility macro from GHOSTTY_EXPORT to
+  GHOSTTY_API across all public C headers. This applies to both the
+  libghostty-vt headers under include/ghostty/vt/ and the main
+  include/ghostty.h header.
+  
+  This is a bit more idiomatic compared to other C libs and addresses the
+  fact that we're not always exporting...
+  ```
+- [`7269fa7`](https://github.com/ghostty-org/ghostty/commit/7269fa7d146302ef875e810b35d71c88d931c409) lib: rename GHOSTTY_EXPORT to GHOSTTY_API ([#11994](https://github.com/ghostty-org/ghostty/issues/11994)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename the shared library visibility macro from GHOSTTY_EXPORT to
+  GHOSTTY_API across all public C headers. This applies to both the
+  libghostty-vt headers under include/ghostty/vt/ and the main
+  include/ghostty.h header.
+  
+  This is a bit more idiomatic compared to other C libs and addresses the
+  fact that we're not always exporting...
+  ```
+- [`bd413cc`](https://github.com/ghostty-org/ghostty/commit/bd413cc7bd718f6d6ed07275d3f2e5cb071aa398) libghostty: add GHOSTTY_EXPORT for shared library symbol visibility ([@deblasis](https://github.com/deblasis))
+- [`0c765c7`](https://github.com/ghostty-org/ghostty/commit/0c765c7c585a33abcac67ab9aebb32ab758fe17f) libghostty: add GHOSTTY_EXPORT to VT headers ([@deblasis](https://github.com/deblasis))
+  ```text
+  Extend GHOSTTY_EXPORT annotations to all public function declarations
+  in include/ghostty/vt/ headers. Add GHOSTTY_EXPORT macro to types.h
+  with ifndef guard so both ghostty.h and VT headers share the same
+  definition without conflict.
+  ```
+- [`80e35af`](https://github.com/ghostty-org/ghostty/commit/80e35af76362b3433a24ce5c0a7ffc73f5eaa59d) cmake: define GHOSTTY_STATIC for static library consumers ([@deblasis](https://github.com/deblasis))
+  ```text
+  The ghostty-vt-static target needs to propagate GHOSTTY_STATIC to
+  consumers so that GHOSTTY_EXPORT resolves to nothing instead of
+  __declspec(dllimport) on Windows. Without this, static linking
+  fails with unresolved __imp_ghostty_* symbols.
+  ```
+- [`6d4528e`](https://github.com/ghostty-org/ghostty/commit/6d4528e471961664ac9ed44cc1e519625f873022) libghostty: add GHOSTTY_EXPORT for shared lib symbol visibility ([#11977](https://github.com/ghostty-org/ghostty/issues/11977)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  Add a `GHOSTTY_EXPORT` annotation macro to all public function
+  declarations across both `ghostty.h` (the main libghostty header) and
+  the `include/ghostty/vt/` headers (the libghostty-vt API). This is the
+  standard pattern used by C libraries that support both static and shared
+  library builds.
+  
+  On Windows, functions need `__declspec(dllexport)` when building the DLL
+  and `__declspec(dllimport)` when consuming it, or they won't be visible
+  across the DLL boundary. On Linux/macOS with GCC/Clang,
+  `__attribute__((visibility("default")))` keeps the public API visible
+  when building with `-fvisibility=hidden`, which reduces symbol table
+  size and avoids collisions.
+  
+  The macro resolves to nothing for static builds (when `GHOSTTY_STATIC`
+  is defined) and on compilers that don't support visibility attributes,
+  so this is a no-op for the current macOS static library path.
+  
+  ## Why
+  
+  I looked at how popular C libraries handle this and every serious one
+  follows the same pattern:
+  
+  - SDL (`SDL_DECLSPEC`)
+  - cURL (`CURL_EXTERN`)
+  - SQLite (`SQLITE_API`)
+  - zlib (`ZEXTERN`)
+  - FreeType (`FT_EXPORT`) -- already vendored by Ghostty
+  - GLFW (`GLFWAPI`)
+  - Lua (`LUA_API`)
+  
+  The header comment says "the API is built to be more general purpose"
+  and the long-term goal is libghostty as a reusable library. Export
+  annotations are table stakes for that -- they explicitly mark the public
+  API surface, enable proper shared library builds on all platforms, and
+  give consumers the right linker hints.
+  
+  ## Test plan
+  
+  - [x] Windows build and full test suite
+  - [x] Linux build and full test suite
+  - [x] macOS build, full test suite, and app launch verified working
+  - [x] macOS xcodebuild app build and launch verified working
+  - [x] Shared library symbol inspection on all three platforms
+  - [x] Linux: validated version script + LLD restricts exports to only
+  ghostty_* (107/107, 0 leaked, 12 MB .so)
+  - [x] Linux: C link test against restricted .so -- compiled, linked, ran
+  successfully
+  - [x] Windows: DLL exports verified (102 ghostty_ + 3 unavoidable
+  CRT/simdutf)
+  ```
+- [`8fab3ac`](https://github.com/ghostty-org/ghostty/commit/8fab3ac3f371b0e1a8054d7168e9b76bb0247a25) example/wasm-vt ([@mitchellh](https://github.com/mitchellh))
+- [`2e827cc`](https://github.com/ghostty-org/ghostty/commit/2e827cc39da17b774eefc1a661ff25353ca73897) vt: add ghostty_type_json for struct layout metadata ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new C API function that returns a comptime-generated JSON string
+  describing the size, alignment, and field layout of every C API extern
+  struct. This lets FFI consumers (particularly WASM) construct structs
+  by byte offset without hardcoding platform-specific layout.
+  
+  The JSON is built at comptime using std.json.Stringify via a
+  StructInfo type that holds per-struct metadata and implements
+  jsonStringify. A StaticStringMap keyed by C struct name provides
+  lookup by name as well as iteration for the JSON serialization.
+  
+  The function is declared in types.h alongside the other common types
+  and exported as ghostty_type_json.
+  ```
+- [`6479d90`](https://github.com/ghostty-org/ghostty/commit/6479d90ca55a978553af14e4da4db183fe61131c) example/wasm-vt: use ghostty_type_json for struct layouts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace hardcoded byte offsets and struct sizes with dynamic lookups
+  from the ghostty_type_json API. On WASM load, the type layout JSON
+  is fetched once and parsed into a lookup table. Two helpers,
+  fieldInfo and setField, use this metadata to write struct fields at
+  the correct offsets with the correct types.
+  
+  This removes the need to manually maintain wasm32 struct layout
+  comments and magic numbers for GhosttyTerminalOptions and
+  GhosttyFormatterTerminalOptions, so the example stays correct if
+  the struct layouts change.
+  ```
+- [`0c38e8b`](https://github.com/ghostty-org/ghostty/commit/0c38e8be60d1e57eae9e1b8f31ab11f9a6d51358) vt: simplify ghostty_type_json to return null-terminated string ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The function previously took a size_t* out-parameter for the string
+  length. Since the JSON blob is now null-terminated, the len parameter
+  is unnecessary. Remove it from the Zig implementation, C header, and
+  the WASM example consumer which no longer needs to allocate and free
+  a usize just to read the length.
+  ```
+- [`3c6e98c`](https://github.com/ghostty-org/ghostty/commit/3c6e98c5a7808138b8d1db279bb5cad7d55990b1) vt: export the new API ([@mitchellh](https://github.com/mitchellh))
+- [`bd7415f`](https://github.com/ghostty-org/ghostty/commit/bd7415f4b7871bc4fe0c1736eb420a3731d679fa) terminal: clean up some types tests ([@mitchellh](https://github.com/mitchellh))
+- [`53871e4`](https://github.com/ghostty-org/ghostty/commit/53871e4d525362ee9ab373ecc27c023a5ea3165a) libghostty: WASM VT example, add `ghostty_type_json` ([#11992](https://github.com/ghostty-org/ghostty/issues/11992)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new `example/wasm-vt` example that initializes a terminal,
+  lets you write text to write to it, and shows you the screen state.
+  
+  In doing so, I realized that writing structs in WASM is extremely
+  painful. You had to do manually hardcoded sizes and byte offsets and
+  it's scary as hell! So I added a new `ghostty_type_json` API that
+  returns a C string with JSON-encoded type information about all exported
+  C structures.
+  
+  ## Example
+  
+  <img width="1912" height="1574" alt="CleanShot 2026-03-30 at 10 20
+  16@2x"
+  src="https://github.com/user-attachments/assets/7cae92bc-3403-4e4c-958c-b7ea58026afe"
+  />
+  ```
+- [`af36959`](https://github.com/ghostty-org/ghostty/commit/af36959942f07bc570e4de17cbe93dfb4ad5e80b) gtk: only trigger resize callbacks and overlay when size actually changes ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #11970
+  
+  Also fixes problem that resize overlay would intercept mouse activity
+  while active.
+  ```
+- [`32920b6`](https://github.com/ghostty-org/ghostty/commit/32920b6b2a5b92e20b70376f3c8e9f956648816f) macOS: handle surface focus more gracefully ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This will fix surface focus state is not consistent with first responder state when the search bar is open
+  ```
+- [`013579c`](https://github.com/ghostty-org/ghostty/commit/013579cfcf57aabf4fe599db2926efc3d1b8c01c) macOS: fix initial focus of command palette when building with Xcode 26.4 ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Tip works fine, but I've tried release and debug build with Xcode 26.4, it failed to focus as expected
+  ```
+- [`5c5029b`](https://github.com/ghostty-org/ghostty/commit/5c5029b0c448f88d7880d5e036d58a8a6c91e756) Revert "macos: add support for middle-click tab close for `macos-titlebar-style = tabs` ([#11963](https://github.com/ghostty-org/ghostty/issues/11963))" ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This reverts commit 5540f5f249db0f5e8c1e5f47ee9339f4fe1786f0, reversing
+  changes made to cca4c788adc9275f19ac7ea55d140411c13f4253.
+  ```
+- [`5de30c0`](https://github.com/ghostty-org/ghostty/commit/5de30c0dce670e7f4d58e32bdbadd95784cbb2b3) Revert "macOS: fix tab context menu opens on macOS 26 with titlebar tabs ([#9831](https://github.com/ghostty-org/ghostty/issues/9831))" ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This reverts commit 894e8d91ba43e88fcff33f011dbb9f52618725c5, reversing
+  changes made to 4a173052fb181580b1ea013555508b8f37c0407e.
+  ```
+- [`51cd638`](https://github.com/ghostty-org/ghostty/commit/51cd63871d5ef9b120f13515e2c67f1b94a65e23) macos: passthrough right mouse down event to TabTitleEditor if needed ([#11150](https://github.com/ghostty-org/ghostty/issues/11150)) ([@bo2themax](https://github.com/bo2themax))
+- [`5c5f645`](https://github.com/ghostty-org/ghostty/commit/5c5f645b6141916a3b29b48a0b3510b72f988c7b) macOS: support reloading temporary config for testing ([@bo2themax](https://github.com/bo2themax))
+- [`65cd31d`](https://github.com/ghostty-org/ghostty/commit/65cd31dc79e8dcb3746424d0ca5cb0bbcdb39dee) macOS: add NormalizedMenuShortcutKeyTests ([@bo2themax](https://github.com/bo2themax))
+- [`1845dd2`](https://github.com/ghostty-org/ghostty/commit/1845dd26b6fc789dd825ea994eb0da13b2b454d7) macOS: extract menu shortcut syncing into MenuShortcutManager ([@bo2themax](https://github.com/bo2themax))
+- [`de8139b`](https://github.com/ghostty-org/ghostty/commit/de8139bbc3ed16ef5488c31f41a2ff6fe85b83f0) macOS: move MenuShortcutManager to a separate file ([@bo2themax](https://github.com/bo2themax))
+- [`f66cf17`](https://github.com/ghostty-org/ghostty/commit/f66cf179cda023a0dceec946c5f2d816d0b6a2a5) gtk: only trigger resize callbacks and overlay when size actually changes ([#11972](https://github.com/ghostty-org/ghostty/issues/11972)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11970
+  
+  Also fixes problem that resize overlay would intercept mouse activity
+  while active.
+  ```
+- [`bf3f9b3`](https://github.com/ghostty-org/ghostty/commit/bf3f9b3150fe33e923d43f2c213c3b994d49fd2f) macOS: fix focus update when using search or command palette ([#11978](https://github.com/ghostty-org/ghostty/issues/11978)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes two things:
+  
+  1. Surface focus state is not consistent with first responder state when
+  the search bar is open.
+  > Reproduce: Open search, switch to another app and back, observe the
+  cursor state of the surface.
+  > And after switching back, `cmd+shift+f` will close the search bar,
+  surface will become focused but not first responder, so it will not
+  accept any input
+  2. Command palette is not focused when built with Xcode 26.4 (26.3 works
+  fine).
+  > This is weird to me, because the tip (and built with 26.3) works fine.
+  I guess it's related to the SDK update? I couldn’t be sure what went
+  wrong, but dispatching it to the next loop works as previously.
+    > Also cleaned some previous checks when quickly open and reopen.
+    > This fix works great both with 26.4 and 26.3
+  
+  
+  
+  https://github.com/user-attachments/assets/c9cf4c1b-60d9-4c71-802c-55f82e40eec7
+  ```
+- [`1672e89`](https://github.com/ghostty-org/ghostty/commit/1672e891b900db79bb77b43ee5337a44d0dfc39f) macOS: remove redundant tab event overrides ([#11984](https://github.com/ghostty-org/ghostty/issues/11984)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Revert 5540f5f249db0f5e8c1e5f47ee9339f4fe1786f0, middle click comes
+  out of box with native tabbing, but we override it wrong previous.
+  - Reverts 894e8d91ba43e88fcff33f011dbb9f52618725c5, I check it the
+  commit right before it and all the way back to
+  ffe4afe5383ae322987ba1861df16103e9d66da8, right mouse down on tab bar
+  works well without any issue
+  - Add back reverted handling in #11150
+  
+  
+  https://github.com/user-attachments/assets/8660368e-05ae-45b0-aa81-6196f3434daf
+  ```
+- [`d643792`](https://github.com/ghostty-org/ghostty/commit/d643792f36bfcf52bb58f36276767e932b5583d7) macOS: add keyboard shortcut test ([#11986](https://github.com/ghostty-org/ghostty/issues/11986)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is the first step (also another step forward for completing #7879)
+  to fix various responder issues regarding keyboard shortcuts. I tried my
+  best to separate changes chunk by chunk; there will follow up pr based
+  on this to fix them.
+  
+  This pr doesn't change any existing behaviours/flaws, but following
+  changes will be easier to review after this.
+  
+  ## AI Disclosure
+  
+  Claude wrote most of the test cases
+  ```
+- [`3864fa5`](https://github.com/ghostty-org/ghostty/commit/3864fa585ff88455324c4bc255670fa7ef2513c5) build(deps): bump cachix/install-nix-action from 31.10.2 to 31.10.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.2 to 31.10.3.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/51f3067b56fe8ae331890c77d4e454f6d60615ff...96951a368ba55167b55f1c916f7d416bac6505fe)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`fdb914c`](https://github.com/ghostty-org/ghostty/commit/fdb914c680e6cf2fd8ff63d630ae8ede992cb9c5) build(deps): bump cachix/install-nix-action from 31.10.2 to 31.10.3 ([#11967](https://github.com/ghostty-org/ghostty/issues/11967)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.2 to 31.10.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.2 -&gt; 2.34.4 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/271">cachix/install-nix-action#271</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31...v31.10.3">https://github.com/cachix/install-nix-action/compare/v31...v31.10.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/96951a368ba55167b55f1c916f7d416bac6505fe"><code>96951a3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/271">#271</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/62811694457f97eeef0c40b184d0a791495b3825"><code>6281169</code></a>
+  nix: 2.34.2 -&gt; 2.34.4</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/51f3067b56fe8ae331890c77d4e454f6d60615ff...96951a368ba55167b55f1c916f7d416bac6505fe">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  ```
+- [`4a0cca1`](https://github.com/ghostty-org/ghostty/commit/4a0cca1c5b09d0ec884d431747152fcd3107cc9d) cli: add pager support to +explain-config ([@jparise](https://github.com/jparise))
+  ```text
+  Add a new Pager type that wraps output to an external pager program when
+  stdout is a TTY, following the same conventions as git. The pager
+  command is resolved from $PAGER, falling back to `less`. An empty $PAGER
+  disables paging. If the pager fails to spawn, we fall back to stdout.
+  
+  Previously, +explain-config wrote directly to stdout with no paging,
+  which meant long help text would scroll by. Now output is automatically
+  piped through the user's preferred pager when running interactively. A
+  --no-pager flag is available to disable this.
+  ```
+- [`62f8a1c`](https://github.com/ghostty-org/ghostty/commit/62f8a1cbcf137225e909f679efd3712b6e549bf2) cli: use a caller-provided write buffer ([@jparise](https://github.com/jparise))
+  ```text
+  This follows Zig's conventions more closely, where the caller owns the
+  write buffer.
+  ```
+- [`11d45cd`](https://github.com/ghostty-org/ghostty/commit/11d45cd43c14cc8a2028d85428349066402054fa) cli: add pager support for +show-config ([@jparise](https://github.com/jparise))
+- [`840ab46`](https://github.com/ghostty-org/ghostty/commit/840ab460090de2c361c5f208bf2d08fa20f32a4d) cli: also recognize $GHOSTTY_PAGER ([@jparise](https://github.com/jparise))
+  ```text
+  When defined, GHOSTTY_PAGER takes precedence over PAGER. If either of
+  those variables is set to an empty value, paging is disabled.
+  ```
+- [`7ad3888`](https://github.com/ghostty-org/ghostty/commit/7ad3888819790bf7560a8b702a50dbbc1a776072) cli: add pager support to +explain-config ([#11940](https://github.com/ghostty-org/ghostty/issues/11940)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Add a new Pager type that wraps output to an external pager program when
+  stdout is a TTY, following the same conventions as git. The pager
+  command is resolved from $PAGER, falling back to `less`. An empty $PAGER
+  disables paging. If the pager fails to spawn, we fall back to stdout.
+  
+  Previously, +explain-config wrote directly to stdout with no paging,
+  which meant long help text would scroll by. Now output is automatically
+  piped through the user's preferred pager when running interactively. A
+  --no-pager flag is available to disable this.
+  ```
 
 ## March 29, 2026
 
