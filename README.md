@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 30, 2026 at 18:19 UTC.
+> Last updated: March 30, 2026 at 21:15 UTC.
 
 ## March 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23760068061), [2](https://github.com/ghostty-org/ghostty/actions/runs/23758387957), [3](https://github.com/ghostty-org/ghostty/actions/runs/23755858760), [4](https://github.com/ghostty-org/ghostty/actions/runs/23753629101), [5](https://github.com/ghostty-org/ghostty/actions/runs/23752772466)  
-Summary: 5 runs • 34 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23767138351), [2](https://github.com/ghostty-org/ghostty/actions/runs/23760068061), [3](https://github.com/ghostty-org/ghostty/actions/runs/23758387957), [4](https://github.com/ghostty-org/ghostty/actions/runs/23755858760), [5](https://github.com/ghostty-org/ghostty/actions/runs/23753629101), [6](https://github.com/ghostty-org/ghostty/actions/runs/23752772466)  
+Summary: 6 runs • 35 commits • 7 authors
 
 ### Changes
 
+- [`500ab13`](https://github.com/ghostty-org/ghostty/commit/500ab13c868ffa41f8d4894bb78b7730cc180644) Update VOUCHED list ([#12000](https://github.com/ghostty-org/ghostty/issues/12000)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11999#issuecomment-4158097469)
+  from @jcollie.
+  
+  Vouch: @BarutSRB
+  ```
 - [`40d1085`](https://github.com/ghostty-org/ghostty/commit/40d108599f1e7f6fad03ed29621f6c7bc3d6c61d) lib: rename GHOSTTY_EXPORT to GHOSTTY_API ([@mitchellh](https://github.com/mitchellh))
   ```text
   Rename the shared library visibility macro from GHOSTTY_EXPORT to
