@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 31, 2026 at 18:19 UTC.
+> Last updated: March 31, 2026 at 21:13 UTC.
 
 ## March 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23809776760), [2](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [3](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [4](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [5](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
-Summary: 5 runs • 18 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23818463910), [2](https://github.com/ghostty-org/ghostty/actions/runs/23817714567), [3](https://github.com/ghostty-org/ghostty/actions/runs/23816973665), [4](https://github.com/ghostty-org/ghostty/actions/runs/23809776760), [5](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [6](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [7](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [8](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
+Summary: 8 runs • 24 commits • 7 authors
 
 ### Changes
 
+- [`4b5f2d6`](https://github.com/ghostty-org/ghostty/commit/4b5f2d60e7bc347c502ea9c13a59ba1f3f0546ff) core/gtk: ensure that first surface gets marked as focused surface by app ([@jcollie](https://github.com/jcollie))
+- [`c2dd757`](https://github.com/ghostty-org/ghostty/commit/c2dd7579e28ff1fecb4a68f32ae8cacda576550c) core/gtk: ensure that first surface gets marked as focused surface by app ([#12029](https://github.com/ghostty-org/ghostty/issues/12029)) ([@jcollie](https://github.com/jcollie))
+- [`dee8598`](https://github.com/ghostty-org/ghostty/commit/dee8598dc040962e9dbf5a050e2e65456b3da9d1) gtk: use surface id for notifications instead of pointer ([@jcollie](https://github.com/jcollie))
+- [`0f6836c`](https://github.com/ghostty-org/ghostty/commit/0f6836c69fdc480ea84f983dfe4c0bb18edb4f61) gtk: use surface id for notifications instead of pointer ([#12028](https://github.com/ghostty-org/ghostty/issues/12028)) ([@jcollie](https://github.com/jcollie))
+- [`ff02ed1`](https://github.com/ghostty-org/ghostty/commit/ff02ed1b3458f88e3d3eb31d59027e374aba2ecd) core: add 64 bit unique ID to every core surface ([@jcollie](https://github.com/jcollie))
+  ```text
+  - Expose that ID as the environment variable GHOSTTY_SURFACE_ID to
+    processes running in Ghostty surfaces.
+  - Add a function to the core app to search for surfaces by ID.
+  - ID is randomly generated, it has no other meaning other than as a
+    unique identifier for the surface. The ID also cannot be zero as that
+    is used to indicate a null ID in some situations.
+  ```
+- [`f90180f`](https://github.com/ghostty-org/ghostty/commit/f90180f91f1e28d474f458e7ebe3d10f4d7bd3cd) core: add 64 bit unique ID to every core surface ([#12027](https://github.com/ghostty-org/ghostty/issues/12027)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  - Expose that ID as the environment variable GHOSTTY_SURFACE_ID to
+  processes running in Ghostty surfaces.
+  - Add a function to the core app to search for surfaces by ID.
+  - ID is randomly generated, it has no other meaning other than as a
+  unique identifier for the surface. The ID also cannot be zero as that is
+  used to indicate a null ID in some situations.
+  ```
 - [`4803d58`](https://github.com/ghostty-org/ghostty/commit/4803d58bb4ea8d2a71ebc1e5239f09a060e9e7c3) apprt/embedded: fix ghostty_surface_free_text parameter mismatch ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #12020
