@@ -8,7 +8,32 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 31, 2026 at 00:24 UTC.
+> Last updated: March 31, 2026 at 03:58 UTC.
+
+## March 31, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`a06350d`](https://github.com/ghostty-org/ghostty/commit/a06350df9b077a0aa82657ecff22e7fb0d620faf) macOS: close search bar if needed when it loses focus ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This adds features like:
+  1. Clicking outside of SearchBar works like typing `escape`
+  2. Typing `tab` while search bar is focused also works like typing `escape`
+  ```
+- [`20cfaae`](https://github.com/ghostty-org/ghostty/commit/20cfaae2e5ec84cca2c5a55843b399b32fb9c810) macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds features like:
+  
+  1. Clicking outside of search bar works like typing `escape`
+  2. Typing `tab` while search bar is focused also works like typing
+  `escape`
+  
+  
+  https://github.com/user-attachments/assets/a51f1560-ed14-4002-81b4-96eb927b17ca
+  ```
 
 ## March 30, 2026
 
