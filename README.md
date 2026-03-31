@@ -8,15 +8,109 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 31, 2026 at 12:19 UTC.
+> Last updated: March 31, 2026 at 15:27 UTC.
 
 ## March 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [2](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [3](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [4](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
+Summary: 4 runs • 16 commits • 6 authors
 
 ### Changes
 
+- [`b288063`](https://github.com/ghostty-org/ghostty/commit/b2880636af477287436e01e8a86238bfa198b0e1) Update VOUCHED list ([#12022](https://github.com/ghostty-org/ghostty/issues/12022)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12019#discussioncomment-16396278)
+  from @jcollie.
+  
+  Vouch: @danneu
+  ```
+- [`e993ded`](https://github.com/ghostty-org/ghostty/commit/e993ded7c8a8078d28d4d4d3d2ba93cb9edce71f) ghostty.h: guard sys/types.h include for MSVC ([@deblasis](https://github.com/deblasis))
+  ```text
+  sys/types.h is a POSIX header that does not exist on MSVC. Move it
+  into the #else branch of the existing _MSC_VER guard that already
+  provides ssize_t via BaseTsd.h.
+  ```
+- [`ed6f058`](https://github.com/ghostty-org/ghostty/commit/ed6f0588a31ea76b027724ec4127cedbe5c3bdbf) feat: make version clickable depending on type ([@louisunlimited](https://github.com/louisunlimited))
+- [`b29f261`](https://github.com/ghostty-org/ghostty/commit/b29f261dc89b6c9ed1b37d700ec3f815dcf00462) chore: clean up versionConfig to be init-able ([@louisunlimited](https://github.com/louisunlimited))
+- [`90d71dd`](https://github.com/ghostty-org/ghostty/commit/90d71dd2f62b33ddb44ba8cb647e24b3eb76e131) chore: clean up comments ([@louisunlimited](https://github.com/louisunlimited))
+- [`183e2ce`](https://github.com/ghostty-org/ghostty/commit/183e2cef2f17c6b43427635ac124edc13cbd1425) chore: clean up switch statement ([@louisunlimited](https://github.com/louisunlimited))
+- [`010880a`](https://github.com/ghostty-org/ghostty/commit/010880a90ae5988335a6174493a6f2d2644be08b) chore: make url computed property & rework enum signature ([@louisunlimited](https://github.com/louisunlimited))
+- [`591dbd5`](https://github.com/ghostty-org/ghostty/commit/591dbd511265efcf24b3a60ca31b6ce5716c68c6) macOS: fix incorrect delete symbol mapping ([@bo2themax](https://github.com/bo2themax))
+- [`f140b14`](https://github.com/ghostty-org/ghostty/commit/f140b1463fc7f0d5a3d84d09663d90ea31c2ea85) macOS: fix incorrect delete symbol mapping ([#12011](https://github.com/ghostty-org/ghostty/issues/12011)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  `GHOSTTY_KEY_DELETE` should be mapped to `KeyEquivalent.deleteForward`.
+  This fixes the correct symbol showing in the menu. Previously, both
+  `GHOSTTY_KEY_DELETE` and `GHOSTTY_KEY_BACKSPACE` were showing `⌫`, but
+  `GHOSTTY_KEY_DELETE` only worked for `fn+delete`.
+  
+  Add the following keybind and observe the symbol in the menu:
+  ```
+  keybind=delete=new_tab
+  ```
+  
+  <img width="535" height="318" alt="image"
+  src="https://github.com/user-attachments/assets/67ed7b5d-f848-42ee-a382-fe364d86cb2c"
+  />
+  ````
+- [`5fe876c`](https://github.com/ghostty-org/ghostty/commit/5fe876cfa05d86b06da7a7fc31c363a4fc54661a) ghostty.h: guard sys/types.h include for MSVC ([#12010](https://github.com/ghostty-org/ghostty/issues/12010)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  - Move `sys/types.h` include into the `#else` branch of the existing
+  `_MSC_VER` guard
+  - MSVC does not ship `sys/types.h` (POSIX header), and already gets
+  `ssize_t` from `BaseTsd.h`
+  
+  ## Test plan
+  
+  - [x] `zig build -Dapp-runtime=none` -- clean build
+  - [x] `zig build test -Dapp-runtime=none` on Windows (2606/2660 passed,
+  54 skipped)
+  - [x] `zig build test` on Linux (2658/2684 passed, 26 skipped)
+  - [x] `zig build test` on macOS (2658/2668 passed, 10 skipped)
+  - [x] `zig build test-lib-vt` on all 3 platforms
+  - [x] Zig examples build on all 3 platforms
+  - [x] CMake examples build on Windows (c-vt-cmake pass,
+  c-vt-cmake-static pass)
+  ```
+- [`292bf13`](https://github.com/ghostty-org/ghostty/commit/292bf13d06a82065da2a9fb19cf18c2267578309) macOS: Make version in about dialog clickable ([#12007](https://github.com/ghostty-org/ghostty/issues/12007)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Fixes: https://github.com/ghostty-org/ghostty/issues/11964
+  
+  Made a private enum type `VersionConfig` to reference whether the
+  release is a semver or tip, makes it easier for later in the view to
+  `switch` between cases.
+  
+  I do think there could be a better place for this enum or we can get rid
+  of it, open to opinions. Right now version parsing is kind of duplicated
+  between `AboutView` and `UpdateModalView` so we can also extract to a
+  common helper if wanted.
+  
+  Tested by manually setting `Marketing Version` in build settings to
+  
+  `1.3.1`
+  <img width="412" height="532" alt="Screenshot 2026-03-30 at 18 31 15"
+  src="https://github.com/user-attachments/assets/285bb94d-138b-4169-bb66-684eb04b6ca3"
+  />
+  
+  `332b2aefc`
+  <img width="412" height="532" alt="Screenshot 2026-03-30 at 18 32 48"
+  src="https://github.com/user-attachments/assets/fea30d39-bea7-4885-8221-1696e148f45e"
+  />
+  
+  ### AI Disclosure
+  I used Sonnet 4.6 to understand where the version strings came from and
+  in what format, it read release yml files to see what's going on. Then
+  it proposed really bad code so I manually went in and cleaned up the
+  view.
+  ```
+- [`30c9dec`](https://github.com/ghostty-org/ghostty/commit/30c9dec76b706c5b26cfad3fb0c25c4850ff1175) add all C struct layout metadata for WASM ([@elias8](https://github.com/elias8))
+- [`1d0a247`](https://github.com/ghostty-org/ghostty/commit/1d0a247c20aa009124a0ba75cf9e460b7fa4aa1d) sort map alphabetically ([@elias8](https://github.com/elias8))
+- [`f827530`](https://github.com/ghostty-org/ghostty/commit/f82753010300668d67c884fd75f618e7493978b8) libghostty: add all C struct layout metadata for WASM ([#12017](https://github.com/ghostty-org/ghostty/issues/12017)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Added all C structs and sorted the entries for readability.
+  ```
 - [`a06350d`](https://github.com/ghostty-org/ghostty/commit/a06350df9b077a0aa82657ecff22e7fb0d620faf) macOS: close search bar if needed when it loses focus ([@bo2themax](https://github.com/bo2themax))
   ```text
   This adds features like:
