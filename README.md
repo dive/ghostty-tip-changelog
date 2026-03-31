@@ -8,15 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 31, 2026 at 15:27 UTC.
+> Last updated: March 31, 2026 at 18:19 UTC.
 
 ## March 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [2](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [3](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [4](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
-Summary: 4 runs • 16 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23809776760), [2](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [3](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [4](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [5](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
+Summary: 5 runs • 18 commits • 6 authors
 
 ### Changes
 
+- [`4803d58`](https://github.com/ghostty-org/ghostty/commit/4803d58bb4ea8d2a71ebc1e5239f09a060e9e7c3) apprt/embedded: fix ghostty_surface_free_text parameter mismatch ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #12020
+  
+  The C header declared ghostty_surface_free_text with both a
+  ghostty_surface_t and ghostty_text_s* parameter, but the Zig
+  implementation only accepted a *Text parameter. This caused the
+  surface pointer to be interpreted as the text pointer, so the
+  actual text allocation was never freed.
+  ```
+- [`f16d354`](https://github.com/ghostty-org/ghostty/commit/f16d35489b1809657bb2675ab6bdc7eabefb59f9) apprt/embedded: fix ghostty_surface_free_text parameter mismatch ([#12025](https://github.com/ghostty-org/ghostty/issues/12025)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #12020
+  
+  The C header declared ghostty_surface_free_text with both a
+  ghostty_surface_t and ghostty_text_s* parameter, but the Zig
+  implementation only accepted a *Text parameter. This caused the surface
+  pointer to be interpreted as the text pointer, so the actual text
+  allocation was never freed.
+  
+  I opted to keep the surface parameter to minimize the diff here. I'm not
+  sure why I thought I would need access to that surface pointer but just
+  want to fix the leak first.
+  ```
 - [`b288063`](https://github.com/ghostty-org/ghostty/commit/b2880636af477287436e01e8a86238bfa198b0e1) Update VOUCHED list ([#12022](https://github.com/ghostty-org/ghostty/issues/12022)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
