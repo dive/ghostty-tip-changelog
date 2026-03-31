@@ -8,15 +8,131 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: March 30, 2026 at 21:15 UTC.
+> Last updated: March 31, 2026 at 00:24 UTC.
 
 ## March 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23767138351), [2](https://github.com/ghostty-org/ghostty/actions/runs/23760068061), [3](https://github.com/ghostty-org/ghostty/actions/runs/23758387957), [4](https://github.com/ghostty-org/ghostty/actions/runs/23755858760), [5](https://github.com/ghostty-org/ghostty/actions/runs/23753629101), [6](https://github.com/ghostty-org/ghostty/actions/runs/23752772466)  
-Summary: 6 runs • 35 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23772709377), [2](https://github.com/ghostty-org/ghostty/actions/runs/23771282085), [3](https://github.com/ghostty-org/ghostty/actions/runs/23770358156), [4](https://github.com/ghostty-org/ghostty/actions/runs/23768910243), [5](https://github.com/ghostty-org/ghostty/actions/runs/23767138351), [6](https://github.com/ghostty-org/ghostty/actions/runs/23760068061), [7](https://github.com/ghostty-org/ghostty/actions/runs/23758387957), [8](https://github.com/ghostty-org/ghostty/actions/runs/23755858760), [9](https://github.com/ghostty-org/ghostty/actions/runs/23753629101), [10](https://github.com/ghostty-org/ghostty/actions/runs/23752772466)  
+Summary: 10 runs • 45 commits • 8 authors
 
 ### Changes
 
+- [`3509ccf`](https://github.com/ghostty-org/ghostty/commit/3509ccf78ef087fec2f0209fbc297a321106d339) Update VOUCHED list ([#12005](https://github.com/ghostty-org/ghostty/issues/12005)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11981#issuecomment-4158783258)
+  from @tristan957.
+  
+  Vouch: @yabbal
+  ```
+- [`ee19c8f`](https://github.com/ghostty-org/ghostty/commit/ee19c8ff7f5f4e20e6279bc81f0bc5ede0b172d9) wasm: binary patching wow ([@mitchellh](https://github.com/mitchellh))
+- [`624b488`](https://github.com/ghostty-org/ghostty/commit/624b4884c343a53fd256ca8da1628a4690a7b6f2) Add build_table ([@mitchellh](https://github.com/mitchellh))
+- [`6c085e5`](https://github.com/ghostty-org/ghostty/commit/6c085e54426b83a8059273dc4b2a6ed159a76f15) build: binary patch to add growable tables ([@mitchellh](https://github.com/mitchellh))
+- [`01a8ea7`](https://github.com/ghostty-org/ghostty/commit/01a8ea72125c4de72101637805a4c920eb54d34b) build: binary patching with Zig ([@mitchellh](https://github.com/mitchellh))
+- [`f89195a`](https://github.com/ghostty-org/ghostty/commit/f89195ace9d5157e7a265acf807fbeb9b839b7c2) revert example/wasm-vt ([@mitchellh](https://github.com/mitchellh))
+- [`50f3b1d`](https://github.com/ghostty-org/ghostty/commit/50f3b1d60dcbc7813aabb4170acfb8fc524b3ec6) libghostty: export function table and make it growable for wasm ([#12003](https://github.com/ghostty-org/ghostty/issues/12003)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replaces #11958
+  
+  This exports the function table and makes it growable so that the
+  effects API can be used. It's still very not ergonomic to use the
+  effects API so I'm going to work on that next, but this at least makes
+  it _possible_. Zig 0.15.x is missing the ability to pass
+  `--growable-table` to the linker so we use binary patching to add it
+  (yay!) lol.
+  ```
+- [`8fc0c85`](https://github.com/ghostty-org/ghostty/commit/8fc0c85e0c83d5eac3ba09720a5cc3024d2aa676) Update VOUCHED list ([#12002](https://github.com/ghostty-org/ghostty/issues/12002)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12001#discussioncomment-16386924)
+  from @jcollie.
+  
+  Vouch: @louisunlimited
+  ```
+- [`a83a82b`](https://github.com/ghostty-org/ghostty/commit/a83a82b3f87b6efeb4384cbc9350056be70ecde0) build: normalize input archives before Darwin libtool merge (Barut)
+  ```text
+  Apple's recent libtool can warn about misaligned 64-bit archive members
+  and silently drop them when merging static libraries. In Ghostty this
+  showed up in the Darwin libtool step that builds libghostty-fat.a.
+  
+  Normalize each input archive by copying it and running ranlib on the
+  copy
+  before handing it to libtool. That rewrites the archive into a layout
+  Apple's linker tools accept without flattening members through the
+  filesystem or changing Ghostty's archive format.
+  ```
+- [`c75081b`](https://github.com/ghostty-org/ghostty/commit/c75081b89c5c5e6a337b926bb5abdbd81f2eaf1e) build: normalize input archives before Darwin libtool merge ([#11999](https://github.com/ghostty-org/ghostty/issues/11999)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ## Root cause
+  
+  Zig 0.15.2 can produce macOS `.a` archives where some 64-bit Mach-O
+  members are only 4-byte aligned inside the archive. Recent Apple
+  `libtool -static` does not handle that layout correctly: it emits `not
+  8-byte aligned` warnings and, in the failing case, silently drops those
+  members when creating the combined static library.
+  
+  In Ghostty, this happened in the Darwin `libtool` merge step that builds
+  `libghostty-fat.a`. The x86_64 input `libghostty.a` still contained the
+  expected `libghostty_zcu.o` and about 97 exported `_ghostty_` symbols,
+  but after `libtool -static` the output archive contained only 4 SIMD
+  symbols because `libghostty_zcu.o` had been discarded. The same warning
+  pattern also appeared in third-party input archives such as
+  `libfreetype.a` and `libz.a`, so this was not only a `libghostty.a`
+  problem.
+  
+  ## What needed to be done
+  
+  The inputs to Apple `libtool` needed to be normalized before they were
+  merged.
+  
+  The safest fix is to copy each input archive and run `ranlib -D` on the
+  copy before passing it to `libtool`. `ranlib` rewrites the archive into
+  a form that Apple’s linker tools accept, fixing the alignment/layout
+  issue without changing the archive’s semantic contents.
+  
+  ## Why this approach
+  
+  An `ar x` -> `ar rcs` workaround can also make the warnings go away, but
+  it is a broader and riskier transformation. Extracting archive members
+  into a flat directory is not semantics-preserving:
+  
+  - duplicate member basenames can collide
+  - non-`.o` members can be lost
+  - member order can change
+  
+  That means an `ar`-based rearchive can silently change valid archives
+  while fixing alignment. `ranlib -D` avoids those hazards because it
+  rewrites the archive in place instead of flattening it through the
+  filesystem.
+  
+  `-D` is also important because plain `ranlib` is not deterministic. In
+  local testing, `ranlib -D` still fixed the alignment issue, preserved
+  all 97 `_ghostty_` symbols, produced no `libtool` warnings, and was
+  byte-stable across repeated runs.
+  
+  ## Validation
+  
+  This was reproduced directly:
+  
+  - before normalization, running `libtool -static` on the affected x86_64
+  `libghostty.a` produced a `libghostty_zcu.o not 8-byte aligned` warning
+  and the output archive dropped from 97 `_ghostty_` symbols to 4
+  - after `ranlib -D`, the same `libtool -static` command preserved all 97
+  `_ghostty_` symbols and emitted no alignment warnings
+  
+  After applying the normalization step, a clean `zig build` succeeded,
+  and the final macOS xcframework archive contained 97 `_ghostty_` symbols
+  in both the `x86_64` and `arm64` slices.
+  
+  ## Summary
+  
+  This was not a Metal issue, not an Xcode project issue, and not a
+  stale-cache issue. The actual root cause was an Apple `libtool`
+  interoperability problem with Zig-produced macOS archives. The required
+  fix was to normalize each archive before the Darwin `libtool` merge
+  step, and `ranlib -D` is the least invasive way to do that while
+  preserving archive semantics.
+  ```
 - [`500ab13`](https://github.com/ghostty-org/ghostty/commit/500ab13c868ffa41f8d4894bb78b7730cc180644) Update VOUCHED list ([#12000](https://github.com/ghostty-org/ghostty/issues/12000)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -1475,1188 +1591,5 @@ Summary: 5 runs • 15 commits • 6 authors
   semantics and stricter care about things like ABI compatibility (in how
   it changes structs and so on). It actually might be a more API-stable
   API to rely on even from Zig.
-  ```
-
-## March 24, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23513636307), [2](https://github.com/ghostty-org/ghostty/actions/runs/23512601381), [3](https://github.com/ghostty-org/ghostty/actions/runs/23510832036), [4](https://github.com/ghostty-org/ghostty/actions/runs/23503946207), [5](https://github.com/ghostty-org/ghostty/actions/runs/23492778008), [6](https://github.com/ghostty-org/ghostty/actions/runs/23472855296), [7](https://github.com/ghostty-org/ghostty/actions/runs/23469421167), [8](https://github.com/ghostty-org/ghostty/actions/runs/23468473879)  
-Summary: 8 runs • 46 commits • 5 authors
-
-### Changes
-
-- [`c12f62c`](https://github.com/ghostty-org/ghostty/commit/c12f62c82d62f36c850a1e06221d84719948b2a4) vt: handle pixel sizes and size reports in ghostty_terminal_resize ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The resize function now requires cell_width_px and cell_height_px
-  parameters and handles the full resize sequence: computing and
-  setting width_px/height_px on the terminal, clearing synchronized output mode
-  so changes display immediately, and encoding a mode 2048 in-band size report
-  via the write_pty callback when that mode is enabled.
-  
-  A valid width/height px is critical for some applications and protocols
-  and some applications rely directly on in-band size reports, so this
-  change is necessary to support those use cases.
-  ```
-- [`bebca84`](https://github.com/ghostty-org/ghostty/commit/bebca84668947bfc92b9a30ed58712e1c34eee1d) vt: handle pixel sizes and size reports in ghostty_terminal_resize ([#11818](https://github.com/ghostty-org/ghostty/issues/11818)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The resize function now requires cell_width_px and cell_height_px
-  parameters and handles the full resize sequence: computing and setting
-  width_px/height_px on the terminal, clearing synchronized output mode so
-  changes display immediately, and encoding a mode 2048 in-band size
-  report via the write_pty callback when that mode is enabled.
-  
-  A valid width/height px is critical for some applications and protocols
-  and some applications rely directly on in-band size reports, so this
-  change is necessary to support those use cases.
-  
-  I do wonder if for the Zig API we should be doing this in
-  `terminal.resize` or somewhere else, because as it stands this has to
-  all be manually done on the Zig side.
-  ```
-- [`6e34bc6`](https://github.com/ghostty-org/ghostty/commit/6e34bc686cbfd86c69418fffd9805d68c197b9a7) vt: pass pointer options directly to terminal_set ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Previously ghostty_terminal_set required all values to be passed as
-  pointers to the value, even when the value itself was already a
-  pointer (userdata, function pointer callbacks). This forced callers
-  into awkward patterns like compound literals or intermediate
-  variables just to take the address of a pointer.
-  
-  Now pointer-typed options (userdata and all callbacks) are passed
-  directly as the value parameter. Only non-pointer types like
-  GhosttyString still require a pointer to the value. This
-  simplifies InType to return the actual stored type for each option
-  and lets setTyped work with those types directly.
-  ```
-- [`a062c16`](https://github.com/ghostty-org/ghostty/commit/a062c16e13f389bae01f0e654fddf4a133748856) libghostty: pass pointer options directly to terminal_set ([#11816](https://github.com/ghostty-org/ghostty/issues/11816)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Previously ghostty_terminal_set required all values to be passed as
-  pointers to the value, even when the value itself was already a pointer
-  (userdata, function pointer callbacks). This forced callers into awkward
-  patterns like compound literals or intermediate variables just to take
-  the address of a pointer.
-  
-  Now pointer-typed options (userdata and all callbacks) are passed
-  directly as the value parameter. Only non-pointer types like
-  GhosttyString still require a pointer to the value. This simplifies
-  InType to return the actual stored type for each option and lets
-  setTyped work with those types directly.
-  ```
-- [`2c16c9e`](https://github.com/ghostty-org/ghostty/commit/2c16c9e40c8862342ea02a9f3ffae2a52c3735e3) vt: add total_rows and scrollback_rows to terminal get API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add total_rows and scrollback_rows as new TerminalData variants
-  queryable through the existing ghostty_terminal_get interface,
-  using the cached O(1) total_rows field from PageList rather than
-  introducing standalone functions.
-  ```
-- [`f452087`](https://github.com/ghostty-org/ghostty/commit/f452087eacde1efcbf1d845a02ccd23e73a0492e) vt: add total_rows and scrollback_rows to terminal get API ([#11817](https://github.com/ghostty-org/ghostty/issues/11817)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add total_rows and scrollback_rows as new TerminalData variants
-  queryable through the existing ghostty_terminal_get interface, using the
-  cached O(1) total_rows field from PageList rather than introducing
-  standalone functions.
-  ```
-- [`68378a0`](https://github.com/ghostty-org/ghostty/commit/68378a0bb8a6e84e568838bfe5b1f92941c2ef50) build: increase comptime branch quota for ghostty.h enum checks ([@deblasis](https://github.com/deblasis))
-  ```text
-  The MSVC translate-c output includes Windows SDK declarations,
-  bringing the total to ~2173 declarations (vs ~1502 on Linux/Mac).
-  The nested inline for in checkGhosttyHEnum (enum fields x declarations)
-  exceeds the 1M comptime branch quota for larger enums like MouseShape
-  (34 variants). Increase to 10M to accommodate.
-  ```
-- [`b91cc86`](https://github.com/ghostty-org/ghostty/commit/b91cc867a815f1d26bd5b34d17b70b64abff88d1) vt: add ghostty_terminal_set for configuring effects callbacks ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a typed option setter ghostty_terminal_set() following the
-  existing setopt pattern used by the key encoder and render state
-  APIs. This is the first step toward exposing stream_terminal
-  Handler.Effects through the C API.
-  
-  The initial implementation includes a write_pty callback and a
-  shared userdata pointer. The write_pty callback is invoked
-  synchronously during ghostty_terminal_vt_write() when the terminal
-  needs to send a response back to the pty, such as DECRQM mode
-  reports or device status responses.
-  
-  Trampolines are always installed at terminal creation time and
-  no-op when no C callback is set, so callers can configure
-  callbacks at any point without reinitializing the stream. The C
-  callback state is grouped into an internal Effects struct on the
-  TerminalWrapper to simplify adding more callbacks in the future.
-  ```
-- [`b49e9f3`](https://github.com/ghostty-org/ghostty/commit/b49e9f37ff71cc007dafa592c5d7385d70a2dab1) vt: add bell effect callback and move types into Effects ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add GHOSTTY_TERMINAL_OPT_BELL so C consumers can receive bell
-  notifications during VT processing. The bell trampoline follows
-  the same pattern as write_pty.
-  
-  Move the C function pointer typedefs (WritePtyFn, BellFn) into
-  the Effects struct namespace to keep callback types co-located
-  with their storage and trampolines.
-  ```
-- [`c13a9bb`](https://github.com/ghostty-org/ghostty/commit/c13a9bb49ced768d7da3f6aff2e6d31fbed4641e) vt: add tests for write_pty and bell effect callbacks ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Test that the write_pty callback receives correct DECRQM response
-  data and userdata, that queries are silently ignored without a
-  callback, and that setting null clears the callback. Test that
-  the bell callback fires on single and multiple BEL characters
-  with correct userdata, and that BEL without a callback is safe.
-  ```
-- [`f9c34b4`](https://github.com/ghostty-org/ghostty/commit/f9c34b40f067cb40d63ce78aac00ead3ec77fabb) vt: add enquiry and xtversion effect callbacks ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add GHOSTTY_TERMINAL_OPT_ENQUIRY and GHOSTTY_TERMINAL_OPT_XTVERSION
-  so C consumers can respond to ENQ (0x05) and XTVERSION (CSI > q)
-  queries. Both callbacks return a GhosttyString rather than using
-  out-pointers.
-  
-  Introduce GhosttyString in types.h as a borrowed byte string
-  (ptr + len) backed by lib.String on the Zig side. This will be
-  reusable for future callbacks that need to return string data.
-  
-  Without an xtversion callback the trampoline returns an empty
-  string, which causes the handler to report the default
-  "libghostty" version. Without an enquiry callback no response
-  is sent.
-  ```
-- [`6f18d44`](https://github.com/ghostty-org/ghostty/commit/6f18d44ed69a5194a74ab72b6d86aaaf545f1dd6) vt: add title_changed effect callback ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add GHOSTTY_TERMINAL_OPT_TITLE_CHANGED so C consumers are notified
-  when the terminal title changes via OSC 0 or OSC 2 sequences. The
-  callback has the same fire-and-forget shape as bell.
-  ```
-- [`424e9b5`](https://github.com/ghostty-org/ghostty/commit/424e9b57cabb1e6040167df561e03335cb2714df) vt: add size effect callback for XTWINOPS queries ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add GHOSTTY_TERMINAL_OPT_SIZE so C consumers can respond to
-  XTWINOPS size queries (CSI 14/16/18 t). The callback receives a
-  GhosttySizeReportSize out-pointer and returns true if the size is
-  available, or false to silently ignore the query. The trampoline
-  converts the bool + out-pointer pattern to the optional that the
-  Zig handler expects.
-  ```
-- [`02d48c3`](https://github.com/ghostty-org/ghostty/commit/02d48c360b5c9e837844bac4ad3fdf6c8fa69b5c) vt: expose color_scheme effect callback ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Change device_status.ColorScheme from a plain Zig enum to
-  lib.Enum so it uses c_int backing when targeting the C ABI.
-  
-  Add a color_scheme callback to the C terminal effects, following
-  the bool + out-pointer pattern used by the size callback. The
-  trampoline converts between the C calling convention and the
-  internal stream handler color_scheme effect, returning null when
-  no callback is set.
-  
-  Add device_status.h header with GhosttyColorScheme enum and wire
-  it through terminal.h as GHOSTTY_TERMINAL_OPT_COLOR_SCHEME (= 7)
-  with GhosttyTerminalColorSchemeFn.
-  ```
-- [`b8fcb57`](https://github.com/ghostty-org/ghostty/commit/b8fcb57923ae3a5d39630650a05217f3536c87f8) vt: expose device_attributes effect in the C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Rename device_status.h to device.h and add C-compatible structs for
-  device attributes (DA1/DA2/DA3) responses. The new header includes
-  defines for all known conformance levels, DA1 feature codes, and DA2
-  device type identifiers.
-  
-  Add a GhosttyTerminalDeviceAttributesFn callback that C consumers can
-  set via GHOSTTY_TERMINAL_OPT_DEVICE_ATTRIBUTES. The callback follows
-  the existing bool + out-pointer pattern used by color_scheme and size
-  callbacks. When the callback is unset or returns false, the trampoline
-  returns a default VT220 response (conformance level 62, ANSI color).
-  
-  The DA1 primary features use a fixed [64]uint16_t inline array with a
-  num_features count rather than a pointer, so the entire struct is
-  value-typed and can be safely copied without lifetime concerns.
-  ```
-- [`bbfe1c2`](https://github.com/ghostty-org/ghostty/commit/bbfe1c278722c54ededd474b9567b58fd3ad801a) vt: use struct literal for handler effects assignment ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Assign handler.effects as a struct literal instead of setting fields
-  individually. This lets the compiler catch missing fields if new
-  effects are added to the Effects struct.
-  
-  Also sort the callback function typedefs in vt/terminal.h
-  alphabetically (Bell, ColorScheme, DeviceAttributes, Enquiry, Size,
-  TitleChanged, WritePty, Xtversion).
-  ```
-- [`4128e6a`](https://github.com/ghostty-org/ghostty/commit/4128e6a38c5c5c20d5119a46c691bf978b74c41a) vt: add effects documentation section with example ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a comprehensive "Effects" section to the terminal module
-  documentation in terminal.h explaining the callback system that
-  lets embedding applications react to terminal-initiated events
-  (bell, title changes, pty writes, device queries, etc.). The
-  section includes a reference table of all available effects and
-  their triggers, plus @snippet references to the new example.
-  
-  Add c-vt-effects example project demonstrating how to register
-  write_pty, bell, and title_changed callbacks, attach userdata,
-  and feed VT data that triggers each effect.
-  ```
-- [`e36b745`](https://github.com/ghostty-org/ghostty/commit/e36b7453146099b3473b4d8a5c6638f6431448c4) fmt ([@mitchellh](https://github.com/mitchellh))
-- [`d2c6a3c`](https://github.com/ghostty-org/ghostty/commit/d2c6a3c775bc6952480442fe11ec2984a86b5c8c) vt: store DA1 feature buffer in wrapper struct ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The DA1 trampoline was converting C feature codes into a local
-  stack buffer and returning a slice pointing into it. This is
-  unsound because the slice outlives the stack frame once the
-  trampoline returns, leaving reportDeviceAttributes reading
-  invalid memory.
-  
-  Move the scratch buffer into the wrapper effects struct so that
-  its lifetime extends beyond the trampoline call, keeping the
-  returned slice valid for the caller.
-  ```
-- [`81e21e4`](https://github.com/ghostty-org/ghostty/commit/81e21e4d0a4e6f3a12004542a907c55c2f3b587a) build: refactor checkGhosttyHEnum to use @hasDecl instead of nested inline for ([@deblasis](https://github.com/deblasis))
-  ```text
-  Replace the O(N×M) nested inline for loop with direct @hasDecl lookups.
-  The old approach iterated over all translate-c declarations for each enum
-  field, which required a 10M comptime branch quota on MSVC (2173 decls ×
-  138 fields × ~20 branches). The new approach constructs the expected
-  declaration name and checks directly, reducing to O(N) and needing only
-  100K quota on all platforms.
-  ```
-- [`d5bd331`](https://github.com/ghostty-org/ghostty/commit/d5bd331c91b9cf988f805f0f71ecc74a287d04cb) libghostty: C API for terminal "effects" for processing output and side effects ([#11814](https://github.com/ghostty-org/ghostty/issues/11814)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This adds the terminal effects callback system to the libghostty-vt C
-  API.
-  
-  Previously, `ghostty_terminal_vt_write()` silently ignored VT sequences
-  that produce side effects or require responses (bell, title changes,
-  device status queries, etc.). With this change, embedders can register
-  callbacks via `ghostty_terminal_set()` to handle these sequences.
-  
-  This has already existed in the Zig API.
-  
-  ## Effects
-  
-  | Option | Callback Type | Trigger |
-  |--------|--------------|---------|
-  | `GHOSTTY_TERMINAL_OPT_WRITE_PTY` | `GhosttyTerminalWritePtyFn` | Query
-  responses written back to the pty |
-  | `GHOSTTY_TERMINAL_OPT_BELL` | `GhosttyTerminalBellFn` | BEL character
-  (0x07) |
-  | `GHOSTTY_TERMINAL_OPT_TITLE_CHANGED` | `GhosttyTerminalTitleChangedFn`
-  | Title change via OSC 0 / OSC 2 |
-  | `GHOSTTY_TERMINAL_OPT_ENQUIRY` | `GhosttyTerminalEnquiryFn` | ENQ
-  character (0x05) |
-  | `GHOSTTY_TERMINAL_OPT_XTVERSION` | `GhosttyTerminalXtversionFn` |
-  XTVERSION query (CSI > q) |
-  | `GHOSTTY_TERMINAL_OPT_SIZE` | `GhosttyTerminalSizeFn` | XTWINOPS size
-  query (CSI 14/16/18 t) |
-  | `GHOSTTY_TERMINAL_OPT_COLOR_SCHEME` | `GhosttyTerminalColorSchemeFn` |
-  Color scheme query (CSI ? 996 n) |
-  | `GHOSTTY_TERMINAL_OPT_DEVICE_ATTRIBUTES` |
-  `GhosttyTerminalDeviceAttributesFn` | Device attributes query (CSI c / >
-  c / = c) |
-  
-  ## Example
-  
-  ```c
-  #include <stdio.h>
-  #include <string.h>
-  #include <ghostty/vt.h>
-  
-  void on_write_pty(GhosttyTerminal terminal, void* userdata,
-                    const uint8_t* data, size_t len) {
-    (void)terminal; (void)userdata;
-    printf("  write_pty (%zu bytes): ", len);
-    fwrite(data, 1, len, stdout);
-    printf("\n");
-  }
-  
-  void on_bell(GhosttyTerminal terminal, void* userdata) {
-    (void)terminal;
-    int* count = (int*)userdata;
-    (*count)++;
-    printf("  bell! (count=%d)\n", *count);
-  }
-  
-  int main() {
-    GhosttyTerminal terminal = NULL;
-    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
-    if (ghostty_terminal_new(NULL, &terminal, opts) != GHOSTTY_SUCCESS)
-      return 1;
-  
-    // Attach userdata and callbacks
-    int bell_count = 0;
-    void* ud = &bell_count;
-    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_USERDATA, &ud);
-  
-    GhosttyTerminalWritePtyFn write_fn = on_write_pty;
-    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_WRITE_PTY, &write_fn);
-  
-    GhosttyTerminalBellFn bell_fn = on_bell;
-    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_BELL, &bell_fn);
-  
-    // BEL triggers the bell callback
-    const uint8_t bel = 0x07;
-    ghostty_terminal_vt_write(terminal, &bel, 1);
-  
-    // DECRQM triggers write_pty with the mode response
-    const char* decrqm = "\x1B[?7$p";
-    ghostty_terminal_vt_write(terminal, (const uint8_t*)decrqm, strlen(decrqm));
-  
-    ghostty_terminal_free(terminal);
-    return 0;
-  }
-  ```
-  ````
-- [`f21455b`](https://github.com/ghostty-org/ghostty/commit/f21455b7e7f1a765a93ce86530723667a4926535) build: refactor checkGhosttyHEnum to use @hasDecl for Windows compatibility ([#11813](https://github.com/ghostty-org/ghostty/issues/11813)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ### This is it! This one (and the other stacked PRs) and #11782 should
-  finally give a clean test run on Windows!
-  
-  
-  ## Summary
-  
-  - Increase `@setEvalBranchQuota` from 1M to 10M (too much? how much is
-  too much?) in `checkGhosttyHEnum` (src/lib/enum.zig)
-  - Fixes the only remaining test failure on Windows MSVC: `ghostty.h
-  MouseShape`
-  
-  ## Context
-  This one was fun! Claude started blabbering, diminishing returns it
-  said. It couldn't figure out. So I called Dario and it worked.
-  Nah, much easier than that.
-  
-  On MSVC, the translate-c output for `ghostty.h` is ~360KB with ~2173
-  declarations (vs ~112KB / ~1502 on Linux/Mac) because `<sys/types.h>`
-  and `<BaseTsd.h>` pull in Windows SDK headers. The `checkGhosttyHEnum`
-  function uses a nested `inline for` (enum fields x declarations) with
-  comptime string comparisons. For MouseShape (34 variants), this
-  generates roughly 34 x 2173 x ~20 = ~1.5M comptime branches, exceeding
-  the 1M quota.
-  
-  The failure was confusing because it presented as a runtime error
-  ("ghostty.h is missing value for GHOSTTY_MOUSE_SHAPE_DEFAULT") rather
-  than a compile error. The constants exist in the translate-c output and
-  the test compiles, but the comptime loop silently stops matching when it
-  hits the branch limit, so `set.remove` is never called and the set
-  reports all entries as missing at runtime.
-  
-  ## How we found it
-  The translate-c output clearly had all 34 GHOSTTY_MOUSE_SHAPE_*
-  constants, yet the test reported all of them as missing. I asked Claude
-  to list 5 hypotheses (decl truncation, branch quota, string comparison
-  bug, declaration ordering, field access failure) and to write 7 targeted
-  POC tests in enum.zig to isolate each step of `checkGhosttyHEnum`:
-  
-  1. POC1-2: Module access and declaration count (both passed)
-  2. POC3: `@hasDecl` for the constant (passed)
-  3. POC4: Direct field value access (passed)
-  4. POC5: `inline for` over decls with string comparison - **compile
-  error: "evaluation exceeded 1000 backwards branches"**
-  5. POC6: Same but with 10M quota (passed)
-  6. POC7: Full `checkGhosttyHEnum` clone with 10M quota - **passed,
-  confirming the fix**
-  
-  POC5 was the key: the default 1000 branch limit for test code confirmed
-  the comptime budget mechanism. The existing 1M quota in
-  `checkGhosttyHEnum` was enough for Linux/Mac (1502 declarations) but not
-  for MSVC (2173 declarations) with larger enums.
-  
-  ## Stack
-  Stacked on 016-windows/fix-libcxx-msvc.
-  
-  ## Test plan
-  
-  ### Cross-platform results (`zig build test` / `zig build
-  -Dapp-runtime=none test` on Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** (016, ce9930051) | FAIL - 49/51, 2630/2654, 1 test failed,
-  23 skipped | PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160,
-  2655/2662, 7 skipped |
-  | **AFTER** (017, 68378a0bb) | FAIL - 49/51, 2631/2654, 23 skipped |
-  PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160, 2655/2662, 7
-  skipped |
-  
-  ### Windows: what changed (2630 -> 2631 tests, MouseShape fixed)
-  
-  **Fixed by this PR:**
-  - `ghostty.h MouseShape` test - was failing because comptime branch
-  quota exhaustion silently prevented the inline for loop from matching
-  any constants
-  
-  **Remaining failure (pre-existing, unrelated):**
-  - `config.Config.test.clone can then change conditional state` -
-  segfaults (exit code 3) on Windows. We investigated this and it looked
-  familiar.. cherry-picking the `CommaSplitter `fix from PR #11782
-  resolved it! The backslash path handling in `CommaSplitter `breaks theme
-  path parsing on Windows, which is exactly what that PR addresses. So
-  once that lands, we should be in a good place... ready to ship to
-  Windows users! (just kidding)
-  
-  ### Linux/macOS: no regressions
-  Identical pass counts and test results before and after.
-  
-  ## What I Learnt
-  - Comptime branch quota exhaustion in Zig does not always surface as a
-  clean compile error. When it happens inside an `inline for` loop with
-  `comptime` string comparisons that gate runtime code (like
-  `set.remove`), the effect is that matching code is silently not
-  generated. The test compiles and runs, but the runtime behavior is wrong
-  because the matching branches were never emitted. This makes the failure
-  look like a data issue (missing declarations) rather than a compile
-  budget issue.
-  - When debugging comptime issues, writing small isolated POC tests that
-  exercise each step of the failing function independently is very
-  effective. It took 7 targeted tests to pinpoint the exact failure point.
-  - Cross-platform translate-c outputs can vary significantly in size. On
-  MSVC, system headers are much larger than on Linux/Mac, which affects
-  comptime budgets for any code that iterates over translated module
-  declarations.
-  ```
-- [`8f1ac0b`](https://github.com/ghostty-org/ghostty/commit/8f1ac0bd4e69e922167d4cf7560a6cdec12ba721) vt: expose title and pwd in C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add title and pwd as both gettable data keys
-  (GHOSTTY_TERMINAL_DATA_TITLE/PWD) and settable options
-  (GHOSTTY_TERMINAL_OPT_TITLE/PWD) in the C terminal API. Getting
-  returns a borrowed GhosttyString; setting copies the data into the
-  terminal via setTitle/setPwd.
-  
-  The underlying Terminal.setTitle/setPwd now append a null sentinel so
-  that getTitle/getPwd can return sentinel-terminated slices ([:0]const
-  u8), which is useful for downstream consumers that need C strings.
-  
-  Change ghostty_terminal_set to return GhosttyResult instead of void
-  so that the new title/pwd options can report allocation failures.
-  Existing option-setting calls cannot fail so the return value is
-  backwards-compatible for callers that discard it.
-  ```
-- [`82f7527`](https://github.com/ghostty-org/ghostty/commit/82f7527b302a655ed03be0f6f1f0d46f5aaadcb0) vt: expose title and pwd in C API ([#11815](https://github.com/ghostty-org/ghostty/issues/11815)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add title and pwd as both gettable data keys
-  (GHOSTTY_TERMINAL_DATA_TITLE/PWD) and settable options
-  (GHOSTTY_TERMINAL_OPT_TITLE/PWD) in the C terminal API. Getting returns
-  a borrowed GhosttyString; setting copies the data into the terminal via
-  setTitle/setPwd.
-  
-  The underlying Terminal.setTitle/setPwd now append a null sentinel so
-  that getTitle/getPwd can return sentinel-terminated slices ([:0]const
-  u8), which is useful for downstream consumers that need C strings.
-  
-  Change ghostty_terminal_set to return GhosttyResult instead of void so
-  that the new title/pwd options can report allocation failures. Existing
-  option-setting calls cannot fail so the return value is
-  backwards-compatible for callers that discard it.
-  ```
-- [`d5aef6e`](https://github.com/ghostty-org/ghostty/commit/d5aef6e845ed72584aba3a129268d40a9694b568) build: fix freetype compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  Gate HAVE_UNISTD_H and HAVE_FCNTL_H behind a non-Windows check since
-  these headers do not exist with MSVC. Freetype includes zlib headers
-  which conditionally include unistd.h based on this define.
-  ```
-- [`a35f84d`](https://github.com/ghostty-org/ghostty/commit/a35f84db32e88b93bcff19317365ee93f75839d1) build: define ssize_t for MSVC in ghostty.h ([@deblasis](https://github.com/deblasis))
-  ```text
-  MSVC's <sys/types.h> does not define ssize_t (it is a POSIX type).
-  This causes the translate-c build step to fail when translating
-  ghostty.h on Windows. Use SSIZE_T from <BaseTsd.h> which is the
-  Windows SDK equivalent.
-  ```
-- [`deeda46`](https://github.com/ghostty-org/ghostty/commit/deeda4618691525e977886135aa4ff18b7f81caa) build: skip linkLibCpp on MSVC for dcimgui, spirv-cross, harfbuzz ([@deblasis](https://github.com/deblasis))
-  ```text
-  Zig unconditionally passes -nostdinc++ and adds its bundled
-  libc++/libc++abi include paths, which conflict with MSVC's own C++
-  runtime headers. The MSVC SDK directories (added via linkLibC)
-  already contain both C and C++ headers, so linkLibCpp is not needed.
-  
-  This is the same fix already applied upstream to highway, simdutf,
-  utfcpp, glslang, SharedDeps, and GhosttyZig.
-  ```
-- [`ce99300`](https://github.com/ghostty-org/ghostty/commit/ce99300513dff19fade309ca4881fc45517424f7) build: fix freetype C enum signedness for MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  MSVC translates C enums as signed int, while GCC/Clang uses unsigned
-  int. The freetype Zig bindings hardcode c_uint for enum backing types,
-  causing type mismatches when compiling with MSVC target.
-  
-  Fix by adding @intCast at call sites where enum values are passed to
-  C functions, and @bitCast for the glyph format tag extraction where
-  bit-shift operations require unsigned integers.
-  ```
-- [`d14eab3`](https://github.com/ghostty-org/ghostty/commit/d14eab3124bc8ff9f3ca25b2a2bafeecf20a9133) build: fix freetype compilation on Windows with MSVC ([#11807](https://github.com/ghostty-org/ghostty/issues/11807)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  **Getting there!** Goal for today/tomorrow is to get it all green.
-  
-  This one is easy:
-  
-  - Gate `HAVE_UNISTD_H` and `HAVE_FCNTL_H` behind a non-Windows check
-  since these headers do not exist with MSVC
-  - Freetype's gzip module includes zlib headers which conditionally
-  include `unistd.h` based on this define
-  
-  ## Context
-  Same pattern as the zlib fix (010-* branch from my fork). Freetype
-  passes `-DHAVE_UNISTD_H` unconditionally, which causes zlib's `zconf.h`
-  to try including `unistd.h` when freetype compiles its gzip support. The
-  fix follows the same approach used in `pkg/zlib/build.zig` (line 36-38).
-  
-  ## Stack
-  Stacked on 013-windows/fix-helpgen-framegen.
-  
-  ## Test plan
-  
-  ### Cross-platform results (`zig build test` / `zig build
-  -Dapp-runtime=none test` on Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** (f9d3b1aaf) | FAIL - 44/51 steps, 2 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  | **AFTER** (d5aef6e84) | FAIL - 47/51 steps, 1 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  
-  ### Windows: what changed (44 to 47 steps, 2 to 1 failure)
-  
-  **Fixed by this PR:**
-  - `compile lib freetype` - was `2 errors` (unistd.h/fcntl.h not found)
-  -> `success`
-  - 3 additional steps that depended on freetype now succeed
-  
-  **Remaining failure (pre-existing, tracked separately):**
-  - `translate-c` - 3 errors (`ssize_t` unknown in ghostty.h on MSVC)
-  
-  ### Linux/macOS: no regressions
-  Identical pass counts and test results before and after.
-  
-  ## Discussion
-  
-  ### Other build files with the same pattern
-  `pkg/fontconfig/build.zig` and `pkg/harfbuzz/build.zig` also pass
-  `-DHAVE_UNISTD_H` and/or `-DHAVE_FCNTL_H` unconditionally. They are not
-  in the Windows build path today, but will need the same fix when they
-  are.
-  
-  ## What I Learnt
-  
-  More of the same
-  ```
-- [`e7a23a3`](https://github.com/ghostty-org/ghostty/commit/e7a23a37e5f01ad5993447e966f19abaceebdb6b) build: define ssize_t for MSVC in ghostty.h ([#11810](https://github.com/ghostty-org/ghostty/issues/11810)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  > [!WARNING]
-  > Review/approve this AFTER #11807 (this PR includes its commits)
-  
-  92% progress with the fixes!
-  
-  ## Summary
-  - Add a conditional `ssize_t` typedef for MSVC in `include/ghostty.h`
-  - MSVC's `<sys/types.h>` does not define `ssize_t` (it is a POSIX type),
-  which causes the `translate-c` build step to fail when translating
-  `ghostty.h` on Windows
-  - Uses `SSIZE_T` from `<BaseTsd.h>`, the standard Windows SDK equivalent
-  
-  ## Context
-  The `translate-c` step translates `ghostty.h` to Zig for test
-  compilation. On MSVC, it fails with 3 errors on `ssize_t` (used in
-  `ghostty_action_move_tab_s`, `ghostty_action_search_total_s`,
-  `ghostty_action_search_selected_s`).
-  
-  The `#ifdef _MSC_VER` guard means this only affects MSVC builds.
-  `BaseTsd.h` is a standard Windows SDK header and `SSIZE_T` is a signed
-  pointer-sized integer, matching POSIX `ssize_t` and Zig's `isize`. This
-  pattern is used by libuv, curl, and other cross-platform C projects.
-  
-  ## Test plan
-  
-  ### Cross-platform results (`zig build test` / `zig build
-  -Dapp-runtime=none test` on Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** (d5aef6e84) | FAIL - 47/51 steps, 1 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  | **AFTER** (a35f84db3) | FAIL - 48/51 steps, 1 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  
-  ### Windows: what changed (47 -> 48 steps, translate-c fixed)
-  
-  **Fixed by this PR:**
-  - `translate-c` - was `3 errors` (unknown type name 'ssize_t' at lines
-  582, 842, 847) -> `success`
-  
-  **Remaining failure (pre-existing, unrelated):**
-  - `compile test ghostty-test` - 3 errors in libcxxabi
-  (`std::get_new_handler` not found, `type_info` redefinition). This is
-  Zig's bundled libc++ ABI conflicting with MSVC headers when compiling
-  the test binary. It was previously masked by the translate-c failure
-  blocking this step.
-  
-  ### Linux/macOS: no regressions
-  Identical pass counts and test results before and after.
-  
-  ## What Have I Learnt
-  - I tried fixing this issue the old way, googling and stuff, I
-  eventually figured out but it took me way more than I am prepared to
-  share. Yikes.
-  ```
-- [`7114721`](https://github.com/ghostty-org/ghostty/commit/7114721bd4323c776b4c93b0afd313c4785b98b3) build: fix C++ linking and enum signedness on MSVC ([#11812](https://github.com/ghostty-org/ghostty/issues/11812)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  > [!WARNING]
-  > Review/approve this AFTER #11807 and #11810 (this PR includes their
-  commits)
-  
-  ## Summary
-  
-  ### **And `run test ghostty-test` finally runs on Windows! 🎉almost
-  there!**
-  
-  - Skip `linkLibCpp()` on MSVC for dcimgui, spirv-cross, and harfbuzz
-  (same fix already applied upstream to highway, simdutf, utfcpp, glslang,
-  SharedDeps, GhosttyZig)
-  - Fix freetype C enum signedness: MSVC translates C enums as signed
-  `int`, while GCC/Clang uses unsigned `int`. Add `@intCast` at call sites
-  and `@bitCast` for bit-shift operations on glyph format tags.
-  
-  ## Context
-  Zig unconditionally passes `-nostdinc++` and adds its bundled
-  libc++/libc++abi include paths, which conflict with MSVC's own C++
-  runtime headers. The MSVC SDK directories (added via `linkLibC`) already
-  contain both C and C++ headers, so `linkLibCpp` is not needed.
-  
-  The freetype enum issue is a different facet of the same MSVC vs
-  GCC/Clang divide: `FT_Render_Mode` and `FT_Glyph_Format` are C enums
-  that get different signedness on different compilers.
-  
-  ## Stack
-  Stacked on 015-windows/fix-ssize-t-msvc.
-  
-  ## Test plan
-  
-  ### Cross-platform results (`zig build test` / `zig build
-  -Dapp-runtime=none test` on Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** (015, a35f84db3) | FAIL - 48/51, 1 failed (compile
-  ghostty-test) | PASS - 86/86, 2655/2678, 23 skipped | PASS - 160/160,
-  2655/2662, 7 skipped |
-  | **AFTER** (016, ce9930051) | FAIL - 49/51, 2630/2654 tests passed, 1
-  failed, 23 skipped | PASS - 86/86, 2655/2678, 23 skipped | PASS -
-  160/160, 2655/2662, 7 skipped |
-  
-  ### Windows: what changed (48 -> 49 steps, tests now run)
-  
-  **Fixed by this PR:**
-  - `compile test ghostty-test` - was `3 errors` (libcxxabi conflicts +
-  freetype type mismatches) -> `success`
-  - `run test ghostty-test` - now actually runs: 2630 passed, 23 skipped,
-  1 failed
-  
-  **Remaining test failure (pre-existing, unrelated):**
-  - `ghostty.h MouseShape` - `checkGhosttyHEnum` cannot find
-  `GHOSTTY_MOUSE_SHAPE_*` constants in the translate-c output. This is a
-  translate-c issue with how MSVC enum constants are exposed, not related
-  to C++ linking or enum signedness.
-  
-  ### Linux/macOS: no regressions
-  Identical pass counts and test results before and after.
-  
-  ## Discussion
-  
-  ### Grep wider: other unconditional linkLibCpp calls
-  `pkg/breakpad/build.zig` still calls `linkLibCpp()` unconditionally but
-  is behind sentry and not in the Windows build path. Noted for
-  completeness.
-  
-  ### Freetype enum signedness
-  The freetype Zig bindings define `RenderMode = enum(c_uint)` and
-  `Encoding = enum(u31)`. On MSVC, C enums are `int` (signed), so the
-  translated C functions expect `c_int` parameters. The fix adds
-  `@intCast` to convert between signed and unsigned at call sites. This is
-  safe because the enum values are small positive integers that fit in
-  both types.
-  
-  Also, not sure if there's a better way to make this change more
-  elegantly. The comments are replicated in each instance, probably
-  overkill but I have seen this same pattern elsewhere in the codebase.
-  
-  ## What I Learnt
-  - More of the same
-  ```
-- [`c5092b0`](https://github.com/ghostty-org/ghostty/commit/c5092b09ded689983b674d3d285e4796bf86f677) ci: remove continue-on-error from Windows CI jobs ([@deblasis](https://github.com/deblasis))
-  ```text
-  Windows tests and builds are now passing reliably. Remove the
-  continue-on-error safety net so failures are visible immediately.
-  ```
-- [`4df71bc`](https://github.com/ghostty-org/ghostty/commit/4df71bcad75a6177b33bea33287982efadef69e8) build: fix zlib compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  Gate Z_HAVE_UNISTD_H behind a non-Windows check since unistd.h does
-  not exist on Windows. Add _CRT_SECURE_NO_DEPRECATE and
-  _CRT_NONSTDC_NO_DEPRECATE for MSVC to suppress deprecation errors
-  for standard C functions that zlib uses.
-  ```
-- [`014873e`](https://github.com/ghostty-org/ghostty/commit/014873e539a6183f82617234fe57ba3983a764ef) build: fix oniguruma compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  Conditionally disable POSIX-only header defines (alloca.h, sys/times.h,
-  sys/time.h, unistd.h) on Windows since they do not exist with MSVC.
-  Enable USE_CRNL_AS_LINE_TERMINATOR on Windows for correct line endings.
-  ```
-- [`74c6ffe`](https://github.com/ghostty-org/ghostty/commit/74c6ffe78e4b98e58600f22f37a8433f44b53876) build: fix glslang compilation on Windows with MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  Apply the same MSVC fixes used for simdutf and highway: conditionally
-  skip linkLibCpp on MSVC since Zig's bundled libc++ headers conflict
-  with MSVC's own C++ runtime, and add -std=c++17 for C++17 features
-  like std::variant and inline variables that glslang requires.
-  ```
-- [`f9d3b1a`](https://github.com/ghostty-org/ghostty/commit/f9d3b1aafb4131ab8f9d9a362832ec428bf1cabc) build: fix Windows build failures in helpgen and framegen ([@deblasis](https://github.com/deblasis))
-  ```text
-  Use writerStreaming() instead of writer() for stdout in helpgen and
-  main_build_data. The positional writer calls setEndPos/ftruncate in
-  end(), which fails on Windows because ftruncate on pipes maps
-  INVALID_PARAMETER to FileTooBig.
-  
-  Replace scandir with opendir/readdir plus qsort in framegen since
-  scandir is a POSIX extension not available on Windows.
-  
-  This was previously applied and reverted upstream (f4998c6ab, 0fdddd5bc)
-  as collateral from an unrelated example-execution hang that has since
-  been resolved.
-  ```
-- [`6854ecc`](https://github.com/ghostty-org/ghostty/commit/6854ecc5a928b92c66d09e6b46b66ec9daf7ea23) ci: remove continue-on-error from Windows CI jobs ([#11796](https://github.com/ghostty-org/ghostty/issues/11796)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Let's see what breaks and let's fix it.
-  ```
-- [`58e330a`](https://github.com/ghostty-org/ghostty/commit/58e330a8c0b45d026b4c7985a95389ea905c9fed) build: fix zlib compilation on Windows with MSVC ([#11798](https://github.com/ghostty-org/ghostty/issues/11798)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  - Gate `Z_HAVE_UNISTD_H` behind a non-Windows check since `unistd.h`
-  does not exist with MSVC
-  - Add `_CRT_SECURE_NO_DEPRECATE` and `_CRT_NONSTDC_NO_DEPRECATE` for
-  MSVC to suppress deprecation errors for standard C functions that zlib
-  uses
-  
-  ## Context
-  Part of the effort to get `zig build -Dapp-runtime=none test` passing on
-  Windows. This unblocks freetype, harfbuzz, libpng, and dcimgui which all
-  depend on zlib.
-  
-  My research shows that we should default to msvc in ci with zig build
-  ran without `-Dratget`.
-  
-  ## Stack
-  This is branch 010 in the stacked branches series (soon on Netflix).
-  Independent fix, no dependencies on other branches.
-  
-  ## Test plan
-  
-  ### test-lib-vt
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **Delta** | no change | no change | no change |
-  
-  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
-  Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | FAIL — 35/51 build steps, 6 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **AFTER** | FAIL — 37/51 build steps, 6 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **Delta** | +2 build steps (zlib + png unblocked) | no change | no
-  change |
-  
-  - Zero regressions on any platform
-  - Windows improved: zlib and png now compile (35 -> 37 steps)
-  - Remaining 6 Windows build failures (`ssize_t`, `helpgen`, `framegen`,
-  `harfbuzz`, `dcimgui`) are addressed by other PRs in the stack
-  
-  ## What I Learnt
-  - Always run tests with `--summary all` to get actual pass/skip/fail
-  counts. Without it, zig just exits 0 or 1 and you have no numbers to
-  compare. "You get confident if you got the numbers."
-  - Build dependencies cascade: fixing zlib also unblocked png (which
-  depends on it), giving us +2 build steps from a one-file change.
-  ```
-- [`5cc22c2`](https://github.com/ghostty-org/ghostty/commit/5cc22c23e6a6e4346fdad2480dca04e4b05a5c88) build: fix oniguruma compilation on Windows with MSVC ([#11800](https://github.com/ghostty-org/ghostty/issues/11800)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  > [!WARNING]
-  > Review/approve this AFTER #11798 (this PR stacks on top of it... ergo,
-  it includes its commits)
-  
-  ## Summary
-  - Conditionally disable POSIX-only header defines (`alloca.h`,
-  `sys/times.h`, `sys/time.h`, `unistd.h`) on Windows since they do not
-  exist with MSVC
-  - Enable `USE_CRNL_AS_LINE_TERMINATOR` on Windows for correct line
-  endings
-  
-  ## Context
-  Oniguruma's `config.h` template had all POSIX header availability
-  defines hardcoded to `true`. On MSVC, these headers don't exist, causing
-  24 compilation errors (all `alloca.h` file not found).
-  
-  Uses a comptime `is_windows` constant to flip the config values, same
-  pattern as PR #11798 (zlib).
-  
-  ## Stack
-  Stacked on 010-windows/fix-zlib-msvc.
-  
-  ## Test plan
-  
-  ### test-lib-vt
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **Delta** | no change | no change | no change |
-  
-  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
-  Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | FAIL — 37/51 steps, 6 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **AFTER** | FAIL — 38/51 steps, 5 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **Delta** | +1 step, -1 failure (oniguruma unblocked) | no change | no
-  change |
-  
-  - Zero regressions on any platform
-  - Windows improved: oniguruma now compiles (37 -> 38 steps, 6 -> 5
-  failures)
-  - Remaining 5 Windows failures (`translate-c`/ssize_t, `helpgen`,
-  `framegen`, `glslang`, `harfbuzz` via freetype) are addressed by other
-  PRs in the stack
-  
-  ## What I Learnt
-  - comptime, man. It's the small things.
-  ```
-- [`57b9292`](https://github.com/ghostty-org/ghostty/commit/57b929203bde64614885133c949ef2ca1fb83b5c) build: fix glslang compilation on Windows with MSVC ([#11801](https://github.com/ghostty-org/ghostty/issues/11801)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  > [!WARNING]
-  > Review/approve this AFTER #11798 and #11800 (this PR stacks on top of
-  rhem... ergo, it includes their commits)
-  > Don't cheat! Start from the oldest one! 😄 I know these are almost
-  one-liners but I am doing this mostly for documentation and karma
-  points.
-  
-  ## Summary
-  - Conditionally skip `linkLibCpp()` on MSVC since Zig's bundled libc++
-  headers conflict with MSVC's own C++ runtime
-  - Add `-std=c++17` flag for C++17 features (std::variant,
-  std::filesystem, inline variables) that glslang requires
-  
-  ## Context
-  The exact same `linkLibCpp` fix was applied to `simdutf` and `highway`
-  in commits 3d581eb92 and b4c529a82 but glslang was missed. Without this
-  fix, glslang fails with 297 compilation errors on MSVC.
-  
-  Thanks Claude for the forensic digging. A carpenter should always be
-  thankful for his tools. Even if they are borrowed, maybe even more so.
-  
-  ## Stack
-  Stacked on 011-windows/fix-oniguruma-msvc.
-  
-  ## Discussion points
-  
-  **`-std=c++17` scope:** Currently added unconditionally for all targets.
-  Tested on all three platforms with no regressions, but since this is
-  specifically fixing a Windows/MSVC issue, it could be gated behind
-  `target.result.abi == .msvc`. Donno. The reason it works unconditionally
-  is that Zig's bundled clang already defaults to C++17 on non-MSVC
-  targets, so the flag is a no-op there. Open to either approach.
-  
-  **Other packages with bare `linkLibCpp()`:** The same `linkLibCpp` guard
-  has been applied to `simdutf`, `highway`, `utfcpp`, and now `glslang`.
-  However, `spirv-cross`, `dcimgui`, `harfbuzz`, and `breakpad` still have
-  unconditional `linkLibCpp()` calls. These may need the same treatment
-  when they become buildable on MSVC (some are currently blocked by other
-  issues like freetype's `unistd.h`). Worth tracking as a follow-up?
-  
-  ## Test plan
-  
-  ### test-lib-vt
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **AFTER** | 3791/3839 passed, 48 skipped | 3791/3839 passed, 48
-  skipped | 3807/3839 passed, 32 skipped |
-  | **Delta** | no change | no change | no change |
-  
-  ### all tests (`zig build test` / `zig build -Dapp-runtime=none test` on
-  Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** | FAIL — 38/51 build steps, 5 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **AFTER** | FAIL — 39/51 build steps, 4 failed | 2655/2678 passed, 23
-  skipped (86/86 steps) | 2655/2662 passed, 7 skipped (160/160 steps) |
-  | **Delta** | +1 build step (glslang unblocked) | no change | no change
-  |
-  
-  - Zero regressions on any platform
-  - Windows improved: glslang now compiles (38 -> 39 steps, 5 -> 4
-  failures)
-  - Remaining 4 Windows failures (`helpgen`, `framegen`, `freetype`,
-  `translate-c`) are addressed by other PRs in the stack
-  
-  ## What I Learnt
-  
-  - **MSVC's clang doesn't default to C++17.** Zig's bundled clang uses
-  C++17 by default on Linux/Mac, but when targeting MSVC, the C++ standard
-  needs to be specified explicitly. Without `-std=c++17`, features like
-  `std::variant`, `std::filesystem`, and `inline` variables are gated
-  behind `_HAS_CXX17` and won't compile.
-  - **`linkLibCpp` conflicts with MSVC headers.** Zig's `linkLibCpp`
-  passes `-nostdinc++` and adds its own libc++/libc++abi headers, which
-  collide with the C++ headers already provided by the MSVC SDK through
-  `linkLibC`. On MSVC, you don't need `linkLibCpp` at all since the SDK
-  includes both C and C++ headers. I think yesterday we dealt with
-  something similar. Windows is fun. 🫠 Unironically and chronically.
-  - **Grep wider.** The `linkLibCpp` guard was already applied to simdutf,
-  highway, and utfcpp but missed glslang. When a fix follows a repeated
-  pattern across packages, search the whole codebase before declaring it
-  complete.
-  ```
-- [`aec3a6e`](https://github.com/ghostty-org/ghostty/commit/aec3a6ebf62eaa204f678ac2a075775012a2d3a3) build: fix Windows build failures in helpgen and framegen ([#11803](https://github.com/ghostty-org/ghostty/issues/11803)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  > [!WARNING]
-  > Review/approve this AFTER #11798, #11800 and #11801 (this PR stacks on
-  top of rhem... ergo, it includes their commits)
-  > Don't cheat! Start from the oldest one! 😄 I know these are almost
-  one-liners but I am doing this mostly for documentation and karma
-  points. BTW, Github needs to level up this wankflow like a lot... IMHO
-  
-  ## Summary
-  - Use `writerStreaming()` instead of `writer()` for stdout in helpgen
-  and main_build_data (`ftruncate` on pipes fails on Windows with
-  `INVALID_PARAMETER` mapped to `FileTooBig`)
-  - Replace POSIX `scandir` with `opendir`/`readdir` plus `qsort` in
-  framegen since `scandir` is not available on Windows
-  
-  ## Context
-  This fix was previously applied upstream by Mitchell (f4998c6ab) and
-  reverted 15 minutes later (0fdddd5bc). The reason for the revert is not
-  clear. Around the same time, a CI step was added to execute cmake
-  examples on Windows, which was later removed (b723f2a43) with the note
-  "hangs, so remove it entirely". Whether the revert is related to the
-  hang or had a separate reason, we don't know.
-  
-  What we do know:
-  - Both `helpgen` and `framegen` run during normal builds on Windows (via
-  `SharedDeps`), not just during dist packaging. Claude had told me the
-  opposite before but "don't trust and verify".
-  - Without this fix, both tools fail: helpgen with `FileTooBig`
-  (ftruncate on pipes), framegen with `scandir` undeclared
-  - The fix does not regress Linux or macOS
-  
-  ## Stack
-  Stacked on 012-windows/fix-glslang-msvc.
-  
-  ## Test plan
-  
-  ### Cross-platform results (`zig build test` / `zig build
-  -Dapp-runtime=none test` on Windows)
-  
-  | | Windows | Linux | Mac |
-  |---|---|---|---|
-  | **BEFORE** (74c6ffe78) | FAIL - 39/51 steps, 4 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  | **AFTER** (f9d3b1aaf) | FAIL - 44/51 steps, 2 failed | PASS - 86/86,
-  2655/2678 tests, 23 skipped | PASS - 160/160, 2655/2662 tests, 7 skipped
-  |
-  
-  ### Windows: what changed (39 > 44 steps, 4 > 2 failures)
-  
-  **Fixed by this PR:**
-  - `run exe helpgen` -> was `failure` (FileTooBig from ftruncate on
-  stdout pipe) -> `success`
-  - `compile exe framegen` -> was `1 errors` (scandir undeclared) ->.
-  `success`
-  
-  **Remaining failures (pre-existing, fixed by later PRs in stack):**
-  - `translate-c` -> 3 errors (`ssize_t` unknown in ghostty.h on MSVC)
-  - `compile lib freetype` -> 2 errors (`unistd.h` not found)
-  
-  ### Linux/macOS: no regressions
-  Identical pass counts and test results before and after.
-  
-  ## Discussion points
-  
-  ### "Grep wider"  other `stdout().writer()` callsites
-  There are 15+ other `stdout().writer(&buf)` callsites in the codebase.
-  Build-time generators that capture stdout (webgen, mdgen, unicode
-  generators) would have the same `ftruncate` issue if they ran on
-  Windows. Currently they don't appear in the Windows build graph, but
-  worth noting for future Windows work.
-  
-  ### `writerStreaming()` vs `writer()`
-  `writer()` calls `ftruncate` on flush/end to set the file size, which
-  fails on pipes (stdout captured by the build system).
-  `writerStreaming()` skips the truncate since the output goes to a pipe,
-  not a seekable file. This is the correct API for this use case on all
-  platforms, not just Windows.
-  
-  ## What I Learnt
-  - When upstream has applied and reverted something, state what you
-  observe rather than speculating about their reasoning. Let the reviewer
-  fill in context you don't have.
-  - "Grep wider" (testing pattern): `stdout().writer()` appears in 17
-  files. Only 2 are fixed here because only 2 are in the current Windows
-  build path. But the pattern exists more broadly.
-  - I feel like I am training my replacements. I mean, I am a parent, it
-  rhymes.
-  - I feel like my replacements are training me. It rhymes as well.
-  ```
-- [`7d31d9b`](https://github.com/ghostty-org/ghostty/commit/7d31d9b57f7064f74cd8a098189d2f9248ef4dd5) cmake: add import library to custom command OUTPUT ([@deblasis](https://github.com/deblasis))
-  ```text
-  Ninja requires all produced files to be listed as explicit outputs of
-  custom commands. The zig build produces a .lib import library alongside
-  the DLL, but it was not listed in the OUTPUT directive. This causes
-  Ninja to fail with "missing and no known rule to make it" when
-  IMPORTED_IMPLIB references the .lib file.
-  ```
-- [`d4a38c8`](https://github.com/ghostty-org/ghostty/commit/d4a38c8661453026bd1b1bb022ba2c37b347adce) cmake: add import library to custom command OUTPUT ([#11794](https://github.com/ghostty-org/ghostty/issues/11794)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  # What
-  
-  PR #11756 added IMPORTED_IMPLIB pointing to the .lib import library, but
-  the
-  import library is not listed in the OUTPUT directive of the
-  `add_custom_command`
-  that runs zig build. The file is produced as a side-effect of the build.
-  
-  This works with the Visual Studio generator (which is lenient about
-  undeclared outputs) but fails with Ninja:
-  
-  ninja: error: 'zig-out/lib/ghostty-vt.lib', needed by 'ghostling',
-  missing and no known rule to make it
-  
-  The fix adds "${ZIG_OUT_DIR}/lib/${GHOSTTY_VT_IMPLIB}" to the OUTPUT
-  list. No
-  behavioral change. The file was already being built, Ninja just needs to
-  know
-  about it.
-  
-  ## but_why.gif
-  
-  I am cleaning up https://github.com/ghostty-org/ghostling/pull/6 and I
-  realise that in order to get rid of the CMake workarounds we had before
-  #11756, this change is necessary.
-  
-  # POC
-  
-  I set up a branch pointing at my fork with a POC and it builds, this is
-  the cleaned up CMakeList
-  https://github.com/deblasis/winghostling/blob/test/cmake-implib-no-workaround/CMakeLists.txt
-  ```
-- [`147596d`](https://github.com/ghostty-org/ghostty/commit/147596d5608e3274e4b77fcdc201560f46fdb7c1) build(deps): bump cachix/install-nix-action from 31.10.1 to 31.10.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.1 to 31.10.2.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/1ca7d21a94afc7c957383a2d217460d980de4934...51f3067b56fe8ae331890c77d4e454f6d60615ff)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.10.2
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`c584f87`](https://github.com/ghostty-org/ghostty/commit/c584f87b9037455e38bd96808089f8740efb3e6c) build(deps): bump cachix/install-nix-action from 31.10.1 to 31.10.2 ([#11790](https://github.com/ghostty-org/ghostty/issues/11790)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.10.1 to 31.10.2.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.10.2</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.34.1 -&gt; 2.34.2 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/270">cachix/install-nix-action#270</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31...v31.10.2">https://github.com/cachix/install-nix-action/compare/v31...v31.10.2</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/51f3067b56fe8ae331890c77d4e454f6d60615ff"><code>51f3067</code></a>
-  Revert &quot;ci: use 25.11 for channel tests&quot;</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/15118c17f94ae94b32a2a51839986d18c508f12f"><code>15118c1</code></a>
-  ci: use 25.11 for channel tests</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/e1ac057965e5be579300ea6beb1f0e9a8a607344"><code>e1ac057</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/270">#270</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/d181b9642fe3b3f85724b0337c37dca054cb4ef8"><code>d181b96</code></a>
-  nix: 2.34.1 -&gt; 2.34.2</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/1ca7d21a94afc7c957383a2d217460d980de4934...51f3067b56fe8ae331890c77d4e454f6d60615ff">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.1&new-version=31.10.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`846599b`](https://github.com/ghostty-org/ghostty/commit/846599b97ef17a99cab699927b480e75aa36c5ac) Update VOUCHED list ([#11791](https://github.com/ghostty-org/ghostty/issues/11791)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11460#discussioncomment-16285158)
-  from @00-kat.
-  
-  Vouch: @viruslobster
   ```
 
