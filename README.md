@@ -8,15 +8,32 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 1, 2026 at 15:29 UTC.
+> Last updated: April 1, 2026 at 18:18 UTC.
 
 ## April 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [2](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23856480951), [2](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [3](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
+Summary: 3 runs • 5 commits • 4 authors
 
 ### Changes
 
+- [`702a2b4`](https://github.com/ghostty-org/ghostty/commit/702a2b43c35b8960bdd2930b64e742a33c7ca1b9) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([@bo2themax](https://github.com/bo2themax))
+- [`f6e6bb0`](https://github.com/ghostty-org/ghostty/commit/f6e6bb0238cbf4ce8c154c07f5df8c5109dc9f03) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([#12039](https://github.com/ghostty-org/ghostty/issues/12039)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This is known issues before key-related PRs, tested on
+  fa9265636b6e14e012b9990868f60a6d2376fe59.
+  
+  The following config is mapped incorrectly to the menu shortcut:
+  ```
+  keybind=A=goto_split:left
+  ```
+  <img width="223" height="106" alt="image"
+  src="https://github.com/user-attachments/assets/b80da251-9cff-4b29-b143-64854a5c4271"
+  />
+  
+  Surfaces only accept `a` as a trigger to select left split, not
+  `shift+a`
+  ````
 - [`c8702ec`](https://github.com/ghostty-org/ghostty/commit/c8702ece8f8db400df95b767fc03b401dce0d015) gtk(chore): fix typos ([@bo2themax](https://github.com/bo2themax))
   ```text
   ### AI Disclosure
