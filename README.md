@@ -8,15 +8,22 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 1, 2026 at 12:19 UTC.
+> Last updated: April 1, 2026 at 15:29 UTC.
 
 ## April 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [2](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`c8702ec`](https://github.com/ghostty-org/ghostty/commit/c8702ece8f8db400df95b767fc03b401dce0d015) gtk(chore): fix typos ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  ### AI Disclosure
+  
+  Claude wrote the regex to ignore base64-encoded sequences
+  ```
+- [`6d15b53`](https://github.com/ghostty-org/ghostty/commit/6d15b53fc753cb8087f230d1d922b2e95c526b20) gtk(chore): fix typos ([#12036](https://github.com/ghostty-org/ghostty/issues/12036)) ([@pluiedev](https://github.com/pluiedev))
 - [`b7e5604`](https://github.com/ghostty-org/ghostty/commit/b7e56044dbe3265495f3578fa5764e3bb5a433f0) Update VOUCHED list ([#12031](https://github.com/ghostty-org/ghostty/issues/12031)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
