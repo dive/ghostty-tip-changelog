@@ -8,15 +8,42 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 1, 2026 at 21:15 UTC.
+> Last updated: April 2, 2026 at 00:22 UTC.
 
 ## April 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23856480951), [2](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [3](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
-Summary: 3 runs • 5 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23874449602), [2](https://github.com/ghostty-org/ghostty/actions/runs/23872415256), [3](https://github.com/ghostty-org/ghostty/actions/runs/23856480951), [4](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [5](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
+Summary: 5 runs • 10 commits • 5 authors
 
 ### Changes
 
+- [`48d3e97`](https://github.com/ghostty-org/ghostty/commit/48d3e972d839999745368b156df396d9512fd17b) Update VOUCHED list ([#12052](https://github.com/ghostty-org/ghostty/issues/12052)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12050#issuecomment-4173393542)
+  from @mitchellh.
+  
+  Vouch: @justonia
+  ```
+- [`9ec5672`](https://github.com/ghostty-org/ghostty/commit/9ec5672505cf9cb61006b23e799dfc154b3f7b22) Revert "macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980))" ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This reverts commit 20cfaae2e5ec84cca2c5a55843b399b32fb9c810, reversing
+  changes made to 3509ccf78ef087fec2f0209fbc297a321106d339.
+  ```
+- [`c16cf0e`](https://github.com/ghostty-org/ghostty/commit/c16cf0ef07edf60db1accaed1b8c6a3ba99d2dcd) fix: Ensure snap paths come first in gio module loading ([@kenvandine](https://github.com/kenvandine))
+- [`92a4601`](https://github.com/ghostty-org/ghostty/commit/92a4601f39de1f9b566be45f6c02756e2145a0a7) Revert "macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980))" ([#12046](https://github.com/ghostty-org/ghostty/issues/12046)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit 20cfaae2e5ec84cca2c5a55843b399b32fb9c810, reversing
+  changes made to 3509ccf78ef087fec2f0209fbc297a321106d339.
+  
+  This breaks some behaviours when there are multiple splits, which
+  requires another click to focus to another split in the same window🫪
+  ```
+- [`b8251de`](https://github.com/ghostty-org/ghostty/commit/b8251de7e8656ae4a848856f00f1003347ad37d7) fix: Ensure snap paths come first in gio module loading ([#12045](https://github.com/ghostty-org/ghostty/issues/12045)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes the issue reported in
+  https://github.com/ghostty-org/ghostty/discussions/11311
+  ```
 - [`702a2b4`](https://github.com/ghostty-org/ghostty/commit/702a2b43c35b8960bdd2930b64e742a33c7ca1b9) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([@bo2themax](https://github.com/bo2themax))
 - [`f6e6bb0`](https://github.com/ghostty-org/ghostty/commit/f6e6bb0238cbf4ce8c154c07f5df8c5109dc9f03) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([#12039](https://github.com/ghostty-org/ghostty/issues/12039)) ([@mitchellh](https://github.com/mitchellh))
   ````text
@@ -1323,236 +1350,5 @@ Summary: 3 runs • 21 commits • 4 authors
   access violation writing 0x24).
   C reproducer test_dll_init.c exits 0 after ghostty_info succeeds.
   These used to crash before the fix/workaround.
-  ```
-
-## March 26, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23618497701), [2](https://github.com/ghostty-org/ghostty/actions/runs/23612257629), [3](https://github.com/ghostty-org/ghostty/actions/runs/23608022682), [4](https://github.com/ghostty-org/ghostty/actions/runs/23599836514), [5](https://github.com/ghostty-org/ghostty/actions/runs/23575850088)  
-Summary: 5 runs • 15 commits • 1 authors
-
-### Changes
-
-- [`7801e97`](https://github.com/ghostty-org/ghostty/commit/7801e97127d3b1795b0d72cb721aba48c0fa2c16) terminal: redo trailing state capture in OSC parser ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Trailing state capture now is encapsulated in a struct `Capture` and all
-  parsers access the data via `p.capture.trailing()` rather than directly
-  from the writer.
-  
-  This is primarily to prep for the OSC parser to be able to capture the
-  entire sequence (not just the trailing part) so we can setup libghostty
-  for fallback handlers so libghostty implementers can have custom OSC
-  behaviors.
-  
-  But, it has the benefit of making our OSC parser much cleaner too.
-  ```
-- [`6057f8d`](https://github.com/ghostty-org/ghostty/commit/6057f8d2b75631937fa7c2fc240a8bbe9137176f) terminal: redo trailing state capture in OSC parser ([#11873](https://github.com/ghostty-org/ghostty/issues/11873)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Trailing state capture now is encapsulated in a struct `Capture` and all
-  parsers access the data via `p.capture.trailing()` rather than directly
-  from the writer.
-  
-  This is primarily to prep for the OSC parser to be able to capture the
-  entire sequence (not just the trailing part) so we can setup libghostty
-  for fallback handlers so libghostty implementers can have custom OSC
-  behaviors.
-  
-  But, it has the benefit of making our OSC parser much cleaner too.
-  
-  I'm doing some benchmarks now...
-  ```
-- [`11574c3`](https://github.com/ghostty-org/ghostty/commit/11574c35a246100aa5d5fec2a2fb835e8d18e046) libghostty: expose paste encode to C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ghostty_paste_encode() which encodes paste data for writing to
-  the terminal pty. It strips unsafe control bytes, wraps in bracketed
-  paste sequences when requested, and replaces newlines with carriage
-  returns for unbracketed mode. The input buffer is modified in place
-  and the encoded result is written to a caller-provided output buffer,
-  following the same buffer/out_written pattern as the other encode
-  functions like ghostty_size_report_encode.
-  
-  Update the c-vt-paste example with an encode_example() demonstrating
-  the new function and add corresponding @snippet references in the
-  header documentation.
-  ```
-- [`7df353a`](https://github.com/ghostty-org/ghostty/commit/7df353a6199ae5ac2f515006b2e5d074a31ab4c8) libghostty: expose paste encode to C API ([#11871](https://github.com/ghostty-org/ghostty/issues/11871)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ghostty_paste_encode() which encodes paste data for writing to the
-  terminal pty. It strips unsafe control bytes, wraps in bracketed paste
-  sequences when requested, and replaces newlines with carriage returns
-  for unbracketed mode. The input buffer is modified in place and the
-  encoded result is written to a caller-provided output buffer, following
-  the same buffer/out_written pattern as the other encode functions like
-  ghostty_size_report_encode.
-  
-  Update the c-vt-paste example with an encode_example() demonstrating the
-  new function and add corresponding @snippet references in the header
-  documentation.
-  
-  Extracted this from #11870 since I can't figure out why that build is
-  failing.
-  ```
-- [`945920a`](https://github.com/ghostty-org/ghostty/commit/945920a1863fc05079b331fdc2f914ad122cd81d) vt: expose terminal default colors via C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add set/get support for foreground, background, cursor, and palette
-  default colors through ghostty_terminal_set and ghostty_terminal_get.
-  
-  Four new set options (COLOR_FOREGROUND, COLOR_BACKGROUND, COLOR_CURSOR,
-  COLOR_PALETTE) write directly to the terminal color defaults. Passing
-  NULL clears the value for RGB colors or resets the palette to the
-  built-in default. All set operations mark the palette dirty flag for
-  the renderer.
-  
-  Eight new get data types retrieve either the effective color (override
-  or default, via DynamicRGB.get) or the default color only (ignoring
-  any OSC overrides). Effective getters for RGB colors return the new
-  NO_VALUE result code when no color is configured. The palette getters
-  return the current or original palette respectively.
-  
-  Adds the GHOSTTY_NO_VALUE result code for cases where a queried value
-  is simply not configured, distinct from GHOSTTY_INVALID_VALUE which
-  indicates a caller error.
-  ```
-- [`6ebbd47`](https://github.com/ghostty-org/ghostty/commit/6ebbd4785bfca5d539d7afbe97177bd592f10573) libghostty: expose terminal default colors via C API ([#11868](https://github.com/ghostty-org/ghostty/issues/11868)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Add set/get support for foreground, background, cursor, and palette
-  default colors through ghostty_terminal_set and ghostty_terminal_get.
-  
-  Four new set options (COLOR_FOREGROUND, COLOR_BACKGROUND, COLOR_CURSOR,
-  COLOR_PALETTE) write directly to the terminal color defaults. Passing
-  NULL clears the value for RGB colors or resets the palette to the
-  built-in default. All set operations mark the palette dirty flag for the
-  renderer.
-  
-  Eight new get data types retrieve either the effective color (override
-  or default, via DynamicRGB.get) or the default color only (ignoring any
-  OSC overrides). Effective getters for RGB colors return the new NO_VALUE
-  result code when no color is configured. The palette getters return the
-  current or original palette respectively.
-  
-  Adds the GHOSTTY_NO_VALUE result code for cases where a queried value is
-  simply not configured, distinct from GHOSTTY_INVALID_VALUE which
-  indicates a caller error.
-  
-  ## Example
-  
-  ```c
-  #include <ghostty/vt.h>
-  #include <stdio.h>
-  
-  int main() {
-    GhosttyTerminal terminal = NULL;
-    GhosttyTerminalOptions opts = { .cols = 80, .rows = 24, .max_scrollback = 0 };
-    ghostty_terminal_new(NULL, &terminal, opts);
-  
-    // Set default colors
-    GhosttyColorRgb fg = { .r = 0xDD, .g = 0xDD, .b = 0xDD };
-    GhosttyColorRgb bg = { .r = 0x1E, .g = 0x1E, .b = 0x2E };
-    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_COLOR_FOREGROUND, &fg);
-    ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_COLOR_BACKGROUND, &bg);
-  
-    // Read back the effective foreground
-    GhosttyColorRgb color;
-    if (ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND, &color)
-        == GHOSTTY_SUCCESS) {
-      printf("fg: #%02X%02X%02X\n", color.r, color.g, color.b);  // #DDDDDD
-    }
-  
-    // After an OSC 10 override from a program inside the terminal:
-    ghostty_terminal_vt_write(terminal, (const uint8_t*)"\x1B]10;rgb:FF/00/00\x1B\\", 20);
-  
-    // Effective returns the override, default returns the original
-    ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND, &color);
-    printf("effective: #%02X%02X%02X\n", color.r, color.g, color.b);  // #FF0000
-  
-    ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_COLOR_FOREGROUND_DEFAULT, &color);
-    printf("default:   #%02X%02X%02X\n", color.r, color.g, color.b);  // #DDDDDD
-  
-    ghostty_terminal_free(terminal);
-    return 0;
-  }
-  ```
-  
-  A full working example is in `example/c-vt-colors/`.
-  ````
-- [`7a59e96`](https://github.com/ghostty-org/ghostty/commit/7a59e966b8896065c376079d4121a9210c40e50c) build: strip large files from lib-vt dist tarball ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When emit_lib_vt is set, the dist tarball is now named
-  ghostty-vt-<version>.tar.gz and excludes large files that are
-  unnecessary for building libghostty-vt. This reduces the archive
-  from ~36MB to ~2.8MB by excluding images, macOS app resources,
-  font assets, fuzz test corpus, crash testdata, and vendored
-  libraries not used by lib-vt.
-  
-  GTK resources and frame data generation are also skipped since
-  lib-vt does not need them, which removes the GTK build-time
-  dependency. The distcheck step runs test-lib-vt instead of the
-  full test suite for lib-vt archives.
-  ```
-- [`7ae1e32`](https://github.com/ghostty-org/ghostty/commit/7ae1e32ecbd10d93ce0c7ddb4850a3c62a999940) ci: add libghostty-vt source tarball to tip release ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a source-tarball-lib-vt job that builds the stripped lib-vt
-  dist tarball and publishes it as libghostty-vt-source.tar.gz to
-  the tip release. Also downsize the source-tarball runner from -md
-  to -sm since it does not need the extra resources.
-  ```
-- [`bfa3055`](https://github.com/ghostty-org/ghostty/commit/bfa3055309d5c292367c8ed3d876d59541a29e0c) ci: add distcheck for lib-vt source tarball ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a build-dist-lib-vt job that runs distcheck with
-  -Demit-lib-vt=true and verifies the resulting tarball stays under
-  5 MB. Also downsize the build-dist runner from -md to -sm.
-  ```
-- [`96c4145`](https://github.com/ghostty-org/ghostty/commit/96c414521a95e9c236e4ef5725fdf7f0bf7e1fe9) build: add cmake build verification to lib-vt distcheck ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Run cmake configure and build on the extracted lib-vt tarball as
-  part of distcheck to ensure the CMake wrapper works from the
-  stripped archive. Keep dist/cmake/ and dist/libghostty-vt/ in the
-  archive since the CMake build needs them.
-  ```
-- [`4e2b227`](https://github.com/ghostty-org/ghostty/commit/4e2b227b6a81cbb80356127e198eafb19e852395) Add libghostty-vt source tarball (2.8 MB vs. 38 MB for Ghostty GUI) ([#11863](https://github.com/ghostty-org/ghostty/issues/11863)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This makes it so that `zig build dist -Demit-lib-vt` produces a
-  `libghostty-vt-<version>.tar.gz` source tarball that only contains what
-  is needed to build and test libghostty-vt (it cannot build Ghostty GUI
-  on macOS or Linux). `distcheck` has been updated to also verify cmake
-  works.
-  
-  The source tarball goes from 38 MB to 2.8 MB for libghostty.
-  
-  I also updated CI to build and test this, and also contains an assertion
-  that our tarball is always less than 5 MB so we can be aware if/when we
-  blow it up.
-  
-  The `release-tip` job was also updated to add the libghostty-vt tarball
-  to our tip release on GH.
-  ```
-- [`4ffde26`](https://github.com/ghostty-org/ghostty/commit/4ffde268c537983c1faa44790aaacae85c094d23) ci: use namespace runners for windows jobs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Switch the two Windows CI jobs (build-examples-cmake-windows and
-  build-libghostty-vt-windows) from GitHub-hosted windows-2025 runners
-  to namespace-profile-ghostty-windows runners.
-  ```
-- [`0752320`](https://github.com/ghostty-org/ghostty/commit/0752320d3bf847d5fc78f08109fa67293a87a521) ci: use namespace runners for windows jobs ([#11864](https://github.com/ghostty-org/ghostty/issues/11864)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Switch the two Windows CI jobs (build-examples-cmake-windows and
-  build-libghostty-vt-windows) from GitHub-hosted windows-2025 runners to
-  namespace-profile-ghostty-windows runners.
-  ```
-- [`312ba7a`](https://github.com/ghostty-org/ghostty/commit/312ba7ac80dea8c9a4562c41ead6d25375953e89) ci: update to Xcode 26.3 ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  **WARNING:** We CANNOT upgrade to Xcode 26.4 with Zig 0.15 because:
-  https://codeberg.org/ziglang/zig/issues/31658
-  
-  We have to wait and see if Zig will backport that or if we just have to
-  roll forward to Zig 0.16 when it comes out. At the time of this commit,
-  no released Zig version has the fix for that issue.
-  ```
-- [`b839561`](https://github.com/ghostty-org/ghostty/commit/b839561e5db36589d6a999044c76bfe785a013d7) ci: update to Xcode 26.3 ([#11853](https://github.com/ghostty-org/ghostty/issues/11853)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  **WARNING:** We CANNOT upgrade to Xcode 26.4 with Zig 0.15 because:
-  https://codeberg.org/ziglang/zig/issues/31658
-  
-  We have to wait and see if Zig will backport that or if we just have to
-  roll forward to Zig 0.16 when it comes out. At the time of this commit,
-  no released Zig version has the fix for that issue.
   ```
 
