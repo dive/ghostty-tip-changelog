@@ -8,15 +8,24 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 2, 2026 at 18:17 UTC.
+> Last updated: April 2, 2026 at 21:11 UTC.
 
 ## April 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23913311718), [2](https://github.com/ghostty-org/ghostty/actions/runs/23903937555)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23919753798), [2](https://github.com/ghostty-org/ghostty/actions/runs/23913311718), [3](https://github.com/ghostty-org/ghostty/actions/runs/23903937555)  
+Summary: 3 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`18f2702`](https://github.com/ghostty-org/ghostty/commit/18f270222557fd46d8c3305da523212445066154) macOS: fix Find Next/Previous button in the menu bar is not working as expected ([@bo2themax](https://github.com/bo2themax))
+- [`0790937`](https://github.com/ghostty-org/ghostty/commit/0790937d03df6e7a9420c61de91ce520a85fe4ef) macOS: fix Find Next/Previous button in the menu bar is not working as expected ([#12070](https://github.com/ghostty-org/ghostty/issues/12070)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  I don’t know why the search-related commands were added as performable
+  keybinds in 240d5e0fc56d1b24fa9795335a3e38365190661a, but **I asked
+  Claude to add some tests for that**
+  
+  > This won't fix cmd+g/G not working when the search bar is focused.
+  ```
 - [`7747c96`](https://github.com/ghostty-org/ghostty/commit/7747c96033dd435db9f7e00649178993a7791dc8) Update VOUCHED list ([#12069](https://github.com/ghostty-org/ghostty/issues/12069)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
