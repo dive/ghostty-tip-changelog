@@ -8,15 +8,58 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 4, 2026 at 12:10 UTC.
+> Last updated: April 4, 2026 at 15:08 UTC.
 
 ## April 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23970370985), [2](https://github.com/ghostty-org/ghostty/actions/runs/23968719391)  
-Summary: 2 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23980573913), [2](https://github.com/ghostty-org/ghostty/actions/runs/23970370985), [3](https://github.com/ghostty-org/ghostty/actions/runs/23968719391)  
+Summary: 3 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`e157dd6`](https://github.com/ghostty-org/ghostty/commit/e157dd69c57a39f8d3a88b12e050e69830bfb1d5) build: add pkg-config static linking support and fat archives to libghostty ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The libghostty-vt pkg-config file was missing Libs.private, so
+  pkg-config --libs --static returned the same flags as the shared
+  case, omitting the C++ standard library needed by the SIMD code.
+  
+  Additionally, the static archive did not bundle the vendored SIMD
+  dependencies (simdutf, highway, utfcpp), leaving consumers with
+  unresolved symbols when linking. If we're choosing to vendor (no -fsys)
+  then we should produce a fat static archive that includes them. If `-fsys`
+  is used, then we should not bundle them and instead reference them via
+  Requires.private, letting pkg-config chain to their own .pc files.
+  
+  Add Libs.private with the C++ runtime (-lc++ on Darwin, -lstdc++
+  on Linux) and Requires.private for any SIMD deps provided via
+  system integration. When SIMD deps are vendored (the default),
+  produce a fat static archive that bundles them using libtool on
+  Darwin and ar on Linux. When they come from the system (-fsys=),
+  reference them via Requires.private instead, letting pkg-config
+  chain to their own .pc files.
+  ```
+- [`0a492fd`](https://github.com/ghostty-org/ghostty/commit/0a492fdb331f1e0be29aedbcc78c3c852cb437f2) build: add pkg-config static linking support and fat archives to libghostty ([#12096](https://github.com/ghostty-org/ghostty/issues/12096)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The libghostty-vt pkg-config file was missing Libs.private, so
+  pkg-config --libs --static returned the same flags as the shared case,
+  omitting the C++ standard library needed by the SIMD code.
+  
+  Additionally, the static archive did not bundle the vendored SIMD
+  dependencies (simdutf, highway, utfcpp), leaving consumers with
+  unresolved symbols when linking. If we're choosing to vendor (no -fsys)
+  then we should produce a fat static archive that includes them. If
+  `-fsys` is used, then we should not bundle them and instead reference
+  them via Requires.private, letting pkg-config chain to their own .pc
+  files.
+  
+  Add Libs.private with the C++ runtime (-lc++ on Darwin, -lstdc++ on
+  Linux) and Requires.private for any SIMD deps provided via system
+  integration. When SIMD deps are vendored (the default), produce a fat
+  static archive that bundles them using libtool on Darwin and ar on
+  Linux. When they come from the system (-fsys=), reference them via
+  Requires.private instead, letting pkg-config chain to their own .pc
+  files.
+  ```
 - [`4f825e8`](https://github.com/ghostty-org/ghostty/commit/4f825e87f5f848347669e18e507aea91b1fb26ab) add a nix package (with CI tests) for libghostty-vt ([@jcollie](https://github.com/jcollie))
 - [`326178a`](https://github.com/ghostty-org/ghostty/commit/326178adb80db39dc9e62a8c58740dc2cac3c061) nix: address review comments ([@jcollie](https://github.com/jcollie))
   ```text
