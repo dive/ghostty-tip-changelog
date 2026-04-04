@@ -8,7 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 4, 2026 at 00:22 UTC.
+> Last updated: April 4, 2026 at 03:48 UTC.
+
+## April 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23970370985), [2](https://github.com/ghostty-org/ghostty/actions/runs/23968719391)  
+Summary: 2 runs • 4 commits • 3 authors
+
+### Changes
+
+- [`4f825e8`](https://github.com/ghostty-org/ghostty/commit/4f825e87f5f848347669e18e507aea91b1fb26ab) add a nix package (with CI tests) for libghostty-vt ([@jcollie](https://github.com/jcollie))
+- [`326178a`](https://github.com/ghostty-org/ghostty/commit/326178adb80db39dc9e62a8c58740dc2cac3c061) nix: address review comments ([@jcollie](https://github.com/jcollie))
+  ```text
+  * split out dev subpackage
+  * change version number to 0.1.0
+  * supported on same platforms as Zig
+  ```
+- [`707cd57`](https://github.com/ghostty-org/ghostty/commit/707cd57acb8e79923a14ae39b1b582ed683c008b) add a nix package (with CI tests) for libghostty-vt ([#12090](https://github.com/ghostty-org/ghostty/issues/12090)) ([@mitchellh](https://github.com/mitchellh))
+- [`e3bbd54`](https://github.com/ghostty-org/ghostty/commit/e3bbd54dd3bc63d00f536e086e28c33daf3f06d0) Update VOUCHED list ([#12094](https://github.com/ghostty-org/ghostty/issues/12094)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12093#discussioncomment-16444399)
+  from @jcollie.
+  
+  Vouch: @jordandm
+  ```
 
 ## April 2, 2026
 
