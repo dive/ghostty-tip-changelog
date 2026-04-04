@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 3, 2026 at 21:10 UTC.
+> Last updated: April 4, 2026 at 00:22 UTC.
 
 ## April 2, 2026
 
@@ -903,126 +903,5 @@ Summary: 6 runs • 18 commits • 6 authors
   `scrolled_window` to the blueprint. Figuring out what was going on also
   took a lot of [human
   debugging](https://github.com/ghostty-org/ghostty/discussions/11460#discussioncomment-16245664).
-  ```
-
-## March 28, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23691384953), [2](https://github.com/ghostty-org/ghostty/actions/runs/23691146339), [3](https://github.com/ghostty-org/ghostty/actions/runs/23689562457), [4](https://github.com/ghostty-org/ghostty/actions/runs/23688983210), [5](https://github.com/ghostty-org/ghostty/actions/runs/23685326502), [6](https://github.com/ghostty-org/ghostty/actions/runs/23682100437)  
-Summary: 6 runs • 15 commits • 6 authors
-
-### Changes
-
-- [`baad0aa`](https://github.com/ghostty-org/ghostty/commit/baad0aa6669dc576872831752be0f30debecbfd1) Update VOUCHED list ([#11938](https://github.com/ghostty-org/ghostty/issues/11938)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11823#discussioncomment-16358799)
-  from @mitchellh.
-  
-  Vouch: @karesansui-u
-  ```
-- [`e2b9e8c`](https://github.com/ghostty-org/ghostty/commit/e2b9e8c6a89a551e6adace0c79bfdad3f0893034) Update VOUCHED list ([#11936](https://github.com/ghostty-org/ghostty/issues/11936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11662#discussioncomment-16358710)
-  from @mitchellh.
-  
-  Vouch: @MrConnorKenway
-  ```
-- [`2b1ec5d`](https://github.com/ghostty-org/ghostty/commit/2b1ec5db6d70185f818283747ad6a974b7da8f5e) cli: dupe argument strings to retain their memory ([@jparise](https://github.com/jparise))
-  ```text
-  The argument iterator's .next() method returns a transient slice of the
-  command line buffer so we need to make our own copies of these values to
-  avoid referencing stale memory.
-  ```
-- [`8fa50f8`](https://github.com/ghostty-org/ghostty/commit/8fa50f84d777391594b4ad91fea2d5753796667c) cli: dupe argument strings to retain their memory ([#11931](https://github.com/ghostty-org/ghostty/issues/11931)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The argument iterator's .next() method returns a transient slice of the
-  command line buffer so we need to make our own copies of these values to
-  avoid referencing stale memory.
-  ```
-- [`6491363`](https://github.com/ghostty-org/ghostty/commit/649136315719668a8691285404ad8667b701dd94) cli: +edit-config works properly when editor command contains arguments ([@jcollie](https://github.com/jcollie))
-  ```text
-  If `$EDITOR` or `$VISUAL` contained arguments, not just the path to
-  an editor (e.g. `zed --new`) `+edit-config` would fail because we were
-  treating the whole command as a path. Instead, wrap the command with
-  `/bin/sh -c <command>` so that the shell can separate the path from
-  the arguments.
-  
-  Fixes #11897
-  ```
-- [`cb3c20b`](https://github.com/ghostty-org/ghostty/commit/cb3c20befef1653862d8322df6dfc9e1b73da2f2) cli: escape path in +edit-config ([@jcollie](https://github.com/jcollie))
-- [`01abf4a`](https://github.com/ghostty-org/ghostty/commit/01abf4af210623dc9b21fb1789217434c97841f6) doc: clarify UTF-8 text handling in ghostty_key_event_get_composing ([@elias8](https://github.com/elias8))
-- [`f0badd3`](https://github.com/ghostty-org/ghostty/commit/f0badd34d395daa7c8e660703a3497f4bcdf4a83) fix: replace hardcoded locale.h constants with build-system TranslateC ([@i999rri](https://github.com/i999rri))
-  ```text
-  Replace hardcoded locale.h constants and extern function declarations
-  with build-system TranslateC, following the same pattern as pty.c.
-  
-  This fixes LC_ALL being hardcoded to 6 (musl/glibc value), which is
-  implementation-defined and differs on Windows MSVC (where LC_ALL is 0),
-  causing setlocale() to crash with an invalid parameter error.
-  ```
-- [`60c7e76`](https://github.com/ghostty-org/ghostty/commit/60c7e767a835054e8444e7d9ff3c0965e950a8df) benchmark: disable test on windows ([@jcollie](https://github.com/jcollie))
-  ```text
-  We don't appear to have a time source with enough resolution to get a
-  non-zero duration on the benchmark test so it fails.
-  ```
-- [`3187b18`](https://github.com/ghostty-org/ghostty/commit/3187b18a9491438d0dade786ddcac61914dfbd8e) benchmark: disable test on windows ([#11930](https://github.com/ghostty-org/ghostty/issues/11930)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We don't appear to have a time source with enough resolution to get a
-  non-zero duration on the benchmark test so it fails.
-  ```
-- [`94d1398`](https://github.com/ghostty-org/ghostty/commit/94d1398e60d44031c0c787e222b94c743fe6504d) doc: clarify utf8 text input contract for key event encoder ([#11910](https://github.com/ghostty-org/ghostty/issues/11910)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Documenting some hidden implementation details. Basically extracted from
-  the swift NSEvent extension.
-  ```
-- [`e20b506`](https://github.com/ghostty-org/ghostty/commit/e20b50652ad182af04f0f36d52d5c5e95a245e62) fix: replace hardcoded locale.h constants with build-system TranslateC ([#11920](https://github.com/ghostty-org/ghostty/issues/11920)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Replace hardcoded locale.h constants and extern function declarations
-  with build-system TranslateC, following the same pattern as pty.c.
-  
-  This fixes LC_ALL being hardcoded to 6 (the musl/glibc implementation
-  value), which is implementation-defined and differs on Windows MSVC
-  (where LC_ALL is 0), causing `setlocale()` to crash with an invalid
-  parameter error.
-  
-  ## Changes
-  
-  - Added `src/os/locale.c` — includes `locale.h` for TranslateC
-  - Added TranslateC step in `src/build/SharedDeps.zig` (same pattern as
-  pty.c)
-  - Replaced hardcoded constants and extern declarations in
-  `src/os/locale.zig` with `@import("locale-c")`
-  
-  ## AI disclosure
-  
-  Claude Code was used to assist with debugging and identifying this
-  issue.
-  ```
-- [`608bc7d`](https://github.com/ghostty-org/ghostty/commit/608bc7d24de760756c960852c75f5af08216f897) cli: +edit-config works properly when editor command contains arguments ([#11898](https://github.com/ghostty-org/ghostty/issues/11898)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  If `$EDITOR` or `$VISUAL` contained arguments, not just the path to an
-  editor (e.g. `zed --new`) `+edit-config` would fail because we were
-  treating the whole command as a path. Instead, wrap the command with
-  `/bin/sh -c <command>` so that the shell can separate the path from the
-  arguments.
-  
-  Fixes #11897
-  ```
-- [`0d1f77b`](https://github.com/ghostty-org/ghostty/commit/0d1f77bc4d0ce5ad8db72d5d05b7d91740bea818) Update VOUCHED list ([#11925](https://github.com/ghostty-org/ghostty/issues/11925)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/11921#discussioncomment-16355800)
-  from @jcollie.
-  
-  Vouch: @i999rri
-  ```
-- [`562e704`](https://github.com/ghostty-org/ghostty/commit/562e7048c1a9c52dec2a3f54448e7c7524ffd91d) Update VOUCHED list ([#11918](https://github.com/ghostty-org/ghostty/issues/11918)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/11916#issuecomment-4147686590)
-  from @pluiedev.
-  
-  Denounce: @daedaevibin
   ```
 
