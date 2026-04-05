@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 5, 2026 at 09:14 UTC.
+> Last updated: April 5, 2026 at 12:10 UTC.
 
 ## April 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23994374178), [2](https://github.com/ghostty-org/ghostty/actions/runs/23993802101), [3](https://github.com/ghostty-org/ghostty/actions/runs/23993258076)  
-Summary: 3 runs • 7 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23999805792), [2](https://github.com/ghostty-org/ghostty/actions/runs/23994374178), [3](https://github.com/ghostty-org/ghostty/actions/runs/23993802101), [4](https://github.com/ghostty-org/ghostty/actions/runs/23993258076)  
+Summary: 4 runs • 8 commits • 2 authors
 
 ### Changes
 
+- [`ba398df`](https://github.com/ghostty-org/ghostty/commit/ba398dfff3e30ff83da07140981ca138410cf608) Update VOUCHED list ([#12123](https://github.com/ghostty-org/ghostty/issues/12123)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12119#issuecomment-4188681042)
+  from @bo2themax.
+  
+  Vouch: @jamylak
+  ```
 - [`a8e92c9`](https://github.com/ghostty-org/ghostty/commit/a8e92c9c53e5c6018507c6f1e06af4f3b3e4f49c) terminal: add APC handler to stream_terminal ([@mitchellh](https://github.com/mitchellh))
   ```text
   Wire up the APC handler to `terminal.TerminalStream` to process
