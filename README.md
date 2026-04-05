@@ -8,15 +8,81 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 5, 2026 at 03:59 UTC.
+> Last updated: April 5, 2026 at 06:27 UTC.
 
 ## April 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23993258076)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23994374178), [2](https://github.com/ghostty-org/ghostty/actions/runs/23993802101), [3](https://github.com/ghostty-org/ghostty/actions/runs/23993258076)  
+Summary: 3 runs • 7 commits • 2 authors
 
 ### Changes
 
+- [`a8e92c9`](https://github.com/ghostty-org/ghostty/commit/a8e92c9c53e5c6018507c6f1e06af4f3b3e4f49c) terminal: add APC handler to stream_terminal ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Wire up the APC handler to `terminal.TerminalStream` to process
+  APC sequences, enabling support for kitty graphics commands in
+  libghostty, in theory.
+  
+  The "in theory" is because we still don't export a way to actually
+  enable Kitty graphics in libghostty because we have some other things in
+  the way: PNG decoding and OS filesystem access that need to be more
+  conditionally compiled before we can enable the feature. However, this
+  is a step in the right direction, and we can at least verify that the
+  APC handler works via a test in Ghostty GUI.
+  ```
+- [`c541ceb`](https://github.com/ghostty-org/ghostty/commit/c541ceb120ee48c3495fa9e115f1614cd2e13249) terminal: add APC handler to stream_terminal ([#12116](https://github.com/ghostty-org/ghostty/issues/12116)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Wire up the APC handler to `terminal.TerminalStream` to process APC
+  sequences, enabling support for kitty graphics commands in libghostty,
+  in theory.
+  
+  The "in theory" is because we still don't export a way to actually
+  enable Kitty graphics in libghostty because we have some other things in
+  the way: PNG decoding and OS filesystem access that need to be more
+  conditionally compiled before we can enable the feature. However, this
+  is a step in the right direction, and we can at least verify that the
+  APC handler works via a test in Ghostty GUI.
+  ```
+- [`b9a241d`](https://github.com/ghostty-org/ghostty/commit/b9a241d1e237fa97bf8b3b161f253cc2313100f2) libghostty: add hyperlink URI accessor to grid_ref API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_grid_ref_hyperlink_uri to extract the OSC 8 hyperlink
+  URI from a cell at a grid reference position. Follows the same
+  buffer pattern as ghostty_grid_ref_graphemes: callers pass a buffer
+  and get back the byte length, or GHOSTTY_OUT_OF_SPACE with the
+  required size if the buffer is too small. Cells without a hyperlink
+  return success with length 0.
+  ```
+- [`757eff5`](https://github.com/ghostty-org/ghostty/commit/757eff5881b9afb811a99497fb5c231cc3677a6b) libghostty: add GhosttySelection type and selection support to formatter ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new GhosttySelection C API type (selection.h / c/selection.zig)
+  that pairs two GhosttyGridRef endpoints with a rectangle flag. This
+  maps directly to the internal Selection type using untracked pins.
+  
+  The formatter terminal options gain an optional selection pointer.
+  When non-null the formatter restricts output to the specified range
+  instead of emitting the entire screen. When null the existing
+  behavior of formatting the full screen is preserved.
+  ```
+- [`86554de`](https://github.com/ghostty-org/ghostty/commit/86554de090cdd5e9322652146e202a468a5e4bb5) libghostty: add hyperlink URI accessor to grid_ref API ([#12114](https://github.com/ghostty-org/ghostty/issues/12114)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_grid_ref_hyperlink_uri to extract the OSC 8 hyperlink URI
+  from a cell at a grid reference position. Follows the same buffer
+  pattern as ghostty_grid_ref_graphemes: callers pass a buffer and get
+  back the byte length, or GHOSTTY_OUT_OF_SPACE with the required size if
+  the buffer is too small. Cells without a hyperlink return success with
+  length 0.
+  ```
+- [`10696b5`](https://github.com/ghostty-org/ghostty/commit/10696b5ed170090df09f06a9afeeefe643159f40) libghostty: add GhosttySelection type and selection support to formatter ([#12115](https://github.com/ghostty-org/ghostty/issues/12115)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new GhosttySelection C API type (selection.h / c/selection.zig)
+  that pairs two GhosttyGridRef endpoints with a rectangle flag. This maps
+  directly to the internal Selection type using untracked pins.
+  
+  The formatter terminal options gain an optional selection pointer. When
+  non-null the formatter restricts output to the specified range instead
+  of emitting the entire screen. When null the existing behavior of
+  formatting the full screen is preserved.
+  ```
 - [`cf8a240`](https://github.com/ghostty-org/ghostty/commit/cf8a2407a042a2e407fe58ade93582af6073c49d) Update VOUCHED list ([#12113](https://github.com/ghostty-org/ghostty/issues/12113)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
