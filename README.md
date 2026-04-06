@@ -8,15 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 6, 2026 at 15:16 UTC.
+> Last updated: April 6, 2026 at 18:18 UTC.
 
 ## April 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [2](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [3](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
-Summary: 3 runs • 12 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24039345933), [2](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [3](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [4](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
+Summary: 4 runs • 16 commits • 4 authors
 
 ### Changes
 
+- [`3a52e0e`](https://github.com/ghostty-org/ghostty/commit/3a52e0e3bdba98b5372cf0f2d5ca5f150b8c09d7) libghostty: expose kitty image options via terminal set/get ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add four new terminal options for configuring Kitty graphics at runtime
+  through the C API: storage limit, and the three loading medium flags
+  (file, temporary file, shared memory).
+  
+  The storage limit setter propagates to all initialized screens and
+  uses setLimit which handles eviction when lowering the limit. The
+  medium setters similarly propagate to all screens. Getters read from
+  the active screen. All options compile to no-ops or return no_value
+  when kitty graphics are disabled at build time.
+  ```
+- [`d7fa920`](https://github.com/ghostty-org/ghostty/commit/d7fa92088c0e50d02d97190973b91d49d0c39d6a) libghostty: expose sys interface to C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The terminal sys module provides runtime-swappable function pointers
+  for operations that depend on external implementations (e.g. PNG
+  decoding). This exposes that functionality through the C API via a
+  ghostty_sys_set() function, modeled after the ghostty_terminal_set()
+  enum-based option pattern.
+  
+  Embedders can install a PNG decode callback to enable Kitty Graphics
+  Protocol PNG support. The callback receives a userdata pointer
+  (set via GHOSTTY_SYS_OPT_USERDATA) and a GhosttyAllocator that must
+  be used to allocate the returned pixel data, since the library takes
+  ownership of the buffer. Passing NULL clears the callback and
+  disables the feature.
+  ```
+- [`64340c6`](https://github.com/ghostty-org/ghostty/commit/64340c62bfab76147d6fa4aec4d4979d3c4d2e33) example: add c-vt-kitty-graphics ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Demonstrates the sys interface for Kitty Graphics Protocol PNG
+  support. The example installs a PNG decode callback via
+  ghostty_sys_set, creates a terminal with image storage enabled,
+  and sends an inline 1x1 PNG image through vt_write. Snippet
+  markers are wired up to the sys.h doxygen docs.
+  ```
+- [`f65fb3d`](https://github.com/ghostty-org/ghostty/commit/f65fb3d44265f9c199df0a78f4788dc62a20b018) libghostty: expose Kitty image configs, decode png callback from C API ([#12144](https://github.com/ghostty-org/ghostty/issues/12144)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This exposes the APIs necessary to enable Kitty image protocol parsing
+  and state from the C API.
+  
+  * You can now set the PNG decoder via the `ghostty_sys_set` API.
+  * You can set Kitty image configs via `ghostty_terminal_set` API.
+  * An example showing this working has been added.
+  * **You cannot yet query Kitty images for metadata or rendering.** I'm
+  going to follow that up in a separate PR.
+  ```
 - [`e390937`](https://github.com/ghostty-org/ghostty/commit/e390937867b99efce6f8ac27a033088500fe6201) macos: fix badge permission ([@KayLeung](https://github.com/KayLeung))
   ```text
   The previous version requested general notification permissions but omitted the `.badge` option. Because the initial request was granted, `settings.authorizationStatus` returns `.authorized`, leading the app to believe it has full notification privileges when it actually lacks the authority to update the dock icon badge.
