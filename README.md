@@ -8,15 +8,327 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 6, 2026 at 18:18 UTC.
+> Last updated: April 6, 2026 at 21:12 UTC.
 
 ## April 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24039345933), [2](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [3](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [4](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
-Summary: 4 runs • 16 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24049440104), [2](https://github.com/ghostty-org/ghostty/actions/runs/24047275570), [3](https://github.com/ghostty-org/ghostty/actions/runs/24039345933), [4](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [5](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [6](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
+Summary: 6 runs • 34 commits • 4 authors
 
 ### Changes
 
+- [`66bfdf8`](https://github.com/ghostty-org/ghostty/commit/66bfdf8e7a2662d9a10c702edd69bc14cc0886a6) libghostty: add z-layer filtered placement iterator ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a placement_iterator_set function that configures iterator
+  properties via an enum, following the same pattern as other set
+  functions in the C API (e.g. render_state_set). The first settable
+  option is a z-layer filter.
+  
+  The GhosttyKittyPlacementLayer enum classifies placements into three
+  layers based on kitty protocol z-index conventions: below background
+  (z < INT32_MIN/2), below text (INT32_MIN/2 <= z < 0), and above text
+  (z >= 0). The default is ALL which preserves existing behavior.
+  
+  When a layer filter is set, placement_iterator_next automatically
+  skips non-matching placements, so embedders no longer need to
+  reimplement the z-index bucketing logic or iterate all placements
+  three times per frame just to filter by layer.
+  ```
+- [`b43d35b`](https://github.com/ghostty-org/ghostty/commit/b43d35b4d3c147b637fed085fca4d4dad277fc80) libghostty: add viewport-relative placement positioning ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_kitty_graphics_placement_viewport_pos which converts a
+  placement's internal pin to viewport-relative grid coordinates.
+  The returned row can be negative when the placement's origin has
+  scrolled above the viewport, allowing embedders to compute the
+  correct destination rectangle for partially visible images.
+  
+  Returns GHOSTTY_NO_VALUE only when the placement is completely
+  outside the viewport (bottom edge above the viewport or top edge
+  at or below the last row), so embedders do not need to perform
+  their own visibility checks. Partially visible placements always
+  return GHOSTTY_SUCCESS with their true signed coordinates.
+  ```
+- [`d712bef`](https://github.com/ghostty-org/ghostty/commit/d712beff5b616f1f886937c6de8e8105b9f3956e) libghostty: add resolved source rect for placements ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add ghostty_kitty_graphics_placement_source_rect which returns the
+  fully resolved and clamped source rectangle for a placement. This
+  applies kitty protocol semantics (width/height of 0 means full
+  image dimension) and clamps the result to the actual image bounds,
+  eliminating ~20 lines of protocol-aware logic from each embedder.
+  ```
+- [`65e3265`](https://github.com/ghostty-org/ghostty/commit/65e3265e3cd4df063a83fcabfa7fd2a4b61627b5) libghostty: fix kitty graphics test failures ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fix three categories of test bugs in the kitty graphics C API tests:
+  
+  The placement iterator reset in getTyped was clobbering the
+  layer_filter field when reinitializing the iterator struct,
+  causing the layer filter test to see unfiltered placements.
+  Preserve layer_filter across resets.
+  
+  The viewport position tests were not accounting for the default
+  cursor_movement=after behavior of the kitty display command,
+  which calls index() for each row of the placement before the
+  test scroll sequence. Add C=1 to suppress cursor movement so
+  the scroll math in the tests is correct.
+  
+  The source_rect tests used an 88-character all-A base64 payload
+  which decodes to 66 bytes, but a 4x4 RGBA image requires exactly
+  64 bytes. Fix the payload to use proper base64 padding (AA==).
+  ```
+- [`fdb6e3d`](https://github.com/ghostty-org/ghostty/commit/fdb6e3d2c8543e2e756b7e07f44372efbc0fba4b) libghostty: add z-layer filtering, viewport positioning, and source rects for kitty graphics placements ([#12147](https://github.com/ghostty-org/ghostty/issues/12147)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Based on the Ghostling implementation, these are APIs that will help
+  other implementors:
+  
+  **Z-layer filtering.** The placement iterator now supports a
+  configurable layer filter via a new
+  `ghostty_kitty_graphics_placement_iterator_set()` option API. When a
+  layer is set, `ghostty_kitty_graphics_placement_next()` skips placements
+  whose z-index doesn't match the requested layer. The three layers follow
+  the kitty protocol z-index conventions (below background, below text,
+  above text) and map directly to distinct rendering passes. Default is
+  `ALL` (no filtering, existing behavior).
+  
+  **Viewport-relative positioning.**
+  `ghostty_kitty_graphics_placement_viewport_pos()` converts a placement's
+  internal pin to viewport-relative grid coordinates. The row value can be
+  negative for placements that have partially scrolled above the viewport.
+  Returns `GHOSTTY_NO_VALUE` when the placement is entirely off-screen or
+  is a virtual (unicode placeholder) placement, so the renderer can skip
+  it without extra math.
+  
+  **Source rectangle resolution.**
+  `ghostty_kitty_graphics_placement_source_rect()` applies kitty protocol
+  semantics (0 = full image dimension) and clamps to image bounds,
+  returning pixel coordinates ready for texture sampling.
+  
+  ## New APIs
+  
+  | Function | Description |
+  |----------|-------------|
+  | `ghostty_kitty_graphics_placement_iterator_set` | Set an option on a
+  placement iterator (currently: z-layer filter) |
+  | `ghostty_kitty_graphics_placement_viewport_pos` | Get
+  viewport-relative grid position of the current placement |
+  | `ghostty_kitty_graphics_placement_source_rect` | Get the resolved
+  source rectangle in pixels for the current placement |
+  
+  ## New Types
+  
+  | Type | Description |
+  |------|-------------|
+  | `GhosttyKittyPlacementLayer` | Z-layer classification: `ALL`,
+  `BELOW_BG`, `BELOW_TEXT`, `ABOVE_TEXT` |
+  | `GhosttyKittyGraphicsPlacementIteratorOption` | Settable iterator
+  options (currently: `LAYER`) |
+  ```
+- [`a977822`](https://github.com/ghostty-org/ghostty/commit/a977822b58634e0aa12aecc65fe316a56f9becab) update kitty graphics docs ([@mitchellh](https://github.com/mitchellh))
+- [`e89b2c8`](https://github.com/ghostty-org/ghostty/commit/e89b2c88f3a07956bd02bbd8279ead3bcbdd03a4) libghostty: introduce the kitty graphics opaque type ([@mitchellh](https://github.com/mitchellh))
+- [`9033f6f`](https://github.com/ghostty-org/ghostty/commit/9033f6f8ce2bc50fb2529616764fcb2325ae67b2) libghostty: add kitty graphics placement iterator API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a C API for iterating over Kitty graphics placements via the
+  new GhosttyKittyGraphics opaque handle. The API follows the same
+  pattern as the render state row iterator: allocate an iterator with
+  ghostty_kitty_graphics_placement_iterator_new, populate it from a
+  graphics handle via ghostty_kitty_graphics_get with the
+  PLACEMENT_ITERATOR data kind, advance with
+  ghostty_kitty_graphics_placement_next, and query per-placement
+  fields with ghostty_kitty_graphics_placement_get.
+  ```
+- [`46a69ea`](https://github.com/ghostty-org/ghostty/commit/46a69ea63d2891eca2e404eddd1bfbd84c66de0c) libghostty: add kitty graphics image lookup API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a GhosttyKittyGraphicsImage opaque type and API for looking up
+  images by ID and querying their properties. This complements the
+  existing placement iterator by allowing direct image introspection.
+  
+  The new ghostty_kitty_graphics_image() function looks up an image by
+  its ID from the storage, returning a borrowed opaque handle. Properties
+  are queried via ghostty_kitty_image_get() using the new
+  GhosttyKittyGraphicsImageData enum, which exposes id, number, width,
+  height, format, compression, and a borrowed data pointer with length.
+  
+  Format and compression are exposed as their own C enum types
+  (GhosttyKittyImageFormat and GhosttyKittyImageCompression) rather
+  than raw integers.
+  ```
+- [`9ff4bb2`](https://github.com/ghostty-org/ghostty/commit/9ff4bb2df5d2542f7f4e189aebe309d907e3449e) terminal/kitty: convert Format, Medium, Compression to lib.Enum ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Convert the Transmission.Format, Transmission.Medium, and
+  Transmission.Compression types from plain Zig enums to lib.Enum so
+  they get a C-compatible backing type when building with c_abi. This
+  lets the C API layer reuse the types directly instead of maintaining
+  separate mirror enums.
+  
+  Move Format.bpp() to a standalone Transmission.formatBpp() function
+  since lib.Enum types cannot have decls.
+  
+  In the C API layer, rename kitty_gfx to kitty_storage and command to
+  kitty_cmd for clarity, and simplify the format/compression getters
+  to direct assignment now that the types are shared.
+  ```
+- [`7144204`](https://github.com/ghostty-org/ghostty/commit/714420409be233bb0acacdc60f6d15f6822de8e1) libghostty: add placement_rect and centralize opaque typedefs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose Placement.rect() from the Zig kitty graphics storage as a new
+  C API function ghostty_kitty_graphics_placement_rect(). It takes the
+  terminal, image handle, and a positioned placement iterator, and
+  writes the bounding grid rectangle into a GhosttySelection out param.
+  Virtual placements return GHOSTTY_NO_VALUE.
+  
+  Move all opaque handle typedefs (GhosttyTerminal, GhosttyKittyGraphics,
+  GhosttyRenderState, GhosttySgrParser, GhosttyFormatter, GhosttyOsc*)
+  into types.h so they are available everywhere without circular includes
+  and Doxygen renders them in the correct @ingroup sections.
+  ```
+- [`03a6eed`](https://github.com/ghostty-org/ghostty/commit/03a6eeda1de9b00164c97960b176fe2b8457acb9) libghostty: add placement pixel_size and grid_size, rename calculatedSize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose Placement.pixelSize() and Placement.gridSize() as new C API
+  functions ghostty_kitty_graphics_placement_pixel_size() and
+  ghostty_kitty_graphics_placement_grid_size(). Both take the placement
+  iterator, image handle, and terminal, returning their results via
+  out params.
+  
+  Rename the internal Zig method from calculatedSize to pixelSize to
+  pair naturally with gridSize — one returns pixels, the other grid
+  cells. Updated all callers including the renderer.
+  ```
+- [`426dc40`](https://github.com/ghostty-org/ghostty/commit/426dc40799407b3ec564324438b73cce03f79835) example: update c-vt-kitty-graphics to use new APIs ([@mitchellh](https://github.com/mitchellh))
+- [`68a8cbb`](https://github.com/ghostty-org/ghostty/commit/68a8cbb065028b8de4f3b9e0d1676891e8018bbe) libghostty: fix expected format in image_get test ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The test transmits an image with f=24 (24-bit RGB) but was asserting
+  that the format field equals .rgba (32-bit). Corrected the expectation
+  to .rgb to match the transmitted pixel format.
+  ```
+- [`fc9299a`](https://github.com/ghostty-org/ghostty/commit/fc9299a41df3c2cb7c987350e9a5cb67433e2835) libghostty: rename ghostty_kitty_image_get to ghostty_kitty_graphics_image_get ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename the public API function to follow the consistent
+  ghostty_kitty_graphics_* naming convention used by the other
+  kitty graphics API symbols.
+  ```
+- [`20b7fe0`](https://github.com/ghostty-org/ghostty/commit/20b7fe0e1dd485af1f64ff5ce5d08135274896e9) libghostty: gate kitty graphics placement types on build option ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The PlacementIterator, PlacementMap, and PlacementIteratorWrapper
+  types in the C API were unconditionally referencing
+  kitty_storage.ImageStorage, which transitively pulled in
+  Image.transmit_time (std.time.Instant). On wasm32-freestanding,
+  std.time.Instant requires posix.timespec which does not exist,
+  causing a compilation error.
+  
+  Gate these types behind build_options.kitty_graphics, matching the
+  existing pattern used for KittyGraphics and ImageHandle. When
+  kitty graphics is disabled, they fall back to opaque/void types.
+  Add early-return guards to placement_iterator_new and
+  placement_iterator_free which directly operate on the wrapper
+  struct.
+  ```
+- [`6b94c2d`](https://github.com/ghostty-org/ghostty/commit/6b94c2da26653cc8feeaee3ef90166b3ad1e3aee) libghostty: add ghostty_terminal_point_from_grid_ref ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add the inverse of ghostty_terminal_grid_ref(), converting a grid
+  reference back to coordinates in a requested coordinate system
+  (active, viewport, screen, or history). This wraps the existing
+  internal PageList.pointFromPin and is placed on the terminal API
+  since it requires terminal-owned PageList state to resolve the
+  top-left anchor for each coordinate system.
+  
+  Returns GHOSTTY_NO_VALUE when the ref falls outside the requested
+  range, e.g. a scrollback ref cannot be expressed in active
+  coordinates.
+  ```
+- [`800cc64`](https://github.com/ghostty-org/ghostty/commit/800cc64f1b7699c68d0db823b708388f04605e67) libghostty: C APIs for Kitty Graphics inspection ([#12145](https://github.com/ghostty-org/ghostty/issues/12145)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds a C API for inspecting Kitty graphics image storage, images,
+  and placements from a terminal instance.
+  
+  I think this is enough of the API surface area for a renderer to draw
+  images. But I'll have to add it to Ghostling to be sure.
+  
+  ## Example
+  
+  ```c
+  #include <stdint.h>
+  #include <stdio.h>
+  #include <ghostty/vt.h>
+  
+  /* After creating a terminal and transmitting a Kitty graphics image... */
+  
+  /* Get the kitty graphics storage from the terminal. */
+  GhosttyKittyGraphics graphics = NULL;
+  ghostty_terminal_get(terminal, GHOSTTY_TERMINAL_DATA_KITTY_GRAPHICS, &graphics);
+  
+  /* Iterate over all placements. */
+  GhosttyKittyGraphicsPlacementIterator iter = NULL;
+  ghostty_kitty_graphics_placement_iterator_new(NULL, &iter);
+  ghostty_kitty_graphics_get(graphics,
+      GHOSTTY_KITTY_GRAPHICS_DATA_PLACEMENT_ITERATOR, &iter);
+  
+  while (ghostty_kitty_graphics_placement_next(iter)) {
+    uint32_t image_id = 0;
+    ghostty_kitty_graphics_placement_get(iter,
+        GHOSTTY_KITTY_GRAPHICS_PLACEMENT_DATA_IMAGE_ID, &image_id);
+  
+    /* Look up the image and query its properties. */
+    GhosttyKittyGraphicsImage image = ghostty_kitty_graphics_image(graphics, image_id);
+    uint32_t width = 0, height = 0;
+    GhosttyKittyImageFormat format = 0;
+    ghostty_kitty_image_get(image, GHOSTTY_KITTY_IMAGE_DATA_WIDTH, &width);
+    ghostty_kitty_image_get(image, GHOSTTY_KITTY_IMAGE_DATA_HEIGHT, &height);
+    ghostty_kitty_image_get(image, GHOSTTY_KITTY_IMAGE_DATA_FORMAT, &format);
+    printf("image %u: %ux%u format=%d\n", image_id, width, height, format);
+  
+    /* Compute rendered pixel size and grid size. */
+    uint32_t px_w, px_h, cols, rows;
+    ghostty_kitty_graphics_placement_pixel_size(iter, image, terminal, &px_w, &px_h);
+    ghostty_kitty_graphics_placement_grid_size(iter, image, terminal, &cols, &rows);
+    printf("  rendered: %ux%u px, %ux%u cells\n", px_w, px_h, cols, rows);
+  }
+  
+  ghostty_kitty_graphics_placement_iterator_free(iter);
+  ```
+  
+  ## API
+  
+  ### Functions
+  
+  | Function | Description |
+  |----------|-------------|
+  | `ghostty_kitty_graphics_get` | Query data from a kitty graphics
+  storage (e.g. placement iterator) |
+  | `ghostty_kitty_graphics_image` | Look up an image by its image ID |
+  | `ghostty_kitty_graphics_image_get` | Query image properties (ID,
+  dimensions, format, compression, pixel data) |
+  | `ghostty_kitty_graphics_placement_iterator_new` | Create a new
+  placement iterator |
+  | `ghostty_kitty_graphics_placement_iterator_free` | Free a placement
+  iterator |
+  | `ghostty_kitty_graphics_placement_next` | Advance the iterator to the
+  next placement |
+  | `ghostty_kitty_graphics_placement_get` | Query placement properties
+  (image ID, offsets, source rect, z-index, etc.) |
+  | `ghostty_kitty_graphics_placement_rect` | Compute the bounding grid
+  rectangle for a placement |
+  | `ghostty_kitty_graphics_placement_pixel_size` | Compute the rendered
+  pixel dimensions of a placement |
+  | `ghostty_kitty_graphics_placement_grid_size` | Compute the grid cell
+  dimensions of a placement |
+  
+  ### Types
+  
+  | Type | Description |
+  |------|-------------|
+  | `GhosttyKittyGraphics` | Opaque handle to image storage (borrowed from
+  terminal) |
+  | `GhosttyKittyGraphicsImage` | Opaque handle to a single image |
+  | `GhosttyKittyGraphicsPlacementIterator` | Opaque handle to a placement
+  iterator |
+  | `GhosttyKittyGraphicsData` | Enum for `ghostty_kitty_graphics_get`
+  data kinds |
+  | `GhosttyKittyGraphicsImageData` | Enum for `ghostty_kitty_image_get`
+  data kinds |
+  | `GhosttyKittyGraphicsPlacementData` | Enum for
+  `ghostty_kitty_graphics_placement_get` data kinds |
+  | `GhosttyKittyImageFormat` | Image pixel format (RGB, RGBA, PNG, gray,
+  gray+alpha) |
+  | `GhosttyKittyImageCompression` | Image compression (none, zlib) |
+  ````
 - [`3a52e0e`](https://github.com/ghostty-org/ghostty/commit/3a52e0e3bdba98b5372cf0f2d5ca5f150b8c09d7) libghostty: expose kitty image options via terminal set/get ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add four new terminal options for configuring Kitty graphics at runtime
