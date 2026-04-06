@@ -8,15 +8,172 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 6, 2026 at 12:18 UTC.
+> Last updated: April 6, 2026 at 15:16 UTC.
 
 ## April 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [2](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [3](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
+Summary: 3 runs • 12 commits • 4 authors
 
 ### Changes
 
+- [`e390937`](https://github.com/ghostty-org/ghostty/commit/e390937867b99efce6f8ac27a033088500fe6201) macos: fix badge permission ([@KayLeung](https://github.com/KayLeung))
+  ```text
+  The previous version requested general notification permissions but omitted the `.badge` option. Because the initial request was granted, `settings.authorizationStatus` returns `.authorized`, leading the app to believe it has full notification privileges when it actually lacks the authority to update the dock icon badge.
+  ```
+- [`13f7d23`](https://github.com/ghostty-org/ghostty/commit/13f7d23145891fbe3a99c268e7df388a3c9e52fc) macOS: force layout sync when frame size mismatches GeometryReader ([@fru1tworld](https://github.com/fru1tworld))
+- [`fd884bc`](https://github.com/ghostty-org/ghostty/commit/fd884bc532ca8a667a3b8397037ef382d18efc68) macOS: force surface layout sync in updateOSView ([#12143](https://github.com/ghostty-org/ghostty/issues/12143)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `updateOSView` assumed SwiftUI always propagates frame changes to the
+  scroll view. Under system load, this can be deferred, leaving the
+  surface rendering at stale dimensions. Check for size mismatch and mark
+  layout as needed.
+  
+  
+  <img width="1408" height="464" alt="ghostty_bug"
+  src="https://github.com/user-attachments/assets/3a6f81ff-9d02-4ffa-aded-e2eddc9f40a5"
+  />
+  
+  ---
+  AI Disclosure: Used Claude Code for PR preparation.
+  ```
+- [`8ae8089`](https://github.com/ghostty-org/ghostty/commit/8ae80892baba44eb49faf0b33f142c120ac04412) macos: fix dock icon badge permission ([#12133](https://github.com/ghostty-org/ghostty/issues/12133)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The previous version requested general notification permissions but
+  omitted the `.badge` option. Because the initial request was granted,
+  `settings.authorizationStatus` returns `.authorized`, leading the app to
+  believe it has full notification privileges when it actually lacks the
+  authority to update the dock icon badge.
+  
+  Debug hint:
+  You can reset the notification settings by right-clicking on the app
+  name.
+  <img width="307" height="85" alt=""
+  src="https://github.com/user-attachments/assets/660cd332-eda6-45d6-8bfd-a6f9e28e21e8"
+  />
+  ```
+- [`29e3de7`](https://github.com/ghostty-org/ghostty/commit/29e3de737e9cc4c4d6a3ac9624bbd26c87bf0eb2) terminal: make wuffs runtime-swappable, enable Kitty graphics for libvt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Introduce terminal/sys.zig which provides runtime-swappable function
+  pointers for operations that depend on external implementations. This
+  allows embedders of the terminal package to swap out implementations
+  at startup without hard dependencies on specific libraries.
+  
+  The first function exposed is decode_png, which defaults to a wuffs
+  implementation. The kitty graphics image loader now calls through
+  sys.decode_png instead of importing wuffs directly.
+  
+  This allows us to enable Kitty graphics support in libghostty-vt
+  for all targets except wasm32-freestanding.
+  ```
+- [`6a99c24`](https://github.com/ghostty-org/ghostty/commit/6a99c248d0c2a952bf0ba1333247f3fa4e381184) terminal/kitty: add Limits to restrict capabilities of image transfer ([@mitchellh](https://github.com/mitchellh))
+- [`64dcb91`](https://github.com/ghostty-org/ghostty/commit/64dcb91c1f3f1122706f70b888948d19fb1d7c42) terminal/kitty: add loading limits to kitty graphics protocol ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a Limits type to LoadingImage that controls which transmission
+  mediums (file, temporary_file, shared_memory) are allowed when
+  loading images. This defaults to "direct" (most restrictive) on
+  ImageStorage and is set to "all" by Termio, allowing apprt
+  embedders like libghostty to restrict medium types for resource or
+  security reasons.
+  
+  The limits are stored on ImageStorage, plumbed through
+  Screen.Options for screen initialization and inheritance, and
+  enforced in graphics_exec during both query and transmit. Two new
+  Terminal methods (setKittyGraphicsSizeLimit, setKittyGraphicsLoadingLimits)
+  centralize updating all screens, replacing the manual iteration
+  previously done in Termio.
+  ```
+- [`935d37f`](https://github.com/ghostty-org/ghostty/commit/935d37fbf1eea969245e144757116e8fbe93192a) terminal: add kitty image limits to Terminal.Options ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move kitty_image_storage_limit and kitty_image_loading_limits into
+  Terminal.Options so callers can set them at construction time
+  rather than calling setter functions after init. The values flow
+  through to Screen.Options during ScreenSet initialization. Termio
+  now passes both at construction, keeping the setter functions for
+  the updateConfig path.
+  ```
+- [`306acc4`](https://github.com/ghostty-org/ghostty/commit/306acc494128e54e1702e872d15cbf661b3c9e0a) terminal/kitty: use direct medium for tests if we're not using files ([@mitchellh](https://github.com/mitchellh))
+- [`810ebae`](https://github.com/ghostty-org/ghostty/commit/810ebae8e8eca363b46553b62db7fc7bfe69e24b) terminal: lower default kitty image storage limit for libghostty ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The default kitty image storage limit was 320 MB for all build
+  artifacts. For libghostty, this is overly generous since it is an
+  embedded library where conservative memory usage is preferred.
+  Lower the default to 10 MB when building as the lib artifact while
+  keeping the 320 MB default for the full Ghostty application.
+  ```
+- [`c9c3c70`](https://github.com/ghostty-org/ghostty/commit/c9c3c701e23634fd13913cb8943962e267b00d3a) terminal: make wuffs runtime-swappable, enable Kitty graphics for libvt ([#12117](https://github.com/ghostty-org/ghostty/issues/12117)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This enables Kitty Graphics for `libghostty-vt` for the Zig API (C to
+  come next).
+  
+  First, a note on security: by default, Kitty graphics will only allow
+  images transferred via the _direct_ medium (directly via the pty) and
+  will not allow file or shared memory based images. libghostty-vt
+  consumers need to manually opt-in via terminal init options or
+  `terminal.setKittyGraphicsLoadingLimits` to enable file-based things.
+  **This is so we're as secure as possible by default.**
+  
+  Second, for PNG decoding, embedders must now set a global
+  runtime-callback at `ghostty.sys.decode_png`. If this is not set, PNG
+  formatted images are rejected. If this is set, then we'll use this to
+  decode and embedders can use any decoder they want.
+  
+  There is no C API exposed yet to set this, so this is only for Zig to
+  start.
+  
+  ## Examples (Zig)
+  
+  ### Configuring Allowed Formats
+  
+  ```zig
+  var term = try Terminal.init(alloc, .{
+      .cols = 80,
+      .rows = 24,
+      // Only allow direct (inline) image data, no file/shm access.
+      // This is the default so you don't need to specify it.
+      .kitty_image_loading_limits = .direct,
+  });
+  ```
+  
+  ```zig
+  var term = try Terminal.init(alloc, .{
+      .cols = 80,
+      .rows = 24,
+      // Allow all transmission mediums: direct, file, temporary file, shared memory.
+      .kitty_image_loading_limits = .all,
+  });
+  ```
+  
+  ```zig
+  var term = try Terminal.init(alloc, .{
+      .cols = 80,
+      .rows = 24,
+      .kitty_image_loading_limits = .{
+          .file = true,
+          .temporary_file = true,
+          .shared_memory = false,
+      },
+  });
+  ```
+  
+  ### Iterate all images
+  
+  ```zig
+  var it = term.screens.active.kitty_images.images.iterator();
+  while (it.next()) |kv| {
+      const img = kv.value_ptr;
+      std.debug.print("id={} {}x{} format={} bytes={}\n", .{
+          img.id, img.width, img.height, img.format, img.data.len,
+      });
+  }
+  ```
+  
+  ### Delete all images
+  
+  ```zig
+  term.screens.active.kitty_images.delete(alloc, &term, .{ .all = true });
+  ```
+  ````
 - [`841a49a`](https://github.com/ghostty-org/ghostty/commit/841a49ae1a25cda91a50e4f8ebac4811503081fa) Update VOUCHED list ([#12138](https://github.com/ghostty-org/ghostty/issues/12138)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
