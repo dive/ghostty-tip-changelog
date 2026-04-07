@@ -8,15 +8,208 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 7, 2026 at 12:19 UTC.
+> Last updated: April 7, 2026 at 15:30 UTC.
 
 ## April 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24065610222), [2](https://github.com/ghostty-org/ghostty/actions/runs/24062899731), [3](https://github.com/ghostty-org/ghostty/actions/runs/24061565576)  
-Summary: 3 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24088285274), [2](https://github.com/ghostty-org/ghostty/actions/runs/24082641330), [3](https://github.com/ghostty-org/ghostty/actions/runs/24065610222), [4](https://github.com/ghostty-org/ghostty/actions/runs/24062899731), [5](https://github.com/ghostty-org/ghostty/actions/runs/24061565576)  
+Summary: 5 runs • 11 commits • 6 authors
 
 ### Changes
 
+- [`853183e`](https://github.com/ghostty-org/ghostty/commit/853183e911b70ff7b61057f52fc7b47ea4934238) Update VOUCHED list ([#12165](https://github.com/ghostty-org/ghostty/issues/12165)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12164#discussioncomment-16477806)
+  from @jcollie.
+  
+  Vouch: @MoonMao42
+  ```
+- [`355aecb`](https://github.com/ghostty-org/ghostty/commit/355aecb6ba26584c4430377dc0f6e9a0b0d59fe0) macos: cancel deferred tab presentation on close ([@jamylak](https://github.com/jamylak))
+  ```text
+  The 👻 Ghost Tab Issue
+  
+  Previous failure scenario (User perspective):
+  
+  1. Open a new tab
+  2. Instantly trigger close other tabs
+     (eg. through custom user keyboard shortcut)
+  3. Now you will see an empty Ghost Tab
+     (Only a window bar with empty content)
+  
+  The previous failure mode is:
+  
+  1. Create a tab or window now in `newTab(...)` / `newWindow(...)`.
+  2. Queue its initial show/focus work with `DispatchQueue.main.async`.
+  3. Close that tab or window with `closeTabImmediately()` /
+   `closeWindowImmediately()` before the queued callback runs.
+  4. The queued callback still runs anyway and calls `showWindow(...)` /
+   `makeKeyAndOrderFront(...)` on stale state.
+  5. The tab can be resurrected as a half-closed blank ghost tab.
+  
+  The fix:
+  
+  - Store deferred presentation work in a cancellable
+    DispatchWorkItem and cancel it from the close paths
+    before AppKit finishes tearing down the tab or window.
+  - This prevents the stale show/focus callback from
+    running after close.
+  ```
+- [`06340cd`](https://github.com/ghostty-org/ghostty/commit/06340cd3f05f7124c7757571a9fba77a30f78a53) libghostty-vt: add semver pre info to build info ([@jcollie](https://github.com/jcollie))
+- [`5c45484`](https://github.com/ghostty-org/ghostty/commit/5c45484a717388395e8537dc35881c57940edf2d) build(deps): bump flatpak/flatpak-github-actions from 6.6 to 6.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [flatpak/flatpak-github-actions](https://github.com/flatpak/flatpak-github-actions) from 6.6 to 6.7.
+  - [Release notes](https://github.com/flatpak/flatpak-github-actions/releases)
+  - [Commits](https://github.com/flatpak/flatpak-github-actions/compare/92ae9851ad316786193b1fd3f40c4b51eb5cb101...401fe28a8384095fc1531b9d320b292f0ee45adb)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: flatpak/flatpak-github-actions
+    dependency-version: '6.7'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`140ddd9`](https://github.com/ghostty-org/ghostty/commit/140ddd9770c1f139464a368359be6c370d609866) build(deps): bump flatpak/flatpak-github-actions from 6.6 to 6.7 ([#12154](https://github.com/ghostty-org/ghostty/issues/12154)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [flatpak/flatpak-github-actions](https://github.com/flatpak/flatpak-github-actions)
+  from 6.6 to 6.7.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/flatpak/flatpak-github-actions/releases">flatpak/flatpak-github-actions's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v6.7</h2>
+  <ul>
+  <li>Bump action to node 24</li>
+  <li>Add the git commit as the ostree commit subject</li>
+  <li>Allow configurable build/repo/state dirs</li>
+  <li>Add keep-build-dirs flag</li>
+  <li>Update action dependencies</li>
+  <li>Improvements to contributing docs</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/401fe28a8384095fc1531b9d320b292f0ee45adb"><code>401fe28</code></a>
+  flatpak-builder: Add keepBuildDirs flag (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/229">#229</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/fc05c5ecc19c74ec586bd7a5bc32532ab3f0043f"><code>fc05c5e</code></a>
+  action: Bump to node 24 (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/243">#243</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/ce5753fa4123107dee7bb03dd0d360c884baf222"><code>ce5753f</code></a>
+  Some doc improvements (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/245">#245</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/fef33cbb5c2d1a311753adfa02239b91fb237077"><code>fef33cb</code></a>
+  Update dependencies (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/244">#244</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/0a631396999e4243489a8a6ecf54fcb9f0575078"><code>0a63139</code></a>
+  feat(flatpak-builder): Allow configurable build/repo/state dirs (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/237">#237</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/ad1b66ed726a37baa034681da3009761063ec360"><code>ad1b66e</code></a>
+  flatpak-builder: Add the git commit as the ostree commit subject</li>
+  <li>See full diff in <a
+  href="https://github.com/flatpak/flatpak-github-actions/compare/92ae9851ad316786193b1fd3f40c4b51eb5cb101...401fe28a8384095fc1531b9d320b292f0ee45adb">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=flatpak/flatpak-github-actions&package-manager=github_actions&previous-version=6.6&new-version=6.7)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`2b62e3c`](https://github.com/ghostty-org/ghostty/commit/2b62e3c82a5541747a259b1dfe946ebd5993a471) libghostty-vt: add semver pre info to build info ([#12150](https://github.com/ghostty-org/ghostty/issues/12150)) ([@mitchellh](https://github.com/mitchellh))
+- [`0043e66`](https://github.com/ghostty-org/ghostty/commit/0043e665f5a28a5eaa6bcb3090b56e8a5a7d0894) macos: cancel deferred tab presentation on close ([#12119](https://github.com/ghostty-org/ghostty/issues/12119)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The 👻 Ghost Tab Issue
+  
+  
+  https://github.com/user-attachments/assets/cb91cd85-4a08-4c16-9efb-1a9ab30fc2bc
+  
+  Previous failure scenario (User perspective):
+  
+  1. Open a new tab
+  2. Instantly trigger close other tabs (eg. through custom user keyboard
+  shortcut)
+  3. Now you will see an empty Ghost Tab (Only a window bar with empty
+  content)
+  
+  The previous failure mode is:
+  
+  1. Create a tab or window now in `newTab(...)` / `newWindow(...)`.
+  2. Queue its initial show/focus work with `DispatchQueue.main.async`.
+  3. Close that tab or window with `closeTabImmediately()` /
+  `closeWindowImmediately()` before the queued callback runs.
+  4. The queued callback still runs anyway and calls `showWindow(...)` /
+  `makeKeyAndOrderFront(...)` on stale state.
+  5. The tab can be resurrected as a half-closed blank ghost tab.
+  
+  The fix:
+  
+  - Store deferred presentation work in a cancellable DispatchWorkItem and
+  cancel it from the close paths before AppKit finishes tearing down the
+  tab or window.
+  - This prevents the stale show/focus callback from running after close.
+  
+  ## AI Usage
+  
+  I used GPT 5.4 to find the initial issue and fix it. I cleaned up and
+  narrowed down the commit afterwards.
+  
+  -----
+  
+  Additional Notes:
+  
+  I use `cmd+o` to `close_tab:other`
+  
+  https://github.com/jamylak/dotfiles/blob/main/ghostty/config#L106C1-L106C34
+  
+  Try it for your self if you want to reproduce, just do a quick `cmd+t`
+  `cmd+o` and you will see
+  ```
 - [`95fb39a`](https://github.com/ghostty-org/ghostty/commit/95fb39ae0cb8d0f8cfe2e4e50a5278d2b8983335) chore: removed superfluous word ([@tbrundige](https://github.com/tbrundige))
 - [`ee236e9`](https://github.com/ghostty-org/ghostty/commit/ee236e9a73951689ee77af9c07f25c15cb64c52c) chore: removed superfluous word ([#12160](https://github.com/ghostty-org/ghostty/issues/12160)) ([@jcollie](https://github.com/jcollie))
   ```text
