@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 7, 2026 at 03:57 UTC.
+> Last updated: April 7, 2026 at 06:31 UTC.
 
 ## April 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24062899731), [2](https://github.com/ghostty-org/ghostty/actions/runs/24061565576)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24065610222), [2](https://github.com/ghostty-org/ghostty/actions/runs/24062899731), [3](https://github.com/ghostty-org/ghostty/actions/runs/24061565576)  
+Summary: 3 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`95fb39a`](https://github.com/ghostty-org/ghostty/commit/95fb39ae0cb8d0f8cfe2e4e50a5278d2b8983335) chore: removed superfluous word ([@tbrundige](https://github.com/tbrundige))
+- [`ee236e9`](https://github.com/ghostty-org/ghostty/commit/ee236e9a73951689ee77af9c07f25c15cb64c52c) chore: removed superfluous word ([#12160](https://github.com/ghostty-org/ghostty/issues/12160)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I noticed a likely unintentional "actually" in the README. Nothing
+  fancy, just updating the documentation.
+  ```
 - [`a1e75da`](https://github.com/ghostty-org/ghostty/commit/a1e75daef8b64426dbca551c6e41b1fbc2b7ae24) Update VOUCHED list ([#12158](https://github.com/ghostty-org/ghostty/issues/12158)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
