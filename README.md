@@ -8,15 +8,166 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 6, 2026 at 21:12 UTC.
+> Last updated: April 7, 2026 at 00:25 UTC.
 
 ## April 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24049440104), [2](https://github.com/ghostty-org/ghostty/actions/runs/24047275570), [3](https://github.com/ghostty-org/ghostty/actions/runs/24039345933), [4](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [5](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [6](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
-Summary: 6 runs • 34 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24053831175), [2](https://github.com/ghostty-org/ghostty/actions/runs/24051267343), [3](https://github.com/ghostty-org/ghostty/actions/runs/24049440104), [4](https://github.com/ghostty-org/ghostty/actions/runs/24047275570), [5](https://github.com/ghostty-org/ghostty/actions/runs/24039345933), [6](https://github.com/ghostty-org/ghostty/actions/runs/24036582590), [7](https://github.com/ghostty-org/ghostty/actions/runs/24035367670), [8](https://github.com/ghostty-org/ghostty/actions/runs/24018750527)  
+Summary: 8 runs • 46 commits • 5 authors
 
 ### Changes
 
+- [`05fb57d`](https://github.com/ghostty-org/ghostty/commit/05fb57dd4044dbd44f5b751afaa0beafea9df4bb) build: emit xcframework for libghostty-vt on macOS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On Darwin targets, the build now automatically produces a universal
+  (arm64 + x86_64) XCFramework at lib/ghostty-vt.xcframework under
+  the install prefix. This bundles the fat static library with headers
+  so consumers using Xcode or Swift PM can link libghostty-vt directly.
+  ```
+- [`f567f7f`](https://github.com/ghostty-org/ghostty/commit/f567f7f46d0b60da3fddb18070e74b1c0deb074f) build: add GhosttyVt module map to xcframework and Swift example ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The xcframework now generates its own headers directory with a
+  GhosttyVt module map instead of reusing include/ directly, which
+  contains the GhosttyKit module map for the macOS app. The generated
+  directory copies the ghostty headers and adds a module.modulemap
+  that exposes ghostty/vt.h as the umbrella header.
+  
+  A new swift-vt-xcframework example demonstrates consuming the
+  xcframework from a Swift Package. It creates a terminal, writes
+  VT sequences, and formats the output as plain text, verifying
+  the full round-trip works with swift build and swift run.
+  ```
+- [`764ff18`](https://github.com/ghostty-org/ghostty/commit/764ff18b8edef150c7736d16a82a3f4e557fc374) ci: add Swift example builds on macOS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Auto-discover Swift examples via example/*/Package.swift alongside
+  the existing zig and cmake discovery. The new build-examples-swift
+  job runs on macOS, builds the xcframework with zig build -Demit-lib-vt,
+  then runs swift run in each example directory to verify the
+  xcframework links and functions correctly end-to-end.
+  ```
+- [`90b706b`](https://github.com/ghostty-org/ghostty/commit/90b706b97703bcec3dab6c2285acf86685e5fdfb) ci: publish lib-vt xcframework in tip releases ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a build-lib-vt-xcframework job to the release-tip workflow that
+  builds the universal xcframework with ReleaseFast, zips it, signs
+  it with minisign, and uploads it to both the GitHub Release and R2
+  blob storage. Consumers can pull the xcframework zip from the tip
+  release or by commit hash from tip.files.ghostty.org.
+  ```
+- [`e1a0e40`](https://github.com/ghostty-org/ghostty/commit/e1a0e40ec4cfd7ae6ed7d99b92db733cea95a2c0) build: skip xcframework when cross-compiling ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Gate the xcframework build on the host being macOS in addition to
+  the target, since xcodebuild is only available on macOS.
+  ```
+- [`9b281cd`](https://github.com/ghostty-org/ghostty/commit/9b281cde4324f9a4c993c6776829fb64ce601f77) build: add iOS slices to lib-vt xcframework ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add iOS device and simulator slices to the xcframework, gated on
+  SDK availability via std.zig.LibCInstallation.findNative. Refactor
+  AppleLibs from a struct with named fields to an EnumMap keyed by
+  ApplePlatform so that adding new platforms only requires extending
+  the enum and its sdk_platforms table.
+  
+  tvOS, watchOS, and visionOS are listed as not yet supported due to
+  Zig stdlib limitations (missing PATH_MAX, mcontext fields).
+  ```
+- [`249aee7`](https://github.com/ghostty-org/ghostty/commit/249aee70105facdfdf0e627be4f0c0d342ce08a0) example/swift-vt-xcframework: fix buffer overflow ([@mitchellh](https://github.com/mitchellh))
+- [`445e194`](https://github.com/ghostty-org/ghostty/commit/445e1945da573a5b63adb4e4e7294c135cb0e86a) ci: upload lib-vt source tarball to R2 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add R2 upload steps to the source-tarball-lib-vt job in the tip
+  release workflow, matching the pattern used by the xcframework
+  job. The tarball is uploaded to the ghostty-tip R2 bucket keyed
+  by commit hash, making it available at
+  tip.files.ghostty.org/<commit>/libghostty-vt-source.tar.gz.
+  ```
+- [`c12a0e3`](https://github.com/ghostty-org/ghostty/commit/c12a0e395d75c19b0a2c841f021885f535e68cbc) libghostty: build universal xcframework and release it on tip ([#12149](https://github.com/ghostty-org/ghostty/issues/12149)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This produces a `ghostty-vt.xcframework` for `zig build -Demit-lib-vt`
+  when the host is macOS and the target is Apple platforms. Our CI has
+  been updated to release this via tip channels (GH releases and our blob
+  storage), too.
+  
+  The xcframework contains binaries for macOS Universal (x86_64 +
+  aarch64), iOS, and iOS simulator.
+  
+  I've added a Swift example we run in CI to verify this works. Users can
+  also drag and drop the XCFramework directly into Xcode.
+  
+  ## Example
+  
+  ```swift
+  // swift-tools-version: 5.9
+  import PackageDescription
+  
+  let package = Package(
+      name: "swift-vt-xcframework",
+      platforms: [.macOS(.v13)],
+      targets: [
+          .executableTarget(
+              name: "swift-vt-xcframework",
+              dependencies: ["GhosttyVt"],
+              path: "Sources",
+              linkerSettings: [
+                  .linkedLibrary("c++"),
+              ]
+          ),
+          .binaryTarget(
+              name: "GhosttyVt",
+              path: "../../zig-out/lib/ghostty-vt.xcframework"
+          ),
+      ]
+  )
+  ```
+  
+  ```swift
+  import GhosttyVt
+  
+  // Create a terminal with a small grid
+  var terminal: GhosttyTerminal?
+  var opts = GhosttyTerminalOptions(
+      cols: 80,
+      rows: 24,
+      max_scrollback: 0
+  )
+  let result = ghostty_terminal_new(nil, &terminal, opts)
+  guard result == GHOSTTY_SUCCESS, let terminal else {
+      fatalError("Failed to create terminal")
+  }
+  
+  // Write some VT-encoded content
+  let text = "Hello from \u{1b}[1mSwift\u{1b}[0m via xcframework!\r\n"
+  text.withCString { ptr in
+      ghostty_terminal_vt_write(terminal, ptr, strlen(ptr))
+  }
+  
+  // Format the terminal contents as plain text
+  var fmtOpts = GhosttyFormatterTerminalOptions()
+  fmtOpts.size = MemoryLayout<GhosttyFormatterTerminalOptions>.size
+  fmtOpts.emit = GHOSTTY_FORMATTER_FORMAT_PLAIN
+  fmtOpts.trim = true
+  
+  var formatter: GhosttyFormatter?
+  let fmtResult = ghostty_formatter_terminal_new(nil, &formatter, terminal, fmtOpts)
+  guard fmtResult == GHOSTTY_SUCCESS, let formatter else {
+      fatalError("Failed to create formatter")
+  }
+  
+  var buf: UnsafeMutablePointer<UInt8>?
+  var len: Int = 0
+  let allocResult = ghostty_formatter_format_alloc(formatter, nil, &buf, &len)
+  guard allocResult == GHOSTTY_SUCCESS, let buf else {
+      fatalError("Failed to format")
+  }
+  
+  print("Plain text (\(len) bytes):")
+  print(String(cString: buf))
+  
+  ghostty_free(nil, buf, len)
+  ghostty_formatter_free(formatter)
+  ghostty_terminal_free(terminal)
+  ```
+  ````
+- [`da83575`](https://github.com/ghostty-org/ghostty/commit/da835757b0330474ec4050fa2b149a9b0c887d52) prettier: ignore swift outputs ([@mitchellh](https://github.com/mitchellh))
+- [`06144d3`](https://github.com/ghostty-org/ghostty/commit/06144d30f2541508d1fe8f10083bd87ff422af72) libghostty-vt: allow version to be customized from the Zig build command ([@jcollie](https://github.com/jcollie))
+- [`f7a9e31`](https://github.com/ghostty-org/ghostty/commit/f7a9e313cd39e8c08f3b306fa808ca97cbd55d27) libghostty-vt: allow version to be customized from the Zig build command ([#12104](https://github.com/ghostty-org/ghostty/issues/12104)) ([@mitchellh](https://github.com/mitchellh))
 - [`66bfdf8`](https://github.com/ghostty-org/ghostty/commit/66bfdf8e7a2662d9a10c702edd69bc14cc0886a6) libghostty: add z-layer filtered placement iterator ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add a placement_iterator_set function that configures iterator
@@ -806,170 +957,5 @@ Summary: 5 runs • 10 commits • 5 authors
   from @mitchellh.
   
   Vouch: @Jarred-Sumner
-  ```
-
-## March 31, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23818463910), [2](https://github.com/ghostty-org/ghostty/actions/runs/23817714567), [3](https://github.com/ghostty-org/ghostty/actions/runs/23816973665), [4](https://github.com/ghostty-org/ghostty/actions/runs/23809776760), [5](https://github.com/ghostty-org/ghostty/actions/runs/23804057267), [6](https://github.com/ghostty-org/ghostty/actions/runs/23800973809), [7](https://github.com/ghostty-org/ghostty/actions/runs/23799245747), [8](https://github.com/ghostty-org/ghostty/actions/runs/23778163434)  
-Summary: 8 runs • 24 commits • 7 authors
-
-### Changes
-
-- [`4b5f2d6`](https://github.com/ghostty-org/ghostty/commit/4b5f2d60e7bc347c502ea9c13a59ba1f3f0546ff) core/gtk: ensure that first surface gets marked as focused surface by app ([@jcollie](https://github.com/jcollie))
-- [`c2dd757`](https://github.com/ghostty-org/ghostty/commit/c2dd7579e28ff1fecb4a68f32ae8cacda576550c) core/gtk: ensure that first surface gets marked as focused surface by app ([#12029](https://github.com/ghostty-org/ghostty/issues/12029)) ([@jcollie](https://github.com/jcollie))
-- [`dee8598`](https://github.com/ghostty-org/ghostty/commit/dee8598dc040962e9dbf5a050e2e65456b3da9d1) gtk: use surface id for notifications instead of pointer ([@jcollie](https://github.com/jcollie))
-- [`0f6836c`](https://github.com/ghostty-org/ghostty/commit/0f6836c69fdc480ea84f983dfe4c0bb18edb4f61) gtk: use surface id for notifications instead of pointer ([#12028](https://github.com/ghostty-org/ghostty/issues/12028)) ([@jcollie](https://github.com/jcollie))
-- [`ff02ed1`](https://github.com/ghostty-org/ghostty/commit/ff02ed1b3458f88e3d3eb31d59027e374aba2ecd) core: add 64 bit unique ID to every core surface ([@jcollie](https://github.com/jcollie))
-  ```text
-  - Expose that ID as the environment variable GHOSTTY_SURFACE_ID to
-    processes running in Ghostty surfaces.
-  - Add a function to the core app to search for surfaces by ID.
-  - ID is randomly generated, it has no other meaning other than as a
-    unique identifier for the surface. The ID also cannot be zero as that
-    is used to indicate a null ID in some situations.
-  ```
-- [`f90180f`](https://github.com/ghostty-org/ghostty/commit/f90180f91f1e28d474f458e7ebe3d10f4d7bd3cd) core: add 64 bit unique ID to every core surface ([#12027](https://github.com/ghostty-org/ghostty/issues/12027)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  - Expose that ID as the environment variable GHOSTTY_SURFACE_ID to
-  processes running in Ghostty surfaces.
-  - Add a function to the core app to search for surfaces by ID.
-  - ID is randomly generated, it has no other meaning other than as a
-  unique identifier for the surface. The ID also cannot be zero as that is
-  used to indicate a null ID in some situations.
-  ```
-- [`4803d58`](https://github.com/ghostty-org/ghostty/commit/4803d58bb4ea8d2a71ebc1e5239f09a060e9e7c3) apprt/embedded: fix ghostty_surface_free_text parameter mismatch ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #12020
-  
-  The C header declared ghostty_surface_free_text with both a
-  ghostty_surface_t and ghostty_text_s* parameter, but the Zig
-  implementation only accepted a *Text parameter. This caused the
-  surface pointer to be interpreted as the text pointer, so the
-  actual text allocation was never freed.
-  ```
-- [`f16d354`](https://github.com/ghostty-org/ghostty/commit/f16d35489b1809657bb2675ab6bdc7eabefb59f9) apprt/embedded: fix ghostty_surface_free_text parameter mismatch ([#12025](https://github.com/ghostty-org/ghostty/issues/12025)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #12020
-  
-  The C header declared ghostty_surface_free_text with both a
-  ghostty_surface_t and ghostty_text_s* parameter, but the Zig
-  implementation only accepted a *Text parameter. This caused the surface
-  pointer to be interpreted as the text pointer, so the actual text
-  allocation was never freed.
-  
-  I opted to keep the surface parameter to minimize the diff here. I'm not
-  sure why I thought I would need access to that surface pointer but just
-  want to fix the leak first.
-  ```
-- [`b288063`](https://github.com/ghostty-org/ghostty/commit/b2880636af477287436e01e8a86238bfa198b0e1) Update VOUCHED list ([#12022](https://github.com/ghostty-org/ghostty/issues/12022)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12019#discussioncomment-16396278)
-  from @jcollie.
-  
-  Vouch: @danneu
-  ```
-- [`e993ded`](https://github.com/ghostty-org/ghostty/commit/e993ded7c8a8078d28d4d4d3d2ba93cb9edce71f) ghostty.h: guard sys/types.h include for MSVC ([@deblasis](https://github.com/deblasis))
-  ```text
-  sys/types.h is a POSIX header that does not exist on MSVC. Move it
-  into the #else branch of the existing _MSC_VER guard that already
-  provides ssize_t via BaseTsd.h.
-  ```
-- [`ed6f058`](https://github.com/ghostty-org/ghostty/commit/ed6f0588a31ea76b027724ec4127cedbe5c3bdbf) feat: make version clickable depending on type ([@louisunlimited](https://github.com/louisunlimited))
-- [`b29f261`](https://github.com/ghostty-org/ghostty/commit/b29f261dc89b6c9ed1b37d700ec3f815dcf00462) chore: clean up versionConfig to be init-able ([@louisunlimited](https://github.com/louisunlimited))
-- [`90d71dd`](https://github.com/ghostty-org/ghostty/commit/90d71dd2f62b33ddb44ba8cb647e24b3eb76e131) chore: clean up comments ([@louisunlimited](https://github.com/louisunlimited))
-- [`183e2ce`](https://github.com/ghostty-org/ghostty/commit/183e2cef2f17c6b43427635ac124edc13cbd1425) chore: clean up switch statement ([@louisunlimited](https://github.com/louisunlimited))
-- [`010880a`](https://github.com/ghostty-org/ghostty/commit/010880a90ae5988335a6174493a6f2d2644be08b) chore: make url computed property & rework enum signature ([@louisunlimited](https://github.com/louisunlimited))
-- [`591dbd5`](https://github.com/ghostty-org/ghostty/commit/591dbd511265efcf24b3a60ca31b6ce5716c68c6) macOS: fix incorrect delete symbol mapping ([@bo2themax](https://github.com/bo2themax))
-- [`f140b14`](https://github.com/ghostty-org/ghostty/commit/f140b1463fc7f0d5a3d84d09663d90ea31c2ea85) macOS: fix incorrect delete symbol mapping ([#12011](https://github.com/ghostty-org/ghostty/issues/12011)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  `GHOSTTY_KEY_DELETE` should be mapped to `KeyEquivalent.deleteForward`.
-  This fixes the correct symbol showing in the menu. Previously, both
-  `GHOSTTY_KEY_DELETE` and `GHOSTTY_KEY_BACKSPACE` were showing `⌫`, but
-  `GHOSTTY_KEY_DELETE` only worked for `fn+delete`.
-  
-  Add the following keybind and observe the symbol in the menu:
-  ```
-  keybind=delete=new_tab
-  ```
-  
-  <img width="535" height="318" alt="image"
-  src="https://github.com/user-attachments/assets/67ed7b5d-f848-42ee-a382-fe364d86cb2c"
-  />
-  ````
-- [`5fe876c`](https://github.com/ghostty-org/ghostty/commit/5fe876cfa05d86b06da7a7fc31c363a4fc54661a) ghostty.h: guard sys/types.h include for MSVC ([#12010](https://github.com/ghostty-org/ghostty/issues/12010)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  - Move `sys/types.h` include into the `#else` branch of the existing
-  `_MSC_VER` guard
-  - MSVC does not ship `sys/types.h` (POSIX header), and already gets
-  `ssize_t` from `BaseTsd.h`
-  
-  ## Test plan
-  
-  - [x] `zig build -Dapp-runtime=none` -- clean build
-  - [x] `zig build test -Dapp-runtime=none` on Windows (2606/2660 passed,
-  54 skipped)
-  - [x] `zig build test` on Linux (2658/2684 passed, 26 skipped)
-  - [x] `zig build test` on macOS (2658/2668 passed, 10 skipped)
-  - [x] `zig build test-lib-vt` on all 3 platforms
-  - [x] Zig examples build on all 3 platforms
-  - [x] CMake examples build on Windows (c-vt-cmake pass,
-  c-vt-cmake-static pass)
-  ```
-- [`292bf13`](https://github.com/ghostty-org/ghostty/commit/292bf13d06a82065da2a9fb19cf18c2267578309) macOS: Make version in about dialog clickable ([#12007](https://github.com/ghostty-org/ghostty/issues/12007)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  - Fixes: https://github.com/ghostty-org/ghostty/issues/11964
-  
-  Made a private enum type `VersionConfig` to reference whether the
-  release is a semver or tip, makes it easier for later in the view to
-  `switch` between cases.
-  
-  I do think there could be a better place for this enum or we can get rid
-  of it, open to opinions. Right now version parsing is kind of duplicated
-  between `AboutView` and `UpdateModalView` so we can also extract to a
-  common helper if wanted.
-  
-  Tested by manually setting `Marketing Version` in build settings to
-  
-  `1.3.1`
-  <img width="412" height="532" alt="Screenshot 2026-03-30 at 18 31 15"
-  src="https://github.com/user-attachments/assets/285bb94d-138b-4169-bb66-684eb04b6ca3"
-  />
-  
-  `332b2aefc`
-  <img width="412" height="532" alt="Screenshot 2026-03-30 at 18 32 48"
-  src="https://github.com/user-attachments/assets/fea30d39-bea7-4885-8221-1696e148f45e"
-  />
-  
-  ### AI Disclosure
-  I used Sonnet 4.6 to understand where the version strings came from and
-  in what format, it read release yml files to see what's going on. Then
-  it proposed really bad code so I manually went in and cleaned up the
-  view.
-  ```
-- [`30c9dec`](https://github.com/ghostty-org/ghostty/commit/30c9dec76b706c5b26cfad3fb0c25c4850ff1175) add all C struct layout metadata for WASM ([@elias8](https://github.com/elias8))
-- [`1d0a247`](https://github.com/ghostty-org/ghostty/commit/1d0a247c20aa009124a0ba75cf9e460b7fa4aa1d) sort map alphabetically ([@elias8](https://github.com/elias8))
-- [`f827530`](https://github.com/ghostty-org/ghostty/commit/f82753010300668d67c884fd75f618e7493978b8) libghostty: add all C struct layout metadata for WASM ([#12017](https://github.com/ghostty-org/ghostty/issues/12017)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Added all C structs and sorted the entries for readability.
-  ```
-- [`a06350d`](https://github.com/ghostty-org/ghostty/commit/a06350df9b077a0aa82657ecff22e7fb0d620faf) macOS: close search bar if needed when it loses focus ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  This adds features like:
-  1. Clicking outside of SearchBar works like typing `escape`
-  2. Typing `tab` while search bar is focused also works like typing `escape`
-  ```
-- [`20cfaae`](https://github.com/ghostty-org/ghostty/commit/20cfaae2e5ec84cca2c5a55843b399b32fb9c810) macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds features like:
-  
-  1. Clicking outside of search bar works like typing `escape`
-  2. Typing `tab` while search bar is focused also works like typing
-  `escape`
-  
-  
-  https://github.com/user-attachments/assets/a51f1560-ed14-4002-81b4-96eb927b17ca
   ```
 
