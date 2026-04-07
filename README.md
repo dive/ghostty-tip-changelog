@@ -8,7 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 7, 2026 at 00:25 UTC.
+> Last updated: April 7, 2026 at 03:57 UTC.
+
+## April 7, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24062899731), [2](https://github.com/ghostty-org/ghostty/actions/runs/24061565576)  
+Summary: 2 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`a1e75da`](https://github.com/ghostty-org/ghostty/commit/a1e75daef8b64426dbca551c6e41b1fbc2b7ae24) Update VOUCHED list ([#12158](https://github.com/ghostty-org/ghostty/issues/12158)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12157#discussioncomment-16470907)
+  from @jcollie.
+  
+  Vouch: @tbrundige
+  ```
+- [`8f376d8`](https://github.com/ghostty-org/ghostty/commit/8f376d84b495a389c8859309df9b35c7355c9c97) Update VOUCHED list ([#12156](https://github.com/ghostty-org/ghostty/issues/12156)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12155#discussioncomment-16470483)
+  from @jcollie.
+  
+  Vouch: @KieranCanter
+  ```
 
 ## April 6, 2026
 
