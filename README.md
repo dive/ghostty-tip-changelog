@@ -8,7 +8,85 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 8, 2026 at 15:30 UTC.
+> Last updated: April 8, 2026 at 18:26 UTC.
+
+## April 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24151290586)  
+Summary: 1 runs • 13 commits • 3 authors
+
+### Changes
+
+- [`1322d64`](https://github.com/ghostty-org/ghostty/commit/1322d64534a052c3f1c0a65a199a883f1e0a5f71) libghostty-vt: nix package updates and more nix tests ([@jcollie](https://github.com/jcollie))
+- [`93a4470`](https://github.com/ghostty-org/ghostty/commit/93a447045803099e43a603f14150b70de33f4b34) libghostty-vt: require build-nix-macos ([@jcollie](https://github.com/jcollie))
+- [`dedc3fc`](https://github.com/ghostty-org/ghostty/commit/dedc3fce865c92f05773cb90501cf58707b7702a) libghostty-vt: build nix package on all platforms ([@jcollie](https://github.com/jcollie))
+- [`4ae155b`](https://github.com/ghostty-org/ghostty/commit/4ae155be5915f02da92044a1204947d18df90896) flake: ensure that packages don't get lost ([@jcollie](https://github.com/jcollie))
+- [`1d61e27`](https://github.com/ghostty-org/ghostty/commit/1d61e2735179bcf8ea06531658570ea64d5cfc05) libghostty-vt: disable macOS CI nix build ([@jcollie](https://github.com/jcollie))
+- [`28c75e2`](https://github.com/ghostty-org/ghostty/commit/28c75e2c61fbe1a60fd12b312036ee71ed319104) libghostty-vt: fix nix package name ([@jcollie](https://github.com/jcollie))
+- [`c2e2a3b`](https://github.com/ghostty-org/ghostty/commit/c2e2a3b7f9d9d0d175bf61a3dbb2c4dea5ad2a5a) flake: make building package list more flexible ([@jcollie](https://github.com/jcollie))
+- [`363cb95`](https://github.com/ghostty-org/ghostty/commit/363cb9560e13f35c07a7ed41a41706da44003227) macOS: fix icon style not updating on Tahoe ([@bo2themax](https://github.com/bo2themax))
+- [`9897d6c`](https://github.com/ghostty-org/ghostty/commit/9897d6caba05c0cbf256f86bec2e2935f164a9c7) libghostty: add GHOSTTY_ENUM_MAX_VALUE sentinel to all C enums ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Pre-C23, the C standard allows compilers to choose any integer type
+  that can represent all enum values, so small enums could be backed
+  by char or short. This breaks ABI compatibility with the Zig side,
+  which backs these enums with c_int.
+  
+  Define GHOSTTY_ENUM_MAX_VALUE as INT_MAX in types.h and add it as
+  the last entry in every enum in include/ghostty/vt/. This forces
+  the compiler to use int as the backing type, matching c_int on all
+  targets. INT_MAX is used rather than a fixed constant because enum
+  constants must be representable as int; values above INT_MAX are a
+  constraint violation in standard C.
+  
+  Document this convention in AGENTS.md.
+  ```
+- [`f282f13`](https://github.com/ghostty-org/ghostty/commit/f282f13a210ed7e8760f1cb87f465ef82253aaf6) libghostty: add GHOSTTY_ENUM_TYPED and GHOSTTY_ENUM_MAX_VALUE to all C enums ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  GHOSTTY_ENUM_TYPED: expands to `: int` on C23 (where explicit enum
+  underlying types are supported), empty on older standards.
+  ```
+- [`a1c6f80`](https://github.com/ghostty-org/ghostty/commit/a1c6f800c5dfa5b1b19edc9556b898577ca6b840) libghostty: add MAX_VALUE sentinels to all C enums for 32-bit sizing ([#12189](https://github.com/ghostty-org/ghostty/issues/12189)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Pre-C23, the C standard allows compilers to choose any integer type
+  that can represent all enum values, so small enums could be backed
+  by char or short. This breaks ABI compatibility with the Zig side,
+  which backs these enums with c_int.
+  
+  Define GHOSTTY_ENUM_MAX_VALUE as INT_MAX in types.h and add it as
+  the last entry in every enum in include/ghostty/vt/. This forces
+  the compiler to use int as the backing type, matching c_int on all
+  targets. INT_MAX is used rather than a fixed constant because enum
+  constants must be representable as int; values above INT_MAX are a
+  constraint violation in standard C.
+  
+  Document this convention in AGENTS.md.
+  ```
+- [`e740f6f`](https://github.com/ghostty-org/ghostty/commit/e740f6fc117971da9df9fc957a706e6d96554aa5) macOS: fix icon style not updating properly on Tahoe ([#12180](https://github.com/ghostty-org/ghostty/issues/12180)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a regression from #9983. When resetting to default, we shouldn't
+  use the representation of the icon, which will prevent the icon from
+  updating after system settings change.
+  
+  1. Delete `macos-icon` config if it exists and reload.
+  2. Go to **System Settings -> Appearance** and change **Icon & widget
+  style** to any one other than Default, and observe the app icon.
+  
+  
+  <img width="228" height="179" alt="image"
+  src="https://github.com/user-attachments/assets/e53274f8-b679-4d6f-8e0b-edfd7d17811d"
+  />
+  
+  > A temporary workaround to this issue is to reload the config.
+  
+  This pr resets the `NSDockTile.contentView`, which will let AppKit
+  revert back to `Ghostty.icon`.
+  
+  
+  
+  https://github.com/user-attachments/assets/06ab0519-225b-45e1-85a5-a22832a36177
+  ```
+- [`2897245`](https://github.com/ghostty-org/ghostty/commit/28972454c0c9493b96b42de5d88f88c0bdc277a4) libghostty-vt: nix package updates and more nix tests ([#12152](https://github.com/ghostty-org/ghostty/issues/12152)) ([@mitchellh](https://github.com/mitchellh))
 
 ## April 7, 2026
 
