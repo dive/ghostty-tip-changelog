@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 7, 2026 at 21:16 UTC.
+> Last updated: April 8, 2026 at 00:26 UTC.
 
 ## April 7, 2026
 
@@ -1113,72 +1113,5 @@ Summary: 3 runs • 4 commits • 3 authors
   from @mitchellh.
   
   Vouch: @h3nock
-  ```
-
-## April 1, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23874449602), [2](https://github.com/ghostty-org/ghostty/actions/runs/23872415256), [3](https://github.com/ghostty-org/ghostty/actions/runs/23856480951), [4](https://github.com/ghostty-org/ghostty/actions/runs/23853671581), [5](https://github.com/ghostty-org/ghostty/actions/runs/23832732331)  
-Summary: 5 runs • 10 commits • 5 authors
-
-### Changes
-
-- [`48d3e97`](https://github.com/ghostty-org/ghostty/commit/48d3e972d839999745368b156df396d9512fd17b) Update VOUCHED list ([#12052](https://github.com/ghostty-org/ghostty/issues/12052)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12050#issuecomment-4173393542)
-  from @mitchellh.
-  
-  Vouch: @justonia
-  ```
-- [`9ec5672`](https://github.com/ghostty-org/ghostty/commit/9ec5672505cf9cb61006b23e799dfc154b3f7b22) Revert "macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980))" ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  This reverts commit 20cfaae2e5ec84cca2c5a55843b399b32fb9c810, reversing
-  changes made to 3509ccf78ef087fec2f0209fbc297a321106d339.
-  ```
-- [`c16cf0e`](https://github.com/ghostty-org/ghostty/commit/c16cf0ef07edf60db1accaed1b8c6a3ba99d2dcd) fix: Ensure snap paths come first in gio module loading ([@kenvandine](https://github.com/kenvandine))
-- [`92a4601`](https://github.com/ghostty-org/ghostty/commit/92a4601f39de1f9b566be45f6c02756e2145a0a7) Revert "macOS: close search bar if needed when it loses focus ([#11980](https://github.com/ghostty-org/ghostty/issues/11980))" ([#12046](https://github.com/ghostty-org/ghostty/issues/12046)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This reverts commit 20cfaae2e5ec84cca2c5a55843b399b32fb9c810, reversing
-  changes made to 3509ccf78ef087fec2f0209fbc297a321106d339.
-  
-  This breaks some behaviours when there are multiple splits, which
-  requires another click to focus to another split in the same window🫪
-  ```
-- [`b8251de`](https://github.com/ghostty-org/ghostty/commit/b8251de7e8656ae4a848856f00f1003347ad37d7) fix: Ensure snap paths come first in gio module loading ([#12045](https://github.com/ghostty-org/ghostty/issues/12045)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This fixes the issue reported in
-  https://github.com/ghostty-org/ghostty/discussions/11311
-  ```
-- [`702a2b4`](https://github.com/ghostty-org/ghostty/commit/702a2b43c35b8960bdd2930b64e742a33c7ca1b9) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([@bo2themax](https://github.com/bo2themax))
-- [`f6e6bb0`](https://github.com/ghostty-org/ghostty/commit/f6e6bb0238cbf4ce8c154c07f5df8c5109dc9f03) macOS: fix upper cased letter is not correctly mapped to menu shortcut ([#12039](https://github.com/ghostty-org/ghostty/issues/12039)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This is known issues before key-related PRs, tested on
-  fa9265636b6e14e012b9990868f60a6d2376fe59.
-  
-  The following config is mapped incorrectly to the menu shortcut:
-  ```
-  keybind=A=goto_split:left
-  ```
-  <img width="223" height="106" alt="image"
-  src="https://github.com/user-attachments/assets/b80da251-9cff-4b29-b143-64854a5c4271"
-  />
-  
-  Surfaces only accept `a` as a trigger to select left split, not
-  `shift+a`
-  ````
-- [`c8702ec`](https://github.com/ghostty-org/ghostty/commit/c8702ece8f8db400df95b767fc03b401dce0d015) gtk(chore): fix typos ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  ### AI Disclosure
-  
-  Claude wrote the regex to ignore base64-encoded sequences
-  ```
-- [`6d15b53`](https://github.com/ghostty-org/ghostty/commit/6d15b53fc753cb8087f230d1d922b2e95c526b20) gtk(chore): fix typos ([#12036](https://github.com/ghostty-org/ghostty/issues/12036)) ([@pluiedev](https://github.com/pluiedev))
-- [`b7e5604`](https://github.com/ghostty-org/ghostty/commit/b7e56044dbe3265495f3578fa5764e3bb5a433f0) Update VOUCHED list ([#12031](https://github.com/ghostty-org/ghostty/issues/12031)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12030#issuecomment-4167464133)
-  from @mitchellh.
-  
-  Vouch: @Jarred-Sumner
   ```
 
