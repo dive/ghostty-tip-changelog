@@ -8,7 +8,138 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 9, 2026 at 18:21 UTC.
+> Last updated: April 9, 2026 at 21:17 UTC.
+
+## April 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24211441984)  
+Summary: 1 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`1855b3e`](https://github.com/ghostty-org/ghostty/commit/1855b3efcce2b01b341df33e127f09629fc47d18) build(deps): bump cachix/install-nix-action from 31.10.3 to 31.10.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.3 to 31.10.4.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/96951a368ba55167b55f1c916f7d416bac6505fe...616559265b40713947b9c190a8ff4b507b5df49b)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.4
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`4cfbdaf`](https://github.com/ghostty-org/ghostty/commit/4cfbdaf8aa4661a0760c21d12521da09b32079ca) build(deps): bump cachix/install-nix-action from 31.10.3 to 31.10.4 ([#12196](https://github.com/ghostty-org/ghostty/issues/12196)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.3 to 31.10.4.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.4</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.4 -&gt; 2.34.5 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/273">cachix/install-nix-action#273</a>
+  <strong>[SECURITY]</strong> Fixes a root privilege escalation
+  vulnerability via sandbox escape <a
+  href="https://github.com/NixOS/nix/security/advisories/GHSA-g3g9-5vj6-r3gj">https://github.com/NixOS/nix/security/advisories/GHSA-g3g9-5vj6-r3gj</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.10.3...v31.10.4">https://github.com/cachix/install-nix-action/compare/v31.10.3...v31.10.4</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/616559265b40713947b9c190a8ff4b507b5df49b"><code>6165592</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/273">#273</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/b9f700df68e7810cde515c356dcf7787c9c7737d"><code>b9f700d</code></a>
+  nix: 2.34.4 -&gt; 2.34.5</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/96951a368ba55167b55f1c916f7d416bac6505fe...616559265b40713947b9c190a8ff4b507b5df49b">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.3&new-version=31.10.4)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`ad9225a`](https://github.com/ghostty-org/ghostty/commit/ad9225a4ca43b594941cc637a0aab53ae7d31954) build: sanitize all invalid chars in branch name for version ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11990
+  
+  Previously only slashes were replaced with hyphens in the branch
+  name used as the semver pre-release identifier. Branch names
+  containing dots (e.g. dependabot branches like
+  "cachix/install-nix-action-31.10.4") would cause an InvalidVersion
+  error because std.SemanticVersion only allows alphanumeric
+  characters and hyphens in pre-release identifiers.
+  
+  Replace all non-alphanumeric, non-hyphen characters instead of
+  only slashes.
+  ```
+- [`1a5bfbd`](https://github.com/ghostty-org/ghostty/commit/1a5bfbd87c3af0b8e27cef67511cb32141832866) build: sanitize all invalid chars in branch name for version ([#12206](https://github.com/ghostty-org/ghostty/issues/12206)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11990
+  
+  Previously only slashes were replaced with hyphens in the branch name
+  used as the semver pre-release identifier. Branch names containing dots
+  (e.g. dependabot branches like
+  "cachix/install-nix-action-31.10.4") would cause an InvalidVersion error
+  because std.SemanticVersion only allows alphanumeric characters and
+  hyphens in pre-release identifiers.
+  
+  Replace all non-alphanumeric, non-hyphen characters instead of only
+  slashes.
+  ```
 
 ## April 8, 2026
 
