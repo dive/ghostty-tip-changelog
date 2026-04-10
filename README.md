@@ -8,15 +8,104 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 10, 2026 at 18:17 UTC.
+> Last updated: April 10, 2026 at 21:11 UTC.
 
 ## April 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24248204427), [2](https://github.com/ghostty-org/ghostty/actions/runs/24245766423), [3](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [4](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
-Summary: 4 runs • 8 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24259333144), [2](https://github.com/ghostty-org/ghostty/actions/runs/24257789901), [3](https://github.com/ghostty-org/ghostty/actions/runs/24248204427), [4](https://github.com/ghostty-org/ghostty/actions/runs/24245766423), [5](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [6](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
+Summary: 6 runs • 14 commits • 5 authors
 
 ### Changes
 
+- [`85be3ca`](https://github.com/ghostty-org/ghostty/commit/85be3ca2c17ca606753fa623ab0f4e3abb164287) build: skip ghostty-test graph when building libghostty-vt ([@kataokatsuki](https://github.com/kataokatsuki))
+  ```text
+  Fixes #12151
+  ```
+- [`d3ce892`](https://github.com/ghostty-org/ghostty/commit/d3ce8926b9deeccda6d7a6b228150d876e125c74) build: skip ghostty-test graph when building libghostty-vt ([#12224](https://github.com/ghostty-org/ghostty/issues/12224)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #12151
+  
+  When `emit_lib_vt` is true, the `// Tests` block was still
+  evaluated, pulling in the full ghostty-test dependency graph
+  (freetype, zlib, dcimgui, etc.). This causes the Nix
+  `libghostty-vt` package to fail when `doCheck` is enabled,
+  since those system libraries aren't available in the sandbox.
+  
+  Guard the block with `if (!config.emit_lib_vt)`, following
+  the existing pattern at line 179.
+  ```
+- [`f2e299f`](https://github.com/ghostty-org/ghostty/commit/f2e299fb46fee50a348a76165f18e5433fdb9945) cmake: add ghostty_vt_add_target() for cross-compilation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a ghostty_vt_add_target() CMake function that lets downstream
+  projects build libghostty-vt for a specific Zig target triple. The
+  function encapsulates zig discovery, build-type-to-optimize mapping,
+  the zig build invocation, and output path conventions so consumers
+  do not need to duplicate any of that logic. It creates named IMPORTED
+  targets (e.g. ghostty-vt-static-linux-amd64) that work alongside the
+  existing native ghostty-vt and ghostty-vt-static targets.
+  
+  The build-type mapping is factored into a shared _GHOSTTY_ZIG_OPT_FLAG
+  variable used by both the native build and the new function.
+  
+  The static library targets now propagate c++ as a link dependency on
+  non-Windows platforms, fixing link failures when consumers use static
+  linking with the default SIMD-enabled build.
+  
+  A new example/c-vt-cmake-cross/ demonstrates end-to-end cross-
+  compilation using zig cc as the C compiler, auto-detecting a cross
+  target based on the host OS.
+  ```
+- [`7127abf`](https://github.com/ghostty-org/ghostty/commit/7127abfe285014c62bc1f9b24d4e038af7f94afa) cmake: add ghostty_vt_add_target() for cross-compilation ([#12212](https://github.com/ghostty-org/ghostty/issues/12212)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a ghostty_vt_add_target() CMake function that lets downstream
+  projects build libghostty-vt for a specific Zig target triple. The
+  function encapsulates zig discovery, build-type-to-optimize mapping, the
+  zig build invocation, and output path conventions so consumers do not
+  need to duplicate any of that logic. It creates named IMPORTED targets
+  (e.g. ghostty-vt-static-linux-amd64) that work alongside the existing
+  native ghostty-vt and ghostty-vt-static targets.
+  
+  The build-type mapping is factored into a shared _GHOSTTY_ZIG_OPT_FLAG
+  variable used by both the native build and the new function.
+  
+  A new example/c-vt-cmake-cross/ demonstrates end-to-end cross-
+  compilation using zig cc as the C compiler, auto-detecting a cross
+  target based on the host OS.
+  ```
+- [`aa6943d`](https://github.com/ghostty-org/ghostty/commit/aa6943da378a9b5b985d14449baa284a738e51f5) libghostty: add log callback configuration ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In C ABI builds, the Zig std.log default writes to stderr which is
+  not appropriate for a library. Override std_options.logFn with a
+  custom sink that dispatches to an embedder-provided callback, or
+  silently discards when none is registered.
+  
+  Add GHOSTTY_SYS_OPT_LOG to ghostty_sys_set() following the existing
+  decode_png pattern. The callback receives the log level as a
+  GhosttySysLogLevel enum, scope and message as separate byte slices,
+  giving embedders full control over formatting and routing.
+  
+  Export ghostty_sys_log_stderr as a built-in convenience callback that
+  writes to stderr using std.debug.lockStderrWriter for thread-safe
+  output. Embedders who want the old behavior can install it at startup
+  with a single ghostty_sys_set call.
+  ```
+- [`c34901d`](https://github.com/ghostty-org/ghostty/commit/c34901dddbc36b63f33bbb1a47d62f6911584d65) libghostty: add log callback configuration ([#12227](https://github.com/ghostty-org/ghostty/issues/12227)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In C ABI builds, the Zig std.log default writes to stderr which is not
+  appropriate for a library. Override std_options.logFn with a custom sink
+  that dispatches to an embedder-provided callback, or silently discards
+  when none is registered.
+  
+  Add GHOSTTY_SYS_OPT_LOG to ghostty_sys_set() following the existing
+  decode_png pattern. The callback receives the log level as a
+  GhosttySysLogLevel enum, scope and message as separate byte slices,
+  giving embedders full control over formatting and routing.
+  
+  Export ghostty_sys_log_stderr as a built-in convenience callback that
+  writes to stderr using std.debug.lockStderrWriter for thread-safe
+  output. Embedders who want the old behavior can install it at startup
+  with a single ghostty_sys_set call.
+  ```
 - [`b5d54d8`](https://github.com/ghostty-org/ghostty/commit/b5d54d8f51727ac8af5ad793e87d0a6d03bc9fd6) Update VOUCHED list ([#12225](https://github.com/ghostty-org/ghostty/issues/12225)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
