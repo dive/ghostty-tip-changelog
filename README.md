@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 10, 2026 at 06:37 UTC.
+> Last updated: April 10, 2026 at 09:28 UTC.
 
 ## April 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [2](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
+Summary: 2 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`1348e04`](https://github.com/ghostty-org/ghostty/commit/1348e046268402320253b1435b1559c754176c76) Update VOUCHED list ([#12216](https://github.com/ghostty-org/ghostty/issues/12216)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12213#discussioncomment-16512677)
+  from @pluiedev.
+  
+  Vouch: @otomn
+  ```
 - [`a82e156`](https://github.com/ghostty-org/ghostty/commit/a82e1569252352bf3875f33a87f5935ddd6fd4a7) build: add libghostty-vt-static pkg-config module ([@mitchellh](https://github.com/mitchellh))
   ```text
   Keep libghostty-vt.pc as the shared/default pkg-config module so
