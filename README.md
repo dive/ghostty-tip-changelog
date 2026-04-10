@@ -8,7 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 10, 2026 at 04:01 UTC.
+> Last updated: April 10, 2026 at 06:37 UTC.
+
+## April 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`a82e156`](https://github.com/ghostty-org/ghostty/commit/a82e1569252352bf3875f33a87f5935ddd6fd4a7) build: add libghostty-vt-static pkg-config module ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Keep libghostty-vt.pc as the shared/default pkg-config module so
+  `pkg-config --static libghostty-vt` continues to emit the historical
+  `-lghostty-vt` flags. This preserves the old behavior for consumers
+  that still want it, even though that form remains ambiguous on macOS
+  when both the dylib and archive are installed in the same directory.
+  
+  Add a separate libghostty-vt-static.pc module for consumers that need
+  an unambiguous static link. Its `Libs:` entry points directly at the
+  installed archive so macOS does not resolve the request to the dylib.
+  
+  Update the Nix packaging to rewrite the new static module into the `dev`
+  output, use it in the static-link smoke test, and add a compatibility
+  check that covers both pkg-config entry points.
+  ```
+- [`48a01b8`](https://github.com/ghostty-org/ghostty/commit/48a01b8bd51b0cf4ba3ed281a6662ae131ee8239) build: add libghostty-vt-static pkg-config module ([#12210](https://github.com/ghostty-org/ghostty/issues/12210)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Keep libghostty-vt.pc as the shared/default pkg-config module so
+  `pkg-config --static libghostty-vt` continues to emit the historical
+  `-lghostty-vt` flags. This preserves the old behavior for consumers that
+  still want it, even though that form remains ambiguous on macOS when
+  both the dylib and archive are installed in the same directory.
+  
+  Add a separate libghostty-vt-static.pc module for consumers that need an
+  unambiguous static link. Its `Libs:` entry points directly at the
+  installed archive so macOS does not resolve the request to the dylib.
+  
+  Update the Nix packaging to rewrite the new static module into the `dev`
+  output, use it in the static-link smoke test, and add a compatibility
+  check that covers both pkg-config entry points.
+  ```
 
 ## April 9, 2026
 
