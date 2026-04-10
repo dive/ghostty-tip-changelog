@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 10, 2026 at 12:17 UTC.
+> Last updated: April 10, 2026 at 15:17 UTC.
 
 ## April 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [2](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24248204427), [2](https://github.com/ghostty-org/ghostty/actions/runs/24245766423), [3](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [4](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
+Summary: 4 runs • 8 commits • 3 authors
 
 ### Changes
 
+- [`b5d54d8`](https://github.com/ghostty-org/ghostty/commit/b5d54d8f51727ac8af5ad793e87d0a6d03bc9fd6) Update VOUCHED list ([#12225](https://github.com/ghostty-org/ghostty/issues/12225)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12223#discussioncomment-16518906)
+  from @jcollie.
+  
+  Vouch: @kataokatsuki
+  ```
+- [`e7f58ad`](https://github.com/ghostty-org/ghostty/commit/e7f58ad72e8fd32b59e60660cb8430fdc59d0ddd) macOS: double click title to enlarge window ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Previously with `macos-titlebar-style	= tabs`, double clicking title will do nothing
+  ```
+- [`41c872c`](https://github.com/ghostty-org/ghostty/commit/41c872c1f4116b344e20985f1c41f604acc0cdd6) macOS: fix tab title editor frame update during winding resizing ([@bo2themax](https://github.com/bo2themax))
+- [`d51e94f`](https://github.com/ghostty-org/ghostty/commit/d51e94f7ebb71d095572af7dde30d34c81b6cae3) macOS: fix tab title editor frame update during winding resizing ([#12220](https://github.com/ghostty-org/ghostty/issues/12220)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  https://github.com/user-attachments/assets/69bee4f9-e3e1-4dc7-8e9c-c395572d2dbf
+  ```
+- [`19b0ed2`](https://github.com/ghostty-org/ghostty/commit/19b0ed2bdfed5f9913b89e69523e666bb020ed9e) macOS: double click title to enlarge window ([#12219](https://github.com/ghostty-org/ghostty/issues/12219)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously with `macos-titlebar-style = tabs`, double clicking title
+  would do nothing
+  ```
 - [`1348e04`](https://github.com/ghostty-org/ghostty/commit/1348e046268402320253b1435b1559c754176c76) Update VOUCHED list ([#12216](https://github.com/ghostty-org/ghostty/issues/12216)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
