@@ -8,7 +8,76 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 11, 2026 at 18:09 UTC.
+> Last updated: April 11, 2026 at 21:09 UTC.
+
+## April 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24290621387)  
+Summary: 1 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`650cd96`](https://github.com/ghostty-org/ghostty/commit/650cd966461ed38bb2ab347203af71e78c7b336b) macOS: fix memory leak of TerminalController ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Regression of #12119, this memory leak affects new tabs, since the terminal controller is not deallocated correctly. Hitting `cmd+t` will create a new window with two tabs, but only one actually contains usable surface.
+  
+  You can reproduce by:
+  1. Quit and Reopen Ghostty
+  2. Open a new window if no window is created (initial-window = false)
+  3. Close the window
+  4. Hit `cmd+t`
+  ```
+- [`2c1dad7`](https://github.com/ghostty-org/ghostty/commit/2c1dad790b750b64adf0f2c4128604c2eba91dab) libghostty: add _get_multi to all _get APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace the ImageInfo and PlacementInfo sized structs and their
+  associated .info enum variants with a new _get_multi pattern that
+  batches multiple enum+pointer pairs into a single call. This avoids
+  struct ABI concerns (field order, padding, alignment, GHOSTTY_INIT_SIZED)
+  while preserving the single-call-crossing performance benefit for FFI
+  and Cgo callers.
+  
+  Each _get_multi function takes an array of enum keys, an array of
+  output pointers, and an optional out_written parameter that reports
+  how many values were successfully written before any error. This
+  applies uniformly to all _get APIs: terminal_get, cell_get, row_get,
+  render_state_get, render_state_row_get, render_state_row_cells_get,
+  kitty_graphics_image_get, and kitty_graphics_placement_get.
+  
+  The C example is updated to use compound-literal _get_multi calls,
+  and tests cover both success and error paths for every new function.
+  ```
+- [`abf1332`](https://github.com/ghostty-org/ghostty/commit/abf1332737813259f738e89dc3f76afcfec74e3a) macOS: fix memory leak of TerminalController ([#12237](https://github.com/ghostty-org/ghostty/issues/12237)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Regression of #12119, this memory leak affects new tabs, since the
+  terminal controller is not deallocated correctly, hitting `cmd+t` will
+  create a new window with two tabs, but only one actually contains usable
+  surface.
+  
+  You can reproduce by:
+  1. Quit and Reopen Ghostty
+  2. Open a new window if no window is created (initial-window = false)
+  3. Close the window
+  4. Hit `cmd+t`
+  ```
+- [`c36b458`](https://github.com/ghostty-org/ghostty/commit/c36b458ad57a95869745e405c9d8d45104a97773) libghostty: add _get_multi to all _get APIs ([#12236](https://github.com/ghostty-org/ghostty/issues/12236)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace the ImageInfo and PlacementInfo sized structs and their
+  associated .info enum variants with a new _get_multi pattern that
+  batches multiple enum+pointer pairs into a single call. This avoids
+  struct ABI concerns (field order, padding, alignment,
+  GHOSTTY_INIT_SIZED) while preserving the single-call-crossing
+  performance benefit for FFI and Cgo callers.
+  
+  Each _get_multi function takes an array of enum keys, an array of output
+  pointers, and an optional out_written parameter that reports how many
+  values were successfully written before any error. This applies
+  uniformly to all _get APIs: terminal_get, cell_get, row_get,
+  render_state_get, render_state_row_get, render_state_row_cells_get,
+  kitty_graphics_image_get, and kitty_graphics_placement_get.
+  
+  The C example is updated to use compound-literal _get_multi calls, and
+  tests cover both success and error paths for every new function.
+  ```
 
 ## April 10, 2026
 
