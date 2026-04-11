@@ -8,15 +8,66 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 10, 2026 at 21:11 UTC.
+> Last updated: April 11, 2026 at 00:24 UTC.
 
 ## April 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24259333144), [2](https://github.com/ghostty-org/ghostty/actions/runs/24257789901), [3](https://github.com/ghostty-org/ghostty/actions/runs/24248204427), [4](https://github.com/ghostty-org/ghostty/actions/runs/24245766423), [5](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [6](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
-Summary: 6 runs • 14 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24265668827), [2](https://github.com/ghostty-org/ghostty/actions/runs/24259333144), [3](https://github.com/ghostty-org/ghostty/actions/runs/24257789901), [4](https://github.com/ghostty-org/ghostty/actions/runs/24248204427), [5](https://github.com/ghostty-org/ghostty/actions/runs/24245766423), [6](https://github.com/ghostty-org/ghostty/actions/runs/24230549966), [7](https://github.com/ghostty-org/ghostty/actions/runs/24225583592)  
+Summary: 7 runs • 16 commits • 5 authors
 
 ### Changes
 
+- [`3295bf4`](https://github.com/ghostty-org/ghostty/commit/3295bf40a725b3c67b9aed8d3f7851f8442ffb41) libghostty: add convenience accessors for kitty graphics ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add three sized structs that let callers fetch all image, placement,
+  or rendering metadata in a single call instead of many individual
+  queries. This is an optimization for environments with high per-call
+  overhead such as FFI or Cgo.
+  
+  GhosttyKittyGraphicsImageInfo is returned via image_get() with the
+  new GHOSTTY_KITTY_IMAGE_DATA_INFO data kind. It bundles id, number,
+  width, height, format, compression, data pointer, and data length.
+  
+  GhosttyKittyGraphicsPlacementInfo is returned via placement_get()
+  with the new GHOSTTY_KITTY_GRAPHICS_PLACEMENT_DATA_INFO data kind.
+  It bundles image id, placement id, virtual flag, offsets, source
+  rect, columns, rows, and z-index.
+  
+  GhosttyKittyGraphicsPlacementRenderInfo is returned by the new
+  ghostty_kitty_graphics_placement_render_info() function, which
+  combines pixel size, grid size, viewport position, and resolved
+  source rectangle. This one requires image and terminal handles so
+  it does not fit the existing _get() pattern and is a dedicated
+  function.
+  
+  All three use the sized-struct ABI pattern with GHOSTTY_INIT_SIZED
+  for forward compatibility.
+  ```
+- [`7421b4b`](https://github.com/ghostty-org/ghostty/commit/7421b4b13f87e101d4bbcedd4da84886ceae4e7b) libghostty: add convenience accessors for kitty graphics ([#12229](https://github.com/ghostty-org/ghostty/issues/12229)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add three sized structs that let callers fetch all image, placement, or
+  rendering metadata in a single call instead of many individual queries.
+  This is an optimization for environments with high per-call overhead
+  such as FFI or Cgo.
+  
+  GhosttyKittyGraphicsImageInfo is returned via image_get() with the new
+  GHOSTTY_KITTY_IMAGE_DATA_INFO data kind. It bundles id, number, width,
+  height, format, compression, data pointer, and data length.
+  
+  GhosttyKittyGraphicsPlacementInfo is returned via placement_get() with
+  the new GHOSTTY_KITTY_GRAPHICS_PLACEMENT_DATA_INFO data kind. It bundles
+  image id, placement id, virtual flag, offsets, source rect, columns,
+  rows, and z-index.
+  
+  GhosttyKittyGraphicsPlacementRenderInfo is returned by the new
+  ghostty_kitty_graphics_placement_render_info() function, which combines
+  pixel size, grid size, viewport position, and resolved source rectangle.
+  This one requires image and terminal handles so it does not fit the
+  existing _get() pattern and is a dedicated function.
+  
+  All three use the sized-struct ABI pattern with GHOSTTY_INIT_SIZED for
+  forward compatibility.
+  ```
 - [`85be3ca`](https://github.com/ghostty-org/ghostty/commit/85be3ca2c17ca606753fa623ab0f4e3abb164287) build: skip ghostty-test graph when building libghostty-vt ([@kataokatsuki](https://github.com/kataokatsuki))
   ```text
   Fixes #12151
@@ -1379,74 +1430,5 @@ Summary: 5 runs • 9 commits • 2 authors
   from @mitchellh.
   
   Vouch: @fru1tworld
-  ```
-
-## April 4, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/23987875945), [2](https://github.com/ghostty-org/ghostty/actions/runs/23980573913), [3](https://github.com/ghostty-org/ghostty/actions/runs/23970370985), [4](https://github.com/ghostty-org/ghostty/actions/runs/23968719391)  
-Summary: 4 runs • 8 commits • 3 authors
-
-### Changes
-
-- [`1bd7c19`](https://github.com/ghostty-org/ghostty/commit/1bd7c19dac8cfa03b5c6b24bf6c7e6703c30c151) nix: add option to disable simd in libghostty-vt package ([@jcollie](https://github.com/jcollie))
-- [`0a4cf58`](https://github.com/ghostty-org/ghostty/commit/0a4cf5877e4b325b1c3dba1833cbcafa2ed42ec7) nix: add option to disable simd in libghostty-vt package ([#12103](https://github.com/ghostty-org/ghostty/issues/12103)) ([@jcollie](https://github.com/jcollie))
-- [`e157dd6`](https://github.com/ghostty-org/ghostty/commit/e157dd69c57a39f8d3a88b12e050e69830bfb1d5) build: add pkg-config static linking support and fat archives to libghostty ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The libghostty-vt pkg-config file was missing Libs.private, so
-  pkg-config --libs --static returned the same flags as the shared
-  case, omitting the C++ standard library needed by the SIMD code.
-  
-  Additionally, the static archive did not bundle the vendored SIMD
-  dependencies (simdutf, highway, utfcpp), leaving consumers with
-  unresolved symbols when linking. If we're choosing to vendor (no -fsys)
-  then we should produce a fat static archive that includes them. If `-fsys`
-  is used, then we should not bundle them and instead reference them via
-  Requires.private, letting pkg-config chain to their own .pc files.
-  
-  Add Libs.private with the C++ runtime (-lc++ on Darwin, -lstdc++
-  on Linux) and Requires.private for any SIMD deps provided via
-  system integration. When SIMD deps are vendored (the default),
-  produce a fat static archive that bundles them using libtool on
-  Darwin and ar on Linux. When they come from the system (-fsys=),
-  reference them via Requires.private instead, letting pkg-config
-  chain to their own .pc files.
-  ```
-- [`0a492fd`](https://github.com/ghostty-org/ghostty/commit/0a492fdb331f1e0be29aedbcc78c3c852cb437f2) build: add pkg-config static linking support and fat archives to libghostty ([#12096](https://github.com/ghostty-org/ghostty/issues/12096)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The libghostty-vt pkg-config file was missing Libs.private, so
-  pkg-config --libs --static returned the same flags as the shared case,
-  omitting the C++ standard library needed by the SIMD code.
-  
-  Additionally, the static archive did not bundle the vendored SIMD
-  dependencies (simdutf, highway, utfcpp), leaving consumers with
-  unresolved symbols when linking. If we're choosing to vendor (no -fsys)
-  then we should produce a fat static archive that includes them. If
-  `-fsys` is used, then we should not bundle them and instead reference
-  them via Requires.private, letting pkg-config chain to their own .pc
-  files.
-  
-  Add Libs.private with the C++ runtime (-lc++ on Darwin, -lstdc++ on
-  Linux) and Requires.private for any SIMD deps provided via system
-  integration. When SIMD deps are vendored (the default), produce a fat
-  static archive that bundles them using libtool on Darwin and ar on
-  Linux. When they come from the system (-fsys=), reference them via
-  Requires.private instead, letting pkg-config chain to their own .pc
-  files.
-  ```
-- [`4f825e8`](https://github.com/ghostty-org/ghostty/commit/4f825e87f5f848347669e18e507aea91b1fb26ab) add a nix package (with CI tests) for libghostty-vt ([@jcollie](https://github.com/jcollie))
-- [`326178a`](https://github.com/ghostty-org/ghostty/commit/326178adb80db39dc9e62a8c58740dc2cac3c061) nix: address review comments ([@jcollie](https://github.com/jcollie))
-  ```text
-  * split out dev subpackage
-  * change version number to 0.1.0
-  * supported on same platforms as Zig
-  ```
-- [`707cd57`](https://github.com/ghostty-org/ghostty/commit/707cd57acb8e79923a14ae39b1b582ed683c008b) add a nix package (with CI tests) for libghostty-vt ([#12090](https://github.com/ghostty-org/ghostty/issues/12090)) ([@mitchellh](https://github.com/mitchellh))
-- [`e3bbd54`](https://github.com/ghostty-org/ghostty/commit/e3bbd54dd3bc63d00f536e086e28c33daf3f06d0) Update VOUCHED list ([#12094](https://github.com/ghostty-org/ghostty/issues/12094)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12093#discussioncomment-16444399)
-  from @jcollie.
-  
-  Vouch: @jordandm
   ```
 
