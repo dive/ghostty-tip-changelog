@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 11, 2026 at 21:09 UTC.
+> Last updated: April 12, 2026 at 00:27 UTC.
 
 ## April 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24290621387)  
-Summary: 1 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24292563886), [2](https://github.com/ghostty-org/ghostty/actions/runs/24290621387)  
+Summary: 2 runs • 8 commits • 2 authors
 
 ### Changes
 
+- [`3e6a65f`](https://github.com/ghostty-org/ghostty/commit/3e6a65f73f5b1b0adb8a7af30d90d6238c1ac517) pkg/highway: drop libc++ from vendored hwy ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The vendored Highway package was being built with libc++ even though
+  Ghostty only uses its runtime target selection and dispatch support.
+  That pulled in extra C++ runtime baggage from upstream support files
+  such as abort, timer, print, and benchmark helpers.
+  
+  Build Highway in HWY_NO_LIBCXX mode, only compile the target dispatch
+  sources we actually need, and compile Ghostty's SIMD translation units
+  with the same define so the header ABI stays consistent. Replace the
+  upstream abort implementation with a small local bridge that provides
+  Highway's Warn/Abort hooks and the target-query shim without depending
+  on libc++.
+  
+  This keeps the Highway archive down to the dispatch pieces Ghostty
+  uses while preserving the existing dynamic dispatch behavior. The
+  bridge is documented so it is clear why Ghostty carries this small
+  local replacement.
+  ```
+- [`fa2c3a1`](https://github.com/ghostty-org/ghostty/commit/fa2c3a1e60a9f8d40c0799d5d55e2fe4c8050f11) pkg/highway: drop libc++ dependency from vendored hwy ([#12238](https://github.com/ghostty-org/ghostty/issues/12238)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The vendored Highway package was being built with libc++ even though
+  Ghostty only uses its runtime target selection and dispatch support.
+  That pulled in extra C++ runtime baggage from upstream support files
+  such as abort, timer, print, and benchmark helpers.
+  
+  Build Highway in HWY_NO_LIBCXX mode, only compile the target dispatch
+  sources we actually need, and compile Ghostty's SIMD translation units
+  with the same define so the header ABI stays consistent. Replace the
+  upstream abort implementation with a small local bridge that provides
+  Highway's Warn/Abort hooks and the target-query shim without depending
+  on libc++.
+  
+  This keeps the Highway archive down to the dispatch pieces Ghostty uses
+  while preserving the existing dynamic dispatch behavior. The bridge is
+  documented so it is clear why Ghostty carries this small local
+  replacement.
+  
+  We still depend on libc++ for other reasons, but I figure we should just
+  trim it down as needed. 😄
+  ```
+- [`5e102c9`](https://github.com/ghostty-org/ghostty/commit/5e102c9dc78d3a9bf3c400b5bcb24252a8995da2) build: stop linking libc++ for utfcpp ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  utfcpp is a header-only dependency, so its package wrapper does not
+  need to link the C++ standard library. Keep the empty static archive
+  for build integration, but stop adding an unnecessary libc++
+  dependency.
+  ```
+- [`557de7c`](https://github.com/ghostty-org/ghostty/commit/557de7c92556ab0eb9725b5693d396a68b242dc3) build: stop linking libc++ for utfcpp ([#12239](https://github.com/ghostty-org/ghostty/issues/12239)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  utfcpp is a header-only dependency, so its package wrapper does not need
+  to link the C++ standard library. Keep the empty static archive for
+  build integration, but stop adding an unnecessary libc++ dependency.
+  ```
 - [`650cd96`](https://github.com/ghostty-org/ghostty/commit/650cd966461ed38bb2ab347203af71e78c7b336b) macOS: fix memory leak of TerminalController ([@bo2themax](https://github.com/bo2themax))
   ```text
   Regression of #12119, this memory leak affects new tabs, since the terminal controller is not deallocated correctly. Hitting `cmd+t` will create a new window with two tabs, but only one actually contains usable surface.
@@ -1401,103 +1455,5 @@ Summary: 8 runs • 46 commits • 5 authors
   from @rhodes-b.
   
   Vouch: @neurosnap
-  ```
-
-## April 5, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24011311343), [2](https://github.com/ghostty-org/ghostty/actions/runs/23999805792), [3](https://github.com/ghostty-org/ghostty/actions/runs/23994374178), [4](https://github.com/ghostty-org/ghostty/actions/runs/23993802101), [5](https://github.com/ghostty-org/ghostty/actions/runs/23993258076)  
-Summary: 5 runs • 9 commits • 2 authors
-
-### Changes
-
-- [`4f543ff`](https://github.com/ghostty-org/ghostty/commit/4f543ff3d80fc33eaab2740b60356cf8ef96eed9) Update VOUCHED list ([#12135](https://github.com/ghostty-org/ghostty/issues/12135)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12133#issuecomment-4189589541)
-  from @jcollie.
-  
-  Vouch: @KayLeung
-  ```
-- [`ba398df`](https://github.com/ghostty-org/ghostty/commit/ba398dfff3e30ff83da07140981ca138410cf608) Update VOUCHED list ([#12123](https://github.com/ghostty-org/ghostty/issues/12123)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12119#issuecomment-4188681042)
-  from @bo2themax.
-  
-  Vouch: @jamylak
-  ```
-- [`a8e92c9`](https://github.com/ghostty-org/ghostty/commit/a8e92c9c53e5c6018507c6f1e06af4f3b3e4f49c) terminal: add APC handler to stream_terminal ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Wire up the APC handler to `terminal.TerminalStream` to process
-  APC sequences, enabling support for kitty graphics commands in
-  libghostty, in theory.
-  
-  The "in theory" is because we still don't export a way to actually
-  enable Kitty graphics in libghostty because we have some other things in
-  the way: PNG decoding and OS filesystem access that need to be more
-  conditionally compiled before we can enable the feature. However, this
-  is a step in the right direction, and we can at least verify that the
-  APC handler works via a test in Ghostty GUI.
-  ```
-- [`c541ceb`](https://github.com/ghostty-org/ghostty/commit/c541ceb120ee48c3495fa9e115f1614cd2e13249) terminal: add APC handler to stream_terminal ([#12116](https://github.com/ghostty-org/ghostty/issues/12116)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Wire up the APC handler to `terminal.TerminalStream` to process APC
-  sequences, enabling support for kitty graphics commands in libghostty,
-  in theory.
-  
-  The "in theory" is because we still don't export a way to actually
-  enable Kitty graphics in libghostty because we have some other things in
-  the way: PNG decoding and OS filesystem access that need to be more
-  conditionally compiled before we can enable the feature. However, this
-  is a step in the right direction, and we can at least verify that the
-  APC handler works via a test in Ghostty GUI.
-  ```
-- [`b9a241d`](https://github.com/ghostty-org/ghostty/commit/b9a241d1e237fa97bf8b3b161f253cc2313100f2) libghostty: add hyperlink URI accessor to grid_ref API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ghostty_grid_ref_hyperlink_uri to extract the OSC 8 hyperlink
-  URI from a cell at a grid reference position. Follows the same
-  buffer pattern as ghostty_grid_ref_graphemes: callers pass a buffer
-  and get back the byte length, or GHOSTTY_OUT_OF_SPACE with the
-  required size if the buffer is too small. Cells without a hyperlink
-  return success with length 0.
-  ```
-- [`757eff5`](https://github.com/ghostty-org/ghostty/commit/757eff5881b9afb811a99497fb5c231cc3677a6b) libghostty: add GhosttySelection type and selection support to formatter ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new GhosttySelection C API type (selection.h / c/selection.zig)
-  that pairs two GhosttyGridRef endpoints with a rectangle flag. This
-  maps directly to the internal Selection type using untracked pins.
-  
-  The formatter terminal options gain an optional selection pointer.
-  When non-null the formatter restricts output to the specified range
-  instead of emitting the entire screen. When null the existing
-  behavior of formatting the full screen is preserved.
-  ```
-- [`86554de`](https://github.com/ghostty-org/ghostty/commit/86554de090cdd5e9322652146e202a468a5e4bb5) libghostty: add hyperlink URI accessor to grid_ref API ([#12114](https://github.com/ghostty-org/ghostty/issues/12114)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add ghostty_grid_ref_hyperlink_uri to extract the OSC 8 hyperlink URI
-  from a cell at a grid reference position. Follows the same buffer
-  pattern as ghostty_grid_ref_graphemes: callers pass a buffer and get
-  back the byte length, or GHOSTTY_OUT_OF_SPACE with the required size if
-  the buffer is too small. Cells without a hyperlink return success with
-  length 0.
-  ```
-- [`10696b5`](https://github.com/ghostty-org/ghostty/commit/10696b5ed170090df09f06a9afeeefe643159f40) libghostty: add GhosttySelection type and selection support to formatter ([#12115](https://github.com/ghostty-org/ghostty/issues/12115)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new GhosttySelection C API type (selection.h / c/selection.zig)
-  that pairs two GhosttyGridRef endpoints with a rectangle flag. This maps
-  directly to the internal Selection type using untracked pins.
-  
-  The formatter terminal options gain an optional selection pointer. When
-  non-null the formatter restricts output to the specified range instead
-  of emitting the entire screen. When null the existing behavior of
-  formatting the full screen is preserved.
-  ```
-- [`cf8a240`](https://github.com/ghostty-org/ghostty/commit/cf8a2407a042a2e407fe58ade93582af6073c49d) Update VOUCHED list ([#12113](https://github.com/ghostty-org/ghostty/issues/12113)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12098#discussioncomment-16452103)
-  from @mitchellh.
-  
-  Vouch: @fru1tworld
   ```
 
