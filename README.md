@@ -8,15 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 13, 2026 at 12:23 UTC.
+> Last updated: April 13, 2026 at 15:30 UTC.
 
 ## April 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24323184090)  
-Summary: 1 runs • 10 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24348683917), [2](https://github.com/ghostty-org/ghostty/actions/runs/24347722200), [3](https://github.com/ghostty-org/ghostty/actions/runs/24323184090)  
+Summary: 3 runs • 26 commits • 5 authors
 
 ### Changes
 
+- [`158b976`](https://github.com/ghostty-org/ghostty/commit/158b97607c8404e5f8a0d0589b56b83462aacdce) Update VOUCHED list ([#12268](https://github.com/ghostty-org/ghostty/issues/12268)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12267#issuecomment-4237110063)
+  from @mitchellh.
+  
+  Vouch: @0xDVC
+  ```
+- [`aea70a5`](https://github.com/ghostty-org/ghostty/commit/aea70a5f7c48c40177077992fe6318fc643f86ca) core: implement backarrow key mode (DECBKM) - mode 67 ([@jcollie](https://github.com/jcollie))
+  ```text
+  This mode allows programs to modify the code that the `backspace`
+  key (backarrow key in DEC parlance) sends. If this mode is
+  `off`/`false`/`reset` (the default, the same as before this PR), we
+  send the byte `0x7f`. If this mode is `on`/`true`/`set` we send the
+  byte `0x08`.
+  ```
+- [`203895e`](https://github.com/ghostty-org/ghostty/commit/203895e3f76af0e3f9a8e16778a706d08f6718f1) decbkm: address review comments ([@jcollie](https://github.com/jcollie))
+  ```text
+  * Don't alter Kitty keyboard protocol responses. Kitty does not support
+    DECBKM so KKP doesn't take DECBKM into consideration.
+  * Make better use of the function key lookup to control what sequence is
+    returned when backspace is pressed using the legacy encoding.
+  ```
+- [`de4992c`](https://github.com/ghostty-org/ghostty/commit/de4992c2b273ea701008c2fe4a7b39e9276f6818) decbkm: use if statements instead of named blocks ([@jcollie](https://github.com/jcollie))
+- [`3a9ae7a`](https://github.com/ghostty-org/ghostty/commit/3a9ae7a0f28791e3ab451954c63d72142ad3ccf4) decbkm: expose DECBKM to libghostty-vt ([@jcollie](https://github.com/jcollie))
+- [`f29d5d4`](https://github.com/ghostty-org/ghostty/commit/f29d5d415053e8cda87e23e8c9f8aa2b22dfc0c3) zon2nix: update to a version that is compatible with Zig 0.16 ([@jcollie](https://github.com/jcollie))
+  ```text
+  The `zon2nix` binary is now compiled with Zig 0.16, but it still produces
+  Zig 0.15 compatible output (in fact the output is identical to previous
+  versions).
+  ```
+- [`1443e7a`](https://github.com/ghostty-org/ghostty/commit/1443e7a9cd1a1d579f8fa54faa5f000ed6772f0c) zon2nix: use github mirror ([@jcollie](https://github.com/jcollie))
+- [`c2a93db`](https://github.com/ghostty-org/ghostty/commit/c2a93db591a55988d78f1010219efdf7d3ed7880) macOS: move url hover to a separate file ([@bo2themax](https://github.com/bo2themax))
+- [`38e64c3`](https://github.com/ghostty-org/ghostty/commit/38e64c3706b9bc12e9191f4deaf6f37a717afe95) macOS: add bottom bar when child exits ([@bo2themax](https://github.com/bo2themax))
+- [`2bdc6bb`](https://github.com/ghostty-org/ghostty/commit/2bdc6bb1f7f2a6093d1e50484fba4aac9e7334a7) macOS: Highlight matching text in command palette search results ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Add String.matchedIndices(for:) to find substring matches and use
+  it to bold and tint matched characters with the accent color in
+  both titles and subtitles. Title matches take priority — subtitles
+  are only highlighted when the title didn't match.
+  ```
+- [`2e169c4`](https://github.com/ghostty-org/ghostty/commit/2e169c42e8334bdd343b17cd3489281d32cd5044) macOS: Support initials matching in command palette search ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Extend String.matchedIndices(for:) to fall back to initials
+  matching when no substring match is found. Typing the first letter
+  of each word now matches commands, e.g. "tbo" matches "Toggle
+  Background Opacity", with each matched initial highlighted.
+  ```
+- [`073dd8a`](https://github.com/ghostty-org/ghostty/commit/073dd8a39974d19e482a093c2f070d18deca3cc7) macOS: trim query before filtering commands ([@bo2themax](https://github.com/bo2themax))
+- [`fab8777`](https://github.com/ghostty-org/ghostty/commit/fab8777931b55092ec4bcdd37fb99683bbf2c781) core: implement backarrow key mode (DECBKM) - mode 67 ([#12226](https://github.com/ghostty-org/ghostty/issues/12226)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This mode allows programs to modify the code that the `backspace` key
+  (backarrow key in DEC parlance) sends. If this mode is
+  `off`/`false`/`reset` (the default, the same as before this PR), we send
+  the byte `0x7f`. If this mode is `on`/`true`/`set` we send the byte
+  `0x08`.
+  
+  <img width="659" height="715" alt="Screenshot From 2026-04-09 11-00-25"
+  src="https://github.com/user-attachments/assets/4f3e14ac-757d-4bb2-9fc5-b17019ad35d5"
+  />
+  ```
+- [`ec434ec`](https://github.com/ghostty-org/ghostty/commit/ec434ec096265e39dcd31453ae3affc992013a58) zon2nix: update to a version that is compatible with Zig 0.16 ([#12259](https://github.com/ghostty-org/ghostty/issues/12259)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `zon2nix` binary is now compiled with Zig 0.16, but it still
+  produces Zig 0.15 compatible output (in fact the output is identical to
+  previous versions).
+  ```
+- [`4699a3f`](https://github.com/ghostty-org/ghostty/commit/4699a3f7955543a6e027e0baeaf1b7c442bc8c8d) macOS: Command palette highlight matches ([#12264](https://github.com/ghostty-org/ghostty/issues/12264)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Highlight matching text in command palette search results
+  - Support initials matching
+  - Trim query before filtering commands
+  
+  ### AI Disclosure
+  
+  Claude wrote most of it. I tested and reviewed it myself.
+  
+  <img width="1544" height="297" alt="image"
+  src="https://github.com/user-attachments/assets/6ed98538-d6d3-48a0-8bb0-ac705611d058"
+  />
+  ```
+- [`4f36896`](https://github.com/ghostty-org/ghostty/commit/4f36896ddb6a1738d4b9d28b541b24bee89e2f30) macOS: add bottom bar when child exits ([#12251](https://github.com/ghostty-org/ghostty/issues/12251)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### Closes #7649
+  
+  The bar lives alongside URL Hover in VStack at the bottom. The current
+  body of SurfaceView is becoming rather long and complicated, so this pr
+  also contains some refactors:
+  
+  - Move URL Hover to a separate file
+  
+  > The text is copied from previous input string to keep it consistent,
+  also I’m confused with text on GTK so this is my first choice, but it
+  can be changed as the same as GTK.
+  
+  Separate prs will be opened for:
+  1. Set to Read-only after exits
+  2. Hide cursor when in Read-only
+  
+  ### Preview
+  
+  
+  https://github.com/user-attachments/assets/eb44e211-eac5-4f40-836c-4912b18dfb01
+  ```
 - [`ea2753b`](https://github.com/ghostty-org/ghostty/commit/ea2753b8191a9f6ca0c61e0043781e4877135989) build(deps): bump softprops/action-gh-release from 2.6.1 to 3.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 2.6.1 to 3.0.0.
