@@ -8,7 +8,790 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 13, 2026 at 00:28 UTC.
+> Last updated: April 13, 2026 at 04:07 UTC.
+
+## April 13, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24323184090)  
+Summary: 1 runs • 10 commits • 2 authors
+
+### Changes
+
+- [`ea2753b`](https://github.com/ghostty-org/ghostty/commit/ea2753b8191a9f6ca0c61e0043781e4877135989) build(deps): bump softprops/action-gh-release from 2.6.1 to 3.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 2.6.1 to 3.0.0.
+  - [Release notes](https://github.com/softprops/action-gh-release/releases)
+  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/softprops/action-gh-release/compare/153bb8e04406b158c6c84fc1615b65b24149a1fe...b4309332981a82ec1c5618f44dd2e27cc8bfbfda)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: softprops/action-gh-release
+    dependency-version: 3.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+  ```
+- [`b0cfc59`](https://github.com/ghostty-org/ghostty/commit/b0cfc595f244233eb514ddeb006c1e00fe191382) build(deps): bump peter-evans/create-pull-request from 8.1.0 to 8.1.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request) from 8.1.0 to 8.1.1.
+  - [Release notes](https://github.com/peter-evans/create-pull-request/releases)
+  - [Commits](https://github.com/peter-evans/create-pull-request/compare/c0f553fe549906ede9cf27b5156039d195d2ece0...5f6978faf089d4d20b00c7766989d076bb2fc7f1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: peter-evans/create-pull-request
+    dependency-version: 8.1.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`470605f`](https://github.com/ghostty-org/ghostty/commit/470605f0abf9264d4ba5ce846e09d8a484153295) build(deps): bump docker/build-push-action from 7.0.0 to 7.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 7.0.0 to 7.1.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases)
+  - [Commits](https://github.com/docker/build-push-action/compare/d08e5c354a6adb9ed34480a06d141179aa583294...bcafcacb16a39f128d818304e6c9c0c18556b85f)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: docker/build-push-action
+    dependency-version: 7.1.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`c2a1ac5`](https://github.com/ghostty-org/ghostty/commit/c2a1ac5866b1ea1a77692c7890522cf6d27b2779) build(deps): bump actions/create-github-app-token from 3.0.0 to 3.1.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 3.0.0 to 3.1.1.
+  - [Release notes](https://github.com/actions/create-github-app-token/releases)
+  - [Commits](https://github.com/actions/create-github-app-token/compare/f8d387b68d61c58ab83c6c016672934102569859...1b10c78c7865c340bc4f6099eb2f838309f1e8c3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/create-github-app-token
+    dependency-version: 3.1.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`e30c2bd`](https://github.com/ghostty-org/ghostty/commit/e30c2bd86b7758840292c8dce4fc11c2261bd9fd) build(deps): bump actions/upload-artifact from 7.0.0 to 7.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/upload-artifact](https://github.com/actions/upload-artifact) from 7.0.0 to 7.0.1.
+  - [Release notes](https://github.com/actions/upload-artifact/releases)
+  - [Commits](https://github.com/actions/upload-artifact/compare/bbbca2ddaa5d8feaa63e36b76fdaad77386f024f...043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/upload-artifact
+    dependency-version: 7.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`3ef500b`](https://github.com/ghostty-org/ghostty/commit/3ef500b3c8551019956f9875c17f3c9c59de2e2a) build(deps): bump softprops/action-gh-release from 2.6.1 to 3.0.0 ([#12254](https://github.com/ghostty-org/ghostty/issues/12254)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
+  from 2.6.1 to 3.0.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.0.0</h2>
+  <p><code>3.0.0</code> is a major release that moves the action runtime
+  from Node 20 to Node 24.
+  Use <code>v3</code> on GitHub-hosted runners and self-hosted fleets that
+  already support the
+  Node 24 Actions runtime. If you still need the last Node 20-compatible
+  line, stay on
+  <code>v2.6.2</code>.</p>
+  <h2>What's Changed</h2>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>Move the action runtime and bundle target to Node 24</li>
+  <li>Update <code>@types/node</code> to the Node 24 line and allow future
+  Dependabot updates</li>
+  <li>Keep the floating major tag on <code>v3</code>; <code>v2</code>
+  remains pinned to the latest <code>2.x</code> release</li>
+  </ul>
+  <h2>v2.6.2</h2>
+  <!-- raw HTML omitted -->
+  <h2>What's Changed</h2>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>chore(deps): bump picomatch from 4.0.3 to 4.0.4 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/775">softprops/action-gh-release#775</a></li>
+  <li>chore(deps): bump brace-expansion from 5.0.4 to 5.0.5 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/777">softprops/action-gh-release#777</a></li>
+  <li>chore(deps): bump vite from 8.0.0 to 8.0.5 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/781">softprops/action-gh-release#781</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/softprops/action-gh-release/compare/v2...v2.6.2">https://github.com/softprops/action-gh-release/compare/v2...v2.6.2</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h2>3.0.0</h2>
+  <p><code>3.0.0</code> is a major release that moves the action runtime
+  from Node 20 to Node 24.
+  Use <code>v3</code> on GitHub-hosted runners and self-hosted fleets that
+  already support the
+  Node 24 Actions runtime. If you still need the last Node 20-compatible
+  line, stay on
+  <code>v2.6.2</code>.</p>
+  <h2>What's Changed</h2>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>Move the action runtime and bundle target to Node 24</li>
+  <li>Update <code>@types/node</code> to the Node 24 line and allow future
+  Dependabot updates</li>
+  <li>Keep the floating major tag on <code>v3</code>; <code>v2</code>
+  remains pinned to the latest <code>2.x</code> release</li>
+  </ul>
+  <h2>2.6.2</h2>
+  <h2>What's Changed</h2>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>chore(deps): bump picomatch from 4.0.3 to 4.0.4 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/775">softprops/action-gh-release#775</a></li>
+  <li>chore(deps): bump brace-expansion from 5.0.4 to 5.0.5 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/777">softprops/action-gh-release#777</a></li>
+  <li>chore(deps): bump vite from 8.0.0 to 8.0.5 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/781">softprops/action-gh-release#781</a></li>
+  </ul>
+  <h2>2.6.1</h2>
+  <p><code>2.6.1</code> is a patch release focused on restoring linked
+  discussion thread creation when
+  <code>discussion_category_name</code> is set. It fixes
+  <code>[#764](https://github.com/softprops/action-gh-release/issues/764)</code>,
+  where the draft-first publish flow
+  stopped carrying the discussion category through the final publish
+  step.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: preserve discussion category on publish by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/765">softprops/action-gh-release#765</a></li>
+  </ul>
+  <h2>2.6.0</h2>
+  <p><code>2.6.0</code> is a minor release centered on
+  <code>previous_tag</code> support for
+  <code>generate_release_notes</code>,
+  which lets workflows pin GitHub's comparison base explicitly instead of
+  relying on the default range.
+  It also includes the recent concurrent asset upload recovery fix, a
+  <code>working_directory</code> docs sync,
+  a checked-bundle freshness guard for maintainers, and clearer
+  immutable-prerelease guidance where
+  GitHub platform behavior imposes constraints on how prerelease asset
+  uploads can be published.</p>
+  <p>If you still hit an issue after upgrading, please open a report with
+  the bug template and include a minimal repro or sanitized workflow
+  snippet where possible.</p>
+  <h2>What's Changed</h2>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/b4309332981a82ec1c5618f44dd2e27cc8bfbfda"><code>b430933</code></a>
+  release: cut v3.0.0 for Node 24 upgrade (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/670">#670</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/c2e35e05a74208bafbfcbdae5ebc9da7236e980f"><code>c2e35e0</code></a>
+  chore(deps): bump the npm group across 1 directory with 7 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/783">#783</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/3bb12739c298aeb8a4eeaf626c5b8d85266b0e65"><code>3bb1273</code></a>
+  release 2.6.2</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/c34030fec99b0db0f2f22ce7806c445dddb6e224"><code>c34030f</code></a>
+  chore: bump node to 24.14.1</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/8975bd05c0630603edb0dca2fc7544bf1c77f600"><code>8975bd0</code></a>
+  chore(deps): bump vite from 8.0.0 to 8.0.5 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/781">#781</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/f71937f44d5662ac6eb861431746174a7b46a7b6"><code>f71937f</code></a>
+  chore(deps): bump brace-expansion from 5.0.4 to 5.0.5 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/777">#777</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/3f0d239d58d5c226738ec0a08d0465b548dc026f"><code>3f0d239</code></a>
+  chore(deps): bump picomatch from 4.0.3 to 4.0.4 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/775">#775</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/softprops/action-gh-release/compare/153bb8e04406b158c6c84fc1615b65b24149a1fe...b4309332981a82ec1c5618f44dd2e27cc8bfbfda">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=2.6.1&new-version=3.0.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`922b610`](https://github.com/ghostty-org/ghostty/commit/922b61063292595133b2943c76027cfa9ca7855f) build(deps): bump peter-evans/create-pull-request from 8.1.0 to 8.1.1 ([#12255](https://github.com/ghostty-org/ghostty/issues/12255)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request)
+  from 8.1.0 to 8.1.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/peter-evans/create-pull-request/releases">peter-evans/create-pull-request's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>Create Pull Request v8.1.1</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>build(deps-dev): bump the npm group with 2 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4305">peter-evans/create-pull-request#4305</a></li>
+  <li>build(deps): bump minimatch by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4311">peter-evans/create-pull-request#4311</a></li>
+  <li>build(deps): bump the github-actions group with 2 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4316">peter-evans/create-pull-request#4316</a></li>
+  <li>build(deps): bump <code>@​tootallnate/once</code> and
+  jest-environment-jsdom by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4323">peter-evans/create-pull-request#4323</a></li>
+  <li>build(deps-dev): bump undici from 6.23.0 to 6.24.0 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4328">peter-evans/create-pull-request#4328</a></li>
+  <li>build(deps-dev): bump flatted from 3.3.1 to 3.4.2 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4334">peter-evans/create-pull-request#4334</a></li>
+  <li>build(deps): bump picomatch by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4339">peter-evans/create-pull-request#4339</a></li>
+  <li>build(deps-dev): bump handlebars from 4.7.8 to 4.7.9 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4344">peter-evans/create-pull-request#4344</a></li>
+  <li>build(deps-dev): bump the npm group with 3 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4349">peter-evans/create-pull-request#4349</a></li>
+  <li>fix: retry post-creation API calls on 422 eventual consistency
+  errors by <a
+  href="https://github.com/peter-evans"><code>@​peter-evans</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4356">peter-evans/create-pull-request#4356</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/peter-evans/create-pull-request/compare/v8.1.0...v8.1.1">https://github.com/peter-evans/create-pull-request/compare/v8.1.0...v8.1.1</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/5f6978faf089d4d20b00c7766989d076bb2fc7f1"><code>5f6978f</code></a>
+  fix: retry post-creation API calls on 422 eventual consistency errors
+  (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4356">#4356</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/d32e88dac789dcc7906e7d26f69f24116fa9c97d"><code>d32e88d</code></a>
+  build(deps-dev): bump the npm group with 3 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4349">#4349</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/8170bccad11c0df62542c04dcaefe36d342dfd39"><code>8170bcc</code></a>
+  build(deps-dev): bump handlebars from 4.7.8 to 4.7.9 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4344">#4344</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/00418193b417f888dbf1d993c5c0d31d27fdc7de"><code>0041819</code></a>
+  build(deps): bump picomatch (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4339">#4339</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/b993918c8536b6d44706130734d5456879762b27"><code>b993918</code></a>
+  build(deps-dev): bump flatted from 3.3.1 to 3.4.2 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4334">#4334</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/36d7c8468b48f9c2f8f29e260e82f10d4b90d2bd"><code>36d7c84</code></a>
+  build(deps-dev): bump undici from 6.23.0 to 6.24.0 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4328">#4328</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/a45d1fb447fcaf601166e405fd4f335cde1a8aa8"><code>a45d1fb</code></a>
+  build(deps): bump <code>@​tootallnate/once</code> and
+  jest-environment-jsdom (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4323">#4323</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/3499eb61835cc0015c0b786e203d74b1e8f55e43"><code>3499eb6</code></a>
+  build(deps): bump the github-actions group with 2 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4316">#4316</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/3f3b473b8c148f5a7520efb4d1f9a70eea3d9d1f"><code>3f3b473</code></a>
+  build(deps): bump minimatch (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4311">#4311</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/6699836a213cf8b28c4f0408a404a6ac79d4458a"><code>6699836</code></a>
+  build(deps-dev): bump the npm group with 2 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4305">#4305</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/peter-evans/create-pull-request/compare/c0f553fe549906ede9cf27b5156039d195d2ece0...5f6978faf089d4d20b00c7766989d076bb2fc7f1">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=peter-evans/create-pull-request&package-manager=github_actions&previous-version=8.1.0&new-version=8.1.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`2c9f57f`](https://github.com/ghostty-org/ghostty/commit/2c9f57f8b0de77a2296da82472db1b3ae99ed646) build(deps): bump docker/build-push-action from 7.0.0 to 7.1.0 ([#12256](https://github.com/ghostty-org/ghostty/issues/12256)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [docker/build-push-action](https://github.com/docker/build-push-action)
+  from 7.0.0 to 7.1.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/docker/build-push-action/releases">docker/build-push-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.1.0</h2>
+  <ul>
+  <li>Git context <a
+  href="https://docs.docker.com/build/concepts/context/#url-queries">query
+  format</a> support by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1505">docker/build-push-action#1505</a></li>
+  <li>Bump <code>@​docker/actions-toolkit</code> from 0.79.0 to 0.87.0 by
+  <a href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1505">docker/build-push-action#1505</a></li>
+  <li>Bump brace-expansion from 1.1.12 to 1.1.13 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1500">docker/build-push-action#1500</a></li>
+  <li>Bump fast-xml-parser from 5.4.2 to 5.5.7 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1489">docker/build-push-action#1489</a></li>
+  <li>Bump flatted from 3.3.3 to 3.4.2 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1491">docker/build-push-action#1491</a></li>
+  <li>Bump glob from 10.3.12 to 10.5.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1490">docker/build-push-action#1490</a></li>
+  <li>Bump handlebars from 4.7.8 to 4.7.9 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1497">docker/build-push-action#1497</a></li>
+  <li>Bump lodash from 4.17.23 to 4.18.1 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1510">docker/build-push-action#1510</a></li>
+  <li>Bump picomatch from 4.0.3 to 4.0.4 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1496">docker/build-push-action#1496</a></li>
+  <li>Bump undici from 6.23.0 to 6.24.1 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1486">docker/build-push-action#1486</a></li>
+  <li>Bump vite from 7.3.1 to 7.3.2 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1509">docker/build-push-action#1509</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/docker/build-push-action/compare/v7.0.0...v7.1.0">https://github.com/docker/build-push-action/compare/v7.0.0...v7.1.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/bcafcacb16a39f128d818304e6c9c0c18556b85f"><code>bcafcac</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1509">#1509</a>
+  from docker/dependabot/npm_and_yarn/vite-7.3.2</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/18e62f1158d9c45a4a84a58a6828d21f8ed3644b"><code>18e62f1</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1510">#1510</a>
+  from docker/dependabot/npm_and_yarn/lodash-4.18.1</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/46580d2c9d43b0888270cb6fa90956e483de56fc"><code>46580d2</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/3f80b252ca2331f6ec3e890f4346b5506ee1dc81"><code>3f80b25</code></a>
+  chore(deps): Bump lodash from 4.17.23 to 4.18.1</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/efeec9557c40a646afe433e39a1e94ca689103f0"><code>efeec95</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1505">#1505</a>
+  from crazy-max/refactor-git-context</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/ddf04b08eb12882258ed936fea4a2806754ff349"><code>ddf04b0</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1511">#1511</a>
+  from docker/dependabot/github_actions/crazy-max-dot-...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/db08d97a08e4a0d15f85d1c4e64dfd5f88cbe1a9"><code>db08d97</code></a>
+  chore(deps): Bump the crazy-max-dot-github group with 2 updates</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/ef1fb9688fc3626d0fd5e462f502cbbdc6456feb"><code>ef1fb96</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1508">#1508</a>
+  from docker/dependabot/github_actions/docker/login-a...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/2d8f2a1a378a5c302dcd7b2b4326cefa24180bb1"><code>2d8f2a1</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/919ac7bd7d1aa8cb13fe4de76545abea8d8b5ed2"><code>919ac7b</code></a>
+  fix test since secrets are not written to temp path anymore</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/docker/build-push-action/compare/d08e5c354a6adb9ed34480a06d141179aa583294...bcafcacb16a39f128d818304e6c9c0c18556b85f">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=docker/build-push-action&package-manager=github_actions&previous-version=7.0.0&new-version=7.1.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`6b97d91`](https://github.com/ghostty-org/ghostty/commit/6b97d911dfb8f68b76d36ee4df8d1e1170db9754) build(deps): bump actions/create-github-app-token from 3.0.0 to 3.1.1 ([#12257](https://github.com/ghostty-org/ghostty/issues/12257)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
+  from 3.0.0 to 3.1.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.1.1</h2>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.1.0...v3.1.1">3.1.1</a>
+  (2026-04-11)</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>improve error message when app identifier is empty (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/362">#362</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/07e2b760664f080c40eec4eacf7477256582db36">07e2b76</a>),
+  closes <a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/249">#249</a></li>
+  </ul>
+  <h2>v3.1.0</h2>
+  <h1><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.0.0...v3.1.0">3.1.0</a>
+  (2026-04-11)</h1>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump p-retry from 7.1.1 to 8.0.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/357">#357</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/3bbe07d928e2d6c30bf3e37c6b89edbc4045facf">3bbe07d</a>)</li>
+  </ul>
+  <h3>Features</h3>
+  <ul>
+  <li>add <code>client-id</code> input and deprecate <code>app-id</code>
+  (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/353">#353</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/e6bd4e6970172bed9fe138b2eaf4cbffa4cca8f9">e6bd4e6</a>)</li>
+  <li>update permission inputs (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/358">#358</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/076e9480ca6e9633bff412d05eff0fc2f1e7d2be">076e948</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/1b10c78c7865c340bc4f6099eb2f838309f1e8c3"><code>1b10c78</code></a>
+  build(release): 3.1.1 [skip ci]</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/07e2b760664f080c40eec4eacf7477256582db36"><code>07e2b76</code></a>
+  fix: improve error message when app identifier is empty (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/362">#362</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/ea0121618bb39abc1cff180c258978a02d4e04fd"><code>ea01216</code></a>
+  ci: remove publish-immutable-action workflow (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/361">#361</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/7bd03711494f032dfa3be3558f7dc8787b0be333"><code>7bd0371</code></a>
+  build(release): 3.1.0 [skip ci]</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/e6bd4e6970172bed9fe138b2eaf4cbffa4cca8f9"><code>e6bd4e6</code></a>
+  feat: add <code>client-id</code> input and deprecate <code>app-id</code>
+  (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/353">#353</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/076e9480ca6e9633bff412d05eff0fc2f1e7d2be"><code>076e948</code></a>
+  feat: update permission inputs (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/358">#358</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/3bbe07d928e2d6c30bf3e37c6b89edbc4045facf"><code>3bbe07d</code></a>
+  fix(deps): bump p-retry from 7.1.1 to 8.0.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/357">#357</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/28a99e369c23d11dbaf8e9ff29e577c7129aaa6c"><code>28a99e3</code></a>
+  build(deps-dev): bump c8 from 10.1.3 to 11.0.0</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/4df50600ef5eaf70cb3514fbb1716e183ec4b25d"><code>4df5060</code></a>
+  build(deps-dev): bump open-cli from 8.0.0 to 9.0.0</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/4843c538d99b70fef283d0c8a7e12a8f4c9a7b70"><code>4843c53</code></a>
+  build(deps-dev): bump the development-dependencies group with 3
+  updates</li>
+  <li>See full diff in <a
+  href="https://github.com/actions/create-github-app-token/compare/f8d387b68d61c58ab83c6c016672934102569859...1b10c78c7865c340bc4f6099eb2f838309f1e8c3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=3.0.0&new-version=3.1.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`0182541`](https://github.com/ghostty-org/ghostty/commit/01825411ab2720e47e6902e9464e805bc6a062a1) build(deps): bump actions/upload-artifact from 7.0.0 to 7.0.1 ([#12258](https://github.com/ghostty-org/ghostty/issues/12258)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [actions/upload-artifact](https://github.com/actions/upload-artifact)
+  from 7.0.0 to 7.0.1.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/upload-artifact/releases">actions/upload-artifact's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.0.1</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Update the readme with direct upload details by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/795">actions/upload-artifact#795</a></li>
+  <li>Readme: bump all the example versions to v7 by <a
+  href="https://github.com/danwkennedy"><code>@​danwkennedy</code></a> in
+  <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/796">actions/upload-artifact#796</a></li>
+  <li>Include changes in typespec/ts-http-runtime 0.3.5 by <a
+  href="https://github.com/yacaovsnc"><code>@​yacaovsnc</code></a> in <a
+  href="https://redirect.github.com/actions/upload-artifact/pull/797">actions/upload-artifact#797</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/actions/upload-artifact/compare/v7...v7.0.1">https://github.com/actions/upload-artifact/compare/v7...v7.0.1</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"><code>043fb46</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/actions/upload-artifact/issues/797">#797</a>
+  from actions/yacaovsnc/update-dependency</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/634250c1388765ea7ed0f053e636f1f399000b94"><code>634250c</code></a>
+  Include changes in typespec/ts-http-runtime 0.3.5</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/e454baaac2be505c9450e11b8f3215c6fc023ce8"><code>e454baa</code></a>
+  Readme: bump all the example versions to v7 (<a
+  href="https://redirect.github.com/actions/upload-artifact/issues/796">#796</a>)</li>
+  <li><a
+  href="https://github.com/actions/upload-artifact/commit/74fad66b98a6d799dc004d3353ccd0e6f6b2530e"><code>74fad66</code></a>
+  Update the readme with direct upload details (<a
+  href="https://redirect.github.com/actions/upload-artifact/issues/795">#795</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/actions/upload-artifact/compare/bbbca2ddaa5d8feaa63e36b76fdaad77386f024f...043fb46d1a93c77aae656e7c1c64a875d1fc6a0a">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/upload-artifact&package-manager=github_actions&previous-version=7.0.0&new-version=7.0.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## April 12, 2026
 
