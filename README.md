@@ -8,7 +8,28 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 14, 2026 at 12:22 UTC.
+> Last updated: April 14, 2026 at 15:27 UTC.
+
+## April 14, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24404590083)  
+Summary: 1 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`fe8a646`](https://github.com/ghostty-org/ghostty/commit/fe8a6464b94e7f11a3514627b8344442ab9e63c4) macOS: update MenuShortcutKey ([@bo2themax](https://github.com/bo2themax))
+- [`6033c12`](https://github.com/ghostty-org/ghostty/commit/6033c12790aaf0e9e7cee44118aa8745c4dfaadd) macOS: reset menu shortcuts when its not updated ([@bo2themax](https://github.com/bo2themax))
+- [`79a470d`](https://github.com/ghostty-org/ghostty/commit/79a470d9a3b0a2b2cde3e939f0cb25968a162183) macOS: refactor MenuShortcutManager ([#12271](https://github.com/ghostty-org/ghostty/issues/12271)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes #11995
+  
+  Yet another small step to fix menu shortcut-related issues.
+  
+  1. Create `MenuShortcutKey` from `NSMenuItem` and `KeyboardShortcut`.
+  2. Add `updateMenuShortcut` to update to Ghostty ones only.
+  
+  Doesn't contain any actual changes to pass previous test cases.
+  ```
 
 ## April 13, 2026
 
