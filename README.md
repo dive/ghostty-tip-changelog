@@ -8,7 +8,83 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 15, 2026 at 18:26 UTC.
+> Last updated: April 15, 2026 at 21:18 UTC.
+
+## April 15, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24472495002)  
+Summary: 1 runs • 6 commits • 2 authors
+
+### Changes
+
+- [`9c49c34`](https://github.com/ghostty-org/ghostty/commit/9c49c343569791071603d63138aa1a6f7d9dd2dc) benchmark: add AGENTS, improve UTF-8 synthetic data ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates our synthetic generator for UTF-8 to expose:
+  
+    - Flags to change 1/2/3/4-byte UTF-8 character distribution
+    - Flags to have only printable characters so we can benchmark
+      pure UTF-8 vs our control sequence finder.
+    - Flags to have invalid characters so we can benchmark our error
+      handling.
+  
+  This also adds an AGENTS.md to src/benchmark so agents can do the right
+  thing more easily.
+  ```
+- [`29f92c0`](https://github.com/ghostty-org/ghostty/commit/29f92c0c8bb8428ccddb90efe095b114c3ff2950) benchmark: add AGENTS, improve UTF-8 synthetic data ([#12297](https://github.com/ghostty-org/ghostty/issues/12297)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates our synthetic generator for UTF-8 to expose:
+  
+    - Flags to change 1/2/3/4-byte UTF-8 character distribution
+  - Flags to have only printable characters so we can benchmark pure UTF-8
+  vs our control sequence finder.
+  - Flags to have invalid characters so we can benchmark our error
+  handling.
+  
+  This also adds an AGENTS.md to src/benchmark so agents can do the right
+  thing more easily.
+  
+  These are necessary to robustly benchmark our libc++ removal PR.
+  ```
+- [`f53d3ab`](https://github.com/ghostty-org/ghostty/commit/f53d3ab8a35fe5a0cf077838e541bd450b09863a) nix: update to the latest zon2nix ([@jcollie](https://github.com/jcollie))
+- [`efa8da6`](https://github.com/ghostty-org/ghostty/commit/efa8da6aea1e9cc099412c86405791bb0734ec0e) nix: update to the latest zon2nix ([#12299](https://github.com/ghostty-org/ghostty/issues/12299)) ([@mitchellh](https://github.com/mitchellh))
+- [`e51de8b`](https://github.com/ghostty-org/ghostty/commit/e51de8b58faba2c851604b813e569f926910f522) libghostty: Remove all libc++ and libc++ ABI dependencies ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates simdutf to my fork which has a SIMDUTF_NO_LIBCXX option
+  that removes all libc++ and libc++ ABI dependencies.
+  
+  From there, the hand-written simd code we have has been updated to also
+  no longer use any libc++ features. Part of this required removing utfcpp
+  since it depended on libc++ (`<iterator>`).
+  
+  libghostty-vt now only depends on libc.
+  ```
+- [`43a05dc`](https://github.com/ghostty-org/ghostty/commit/43a05dc968eda9bfa2196d66ba1819daf510b62a) libghostty: Remove all libc++ and libc++ ABI dependencies ([#12291](https://github.com/ghostty-org/ghostty/issues/12291)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates simdutf to my fork which has a SIMDUTF_NO_LIBCXX option
+  that removes all libc++ and libc++ ABI dependencies. The plan is to open
+  an upstream PR with this, but I want to verify it here first.
+  
+  From there, the hand-written simd code we have has been updated to also
+  no longer use any libc++ features. Part of this required removing utfcpp
+  since it depended on libc++ (`<iterator>`).
+  
+  libghostty-vt now only depends on libc.
+  
+  ## Benchmark Results
+  
+  | Corpus | Current `HEAD` median | `main` median | Delta vs `main` |
+  Notes |
+  | --- | ---: | ---: | ---: | --- |
+  | `valid-mixed-1g-seed1.bin` | `9.245s` | `9.111s` | `1.5%` slower |
+  Near tie; `main` remains slightly faster on fully valid input |
+  | `malformed-mixed-1g-seed1-rate0.005.bin` | `9.251s` | `12.705s` |
+  `37.3%` faster | Large improvement on malformed UTF-8 input |
+  
+  Approximate throughput from the medians:
+  
+  - Valid corpus: current `HEAD` `110.8 MiB/s`, `main` `112.4 MiB/s`
+  - Malformed corpus: current `HEAD` `110.7 MiB/s`, `main` `80.6 MiB/s`
+  ```
 
 ## April 14, 2026
 
