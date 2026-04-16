@@ -8,15 +8,76 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 15, 2026 at 21:18 UTC.
+> Last updated: April 16, 2026 at 00:31 UTC.
 
 ## April 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24472495002)  
-Summary: 1 runs • 6 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24480459490), [2](https://github.com/ghostty-org/ghostty/actions/runs/24479115337), [3](https://github.com/ghostty-org/ghostty/actions/runs/24472495002)  
+Summary: 3 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`9e080c5`](https://github.com/ghostty-org/ghostty/commit/9e080c5a403475dcbee93c40eeb22cf6f92121f4) Update VOUCHED list ([#12302](https://github.com/ghostty-org/ghostty/issues/12302)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12301#issuecomment-4255856979)
+  from @trag1c.
+  
+  Vouch: @bleikurr
+  ```
+- [`858e856`](https://github.com/ghostty-org/ghostty/commit/858e856e2e1c4572585f6e043876d7d2f0ef79b4) macOS: fix shortcuts not showing on menu item for `scroll_to_selection` and `search_selection` ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Incorrect link after 9b6a3be99339bcefcc49b7791b7b9761d24e6093 and 7d0157e69a7b8082b4c56baa466304768f68cbc6
+  ```
+- [`815ccb0`](https://github.com/ghostty-org/ghostty/commit/815ccb060b1f983272dab86af6bacb156dfcbfd9) terminal: fix viewport pin during resize reflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Maybe related to #12298?
+  
+  When Screen resize forwards the active cursor into PageList reflow, a
+  history-pinned viewport can be remapped into the active area before the
+  preserved-cursor grow step finishes. The old code kept treating that
+  viewport as a history pin during the intermediate grow calls, which left
+  too few rows beneath the pin and tripped the viewport integrity checks.
+  
+  Fix this by normalizing the viewport back to active as soon as reflow
+  moves the pinned row into the active area. Add a Screen-level regression
+  test that exercises the full resize path with bounded scrollback and
+  wrapped rows, and document the setup so the unwrap and viewport
+  transition are clear.
+  ```
+- [`551bf0a`](https://github.com/ghostty-org/ghostty/commit/551bf0af3fab6ff8b7567fc77b53698a944fce60) terminal: fix viewport pin during resize reflow ([#12300](https://github.com/ghostty-org/ghostty/issues/12300)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Maybe related to #12298?
+  
+  When Screen resize forwards the active cursor into PageList reflow, a
+  history-pinned viewport can be remapped into the active area before the
+  preserved-cursor grow step finishes. The old code kept treating that
+  viewport as a history pin during the intermediate grow calls, which left
+  too few rows beneath the pin and tripped the viewport integrity checks.
+  
+  Fix this by normalizing the viewport back to active as soon as reflow
+  moves the pinned row into the active area. Add a Screen-level regression
+  test that exercises the full resize path with bounded scrollback and
+  wrapped rows, and document the setup so the unwrap and viewport
+  transition are clear.
+  ```
+- [`d85051a`](https://github.com/ghostty-org/ghostty/commit/d85051a530690450148e558216d6f399ef978dfc) macOS: fix shortcuts not showing on menu item for `scroll_to_selection` and `search_selection` ([#12281](https://github.com/ghostty-org/ghostty/issues/12281)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  …
+  
+  Incorrect link after 9b6a3be99339bcefcc49b7791b7b9761d24e6093 and
+  7d0157e69a7b8082b4c56baa466304768f68cbc6
+  
+  Reload following config and see the menu
+  ```
+  keybind = cmd+j=scroll_to_selection
+  keybind = cmd+m=search_selection
+  ```
+  
+  <img width="473" height="222" alt="image"
+  src="https://github.com/user-attachments/assets/f92c6024-e7f4-496d-9aed-43103c21794d"
+  />
+  ````
 - [`9c49c34`](https://github.com/ghostty-org/ghostty/commit/9c49c343569791071603d63138aa1a6f7d9dd2dc) benchmark: add AGENTS, improve UTF-8 synthetic data ([@mitchellh](https://github.com/mitchellh))
   ```text
   This updates our synthetic generator for UTF-8 to expose:
@@ -1446,136 +1507,5 @@ Summary: 7 runs • 16 commits • 5 authors
   Update the Nix packaging to rewrite the new static module into the `dev`
   output, use it in the static-link smoke test, and add a compatibility
   check that covers both pkg-config entry points.
-  ```
-
-## April 9, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24211441984)  
-Summary: 1 runs • 4 commits • 2 authors
-
-### Changes
-
-- [`1855b3e`](https://github.com/ghostty-org/ghostty/commit/1855b3efcce2b01b341df33e127f09629fc47d18) build(deps): bump cachix/install-nix-action from 31.10.3 to 31.10.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.3 to 31.10.4.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/96951a368ba55167b55f1c916f7d416bac6505fe...616559265b40713947b9c190a8ff4b507b5df49b)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.10.4
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`4cfbdaf`](https://github.com/ghostty-org/ghostty/commit/4cfbdaf8aa4661a0760c21d12521da09b32079ca) build(deps): bump cachix/install-nix-action from 31.10.3 to 31.10.4 ([#12196](https://github.com/ghostty-org/ghostty/issues/12196)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.10.3 to 31.10.4.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.10.4</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.34.4 -&gt; 2.34.5 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/273">cachix/install-nix-action#273</a>
-  <strong>[SECURITY]</strong> Fixes a root privilege escalation
-  vulnerability via sandbox escape <a
-  href="https://github.com/NixOS/nix/security/advisories/GHSA-g3g9-5vj6-r3gj">https://github.com/NixOS/nix/security/advisories/GHSA-g3g9-5vj6-r3gj</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31.10.3...v31.10.4">https://github.com/cachix/install-nix-action/compare/v31.10.3...v31.10.4</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/616559265b40713947b9c190a8ff4b507b5df49b"><code>6165592</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/273">#273</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/b9f700df68e7810cde515c356dcf7787c9c7737d"><code>b9f700d</code></a>
-  nix: 2.34.4 -&gt; 2.34.5</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/96951a368ba55167b55f1c916f7d416bac6505fe...616559265b40713947b9c190a8ff4b507b5df49b">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.3&new-version=31.10.4)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`ad9225a`](https://github.com/ghostty-org/ghostty/commit/ad9225a4ca43b594941cc637a0aab53ae7d31954) build: sanitize all invalid chars in branch name for version ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11990
-  
-  Previously only slashes were replaced with hyphens in the branch
-  name used as the semver pre-release identifier. Branch names
-  containing dots (e.g. dependabot branches like
-  "cachix/install-nix-action-31.10.4") would cause an InvalidVersion
-  error because std.SemanticVersion only allows alphanumeric
-  characters and hyphens in pre-release identifiers.
-  
-  Replace all non-alphanumeric, non-hyphen characters instead of
-  only slashes.
-  ```
-- [`1a5bfbd`](https://github.com/ghostty-org/ghostty/commit/1a5bfbd87c3af0b8e27cef67511cb32141832866) build: sanitize all invalid chars in branch name for version ([#12206](https://github.com/ghostty-org/ghostty/issues/12206)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11990
-  
-  Previously only slashes were replaced with hyphens in the branch name
-  used as the semver pre-release identifier. Branch names containing dots
-  (e.g. dependabot branches like
-  "cachix/install-nix-action-31.10.4") would cause an InvalidVersion error
-  because std.SemanticVersion only allows alphanumeric characters and
-  hyphens in pre-release identifiers.
-  
-  Replace all non-alphanumeric, non-hyphen characters instead of only
-  slashes.
   ```
 
