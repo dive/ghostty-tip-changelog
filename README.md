@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 18, 2026 at 21:10 UTC.
+> Last updated: April 19, 2026 at 00:28 UTC.
 
 ## April 17, 2026
 
@@ -1071,118 +1071,5 @@ Summary: 3 runs • 26 commits • 5 authors
   
   
   </details>
-  ```
-
-## April 12, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24315826889)  
-Summary: 1 runs • 26 commits • 4 authors
-
-### Changes
-
-- [`30fdc8f`](https://github.com/ghostty-org/ghostty/commit/30fdc8f4c881c309199bd75086b52962e3ed344c) macOS: fix cannot rebind super+up and super+down ([@otomn](https://github.com/otomn))
-- [`dd04856`](https://github.com/ghostty-org/ghostty/commit/dd04856482d3c38746da989901b1cdeeb8580c7c) build: add ghostty-internal pkg-config modules (shared + static) ([@deblasis](https://github.com/deblasis))
-- [`4fd16ef`](https://github.com/ghostty-org/ghostty/commit/4fd16ef9bcb73e19c2fdb406107803f819dc7d92) build: install ghostty-internal dll/static with new names ([@deblasis](https://github.com/deblasis))
-  ```text
-  Rename the internal library's install names to match the new
-  ghostty-internal pkg-config module convention:
-  
-    ghostty.dll          -> ghostty-internal.dll
-    ghostty-static.lib   -> ghostty-internal-static.lib
-    libghostty.so        -> ghostty-internal.so
-    libghostty.a         -> ghostty-internal.a
-  
-  This is the glue library between Ghostty's app shells and the GUI
-  core, historically (mis)named "libghostty". It is not the public
-  libghostty-vt API.
-  ```
-- [`1988ac9`](https://github.com/ghostty-org/ghostty/commit/1988ac94d4815b878e34258a543d17707024f209) build: point ghostty-internal pkg-config files at direct paths ([@deblasis](https://github.com/deblasis))
-  ```text
-  Switch the shared ghostty-internal.pc Libs: line from -lghostty to a
-  direct ${libdir}/<file> path, matching what the -static module already
-  does. The name-per-OS helpers now emit:
-  
-    shared:  ghostty-internal.dll (Windows) / ghostty-internal.so (other)
-    static:  ghostty-internal-static.lib (Windows) / ghostty-internal.a
-  
-  Direct paths sidestep the GNU-ld -l<name> search template, which
-  expects libghostty-internal.so/.a on Unix - we drop the lib prefix to
-  match the ghostty-internal pkg-config module name.
-  
-  Also update the LipoStep out_name for the macOS universal static
-  archive to ghostty-internal.a for consistency.
-  ```
-- [`935b08a`](https://github.com/ghostty-org/ghostty/commit/935b08acea92e4c9a6772d0518022e6659a9be68) test/windows: load ghostty-internal.dll in CRT init reproducer ([@deblasis](https://github.com/deblasis))
-  ```text
-  The internal glue DLL was renamed from ghostty.dll to
-  ghostty-internal.dll. Update the LoadLibraryA call and the comment
-  block so this regression test still exercises the right artifact.
-  ```
-- [`19bf63a`](https://github.com/ghostty-org/ghostty/commit/19bf63ab714ddd5807df5ec2df0572c7fd9ac94a) test/windows: update README for ghostty-internal.dll rename ([@deblasis](https://github.com/deblasis))
-  ```text
-  Match the dll filename rename so the copy/run instructions stay
-  accurate.
-  ```
-- [`8bd1aba`](https://github.com/ghostty-org/ghostty/commit/8bd1aba40a75601a7c9c934d9b3551f3d9bb67da) macOS: add shared OSSurfaceView ([@bo2themax](https://github.com/bo2themax))
-- [`46fef77`](https://github.com/ghostty-org/ghostty/commit/46fef7718cb5c53dc983aa301599887ec398c624) macOS: move `pwd` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`d38301b`](https://github.com/ghostty-org/ghostty/commit/d38301bb9ff4a3bf52dca046f0dc75d50a43d244) macOS: move `cellSize` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`3936069`](https://github.com/ghostty-org/ghostty/commit/3936069297ac2e7a2f4e2508bdbe6da735425f7d) macOS: move `healthy` and `error` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`619e12d`](https://github.com/ghostty-org/ghostty/commit/619e12dc75a2c3ec4f32929b9b59ddf2b2355180) macOS: move `hoverUrl` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`8b99c77`](https://github.com/ghostty-org/ghostty/commit/8b99c77bf76810ba9a0cd7a05a8215c81948f26e) macOS: update title comments ([@bo2themax](https://github.com/bo2themax))
-- [`19af8e9`](https://github.com/ghostty-org/ghostty/commit/19af8e9ce2727477373a556d576792b943e1d78a) macOS: move `progressReport` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`56b505c`](https://github.com/ghostty-org/ghostty/commit/56b505cbb07485dc75e0907eec1c5432d03b515b) macOS: move `keyTables` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`7c83561`](https://github.com/ghostty-org/ghostty/commit/7c83561f9e3a3581bc94c1c4a47b8810f8591625) macOS: move `focusInstant` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`3834751`](https://github.com/ghostty-org/ghostty/commit/3834751aef32c9b18c7d584776813ae0c1c38cbb) macOS: move `surfaceSize` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`2efe851`](https://github.com/ghostty-org/ghostty/commit/2efe851cda266c38f3a2022db6738df72ce72140) macOS: move `readonly` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`1665755`](https://github.com/ghostty-org/ghostty/commit/1665755a93502485f8970c0a012359759bdb8bf9) macOS: move `highlighted` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`a541e23`](https://github.com/ghostty-org/ghostty/commit/a541e2312082a80e054d0482ef672efe4c97f06e) macOS: move `surface` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`90ea604`](https://github.com/ghostty-org/ghostty/commit/90ea604a7cf16145e3cb05beb8028ccf242e552a) macOS: move `searchState` to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`bf6fd4a`](https://github.com/ghostty-org/ghostty/commit/bf6fd4abe583b7a0f2f339c7b9e762d4399e4991) macOS: add `focusDidChange` & `sizeDidChange` placeholders to `OSSurfaceView` ([@bo2themax](https://github.com/bo2themax))
-- [`5301999`](https://github.com/ghostty-org/ghostty/commit/53019991f7291edb74abffe03ad85256933d733a) macOS: fix the arrow alignment of the secure input popover ([@bo2themax](https://github.com/bo2themax))
-- [`0325964`](https://github.com/ghostty-org/ghostty/commit/032596442fb16983ed15e492dddc8267a163a1f1) macOS: clean up duplicated declarations in SurfaceView_AppKit/UIKit ([#12250](https://github.com/ghostty-org/ghostty/issues/12250)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Added a shared `OSSurfaceView` as the base class to share common
-  variables and functions across platforms.
-  
-  Each commit contains a small change to move one or two variables or
-  functions to `OSSurfaceView`.
-  ```
-- [`7f6d2a4`](https://github.com/ghostty-org/ghostty/commit/7f6d2a44b8f2d207f76cc4ecc8d60b6b48610fd7) macOS: fix cannot rebind super+up and super+down ([#12245](https://github.com/ghostty-org/ghostty/issues/12245)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fix: #11989
-  Cause identified to: ab352b5af9694a7cba8e237d0b1b5a507a6e4226
-  Original PR: #10003
-  Problem: I don't think it is OK to hard code the keybind like this at
-  all. Ghostty's config is flexible enough to achieve this.
-  Proposal: Revert the above commit via this PR.
-  
-  @yasuf @bo2themax
-  ```
-- [`d2b79be`](https://github.com/ghostty-org/ghostty/commit/d2b79bea771a1633ffedf3ac7b9c73c194d4e83f) macOS: fix the arrow alignment of the secure input popover ([#12249](https://github.com/ghostty-org/ghostty/issues/12249)) ([@mitchellh](https://github.com/mitchellh))
-- [`94cd3da`](https://github.com/ghostty-org/ghostty/commit/94cd3da8bc66af3968752e83b24858b90455b165) build: add ghostty-internal pkg-config modules (shared + static) ([#12214](https://github.com/ghostty-org/ghostty/issues/12214)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  Mirror the `libghostty-vt-static` pkg-config pattern from #12210 for the
-  internal library.
-  
-  - Add `ghostty-internal.pc` (shared, `-lghostty`) and
-  `ghostty-internal-static.pc` (static, direct archive reference) so
-  consumers can discover either variant via pkg-config
-  - Named `ghostty-internal` to distinguish from the public
-  `libghostty-vt` API
-  - Static module points at the platform-correct archive name
-  (`ghostty-static.lib` on Windows, `libghostty.a` elsewhere)
-  - pkg-config files are generated during shared builds and installed via
-  `GhosttyLib.install()`
-  
-  ## Test plan
-  
-  - [x] `zig build` succeeds (default target)
-  - [x] `ghostty-internal.pc` and `ghostty-internal-static.pc` appear in
-  `zig-out/share/pkgconfig/`
-  - [x] Static `.pc` points at `ghostty-static.lib` (Windows) /
-  `libghostty.a` (Unix)
-  - [x] Shared `.pc` uses standard `-L -l` flags
-  - [x] Existing `libghostty-vt` pkg-config files are unaffected
   ```
 
