@@ -8,15 +8,24 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 19, 2026 at 18:13 UTC.
+> Last updated: April 19, 2026 at 21:11 UTC.
 
 ## April 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24632124947), [2](https://github.com/ghostty-org/ghostty/actions/runs/24631013589)  
-Summary: 2 runs • 9 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24639013884), [2](https://github.com/ghostty-org/ghostty/actions/runs/24632124947), [3](https://github.com/ghostty-org/ghostty/actions/runs/24631013589)  
+Summary: 3 runs • 14 commits • 4 authors
 
 ### Changes
 
+- [`9cbca54`](https://github.com/ghostty-org/ghostty/commit/9cbca54597a21fae7d6ff9b80d9796d71a2dfb4e) Fix typo + improve fluency in README_TRANSLATORS § Viewing translations. ([@00-kat](https://github.com/00-kat))
+- [`8a6c664`](https://github.com/ghostty-org/ghostty/commit/8a6c664686f57100f456bad35b08bc323f59184e) Fix typo in i18n_locales.zig. ([@00-kat](https://github.com/00-kat))
+- [`49cd2ba`](https://github.com/ghostty-org/ghostty/commit/49cd2ba80bdb28ca8a56247712ed53c0b9f12669) Mark i18n_locales.zig as owned by ghostty-org/localization/manager. ([@00-kat](https://github.com/00-kat))
+- [`2e33589`](https://github.com/ghostty-org/ghostty/commit/2e33589e23acb5f7e24f74ea384225b67485d3e6) Avoid marking files as owned by ghostty-org/localization. ([@00-kat](https://github.com/00-kat))
+  ```text
+  That team and its children have a very large number of members, so
+  requests for review from them would make for a mass ping.
+  ```
+- [`ed29fd5`](https://github.com/ghostty-org/ghostty/commit/ed29fd56ddb45522bc151ebff3a9576bc5a68931) Translation documentation-related typos + CODEOWNERS update ([#12336](https://github.com/ghostty-org/ghostty/issues/12336)) ([@00-kat](https://github.com/00-kat))
 - [`4f3a9cb`](https://github.com/ghostty-org/ghostty/commit/4f3a9cb0c6ce501a69d32a38e200812070b08d7e) i18n: add Belarusian translation (be) (illia krauchanka)
 - [`ff9ca55`](https://github.com/ghostty-org/ghostty/commit/ff9ca55b58c7728f031af062b46b07bdf6cc83c3) i18n: fix terminology in Belarusian translation (be) (illia krauchanka)
 - [`3ee0b0a`](https://github.com/ghostty-org/ghostty/commit/3ee0b0a77b5c8a317f3075e28d022af3098b66c0) i18n: fix gender agreement for match translations (be) (illia krauchanka)
