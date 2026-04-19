@@ -8,15 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 19, 2026 at 15:14 UTC.
+> Last updated: April 19, 2026 at 18:13 UTC.
 
 ## April 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24631013589)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24632124947), [2](https://github.com/ghostty-org/ghostty/actions/runs/24631013589)  
+Summary: 2 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`4f3a9cb`](https://github.com/ghostty-org/ghostty/commit/4f3a9cb0c6ce501a69d32a38e200812070b08d7e) i18n: add Belarusian translation (be) (illia krauchanka)
+- [`ff9ca55`](https://github.com/ghostty-org/ghostty/commit/ff9ca55b58c7728f031af062b46b07bdf6cc83c3) i18n: fix terminology in Belarusian translation (be) (illia krauchanka)
+- [`3ee0b0a`](https://github.com/ghostty-org/ghostty/commit/3ee0b0a77b5c8a317f3075e28d022af3098b66c0) i18n: fix gender agreement for match translations (be) (illia krauchanka)
+- [`4381153`](https://github.com/ghostty-org/ghostty/commit/43811534b9e2ad5017a9c7365f3269260a356cb9) i18n: replace змесціва with змест (be) (illia krauchanka)
+- [`053dee8`](https://github.com/ghostty-org/ghostty/commit/053dee8db23830ca03fb62af976f842dccceaa91) i18n: replace гартаць with пракручваць (be) (illia krauchanka)
+- [`f370099`](https://github.com/ghostty-org/ghostty/commit/f370099d34f8ae8295be1a1dffce88fb80f02971) i18n: address review feedback (be) (Illia Krauchanka)
+- [`28b7ef1`](https://github.com/ghostty-org/ghostty/commit/28b7ef12c338cba5dbb640b41b25a4478c612cf2) i18n: add Belarusian translation (be) ([#12284](https://github.com/ghostty-org/ghostty/issues/12284)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  This PR adds Belarusian (be) language support to Ghostty.
+  
+  ## Changes
+  
+  - `po/be.po` — new Belarusian translation file (80 strings)
+  - `src/os/i18n_locales.zig` — added `be` locale
+  - `CODEOWNERS` — added `/po/be.po @ghostty-org/be_BY`
+  
+  ## Notes
+  
+  Terminology was cross-referenced with:
+  - KDE Belarusian translations (l10n.kde.org)
+  - qBittorrent Belarusian translation
+  - far2l Belarusian translation
+  - Ubuntu Belarusian Translators Dictionary
+  ```
 - [`5939b8c`](https://github.com/ghostty-org/ghostty/commit/5939b8c1be511020b5ec46c73509dc9d29a964a1) macOS: fix 12266 by using the correct coordinates for the hitTest ([@bo2themax](https://github.com/bo2themax))
   ```text
   Regression of #11872
