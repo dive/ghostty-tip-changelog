@@ -8,7 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 19, 2026 at 12:12 UTC.
+> Last updated: April 19, 2026 at 15:14 UTC.
+
+## April 19, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24631013589)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`5939b8c`](https://github.com/ghostty-org/ghostty/commit/5939b8c1be511020b5ec46c73509dc9d29a964a1) macOS: fix 12266 by using the correct coordinates for the hitTest ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Regression of #11872
+  ```
+- [`7a3e3dc`](https://github.com/ghostty-org/ghostty/commit/7a3e3dc8d20b7e287cc2b2b8e023c89f44879721) macOS: fix [#12266](https://github.com/ghostty-org/ghostty/issues/12266) by using the correct coordinates for the hitTest ([#12322](https://github.com/ghostty-org/ghostty/issues/12322)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Fixes #12266, regression of #11872.
+  ```
 
 ## April 17, 2026
 
