@@ -8,7 +8,36 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 20, 2026 at 15:30 UTC.
+> Last updated: April 20, 2026 at 18:21 UTC.
+
+## April 20, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24678140846)  
+Summary: 1 runs • 6 commits • 3 authors
+
+### Changes
+
+- [`9a90022`](https://github.com/ghostty-org/ghostty/commit/9a9002202b8767e6e99c2bb48fad09fc0ae02870) macos: add pid and tty properties to AppleScript terminal class ([@TweedBeetle](https://github.com/TweedBeetle))
+  ```text
+  Expose the foreground process PID and TTY device path as read-only properties on the AppleScript terminal class and App Intents TerminalEntity. This enables reliable process-to-terminal mapping for automation tools when multiple terminals share the same CWD.
+  
+  Closes #11592
+  Closes #10756
+  
+  Session: 019d341c-a165-7843-a2f7-2f426114cf17
+  ```
+- [`8302740`](https://github.com/ghostty-org/ghostty/commit/83027407e66e47248a4bdf9a82b438764caf43d5) terminal: fix memory leak that could happen with invalid Kitty image cmd ([@mitchellh](https://github.com/mitchellh))
+- [`0509f00`](https://github.com/ghostty-org/ghostty/commit/0509f00ad2f0e56dc4c0807d2e22f80baf1688f9) terminal/apc: introduce a max_bytes parameter to prevent DoS ([@mitchellh](https://github.com/mitchellh))
+- [`0069e28`](https://github.com/ghostty-org/ghostty/commit/0069e28cc6f681797f1424317f46d52da9d9e635) libghostty: expose the APC max byte limits ([@mitchellh](https://github.com/mitchellh))
+- [`4446dba`](https://github.com/ghostty-org/ghostty/commit/4446dbae3360f87ed8ac577f7c5d04f36a570ed0) Misc APC improvements ([#12349](https://github.com/ghostty-org/ghostty/issues/12349)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  * Fix a memory leak when invalid Kitty graphics data is sent via APC
+  (this is the only commit for backporting to 1.3.2)
+  * Add `max_bytes` to limit size of buffered APC data by protocol to
+  prevent DoS, default to reasonable values
+  * libghostty: expose max bytes APC options
+  ```
+- [`afdae72`](https://github.com/ghostty-org/ghostty/commit/afdae7293abfdf5daa684dc50c35420b61a1d575) macos: add pid and tty properties to AppleScript terminal and App Intents TerminalEntity ([#11922](https://github.com/ghostty-org/ghostty/issues/11922)) ([@bo2themax](https://github.com/bo2themax))
 
 ## April 19, 2026
 
