@@ -8,15 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 20, 2026 at 18:21 UTC.
+> Last updated: April 20, 2026 at 21:17 UTC.
 
 ## April 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24678140846)  
-Summary: 1 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24685410722), [2](https://github.com/ghostty-org/ghostty/actions/runs/24678140846)  
+Summary: 2 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`2db58a6`](https://github.com/ghostty-org/ghostty/commit/2db58a63feb7d052985d9c46039f03bf58cef3c7) update zon2nix ([@jcollie](https://github.com/jcollie))
+- [`c7a7307`](https://github.com/ghostty-org/ghostty/commit/c7a73076e9c3ebb395faa51d5f92f49327a62df5) macOS: fix App Icon update in Finders ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Looks like  `NSWorkspace.shared.setIcon` can only be called from the main App, DockTilePlugin is sandboxed and doesn't have the permission to `file-write-finderinfo`.
+  
+  It works fine in debug, but not in release. This fixes #11489, #11290
+  ```
+- [`61363e8`](https://github.com/ghostty-org/ghostty/commit/61363e80d1f235bbacb7ebcccf418f24a3fabadd) macOS: fix App Icon update in Finder ([#12344](https://github.com/ghostty-org/ghostty/issues/12344)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Looks like `NSWorkspace.shared.setIcon` can only be called from the main
+  App, DockTilePlugin is sandboxed and doesn't have the permission to
+  `file-write-finderinfo`.
+  
+  <img width="1186" height="144" alt="image"
+  src="https://github.com/user-attachments/assets/e5ea4f1c-718c-493a-bda2-32787881881e"
+  />
+  
+  
+  It works fine in debug, but not in release. This fixes #11489
+  ```
+- [`c3c8572`](https://github.com/ghostty-org/ghostty/commit/c3c8572f7fd6309645bf70f74958691c6294bef0) update zon2nix ([#12337](https://github.com/ghostty-org/ghostty/issues/12337)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds better Zig 0.16 compatibility.
+  ```
 - [`9a90022`](https://github.com/ghostty-org/ghostty/commit/9a9002202b8767e6e99c2bb48fad09fc0ae02870) macos: add pid and tty properties to AppleScript terminal class ([@TweedBeetle](https://github.com/TweedBeetle))
   ```text
   Expose the foreground process PID and TTY device path as read-only properties on the AppleScript terminal class and App Intents TerminalEntity. This enables reliable process-to-terminal mapping for automation tools when multiple terminals share the same CWD.
