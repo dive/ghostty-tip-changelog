@@ -8,15 +8,79 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 21, 2026 at 15:29 UTC.
+> Last updated: April 21, 2026 at 18:23 UTC.
 
 ## April 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24729914540), [2](https://github.com/ghostty-org/ghostty/actions/runs/24703080862)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24736321995), [2](https://github.com/ghostty-org/ghostty/actions/runs/24734679646), [3](https://github.com/ghostty-org/ghostty/actions/runs/24729914540), [4](https://github.com/ghostty-org/ghostty/actions/runs/24703080862)  
+Summary: 4 runs • 12 commits • 7 authors
 
 ### Changes
 
+- [`d2f8602`](https://github.com/ghostty-org/ghostty/commit/d2f86028bb2104f1582d40c8dfc1feaa3fe383c4) Use patched Zig 0.15.2 on macOS to avoid Xcode 26.4 issue ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates our Nix flake to use the Homebrew bottled Zig 0.15.2 which
+  contains a patch to work around the issue with Zig 0.15.x and Xcode
+  26.4.
+  ```
+- [`6e0b031`](https://github.com/ghostty-org/ghostty/commit/6e0b0311e49243fb0f04c96df1fc9e79ab5c710d) Use patched Zig 0.15.2 on macOS to avoid Xcode 26.4 issue ([#12363](https://github.com/ghostty-org/ghostty/issues/12363)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates our Nix flake to use the Homebrew bottled Zig 0.15.2 which
+  contains a patch to work around the issue with Zig 0.15.x and Xcode
+  26.4.
+  ```
+- [`9bad936`](https://github.com/ghostty-org/ghostty/commit/9bad9365b008633292ac271cd804a32459288686) macOS: open preferred config if exists ([@bo2themax](https://github.com/bo2themax))
+- [`22f9233`](https://github.com/ghostty-org/ghostty/commit/22f9233a0f7b85747483ce713411c67be4643d8f) contributing: don't encourage opening an issue ([@trag1c](https://github.com/trag1c))
+- [`cb518e6`](https://github.com/ghostty-org/ghostty/commit/cb518e6afdef4481fc385e153a054a75555b72ec) ci: use a custom template for ghostty-vouch issue comments ([@trag1c](https://github.com/trag1c))
+- [`e9a196c`](https://github.com/ghostty-org/ghostty/commit/e9a196c67bf5377be1787feb562ecadb5f630a33) build(xcframework): exclude libghostty-vt headers from GhosttyKit ([@claude](https://github.com/claude))
+  ```text
+  The GhosttyKit xcframework previously shipped the entire include/
+  directory, which pulled in the libghostty-vt headers under
+  include/ghostty/. Because those headers are not referenced from the
+  ghostty.h umbrella, Clang's module system emitted "umbrella header for
+  module 'GhosttyKit' does not include header 'ghostty/vt/*.h'" warnings
+  in Xcode builds.
+  
+  Stage only ghostty.h and module.modulemap via addWriteFiles so the
+  xcframework Headers directory contains exactly the GhosttyKit API,
+  mirroring the pattern used in GhosttyLibVt.xcframework.
+  ```
+- [`a6105b3`](https://github.com/ghostty-org/ghostty/commit/a6105b3b10bb388cb724667dd875d6ae9362ce53) build(xcframework): exclude libghostty-vt headers from GhosttyKit ([#12360](https://github.com/ghostty-org/ghostty/issues/12360)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GhosttyKit xcframework previously shipped the entire include/
+  directory, which pulled in the libghostty-vt headers under
+  include/ghostty/. Because those headers are not referenced from the
+  ghostty.h umbrella, Clang's module system emitted "umbrella header for
+  module 'GhosttyKit' does not include header 'ghostty/vt/*.h'" warnings
+  in Xcode builds.
+  
+  Stage only ghostty.h and module.modulemap via addWriteFiles so the
+  xcframework Headers directory contains exactly the GhosttyKit API,
+  mirroring the pattern used in GhosttyLibVt.xcframework.
+  
+  ## AI disclosure
+  
+  Claude made the changes (including the commit message), I reviewed and
+  tested them.
+  ```
+- [`95c61e2`](https://github.com/ghostty-org/ghostty/commit/95c61e2880b88c18d7a10b0b3329b9f97e8c3946) docs,ci: clarify that users can never open issues ([#12335](https://github.com/ghostty-org/ghostty/issues/12335)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  I removed the entire paragraph in CONTRIBUTING.md because the "Quick
+  Guide" section explains it all better already.
+  ```
+- [`62fdd88`](https://github.com/ghostty-org/ghostty/commit/62fdd885e017b779dce9407f98c2e7d65cfb3d8e) macOS: open preferred config if exists ([#12321](https://github.com/ghostty-org/ghostty/issues/12321)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This helps developers like me to use a separate config for debugging
+  (which is already supported by the environment variable
+  `GHOSTTY_CONFIG_PATH`).
+  
+  I can already use the local scheme to load a debugging config file, but
+  when opening the config file through Ghostty, it will still open the
+  default config.
+  
+  This changes doesn't affect the release build, since `configPath` is
+  only set in the DEBUG build.
+  ```
 - [`58af471`](https://github.com/ghostty-org/ghostty/commit/58af471a0164153eac4287a7188761db0711cbf3) Update VOUCHED list ([#12362](https://github.com/ghostty-org/ghostty/issues/12362)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
