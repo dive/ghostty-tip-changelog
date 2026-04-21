@@ -8,7 +8,216 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 21, 2026 at 04:02 UTC.
+> Last updated: April 21, 2026 at 06:38 UTC.
+
+## April 21, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24703080862)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`5eeb4d9`](https://github.com/ghostty-org/ghostty/commit/5eeb4d9d687d52b8b0650857afd3601790ca7ad8) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.2 to 1.4.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.2 to 1.4.3.
+  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9...15799a6b54e5765f85b2aac25b3f0df43ed571c0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-cache-action
+    dependency-version: 1.4.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`3a1482d`](https://github.com/ghostty-org/ghostty/commit/3a1482d1a2794801b4ac9a168da21a4d7dc0cfda) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.2 to 1.4.3 ([#12355](https://github.com/ghostty-org/ghostty/issues/12355)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
+  from 1.4.2 to 1.4.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.4.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>
+  <p>Add npm mode by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/118">namespacelabs/nscloud-cache-action#118</a></p>
+  </li>
+  <li>
+  <p>Use repeated --path arguments instead of comma-separated values by <a
+  href="https://github.com/annervisser"><code>@​annervisser</code></a> in
+  <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/112">namespacelabs/nscloud-cache-action#112</a></p>
+  </li>
+  <li>
+  <p>Bump the minor-actions-dependencies group across 1 directory with 7
+  updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/115">namespacelabs/nscloud-cache-action#115</a></p>
+  </li>
+  <li>
+  <p>Add manual-paths mode test with multiple paths by <a
+  href="https://github.com/annervisser"><code>@​annervisser</code></a> in
+  <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/111">namespacelabs/nscloud-cache-action#111</a></p>
+  </li>
+  <li>
+  <p>Bump the minor-npm-dependencies group across 1 directory with 6
+  updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/116">namespacelabs/nscloud-cache-action#116</a></p>
+  </li>
+  <li>
+  <p>Add major-actions-dependencies Dependabot group by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/119">namespacelabs/nscloud-cache-action#119</a></p>
+  </li>
+  <li>
+  <p>Upgrade <code>@​namespacelabs/actions-toolkit</code> to 0.3.0 by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/125">namespacelabs/nscloud-cache-action#125</a></p>
+  </li>
+  <li>
+  <p>Bump the major-actions-dependencies group across 1 directory with 4
+  updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/123">namespacelabs/nscloud-cache-action#123</a></p>
+  </li>
+  <li>
+  <p>Bump the minor-actions-dependencies group across 1 directory with 3
+  updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/122">namespacelabs/nscloud-cache-action#122</a></p>
+  </li>
+  <li>
+  <p>Bump eslint from 9.39.4 to 10.2.0 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/121">namespacelabs/nscloud-cache-action#121</a></p>
+  </li>
+  <li>
+  <p>Bump typescript from 5.9.3 to 6.0.2 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/120">namespacelabs/nscloud-cache-action#120</a></p>
+  </li>
+  <li>
+  <p>Bump <code>@​eslint/js</code> from 9.39.4 to 10.0.1 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/102">namespacelabs/nscloud-cache-action#102</a></p>
+  </li>
+  <li>
+  <p>Bump typescript from 6.0.2 to 6.0.3 in the minor-npm-dependencies
+  group by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/126">namespacelabs/nscloud-cache-action#126</a></p>
+  </li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.4.3">https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.4.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/15799a6b54e5765f85b2aac25b3f0df43ed571c0"><code>15799a6</code></a>
+  Bump typescript from 6.0.2 to 6.0.3 in the minor-npm-dependencies group
+  (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/126">#126</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/a74ba09be4eecba86290920825b0b74efab518e2"><code>a74ba09</code></a>
+  Add npm mode test (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/118">#118</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/3accca63b228cb1a9847e533466b497d5422da59"><code>3accca6</code></a>
+  Bump <code>@​eslint/js</code> from 9.39.2 to 10.0.1 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/102">#102</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/320beceb2e4cff95a23363a5c81fd0d0326ba5d6"><code>320bece</code></a>
+  Bump typescript from 5.9.3 to 6.0.2 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/120">#120</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/7b579df1e212c05a2e3ad697a5d9780c934e0cb3"><code>7b579df</code></a>
+  Bump eslint from 9.39.4 to 10.2.0 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/121">#121</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/0170534ed677e581623af217e966496a2d96699a"><code>0170534</code></a>
+  Bump the minor-actions-dependencies group with 3 updates (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/122">#122</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/04d1d76ca05cb8ce5c021032972983806b0a8c4c"><code>04d1d76</code></a>
+  Bump the major-actions-dependencies group across 1 directory with 4
+  updates (...</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/0496385e4a2a0ba41f6ad494948696fa90c60f72"><code>0496385</code></a>
+  Upgrade <code>@​namespacelabs/actions-toolkit</code> to 0.3.0 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/125">#125</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/e14531ae78967dc1dc2ba26fdc3b6d461dcdb525"><code>e14531a</code></a>
+  Add major-actions-dependencies Dependabot group (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/119">#119</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/1f34f9763c6fa1cb6986aacb3c0211a87fdfa87a"><code>1f34f97</code></a>
+  Bump the minor-npm-dependencies group across 1 directory with 6 updates
+  (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/116">#116</a>)</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/a90bb5d4b27522ce881c6e98eebd7d7e6d1653f9...15799a6b54e5765f85b2aac25b3f0df43ed571c0">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.4.2&new-version=1.4.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## April 20, 2026
 
