@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 21, 2026 at 12:22 UTC.
+> Last updated: April 21, 2026 at 15:29 UTC.
 
 ## April 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24703080862)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24729914540), [2](https://github.com/ghostty-org/ghostty/actions/runs/24703080862)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`58af471`](https://github.com/ghostty-org/ghostty/commit/58af471a0164153eac4287a7188761db0711cbf3) Update VOUCHED list ([#12362](https://github.com/ghostty-org/ghostty/issues/12362)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12361#discussioncomment-16656763)
+  from @jcollie.
+  
+  Vouch: @sandydoo
+  ```
 - [`5eeb4d9`](https://github.com/ghostty-org/ghostty/commit/5eeb4d9d687d52b8b0650857afd3601790ca7ad8) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.2 to 1.4.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.2 to 1.4.3.
