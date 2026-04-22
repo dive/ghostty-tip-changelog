@@ -8,7 +8,52 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 22, 2026 at 15:29 UTC.
+> Last updated: April 22, 2026 at 18:23 UTC.
+
+## April 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24788531835), [2](https://github.com/ghostty-org/ghostty/actions/runs/24788358243)  
+Summary: 2 runs • 4 commits • 4 authors
+
+### Changes
+
+- [`2a3d93f`](https://github.com/ghostty-org/ghostty/commit/2a3d93f77ba42ebb099bc7d686e65f6978ff4a94) Update VOUCHED list ([#12374](https://github.com/ghostty-org/ghostty/issues/12374)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12168#discussioncomment-16672511)
+  from @jcollie.
+  
+  Vouch: @mattn
+  ```
+- [`38d6451`](https://github.com/ghostty-org/ghostty/commit/38d6451d73f342877db2d83651e4de60573a57ad) libghostty-vt: emit resolved include/lib dirs in .pc files ([@domenkozar](https://github.com/domenkozar))
+  ```text
+  `${prefix}/include` and `${prefix}/lib` are wrong under split-prefix installs (e.g. Nix multi-output).
+  Use `b.h_dir` / `b.lib_dir` instead and drop the unneeded Nix postInstall/postFixup hooks.
+  ```
+- [`733abbc`](https://github.com/ghostty-org/ghostty/commit/733abbcc391f99c4bea3b91058486fe038ccfae2) libghostty-vt: revert .pc changes and use Nix to fix them ([@sandydoo](https://github.com/sandydoo))
+  ```text
+  Keeps the .pc files templated and instead uses Nix to rewrite the libdir for the static library.
+  ```
+- [`98b7ad4`](https://github.com/ghostty-org/ghostty/commit/98b7ad4c49607803376e46714417d43533f7bcb8) libghostty-vt: fix broken dynamic linking with pkg-config ([#12364](https://github.com/ghostty-org/ghostty/issues/12364)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ~`${prefix}/include` and `${prefix}/lib` are incorrect under
+  split-prefix installs (e.g. Nix multi-output). Use `b.h_dir` /
+  `b.lib_dir` instead and drop the unneeded Nix postInstall/postFixup
+  hooks.~
+  
+  Refactors the libghostty-vt derivation to:
+  
+  - fix `libdir` pointing to the wrong output in the pkg-config files.
+  This would throw a missing library error at runtime.
+  - reduce the amount of manual copying, linking, and patching of files.
+  
+  An earlier version of this PR used the zig compiler + `.pc` files to do
+  this. People pointed out concerns, so I came up with a simpler solution.
+  
+  Claude Code was used to debug and write an initial fix. Final changes
+  rewritten and simplified by me. No AI was used to write comments,
+  descriptions, etc.
+  ```
 
 ## April 21, 2026
 
