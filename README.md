@@ -8,15 +8,30 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 23, 2026 at 12:22 UTC.
+> Last updated: April 23, 2026 at 15:35 UTC.
 
 ## April 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24814161245), [2](https://github.com/ghostty-org/ghostty/actions/runs/24812939117), [3](https://github.com/ghostty-org/ghostty/actions/runs/24810009508)  
-Summary: 3 runs • 11 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24839189784), [2](https://github.com/ghostty-org/ghostty/actions/runs/24814161245), [3](https://github.com/ghostty-org/ghostty/actions/runs/24812939117), [4](https://github.com/ghostty-org/ghostty/actions/runs/24810009508)  
+Summary: 4 runs • 15 commits • 5 authors
 
 ### Changes
 
+- [`a8ed37a`](https://github.com/ghostty-org/ghostty/commit/a8ed37a791dae5db4c966efbaeb183a63914ff65) macOS: fix command parsing in NewTerminalIntent ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Fixes #12391, regression from #10765
+  ```
+- [`b0b23f5`](https://github.com/ghostty-org/ghostty/commit/b0b23f53a706a0742548a2d535b414379c048040) macOS: check abnormal-command-exit-runtime when process exits ([@bo2themax](https://github.com/bo2themax))
+- [`70bd66c`](https://github.com/ghostty-org/ghostty/commit/70bd66c081eb3401fd56c0ea61367f41da8d9219) macOS: check `abnormal-command-exit-runtime` when process exits ([#12393](https://github.com/ghostty-org/ghostty/issues/12393)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  <img width="849" height="434" alt="image"
+  src="https://github.com/user-attachments/assets/81c89d8d-6f0a-4bb9-b942-6734ff616bf9"
+  />
+  ```
+- [`7629c4b`](https://github.com/ghostty-org/ghostty/commit/7629c4ba84a810930b1ebc195464137318e765c5) macOS: fix command parsing in NewTerminalIntent ([#12392](https://github.com/ghostty-org/ghostty/issues/12392)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #12391, regression from #10765
+  ```
 - [`8f49ed6`](https://github.com/ghostty-org/ghostty/commit/8f49ed6c32abfb58209bc8c7526ef83bd98414ce) ci: add GNU-ABI Windows library build job ([@mattn](https://github.com/mattn))
   ```text
   The existing `build-libghostty-vt-windows` job builds libghostty-vt
