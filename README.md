@@ -8,7 +8,227 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 23, 2026 at 00:32 UTC.
+> Last updated: April 23, 2026 at 04:03 UTC.
+
+## April 23, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24814161245), [2](https://github.com/ghostty-org/ghostty/actions/runs/24812939117), [3](https://github.com/ghostty-org/ghostty/actions/runs/24810009508)  
+Summary: 3 runs • 11 commits • 3 authors
+
+### Changes
+
+- [`8f49ed6`](https://github.com/ghostty-org/ghostty/commit/8f49ed6c32abfb58209bc8c7526ef83bd98414ce) ci: add GNU-ABI Windows library build job ([@mattn](https://github.com/mattn))
+  ```text
+  The existing `build-libghostty-vt-windows` job builds libghostty-vt
+  with the MSVC ABI. The Win32 apprt (discussion #2563) will target
+  the GNU ABI, so add a parallel job that exercises the GNU-ABI path
+  to catch bitrot.
+  
+  The job runs `zig build -Dtarget=native-native-gnu -Dapp-runtime=none`
+  which produces ghostty-vt.dll and ghostty-internal.dll without
+  requiring a platform-specific apprt.
+  ```
+- [`e88c6c0`](https://github.com/ghostty-org/ghostty/commit/e88c6c099152dd6d2d7e517516e1f3c183c152f7) ci: add GNU-ABI Windows library build job ([#12383](https://github.com/ghostty-org/ghostty/issues/12383)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds a new CI job `build-libghostty-windows-gnu` that exercises the
+  GNU-ABI Windows library build path. The existing
+  `build-libghostty-vt-windows` job covers the MSVC ABI; with the recent
+  fixes (#12373 / #12381 / #12382) the GNU path is now viable, and this
+  job catches regressions before the upcoming Win32 apprt (discussion
+  #2563) starts to depend on it.
+  
+  Named `build-libghostty-windows-gnu` rather than following the
+  `build-libghostty-vt-*` convention because this job also builds
+  `ghostty-internal.dll`, not just libghostty-vt. Happy to rename if you
+  prefer a different convention.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`ce3c319`](https://github.com/ghostty-org/ghostty/commit/ce3c319ab1e93f1b5a3808c4dcc963a91d77a629) build(deps): bump cachix/install-nix-action from 31.10.4 to 31.10.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.4 to 31.10.5.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/616559265b40713947b9c190a8ff4b507b5df49b...ab739621df7a23f52766f9ccc97f38da6b7af14f)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`83a3e5a`](https://github.com/ghostty-org/ghostty/commit/83a3e5aba719bd8bb8c3141bad2e1cfb4a1dd9df) windows: disable C++ ubsan regardless of ABI ([@mattn](https://github.com/mattn))
+  ```text
+  The existing `-fno-sanitize=undefined` flag was gated on `abi == .msvc`
+  to avoid undefined `__ubsan_handle_*` references from simdutf/highway.
+  The same linker error reproduces on Windows GNU ABI for the same
+  reason: the Zig-bundled libraries don't provide a matching UBSan
+  runtime for these C/C++ objects in our build configurations.
+  
+  Widen the condition to `os.tag == .windows` so both MSVC and GNU
+  Windows targets skip ubsan for these C++ deps.
+  ```
+- [`5c4ab6c`](https://github.com/ghostty-org/ghostty/commit/5c4ab6c0de60def3ff6b0ca49f367fdf36abd50a) build: pass zig exe path to combine_archives ([@mattn](https://github.com/mattn))
+  ```text
+  `combine_archives` spawns `zig ar -M` to combine static archives via
+  an MRI script. It hard-coded the command name `"zig"` and relied on
+  the binary being on `PATH`, which fails on Windows when the build is
+  driven by an absolute zig.exe path (common in CI and in Scoop/winget
+  installs where PATH isn't populated at build time). The failure
+  surfaces as `error: FileNotFound` from `Child.spawn`.
+  
+  Pass `b.graph.zig_exe` as the first argument so the tool always uses
+  the exact zig binary that is driving the build, matching how other
+  build tools in this repo spawn zig subcommands.
+  ```
+- [`b526175`](https://github.com/ghostty-org/ghostty/commit/b52617578208f427cf229819cc129160997979b8) build(deps): bump cachix/install-nix-action from 31.10.4 to 31.10.5 ([#12380](https://github.com/ghostty-org/ghostty/issues/12380)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.4 to 31.10.5.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.5</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.5 -&gt; 2.34.6 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/274">cachix/install-nix-action#274</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31...v31.10.5">https://github.com/cachix/install-nix-action/compare/v31...v31.10.5</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/ab739621df7a23f52766f9ccc97f38da6b7af14f"><code>ab73962</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/274">#274</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/41e4d4a5ae81b05c01f2e2e77bfbf2fe219b53c1"><code>41e4d4a</code></a>
+  nix: 2.34.5 -&gt; 2.34.6</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/616559265b40713947b9c190a8ff4b507b5df49b...ab739621df7a23f52766f9ccc97f38da6b7af14f">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.4&new-version=31.10.5)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`1979b1c`](https://github.com/ghostty-org/ghostty/commit/1979b1c8d6903faeecf7e28ab0fe65a37f173179) build: pass zig exe path to combine_archives ([#12382](https://github.com/ghostty-org/ghostty/issues/12382)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `combine_archives` spawns `zig ar -M`, hard-coding the command name
+  `"zig"` and relying on the binary being on `PATH`. On Windows when the
+  build is driven by an absolute zig.exe path (common in CI and
+  Scoop/winget installs), this surfaces as `error: FileNotFound`.
+  
+  Pass `b.graph.zig_exe` explicitly so the tool always uses the exact zig
+  binary driving the build, matching how other build tools in this repo
+  spawn zig subcommands.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`db210e4`](https://github.com/ghostty-org/ghostty/commit/db210e4d7f1c63c61f5b7afa131188663486f6b6) windows: disable C++ ubsan regardless of ABI ([#12381](https://github.com/ghostty-org/ghostty/issues/12381)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Widens the existing `-fno-sanitize=undefined` gate from `abi == .msvc`
+  to `os.tag == .windows`. The same undefined `__ubsan_handle_*` link
+  errors from simdutf/highway also reproduce on Windows GNU ABI, and the
+  fix is identical.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`2d4d47e`](https://github.com/ghostty-org/ghostty/commit/2d4d47ed82bbfb560f8a7fe42c7aa043d8ebf90b) windows: provide DllMain stub for non-MSVC ABI ([@mattn](https://github.com/mattn))
+  ```text
+  Part of preparation for upstreaming a Win32 application runtime
+  (see discussion #2563). This is one of three small build-related
+  fixes that unblock the Windows GNU-ABI library build.
+  
+  When targeting Windows with GNU ABI, the existing `DllMain` declaration
+  falls through to `void` (a type), which Zig stdlib's `start.zig` then
+  attempts to call as a function via `root.DllMain(...)` - producing the
+  compile error "type 'type' not a function".
+  
+  Restructure the conditional so that:
+    - non-Windows builds keep `DllMain = void`
+    - Windows + MSVC keeps the existing CRT-init handler (unchanged)
+    - Windows + non-MSVC gets a no-op `BOOL` handler
+  
+  This unblocks `zig build -Dtarget=native-native-gnu -Dapp-runtime=none`
+  on Windows.
+  ```
+- [`5a84afe`](https://github.com/ghostty-org/ghostty/commit/5a84afef29e2b46cb20db78278f46926bcc61a5d) address review: collapse DllMain into a single struct ([@mattn](https://github.com/mattn))
+  ```text
+  Per review feedback (#12373), fold the nested `if/else if/else` into a
+  single Windows-gated struct whose handler picks up the abi difference
+  via a comptime check. This removes the duplicated `const BOOL = ...`
+  block that the two per-abi structs shared.
+  ```
+- [`880a599`](https://github.com/ghostty-org/ghostty/commit/880a599d66c0678c9d1709097b38beb5c0730175) windows: provide DllMain stub for non-MSVC ABI ([#12373](https://github.com/ghostty-org/ghostty/issues/12373)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Part of preparation for adding a Win32 application runtime (discussion
+  #2563). One of three small, independent build fixes that together
+  unblock the Windows GNU-ABI library build.
+  
+  On Windows with non-MSVC ABI, `pub const DllMain` resolved to `void` (a
+  type), and Zig's stdlib `start.zig` then tried to call it as a function
+  via `root.DllMain(...)`, failing to compile with "type 'type' not a
+  function".
+  
+  This restructures the conditional so MSVC keeps its existing CRT-init
+  handler unchanged, non-MSVC Windows gets a no-op `BOOL` handler, and
+  non-Windows continues to resolve to `void`.
+  
+  Verified: `zig build -Dtarget=native-native-gnu -Dapp-runtime=none
+  [-Doptimize=ReleaseSafe]` now builds cleanly on Windows.
+  ```
 
 ## April 22, 2026
 
