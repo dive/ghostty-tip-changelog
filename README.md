@@ -8,15 +8,383 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 23, 2026 at 15:35 UTC.
+> Last updated: April 23, 2026 at 18:24 UTC.
 
 ## April 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24839189784), [2](https://github.com/ghostty-org/ghostty/actions/runs/24814161245), [3](https://github.com/ghostty-org/ghostty/actions/runs/24812939117), [4](https://github.com/ghostty-org/ghostty/actions/runs/24810009508)  
-Summary: 4 runs • 15 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24850309126), [2](https://github.com/ghostty-org/ghostty/actions/runs/24847728869), [3](https://github.com/ghostty-org/ghostty/actions/runs/24846534553), [4](https://github.com/ghostty-org/ghostty/actions/runs/24839189784), [5](https://github.com/ghostty-org/ghostty/actions/runs/24814161245), [6](https://github.com/ghostty-org/ghostty/actions/runs/24812939117), [7](https://github.com/ghostty-org/ghostty/actions/runs/24810009508)  
+Summary: 7 runs • 40 commits • 8 authors
 
 ### Changes
 
+- [`61fce4d`](https://github.com/ghostty-org/ghostty/commit/61fce4d0a4a117c4433be0fff4b4e7681f33bdf1) font: add Windows font discovery backend ([@mattn](https://github.com/mattn))
+  ```text
+  Adds a FreeType-based Discover implementation for Windows that walks
+  the system (C:\Windows\Fonts) and per-user
+  (%LOCALAPPDATA%\Microsoft\Windows\Fonts) font directories, matching
+  descriptors via family_name / SFNT name table and optionally codepoint
+  presence.
+  
+  Wired up as a new .freetype_windows backend which Backend.default() now
+  returns on Windows. Existing freetype-only paths are untouched.
+  
+  With this in place, standard code paths -- +list-fonts, SharedGridSet
+  font-family lookup, CodepointResolver fallback -- work on Windows
+  without any os.tag == .windows branches in the caller.
+  ```
+- [`fe2a909`](https://github.com/ghostty-org/ghostty/commit/fe2a909782607b6046b2a93d866b4ba86b361a94) font/discovery: use %SYSTEMROOT%\Fonts instead of a hardcoded path ([@mattn](https://github.com/mattn))
+  ```text
+  Resolve the system font directory from SYSTEMROOT rather than assuming
+  it lives on C:. If SYSTEMROOT is somehow unset we skip the system
+  directory instead of falling back to a literal drive letter.
+  ```
+- [`5aef254`](https://github.com/ghostty-org/ghostty/commit/5aef2541b044e1c68bf830aa6878e07e7128c301) address review: Discover.init takes a Library across all backends ([@mattn](https://github.com/mattn))
+  ```text
+  Per review feedback, drop the `if (Discover == Windows)` comptime
+  branches in SharedGridSet and list_fonts by making every backend's
+  `init` take a Library and ignore it when unused. Call sites just do
+  `Discover.init(self.font_lib)` now.
+  
+  Also adds a discovery test for the Windows backend that looks up
+  Arial and checks the returned face has the 'A' codepoint.
+  ```
+- [`fe725b5`](https://github.com/ghostty-org/ghostty/commit/fe725b5da19d5019f3b4d1338cfe342f63257e5f) address review: update shaper test discover callsites ([@mattn](https://github.com/mattn))
+  ```text
+  CI on Windows (MSVC) surfaced three remaining callers of the old
+  zero-arg `Discover.init()` in shaper test helpers that the earlier
+  commit missed. Pass `lib` to match the new signature.
+  ```
+- [`0343a4d`](https://github.com/ghostty-org/ghostty/commit/0343a4d98fdecb58306f8d8712455b496cf8b2d1) address review: update DeferredFace test discover callsites ([@mattn](https://github.com/mattn))
+  ```text
+  Two more holdouts in DeferredFace.zig test helpers calling
+  Fontconfig.init / CoreText.init with no args; Nix test CI surfaced
+  them for the fontconfig path.
+  ```
+- [`e89cc0b`](https://github.com/ghostty-org/ghostty/commit/e89cc0b34cd6a62d3a0f6e9b722a8306178dd901) pkg/simdutf: upgrade to simdutf v9, off our fork for nolibcxx ([@mitchellh](https://github.com/mitchellh))
+- [`48db54d`](https://github.com/ghostty-org/ghostty/commit/48db54d7ef12d4506704bbc5b6eb2075658376eb) pkg/simdutf: upgrade to simdutf v9, off our fork for nolibcxx ([#12399](https://github.com/ghostty-org/ghostty/issues/12399)) ([@mitchellh](https://github.com/mitchellh))
+- [`2f1a30d`](https://github.com/ghostty-org/ghostty/commit/2f1a30ddb047162a4d3acc20c2f83aadfcfe3fbb) font: add Windows font discovery backend ([#12386](https://github.com/ghostty-org/ghostty/issues/12386)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds a FreeType-based `Discover` implementation for Windows. It walks
+  the system font directory (`%SYSTEMROOT%\Fonts`) and the per-user
+  directory (`%LOCALAPPDATA%\Microsoft\Windows\Fonts`), matches
+  descriptors by FreeType `family_name` (falling back to the SFNT name
+  table), and, when a codepoint is in the descriptor, filters on CMap
+  coverage.
+  
+  Wired up as a new `.freetype_windows` backend which `Backend.default()`
+  now returns on Windows. Existing freetype-only paths are untouched and
+  no other platform is affected; cross-platform switches were extended to
+  handle the new enum value the same way they handle `.freetype`.
+  
+  With this in place, the standard code paths (`+list-fonts`,
+  `SharedGridSet` font-family lookup, `CodepointResolver` fallback) work
+  on Windows without any `os.tag == .windows` branches in the caller.
+  
+  Verified by the `build-libghostty-windows-gnu` CI job. No runtime binary
+  ships yet on Windows (no apprt), but this is a drop-in for the discovery
+  API that the Win32 apprt (and the revisited `+list-fonts` PR #12384)
+  will use. Once this lands, #12384 can be closed and `+list-fonts` will
+  work on Windows through the ordinary discovery code path, which
+  addresses the review feedback that `+list-fonts` should only show fonts
+  the internal discovery can find.
+  
+  ---
+  
+  AI usage disclosure: developed with Claude Code (Claude Opus 4.7).
+  Claude drafted the implementation based on my design direction -- I
+  picked the "add a Discover backend" shape over the ad-hoc approach in
+  the earlier `+list-fonts` PR. I reviewed each diff and validated it with
+  a Windows GNU-ABI smoke build before pushing.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`d778be2`](https://github.com/ghostty-org/ghostty/commit/d778be20dd47c6caf3b11bc730fecfe0e8c3ebee) font/opentype: add glyf table entry validation ([@qwerasd205](https://github.com/qwerasd205))
+  ```text
+  We want to have this for the glyph protocol so that we can validate
+  passed glyf data in libghostty without having to link freetype or
+  anything like that.
+  ```
+- [`5086995`](https://github.com/ghostty-org/ghostty/commit/50869952afe4d3187af7b01deae455612bd93117) font/opentype: use packed struct for glyf point flags ([@qwerasd205](https://github.com/qwerasd205))
+  ```text
+  Also fixes a logic bug where we weren't counting the length of x
+  coordinates and y coordinates correctly when we had repeated flags.
+  ```
+- [`94e638d`](https://github.com/ghostty-org/ghostty/commit/94e638d08415255a5231d901714abeb95492e253) build: produce fat static archive on all platforms ([@deblasis](https://github.com/deblasis))
+  ```text
+  The static libghostty archive previously only bundled vendored
+  dependencies on macOS (via libtool). On Windows and Linux the
+  archive contained only the Zig-compiled code, leaving consumers
+  to discover and link freetype, harfbuzz, glslang, spirv-cross,
+  simdutf, oniguruma, and other vendored deps separately.
+  
+  Now all platforms produce a single fat archive:
+  - macOS: libtool (unchanged)
+  - Windows: zig ar qcL --format=coff (LLVM archiver with the L
+    flag to flatten nested archives; MSVC's lib.exe cannot read
+    Zig-produced GNU-format archives)
+  - Linux: ar -M with MRI scripts (same as libghostty-vt)
+  
+  This makes the static library self-contained for consumers like
+  .NET NativeAOT that link via the platform linker (MSVC link.exe)
+  and need all symbols resolved from a single archive.
+  ```
+- [`a108546`](https://github.com/ghostty-org/ghostty/commit/a10854654d47e43c5a8240cdbbe8cebac7195b07) build: disable ubsan in C deps for MSVC static linking ([@deblasis](https://github.com/deblasis))
+  ```text
+  Zig's ubsan runtime cannot be bundled on Windows (LNK4229),
+  leaving __ubsan_handle_* symbols unresolved when the static
+  archive is consumed by an external linker like MSVC link.exe.
+  
+  freetype, glslang, spirv-cross, and highway already suppress
+  ubsan unconditionally. Add MSVC-conditional suppression to the
+  seven C dependencies that were missing it: harfbuzz, libpng,
+  dcimgui, wuffs, oniguruma, zlib, and stb.
+  
+  The fix is gated on abi == .msvc so ubsan coverage is preserved
+  on Linux and macOS where bundle_ubsan_rt works.
+  ```
+- [`08a2d9b`](https://github.com/ghostty-org/ghostty/commit/08a2d9b224210208ab795835c1ad4187309e289a) build: share combineArchives and fix internal archive names ([@deblasis](https://github.com/deblasis))
+  ```text
+  Extract CombineArchivesStep.zig so both GhosttyLib and GhosttyLibVt
+  use the same archive-combining logic. Uses libtool on Darwin and the
+  cross-platform combine_archives build tool elsewhere.
+  
+  Renames the internal library's fat archive outputs from ghostty to
+  ghostty-internal, matching the pkg-config rename from PR 12214.
+  ```
+- [`bc90a51`](https://github.com/ghostty-org/ghostty/commit/bc90a51282a290d11427b4ca66a88f4fd61ffe47) build: fat static archive and ubsan fix for external linkers ([#12217](https://github.com/ghostty-org/ghostty/issues/12217)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  > [!IMPORTANT]
+  > Stacked on #12214. Review that first. (i am targeting `main` so here
+  you will see the full changeset, including 12214
+  
+  Two changes that make the static libghostty archive consumable by
+  external linkers (MSVC link.exe, .NET NativeAOT, Rust, Go, etc.):
+  
+  **Fat static archive on all platforms**
+  
+  The static archive previously only bundled vendored deps on macOS (via
+  libtool). On Windows and Linux the archive contained only the
+  Zig-compiled code, requiring consumers to find and link freetype,
+  harfbuzz, glslang, spirv-cross, simdutf, oniguruma, etc. separately.
+  
+  Now all platforms produce a single fat archive:
+  - macOS: libtool (unchanged)
+  - Windows: zig ar qcL --format=coff (MSVC's lib.exe can't read
+  Zig-produced GNU-format archives, so we use the bundled LLVM archiver)
+  - Linux: ar -M with MRI scripts (same approach as libghostty-vt)
+  
+  **MSVC ubsan suppression for C deps**
+  
+  Zig's ubsan runtime can't be bundled on Windows (LNK4229), leaving
+  __ubsan_handle_* symbols unresolved. freetype, glslang, spirv-cross, and
+  highway already suppress ubsan. This adds MSVC-conditional suppression
+  to seven more: harfbuzz, libpng, dcimgui, wuffs, oniguruma, zlib, and
+  stb.
+  
+  Gated on abi == .msvc so ubsan coverage is preserved on Linux/macOS.
+  
+  ## Test plan
+  
+  - [x] zig build produces a fat ghostty-static.lib (~230MB) with ~200
+  object files
+  - [x] MSVC's lib /LIST can read the archive
+  - [x] .NET NativeAOT consumer resolves all symbols (0 unresolved)
+  - [x] Linux/macOS builds unaffected (ubsan remains enabled)
+  ```
+- [`464c504`](https://github.com/ghostty-org/ghostty/commit/464c50457ba2a8b56c781cb0124240d984dce9ae) font/opentype: accept header-only simple glyf entry ([@qwerasd205](https://github.com/qwerasd205))
+- [`c1b685b`](https://github.com/ghostty-org/ghostty/commit/c1b685bc6275d6ca4cd1ebb3b16e3aea54ab62ff) Add code for validating OpenType GLYF table entries ([#12375](https://github.com/ghostty-org/ghostty/issues/12375)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This code was motivated by the need for the glyph protocol handler
+  (#12352) to be able to validate the provided `glyf` payload, without
+  having to link freetype or anything (because libghostty-vt needs to be
+  static). As such it's written specifically to meet those needs, but in
+  such a way that it can be expanded if we find a need for more in-depth
+  inspection of `glyf`s in the future.
+  ```
+- [`ef7ecbd`](https://github.com/ghostty-org/ghostty/commit/ef7ecbd3e5f389402d5030163462ab39ba897630) termio: run Windows shell commands without a cmd.exe wrapper ([@mattn](https://github.com/mattn))
+  ```text
+  On Windows the shell value was always executed as `cmd.exe /C <shell>`.
+  For even a simple `command = wsl ~` this spawned two processes (the
+  cmd wrapper and the user's actual shell) and had visible side effects:
+  an extra cmd.exe in the process tree, and cmd AutoRun state (DOSKEY
+  aliases, `cd` in init.cmd, etc.) running in the wrapper rather than
+  the user's shell, since AutoRun is per-process.
+  
+  Run the shell value directly. If it contains whitespace, split on
+  whitespace into argv. Bare `cmd.exe` is resolved via %COMSPEC% which
+  is the documented path to the current command processor; other bare
+  values are left to PATH resolution in Command.startWindows.
+  
+  The simple whitespace split does not honor Windows CLI quoting rules.
+  Users who need quoted arguments should use the direct command form.
+  
+  Also skip the termios focus timer on Windows since Windows has no
+  termios; the focusGained callback was starting a timer whose callback
+  would then do nothing.
+  ```
+- [`c32e88c`](https://github.com/ghostty-org/ghostty/commit/c32e88c6a7700d38de3b695c2991c0d7e11eaf71) Command: let CreateProcessW resolve the program via PATH ([@mattn](https://github.com/mattn))
+  ```text
+  Pass null for lpApplicationName and put the program as the first
+  token of lpCommandLine. Per the Windows docs, this makes
+  CreateProcessW perform the standard program search (parent-app dir,
+  CWD, system dirs, PATH) and append ".exe" when the name has no
+  extension.
+  
+  So a bare command name like `wsl` or `pwsh` from the Ghostty config
+  now resolves without any PATH/PATHEXT handling on our side. The
+  child also sees its argv[0] exactly as written rather than replaced
+  with the resolved absolute path.
+  ```
+- [`8c5b8ac`](https://github.com/ghostty-org/ghostty/commit/8c5b8ac3c0ad607e78611dcae2b1743cd99e50d5) address review: add unit tests for Windows execCommand paths ([@mattn](https://github.com/mattn))
+  ```text
+  Per review feedback, cover the four Windows branches added in the
+  parent commit:
+  
+  - bare `cmd.exe` resolves via `%COMSPEC%` (with documented fallback)
+  - bare non-cmd shell (`pwsh.exe`) is passed through unchanged
+  - shell value with arguments (`wsl ~`) is split on whitespace
+  - direct command is passed through without modification
+  ```
+- [`1ae27f9`](https://github.com/ghostty-org/ghostty/commit/1ae27f95b43edeece2bdade3dbcecc9d455f0e5f) os: trim trailing path separators from tmpdir ([@jparise](https://github.com/jparise))
+  ```text
+  Because we generally read this value from an environment variable, we
+  the resulting value can include a trailing slash (as on macOS). This
+  results in less-friendly path operations for callers who are building
+  paths based on this value.
+  
+  `std.fs.path.join()` handles trailing slashes just fine, but it's an
+  allocating API. For callers who just want to format a path, they have to
+  assume they need to include their own path separator.
+  
+  We can make this friendlier by always trimming trailing path separators
+  from the environment variable values before returning the slice.
+  
+  This behavior matches "higher-level" languages' standard libraries (I
+  checked Python, Node, Ruby, and Perl). Other "systems" languages (Go,
+  Rust) just return the system value as-is, like we were doing before.
+  ```
+- [`b34c62b`](https://github.com/ghostty-org/ghostty/commit/b34c62bf043aeadfe60b4d84da61b62b2ba44d92) Command: let CreateProcessW resolve the program via PATH ([#12387](https://github.com/ghostty-org/ghostty/issues/12387)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Windows users often set bare command names in the Ghostty config
+  (`command = bash`) or pass them via `-e`, matching how they would on
+  Linux/macOS. Today that fails because `CreateProcessW` does not do
+  program search for `lpApplicationName` on its own.
+  
+  Thanks to @qwerasd205 for pointing out that passing `NULL` for
+  `lpApplicationName` is exactly how Windows docs say to get program
+  search for free. This PR does that: drop the explicit utf16 conversion
+  for `lpApplicationName`, pass `null`, and make sure the program name is
+  the first token of `lpCommandLine`. Windows then walks parent-app dir,
+  CWD, system dirs, and PATH (and appends `.exe` for extensionless names).
+  The child also sees its `argv[0]` exactly as we wrote it rather than a
+  resolved absolute path, which is less surprising.
+  
+  Net change is +15 / -7 in `src/Command.zig`; no new helpers, no changes
+  outside that file. The earlier version of this PR (which added
+  PATH/PATHEXT handling in `internal_os.path.expand`) is obsoleted by this
+  approach and has been force-pushed away.
+  
+  ---
+  
+  AI usage disclosure: developed with Claude Code (Claude Opus 4.7).
+  Claude drafted the implementation based on my direction after
+  @qwerasd205's review suggested the NULL-lpApplicationName approach. I
+  reviewed the diff, built and verified it on the Windows GNU-ABI target,
+  and am responsible for the code landing here.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`04accc0`](https://github.com/ghostty-org/ghostty/commit/04accc001d0683db0a8b046c868f7da563993407) os: trim trailing path separators from tmpdir ([#12397](https://github.com/ghostty-org/ghostty/issues/12397)) ([@jparise](https://github.com/jparise))
+  ```text
+  Because we generally read this value from an environment variable, we
+  the resulting value can include a trailing slash (as on macOS). This
+  results in less-friendly path operations for callers who are building
+  paths based on this value.
+  
+  `std.fs.path.join()` handles trailing slashes just fine, but it's an
+  allocating API. For callers who just want to format a path, they have to
+  assume they need to include their own path separator.
+  
+  We can make this friendlier by always trimming trailing path separators
+  from the environment variable values before returning the slice.
+  
+  This behavior matches "higher-level" languages' standard libraries (I
+  checked Python, Node, Ruby, and Perl). Other "systems" languages (Go,
+  Rust) just return the system value as-is, like we were doing before.
+  ```
+- [`239b97e`](https://github.com/ghostty-org/ghostty/commit/239b97eccc9319f0b23fe7da3ca8475ee9ebcee0) termio: run Windows shell commands without a cmd.exe wrapper ([#12389](https://github.com/ghostty-org/ghostty/issues/12389)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On Windows the configured shell was always executed as `cmd.exe /C
+  <shell>`. That inserts a cmd.exe even for simple values like `command =
+  wsl ~` or `command = pwsh -NoLogo`, producing two processes where one
+  would do.
+  
+  Two concrete side effects:
+  
+  An extra cmd.exe appears in every Windows terminal's process tree
+  (visible in Task Manager / process listings), two processes per surface
+  where only one is the user's shell.
+  
+  cmd.exe state set by AutoRun (`HKCU\Software\Microsoft\Command
+  Processor\AutoRun`, used commonly for DOSKEY aliases or `cd` in
+  `init.cmd`) lives in the wrapping cmd process, not in the user's shell.
+  Since AutoRun state like DOSKEY aliases is per-process, the user's
+  aliases don't reach the shell they actually interact with.
+  
+  Run the shell value directly instead. If it contains whitespace, split
+  on whitespace into argv. A bare `cmd.exe` is resolved via `%COMSPEC%`
+  (the documented path to the current command processor). Other bare
+  values are left to PATH resolution in `Command.startWindows` (#12387).
+  
+  The simple whitespace split does not honor Windows CLI quoting rules;
+  users who need quoted arguments should use the direct command form,
+  which takes an argv array as-is. For the common case (`wsl ~`, `pwsh
+  -NoLogo`, `cmd.exe /k init.cmd`, etc.) this covers the shapes users
+  actually write today.
+  
+  Also skips the termios focus timer on Windows in `focusGained`, since
+  Windows has no termios -- the callback was arming a timer whose tick did
+  nothing and just added noise.
+  
+  ---
+  
+  AI usage disclosure: developed with Claude Code (Claude Opus 4.7).
+  Claude drafted the implementation based on my design direction -- I
+  picked which pieces belong in this PR (drop the cmd wrapper, use
+  `%COMSPEC%`, skip the termios focus timer) and which belong in sibling
+  PRs. I reviewed each diff and validated it with a Windows GNU-ABI smoke
+  build before pushing.
+  
+  Part of the Win32 apprt upstreaming series (see discussion #2563 /
+  mattn/ghostty#1).
+  ```
+- [`ae1dd56`](https://github.com/ghostty-org/ghostty/commit/ae1dd5666dbd024825a988a0d20efa3af22479a0) fuzz: fix macOS AFL toolchain and linker setup for macOS 26.4 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On macOS 26.4, AFL builds were picking up Nix compiler-wrapper
+  variables and Apple SDK target settings from the shell environment.
+  That caused afl-cc to drive the wrong linker and target configuration,
+  which broke even simple fuzz harness builds. Unset the Nix compiler and
+  linker environment in the fuzz dev shell so AFL++ uses the system or
+  Homebrew Apple toolchain directly.
+  
+  Also force afl-cc to link with lld because the newer Apple linker
+  asserts on the custom sections emitted by AFL's LLVM
+  instrumentation. Finally, pin fuzz-libghostty to the host target so the
+  build does not inherit stray SDK targets from the environment.
+  ```
+- [`d6d7bdb`](https://github.com/ghostty-org/ghostty/commit/d6d7bdbee50202b3b67b6dcd09e92f01189e15b7) fuzz: fix macOS AFL toolchain and linker setup for macOS 26.4 ([#12398](https://github.com/ghostty-org/ghostty/issues/12398)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  * Unset the Nix compiler and linker environment in the fuzz dev shell so
+  AFL++ uses the system or Homebrew Apple toolchain directly.
+  * Force afl-cc to link with lld because the newer Apple linker asserts
+  on the custom sections emitted by AFL's LLVM instrumentation.
+  * Pin fuzz-libghostty to the host target so the build does not inherit
+  stray SDK targets from the environment.
+  ```
 - [`a8ed37a`](https://github.com/ghostty-org/ghostty/commit/a8ed37a791dae5db4c966efbaeb183a63914ff65) macOS: fix command parsing in NewTerminalIntent ([@bo2themax](https://github.com/bo2themax))
   ```text
   Fixes #12391, regression from #10765
