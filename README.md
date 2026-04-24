@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 23, 2026 at 21:17 UTC.
+> Last updated: April 24, 2026 at 00:31 UTC.
 
 ## April 23, 2026
 
@@ -1070,14 +1070,4 @@ Summary: 5 runs • 17 commits • 7 authors
   ```text
   Fixes #12266, regression of #11872.
   ```
-
-## April 17, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24546719001)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`b7d0be8`](https://github.com/ghostty-org/ghostty/commit/b7d0be8e74c471971e0d26fdd66614b44ae5af22) macOS: move KeyStateIndicator on top of exit bar ([@bo2themax](https://github.com/bo2themax))
-- [`ca7516b`](https://github.com/ghostty-org/ghostty/commit/ca7516bea60190ee2e9a4f9182b61d318d107c6e) macOS: move KeyStateIndicator on top of exit bar ([#12282](https://github.com/ghostty-org/ghostty/issues/12282)) ([@mitchellh](https://github.com/mitchellh))
 
