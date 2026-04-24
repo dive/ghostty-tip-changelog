@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 24, 2026 at 12:21 UTC.
+> Last updated: April 24, 2026 at 15:27 UTC.
 
 ## April 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
-Summary: 1 runs • 9 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24889534540), [2](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
+Summary: 2 runs • 11 commits • 3 authors
 
 ### Changes
 
+- [`2f067e1`](https://github.com/ghostty-org/ghostty/commit/2f067e14f15582fe7e13c366f18e952b70f3fd4e) ci: fix vouch-check-issue to checkout the template file ([@trag1c](https://github.com/trag1c))
+- [`48ccec1`](https://github.com/ghostty-org/ghostty/commit/48ccec182a932c2ec04c344d45a5fc553861cb13) ci: fix vouch-check-issue to checkout the template file ([#12412](https://github.com/ghostty-org/ghostty/issues/12412)) ([@trag1c](https://github.com/trag1c))
 - [`c642e31`](https://github.com/ghostty-org/ghostty/commit/c642e3104bb8b22ab29e2fd700132ed5d62203cf) pkg/highway: Darwin builds don't rely on Apple headers ([@mitchellh](https://github.com/mitchellh))
   ```text
   This uses a custom fork of `hwy/targtes.cpp` that uses an extern
