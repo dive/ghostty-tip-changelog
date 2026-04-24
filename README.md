@@ -8,15 +8,63 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 24, 2026 at 18:15 UTC.
+> Last updated: April 24, 2026 at 21:17 UTC.
 
 ## April 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24889534540), [2](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
-Summary: 2 runs • 11 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24911997879), [2](https://github.com/ghostty-org/ghostty/actions/runs/24907048466), [3](https://github.com/ghostty-org/ghostty/actions/runs/24889534540), [4](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
+Summary: 4 runs • 22 commits • 6 authors
 
 ### Changes
 
+- [`6b69ea0`](https://github.com/ghostty-org/ghostty/commit/6b69ea05170435ee6abd79b9a3da7a2609d5aaa3) libghostty: enable cross-compiling macOS from Linux/Windows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This allows libghostty-vt to be cross-compiled for macOS from non-macOS
+  platforms. I've updated pkg/apple-sdk to fallback to Zig's embedded
+  macOS headers if the macOS SDK is not found.
+  
+  Additionally, CombineArchivesStep has been updated to use Linux
+  tooling on Linux.
+  ```
+- [`2ed382a`](https://github.com/ghostty-org/ghostty/commit/2ed382a15566b267c32fae440b065f7844b15bfb) libghostty: enable cross-compiling macOS from Linux/Windows ([#12417](https://github.com/ghostty-org/ghostty/issues/12417)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This allows libghostty-vt to be cross-compiled for macOS from non-macOS
+  platforms. I've updated pkg/apple-sdk to fallback to Zig's embedded
+  macOS headers if the macOS SDK is not found. Additionally,
+  CombineArchivesStep has been updated to use Linux tooling on Linux. CI
+  updated to test this.
+  ```
+- [`4204dec`](https://github.com/ghostty-org/ghostty/commit/4204dec94a45ee7ce3990af33b301053191232c5) build: respect config.emit_xcframework for building libghostty-vt.xcframework on Darwin (0xDVC)
+  ```text
+  This fixes a hardcoded build issue on macOS where Zig unconditionally forces xcodebuild -create-xcframework to run during compilation, even when the caller explicitly specifies that they only want the raw standard C objects/headers (-Demit-lib-vt).
+  
+  The Bug:
+  Around line 155 in build.zig, the libghostty-vt xcframework was being packaged unconditionally for Darwin builds. This caused developers (and wrappers like go-libghostty) attempting to natively build the vt library locally using only the minimal macOS Command Line Tools to experience an immediate crash, as xcodebuild -create-xcframework strictly demands a full Xcode application installation.
+  
+  The Fix:
+  Guarded the GhosttyLibVt xcframework creation step with config.emit_xcframework. Because src/build/Config.zig intuitively forces emit_xcframework to default to false whenever emit_lib_vt is invoked, this structurally allows lightweight macOS builds to safely skip the xcodebuild invocation while still correctly compiling the standard .a object library files.
+  ```
+- [`38e8e54`](https://github.com/ghostty-org/ghostty/commit/38e8e54f98a8d5574962cfd34649d0740643a6ff) build: make libghostty-vt xcframework emission explicit via -Demit-lib-vt-xcframework (0xDVC)
+- [`4e2e765`](https://github.com/ghostty-org/ghostty/commit/4e2e765fd4e70d94a0d7fca36fd742e5b77d8842) Merge branch 'main' into fix/xcframework-macos-dependency ([@0xDVC](https://github.com/0xDVC))
+- [`caad13e`](https://github.com/ghostty-org/ghostty/commit/caad13e2323ff74f2ca9c7eecab4db0963842498) chore(fmt): zig fmt build.zig to pass test (0xDVC)
+- [`44a2d87`](https://github.com/ghostty-org/ghostty/commit/44a2d8740a4a701d3eeded5261035db8e85ff8d7) build: gate lib-vt xcframework on emit-xcframework with xcodebuild detection (0xDVC)
+- [`33fc2aa`](https://github.com/ghostty-org/ghostty/commit/33fc2aac97420466137a9b34fe7630f677f1a2e3) cleanups ([@mitchellh](https://github.com/mitchellh))
+- [`5f892b6`](https://github.com/ghostty-org/ghostty/commit/5f892b691b8ef887525df16c85fc0cc799e24ec7) ci: fix ([@mitchellh](https://github.com/mitchellh))
+- [`d35f02d`](https://github.com/ghostty-org/ghostty/commit/d35f02d83c195f02bf0c333f8af0e7913e0ee673) build: respect config.emit_xcframework for building libghostty-vt.xcframework on Darwin ([#12267](https://github.com/ghostty-org/ghostty/issues/12267)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes a hardcoded build issue on macOS where Zig unconditionally
+  forces xcodebuild -create-xcframework to run during compilation, even
+  when the caller explicitly specifies that they only want the raw
+  standard C objects/headers (-Demit-lib-vt).
+  ```
+- [`eee1018`](https://github.com/ghostty-org/ghostty/commit/eee10189885c7b730ca1c87d0ef7a8c8d29b4c27) Update VOUCHED list ([#12418](https://github.com/ghostty-org/ghostty/issues/12418)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/11461#issuecomment-4315618982)
+  from @jcollie.
+  
+  Vouch: @seyoungjeong
+  ```
 - [`2f067e1`](https://github.com/ghostty-org/ghostty/commit/2f067e14f15582fe7e13c366f18e952b70f3fd4e) ci: fix vouch-check-issue to checkout the template file ([@trag1c](https://github.com/trag1c))
 - [`48ccec1`](https://github.com/ghostty-org/ghostty/commit/48ccec182a932c2ec04c344d45a5fc553861cb13) ci: fix vouch-check-issue to checkout the template file ([#12412](https://github.com/ghostty-org/ghostty/issues/12412)) ([@trag1c](https://github.com/trag1c))
 - [`c642e31`](https://github.com/ghostty-org/ghostty/commit/c642e3104bb8b22ab29e2fd700132ed5d62203cf) pkg/highway: Darwin builds don't rely on Apple headers ([@mitchellh](https://github.com/mitchellh))
