@@ -8,7 +8,179 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 24, 2026 at 04:05 UTC.
+> Last updated: April 24, 2026 at 06:39 UTC.
+
+## April 24, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
+Summary: 1 runs • 9 commits • 2 authors
+
+### Changes
+
+- [`c642e31`](https://github.com/ghostty-org/ghostty/commit/c642e3104bb8b22ab29e2fd700132ed5d62203cf) pkg/highway: Darwin builds don't rely on Apple headers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This uses a custom fork of `hwy/targtes.cpp` that uses an extern
+  function written in Zig to use Zig's standard CPU detection to avoid
+  a dependency on Apple SDK headers.
+  
+  This is on the path to removing Apple SDK requirements to build
+  libghostty-vt, but will require a lot more work outside of this. The goal
+  is to get this out of our external dependencies first and then we can
+  work on removing the internal side.
+  ```
+- [`bdb164a`](https://github.com/ghostty-org/ghostty/commit/bdb164a6e561daa767e3e81f892f221548d5a1da) pkg/highway: expand detection to all platforms not just darwin ([@mitchellh](https://github.com/mitchellh))
+- [`f3f9af6`](https://github.com/ghostty-org/ghostty/commit/f3f9af612967154c419b63976bc5b0e718d57ab6) pkg/highway: vendor and modify to remain all libc usage ([@mitchellh](https://github.com/mitchellh))
+- [`055922f`](https://github.com/ghostty-org/ghostty/commit/055922faaa6e1e164b3c5306dc25b0e42c49c5c0) more zon2nix update for improved 0.16 compatibility ([@jcollie](https://github.com/jcollie))
+- [`3c0b976`](https://github.com/ghostty-org/ghostty/commit/3c0b976d071dab71df687f371c1de0a1eca60b3c) pkg/highway: requires libc headers ([@mitchellh](https://github.com/mitchellh))
+- [`00dfd67`](https://github.com/ghostty-org/ghostty/commit/00dfd67beea63148d7779613756200952b0b9ab0) pkg/highway: replace resolveTargetQuery with direct CPU detection ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The previous runtime_detect.zig called std.zig.system.resolveTargetQuery
+  which pulled in the entire Zig target/CPU model table infrastructure for
+  every architecture (~4,000 symbols, ~175 KB of data tables, ~130 KB of
+  code). This bloated the binary by ~500 KB and shifted code layout enough
+  to cause a measurable icache/branch-predictor regression in unrelated
+  hot paths like the terminal parser (~20% more cycles for identical
+  instruction counts).
+  
+  Replace with minimal, direct CPU feature detection per architecture:
+  CPUID + XGETBV inline assembly on x86, sysctlbyname on Darwin AArch64,
+  and getauxval/prctl via std.os.linux (direct syscalls, no libc) on
+  Linux for AArch64, PPC, S390x, RISC-V, and LoongArch.
+  
+  Split into per-architecture files under src/detect/ for
+  maintainability.
+  ```
+- [`bf3047b`](https://github.com/ghostty-org/ghostty/commit/bf3047b9b21972acc1f017a930e9b3ed6048e037) benchmark: isolate parser hot loop from code-layout shifts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extract the tight per-byte parsing loop from TerminalParser.step into
+  a separate noinline function (parseAll). This eliminates a ~20%
+  benchmark regression that appeared after the highway vendor changes
+  despite zero changes to the parser source code.
+  
+  The root cause: the parser benchmark processes 50 MB of input through
+  a byte-at-a-time DFA loop that is highly sensitive to instruction
+  cache-line placement on Apple Silicon. The M-series cores fetch
+  aligned 16-byte blocks; when the loop head lands near the end of a
+  64-byte cache line (offset 60), only one instruction fits in the
+  first fetch versus four when aligned to offset 48. This causes ~29%
+  more cycles for identical instruction counts.
+  
+  Previously the loop was inlined into the large step() function, so
+  any code change anywhere in the binary (like the highway vendor
+  restructuring) could shift the loop across a cache-line boundary.
+  By making parseAll noinline, the loop gets its own function placement
+  that is stable regardless of surrounding code changes.
+  ```
+- [`5f43437`](https://github.com/ghostty-org/ghostty/commit/5f43437576ce1bf88a9a8236d6df0753ec13ce15) pkg/highway: no libc requirement ([#12402](https://github.com/ghostty-org/ghostty/issues/12402)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This uses a custom fork Google Highway that removes all libc usage. For
+  most, it was logging and we can just remove it. For detection, we moved
+  this to an extern func implemented in Zig built using the Zig standard
+  library so we can avoid libc.
+  
+  # Benchmark Results
+  
+  All benchmarks use 50 MB pre-generated inputs (`ghostty-gen +utf8
+  --seed=42`)
+  built and run with `-Doptimize=ReleaseFast` on Apple Silicon
+  (aarch64-macos).
+  
+  ## Input Descriptions
+  
+  | Input | Description |
+  |:------|:------------|
+  | ascii-only | 1-byte sequences only, printable ASCII |
+  | 2byte-only | 2-byte sequences only (Latin/Cyrillic/etc.) |
+  | 3byte-only | 3-byte sequences only (CJK/BMP) |
+  | 4byte-only | 4-byte sequences only (emoji/supplementary planes) |
+  | mixed-equal | Equal weight across all 4 lengths |
+  | mostly-ascii | ~80% ASCII, ~20% multibyte |
+  | cjk-heavy | ~80% 3-byte, ~20% other |
+  | 10pct-invalid | Equal-weight mix with 10% malformed sequences |
+  
+  ## Terminal Parser (byte-by-byte DFA, no SIMD)
+  
+  | Input | Mean [ms] | Min [ms] | Max [ms] | Relative |
+  |:------|----------:|---------:|---------:|---------:|
+  | ascii-only | 46.3 ± 0.8 | 45.4 | 48.1 | 1.00 |
+  | 2byte-only | 59.1 ± 1.2 | 57.8 | 62.7 | 1.28 ± 0.03 |
+  | 3byte-only | 65.4 ± 2.1 | 64.1 | 78.6 | 1.41 ± 0.05 |
+  | 4byte-only | 59.3 ± 1.3 | 57.2 | 63.5 | 1.28 ± 0.04 |
+  | mixed-equal | 180.7 ± 0.7 | 179.5 | 182.3 | 3.90 ± 0.07 |
+  | mostly-ascii | 59.3 ± 1.0 | 57.3 | 61.1 | 1.28 ± 0.03 |
+  | cjk-heavy | 142.4 ± 2.0 | 140.4 | 149.9 | 3.08 ± 0.07 |
+  | 10pct-invalid | 180.2 ± 1.5 | 178.4 | 184.9 | 3.89 ± 0.08 |
+  
+  ## Terminal Stream (SIMD UTF-8 decode + terminal handling)
+  
+  | Input | Mean [ms] | Min [ms] | Max [ms] | Relative |
+  |:------|----------:|---------:|---------:|---------:|
+  | ascii-only | 377.0 ± 8.7 | 357.1 | 386.4 | 2.42 ± 0.08 |
+  | 2byte-only | 664.5 ± 4.0 | 656.9 | 672.6 | 4.27 ± 0.11 |
+  | 3byte-only | 233.5 ± 0.9 | 231.1 | 234.8 | 1.50 ± 0.04 |
+  | 4byte-only | 155.5 ± 4.0 | 149.6 | 161.3 | 1.00 |
+  | mixed-equal | 467.0 ± 3.4 | 461.8 | 473.9 | 3.00 ± 0.08 |
+  | mostly-ascii | 470.8 ± 7.2 | 459.6 | 482.8 | 3.03 ± 0.09 |
+  | cjk-heavy | 338.4 ± 2.4 | 334.3 | 341.7 | 2.18 ± 0.06 |
+  | 10pct-invalid | 635.1 ± 3.5 | 630.5 | 640.8 | 4.08 ± 0.11 |
+  
+  ## Branch Comparison: `main` vs `fixed`
+  
+  ### Terminal Parser
+  
+  | Input | main [ms] | fixed [ms] | Δ |
+  |:------|----------:|-----------:|:--|
+  | ascii-only | 46.9 ± 0.7 | 47.3 ± 0.9 | ~same |
+  | 2byte-only | 59.0 ± 0.5 | 59.1 ± 1.2 | ~same |
+  | 3byte-only | 65.9 ± 2.1 | 65.4 ± 2.1 | ~same |
+  | 4byte-only | 58.8 ± 0.5 | 59.3 ± 1.3 | ~same |
+  | mixed-equal | 182.5 ± 0.9 | 180.7 ± 0.7 | fixed 1% faster |
+  | mostly-ascii | 59.0 ± 0.5 | 59.3 ± 1.0 | ~same |
+  | cjk-heavy | 144.1 ± 1.7 | 142.4 ± 2.0 | ~same |
+  | 10pct-invalid | 181.7 ± 1.0 | 180.2 ± 1.5 | ~same |
+  
+  ### Terminal Stream
+  
+  | Input | main [ms] | fixed [ms] | Δ |
+  |:------|----------:|-----------:|:--|
+  | ascii-only | 388.4 ± 8.8 | 383.1 ± 7.6 | ~same |
+  | 2byte-only | 687.7 ± 4.8 | 672.9 ± 2.6 | fixed 2% faster |
+  | 3byte-only | 235.5 ± 1.2 | 236.3 ± 2.5 | ~same |
+  | 4byte-only | 166.2 ± 2.9 | 159.9 ± 3.1 | fixed 4% faster |
+  | mixed-equal | 481.8 ± 3.3 | 480.7 ± 6.3 | ~same |
+  | mostly-ascii | 483.8 ± 6.7 | 475.9 ± 4.3 | ~same |
+  | cjk-heavy | 341.7 ± 3.1 | 341.6 ± 2.0 | ~same |
+  | 10pct-invalid | 647.6 ± 3.3 | 640.4 ± 3.4 | ~same |
+  
+  No regressions in either benchmark. Fixed branch is equal or slightly
+  faster
+  across all inputs.
+  
+  ## Reproduction
+  
+  ```bash
+  # Generate inputs (do NOT regenerate when comparing branches)
+  for profile in \
+    "--weight-one=1 --weight-two=0 --weight-three=0 --weight-four=0 --ascii-printable-only=true" \
+    "--weight-one=0 --weight-two=1 --weight-three=0 --weight-four=0" \
+    "--weight-one=0 --weight-two=0 --weight-three=1 --weight-four=0" \
+    "--weight-one=0 --weight-two=0 --weight-three=0 --weight-four=1" \
+    "--weight-one=1 --weight-two=1 --weight-three=1 --weight-four=1" \
+    "--weight-one=10 --weight-two=1 --weight-three=1 --weight-four=0.5 --ascii-printable-only=true" \
+    "--weight-one=1 --weight-two=0.5 --weight-three=10 --weight-four=0.5" \
+    "--weight-one=1 --weight-two=1 --weight-three=1 --weight-four=1 --invalid-rate=0.1"; do
+    ghostty-gen +utf8 --seed=42 $profile | head -c 50000000 > /tmp/ghostty-bench-data/<name>.dat
+  done
+  
+  # Build
+  zig build -Demit-bench -Doptimize=ReleaseFast -Demit-macos-app=false
+  
+  # Run
+  hyperfine --warmup 3 --min-runs 10 \
+    './zig-out/bin/ghostty-bench +terminal-stream --data=<path>'
+  ```
+  ````
+- [`b0d359c`](https://github.com/ghostty-org/ghostty/commit/b0d359cbbd945f9f3807327526ef79fcaf0477df) more zon2nix update for improved 0.16 compatibility ([#12405](https://github.com/ghostty-org/ghostty/issues/12405)) ([@mitchellh](https://github.com/mitchellh))
 
 ## April 23, 2026
 
