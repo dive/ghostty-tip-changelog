@@ -8,15 +8,359 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 25, 2026 at 15:15 UTC.
+> Last updated: April 25, 2026 at 18:14 UTC.
 
 ## April 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24933524535), [2](https://github.com/ghostty-org/ghostty/actions/runs/24923989307)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24936929621), [2](https://github.com/ghostty-org/ghostty/actions/runs/24936454850), [3](https://github.com/ghostty-org/ghostty/actions/runs/24935930871), [4](https://github.com/ghostty-org/ghostty/actions/runs/24935717312), [5](https://github.com/ghostty-org/ghostty/actions/runs/24935635947), [6](https://github.com/ghostty-org/ghostty/actions/runs/24935490306), [7](https://github.com/ghostty-org/ghostty/actions/runs/24935332327), [8](https://github.com/ghostty-org/ghostty/actions/runs/24935218124), [9](https://github.com/ghostty-org/ghostty/actions/runs/24933524535), [10](https://github.com/ghostty-org/ghostty/actions/runs/24923989307)  
+Summary: 10 runs • 35 commits • 8 authors
 
 ### Changes
 
+- [`85dc4b1`](https://github.com/ghostty-org/ghostty/commit/85dc4b1842799d23db4abc5c2a671e4975c9d49d) surface: respect semantic prompt boundaries for links (Vasyl Zuziak)
+  ```text
+  Link detection currently expands the clicked location to a full line
+  before running the configured regexes. When semantic prompt markers
+  are present, this can cause prompt text and neighboring content to be
+  matched together even though they are distinct semantic regions.
+  
+  Use semantic prompt boundaries when selecting the text to inspect for
+  link matching. This keeps prompt text separate from the content beside
+  it and avoids folding prompt text into double-click link/path
+  selection.
+  
+  Add a regression test that models a prompt and command on the same
+  line and verifies the prompt region and input region remain separate.
+  ```
+- [`c4a671b`](https://github.com/ghostty-org/ghostty/commit/c4a671ba5a5c3a896b90b066f2a22abe2eaad17b) fix: remove test as has been suggested in comment (Vasyl Zuziak)
+- [`b613ffc`](https://github.com/ghostty-org/ghostty/commit/b613ffcfd8c323d2d97f723f6f998b21ceba5a54) surface: respect semantic prompt boundaries for links ([#12435](https://github.com/ghostty-org/ghostty/issues/12435)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Link detection currently expands the clicked location to a full line
+  before running the configured regexes. When semantic prompt markers are
+  present, this can cause prompt text and neighboring content to be
+  matched together even though they are distinct semantic regions.
+  
+  Use semantic prompt boundaries when selecting the text to inspect for
+  link matching. This keeps prompt text separate from the content beside
+  it and avoids folding prompt text into double-click link/path selection.
+  
+  Add a regression test that models a prompt and command on the same line
+  and verifies the prompt region and input region remain separate.
+  
+  ----
+  
+  this is a fix for the issue users reported in
+  https://github.com/ghostty-org/ghostty/discussions/11415
+  
+  **disclaimer**: I used codex addon within Cursor to research this
+  bug/regression and find a proper fix for it.
+  ```
+- [`14c0631`](https://github.com/ghostty-org/ghostty/commit/14c06312d541c7f655cfa134062422bd8dc3551e) feat: add default GTK keybinds for move_tab ([@enzowilliam](https://github.com/enzowilliam))
+  ```text
+  Reassign jump_to_prompt from Ctrl+Shift+PageUp/PageDown to
+  Ctrl+Shift+Arrow Up/Down on GTK, freeing the idiomatic Linux
+  keybinds (Ctrl+Shift+PageUp/PageDown) for move_tab.
+  
+  This matches the tab-moving keybinds used by Firefox, GNOME Terminal,
+  and VSCode. The new jump_to_prompt binding mirrors the macOS pattern
+  (Cmd+Shift+Arrow Up/Down).
+  
+  Closes #4998
+  ```
+- [`c5c3cf1`](https://github.com/ghostty-org/ghostty/commit/c5c3cf16ba96ec67b20423e43a3a1aedeff0b726) feat: add GTK keybinds (matching the idiomatic Linux convention used by Firefox, GNOME Terminal, and VSCode) for move_tab ([#12458](https://github.com/ghostty-org/ghostty/issues/12458)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  > Re-submitting #11857, which was auto-closed pre-vouch. I'm now in the
+  vouched list.
+  
+  ## Summary
+  
+  Adds default keybinds for `move_tab` on GTK/Linux, matching the
+  idiomatic Linux convention used by Firefox, GNOME Terminal, and VSCode:
+  
+  - **`Ctrl+Shift+PageUp`** → `move_tab:-1` (move tab left)
+  - **`Ctrl+Shift+PageDown`** → `move_tab:1` (move tab right)
+  
+  To free these keys, `jump_to_prompt` is reassigned to `Ctrl+Shift+Arrow
+  Up/Down`, which:
+  - Mirrors the macOS default (`Cmd+Shift+Arrow Up/Down`)
+  - Is currently unbound on GTK
+  - Maintains directional consistency (up = previous, down = next)
+  
+  The new `move_tab` bindings use `putFlags` with `performable: true` to
+  match the pattern used by other tab actions (`previous_tab`,
+  `next_tab`).
+  
+  Closes #4998
+  
+  ## Changes
+  - `src/config/Config.zig`: Reassign `jump_to_prompt` from
+  `Ctrl+Shift+PageUp/PageDown` to `Ctrl+Shift+Arrow Up/Down` (GTK only)
+  - `src/config/Config.zig`: Add `move_tab` default keybinds as
+  `Ctrl+Shift+PageUp/PageDown` (GTK only)
+  
+  ## Test plan
+  - [ ] Build on Linux/GTK: `zig build`
+  - [ ] Verify `Ctrl+Shift+PageUp` moves current tab left
+  - [ ] Verify `Ctrl+Shift+PageDown` moves current tab right
+  - [ ] Verify `Ctrl+Shift+Arrow Up` jumps to previous prompt
+  - [ ] Verify `Ctrl+Shift+Arrow Down` jumps to next prompt
+  - [ ] Verify `Ctrl+PageUp/PageDown` still switches tabs (unchanged)
+  - [ ] Verify macOS keybinds are unaffected
+  ```
+- [`fa141a7`](https://github.com/ghostty-org/ghostty/commit/fa141a726203224c12b831e0513530fa2406ef26) Fix Korean IME committed text handling for arrow keys ([@dobbylee](https://github.com/dobbylee))
+- [`df4f981`](https://github.com/ghostty-org/ghostty/commit/df4f981592e9145334ada57271858a98728607eb) Fix Korean IME committed text handling for arrow keys ([#12447](https://github.com/ghostty-org/ghostty/issues/12447)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11461
+  
+  - Send Korean IME committed text as a separate text-only key event when
+  arrow-key handling commits preedit text.
+  - Replay arrow navigation after the committed text is sent. Do not
+  replay plain Left Arrow to match Terminal.app behavior.
+  - Manually tested Arrow keys and Opt/Cmd+Arrow during Korean preedit on
+  macOS.
+  ```
+- [`4d1bb9e`](https://github.com/ghostty-org/ghostty/commit/4d1bb9efe47cd0d1d2057cc08bf361229618e7c7) Update VOUCHED list ([#12456](https://github.com/ghostty-org/ghostty/issues/12456)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11685#discussioncomment-16712917)
+  from @mitchellh.
+  
+  Denounce: @enkr1
+  ```
+- [`c9ba2b2`](https://github.com/ghostty-org/ghostty/commit/c9ba2b2afaf133c42bc1baeef683d8e6af19818b) Update VOUCHED list ([#12457](https://github.com/ghostty-org/ghostty/issues/12457)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11628#discussioncomment-16712930)
+  from @mitchellh.
+  
+  Denounce: @4RH1T3CT0R7
+  ```
+- [`0e707ba`](https://github.com/ghostty-org/ghostty/commit/0e707ba3f661705e61e58715a335cb064d168928) Update VOUCHED list ([#12452](https://github.com/ghostty-org/ghostty/issues/12452)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11975#discussioncomment-16712831)
+  from @mitchellh.
+  
+  Vouch: @rightaditya
+  ```
+- [`e0c71dd`](https://github.com/ghostty-org/ghostty/commit/e0c71dd41bf771c591b01dd32f7d0cbddc0c525f) Update VOUCHED list ([#12453](https://github.com/ghostty-org/ghostty/issues/12453)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11882#discussioncomment-16712859)
+  from @mitchellh.
+  
+  Vouch: @mpatankar6
+  ```
+- [`5a3b0c9`](https://github.com/ghostty-org/ghostty/commit/5a3b0c9c493c540a38f9c26ec3479f1472e7533e) Update VOUCHED list ([#12454](https://github.com/ghostty-org/ghostty/issues/12454)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11858#discussioncomment-16712861)
+  from @mitchellh.
+  
+  Vouch: @enzowilliam
+  ```
+- [`03e08f0`](https://github.com/ghostty-org/ghostty/commit/03e08f0c89765c7d2029abc1b956d4606d454c1b) Update VOUCHED list ([#12455](https://github.com/ghostty-org/ghostty/issues/12455)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11795#discussioncomment-16712869)
+  from @mitchellh.
+  
+  Vouch: @bch
+  ```
+- [`50e8eba`](https://github.com/ghostty-org/ghostty/commit/50e8ebaf6025c4b35ef57f0e82418e4beb3e3db3) surface: sync middle-click paste source with copy-on-select ([@007hacky007](https://github.com/007hacky007))
+  ```text
+  Middle-click paste previously always read from the selection clipboard
+  (falling back to the standard clipboard on platforms without one).
+  
+  Now the paste source follows copy-on-select:
+  - copy-on-select = true: paste from selection clipboard (unchanged)
+  - copy-on-select = clipboard: paste from system clipboard
+  - copy-on-select = false: paste from selection clipboard (unchanged)
+  
+  Fixes ghostty-org/ghostty#9788.
+  ```
+- [`e72774f`](https://github.com/ghostty-org/ghostty/commit/e72774f2aba03f5db6426dfc0748e6f71c9429e8) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
+  ```text
+  https://github.com/ghostty-org/ghostty/discussions/12263#discussioncomment-DC_kwDOHFhdAs4A_wQ_
+  ```
+- [`4c046ef`](https://github.com/ghostty-org/ghostty/commit/4c046efbb10562400e76e690d3c327c0e3a806b1) Update VOUCHED list ([#12449](https://github.com/ghostty-org/ghostty/issues/12449)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12141#discussioncomment-16712795)
+  from @mitchellh.
+  
+  Vouch: @AkimioJR
+  ```
+- [`ee81a6e`](https://github.com/ghostty-org/ghostty/commit/ee81a6e1c62bdec461bec670fbad3b1cd3351bf3) Update VOUCHED list ([#12450](https://github.com/ghostty-org/ghostty/issues/12450)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12108#discussioncomment-16712799)
+  from @mitchellh.
+  
+  Vouch: @lebdron
+  ```
+- [`2dee1f1`](https://github.com/ghostty-org/ghostty/commit/2dee1f1a3f66ccf903fdd9d23783bdb88411bd56) Update VOUCHED list ([#12445](https://github.com/ghostty-org/ghostty/issues/12445)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12263#discussioncomment-16712767)
+  from @mitchellh.
+  
+  Vouch: @thoutbeckers
+  ```
+- [`69452b5`](https://github.com/ghostty-org/ghostty/commit/69452b5c6f54b794664a7593e9a665bdd1caf1b2) Sync middle-click paste with copy-on-select ([#12443](https://github.com/ghostty-org/ghostty/issues/12443)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Implements the behavior from #9788.
+  
+  Today, middle-click paste always reads from the selection clipboard (or
+  the
+  system clipboard on platforms without a selection clipboard). With this
+  change
+  it follows `copy-on-select`:
+  
+  - `true`: selection clipboard (unchanged)
+  - `clipboard`: system clipboard
+  - `false`: selection clipboard (also unchanged, preserves traditional
+  X11
+    middle-click behavior)
+  
+  The idea is symmetry: if `copy-on-select = clipboard` writes selections
+  to the
+  system clipboard, middle-click should come back from there too.
+  
+  Also updated the config doc comment, which previously claimed
+  middle-click
+  "will always use the selection clipboard".
+  
+  ### Testing
+  
+  `zig build test` passes locally (macOS, Zig 0.15.2).
+  
+  Built and runtime-tested via the fork's CI:
+  https://github.com/007hacky007/ghostty/actions/runs/24707475544 - I'm
+  running the resulting binary daily and the three `copy-on-select` modes
+  behave as described above.
+  ```
+- [`51590ad`](https://github.com/ghostty-org/ghostty/commit/51590ad7f1b80e60a1aa200f887f5a24f44d4006) Update VOUCHED list ([#12451](https://github.com/ghostty-org/ghostty/issues/12451)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11993#discussioncomment-16712826)
+  from @mitchellh.
+  
+  Vouch: @VoidNV
+  ```
+- [`fc7a064`](https://github.com/ghostty-org/ghostty/commit/fc7a064e80870f5c67e288668045c9ad80aec9b9) Update VOUCHED list ([#12444](https://github.com/ghostty-org/ghostty/issues/12444)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12305#discussioncomment-16712760)
+  from @mitchellh.
+  
+  Vouch: @aaron-ang
+  ```
+- [`8c3db43`](https://github.com/ghostty-org/ghostty/commit/8c3db43c8602d7d148083a7cca2b63e533115719) Update VOUCHED list ([#12446](https://github.com/ghostty-org/ghostty/issues/12446)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12272#discussioncomment-16712769)
+  from @mitchellh.
+  
+  Vouch: @dkinzler
+  ```
+- [`e0d0fbe`](https://github.com/ghostty-org/ghostty/commit/e0d0fbe0ad0a39c42fb3a7fa3885de829c3e5cdb) Update VOUCHED list ([#12448](https://github.com/ghostty-org/ghostty/issues/12448)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12169#discussioncomment-16712790)
+  from @mitchellh.
+  
+  Vouch: @knu
+  ```
+- [`560b7ba`](https://github.com/ghostty-org/ghostty/commit/560b7ba8e853d1744a04915b9c62062f992310a0) gtk/SurfaceScrolledWindow: wrap root child with another Adw.Bin ([@alaviss](https://github.com/alaviss))
+  ```text
+  Due to a known Gtk issue, the scrolled_window at the root of the
+  template is free-ed twice on dispose. This causes crashes when used with
+  GNOME 49 platform (Gtk 4.20, libadwaita 1.8.5).
+  
+  Workaround this issue by wrapping the root child in another Adw.Bin,
+  similar to widgets like ResizeOverlay.
+  
+  LLM was used to perform discovery against a manually recorded Valgrind
+  trace, and helped tracking down known fixes for this problem.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/12306
+  
+  Assisted-by: OpenAI GPT-5.4
+  ```
+- [`74045cc`](https://github.com/ghostty-org/ghostty/commit/74045cc5d8368e03ea3b4b8896b6e0a1dcf4089b) Update VOUCHED list ([#12438](https://github.com/ghostty-org/ghostty/issues/12438)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12354#discussioncomment-16712711)
+  from @mitchellh.
+  
+  Vouch: @007hacky007
+  ```
+- [`b3d4f51`](https://github.com/ghostty-org/ghostty/commit/b3d4f51ca78788eeda1fe784ce3c6056c8d3aa1d) Update VOUCHED list ([#12439](https://github.com/ghostty-org/ghostty/issues/12439)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12347#discussioncomment-16712718)
+  from @mitchellh.
+  
+  Vouch: @rjwittams
+  ```
+- [`8e2a13c`](https://github.com/ghostty-org/ghostty/commit/8e2a13cb6094561a693e47e587e23abdcbb791d6) gtk/SurfaceScrolledWindow: wrap root child with another Adw.Bin ([#12426](https://github.com/ghostty-org/ghostty/issues/12426)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Due to a known Gtk issue, the scrolled_window at the root of the
+  template is free-ed twice on dispose. This causes crashes when used with
+  GNOME 49 platform (Gtk 4.20, libadwaita 1.8.5).
+  
+  Workaround this issue by wrapping the root child in another Adw.Bin,
+  similar to widgets like ResizeOverlay.
+  
+  LLM was used to perform discovery against a manually recorded Valgrind
+  trace, and helped tracking down known fixes for this problem. The
+  comment in code was taken from another instance in the repository.
+  
+  Fixes https://github.com/ghostty-org/ghostty/discussions/12306
+  
+  Assisted-by: OpenAI GPT-5.4
+  ```
+- [`c21ba8d`](https://github.com/ghostty-org/ghostty/commit/c21ba8d8268cfaf8c5967f65d140be38e86fd159) Update VOUCHED list ([#12440](https://github.com/ghostty-org/ghostty/issues/12440)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11632#discussioncomment-16712730)
+  from @mitchellh.
+  
+  Vouch: @ajiblock
+  ```
+- [`667d467`](https://github.com/ghostty-org/ghostty/commit/667d467e24b77dff439a5ab02bed6771931debcd) Update VOUCHED list ([#12441](https://github.com/ghostty-org/ghostty/issues/12441)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11987#discussioncomment-16712733)
+  from @mitchellh.
+  
+  Vouch: @nouritsu
+  ```
+- [`119f387`](https://github.com/ghostty-org/ghostty/commit/119f3875d46f7fd142ce8aa3cb65e05c0e007482) Update VOUCHED list ([#12442](https://github.com/ghostty-org/ghostty/issues/12442)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12435#issuecomment-4320055303)
+  from @mitchellh.
+  
+  Vouch: @ZuBB
+  ```
+- [`6fb86a8`](https://github.com/ghostty-org/ghostty/commit/6fb86a819e6691a63fdf669e9a066de795cad533) flatpak: update runtime to GNOME 50 ([@alaviss](https://github.com/alaviss))
+- [`98d14aa`](https://github.com/ghostty-org/ghostty/commit/98d14aa66bf9e29c1d05c1b62705173653d3a5b5) flatpak: update runtime to GNOME 50 ([#12428](https://github.com/ghostty-org/ghostty/issues/12428)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Notable dependency changes:
+  
+  - GTK: `4.20.4` -> `4.22.2`
+  - libadwaita: `1.8.5` -> `1.9.0`
+  ```
+- [`98fb58b`](https://github.com/ghostty-org/ghostty/commit/98fb58b3265d10cde89a6fb1f76676fe2e61ff44) Update VOUCHED list ([#12437](https://github.com/ghostty-org/ghostty/issues/12437)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12295#discussioncomment-16712704)
+  from @mitchellh.
+  
+  Vouch: @dobbylee
+  ```
 - [`c47a809`](https://github.com/ghostty-org/ghostty/commit/c47a8091f18200af980f7943d646ff0abc031a4b) Update VOUCHED list ([#12436](https://github.com/ghostty-org/ghostty/issues/12436)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
