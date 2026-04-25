@@ -8,15 +8,125 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 25, 2026 at 18:14 UTC.
+> Last updated: April 25, 2026 at 21:12 UTC.
 
 ## April 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24936929621), [2](https://github.com/ghostty-org/ghostty/actions/runs/24936454850), [3](https://github.com/ghostty-org/ghostty/actions/runs/24935930871), [4](https://github.com/ghostty-org/ghostty/actions/runs/24935717312), [5](https://github.com/ghostty-org/ghostty/actions/runs/24935635947), [6](https://github.com/ghostty-org/ghostty/actions/runs/24935490306), [7](https://github.com/ghostty-org/ghostty/actions/runs/24935332327), [8](https://github.com/ghostty-org/ghostty/actions/runs/24935218124), [9](https://github.com/ghostty-org/ghostty/actions/runs/24933524535), [10](https://github.com/ghostty-org/ghostty/actions/runs/24923989307)  
-Summary: 10 runs • 35 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24940217324), [2](https://github.com/ghostty-org/ghostty/actions/runs/24940064595), [3](https://github.com/ghostty-org/ghostty/actions/runs/24936929621), [4](https://github.com/ghostty-org/ghostty/actions/runs/24936454850), [5](https://github.com/ghostty-org/ghostty/actions/runs/24935930871), [6](https://github.com/ghostty-org/ghostty/actions/runs/24935717312), [7](https://github.com/ghostty-org/ghostty/actions/runs/24935635947), [8](https://github.com/ghostty-org/ghostty/actions/runs/24935490306), [9](https://github.com/ghostty-org/ghostty/actions/runs/24935332327), [10](https://github.com/ghostty-org/ghostty/actions/runs/24935218124), [11](https://github.com/ghostty-org/ghostty/actions/runs/24933524535), [12](https://github.com/ghostty-org/ghostty/actions/runs/24923989307)  
+Summary: 12 runs • 49 commits • 11 authors
 
 ### Changes
 
+- [`13ada38`](https://github.com/ghostty-org/ghostty/commit/13ada38ac45c5fb2a78c9b57cf86b5d22c9cf739) os: RANDOM_BASENAME_LEN -> random_basename_len ([@jparise](https://github.com/jparise))
+- [`67b5783`](https://github.com/ghostty-org/ghostty/commit/67b5783bdd718796a9e2a5d5f9de505f8e047ea5) os: RANDOM_BASENAME_LEN -> random_basename_len ([#12467](https://github.com/ghostty-org/ghostty/issues/12467)) ([@mitchellh](https://github.com/mitchellh))
+- [`28f4676`](https://github.com/ghostty-org/ghostty/commit/28f4676b5d8964189ac3f6974cfbb212ef322bb4) core: Acquire renderer state mutex before calling processLinks ([@jmr](https://github.com/jmr))
+  ```text
+  Holding the renderer state mutex is a documented precondition of
+  `processLinks`, but `mouseButtonCallback` previously called
+  the function without the mutex.
+  
+  This creates a race with the I/O thread's `processOutput`, which can
+  prune scrollback pages while `processLinks` is reading them, resulting
+  in a use-after-free segfault.  See
+  https://github.com/ghostty-org/ghostty/discussions/12409 (Linux: crash
+  while selecting text).
+  
+  https://github.com/ghostty-org/ghostty/blob/57b5e1e2507cd65ab8197d39baa4ce2505185510/src/Surface.zig#L4354-L4355
+  
+  https://github.com/ghostty-org/ghostty/blob/57b5e1e2507cd65ab8197d39baa4ce2505185510/src/Surface.zig#L3822-L3824
+  
+  995e4e375 (os: open) changed the body of `processLinks` to be
+  non-trivial and documented the precondition, but the lock was not held
+  at the call site.
+  ```
+- [`8ebf4f7`](https://github.com/ghostty-org/ghostty/commit/8ebf4f70e5e8d0e2bf80a2b9c53ca85ca8d396e7) macOS: make tab color optional ([@bo2themax](https://github.com/bo2themax))
+- [`5b89671`](https://github.com/ghostty-org/ghostty/commit/5b89671d513fc128ae7e9a2cfe43262e443c1a13) macOS: make terminal restorable state compatible with 1.2.3(v5) ([@bo2themax](https://github.com/bo2themax))
+- [`bfe07bb`](https://github.com/ghostty-org/ghostty/commit/bfe07bb99ed796e7f9248d06cf21b9c3e640dcc7) macOS: add InternalState to cover migrations ([@bo2themax](https://github.com/bo2themax))
+- [`72c03e7`](https://github.com/ghostty-org/ghostty/commit/72c03e7fb87e97bbbb6973919d55adb2c671ec43) macOS: add window restoration tests ([@bo2themax](https://github.com/bo2themax))
+- [`231f6f4`](https://github.com/ghostty-org/ghostty/commit/231f6f4c75f02531ae385c22c2b8ad81f53d1555) macOS: move the restoration logs ([@bo2themax](https://github.com/bo2themax))
+- [`3853761`](https://github.com/ghostty-org/ghostty/commit/385376185cf8d9f9545aec04cf643d7601300c81) macOS: remove manual invalidateRestorableState() ([@bo2themax](https://github.com/bo2themax))
+- [`c9d2285`](https://github.com/ghostty-org/ghostty/commit/c9d2285f63fc3f34c466087f4828741fd43e2538) os: add randomTmpPath for allocating temp paths ([@jparise](https://github.com/jparise))
+  ```text
+  Factor TempDir's name generation into a reusable `randomBasename` (16
+  random bytes, url-safe base64) and add `randomTmpPath` on top, which
+  composes `allocTmpDir` + `randomBasename` into a single allocated path
+  in the form `{TMPDIR}/{prefix}{random}` (mktemp(1)-ish).
+  
+  This is convenient for callers who want a unique path under TMPDIR (for
+  a temporary file, socket, etc.) without having to think about basename
+  buffer sizing or path joining.
+  
+  Also, use `std.base64.url_safe_no_pad.Encoder` instead of the custom
+  base64 alphabet, which is exactly equivalent.
+  ```
+- [`8e1dfbc`](https://github.com/ghostty-org/ghostty/commit/8e1dfbcf3ebd546ef22086857859c9e22764282c) os: add randomTmpPath for allocating temp paths ([#12465](https://github.com/ghostty-org/ghostty/issues/12465)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Factor TempDir's name generation into a reusable `randomBasename` (16
+  random bytes, url-safe base64) and add `randomTmpPath` on top, which
+  composes `allocTmpDir` + `randomBasename` into a single allocated path
+  in the form `{TMPDIR}/{prefix}{random}` (`mktemp(1)`-ish).
+  
+  This is convenient for callers who want a unique path under TMPDIR (for
+  a temporary file, socket, etc.) without having to think about basename
+  buffer sizing or path joining.
+  
+  Also, use `std.base64.url_safe_no_pad.Encoder` instead of the custom
+  base64 alphabet, which is exactly equivalent.
+  ```
+- [`aedf39f`](https://github.com/ghostty-org/ghostty/commit/aedf39f3bdce14101a823003aeadcfcbe085b54a) macOS: support migrations when restoring window state ([#12461](https://github.com/ghostty-org/ghostty/issues/12461)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  First two commits fix the issue when upgrading from 1.2.x to 1.3.x.
+  (#11304)
+  
+  > To double check if this pr really fixes the issue, you can either
+  archive a release build, sign with the same profile, and override
+  manually.
+  >
+  > Or you can find the `savedState` files (located in `~/Library/Daemon\
+  Containers/<uuid>`), can copy them the local build dir (which is what I
+  did), and run the debug build.
+  
+  Following commits add tests for migrations and some logs.
+  
+  **Currently the minimum version is set to 1.2.x**, since there's a lot
+  changes comparing to 1.1.x. It will be difficult to restore
+  `Ghostty.SplitNode` -> `SplitTree<Ghostty.SurfaceView>` without
+  introducing a lot of checks.
+  ```
+- [`0e0bcaf`](https://github.com/ghostty-org/ghostty/commit/0e0bcafed5b648e07b3f9f4259254b3864fb69b7) macOS: remove manual invalidateRestorableState() ([#12464](https://github.com/ghostty-org/ghostty/issues/12464)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This should be safe to delete now after #12461.
+  
+  I tested saving 27 tabs, 4 with 2 splits,
+  `TerminalRestorable.encode(with:` finished successfully.
+  
+  And I check the breakpoints when the Sparkle sends
+  `-[NSRunningApplication treminate]`. The call stack at `-[NSResponder
+  invalidateRestorableState]` is pretty much the same as quitting via
+  `cmd+q`.
+  ```
+- [`e9ca0f8`](https://github.com/ghostty-org/ghostty/commit/e9ca0f8c9a403938e90d1481c7b72459cee78457) core: Acquire renderer state mutex before calling processLinks ([#12463](https://github.com/ghostty-org/ghostty/issues/12463)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Holding the renderer state mutex is a documented precondition of
+  `processLinks`, but `mouseButtonCallback` previously called the function
+  without the mutex.
+  
+  This creates a race with the I/O thread's `processOutput`, which can
+  prune scrollback pages while `processLinks` is reading them, resulting
+  in a use-after-free segfault. See
+  https://github.com/ghostty-org/ghostty/discussions/12409 (Linux: crash
+  while selecting text).
+  
+  
+  https://github.com/ghostty-org/ghostty/blob/57b5e1e2507cd65ab8197d39baa4ce2505185510/src/Surface.zig#L4354-L4355
+  
+  
+  https://github.com/ghostty-org/ghostty/blob/57b5e1e2507cd65ab8197d39baa4ce2505185510/src/Surface.zig#L3822-L3824
+  
+  995e4e375 (os: open) changed the body of `processLinks` to be
+  non-trivial and documented the precondition, but the lock was not held
+  at the call site.
+  ```
 - [`85dc4b1`](https://github.com/ghostty-org/ghostty/commit/85dc4b1842799d23db4abc5c2a671e4975c9d49d) surface: respect semantic prompt boundaries for links (Vasyl Zuziak)
   ```text
   Link detection currently expands the clicked location to a full line
