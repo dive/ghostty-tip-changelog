@@ -8,15 +8,32 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 24, 2026 at 21:17 UTC.
+> Last updated: April 25, 2026 at 00:28 UTC.
 
 ## April 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24911997879), [2](https://github.com/ghostty-org/ghostty/actions/runs/24907048466), [3](https://github.com/ghostty-org/ghostty/actions/runs/24889534540), [4](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
-Summary: 4 runs • 22 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24914171209), [2](https://github.com/ghostty-org/ghostty/actions/runs/24911997879), [3](https://github.com/ghostty-org/ghostty/actions/runs/24907048466), [4](https://github.com/ghostty-org/ghostty/actions/runs/24889534540), [5](https://github.com/ghostty-org/ghostty/actions/runs/24873393693)  
+Summary: 5 runs • 24 commits • 7 authors
 
 ### Changes
 
+- [`7c91cef`](https://github.com/ghostty-org/ghostty/commit/7c91cef28de31a9b2238d83b0f63b03a9841bd49) config: use Config to check key binding instead of App ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Previously `ghostty_app_key_is_binding` (unlike Surface) is just using `config.keybind` to check whether a KeyEvent is in the set or not.
+  
+  After this, I can add unit tests for keybinding more easily, with dummy configs.
+  ```
+- [`4ceeba4`](https://github.com/ghostty-org/ghostty/commit/4ceeba4851030e75398cf1e5d3f7d8c7ed645e87) config: use Config to check key binding instead of App ([#12415](https://github.com/ghostty-org/ghostty/issues/12415)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously `ghostty_app_key_is_binding` (unlike Surface) is just using
+  `config.keybind` to check whether a KeyEvent is in the set or not.
+  
+  After this, I can add unit tests for keybinding more easily with dummy
+  configs.
+  
+  I didn't find any usages of this in GTK, so it shouldn't affect
+  anything. ci will see if this is the case:)
+  ```
 - [`6b69ea0`](https://github.com/ghostty-org/ghostty/commit/6b69ea05170435ee6abd79b9a3da7a2609d5aaa3) libghostty: enable cross-compiling macOS from Linux/Windows ([@mitchellh](https://github.com/mitchellh))
   ```text
   This allows libghostty-vt to be cross-compiled for macOS from non-macOS
