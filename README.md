@@ -8,7 +8,77 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: April 26, 2026 at 04:10 UTC.
+> Last updated: April 26, 2026 at 06:38 UTC.
+
+## April 26, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/24947896288)  
+Summary: 1 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`7cc9cc8`](https://github.com/ghostty-org/ghostty/commit/7cc9cc8ba8ba19965b9752ea55c171b5fba97874) flatpak: terminate session if Ghostty disconnects from bus ([@alaviss](https://github.com/alaviss))
+  ```text
+  This makes sure that if Ghostty crashes, commands spawned are also
+  terminated automatically by the Flatpak Session Helper.
+  ```
+- [`8b8f713`](https://github.com/ghostty-org/ghostty/commit/8b8f7136d041d324867f977e8980cba4e1aeb675) flatpak: don't assume c_uint to be u32 ([@alaviss](https://github.com/alaviss))
+  ```text
+  Thanks pluie for the pointer.
+  ```
+- [`8b90efd`](https://github.com/ghostty-org/ghostty/commit/8b90efd913ceb51ec49034dfb08736a39c07cf2d) os: use GetTempPathW for allocTmpDir on Windows ([@jparise](https://github.com/jparise))
+  ```text
+  `allocTmpDir` previously read `%TMP%` via `getenvW` and returned `null`
+  if the variable wasn't set, requiring each caller to to deal with the
+  nullable. Unfortunately, there isn't a platform-neutral default value
+  that makes sense for those cases (i.e. `/tmp` is POSIX-y).
+  
+  We now use `GetTempPathW` on Windows, which is the official way to get
+  this directory: `TMP` → `TEMP` → `USERPROFILE` → `GetWindowsDirectoryW`.
+  
+  With a real system call behind it, the function no longer needs to be
+  nullable: the only remaining failure modes are OOM (propagated) and the
+  syscall itself failing or returning data we can't decode. In those later
+  cases, we use `C:\Windows\Temp` as a fallback, similar to how we use
+  `/tmp` in the POSIX case.
+  
+  The Windows path always allocates so it still must be paired with
+  `freeTmpDir`, which matches the existing contract.
+  ```
+- [`278041c`](https://github.com/ghostty-org/ghostty/commit/278041c4bc0e47aebfda9c695760476838f2da4a) flatpak: terminate session if Ghostty disconnects from bus ([#12427](https://github.com/ghostty-org/ghostty/issues/12427)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes sure that if Ghostty crashes, commands spawned are also
+  terminated automatically by the Flatpak Session Helper.
+  
+  The few crashes I got left a lot of background processes, some of them
+  pretty heavy and took awhile to be figured out.
+  ```
+- [`c74f6d5`](https://github.com/ghostty-org/ghostty/commit/c74f6d56d1feef473033057bc0ff7e3f00cf6421) os: use GetTempPathW for allocTmpDir on Windows ([#12469](https://github.com/ghostty-org/ghostty/issues/12469)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `allocTmpDir` previously read `%TMP%` via `getenvW` and returned `null`
+  if the variable wasn't set, requiring each caller to to deal with the
+  nullable. Unfortunately, there isn't a platform-neutral default value
+  that makes sense for those cases (i.e. `/tmp` is POSIX-y).
+  
+  We now use `GetTempPathW` on Windows, which is the official way to get
+  this directory: `TMP` → `TEMP` → `USERPROFILE` → `GetWindowsDirectoryW`.
+  
+  With a real system call behind it, the function no longer needs to be
+  nullable: the only remaining failure modes are OOM (propagated) and the
+  syscall itself failing or returning data we can't decode. In those later
+  cases, we use `C:\Windows\Temp` as a fallback, similar to how we use
+  `/tmp` in the POSIX case.
+  
+  The Windows path always allocates so it still must be paired with
+  `freeTmpDir`, which matches the existing contract.
+  
+  ---
+  
+  *AI Disclosure:* I verified the Windows path using Claude and Zig's
+  cross-compilation capabilities because I don't have a Windows
+  environment in which to test this. I do fully understand the code based
+  on my prior life as a Windows game developer though.
+  ```
 
 ## April 25, 2026
 
