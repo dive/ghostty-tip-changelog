@@ -8,15 +8,89 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 2, 2026 at 15:16 UTC.
+> Last updated: May 2, 2026 at 18:18 UTC.
 
 ## May 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25240925859)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25255420939), [2](https://github.com/ghostty-org/ghostty/actions/runs/25240925859)  
+Summary: 2 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`d60a16c`](https://github.com/ghostty-org/ghostty/commit/d60a16c1465415cedf7154d1fd4ad44ca66c3ebe) macos: avoid replaying keys that commit preedit ([@knu](https://github.com/knu))
+  ```text
+  Refs #10460
+  Related: #12518
+  
+  When an input method commits all or part of marked text during keyDown,
+  AppKit returns the committed text through insertText. Treat that as
+  text committed by the input method instead of replaying the original key
+  event to the terminal.
+  
+  Previously this path only handled arrow-key commits specially. A
+  control-key shortcut that commits preedit text could still be encoded as
+  the original control input after composition, such as ctrl+j becoming LF.
+  
+  Send committed preedit text as a text-only event for any key that causes
+  the commit. Only replay arrow navigation keys that the existing Korean
+  IME handling expects, and keep plain left-arrow suppressed because AppKit
+  already leaves the caret in place.
+  
+  AI usage: OpenAI Codex helped investigate, implement, test, and refine
+  this change. I reviewed and tested the resulting code.
+  ```
+- [`a971bf1`](https://github.com/ghostty-org/ghostty/commit/a971bf16a0152c31f20001864a196f24e117a731) libghostty-vt: support building nix derivation on darwin ([@sandydoo](https://github.com/sandydoo))
+- [`9df670c`](https://github.com/ghostty-org/ghostty/commit/9df670cb557e4dde7870fe551a472ddf2feb2bcc) build: skip unnecessary steps for libghostty-vt ([@sandydoo](https://github.com/sandydoo))
+- [`d17e551`](https://github.com/ghostty-org/ghostty/commit/d17e5517c7d1b38d78811801285a38ced8c6fe5a) libghostty-vt: fix dependency path resolution errors ([@sandydoo](https://github.com/sandydoo))
+  ```text
+  Zigs build infra computes relatives paths to build-time executables that use `setCwd.`
+  The logic is purely lexical and doesn't take into account symlinks, unlike `chdir` that follows symlinks.
+  
+  If the `cwd` resolves to a different depth, then the relative path becomes incorrect.
+  ```
+- [`7123bdd`](https://github.com/ghostty-org/ghostty/commit/7123bddc184e4c96caa7705b319609f07534359d) libghostty-vt: fix linker tests for darwin ([@sandydoo](https://github.com/sandydoo))
+- [`058d054`](https://github.com/ghostty-org/ghostty/commit/058d054fa24478a19a6b71fb2e1977f084d0ff12) libghostty-vt: support building on macOS with Nix ([#12548](https://github.com/ghostty-org/ghostty/issues/12548)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds support for building libghostty-vt on macOS with Nix.
+  
+  Tested on aarch64-darwin. Tests pass as well.
+  
+  _Claude used to speed up debugging process. All comments, commit
+  messages, and final code authored by me._
+  ```
+- [`f0bb6ed`](https://github.com/ghostty-org/ghostty/commit/f0bb6ed9eee5271cbbcee7b87d252830b90fb719) macos: avoid replaying keys that commit preedit ([#12547](https://github.com/ghostty-org/ghostty/issues/12547)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Refs #10460
+  Related: #12518
+  
+  When an input method commits all or part of marked text during keyDown,
+  AppKit returns the committed text through insertText. Treat that as text
+  committed by the input method instead of replaying the original key
+  event to the terminal.
+  
+  Previously this path only handled arrow-key commits specially. A
+  control-key shortcut that commits preedit text could still be encoded as
+  the original control input after composition, such as ctrl+j becoming
+  LF.
+  
+  Send committed preedit text as a text-only event for any key that causes
+  the commit. Only replay arrow navigation keys that the existing Korean
+  IME handling expects, and keep plain left-arrow suppressed because
+  AppKit already leaves the caret in place.
+  
+  Before:
+  <img width="375" height="375" alt="before"
+  src="https://github.com/user-attachments/assets/1073b93f-625a-4881-8f95-67adefe9d3da"
+  />
+  
+  After:
+  <img width="375" height="375" alt="after"
+  src="https://github.com/user-attachments/assets/3e4be2a5-4df9-4cdd-bc95-e178ca44c7e7"
+  />
+  
+  AI usage: OpenAI Codex helped investigate, implement, test, and refine
+  this change. I reviewed and tested the resulting code.
+  ```
 - [`f27aa86`](https://github.com/ghostty-org/ghostty/commit/f27aa865af5a8f33178d68ef9d9f30b05ba74036) Update VOUCHED list ([#12552](https://github.com/ghostty-org/ghostty/issues/12552)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
