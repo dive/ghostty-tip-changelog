@@ -8,7 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 4, 2026 at 21:24 UTC.
+> Last updated: May 5, 2026 at 00:33 UTC.
+
+## May 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25344940935)  
+Summary: 1 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`28767f6`](https://github.com/ghostty-org/ghostty/commit/28767f62b18fa553ed681efd4acf2780e8c2196e) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`c20fcfa`](https://github.com/ghostty-org/ghostty/commit/c20fcfa1b487ab8a8402b773c19faa3d84a8beac) Fix zero-width grapheme attachment during pending wrap ([@noib3](https://github.com/noib3))
+  ```text
+  This PR fixes an issue where a zero-width combining mark could attach to
+  the wrong cell when the preceding character was written in the final
+  column and the cursor had a pending wrap.
+  ```
+- [`c2c0901`](https://github.com/ghostty-org/ghostty/commit/c2c0901ed063e695f35f84232f5333d83db2ab8d) Update iTerm2 colorschemes ([#12562](https://github.com/ghostty-org/ghostty/issues/12562)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260427-153600-5e4d1de
+  ```
+- [`563b085`](https://github.com/ghostty-org/ghostty/commit/563b085a4d623995663b320818b6088ba0f2588f) Fix zero-width grapheme attachment during pending wrap ([#12581](https://github.com/ghostty-org/ghostty/issues/12581)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR fixes an issue where a zero-width combining mark could attach to
+  the wrong cell when the preceding character was written in the final
+  column and the cursor had a pending wrap.
+  
+  The test I added used to fail before the fix, but it passes now.
+  ```
 
 ## May 3, 2026
 
