@@ -8,7 +8,115 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 5, 2026 at 04:04 UTC.
+> Last updated: May 5, 2026 at 06:46 UTC.
+
+## May 5, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25357894222)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`81e399c`](https://github.com/ghostty-org/ghostty/commit/81e399c4124ba8647e547eb3638af0220fdf6bdb) build(deps): bump cachix/install-nix-action from 31.10.5 to 31.10.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.5 to 31.10.6.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/ab739621df7a23f52766f9ccc97f38da6b7af14f...8aa03977d8d733052d78f4e008a241fd1dbf36b3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.6
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`ac48a9b`](https://github.com/ghostty-org/ghostty/commit/ac48a9b15bd533a676f6ea9549ac122feb955249) build(deps): bump cachix/install-nix-action from 31.10.5 to 31.10.6 ([#12584](https://github.com/ghostty-org/ghostty/issues/12584)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.5 to 31.10.6.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.6</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.6 -&gt; 2.34.7 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/275">cachix/install-nix-action#275</a>
+  <strong><a
+  href="https://github.com/NixOS/nix/security/advisories/GHSA-vh5x-56v6-4368">GHSA-vh5x-56v6-4368</a></strong>:
+  Fixes a coroutine stack-to-heap overflow via unbounded recursion in the
+  NAR directory parser. <strong>Severity: High.</strong>
+  <strong><a
+  href="https://github.com/NixOS/nix/security/advisories/GHSA-gr92-w2r5-qw5p">GHSA-gr92-w2r5-qw5p</a></strong>:
+  Fixes an absolute path traversal vulnerability when unpacking archives
+  to disk. Severity: Moderate.</li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31...v31.10.6">https://github.com/cachix/install-nix-action/compare/v31...v31.10.6</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/8aa03977d8d733052d78f4e008a241fd1dbf36b3"><code>8aa0397</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/275">#275</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/21d0b780f08a47ae2baf9814c722ef3884db92aa"><code>21d0b78</code></a>
+  nix: 2.34.6 -&gt; 2.34.7</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/ab739621df7a23f52766f9ccc97f38da6b7af14f...8aa03977d8d733052d78f4e008a241fd1dbf36b3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.5&new-version=31.10.6)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## May 4, 2026
 
