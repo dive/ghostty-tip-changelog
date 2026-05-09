@@ -8,15 +8,25 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 9, 2026 at 18:19 UTC.
+> Last updated: May 9, 2026 at 21:16 UTC.
 
 ## May 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25606064691), [2](https://github.com/ghostty-org/ghostty/actions/runs/25604916760)  
-Summary: 2 runs • 6 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25609668241), [2](https://github.com/ghostty-org/ghostty/actions/runs/25606064691), [3](https://github.com/ghostty-org/ghostty/actions/runs/25604916760)  
+Summary: 3 runs • 8 commits • 5 authors
 
 ### Changes
 
+- [`2b48045`](https://github.com/ghostty-org/ghostty/commit/2b480457316b3b21739d3ed26b301e456f5856c7) macos: simplify workingDirectory setter ([@jparise](https://github.com/jparise))
+  ```text
+  This is a minor improvement to the computed property's `set` logic: we
+  can just use `.map {}` to unify the two optional paths.
+  ```
+- [`e3e9b51`](https://github.com/ghostty-org/ghostty/commit/e3e9b51b79c538c3f70a49e4dbda02ccb3cab731) macos: simplify workingDirectory setter ([#12639](https://github.com/ghostty-org/ghostty/issues/12639)) ([@jparise](https://github.com/jparise))
+  ```text
+  This is a minor improvement to the computed property's `set` logic: we
+  can just use `.map {}` to unify the two optional paths.
+  ```
 - [`cbd43fd`](https://github.com/ghostty-org/ghostty/commit/cbd43fd4834a7969480866c037f8650ca0912a25) feature: add basque translation ([@erral](https://github.com/erral))
 - [`afb8fc7`](https://github.com/ghostty-org/ghostty/commit/afb8fc7eb3042196b7e1d0fb5ec0eb0601efaf85) Update po/eu.po ([@erral](https://github.com/erral))
 - [`ec145bc`](https://github.com/ghostty-org/ghostty/commit/ec145bca9f1b24df3c6c8321892e60fb68f05c3d) Fix translation errors in eu ([@erral](https://github.com/erral))
