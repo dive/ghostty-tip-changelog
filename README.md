@@ -8,7 +8,40 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 9, 2026 at 15:19 UTC.
+> Last updated: May 9, 2026 at 18:19 UTC.
+
+## May 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25606064691), [2](https://github.com/ghostty-org/ghostty/actions/runs/25604916760)  
+Summary: 2 runs • 6 commits • 4 authors
+
+### Changes
+
+- [`cbd43fd`](https://github.com/ghostty-org/ghostty/commit/cbd43fd4834a7969480866c037f8650ca0912a25) feature: add basque translation ([@erral](https://github.com/erral))
+- [`afb8fc7`](https://github.com/ghostty-org/ghostty/commit/afb8fc7eb3042196b7e1d0fb5ec0eb0601efaf85) Update po/eu.po ([@erral](https://github.com/erral))
+- [`ec145bc`](https://github.com/ghostty-org/ghostty/commit/ec145bca9f1b24df3c6c8321892e60fb68f05c3d) Fix translation errors in eu ([@erral](https://github.com/erral))
+- [`a330ee9`](https://github.com/ghostty-org/ghostty/commit/a330ee93e8cb01844a4442eb692ac1769ab1d35d) i18n: add Basque (eu) translation ([#12544](https://github.com/ghostty-org/ghostty/issues/12544)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Same as with icelandic (#12301) we may be even fewer than them but let's
+  have this translated into Basque.
+  
+  I also volunteer for the basque translation team.
+  ```
+- [`607152e`](https://github.com/ghostty-org/ghostty/commit/607152ec6d2487ab10fb1cf5de6e0519baf8a21b) macOS: normalize working directory paths with FilePath ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This fixes for nuShell when opening Ghostty via Finder service and Shortcuts, also makes path parsing more robust in AppleScript.
+  ```
+- [`4bd8fa1`](https://github.com/ghostty-org/ghostty/commit/4bd8fa1e3e7a9538ad0b2433c2ddabeaa051eedc) macOS: normalize working directory paths with FilePath ([#12614](https://github.com/ghostty-org/ghostty/issues/12614)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes for
+  [Nushell](https://github.com/nushell/nushell/blob/f342d8acfa81bd9543bb38e3e08b1a93ecafe5d1/crates/nu-protocol/src/engine/engine_state.rs#L1012)
+  when opening Ghostty via Finder service and Shortcuts, also makes path
+  parsing more robust in AppleScript.
+  
+  <img width="976" height="690" alt="image"
+  src="https://github.com/user-attachments/assets/d3c19481-39ce-4797-ba31-d431af16651d"
+  />
+  ```
 
 ## May 7, 2026
 
