@@ -8,7 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 11, 2026 at 07:12 UTC.
+> Last updated: May 11, 2026 at 10:15 UTC.
+
+## May 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25658156161), [2](https://github.com/ghostty-org/ghostty/actions/runs/25657875662)  
+Summary: 2 runs • 3 commits • 1 authors
+
+### Changes
+
+- [`611525a`](https://github.com/ghostty-org/ghostty/commit/611525ac3f6cc3e2c63988ad8111d7ace093950e) Update VOUCHED list ([#12655](https://github.com/ghostty-org/ghostty/issues/12655)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12618#discussioncomment-16876561)
+  from @pluiedev.
+  
+  Vouch: @thirstycrow
+  ```
+- [`64131dc`](https://github.com/ghostty-org/ghostty/commit/64131dcd413ef27147378e2139efe1d2d81e092a) Update VOUCHED list ([#12656](https://github.com/ghostty-org/ghostty/issues/12656)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12616#discussioncomment-16876564)
+  from @pluiedev.
+  
+  Vouch: @00JCIV00
+  ```
+- [`4c68594`](https://github.com/ghostty-org/ghostty/commit/4c6859447cd794a96b79ae549d1e8e48a5c9874e) Update VOUCHED list ([#12654](https://github.com/ghostty-org/ghostty/issues/12654)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12650#discussioncomment-16876487)
+  from @pluiedev.
+  
+  Vouch: @athaapa
+  ```
 
 ## May 10, 2026
 
