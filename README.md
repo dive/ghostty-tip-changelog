@@ -8,15 +8,30 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 14, 2026 at 18:37 UTC.
+> Last updated: May 14, 2026 at 21:26 UTC.
 
 ## May 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25871337194)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25878980199), [2](https://github.com/ghostty-org/ghostty/actions/runs/25871337194)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`13ca032`](https://github.com/ghostty-org/ghostty/commit/13ca032b1de461146f8e9c416901d2414df19189) config: clear `command-palette-entry` like `keybind` ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  After #1368, `command-palette-entry=` will no longer clear the entries like the documentation says. Since i couldn't find an existing issue or discussion about this, I assume no one is actually using it. So I put 1.4.0 here, lemme know if you want to change it to 1.3.2.
+  
+  > I basically copied the `keybind` parsing code and doc.
+  ```
+- [`96848d7`](https://github.com/ghostty-org/ghostty/commit/96848d792e0ea2ed87125ee286f50399cac1aa5b) config: clear `command-palette-entry` like `keybind` ([#12682](https://github.com/ghostty-org/ghostty/issues/12682)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  After #1368, `command-palette-entry=` will no longer clear the entries
+  like the documentation says. Since i couldn't find an existing issue or
+  discussion about this, I assume no one is actually using it. So I put
+  1.4.0 here, lemme know if you want to change it to 1.3.2.
+  
+  > I basically copied the `keybind` parsing code and doc.
+  ```
 - [`47382f8`](https://github.com/ghostty-org/ghostty/commit/47382f8dcbf9fe1dc448f0dfcbc6b4230d17cb06) Update VOUCHED list ([#12680](https://github.com/ghostty-org/ghostty/issues/12680)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
