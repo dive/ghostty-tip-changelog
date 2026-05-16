@@ -8,7 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 16, 2026 at 12:21 UTC.
+> Last updated: May 16, 2026 at 15:22 UTC.
+
+## May 16, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25962520206), [2](https://github.com/ghostty-org/ghostty/actions/runs/25962442981)  
+Summary: 2 runs • 3 commits • 1 authors
+
+### Changes
+
+- [`42ed74b`](https://github.com/ghostty-org/ghostty/commit/42ed74bf8cda529553a655439788e6c36d2a8549) Update VOUCHED list ([#12706](https://github.com/ghostty-org/ghostty/issues/12706)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12686#discussioncomment-16940039)
+  from @bo2themax.
+  
+  Vouch: @nolinmcfarland
+  ```
+- [`cf24a48`](https://github.com/ghostty-org/ghostty/commit/cf24a4856b24f7b381c13f1491421e84b3bf802a) Update VOUCHED list ([#12707](https://github.com/ghostty-org/ghostty/issues/12707)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12625#discussioncomment-16940042)
+  from @bo2themax.
+  
+  Unvouch: @backnotprop
+  ```
+- [`0a3598d`](https://github.com/ghostty-org/ghostty/commit/0a3598d7a1e794214b2887f3f2acf79f67222fac) Update VOUCHED list ([#12705](https://github.com/ghostty-org/ghostty/issues/12705)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12625#discussioncomment-16940011)
+  from @bo2themax.
+  
+  Vouch: @backnotprop
+  ```
 
 ## May 15, 2026
 
