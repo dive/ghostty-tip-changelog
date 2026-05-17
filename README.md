@@ -8,7 +8,192 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 17, 2026 at 00:37 UTC.
+> Last updated: May 17, 2026 at 04:25 UTC.
+
+## May 17, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25977502466)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`ee316e4`](https://github.com/ghostty-org/ghostty/commit/ee316e43c140568729487a95fc7dfd7ee87a4176) build(deps): bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 3.1.1 to 3.2.0.
+  - [Release notes](https://github.com/actions/create-github-app-token/releases)
+  - [Changelog](https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/actions/create-github-app-token/compare/1b10c78c7865c340bc4f6099eb2f838309f1e8c3...bcd2ba49218906704ab6c1aa796996da409d3eb1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/create-github-app-token
+    dependency-version: 3.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`e90b7c9`](https://github.com/ghostty-org/ghostty/commit/e90b7c9fadadb5b7f936506dfd4f995729093108) build(deps): bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([#12670](https://github.com/ghostty-org/ghostty/issues/12670)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
+  from 3.1.1 to 3.2.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.2.0</h2>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
+  (2026-05-12)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>add support for enterprise-level GitHub Apps (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
+  <li>support full repository names in <code>repositories</code> input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
+  to 3.0.1 in the production-dependencies group (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
+  <li>validate private-key input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md">actions/create-github-app-token's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
+  (2026-05-12)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>add support for enterprise-level GitHub Apps (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
+  <li>support full repository names in <code>repositories</code> input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
+  to 3.0.1 in the production-dependencies group (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
+  <li>validate private-key input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/bcd2ba49218906704ab6c1aa796996da409d3eb1"><code>bcd2ba4</code></a>
+  chore(main): release 3.2.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/370">#370</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd"><code>f24bbd8</code></a>
+  fix: validate private-key input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/363531b6d972a60a00b3f1e6bb139e5e6c764cd9"><code>363531b</code></a>
+  docs: capitalize Git as a proper noun in README (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/374">#374</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/fd2801133e469d2950f2c5af5e591d6b2ad833c8"><code>fd28011</code></a>
+  docs: update procedure to configure Git (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/287">#287</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6"><code>85eb8dd</code></a>
+  feat: support full repository names in <code>repositories</code> input
+  (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/c9aabb83728c3bd519212fa657ebc07e1f2a5dec"><code>c9aabb8</code></a>
+  build(deps-dev): bump yaml from 2.8.3 to 2.8.4 in the
+  development-dependencie...</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/e02e816e5591415258a53bf735aff57977dcd5e2"><code>e02e816</code></a>
+  build(deps-dev): bump undici from 7.24.6 to 8.2.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/366">#366</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/8d835bfd37aa48fcb8e709925115857568d98bc4"><code>8d835bf</code></a>
+  build(deps-dev): bump esbuild from 0.27.4 to 0.28.0 in the
+  development-depend...</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4"><code>952a2a7</code></a>
+  feat: add support for enterprise-level GitHub Apps (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857"><code>43e5c34</code></a>
+  fix(deps): bump <code>@​actions/core</code> from 3.0.0 to 3.0.1 in the
+  production-dependenc...</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/actions/create-github-app-token/compare/1b10c78c7865c340bc4f6099eb2f838309f1e8c3...bcd2ba49218906704ab6c1aa796996da409d3eb1">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=3.1.1&new-version=3.2.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## May 16, 2026
 
