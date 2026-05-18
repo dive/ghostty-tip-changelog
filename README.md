@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 18, 2026 at 18:37 UTC.
+> Last updated: May 18, 2026 at 21:27 UTC.
 
 ## May 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26010120405), [2](https://github.com/ghostty-org/ghostty/actions/runs/26009059850)  
-Summary: 2 runs • 10 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26055045190), [2](https://github.com/ghostty-org/ghostty/actions/runs/26010120405), [3](https://github.com/ghostty-org/ghostty/actions/runs/26009059850)  
+Summary: 3 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`3706aba`](https://github.com/ghostty-org/ghostty/commit/3706abab0c962d9c93c4c4af853149f9d55f4deb) Update VOUCHED list ([#12733](https://github.com/ghostty-org/ghostty/issues/12733)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12732#discussioncomment-16966426)
+  from @jcollie.
+  
+  Vouch: @rewdy
+  ```
 - [`81af657`](https://github.com/ghostty-org/ghostty/commit/81af65766f319a954a26196b4812d159496d4f00) feat: add +toggle-quick-terminal IPC command ([@huajiang-tubi](https://github.com/huajiang-tubi))
   ```text
   Expose toggle-quick-terminal as a proper IPC action so it can be
