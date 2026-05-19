@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 19, 2026 at 18:37 UTC.
+> Last updated: May 19, 2026 at 21:31 UTC.
 
 ## May 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26110763000)  
-Summary: 1 runs • 5 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26123808733), [2](https://github.com/ghostty-org/ghostty/actions/runs/26110763000)  
+Summary: 2 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`9bcb30a`](https://github.com/ghostty-org/ghostty/commit/9bcb30aa119b20833d74d4e32104dafe20bd8203) Update VOUCHED list ([#12744](https://github.com/ghostty-org/ghostty/issues/12744)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12743#discussioncomment-16981434)
+  from @bo2themax.
+  
+  Vouch: @b0uks
+  ```
 - [`aed6461`](https://github.com/ghostty-org/ghostty/commit/aed646139d2a8571c4d4048158e6a6f0c8b353e0) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
 - [`fdf84ef`](https://github.com/ghostty-org/ghostty/commit/fdf84ef7ce611b4374d5cef3e213f155fae26914) macOS: check the resource the URL refers to. ([@bo2themax](https://github.com/bo2themax))
   ```text
