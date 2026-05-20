@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 20, 2026 at 16:12 UTC.
+> Last updated: May 20, 2026 at 18:47 UTC.
 
 ## May 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26172134530), [2](https://github.com/ghostty-org/ghostty/actions/runs/26165647879), [3](https://github.com/ghostty-org/ghostty/actions/runs/26139523610)  
-Summary: 3 runs • 5 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26177391439), [2](https://github.com/ghostty-org/ghostty/actions/runs/26172134530), [3](https://github.com/ghostty-org/ghostty/actions/runs/26165647879), [4](https://github.com/ghostty-org/ghostty/actions/runs/26139523610)  
+Summary: 4 runs • 7 commits • 6 authors
 
 ### Changes
 
+- [`4f94afd`](https://github.com/ghostty-org/ghostty/commit/4f94afdb4b25b52583eef6c03217b8bb561c9ad6) vouch: enable auto-locking closed issues ([@trag1c](https://github.com/trag1c))
+- [`46d54ed`](https://github.com/ghostty-org/ghostty/commit/46d54ed673a004df09078bee56e809421a82370e) vouch: enable auto-locking closed issues ([#12752](https://github.com/ghostty-org/ghostty/issues/12752)) ([@mitchellh](https://github.com/mitchellh))
 - [`41878d6`](https://github.com/ghostty-org/ghostty/commit/41878d6f7977d4758ea15b6599ee7d025be40ecc) snap: export TERMINFO_DIRS so child shells find xterm-ghostty ([@aaron-ang](https://github.com/aaron-ang))
   ```text
   Without this, shells spawned by ghostty cannot find the xterm-ghostty
