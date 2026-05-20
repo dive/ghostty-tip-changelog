@@ -8,15 +8,89 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 20, 2026 at 12:52 UTC.
+> Last updated: May 20, 2026 at 16:12 UTC.
 
 ## May 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26139523610)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26172134530), [2](https://github.com/ghostty-org/ghostty/actions/runs/26165647879), [3](https://github.com/ghostty-org/ghostty/actions/runs/26139523610)  
+Summary: 3 runs • 5 commits • 5 authors
 
 ### Changes
 
+- [`41878d6`](https://github.com/ghostty-org/ghostty/commit/41878d6f7977d4758ea15b6599ee7d025be40ecc) snap: export TERMINFO_DIRS so child shells find xterm-ghostty ([@aaron-ang](https://github.com/aaron-ang))
+  ```text
+  Without this, shells spawned by ghostty cannot find the xterm-ghostty
+  terminfo entry because ncurses only searches standard system paths.
+  The snap's terminfo lives inside the snap sandbox and is inaccessible
+  unless TERMINFO_DIRS is set explicitly.
+  ```
+- [`2559654`](https://github.com/ghostty-org/ghostty/commit/25596541ec42f08d2a98ac54337b81a6244a5328) snap: export TERMINFO_DIRS so child shells find xterm-ghostty ([#12662](https://github.com/ghostty-org/ghostty/issues/12662)) ([@kenvandine](https://github.com/kenvandine))
+  ````text
+  ## Summary
+  
+  When Ghostty is installed via snap on Ubuntu, programs running inside
+  Ghostty (e.g. `clear`) fail with:
+  
+  ```
+  terminals database is inaccessible
+  ```
+  
+  The snap ships terminfo at `${SNAP}/share/terminfo` but the launcher
+  never exports `TERMINFO_DIRS`, so ncurses in child shells falls back to
+  the host's system database. On Ubuntu 24.04 (ncurses 6.4) the system
+  database predates the `xterm-ghostty` entry, so the lookup fails.
+  
+  This is the same fix as the auto-closed #12303 and resolves #12304.
+  
+  ## Fix
+  
+  Export `TERMINFO_DIRS` in `snap/local/launcher` so all child processes
+  can resolve the bundled entry without manual setup.
+  
+  ## Local build (how this PR was verified)
+  
+  Remix the installed store snap by swapping `app/launcher` with the
+  patched one:
+  
+  ```sh
+  sudo unsquashfs -d /tmp/g \
+    /var/lib/snapd/snaps/ghostty_$(readlink /snap/ghostty/current).snap
+  sudo cp snap/local/launcher /tmp/g/app/launcher
+  sudo mksquashfs /tmp/g /tmp/ghostty-test.snap -comp xz -noappend
+  sudo snap install --dangerous --classic /tmp/ghostty-test.snap
+  ```
+  
+  Then launch `/snap/bin/ghostty` and run `clear`.
+  
+  ## Test plan
+  
+  Verified locally on Ubuntu 24.04 / arm64.
+  
+  - [x] In default `zsh` / `bash` inside Ghostty, `clear` succeeds.
+  - [x] `infocmp xterm-ghostty` resolves to
+  `/snap/ghostty/current/share/terminfo/x/xterm-ghostty`.
+  - [x] No manual copying of terminfo entries into `~/.terminfo/`
+  required.
+  
+  ## AI Disclosure
+  
+  Claude Code was used to investigate the root cause and to draft this
+  single-line launcher change. The fix is identical to the proposal in the
+  linked discussion (#12304). I manually verified by remixing the
+  installed snap with the patched launcher and confirming `clear` and
+  `infocmp xterm-ghostty` work without manually copying terminfo entries
+  into `~/.terminfo/` (original workaround shared in the discussion).
+  ````
+- [`7c2b29a`](https://github.com/ghostty-org/ghostty/commit/7c2b29a9f3047b2f73d632546c51cfbe52fd6a7b) build(highway): require `apple_sdk` for darwin builds ([@elias8](https://github.com/elias8))
+- [`8644415`](https://github.com/ghostty-org/ghostty/commit/86444156b403e7dd79ea7f0b2854be76927875b1) build(highway): require `apple_sdk` for darwin builds ([#12725](https://github.com/ghostty-org/ghostty/issues/12725)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Noticed this was removed in another PR, but `apple_sdk` is required to
+  build libghsotty for the iOS simulator, specifically for the x86 version
+  (see the error log
+  [here](https://github.com/elias8/libghostty/actions/runs/26075576793/job/76666498246)).
+  Figured it'd be better to include the SDK in all darwin builds for
+  consistency.
+  ```
 - [`19e20f7`](https://github.com/ghostty-org/ghostty/commit/19e20f7664dc7a755d2d7a16ab545b2503f26caf) Update VOUCHED list ([#12746](https://github.com/ghostty-org/ghostty/issues/12746)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
