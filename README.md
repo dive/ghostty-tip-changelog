@@ -8,7 +8,147 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 22, 2026 at 00:40 UTC.
+> Last updated: May 22, 2026 at 04:27 UTC.
+
+## May 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26262927116)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`cb79efa`](https://github.com/ghostty-org/ghostty/commit/cb79efa779ce05535797ff191bd0b7ce06b2ea77) build(deps): bump docker/build-push-action from 7.1.0 to 7.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 7.1.0 to 7.2.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases)
+  - [Commits](https://github.com/docker/build-push-action/compare/bcafcacb16a39f128d818304e6c9c0c18556b85f...f9f3042f7e2789586610d6e8b85c8f03e5195baf)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: docker/build-push-action
+    dependency-version: 7.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`10c6121`](https://github.com/ghostty-org/ghostty/commit/10c6121458c8a03e7b7804c00291292d7a811ecf) build(deps): bump docker/build-push-action from 7.1.0 to 7.2.0 ([#12765](https://github.com/ghostty-org/ghostty/issues/12765)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [docker/build-push-action](https://github.com/docker/build-push-action)
+  from 7.1.0 to 7.2.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/docker/build-push-action/releases">docker/build-push-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.2.0</h2>
+  <ul>
+  <li>Bump <code>@​actions/core</code> from 3.0.0 to 3.0.1 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1525">docker/build-push-action#1525</a></li>
+  <li>Bump <code>@​docker/actions-toolkit</code> from 0.87.0 to 0.90.0 in
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1517">docker/build-push-action#1517</a></li>
+  <li>Bump brace-expansion from 2.0.2 to 5.0.6 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1534">docker/build-push-action#1534</a></li>
+  <li>Bump fast-xml-builder from 1.1.4 to 1.2.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1529">docker/build-push-action#1529</a></li>
+  <li>Bump fast-xml-parser from 5.5.7 to 5.8.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1521">docker/build-push-action#1521</a></li>
+  <li>Bump postcss from 8.5.6 to 8.5.10 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1526">docker/build-push-action#1526</a></li>
+  <li>Bump tar from 6.2.1 to 7.5.15 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1533">docker/build-push-action#1533</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/docker/build-push-action/compare/v7.1.0...v7.2.0">https://github.com/docker/build-push-action/compare/v7.1.0...v7.2.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/f9f3042f7e2789586610d6e8b85c8f03e5195baf"><code>f9f3042</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1517">#1517</a>
+  from docker/dependabot/npm_and_yarn/docker/actions-t...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/812d5fd9212a4c5d419e5be02fd8e9bb435c5d76"><code>812d5fd</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/b6f66930769f2917a3275dc4d81f15583ac7e105"><code>b6f6693</code></a>
+  chore(deps): Bump <code>@​docker/actions-toolkit</code> from 0.87.0 to
+  0.90.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/c1c626eced73a500ec65c4256c620b3b9e8278c0"><code>c1c626e</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1525">#1525</a>
+  from docker/dependabot/npm_and_yarn/actions/core-3.0.1</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/51bb284cd4d05650aa6f5e4e22cb96d2cbfe62b7"><code>51bb284</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/5f7884def8f133e8ef40c53d003d1471c05621c6"><code>5f7884d</code></a>
+  chore(deps): Bump <code>@​actions/core</code> from 3.0.0 to 3.0.1</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/e01deff7d956c756a20f3e19ff7ddc0e4a50fc1d"><code>e01deff</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1521">#1521</a>
+  from docker/dependabot/npm_and_yarn/fast-xml-parser-...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/3804d497934b39bd591ee9d1c6c9e593b4488a67"><code>3804d49</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/71e8947aac5dad23ce83a43e9c98f750e02de2f3"><code>71e8947</code></a>
+  chore(deps): Bump fast-xml-parser from 5.5.7 to 5.8.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/4925ad24cdbc42ff492d76cf9fe7a30b79976b60"><code>4925ad2</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1526">#1526</a>
+  from docker/dependabot/npm_and_yarn/postcss-8.5.10</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/docker/build-push-action/compare/bcafcacb16a39f128d818304e6c9c0c18556b85f...f9f3042f7e2789586610d6e8b85c8f03e5195baf">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=docker/build-push-action&package-manager=github_actions&previous-version=7.1.0&new-version=7.2.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## May 20, 2026
 
