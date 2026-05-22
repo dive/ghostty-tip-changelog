@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 21, 2026 at 21:32 UTC.
+> Last updated: May 22, 2026 at 00:40 UTC.
 
 ## May 20, 2026
 
@@ -631,34 +631,5 @@ Summary: 3 runs • 6 commits • 3 authors
   from @bo2themax.
   
   Vouch: @backnotprop
-  ```
-
-## May 15, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25899767544), [2](https://github.com/ghostty-org/ghostty/actions/runs/25898620299)  
-Summary: 2 runs • 3 commits • 3 authors
-
-### Changes
-
-- [`e9213bb`](https://github.com/ghostty-org/ghostty/commit/e9213bb1e7d1eaf5bce486d6b03bc102d6dee507) Delete test_align ([@vancluever](https://github.com/vancluever))
-  ```text
-  Checked in to make sure that this wasn't added intentionally :slightly_smiling_face:
-  
-  Looks like it snuck in in #11868.
-  ```
-- [`0071971`](https://github.com/ghostty-org/ghostty/commit/0071971b577c6ef6396cfe99684b466757bf0ef9) Delete test_align ([#12688](https://github.com/ghostty-org/ghostty/issues/12688)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Checked in to make sure that this wasn't added intentionally
-  :slightly_smiling_face:
-  
-  Looks like it snuck in in #11868.
-  ```
-- [`84ad649`](https://github.com/ghostty-org/ghostty/commit/84ad649128be60fb7e449d03a8d1369fed51a84b) Update VOUCHED list ([#12689](https://github.com/ghostty-org/ghostty/issues/12689)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12688#issuecomment-4456633108)
-  from @rhodes-b.
-  
-  Vouch: @vancluever
   ```
 
