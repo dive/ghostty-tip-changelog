@@ -8,15 +8,313 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 22, 2026 at 15:53 UTC.
+> Last updated: May 22, 2026 at 18:37 UTC.
 
 ## May 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26262927116)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26299049671), [2](https://github.com/ghostty-org/ghostty/actions/runs/26262927116)  
+Summary: 2 runs • 33 commits • 9 authors
 
 ### Changes
 
+- [`3c2c596`](https://github.com/ghostty-org/ghostty/commit/3c2c596dc77679385e18039052e2b7556049e07f) fix global keybinds from not repsonding anymore ([@adrum](https://github.com/adrum))
+- [`3828660`](https://github.com/ghostty-org/ghostty/commit/3828660382483a9eae10c0a4e4c3d0ae826d3aed) Merge branch 'main' into fix/keybind ([@adrum](https://github.com/adrum))
+- [`484d6ec`](https://github.com/ghostty-org/ghostty/commit/484d6ec66b0c27808341c05eb71416a39517ad03) cli: add an ssh-wrapping +ssh action ([@jparise](https://github.com/jparise))
+  ```text
+  Add a drop-in `ssh` wrapper that sets up the remote environment for
+  Ghostty. Anything not consumed as one of our own flags is forwarded to
+  the real, wrapped `ssh` binary. It can be used directly (`ghostty +ssh
+  user@host`), aliased (`alias ssh='ghostty +ssh --'`), or invoked through
+  Ghostty's shell integration.
+  
+  Before exec'ing ssh, `+ssh`:
+  
+  - Forwards Ghostty environment to the remote (`--forward-env`): sets
+    TERM=xterm-256color and requests SendEnv forwarding of COLORTERM,
+    TERM_PROGRAM, and TERM_PROGRAM_VERSION.
+  - Installs Ghostty's terminfo on the remote (`--terminfo`), informed by
+    our existing `ssh-cache` system and using our internal xterm-ghostty
+    terminfo representation.
+  
+  A third flag, `--cache`, controls cache use; `--cache=false` bypasses
+  both read and write, which is useful for scripting and for debugging
+  install failures without polluting the cache.
+  
+  For shell integration, this replaces the per-shell logic (which made up
+  roughly a third of our shell integration scripts) with a simple wrapper
+  function that translates GHOSTTY_SHELL_FEATURES into a `ghostty +ssh`
+  command line. This commit only migrates the bash integration; the other
+  shells will follow separately.
+  ```
+- [`2d11205`](https://github.com/ghostty-org/ghostty/commit/2d112059a7e87104a483866ff472638e3ebd81b1) zsh: replace ssh wrapper with ghostty +ssh ([@jparise](https://github.com/jparise))
+  ```text
+  Replace the inline ssh integration with a thin wrapper that translates
+  GHOSTTY_SHELL_FEATURES into a `ghostty +ssh` command line. The shell
+  wrapper no longer carries terminfo install, ControlMaster wiring, or
+  cache bookkeeping; it just maps the feature flags to flags on `+ssh`
+  and forwards everything else.
+  ```
+- [`283dca1`](https://github.com/ghostty-org/ghostty/commit/283dca130e02945aed1d3f2eae43676d37782717) fish: replace ssh wrapper with ghostty +ssh ([@jparise](https://github.com/jparise))
+  ```text
+  Replace the inline ssh integration with a thin wrapper that translates
+  GHOSTTY_SHELL_FEATURES into a `ghostty +ssh` command line.
+  ```
+- [`e537810`](https://github.com/ghostty-org/ghostty/commit/e5378107eb8ffff72ba98eab45092b569f56bcf0) elvish: replace ssh wrapper with ghostty +ssh ([@jparise](https://github.com/jparise))
+  ```text
+  Replace the inline ssh integration with a thin wrapper that translates
+  GHOSTTY_SHELL_FEATURES into a `ghostty +ssh` command line.
+  ```
+- [`ac103b8`](https://github.com/ghostty-org/ghostty/commit/ac103b8f75f5206af3cc98deecc2b7d0f9705683) nushell: replace ssh wrapper with ghostty +ssh ([@jparise](https://github.com/jparise))
+  ```text
+  Replace the inline ssh integration with a thin wrapper that translates
+  GHOSTTY_SHELL_FEATURES into a `ghostty +ssh` command line. When no
+  ssh-* feature is enabled, the wrapper falls through to the real `ssh`
+  binary unchanged so nushell users without ssh integration get plain
+  ssh behavior.
+  ```
+- [`3f11e69`](https://github.com/ghostty-org/ghostty/commit/3f11e695d0fd8f3cabc2c46c7a091c0509884b41) fix: apply variation selectors to preceding codepoint ([@noib3](https://github.com/noib3))
+  ```text
+  This fixes a bug where the variation selectors (VS15 & VS16) were
+  checked against the first codepoint in a cell instead of the previous
+  codepoint in the cell's grapheme cluster, causing them to be dropped if
+  the first codepoint was not a valid base.
+  ```
+- [`c44afa6`](https://github.com/ghostty-org/ghostty/commit/c44afa62506dd94b9dcc680da412ddb650931b3b) fix: preserve active cursor position during reflow ([@noib3](https://github.com/noib3))
+  ```text
+  This PR fixes an issue where reflowing could leave the active cursor
+  attached to a clipped trailing blank cell instead of following the
+  current write position.
+  ```
+- [`366c348`](https://github.com/ghostty-org/ghostty/commit/366c34831a39651b196f216f1e9fd651568b60b8) macOS: fix first responder after dragging a non-focused surface ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This fixes a bug: after dragging a non-focused surface from window A to window B **quickly without making B the key window**, the focused surface in window A is not receiving `keyDown` events.
+  ```
+- [`2c6dd59`](https://github.com/ghostty-org/ghostty/commit/2c6dd5940688643604f82cd50fd426a463e78d56) macOS: fix render_thread "stuck" after dragging surface to another tab within the same window ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  The reason the thread is stuck is because the surface's occlusion state is set to invisible after target tab's activate while dragging, since the dragged surface is still in previous tree before dropping, and after dropping the occlusion state of this surface is not updated to visible, which causing the surface is accepting input but not rendering.
+  ```
+- [`0226bcf`](https://github.com/ghostty-org/ghostty/commit/0226bcf034a0ba040ae4178336144f9df80e4c6e) macOS: update window appearance for About and ConfigurationErrors ([@bo2themax](https://github.com/bo2themax))
+- [`59eece9`](https://github.com/ghostty-org/ghostty/commit/59eece9a8edebf29f59d7d1b627cbc97c1363924) feat: use find pasteboard to store search needle ([@nolinmcfarland](https://github.com/nolinmcfarland))
+- [`8fa42c6`](https://github.com/ghostty-org/ghostty/commit/8fa42c6ec0b2be97148ec7e90c00e3cc58d5c589) feat: add search state unit tests ([@nolinmcfarland](https://github.com/nolinmcfarland))
+- [`69cab3d`](https://github.com/ghostty-org/ghostty/commit/69cab3d8085d0731574f4498864ced901e55c8b0) feat: select needle when reading from pasteboard ([@nolinmcfarland](https://github.com/nolinmcfarland))
+- [`ed52160`](https://github.com/ghostty-org/ghostty/commit/ed521606122cde73f0072abc6a7caa5da7dc4829) feat: support BackportSelectionTextField on iOS 18 ([@nolinmcfarland](https://github.com/nolinmcfarland))
+- [`bf716a0`](https://github.com/ghostty-org/ghostty/commit/bf716a0c3940ef9a77a4a5d38581e83c0ad44411) feat: add extension to normalize OSPasteboard string interface ([@nolinmcfarland](https://github.com/nolinmcfarland))
+- [`7f5c233`](https://github.com/ghostty-org/ghostty/commit/7f5c233492c40e26d6e58e25b4ad07617e728ea4) macOS: add `windowCanBeClosedWithoutConfirmation` without any side effects ([@bo2themax](https://github.com/bo2themax))
+- [`8f9b86a`](https://github.com/ghostty-org/ghostty/commit/8f9b86afa8d48afe94e2b895c8442f670c4a0b9b) macOS: add confirmCloseAsync to return the actual response ([@bo2themax](https://github.com/bo2themax))
+- [`00a9897`](https://github.com/ghostty-org/ghostty/commit/00a989774e23d4c6035f5565a167be63e22c788d) macOS: add review windows when quitting ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Inspired by Terminal.app
+  ```
+- [`88d30bb`](https://github.com/ghostty-org/ghostty/commit/88d30bb30a02459a97e49fbb0817748422d6f65a) gtk: wire occlusionCallback to GLArea map/unmap ([@mjbommar](https://github.com/mjbommar))
+  ```text
+  Calls core_surface.occlusionCallback(visible) from the existing
+  glareaMap/glareaUnmap handlers (added in #12698) so the renderer
+  thread learns when a surface is off-screen.
+  ```
+- [`14d9e60`](https://github.com/ghostty-org/ghostty/commit/14d9e600acf274f9b04da0dd2695d092aa93c3b6) renderer: skip updateFrame when surface is not visible ([@mjbommar](https://github.com/mjbommar))
+  ```text
+  renderCallback early-returns while !flags.visible to avoid the
+  cell rebuild for hidden surfaces (tab switch, minimize, etc.).
+  The .visible → true mailbox handler now runs updateFrame before
+  drawFrame so the first frame after re-show isn't stale.
+  ```
+- [`ec15d0e`](https://github.com/ghostty-org/ghostty/commit/ec15d0e7db3d8079f0e109d0abc9323b750646ba) gtk: wire up occlusionCallback for non-focused tabs ([#12760](https://github.com/ghostty-org/ghostty/issues/12760)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  As discussed in #12745, there has been an outstanding plan to make
+  rendering behavior for non-focused surfaces consistent across platforms.
+  This PR does that for Linux/GTK using the same patterns as OSX.
+  
+  The change in `src/apprt/gtk/class/surface.zig` piggybacks on the
+  existing `glareaMap` / `glareaUnmap` callbacks (added by `e59e27f8b`) by
+  also calling a new `updateOcclusion(bool)` helper. If you don't like the
+  helper, or want the helper lifted up further and used on other paths,
+  let me know and I can revise.
+  
+  The changes in `src/renderer/Thread.zig` bail on `renderCallback` when
+  not visible and then block on `drainMailbox` to complete the "catch up"
+  before trying to draw again.
+  
+  I want to note that this is more granular than the original #1512, which
+  was just focused on the top level window state. I can look at that as
+  well if you want, but given the complexity around how
+  `XDG_TOPLEVEL_STATE_SUSPENDED` event is fired, I would want to make sure
+  we discussed things like transparency and single-instance properly first
+  (e.g., do we render when behind another transparent window).
+  
+  ## Testing
+  
+  Here's a summary of what I tested:
+  
+  Tested on Linux/GTK (Ubuntu 26.04, GTK 4.22.2, libadwaita 1.9.0,
+  Wayland), built `ReleaseFast`. The patched binary has been daily-driven
+  for ~24 hours as my primary terminal.
+  
+  | Test | Workload | Result |
+  |---|---|---|
+  | Daily drive | byobu × multiple SSH sessions, Claude Code and Codex
+  producing sustained streaming output, `top` / `btop` redrawing on 1 s
+  intervals, frequent tab switching | No observed issues over ~24 hours of
+  mixed use |
+  | Bell on hidden tab | `sleep 5 && printf '\a'` in background tab | Bell
+  + needs-attention indicator both fire; confirms IO-thread → GTK-signal
+  path is untouched |
+  | Search highlight survives hide/show | Open search w/ matches
+  highlighted in tab B → switch to tab A for ~10 s → switch back |
+  Highlights restored instantly with no stale state; confirms
+  deferred-replay path (`updateFrame` on `.visible → true`) works
+  correctly |
+  | Selection persistence | Select text in tab B → switch tabs → switch
+  back | Selection preserved exactly |
+  | Lifecycle (close-all) | Opened 8 surfaces, closed them one at a time,
+  then process exit + systemd restart | Zero `glib-CRITICAL`, zero `error
+  in occlusion callback ...` warnings, clean teardown per `journalctl
+  --user -u app-com.mitchellh.ghostty` |
+  | Per-thread CPU during workload | `pidstat -t -p <pid>` 30 s with 1
+  byobu surface focused, 1 background | Hidden surface's renderer thread
+  sits at 0.00 % every sample; focused surface's renderer shows ~1 % blips
+  on byobu status ticks |
+  
+  
+  
+  ## AI usage
+  
+  Claude Code (Opus 4.7) helped review my patch and monitor / summarize
+  the jorunald log and pidstat entries.
+  ```
+- [`52f23fb`](https://github.com/ghostty-org/ghostty/commit/52f23fb4190d7f1830635c4171e33f3f394d3919) macOS: review windows when quitting ([#12742](https://github.com/ghostty-org/ghostty/issues/12742)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Inspired by `Terminal.app` which I think is a nice feature.
+  
+  First two commits contains some changes in `BaseTerminalController` so
+  that I can use swift concurrency to review those windows in chain more
+  easily.
+  
+  
+  
+  https://github.com/user-attachments/assets/41d92432-4ae0-499e-961a-fc247602f3d7
+  
+  
+  Works with tabs as well, i forgot to record that.
+  ```
+- [`afe4819`](https://github.com/ghostty-org/ghostty/commit/afe4819920036d2d85edc75ccf757404f45632f0) macOS: Re-enable global keybinds after event tap disable events ([#12714](https://github.com/ghostty-org/ghostty/issues/12714)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  While testing https://github.com/ghostty-org/ghostty/pull/9857, I
+  encountered the behavior mentioned below. It's pretty frustrating to
+  encounter, so I've been actually compiling this fix into my test builds
+  for last month or so, and the issue has not come back. I exclusively use
+  the QuickTerminal, so my workflow depends on global keybinds working
+  reliably.
+  
+  Issue: https://github.com/ghostty-org/ghostty/issues/12294
+  
+  The solution includes listening to two events that are fired when a tap
+  is disabled:
+  - tapDisabledByTimeout
+  - tapDisabledByUserInput
+  
+  When these are fired, we re-enable the tap.
+  
+  Apple's Docs:
+  https://developer.apple.com/documentation/coregraphics/cgeventtype?language=swift
+  
+  Related Discussions:
+  - https://github.com/ghostty-org/ghostty/discussions/11819
+  - https://github.com/ghostty-org/ghostty/discussions/12091
+  ```
+- [`7e24f0e`](https://github.com/ghostty-org/ghostty/commit/7e24f0e0bc771d48c8a3db49bc18425318c0794e) macOS: use find pasteboard for search needle ([#12712](https://github.com/ghostty-org/ghostty/issues/12712)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes the issue described in #12516.
+  
+  ### What
+  - Inject an `OSPasteboard` into `SearchState`
+  - Add `OSPasteboard` extension to normalize working with strings between
+  UIPasteboard/NSPasteboard
+  - Add `BackportSelectionTextField` which supports text selection for
+  MacOS 15/iOS 18 and up.
+  - Read from the pasteboard when the overlay opens and when the app
+  becomes active
+  - Write to the pasteboard when the search needle changes
+  - Annotate `SearchState` as MainActor. `NSPasteboard` isn't thread safe,
+  and since `SearchState` is already accessed from the main thread,
+  MainActor enforces our writes be thread safe
+  - Add SearchState unit tests
+  
+  ### Why
+  Consistent with other macOS apps, the Find bar's search needle should
+  persist when re-opened and should sync to the Find bar in other apps.
+  For example, see Xcode, Notes, Terminal, and Safari.
+  
+  
+  https://github.com/user-attachments/assets/b6a55a4a-a52c-45bc-ac38-c9df452c11cb
+  ```
+- [`b78174a`](https://github.com/ghostty-org/ghostty/commit/b78174a68f6a97c487fe5ee4e0c155433f4a03d9) macOS: update window appearance for About and ConfigurationErrors ([#12601](https://github.com/ghostty-org/ghostty/issues/12601)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  <img width="1224" height="696" alt="Xnip2026-05-06_19-13-31"
+  src="https://github.com/user-attachments/assets/ab090dc0-7c06-4a01-8e7c-5d48ca6ccca3"
+  />
+  ```
+- [`24d664f`](https://github.com/ghostty-org/ghostty/commit/24d664f0ba1074c4c1047da7a239bd1cf6bdf7af) fix: apply variation selectors to preceding codepoint ([#12596](https://github.com/ghostty-org/ghostty/issues/12596)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes a bug where the variation selectors (VS15 & VS16) were
+  checked against the first codepoint in a cell instead of the previous
+  codepoint in the cell's grapheme cluster, causing them to be dropped if
+  that first codepoint was not a valid base.
+  ```
+- [`a03b52e`](https://github.com/ghostty-org/ghostty/commit/a03b52e18b26048dbd71c08764cb011044edfd3a) fix: preserve active cursor position during reflow ([#12598](https://github.com/ghostty-org/ghostty/issues/12598)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR fixes an issue where reflowing could leave the active cursor
+  attached to a clipped trailing blank cell instead of following the
+  current write position.
+  ```
+- [`f5aa271`](https://github.com/ghostty-org/ghostty/commit/f5aa271d07f97f68886153f2d741f50ec060ba9b) cli: add an ssh-wrapping +ssh action ([#12582](https://github.com/ghostty-org/ghostty/issues/12582)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a drop-in `ssh` wrapper that sets up the remote environment for
+  Ghostty. Anything not consumed as one of our own flags is forwarded to
+  the real, wrapped `ssh` binary. It can be used directly (`ghostty +ssh
+  user@host`), aliased (`alias ssh='ghostty +ssh --'`), or invoked through
+  Ghostty's shell integration.
+  
+  Before exec'ing ssh, `+ssh`:
+  
+  - Forwards Ghostty environment to the remote (`--forward-env`): sets
+  TERM=xterm-256color and requests SendEnv forwarding of COLORTERM,
+  TERM_PROGRAM, and TERM_PROGRAM_VERSION.
+  - Installs Ghostty's terminfo on the remote (`--terminfo`), informed by
+  our existing `ssh-cache` system and using our internal xterm-ghostty
+  terminfo representation.
+  
+  A third flag, `--cache`, controls cache use; `--cache=false` bypasses
+  both read and write, which is useful for scripting and for debugging
+  install failures without polluting the cache.
+  
+  For shell integration, this replaces the per-shell logic (which made up
+  roughly a third of our shell integration scripts) with a simple wrapper
+  function that translates GHOSTTY_SHELL_FEATURES into a `ghostty +ssh`
+  command line.
+  ```
+- [`3e3705b`](https://github.com/ghostty-org/ghostty/commit/3e3705b93233480f18274620f5e57c1c7021bf85) macOS: fix surface focus/render state after dragging in to to another window/tab ([#12338](https://github.com/ghostty-org/ghostty/issues/12338)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes 2 bugs
+  
+  1. After dragging a non-focused surface from window A to window B
+  **quickly without making B the key window**, the focused surface in
+  window A is not receiving `keyDown` events.
+  
+  
+  https://github.com/user-attachments/assets/a8861c0a-9300-470d-bf7e-0f32a9ab2cd1
+  
+  2. #12343 After dragging a surface from tab A to tab B within the same
+  window, the dragged surface is not rendering input correctly.
+  > The reason the thread is stuck is because the surface's occlusion
+  state is set to invisible after target tab's activate while dragging,
+  since the dragged surface is still in previous tree before dropping, and
+  after dropping the occlusion state of this surface is not updated to
+  visible, which causing the surface is accepting input but not rendering.
+  
+  
+  
+  https://github.com/user-attachments/assets/d67f5dba-8609-4f67-a956-921982faf796
+  ```
 - [`cb79efa`](https://github.com/ghostty-org/ghostty/commit/cb79efa779ce05535797ff191bd0b7ce06b2ea77) build(deps): bump docker/build-push-action from 7.1.0 to 7.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 7.1.0 to 7.2.0.
