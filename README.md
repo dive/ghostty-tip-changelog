@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 22, 2026 at 21:26 UTC.
+> Last updated: May 23, 2026 at 00:39 UTC.
 
 ## May 22, 2026
 
@@ -1034,40 +1034,5 @@ Summary: 1 runs • 2 commits • 2 authors
   
   
   </details>
-  ```
-
-## May 16, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25975314998), [2](https://github.com/ghostty-org/ghostty/actions/runs/25962520206), [3](https://github.com/ghostty-org/ghostty/actions/runs/25962442981)  
-Summary: 3 runs • 6 commits • 3 authors
-
-### Changes
-
-- [`e5c31e8`](https://github.com/ghostty-org/ghostty/commit/e5c31e8b379f6f850caadc2f11c74ea9e6644f34) macos: opacity-toggle setting persists between tabs in a window and to a newly created window ([@davidsanchez222](https://github.com/davidsanchez222))
-- [`0e49204`](https://github.com/ghostty-org/ghostty/commit/0e49204b95fca41b1342ad56c9a0092f0872d737) refactor(macos): centralize background opacity toggling across controllers ([@davidsanchez222](https://github.com/davidsanchez222))
-- [`b6c6f76`](https://github.com/ghostty-org/ghostty/commit/b6c6f7630abf6aff8ac98a16b378b0f0e6931142) macos: opacity-toggle setting persists between tabs in a window and to a newly created window ([#11583](https://github.com/ghostty-org/ghostty/issues/11583)) ([@bo2themax](https://github.com/bo2themax))
-- [`42ed74b`](https://github.com/ghostty-org/ghostty/commit/42ed74bf8cda529553a655439788e6c36d2a8549) Update VOUCHED list ([#12706](https://github.com/ghostty-org/ghostty/issues/12706)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12686#discussioncomment-16940039)
-  from @bo2themax.
-  
-  Vouch: @nolinmcfarland
-  ```
-- [`cf24a48`](https://github.com/ghostty-org/ghostty/commit/cf24a4856b24f7b381c13f1491421e84b3bf802a) Update VOUCHED list ([#12707](https://github.com/ghostty-org/ghostty/issues/12707)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12625#discussioncomment-16940042)
-  from @bo2themax.
-  
-  Unvouch: @backnotprop
-  ```
-- [`0a3598d`](https://github.com/ghostty-org/ghostty/commit/0a3598d7a1e794214b2887f3f2acf79f67222fac) Update VOUCHED list ([#12705](https://github.com/ghostty-org/ghostty/issues/12705)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12625#discussioncomment-16940011)
-  from @bo2themax.
-  
-  Vouch: @backnotprop
   ```
 
