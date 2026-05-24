@@ -8,15 +8,81 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 23, 2026 at 21:18 UTC.
+> Last updated: May 24, 2026 at 00:39 UTC.
 
 ## May 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26327527612)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26344833525), [2](https://github.com/ghostty-org/ghostty/actions/runs/26344470484), [3](https://github.com/ghostty-org/ghostty/actions/runs/26327527612)  
+Summary: 3 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`7a346dd`](https://github.com/ghostty-org/ghostty/commit/7a346dd8d40e21b14c96114c45f75eb0d347c236) macOS: fix search bar Enter key blocking IME composition ([@minorcell](https://github.com/minorcell))
+  ```text
+  Use onSubmit for the plain Enter → next-match behavior, which respects
+  IME composition state. Keep onKeyPress only for Shift+Enter (previous
+  match), returning .ignored for plain Enter so the IME can process it.
+  ```
+- [`da541be`](https://github.com/ghostty-org/ghostty/commit/da541bea6333458c5f4a987e734269e019a2103d) fix stray brace from conflict resolution ([@minorcell](https://github.com/minorcell))
+- [`d5d8cef`](https://github.com/ghostty-org/ghostty/commit/d5d8cef4d3834cc8999eb9344066b0960b033f2d) macOS: fix search bar Enter key blocking IME composition ([#12781](https://github.com/ghostty-org/ghostty/issues/12781)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes https://github.com/ghostty-org/ghostty/discussions/12774
+  
+  `.onKeyPress(.return)` unconditionally returns `.handled`, so when IME
+  is composing the return key never reaches the IME to confirm the
+  candidate. The search bar gets stuck.
+  
+  The fix: use `.onSubmit` for the next-match navigation — it only fires
+  when there is no composing text. In `.onKeyPress` only intercept
+  shift+return (previous match), return `.ignored` otherwise.
+  
+  Tested on macOS 26.5, Ghostty 1.3.1, built from source. Chinese Pinyin
+  input in the search bar works correctly after the fix.
+  ```
+- [`1b3c5b5`](https://github.com/ghostty-org/ghostty/commit/1b3c5b57ff50c4241c612337bc202c12823cc5d8) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
+  ```text
+  https://github.com/ghostty-org/ghostty/discussions/12775#discussioncomment-DC_kwDOHFhdAs4BA9x5
+  ```
+- [`2355550`](https://github.com/ghostty-org/ghostty/commit/2355550a9410f0f10bc1e88e677a9f9ed091bb71) libghostty: add tracked grid ref API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a C API for tracked pins, known as a tracked grid ref in C.
+  
+  The new API can create tracked refs from terminal points, snapshot them
+  back to regular grid refs for cell access, convert them to coordinates,
+  move them to a new point, report when their semantic location was lost,
+  and free the tracked pin bookkeeping. This is backed by PageList tracked
+  pins and exposed through the libghostty-vt export layer and headers.
+  ```
+- [`60f767d`](https://github.com/ghostty-org/ghostty/commit/60f767dd84cac94d5a6f4e827847361c42d1c078) core: guard surface left-click pins with screen generations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Left-click mouse state stored a tracked pin with only the screen key that
+  owned it. If the alternate screen was removed and later recreated, the key
+  could match again even though the stored pin belonged to destroyed PageList
+  storage.
+  
+  Store the screen generation alongside the left-click pin and resolve the
+  pin through helpers that require both the key and generation to match. This
+  keeps selection scrolling, link hover checks, pressure selection, and drag
+  selection from dereferencing stale tracked pins after screen teardown.
+  ```
+- [`af94eac`](https://github.com/ghostty-org/ghostty/commit/af94eac1e1f26bee94b84f7d0076776dd3514d05) libghostty: add tracked grid ref API ([#12785](https://github.com/ghostty-org/ghostty/issues/12785)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a C API for tracked pins, known as a tracked grid ref in C.
+  
+  The new API can create tracked refs from terminal points, snapshot them
+  back to regular grid refs for cell access, convert them to coordinates,
+  move them to a new point, report when their semantic location was lost,
+  and free the tracked pin bookkeeping. This is backed by PageList tracked
+  pins and exposed through the libghostty-vt export layer and headers.
+  ```
+- [`7c3d950`](https://github.com/ghostty-org/ghostty/commit/7c3d9502dc6374d2563c30629f354fcd5251f141) Update VOUCHED list ([#12779](https://github.com/ghostty-org/ghostty/issues/12779)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12775#discussioncomment-17030265)
+  from @bo2themax.
+  
+  Vouch: @minorcell
+  ```
 - [`a968e12`](https://github.com/ghostty-org/ghostty/commit/a968e120dd084bd886239d1cac938f0177f019d9) Update VOUCHED list ([#12780](https://github.com/ghostty-org/ghostty/issues/12780)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -865,190 +931,5 @@ Summary: 3 runs • 11 commits • 4 authors
   
   AI Disclosure
   No AI was used, the bug was discovered and all code written by myself.
-  ```
-
-## May 17, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/25977502466)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`ee316e4`](https://github.com/ghostty-org/ghostty/commit/ee316e43c140568729487a95fc7dfd7ee87a4176) build(deps): bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 3.1.1 to 3.2.0.
-  - [Release notes](https://github.com/actions/create-github-app-token/releases)
-  - [Changelog](https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md)
-  - [Commits](https://github.com/actions/create-github-app-token/compare/1b10c78c7865c340bc4f6099eb2f838309f1e8c3...bcd2ba49218906704ab6c1aa796996da409d3eb1)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: actions/create-github-app-token
-    dependency-version: 3.2.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`e90b7c9`](https://github.com/ghostty-org/ghostty/commit/e90b7c9fadadb5b7f936506dfd4f995729093108) build(deps): bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([#12670](https://github.com/ghostty-org/ghostty/issues/12670)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
-  from 3.1.1 to 3.2.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v3.2.0</h2>
-  <h2><a
-  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
-  (2026-05-12)</h2>
-  <h3>Features</h3>
-  <ul>
-  <li>add support for enterprise-level GitHub Apps (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
-  <li>support full repository names in <code>repositories</code> input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
-  </ul>
-  <h3>Bug Fixes</h3>
-  <ul>
-  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
-  to 3.0.1 in the production-dependencies group (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
-  <li>validate private-key input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
-  </ul>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Changelog</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md">actions/create-github-app-token's
-  changelog</a>.</em></p>
-  <blockquote>
-  <h1>Changelog</h1>
-  <h2><a
-  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
-  (2026-05-12)</h2>
-  <h3>Features</h3>
-  <ul>
-  <li>add support for enterprise-level GitHub Apps (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
-  <li>support full repository names in <code>repositories</code> input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
-  </ul>
-  <h3>Bug Fixes</h3>
-  <ul>
-  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
-  to 3.0.1 in the production-dependencies group (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
-  <li>validate private-key input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
-  </ul>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/bcd2ba49218906704ab6c1aa796996da409d3eb1"><code>bcd2ba4</code></a>
-  chore(main): release 3.2.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/370">#370</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd"><code>f24bbd8</code></a>
-  fix: validate private-key input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/363531b6d972a60a00b3f1e6bb139e5e6c764cd9"><code>363531b</code></a>
-  docs: capitalize Git as a proper noun in README (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/374">#374</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/fd2801133e469d2950f2c5af5e591d6b2ad833c8"><code>fd28011</code></a>
-  docs: update procedure to configure Git (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/287">#287</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6"><code>85eb8dd</code></a>
-  feat: support full repository names in <code>repositories</code> input
-  (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/c9aabb83728c3bd519212fa657ebc07e1f2a5dec"><code>c9aabb8</code></a>
-  build(deps-dev): bump yaml from 2.8.3 to 2.8.4 in the
-  development-dependencie...</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/e02e816e5591415258a53bf735aff57977dcd5e2"><code>e02e816</code></a>
-  build(deps-dev): bump undici from 7.24.6 to 8.2.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/366">#366</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/8d835bfd37aa48fcb8e709925115857568d98bc4"><code>8d835bf</code></a>
-  build(deps-dev): bump esbuild from 0.27.4 to 0.28.0 in the
-  development-depend...</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4"><code>952a2a7</code></a>
-  feat: add support for enterprise-level GitHub Apps (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857"><code>43e5c34</code></a>
-  fix(deps): bump <code>@​actions/core</code> from 3.0.0 to 3.0.1 in the
-  production-dependenc...</li>
-  <li>Additional commits viewable in <a
-  href="https://github.com/actions/create-github-app-token/compare/1b10c78c7865c340bc4f6099eb2f838309f1e8c3...bcd2ba49218906704ab6c1aa796996da409d3eb1">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=3.1.1&new-version=3.2.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
   ```
 
