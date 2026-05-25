@@ -8,7 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 25, 2026 at 00:41 UTC.
+> Last updated: May 25, 2026 at 04:31 UTC.
+
+## May 25, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [2](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
+Summary: 2 runs • 4 commits • 2 authors
+
+### Changes
+
+- [`edf2da0`](https://github.com/ghostty-org/ghostty/commit/edf2da015705db22fffdcab62a0871c898fa064b) libghostty: expose per-cell selection state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Render-state rows already expose their selected range, but
+  cell-oriented C API consumers had to fetch that row range separately
+  and duplicate the containment check while rendering.
+  
+  Add a SELECTED row-cells data kind that carries the row selection into
+  the row-cells wrapper and returns whether the current cell column is in
+  that inclusive range. The field remains separate from cell colors and
+  style so selection stays an explicit render overlay policy.
+  
+  For performance reasons, the span-based row getter is recommended still
+  but this is a convenient thing to do for cell-oriented folks.
+  ```
+- [`b869a6e`](https://github.com/ghostty-org/ghostty/commit/b869a6e5ab0a50ce01e8eb5aa408a02b3cbe4f3a) libghostty: expose per-cell selection state ([#12798](https://github.com/ghostty-org/ghostty/issues/12798)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Render-state rows already expose their selected range, but cell-oriented
+  C API consumers had to fetch that row range separately and duplicate the
+  containment check while rendering.
+  
+  Add a SELECTED row-cells data kind that carries the row selection into
+  the row-cells wrapper and returns whether the current cell column is in
+  that inclusive range. The field remains separate from cell colors and
+  style so selection stays an explicit render overlay policy.
+  
+  For performance reasons, the span-based row getter is recommended still
+  but this is a convenient thing to do for cell-oriented folks.
+  ```
+- [`bb375a2`](https://github.com/ghostty-org/ghostty/commit/bb375a2f7565b9d8c8b60c6cbc0bd4e6c4532023) deal with large outputs from xdg-open/rundll32/open ([@jcollie](https://github.com/jcollie))
+  ```text
+  Depending on your system config, `xdg-open` may stay open for extended
+  periods, and potentially log more than the 50kb of output that we were
+  previously able to deal with. This changes `open()` so that output on
+  `stdout` is just directly ignored. Any output from `stderr` is immedialy
+  logged rather than collected for later logging.
+  
+  Note that this will generally occur if your system is not configured
+  with the DBus portals that `xdg-open` uses to open URLs rather than
+  launching programs like your web browser directly. This could be seen as
+  user misconfiguration but we should deal with it robustly anyway.
+  ```
+- [`cf9e85e`](https://github.com/ghostty-org/ghostty/commit/cf9e85ecd73cc3f044cab228a75145f63e88ca1d) deal with large outputs from xdg-open/rundll32/open ([#12797](https://github.com/ghostty-org/ghostty/issues/12797)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Depending on your system config, `xdg-open` may stay open for extended
+  periods, and potentially log more than the 50kb of output that we were
+  previously able to deal with. This changes `open()` so that output on
+  `stdout` is just directly ignored. Any output from `stderr` is immedialy
+  logged rather than collected for later logging.
+  
+  Note that this will generally occur if your system is not configured
+  with the DBus portals that `xdg-open` uses to open URLs rather than
+  launching programs like your web browser directly. This could be seen as
+  user misconfiguration but we should deal with it robustly anyway.
+  ```
 
 ## May 24, 2026
 
