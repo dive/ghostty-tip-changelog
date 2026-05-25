@@ -8,7 +8,156 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 24, 2026 at 21:19 UTC.
+> Last updated: May 25, 2026 at 00:41 UTC.
+
+## May 24, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26373400178)  
+Summary: 1 runs • 17 commits • 1 authors
+
+### Changes
+
+- [`ae03d3c`](https://github.com/ghostty-org/ghostty/commit/ae03d3cae4d4af244a43d91a0d8040739899e4a3) libghostty: expose get/set active selection state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add terminal set/get support for the active screen selection through the
+  existing option and data APIs. Setting a selection copies the C snapshot
+  into terminal-owned tracked state, while passing NULL clears the current
+  selection.
+  
+  Getting the selection now returns an untracked GhosttySelection snapshot
+  or GHOSTTY_NO_VALUE when there is no selection. The C header documents
+  the different lifetimes for set and get so embedders know when input and
+  returned grid references remain valid.
+  ```
+- [`24048ff`](https://github.com/ghostty-org/ghostty/commit/24048ffd471c5e88006bafc6ab3e5eb3c710a15d) libghostty: expose row-local render selections ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Render state already tracks the selected cell range for each viewport row,
+  but C renderers could only get the full terminal selection. That required
+  consumers to map global selection pins back into row-local spans themselves.
+  
+  Add row selection data to the render-state row API. Querying the new row
+  data returns GHOSTTY_NO_VALUE for unselected rows and writes the inclusive
+  start and end columns for selected rows. The render example now demonstrates
+  setting a selection and reading the row-local range while iterating rows.
+  ```
+- [`545a5ae`](https://github.com/ghostty-org/ghostty/commit/545a5aef663ef551bd8b2b2b794f47d9a74d7586) libghostty: document selection snapshot lifetime ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clarify that GhosttySelection is a snapshot type whose endpoints are
+  untracked GhosttyGridRef values. The previous documentation described the
+  range shape but did not repeat the grid reference lifetime caveat, which
+  made it easy to keep selections across terminal mutations incorrectly.
+  ```
+- [`15d8963`](https://github.com/ghostty-org/ghostty/commit/15d89636814ac0d8d0beb783da0dee6ba63f8f7c) libghostty: add selection adjustment api ([@mitchellh](https://github.com/mitchellh))
+- [`4a77e81`](https://github.com/ghostty-org/ghostty/commit/4a77e8196720088cbdce701c88412d3ba16089b5) libghostty: add selection ordering APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose selection endpoint ordering through the libghostty-vt C API so
+  embedders can safely normalize selections whose start and end refs may be
+  reversed. The new APIs report the current order and return a fresh
+  untracked selection with forward or reverse bounds.
+  
+  Selection.Order now uses lib.Enum, matching the existing adjustment enum
+  pattern and keeping the C ABI enum generated from the same Zig source of
+  truth. The new functions are wired through the C API re-export and lib-vt
+  export paths, with coverage for mirrored rectangular selection ordering.
+  ```
+- [`671c12f`](https://github.com/ghostty-org/ghostty/commit/671c12fad9f85c8b384773c3ba936b07b4af45bf) libghostty: add selection contains API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose a C API for checking whether a GhosttyPoint is inside a
+  GhosttySelection. The new terminal helper validates the selection snapshot
+  against the active screen, resolves the point to a grid pin, and delegates
+  to the internal Selection.contains implementation so C consumers get the
+  same linear and rectangular selection semantics as Ghostty.
+  
+  Wire the symbol through the C API exports and public headers, and add a
+  focused test covering linear containment and rectangular selection behavior.
+  ```
+- [`2512fad`](https://github.com/ghostty-org/ghostty/commit/2512fad9408bf0fee76dda2eae7a401e28d6b18f) libghostty: move selection functions to selection doxygen group ([@mitchellh](https://github.com/mitchellh))
+- [`ae83939`](https://github.com/ghostty-org/ghostty/commit/ae839393d9b0a6d6776e816e8a9193c3d6875850) libghostty: add Selection equal and validate ([@mitchellh](https://github.com/mitchellh))
+- [`7b49d1f`](https://github.com/ghostty-org/ghostty/commit/7b49d1f12928908de022c00ef5dbc099a66517fb) terminal: PageList.reset needs to reset page serial mins ([@mitchellh](https://github.com/mitchellh))
+- [`847b8af`](https://github.com/ghostty-org/ghostty/commit/847b8afc872110f6cfd0c0f4690133904a06da16) libghostty: remove selection validation, way too expensive ([@mitchellh](https://github.com/mitchellh))
+- [`cc48312`](https://github.com/ghostty-org/ghostty/commit/cc48312c08a0f0e08f77a8df74c15e9e367ce70e) libghostty: selection word/line/output/all helpers ([@mitchellh](https://github.com/mitchellh))
+- [`e8f5353`](https://github.com/ghostty-org/ghostty/commit/e8f53539120e73e06c5bd82ab39dbf1499bf9311) example/c-vt-selection ([@mitchellh](https://github.com/mitchellh))
+- [`eb777b8`](https://github.com/ghostty-org/ghostty/commit/eb777b8036d8c457ee181eab136858d1ca86aa88) libghostty: selectWordBetween in C ([@mitchellh](https://github.com/mitchellh))
+- [`2ce5db2`](https://github.com/ghostty-org/ghostty/commit/2ce5db29ca162033e3cc570533184e13f3c01b53) libghostty: selection formatting ([@mitchellh](https://github.com/mitchellh))
+- [`03df613`](https://github.com/ghostty-org/ghostty/commit/03df613e392b764d828941cb4f5864c5a75edb83) libghostty: detach tracked grid refs on free ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Tracked grid references previously held a raw terminal wrapper pointer and
+  were required to be freed before the terminal. If callers kept one past
+  terminal destruction, later tracked-ref calls could dereference freed
+  terminal or page-list memory before detecting that the reference was no
+  longer meaningful.
+  
+  Track live C tracked-grid-ref handles from the terminal wrapper and detach
+  them before tearing down terminal storage. Detached refs now report no
+  value through the tracked-ref APIs and can still be freed by the caller.
+  Update the C API docs to describe this lifetime behavior and add a
+  regression test for using a tracked ref after terminal free.
+  
+  This introduces some overhead but tracked pins shouldn't be numerous
+  and this dramatically improves safety.
+  ```
+- [`5f08694`](https://github.com/ghostty-org/ghostty/commit/5f086947597dba0b5136d52c0b47db1d64fa5dfb) libghostty: selection APIs for C ([#12794](https://github.com/ghostty-org/ghostty/issues/12794)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds libghostty-vt selection APIs read/write, formatting, inspecting,
+  and rendering selection state from C.
+  
+  | Introduced type/function | Purpose |
+  | --- | --- |
+  | `GhosttyRenderStateRowSelection` | Row-local inclusive selection range
+  returned by render row queries. |
+  | `GhosttyTerminalSelectWordOptions` | Options for deriving a word
+  selection from a grid ref. |
+  | `GhosttyTerminalSelectWordBetweenOptions` | Options for finding the
+  nearest selectable word between two refs. |
+  | `GhosttyTerminalSelectLineOptions` | Options for deriving line
+  selections, including semantic prompt boundaries. |
+  | `GhosttyTerminalSelectionFormatOptions` | Options for formatting the
+  active or caller-provided selection. |
+  | `GhosttySelectionOrder` | Describes endpoint ordering, including
+  rectangular mirrored orders. |
+  | `GhosttySelectionAdjust` | Operations for moving a selection endpoint.
+  |
+  | `ghostty_terminal_select_word` | Derive a word selection snapshot. |
+  | `ghostty_terminal_select_word_between` | Derive the nearest word
+  selection between two refs. |
+  | `ghostty_terminal_select_line` | Derive a line selection snapshot. |
+  | `ghostty_terminal_select_all` | Derive a selection covering all
+  selectable content. |
+  | `ghostty_terminal_select_output` | Derive a semantic command-output
+  selection. |
+  | `ghostty_terminal_selection_format_buf` | Format a selection into a
+  caller-provided buffer. |
+  | `ghostty_terminal_selection_format_alloc` | Format a selection into an
+  allocated buffer. |
+  | `ghostty_terminal_selection_adjust` | Mutate a selection snapshot
+  endpoint. |
+  | `ghostty_terminal_selection_order` | Query selection endpoint order. |
+  | `ghostty_terminal_selection_ordered` | Return a selection with
+  normalized endpoint order. |
+  | `ghostty_terminal_selection_contains` | Test whether a point is inside
+  a selection. |
+  | `ghostty_terminal_selection_equal` | Compare two selection snapshots
+  using terminal semantics. |
+  ```
+- [`c5946f4`](https://github.com/ghostty-org/ghostty/commit/c5946f4fefd9382ba00d21c1bed0b6ff33a1b687) libghostty: detach tracked grid refs on free ([#12795](https://github.com/ghostty-org/ghostty/issues/12795)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Tracked grid references previously held a raw terminal wrapper pointer
+  and were required to be freed before the terminal. If callers kept one
+  past terminal destruction, later tracked-ref calls could dereference
+  freed terminal or page-list memory before detecting that the reference
+  was no longer meaningful.
+  
+  Track live C tracked-grid-ref handles from the terminal wrapper and
+  detach them before tearing down terminal storage. Detached refs now
+  report no value through the tracked-ref APIs and can still be freed by
+  the caller. Update the C API docs to describe this lifetime behavior and
+  add a regression test for using a tracked ref after terminal free.
+  
+  This introduces some overhead but tracked pins shouldn't be numerous and
+  this dramatically improves safety.
+  
+  No API changes due to this (just more safety).
+  ```
 
 ## May 23, 2026
 
@@ -664,272 +813,5 @@ Summary: 2 runs • 6 commits • 3 authors
   ```text
   Upstream release:
   https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260511-160054-2671288
-  ```
-
-## May 18, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26055045190), [2](https://github.com/ghostty-org/ghostty/actions/runs/26010120405), [3](https://github.com/ghostty-org/ghostty/actions/runs/26009059850)  
-Summary: 3 runs • 11 commits • 4 authors
-
-### Changes
-
-- [`3706aba`](https://github.com/ghostty-org/ghostty/commit/3706abab0c962d9c93c4c4af853149f9d55f4deb) Update VOUCHED list ([#12733](https://github.com/ghostty-org/ghostty/issues/12733)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12732#discussioncomment-16966426)
-  from @jcollie.
-  
-  Vouch: @rewdy
-  ```
-- [`81af657`](https://github.com/ghostty-org/ghostty/commit/81af65766f319a954a26196b4812d159496d4f00) feat: add +toggle-quick-terminal IPC command ([@huajiang-tubi](https://github.com/huajiang-tubi))
-  ```text
-  Expose toggle-quick-terminal as a proper IPC action so it can be
-  triggered via 'ghostty +toggle-quick-terminal' from the command line,
-  instead of calling the raw D-Bus org.gtk.Actions.Activate interface.
-  
-  This follows the same pattern as the existing +new-window IPC command:
-  
-    - Add toggle_quick_terminal to apprt.ipc.Action enum (Zig + C ABI)
-    - Create apprt/gtk/ipc/toggle_quick_terminal.zig (GTK D-Bus handler)
-    - Route .toggle_quick_terminal in apprt/gtk/App.zig performIpc
-    - Register toggle-quick-terminal GAction in application.zig
-    - Add +toggle-quick-terminal CLI handler in cli/
-    - Register in cli/ghostty.zig Action enum, runMain, and options
-    - Add stub in apprt/embedded.zig
-    - Update include/ghostty.h C header enum
-  
-  Usage:
-    ghostty +toggle-quick-terminal
-  
-  Closes: #12618
-  ```
-- [`22b9df2`](https://github.com/ghostty-org/ghostty/commit/22b9df25e65a37292e2cf91750947d73fc669b64) Fix "Available since" ([@jcollie](https://github.com/jcollie))
-- [`4b7bf0b`](https://github.com/ghostty-org/ghostty/commit/4b7bf0b20e3baf9c1ba10c63f2ad1fd853faea8f) IPC: add +toggle-quick-terminal command ([#12661](https://github.com/ghostty-org/ghostty/issues/12661)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Add `+toggle-quick-terminal` as a first-class IPC action, following the
-  same pattern as `+new-window`. This provides a proper CLI command
-  (`ghostty +toggle-quick-terminal`) to toggle the quick terminal on a
-  running Ghostty instance.
-  
-  Closes discussion #12618
-  ```
-- [`57a9adc`](https://github.com/ghostty-org/ghostty/commit/57a9adce7164b7491bf333be2ee7b336c2b8f045) fix datastruct/SplitTree not calculating the correct new split ratio when resizing a split ([@dkinzler](https://github.com/dkinzler))
-- [`e59e27f`](https://github.com/ghostty-org/ghostty/commit/e59e27f8bd7610f82ca66c3f0971e6e88713e06c) Fix nested splits disappearing and focus being lost. ([@dkinzler](https://github.com/dkinzler))
-  ```text
-  The cause of these bugs is that GTK can initially allocate
-  a split/surface a width/height of 0 which causes it to
-  get unmapped and lose focus. Additionally the split ratio is
-  only set once but not accurately for tiny splits, which can keep
-  a surface invisible even when the split gets resized later.
-  
-  To fix these problems the split ratio is always checked and
-  possibly corrected when a split gets resized. Changes in a split
-  ratio caused by the user dragging the divider are detected
-  separately using an event controller. If a surface loses focus
-  we restore it once the surface becomes mapped again.
-  ```
-- [`54a38e8`](https://github.com/ghostty-org/ghostty/commit/54a38e8134b8418d1d8d5293c2881b48a7274689) Distinguish resize and manual update using a combination of ([@dkinzler](https://github.com/dkinzler))
-  ```text
-  max-position and position properties. Listening to drag events directly
-  did not work that well.
-  ```
-- [`93d1142`](https://github.com/ghostty-org/ghostty/commit/93d1142ada9336c3e33e23bd6343aa1366265bbd) small formatting changes ([@dkinzler](https://github.com/dkinzler))
-- [`9f72eb9`](https://github.com/ghostty-org/ghostty/commit/9f72eb9d7ca05fb1e7dfd1f9eb0395ed77205d13) added back accidentally deleted empty line ([@dkinzler](https://github.com/dkinzler))
-- [`4814aee`](https://github.com/ghostty-org/ghostty/commit/4814aee44e40ab6e1cb0a06c4cd5f650b6fac209) gtk: fix invisible splits and focus being lost ([#12698](https://github.com/ghostty-org/ghostty/issues/12698)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #11193 where terminal surfaces might not appear and focus might be
-  lost when creating multiple nested splits.
-  
-  These bugs are caused by GTK initially allocating a tiny width/height to
-  deeply nested splits. For a split with a tiny size, the split ratio will
-  be set inaccurately e.g. to 1 which means that the right/bottom child of
-  the split is invisible. If that child is the terminal surface that
-  should have the focus, it will lose it. In the current implementation
-  the split ratio can be set at most once, which means the inaccurate
-  ratio never gets corrected and a surface (or an entire sub-tree of the
-  layout) will stay invisible.
-  
-  The following explains the current implementation and bug in more
-  detail, it is a bit long, but I hope it will make it easier to review
-  this PR.
-  
-  ### Current Implementation
-  
-  A split layout is a tree, in code represented by `datastruct/SplitTree`,
-  where inner nodes are splits and leafs are terminal surface. A split can
-  be either horizontal or vertical, and has a ratio that defines how its
-  space should be divided among the 2 children.
-  The counterpart in the GTK UI is the `apprt/gtk/class/SplitTree` widget
-  whose `onRebuild/buildTree` functions build a widget tree that has the
-  same structure as the `datastruct/SplitTree`. The widget tree consists
-  of a `SplitTreeSplit` widget for every split and a `Surface` widget for
-  every terminal surface.
-  
-  A `SplitTreeSplit` widget wraps a `gtk.Paned` widget, which displays its
-  two children with a divider in between, either horizontally or
-  vertically. How much space each child gets is determined by 3
-  properties. `min_position` is always 0 in our case, `max_position`
-  corresponds to the width/height (for horizontal/vertical splits) of the
-  widget and `position` is where the divider should be. So `position` is
-  equivalent to the width/height of the left/top child and thereby also
-  determines the width/height of the right/bottom child. `SplitTreeSplit`
-  listens for changes in the 3 properties. If there is one, the
-  `propPosition`, `propMinPosition` or `propMaxPosition` function gets
-  triggered and an idle callback for the `onIdle` function is added.
-  
-  We need to make sure that the widget tree and the `datastruct/SplitTree`
-  stay in sync.
-  
-  If we e.g. create a new split or close a surface, the structure of the
-  split tree changes. In that case `gtk/class/SplitTree.onRebuild` will
-  completely rebuild the widget tree (the `Surface` widgets are actually
-  reused) to match the new tree structure. If we resize a split (i.e.
-  change the split ratio) via action/keybind, we also completely rebuild
-  the widget tree.
-  
-  Additionally we need to make sure that for every
-  `SplitTreeSplit/gtk.Paned` the `position` divided by `max_position`
-  matches the ratio of the corresponding split node in our
-  `datastruct/SplitTree`. There are two ways the current implementation
-  keeps these ratios in sync, both are handled by the
-  `SplitTreeSplit.onIdle` function.
-  1. Initially when the widget tree is built, GTK allocates each widget a
-  size. Specifically it also sets the `position` and `max_position`
-  properties of each `gtk.Paned` widget, which will trigger the
-  `SplitTreeSplit.onIdle` function to run. GTK will not necessarily set
-  position correctly, it is the task of `onIdle` to make sure that the UI
-  matches the layout defined by the `datastruct/SplitTree`. `onIdle`
-  checks if `position/max_position` matches the ratio that the split
-  should have and if not calls `gtk.Paned.setPosition` to update it. This
-  can only happen once for each split since `onIdle` checks if the
-  position was set previously. The idea is that we should only ever need
-  to set the position once, because `gtk.Paned` will automatically keep
-  its current ratio whenever its size/`max-position` changes (if the
-  `setPosition` function has been called before). A size change can happen
-  e.g. because the entire window was resized or because an ancestor split
-  changed its split ratio.
-  2. The user can manually change the ratio between the two children of a
-  split by dragging the divider between them in the UI. When that happens
-  the `position` property in `gtk.Paned` changes and eventually the
-  `SplitTreeSplit.onIdle` function gets called. Since `setPosition` should
-  have already been called when the widget was initially sized, we should
-  fall through to the second case and write the current ratio back to the
-  `datastructure/SplitTree`.
-  
-  The problem with `SplitTreeSplit.onIdle` is that sometimes the split
-  ratio cannot be set accurately given the current size of the `gtk.Paned`
-  widget. Because `onIdle` can only set the position/ratio once, any
-  previous inaccuracy can never get corrected.
-  
-  For example with many nested vertical splits, GTK might initially
-  allocate a `gtk.Paned` widget a height of 1. It will have
-  `max_position=1` and `position=1`. When `onIdle` runs the current ratio
-  of `position/max_position = 1` is different from the desired ratio of
-  e.g. 0.5. But a ratio of 0.5 cannot be set, the position can only be 0
-  or 1 corresponding to a ratio of 0 or 1. The position will then get set
-  as 1 and can't be changed later. Even when the split later gets a larger
-  height, it will keep the ratio of 1 and the bottom child will stay
-  invisible. When the surface that should be focused initially becomes
-  invisible it loses focus and the focus will never be restored. That is
-  exactly what happens in the first screencast in the issue description
-  (#11193).
-  
-  Another problem with `onIdle` is that the `setPosition` call in `onIdle`
-  will trigger another idle callback where the position change is
-  sometimes wrongly interpreted as a manual update and written back to the
-  tree. Also sometimes the initial ratio in a `gtk.Paned` can already be
-  correct, in which case position will not get set. The next manual
-  position update is then not detected as a manual update.
-  
-  ### Changes
-  
-  `SplitTreeSplit.onIdle` is now able to set the split position every time
-  the widget is resized, an inaccurate initial ratio will be corrected. To
-  be able to distinguish a widget resize from a manual position update by
-  the user, we keep track of whether `max-position`, `position` or both
-  properties changed. If only `max-position` or both properties changed,
-  then the widget was resized. If just `position` changed it is a manual
-  update. This is kind of hacky but works. To verify I checked the source
-  code for `gtk.Paned`, see the comment in the code on `onIdle`.
-  
-  `SplitTreeSplit` no longer listens to changes in `min-position`, that
-  should always be 0 (because we use the default resize/shrink properties
-  for `gtk.Paned`) and there is already an assert in `onIdle` that checks
-  that.
-  
-  It can still happen that a surface initially gets allocated width/height
-  0 and loses focus. The only reliable way to detect when we can restore
-  focus, is to listen to the `map/unmap` signals exposed by `gtk.Widget`.
-  The `Surface` widget now listens to these signals on its `GlArea` child
-  (because that is where we want to put focus) and stores the current
-  state in the new `mapped` property. The `SplitTree` widget listens to
-  changes in that property: when surfaces become mapped, an idle callback
-  for the new `onRestoreFocus` function is added, which will check whether
-  the last focused surface is mapped and if so restore focus to it.
-  
-  ### Other possible solutions
-  
-  Alternatively we could try to only set the split ratio once the split
-  has its correct final size, but I think it's hard to detect that
-  reliably. Or we could try to prevent the splits/surfaces from becoming
-  invisible in the first place by e.g. setting a minimal widget size. But
-  then you won't get the exactly correct layout and sometimes you do want
-  a surface to be tiny or invisible e.g. you can drag the divider in a
-  split all the way to one side.
-  
-  The ideal solution would probably be to write a custom version of
-  `gtk.Paned` where you can provide the desired ratio on widget creation.
-  Then everything will be sized correctly from the start, focus will not
-  be lost. In terms of performance it would probably be better as well,
-  because right now there can be multiple rounds of resizes until every
-  split/surface has its correct size. I have played around with this a
-  bit, it is definitely possible. But you would have to implement the
-  divider widget, logic for layouting, handling gestures and co. That is a
-  bigger undertaking.
-  
-  ### Testing
-  
-  Tested by creating/modifying deeply nested layouts, dragging split
-  dividers and resizing splits via keybind. Checked that ratios are
-  maintained when the window is resized and tested that it works with
-  zoom. Tested locally with hyprland and in a VM with KDE.
-  
-  All the bugs described in the issue should be fixed.
-  
-  ### AI Disclosure
-  
-  Discovered the bug and wrote all code/comments by myself. Used AI in
-  researching various internals of GTK.
-  ```
-- [`cfac861`](https://github.com/ghostty-org/ghostty/commit/cfac86179436a42747812ae8e9075dea4df8f062) split_tree: rescale split ratio when resizing ([#12699](https://github.com/ghostty-org/ghostty/issues/12699)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes `SplitTree.resize` not rescaling the split ratio to be relative to
-  the size of the split. Added a unit test for resizing a nested split.
-  
-  Previously the new ratio was incorrectly calculated relative to the
-  entire grid. As a consequence resizing a nested split in the GTK app
-  would cause unexpected size changes like large jumps. E.g. in the
-  following recording the window has height ~1000px and the resize was
-  done using a keybind for `resize_split:up,10`. The change is much larger
-  than 10 pixels.
-  
-  
-  
-  https://github.com/user-attachments/assets/ba375ddf-5b2f-45e4-8b12-69021ef2f8a8
-  
-  
-  
-  Note that even with this fix, resizing by a small amount like 10 pixels
-  might not work at all (depending on window size and layout), because of
-  the same bug causing #11193 (see my PR #12698). Initially an inaccurate
-  split ratio will be set and eventually written back to the split tree
-  datastructure. That incorrect split ratio will be the same before and
-  after the small resize, so nothing actually changes in the UI.
-  
-  The split tree implementation for the macOS app already calculates the
-  ratios correctly.
-  
-  AI Disclosure
-  No AI was used, the bug was discovered and all code written by myself.
   ```
 
