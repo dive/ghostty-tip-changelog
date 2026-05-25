@@ -8,15 +8,63 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 25, 2026 at 15:57 UTC.
+> Last updated: May 25, 2026 at 18:34 UTC.
 
 ## May 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26403112298), [2](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [3](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
-Summary: 3 runs • 5 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26413295588), [2](https://github.com/ghostty-org/ghostty/actions/runs/26410170673), [3](https://github.com/ghostty-org/ghostty/actions/runs/26403112298), [4](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [5](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
+Summary: 5 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`2d0fb81`](https://github.com/ghostty-org/ghostty/commit/2d0fb81751def478e2f8a5f7e2ee91fa9cbf9bff) Update VOUCHED list ([#12813](https://github.com/ghostty-org/ghostty/issues/12813)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12793#discussioncomment-17052752)
+  from @bo2themax.
+  
+  Vouch: @LePips
+  ```
+- [`a5550a2`](https://github.com/ghostty-org/ghostty/commit/a5550a2dcb8c81d0e6a53391e68d7887c0078147) cli: fix readEntries leak and double-free ([@jparise](https://github.com/jparise))
+  ```text
+  readEntries had two memory bugs on the allocation failure path, both
+  only reachable under OOM:
+  
+  - The map itself was never freed if we ran into an allocation failure
+  - The unconditional `errdefer`s for the dupe'd hostname and terminfo
+    values could double-free if there was a later allocation failure.
+  
+  This change restructures this function so that these values are dupe'd
+  up-front, and then their ownership is tracked using optionals that can
+  be null'ed out once their ownership is transferred into the map.
+  
+  Both of these cases are now covered by unit tests.
+  ```
+- [`16d7c8f`](https://github.com/ghostty-org/ghostty/commit/16d7c8f2b42890c09590e8c9a00ec34504d449b5) elvish: remove community maintenance note ([@jparise](https://github.com/jparise))
+  ```text
+  The Elvish integration is currently actively maintained by the Ghostty
+  maintainers. Contributions are of course still welcome.
+  ```
+- [`53e400a`](https://github.com/ghostty-org/ghostty/commit/53e400ad85c021809bb9f05ceb3c9b38c1843fac) cli: fix readEntries leak and double-free ([#12811](https://github.com/ghostty-org/ghostty/issues/12811)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  readEntries had two memory bugs on the allocation failure path, both
+  only reachable under OOM:
+  
+  - The map itself was never freed if we ran into an allocation failure
+  - The unconditional `errdefer`s for the dupe'd hostname and terminfo
+  values could double-free if there was a later allocation failure.
+  
+  This change restructures this function so that these values are dupe'd
+  up-front, and then their ownership is tracked using optionals that can
+  be null'ed out once their ownership is transferred into the map.
+  
+  Both of these cases are now covered by unit tests.
+  ```
+- [`cb28160`](https://github.com/ghostty-org/ghostty/commit/cb28160b5a2fd32d2e1cfeefb01d4297dbca8b18) elvish: remove community maintenance note ([#12812](https://github.com/ghostty-org/ghostty/issues/12812)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Elvish integration is currently actively maintained by the Ghostty
+  maintainers. Contributions are of course still welcome.
+  ```
 - [`ae52f97`](https://github.com/ghostty-org/ghostty/commit/ae52f97dcac558735cfa916ea3965f247e5c6e9e) Update VOUCHED list ([#12809](https://github.com/ghostty-org/ghostty/issues/12809)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
