@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 25, 2026 at 13:09 UTC.
+> Last updated: May 25, 2026 at 15:57 UTC.
 
 ## May 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [2](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
-Summary: 2 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26403112298), [2](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [3](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
+Summary: 3 runs • 5 commits • 3 authors
 
 ### Changes
 
+- [`ae52f97`](https://github.com/ghostty-org/ghostty/commit/ae52f97dcac558735cfa916ea3965f247e5c6e9e) Update VOUCHED list ([#12809](https://github.com/ghostty-org/ghostty/issues/12809)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12807#issuecomment-4534655288)
+  from @pluiedev.
+  
+  Denounce: @eric-assetpass
+  ```
 - [`edf2da0`](https://github.com/ghostty-org/ghostty/commit/edf2da015705db22fffdcab62a0871c898fa064b) libghostty: expose per-cell selection state ([@mitchellh](https://github.com/mitchellh))
   ```text
   Render-state rows already expose their selected range, but
