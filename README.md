@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 25, 2026 at 21:26 UTC.
+> Last updated: May 26, 2026 at 00:39 UTC.
 
 ## May 25, 2026
 
@@ -887,49 +887,5 @@ Summary: 4 runs • 7 commits • 6 authors
   from @jcollie.
   
   Vouch: @mjbommar
-  ```
-
-## May 19, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26123808733), [2](https://github.com/ghostty-org/ghostty/actions/runs/26110763000)  
-Summary: 2 runs • 6 commits • 3 authors
-
-### Changes
-
-- [`9bcb30a`](https://github.com/ghostty-org/ghostty/commit/9bcb30aa119b20833d74d4e32104dafe20bd8203) Update VOUCHED list ([#12744](https://github.com/ghostty-org/ghostty/issues/12744)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12743#discussioncomment-16981434)
-  from @bo2themax.
-  
-  Vouch: @b0uks
-  ```
-- [`aed6461`](https://github.com/ghostty-org/ghostty/commit/aed646139d2a8571c4d4048158e6a6f0c8b353e0) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`fdf84ef`](https://github.com/ghostty-org/ghostty/commit/fdf84ef7ce611b4374d5cef3e213f155fae26914) macOS: check the resource the URL refers to. ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Fixes #12727. [`NSURL.hasDirectoryPath` doesn't do this](https://developer.apple.com/documentation/foundation/nsurl/hasdirectorypath).
-  
-  We don't need to check this in NewTerminalIntent since AppIntent already appends `/` to the directory.
-  ```
-- [`3ac7562`](https://github.com/ghostty-org/ghostty/commit/3ac75627910232ac761e8e932a2850123243d5a3) macOS: set error when there is no directory to open with ([@bo2themax](https://github.com/bo2themax))
-- [`5f2f08e`](https://github.com/ghostty-org/ghostty/commit/5f2f08ebda33bf7e1f9f0b80c2c5845b39357f76) macOS: check the resource the URL refers to ([#12731](https://github.com/ghostty-org/ghostty/issues/12731)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  - Fixes https://github.com/ghostty-org/ghostty/issues/12727.
-  [`NSURL.hasDirectoryPath` doesn't do
-  this](https://developer.apple.com/documentation/foundation/nsurl/hasdirectorypath).
-  
-  <img width="977" height="177" alt="image"
-  src="https://github.com/user-attachments/assets/94f77277-8ef0-4573-8ae1-0e54f810463f"
-  />
-  
-  > We don't need to check this in NewTerminalIntent since AppIntent
-  already appends `/` to the directory.
-  
-  - Set error when there is no directory to open with
-  ```
-- [`8150b5b`](https://github.com/ghostty-org/ghostty/commit/8150b5b772343887c76d1a50e79cd844d9d4d5c0) Update iTerm2 colorschemes ([#12711](https://github.com/ghostty-org/ghostty/issues/12711)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260511-160054-2671288
   ```
 
