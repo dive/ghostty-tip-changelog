@@ -8,15 +8,28 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 27, 2026 at 16:18 UTC.
+> Last updated: May 27, 2026 at 18:46 UTC.
 
 ## May 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26519976482)  
-Summary: 1 runs • 20 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26530789804), [2](https://github.com/ghostty-org/ghostty/actions/runs/26519976482)  
+Summary: 2 runs • 30 commits • 5 authors
 
 ### Changes
 
+- [`2f61ba0`](https://github.com/ghostty-org/ghostty/commit/2f61ba036ed4d0013f34414728938bf7825219c8) libghostty: starting the SelectionGesture API, just init/get ([@mitchellh](https://github.com/mitchellh))
+- [`bbfa984`](https://github.com/ghostty-org/ghostty/commit/bbfa984aec99c8d3e2e7dde1a10c7520f4f873cb) libghostty: GhosttySelectionGestureEvent ([@mitchellh](https://github.com/mitchellh))
+- [`5ac8e65`](https://github.com/ghostty-org/ghostty/commit/5ac8e6569a8d1d73f1bff9b4fc82ea703b9ca97e) libghostty: add ghostty_selection_gesture_event ([@mitchellh](https://github.com/mitchellh))
+- [`3fd2c66`](https://github.com/ghostty-org/ghostty/commit/3fd2c66a048ad12901ea30ef30da1a4dfc7395a4) libghostty: selection gesture release event ([@mitchellh](https://github.com/mitchellh))
+- [`90fd1ec`](https://github.com/ghostty-org/ghostty/commit/90fd1ec2e78d1c0b3f640c9eb1e73a6e7dd7232b) libghostty: selection gesture drag events ([@mitchellh](https://github.com/mitchellh))
+- [`603684b`](https://github.com/ghostty-org/ghostty/commit/603684ba11092b9430c336b3378ba22ef9615cc0) libghostty: selection gesture autotick ([@mitchellh](https://github.com/mitchellh))
+- [`f0fcb10`](https://github.com/ghostty-org/ghostty/commit/f0fcb104069647051b2e612c23c90e2414a0db58) libghostty: selection gesture deep press ([@mitchellh](https://github.com/mitchellh))
+- [`3e0477a`](https://github.com/ghostty-org/ghostty/commit/3e0477a14a1a6a0a8f4a5256b95528aa8145351a) example/c-vt-selection-gesture ([@mitchellh](https://github.com/mitchellh))
+- [`4e2d7c3`](https://github.com/ghostty-org/ghostty/commit/4e2d7c314b2e3645924c50eba309a431d28c4bb2) libghostty: optimize bits for selection gesture validation fields ([@mitchellh](https://github.com/mitchellh))
+- [`6d089a5`](https://github.com/ghostty-org/ghostty/commit/6d089a544db53f3457374c2c406bccee80722cdf) libghostty: C API for SelectionGesture ([#12833](https://github.com/ghostty-org/ghostty/issues/12833)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  C API side of https://github.com/ghostty-org/ghostty/pull/12830
+  ```
 - [`ac69942`](https://github.com/ghostty-org/ghostty/commit/ac69942cdcc2d7c26bc5fe7ed1d5d505c3461e0c) cli: rework +ssh-cache internals and user interface ([@jparise](https://github.com/jparise))
   ```text
   This change primarily focused on a revised +ssh-cache user interface,
