@@ -8,7 +8,252 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 27, 2026 at 13:09 UTC.
+> Last updated: May 27, 2026 at 16:18 UTC.
+
+## May 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26519976482)  
+Summary: 1 runs • 20 commits • 5 authors
+
+### Changes
+
+- [`ac69942`](https://github.com/ghostty-org/ghostty/commit/ac69942cdcc2d7c26bc5fe7ed1d5d505c3461e0c) cli: rework +ssh-cache internals and user interface ([@jparise](https://github.com/jparise))
+  ```text
+  This change primarily focused on a revised +ssh-cache user interface,
+  but it also reworks a bunch of the internals.
+  
+  The primary CLI improvement is support for positional arguments and a
+  consistent list output format that includes both the ISO-formatted
+  timestamp and relative age.
+  
+      ghostty +ssh-cache                           # List all cached destinations
+      ghostty +ssh-cache user@example.com          # Show that destination
+      ghostty +ssh-cache example.com               # Show all users on that host
+      ghostty +ssh-cache --add=user@example.com    # Manually add a destination
+      ghostty +ssh-cache --remove=user@example.com # Remove a destination
+      ghostty +ssh-cache --prune=30d               # Remove entries older than 30 days
+      ghostty +ssh-cache --clear                   # Clear entire cache
+  
+  Notable, we now support a --prune operation that replaces the previous
+  --expire-days flag that was never actually hooked up to anything (!!).
+  --prune also supports a wider range of Duration-based values.
+  
+  We're also much more consistent with error codes: 0=success, 1=failure,
+  2=usage.
+  
+  While working on those changes, I also reworked the cache internals,
+  particularly the code around timestamp handling and errors. For example,
+  I dropped the explicit error sets because they were growing unwieldy,
+  and in practice we only matched on a subset of those errors.
+  
+  Lastly, overall test coverage should be much improved, especially around
+  the time- and allocation-related operations.
+  ```
+- [`d86ff37`](https://github.com/ghostty-org/ghostty/commit/d86ff37a58f77d87f1774a433bdcfabf9f99e246) terminal: SelectionGesture, but only with mouse press ([@mitchellh](https://github.com/mitchellh))
+- [`14df684`](https://github.com/ghostty-org/ghostty/commit/14df684a70fed6085ec70b711f045f0261dbe4c2) core: adapt Surface to use SelectionGesture with press only ([@mitchellh](https://github.com/mitchellh))
+- [`57d2020`](https://github.com/ghostty-org/ghostty/commit/57d202066d138e9078f89c9b27302a5aee6b9422) macOS: clear stale OSC 11 background cache on config change ([@b0uks](https://github.com/b0uks))
+  ```text
+  SurfaceView caches the background color set by OSC 11 in
+  backgroundColor. TerminalWindow.preferredBackgroundColor consults
+  that cache before falling back to derivedConfig.backgroundColor,
+  so once OSC 11 has fired the cached value masks any later config
+  change. After a light/dark theme auto-switch this leaves the
+  window chrome on the previous theme's color until the application
+  next emits OSC 11.
+  
+  In ghosttyConfigDidChange, after updating derivedConfig, drop the
+  cache when it no longer matches the new config-derived background.
+  A subsequent ghosttyColorDidChange repopulates it as before, so
+  within-config OSC 11 behavior is unchanged.
+  ```
+- [`33f1558`](https://github.com/ghostty-org/ghostty/commit/33f1558801d5282e9b2fb7b35194fed69d98f167) core: mouse left release renderer lock made more coarse ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This will make our selection gesture extraction a bit easier.
+  ```
+- [`c00cdd8`](https://github.com/ghostty-org/ghostty/commit/c00cdd886b933cd7db175ddcf031c2e703ea1409) SelectionGesture: drag events ([@mitchellh](https://github.com/mitchellh))
+- [`229f4c1`](https://github.com/ghostty-org/ghostty/commit/229f4c1f4fdd2a24ff1e2634d6450de158fd987c) terminal: SelectionGesture handles word/line drag ([@mitchellh](https://github.com/mitchellh))
+- [`141c7d4`](https://github.com/ghostty-org/ghostty/commit/141c7d44d2d10621d6b8f014c6a1ec3e416f14ea) SelectionGesture: release event ([@mitchellh](https://github.com/mitchellh))
+- [`df98b6d`](https://github.com/ghostty-org/ghostty/commit/df98b6d9833dbc80babee58b8a02d102d14bfd83) terminal: SelectionGesture autoscrollTick ([@mitchellh](https://github.com/mitchellh))
+- [`f5f9d32`](https://github.com/ghostty-org/ghostty/commit/f5f9d32d0a42b55bb80599a000e63c33a25d549e) terminal: SelectionGesture deep press ([@mitchellh](https://github.com/mitchellh))
+- [`5368adc`](https://github.com/ghostty-org/ghostty/commit/5368adcd29754939e6c283198ef6b1c122293815) macos: avoid duplicate appearance sync on tab focus ([@Tunglies](https://github.com/Tunglies))
+  ```text
+  Close #12825
+  
+  Skip the initial emissions from the focused surface appearance publishers after a tab focus change. The focused surface is already synced immediately, so the initial Combine values only repeat the same titlebar and background updates. Subsequent derived config and OSC background changes still resync the window appearance.
+  ```
+- [`ce4128a`](https://github.com/ghostty-org/ghostty/commit/ce4128afc494d192edcc0f3a28e2d63fbb059eda) Update VOUCHED list ([#12829](https://github.com/ghostty-org/ghostty/issues/12829)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12827#discussioncomment-17075382)
+  from @trag1c.
+  
+  Denounce: @Cznorth
+  ```
+- [`9b00bb4`](https://github.com/ghostty-org/ghostty/commit/9b00bb436a99ece1b78bea90b403f38636cbff15) terminal: better SelectionGesture docs ([@mitchellh](https://github.com/mitchellh))
+- [`82a73f2`](https://github.com/ghostty-org/ghostty/commit/82a73f2bf185ee2836378e3aeea8fc528e757921) terminal: SelectionGesture press returns standard behaviors ([@mitchellh](https://github.com/mitchellh))
+- [`7d4d1e5`](https://github.com/ghostty-org/ghostty/commit/7d4d1e5819b635004b17e28bc302a036e4461c04) terminal: add configurable behaviors based on click count ([@mitchellh](https://github.com/mitchellh))
+- [`68959c5`](https://github.com/ghostty-org/ghostty/commit/68959c5c6388fad9f7c169ad8229a6bfd17d8ff0) terminal: fix selection gesture edge cases ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Selection gestures now treat releases with invalidated anchors as dragged,
+  so a press that crosses screen boundaries cannot also activate links or
+  prompt clicks on release. Cell drags that create a same-cell selection also
+  mark the gesture as dragged, which keeps click-only actions from firing
+  after a threshold-crossing drag.
+  
+  Autoscroll now resolves the drag pin after moving the viewport instead of
+  reusing the pin from before the scroll. This keeps the selection aligned
+  with the row currently under the pointer. The inspector also validates the
+  tracked click pin before displaying it so stale pins from inactive screens
+  are ignored.
+  ```
+- [`c343c5a`](https://github.com/ghostty-org/ghostty/commit/c343c5a67a041833eb9c716319f2df3ca8388144) Extract click/drag selection handling into SelectionGesture ([#12830](https://github.com/ghostty-org/ghostty/issues/12830)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Refactor terminal text selection into a reusable `SelectionGesture`
+  state machine. Most importantly, this means our click+drag logic around
+  selection is now fully unit tested! And we found bugs! And fixed them!
+  
+  The large line increase in this diff is mainly comments + tests.
+  
+  I've wanted to do this forever so we can unit test this, but I was
+  kicked in the butt to do it recently because reimplementing selection
+  logic in libghostty consumers turns out to be complex and error prone
+  and we have a perfectly battle tested logic machine here so why not
+  extract it?
+  
+  Behavioral changes from main surfaced via unit testing:
+  
+  - Dragging now drags by output across semantic output blocks when the
+  initial press was an output selection. This matches the behavior of
+  dragging continuing whatever the initial selection logic was.
+  - Selection autoscroll now stops when the click anchor is invalidated by
+  a screen change (e.g. primary to alt)
+  - Deep press (macOS force touch) now selects the word at the original
+  press location and consumes the active drag gesture, preventing later
+  movement from dragging or autoscrolling that selection. This matches
+  built-in macOS apps.
+  - Mouse release records whether the gesture moved away from the pressed
+  cell, so link and prompt clicks are skipped after a drag while normal
+  clicks still activate them.
+  
+  Example usage:
+  
+  ```zig
+  var gesture: terminal.SelectionGesture = .init;
+  defer gesture.deinit(t);
+  
+  const press_selection = try gesture.press(t, .{
+      .time = try std.time.Instant.now(),
+      .pin = press_pin,
+      .xpos = mouse_x,
+      .ypos = mouse_y,
+      .max_distance = cell_width,
+      .repeat_interval = mouse_interval,
+      .word_boundary_codepoints = selection_word_chars,
+      .behaviors = &.{ .cell, .word, .output },
+  });
+  try t.screens.active.select(press_selection);
+  
+  if (gesture.drag(t, drag_event)) |drag_selection| {
+      try t.screens.active.select(drag_selection);
+  }
+  
+  gesture.release(t, .{ .pin = release_pin });
+  ```
+  ````
+- [`8518986`](https://github.com/ghostty-org/ghostty/commit/8518986b1e84998e8141eacce462afd213b38073) macOS: clear stale OSC 11 background cache on config change ([#12822](https://github.com/ghostty-org/ghostty/issues/12822)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  `SurfaceView` caches the background color set by OSC 11 in
+  `backgroundColor`. `TerminalWindow.preferredBackgroundColor` consults
+  that cache before falling back to `derivedConfig.backgroundColor`, so
+  once OSC 11 has fired the cached value masks any later config change.
+  
+  After a light/dark theme auto-switch (e.g. `theme =
+  light:my-light,dark:my-dark`) this leaves the window chrome on the
+  previous theme's color until the application next emits OSC 11.
+  
+  In `ghosttyConfigDidChange`, after updating `derivedConfig`, drop the
+  cache when it no longer matches the new config-derived background. A
+  subsequent `ghosttyColorDidChange` repopulates it as before, so
+  within-config OSC 11 behavior is unchanged.
+  
+  ## Reproduction
+  
+  1. Configure `theme = light:SomeLight,dark:SomeDark` where the two
+  themes have visibly different background colors.
+  2. Open a terminal session where any application (e.g. a shell startup
+  script) has sent OSC 11 to set a custom background color.
+  3. Switch macOS appearance (System Settings → Appearance).
+  4. **Before**: window chrome stays the previous theme's color until the
+  terminal next emits OSC 11.
+  5. **After**: window chrome immediately updates to the new theme's
+  background color.
+  
+  ## Changes
+  
+  - `SurfaceView_AppKit.swift` — one guard: if the cached
+  `backgroundColor` disagrees with the new
+  `derivedConfig.backgroundColor`, set it to `nil`.
+  ```
+- [`756fda7`](https://github.com/ghostty-org/ghostty/commit/756fda776b1f8516bcf925ad9901cb0139b64271) cli: rework +ssh-cache internals and user interface ([#12814](https://github.com/ghostty-org/ghostty/issues/12814)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This change primarily focused on a revised +ssh-cache user interface,
+  but it also reworks a bunch of the internals.
+  
+  The primary CLI improvement is support for positional arguments and a
+  consistent list output format that includes both the ISO-formatted
+  timestamp and relative age.
+  
+  ghostty +ssh-cache # List all cached destinations
+      ghostty +ssh-cache user@example.com          # Show that destination
+  ghostty +ssh-cache example.com # Show all users on that host
+  ghostty +ssh-cache --add=user@example.com # Manually add a destination
+      ghostty +ssh-cache --remove=user@example.com # Remove a destination
+  ghostty +ssh-cache --prune=30d # Remove entries older than 30 days
+      ghostty +ssh-cache --clear                   # Clear entire cache
+  
+  Notable, we now support a --prune operation that replaces the previous
+  --expire-days flag that was never actually hooked up to anything (!!).
+  --prune also supports a wider range of Duration-based values.
+  
+  We're also much more consistent with error codes: 0=success, 1=failure,
+  2=usage.
+  
+  While working on those changes, I also reworked the cache internals,
+  particularly the code around timestamp handling and errors. For example,
+  I dropped the explicit error sets because they were growing unwieldy,
+  and in practice we only matched on a subset of those errors.
+  
+  Lastly, overall test coverage should be much improved, especially around
+  the time- and allocation-related operations.
+  
+  ---
+  
+  *AI Disclosure:* I made a lot of iterative, AI-assisted (Claude Opus
+  4.7) correctness passes over this work. It was particularly helpful in
+  tracing through the various failure modes, and it wrote those unit tests
+  in the process.
+  ```
+- [`3103ae8`](https://github.com/ghostty-org/ghostty/commit/3103ae883880fe6cccdc17ea923e3ccd3587a83e) macos: avoid duplicate appearance sync on tab focus ([#12828](https://github.com/ghostty-org/ghostty/issues/12828)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Close #12825
+  
+  Skip the initial emissions from the focused surface appearance
+  publishers after a tab focus change. The focused surface is already
+  synced immediately, so the initial Combine values only repeat the same
+  titlebar and background updates. Subsequent derived config and OSC
+  background changes still resync the window appearance.
+  
+  
+  
+  https://github.com/user-attachments/assets/f229fb95-4b4c-4040-85ac-0acfcc54ca82
+  
+  
+  
+  Assigned to Codex GPT 5.5(medium)
+  PS: Sry for I don't write zig and let AI write this.
+  ```
 
 ## May 26, 2026
 
