@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 27, 2026 at 21:34 UTC.
+> Last updated: May 28, 2026 at 00:37 UTC.
 
 ## May 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26530789804), [2](https://github.com/ghostty-org/ghostty/actions/runs/26519976482)  
-Summary: 2 runs • 30 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26543370661), [2](https://github.com/ghostty-org/ghostty/actions/runs/26530789804), [3](https://github.com/ghostty-org/ghostty/actions/runs/26519976482)  
+Summary: 3 runs • 32 commits • 5 authors
 
 ### Changes
 
+- [`f730ee0`](https://github.com/ghostty-org/ghostty/commit/f730ee0557917258024e18a45489918de2ce9fa7) libghostty: expose viewport active state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose whether the terminal viewport is currently pinned to the active
+  area through the libghostty-vt terminal data API. Previously embedders
+  could only infer this from scrollbar geometry, which was indirect and
+  could require the more expensive scrollbar calculation.
+  
+  The new GHOSTTY_TERMINAL_DATA_VIEWPORT_ACTIVE value returns the exact
+  PageList viewport state as a bool. The scroll viewport test now verifies
+  the value while moving between the active area and scrollback.
+  ```
+- [`1526485`](https://github.com/ghostty-org/ghostty/commit/15264856f61b112c8beb14fbe3f403f6266c8bdf) libghostty: expose viewport active state ([#12836](https://github.com/ghostty-org/ghostty/issues/12836)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose whether the terminal viewport is currently pinned to the active
+  area through the libghostty-vt terminal data API. Previously embedders
+  could only infer this from scrollbar geometry, which was indirect and
+  could require the more expensive scrollbar calculation.
+  
+  The new GHOSTTY_TERMINAL_DATA_VIEWPORT_ACTIVE value returns the exact
+  PageList viewport state as a bool. The scroll viewport test now verifies
+  the value while moving between the active area and scrollback.
+  ```
 - [`2f61ba0`](https://github.com/ghostty-org/ghostty/commit/2f61ba036ed4d0013f34414728938bf7825219c8) libghostty: starting the SelectionGesture API, just init/get ([@mitchellh](https://github.com/mitchellh))
 - [`bbfa984`](https://github.com/ghostty-org/ghostty/commit/bbfa984aec99c8d3e2e7dde1a10c7520f4f873cb) libghostty: GhosttySelectionGestureEvent ([@mitchellh](https://github.com/mitchellh))
 - [`5ac8e65`](https://github.com/ghostty-org/ghostty/commit/5ac8e6569a8d1d73f1bff9b4fc82ea703b9ca97e) libghostty: add ghostty_selection_gesture_event ([@mitchellh](https://github.com/mitchellh))
