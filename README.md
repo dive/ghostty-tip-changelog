@@ -8,7 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 28, 2026 at 04:28 UTC.
+> Last updated: May 28, 2026 at 07:20 UTC.
+
+## May 28, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26554769180)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`8beea5f`](https://github.com/ghostty-org/ghostty/commit/8beea5f92dcfb229b9434eed6ea5548e32ed5df8) libghostty: expose row cell styling bit ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a render row-cells data key for querying whether the current cell has
+  explicit styling. This lets consumers avoid fetching a raw cell or full style
+  snapshot when all they need is the cell's HasStyling bit.
+  
+  The new key is appended to the existing enum for ABI safety and is served by
+  the existing row-cells getter path. Existing data keys and function exports are
+  unchanged.
+  ```
+- [`54ac5fd`](https://github.com/ghostty-org/ghostty/commit/54ac5fd21e5eeef5e910f7f646934dc58fd373f8) libghostty: expose row cell styling bit ([#12837](https://github.com/ghostty-org/ghostty/issues/12837)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a render row-cells data key for querying whether the current cell
+  has explicit styling. This lets consumers avoid fetching a raw cell or
+  full style snapshot when all they need is the cell's HasStyling bit.
+  
+  The new key is appended to the existing enum for ABI safety and is
+  served by the existing row-cells getter path. Existing data keys and
+  function exports are unchanged.
+  
+  This was identified as an allocation hot-spot in Go renderers.
+  ```
 
 ## May 27, 2026
 
