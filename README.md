@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 29, 2026 at 21:35 UTC.
+> Last updated: May 30, 2026 at 00:40 UTC.
 
 ## May 29, 2026
 
@@ -743,87 +743,5 @@ Summary: 1 runs • 17 commits • 1 authors
   this dramatically improves safety.
   
   No API changes due to this (just more safety).
-  ```
-
-## May 23, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26344833525), [2](https://github.com/ghostty-org/ghostty/actions/runs/26344470484), [3](https://github.com/ghostty-org/ghostty/actions/runs/26327527612)  
-Summary: 3 runs • 9 commits • 4 authors
-
-### Changes
-
-- [`7a346dd`](https://github.com/ghostty-org/ghostty/commit/7a346dd8d40e21b14c96114c45f75eb0d347c236) macOS: fix search bar Enter key blocking IME composition ([@minorcell](https://github.com/minorcell))
-  ```text
-  Use onSubmit for the plain Enter → next-match behavior, which respects
-  IME composition state. Keep onKeyPress only for Shift+Enter (previous
-  match), returning .ignored for plain Enter so the IME can process it.
-  ```
-- [`da541be`](https://github.com/ghostty-org/ghostty/commit/da541bea6333458c5f4a987e734269e019a2103d) fix stray brace from conflict resolution ([@minorcell](https://github.com/minorcell))
-- [`d5d8cef`](https://github.com/ghostty-org/ghostty/commit/d5d8cef4d3834cc8999eb9344066b0960b033f2d) macOS: fix search bar Enter key blocking IME composition ([#12781](https://github.com/ghostty-org/ghostty/issues/12781)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Closes https://github.com/ghostty-org/ghostty/discussions/12774
-  
-  `.onKeyPress(.return)` unconditionally returns `.handled`, so when IME
-  is composing the return key never reaches the IME to confirm the
-  candidate. The search bar gets stuck.
-  
-  The fix: use `.onSubmit` for the next-match navigation — it only fires
-  when there is no composing text. In `.onKeyPress` only intercept
-  shift+return (previous match), return `.ignored` otherwise.
-  
-  Tested on macOS 26.5, Ghostty 1.3.1, built from source. Chinese Pinyin
-  input in the search bar works correctly after the fix.
-  ```
-- [`1b3c5b5`](https://github.com/ghostty-org/ghostty/commit/1b3c5b57ff50c4241c612337bc202c12823cc5d8) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/12775#discussioncomment-DC_kwDOHFhdAs4BA9x5
-  ```
-- [`2355550`](https://github.com/ghostty-org/ghostty/commit/2355550a9410f0f10bc1e88e677a9f9ed091bb71) libghostty: add tracked grid ref API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a C API for tracked pins, known as a tracked grid ref in C.
-  
-  The new API can create tracked refs from terminal points, snapshot them
-  back to regular grid refs for cell access, convert them to coordinates,
-  move them to a new point, report when their semantic location was lost,
-  and free the tracked pin bookkeeping. This is backed by PageList tracked
-  pins and exposed through the libghostty-vt export layer and headers.
-  ```
-- [`60f767d`](https://github.com/ghostty-org/ghostty/commit/60f767dd84cac94d5a6f4e827847361c42d1c078) core: guard surface left-click pins with screen generations ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Left-click mouse state stored a tracked pin with only the screen key that
-  owned it. If the alternate screen was removed and later recreated, the key
-  could match again even though the stored pin belonged to destroyed PageList
-  storage.
-  
-  Store the screen generation alongside the left-click pin and resolve the
-  pin through helpers that require both the key and generation to match. This
-  keeps selection scrolling, link hover checks, pressure selection, and drag
-  selection from dereferencing stale tracked pins after screen teardown.
-  ```
-- [`af94eac`](https://github.com/ghostty-org/ghostty/commit/af94eac1e1f26bee94b84f7d0076776dd3514d05) libghostty: add tracked grid ref API ([#12785](https://github.com/ghostty-org/ghostty/issues/12785)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a C API for tracked pins, known as a tracked grid ref in C.
-  
-  The new API can create tracked refs from terminal points, snapshot them
-  back to regular grid refs for cell access, convert them to coordinates,
-  move them to a new point, report when their semantic location was lost,
-  and free the tracked pin bookkeeping. This is backed by PageList tracked
-  pins and exposed through the libghostty-vt export layer and headers.
-  ```
-- [`7c3d950`](https://github.com/ghostty-org/ghostty/commit/7c3d9502dc6374d2563c30629f354fcd5251f141) Update VOUCHED list ([#12779](https://github.com/ghostty-org/ghostty/issues/12779)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12775#discussioncomment-17030265)
-  from @bo2themax.
-  
-  Vouch: @minorcell
-  ```
-- [`a968e12`](https://github.com/ghostty-org/ghostty/commit/a968e120dd084bd886239d1cac938f0177f019d9) Update VOUCHED list ([#12780](https://github.com/ghostty-org/ghostty/issues/12780)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12775#discussioncomment-17030265)
-  from @bo2themax.
-  
-  Vouch: @minorcell
   ```
 
