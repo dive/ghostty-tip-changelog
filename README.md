@@ -8,7 +8,59 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 30, 2026 at 00:40 UTC.
+> Last updated: May 30, 2026 at 04:22 UTC.
+
+## May 30, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26674005784)  
+Summary: 1 runs • 6 commits • 3 authors
+
+### Changes
+
+- [`37997f8`](https://github.com/ghostty-org/ghostty/commit/37997f8dbe1221f19343e6b9fa907ce2b944f1a2) Use a timeout callback to wait for changes in window active state to settle. Depending on the backend a window might temporarily become inactive. ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  Fixes an issue where quick-terminal would disappear when opening the surface context menu.
+  ```
+- [`1753d57`](https://github.com/ghostty-org/ghostty/commit/1753d57bfdf0ac694ac624e7d63ec9fecd220bc6) remove timeout source when window is disposed ([@dkinzler](https://github.com/dkinzler))
+- [`ff963f3`](https://github.com/ghostty-org/ghostty/commit/ff963f3119bffbd9366a5b7d98fbcaba06fc9f05) Renamed timeout source and callback function. Added comment explaining timeout delay. ([@dkinzler](https://github.com/dkinzler))
+- [`c09ade2`](https://github.com/ghostty-org/ghostty/commit/c09ade225acb0abfea2f845197b227086a76922f) agents: symlink CLAUDE.md to AGENTS.md ([@Uzaaft](https://github.com/Uzaaft))
+- [`c4eba3d`](https://github.com/ghostty-org/ghostty/commit/c4eba3da38c629dbd4b8f770da3e0c605f2a7f53) agents: symlink CLAUDE.md to AGENTS.md ([#12861](https://github.com/ghostty-org/ghostty/issues/12861)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Claude code [doesn't support AGENTS.md
+  files](https://github.com/anthropics/claude-code/issues/6235) so I've
+  seen lots of repos symlinking
+  ```
+- [`2c62d18`](https://github.com/ghostty-org/ghostty/commit/2c62d182cec246764ff725096a70b9ef44996f7f) gtk: fix context menu hiding quick-terminal ([#12843](https://github.com/ghostty-org/ghostty/issues/12843)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #12783 where opening the context menu (with right click) inside
+  the quick-terminal will hide the quick-terminal if autohide is enabled.
+  
+  The cause of this issue is the quick-terminal window becoming inactive
+  and immediately active again when you open the context-menu. When the
+  window becomes inactive, the autohide feature hides the quick-terminal.
+  The temporary focus loss in GTK is triggered by GDK focus change events,
+  which probably originate from the windowing backend treating the context
+  menu as its own window. Whereas in GTK the context menu is not a
+  separate window but instead part of the widget tree of the window it was
+  opened from, so even when the context menu has focus that window is
+  still the active one in GTK.
+  
+  As a fix `Window.propIsActive`, which implements the autohide logic,
+  will now do its work from a timeout callback, since there is probably no
+  reliable way to distinguish a temporary focus loss from a real one from
+  inside GTK and I'm not sure we can make any assumptions about the timing
+  of things happening in the windowing backend. A 100ms delay should be
+  long enough for the focus state to settle while still hiding the
+  quick-terminal quickly.
+  
+  I reproduced the bug and verified the fix on Wayland with both Hyprland
+  and KDE. Temporary focus loss happens on X11+KDE as well, although it
+  doesn't matter there because there is no quick-terminal.
+  
+  ### AI Disclosure
+  
+  No AI was used, code and comments were written by myself.
+  ```
 
 ## May 29, 2026
 
