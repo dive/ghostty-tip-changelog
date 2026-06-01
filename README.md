@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: May 31, 2026 at 21:21 UTC.
+> Last updated: June 1, 2026 at 00:44 UTC.
 
 ## May 30, 2026
 
@@ -528,123 +528,5 @@ Summary: 1 runs • 5 commits • 3 authors
   isolated for easy review/removal.
   
   🤖 Generated with [Claude Code](https://claude.com/claude-code)
-  ```
-
-## May 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26413295588), [2](https://github.com/ghostty-org/ghostty/actions/runs/26410170673), [3](https://github.com/ghostty-org/ghostty/actions/runs/26403112298), [4](https://github.com/ghostty-org/ghostty/actions/runs/26382148026), [5](https://github.com/ghostty-org/ghostty/actions/runs/26381111088)  
-Summary: 5 runs • 10 commits • 4 authors
-
-### Changes
-
-- [`2d0fb81`](https://github.com/ghostty-org/ghostty/commit/2d0fb81751def478e2f8a5f7e2ee91fa9cbf9bff) Update VOUCHED list ([#12813](https://github.com/ghostty-org/ghostty/issues/12813)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12793#discussioncomment-17052752)
-  from @bo2themax.
-  
-  Vouch: @LePips
-  ```
-- [`a5550a2`](https://github.com/ghostty-org/ghostty/commit/a5550a2dcb8c81d0e6a53391e68d7887c0078147) cli: fix readEntries leak and double-free ([@jparise](https://github.com/jparise))
-  ```text
-  readEntries had two memory bugs on the allocation failure path, both
-  only reachable under OOM:
-  
-  - The map itself was never freed if we ran into an allocation failure
-  - The unconditional `errdefer`s for the dupe'd hostname and terminfo
-    values could double-free if there was a later allocation failure.
-  
-  This change restructures this function so that these values are dupe'd
-  up-front, and then their ownership is tracked using optionals that can
-  be null'ed out once their ownership is transferred into the map.
-  
-  Both of these cases are now covered by unit tests.
-  ```
-- [`16d7c8f`](https://github.com/ghostty-org/ghostty/commit/16d7c8f2b42890c09590e8c9a00ec34504d449b5) elvish: remove community maintenance note ([@jparise](https://github.com/jparise))
-  ```text
-  The Elvish integration is currently actively maintained by the Ghostty
-  maintainers. Contributions are of course still welcome.
-  ```
-- [`53e400a`](https://github.com/ghostty-org/ghostty/commit/53e400ad85c021809bb9f05ceb3c9b38c1843fac) cli: fix readEntries leak and double-free ([#12811](https://github.com/ghostty-org/ghostty/issues/12811)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  readEntries had two memory bugs on the allocation failure path, both
-  only reachable under OOM:
-  
-  - The map itself was never freed if we ran into an allocation failure
-  - The unconditional `errdefer`s for the dupe'd hostname and terminfo
-  values could double-free if there was a later allocation failure.
-  
-  This change restructures this function so that these values are dupe'd
-  up-front, and then their ownership is tracked using optionals that can
-  be null'ed out once their ownership is transferred into the map.
-  
-  Both of these cases are now covered by unit tests.
-  ```
-- [`cb28160`](https://github.com/ghostty-org/ghostty/commit/cb28160b5a2fd32d2e1cfeefb01d4297dbca8b18) elvish: remove community maintenance note ([#12812](https://github.com/ghostty-org/ghostty/issues/12812)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Elvish integration is currently actively maintained by the Ghostty
-  maintainers. Contributions are of course still welcome.
-  ```
-- [`ae52f97`](https://github.com/ghostty-org/ghostty/commit/ae52f97dcac558735cfa916ea3965f247e5c6e9e) Update VOUCHED list ([#12809](https://github.com/ghostty-org/ghostty/issues/12809)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12807#issuecomment-4534655288)
-  from @pluiedev.
-  
-  Denounce: @eric-assetpass
-  ```
-- [`edf2da0`](https://github.com/ghostty-org/ghostty/commit/edf2da015705db22fffdcab62a0871c898fa064b) libghostty: expose per-cell selection state ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Render-state rows already expose their selected range, but
-  cell-oriented C API consumers had to fetch that row range separately
-  and duplicate the containment check while rendering.
-  
-  Add a SELECTED row-cells data kind that carries the row selection into
-  the row-cells wrapper and returns whether the current cell column is in
-  that inclusive range. The field remains separate from cell colors and
-  style so selection stays an explicit render overlay policy.
-  
-  For performance reasons, the span-based row getter is recommended still
-  but this is a convenient thing to do for cell-oriented folks.
-  ```
-- [`b869a6e`](https://github.com/ghostty-org/ghostty/commit/b869a6e5ab0a50ce01e8eb5aa408a02b3cbe4f3a) libghostty: expose per-cell selection state ([#12798](https://github.com/ghostty-org/ghostty/issues/12798)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Render-state rows already expose their selected range, but cell-oriented
-  C API consumers had to fetch that row range separately and duplicate the
-  containment check while rendering.
-  
-  Add a SELECTED row-cells data kind that carries the row selection into
-  the row-cells wrapper and returns whether the current cell column is in
-  that inclusive range. The field remains separate from cell colors and
-  style so selection stays an explicit render overlay policy.
-  
-  For performance reasons, the span-based row getter is recommended still
-  but this is a convenient thing to do for cell-oriented folks.
-  ```
-- [`bb375a2`](https://github.com/ghostty-org/ghostty/commit/bb375a2f7565b9d8c8b60c6cbc0bd4e6c4532023) deal with large outputs from xdg-open/rundll32/open ([@jcollie](https://github.com/jcollie))
-  ```text
-  Depending on your system config, `xdg-open` may stay open for extended
-  periods, and potentially log more than the 50kb of output that we were
-  previously able to deal with. This changes `open()` so that output on
-  `stdout` is just directly ignored. Any output from `stderr` is immedialy
-  logged rather than collected for later logging.
-  
-  Note that this will generally occur if your system is not configured
-  with the DBus portals that `xdg-open` uses to open URLs rather than
-  launching programs like your web browser directly. This could be seen as
-  user misconfiguration but we should deal with it robustly anyway.
-  ```
-- [`cf9e85e`](https://github.com/ghostty-org/ghostty/commit/cf9e85ecd73cc3f044cab228a75145f63e88ca1d) deal with large outputs from xdg-open/rundll32/open ([#12797](https://github.com/ghostty-org/ghostty/issues/12797)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Depending on your system config, `xdg-open` may stay open for extended
-  periods, and potentially log more than the 50kb of output that we were
-  previously able to deal with. This changes `open()` so that output on
-  `stdout` is just directly ignored. Any output from `stderr` is immedialy
-  logged rather than collected for later logging.
-  
-  Note that this will generally occur if your system is not configured
-  with the DBus portals that `xdg-open` uses to open URLs rather than
-  launching programs like your web browser directly. This could be seen as
-  user misconfiguration but we should deal with it robustly anyway.
   ```
 
