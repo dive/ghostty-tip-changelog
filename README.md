@@ -8,7 +8,109 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 1, 2026 at 16:52 UTC.
+> Last updated: June 1, 2026 at 19:38 UTC.
+
+## June 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26773386588), [2](https://github.com/ghostty-org/ghostty/actions/runs/26770642732)  
+Summary: 2 runs • 13 commits • 7 authors
+
+### Changes
+
+- [`d3775d1`](https://github.com/ghostty-org/ghostty/commit/d3775d1ed0a2e41ee8f2ecdb325f6c016b2b3e93) terminal: glyph protocol parser and response encoder ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds the core parse/encode for the still in-development and experimental
+  terminal glyph protocol: https://github.com/raphamorim/rio/pull/1542
+  Up to version 1.9.
+  
+  The only cross-cutting change necessary was changing the APC
+  identification logic which previously only looked at a single byte to
+  support multi-byte identifiers since the glyph protocol uses `25a1`.
+  ```
+- [`5758e14`](https://github.com/ghostty-org/ghostty/commit/5758e149319d244cbf2d21d1ae8d1376adaf1f91) terminal: glyph protocol parser and response encoder ([#12352](https://github.com/ghostty-org/ghostty/issues/12352)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Important: this DOES NOT hook up the glyph protocol to Ghostty or
+  libghostty. Its just the parser.**
+  
+  This adds the core parse/encode for the still in-development and
+  experimental terminal glyph protocol:
+  https://github.com/raphamorim/rio/pull/1542
+  
+  The only cross-cutting change necessary was changing the APC
+  identification logic which previously only looked at a single byte to
+  support multi-byte identifiers since the glyph protocol uses `25a1`.
+  
+  For DoS protection, the default limits any glyph-related APC command
+  size to 1 megabyte.
+  
+  > [!WARNING]
+  >
+  > Since this protocol is still in development and discussion, there is
+  no promise the implementation will stay within Ghostty or that any of
+  the APIs exposed by this will remain stable. We're just getting ahead of
+  it.
+  ```
+- [`024880b`](https://github.com/ghostty-org/ghostty/commit/024880b9ca40ecf8a399deff14e422dd32746f68) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`33adb58`](https://github.com/ghostty-org/ghostty/commit/33adb58bee9eeca906e29ee957140275d4903257) macos: remove unneeded initializers ([@jparise](https://github.com/jparise))
+  ```text
+  These will be automatically synthesized (they only do memberwise
+  initialization) and do not need to be manually defined.
+  ```
+- [`e32d7ab`](https://github.com/ghostty-org/ghostty/commit/e32d7abe6eeae9c3aa557fef2bcfe97a212688c5) macos: fix swiftlint opening_brace issue ([@jparise](https://github.com/jparise))
+- [`3e83a54`](https://github.com/ghostty-org/ghostty/commit/3e83a54d08ef4f4820b8a401910c838f4f0636e0) macos: remove unneeded initializers ([#12875](https://github.com/ghostty-org/ghostty/issues/12875)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  These will be automatically synthesized (they only do memberwise
+  initialization) and do not need to be manually defined.
+  ```
+- [`eb5c1c7`](https://github.com/ghostty-org/ghostty/commit/eb5c1c7220121c8616160e10cb1aa664166a06f3) fix(macos): mark Swift os.Logger interpolations as public ([@claude](https://github.com/claude))
+- [`a181c38`](https://github.com/ghostty-org/ghostty/commit/a181c386ca938f730c6e802b7931b37ec65f3047) config: fix missing space in docs ([@masterflitzer](https://github.com/masterflitzer))
+  ```text
+  fixes #12873
+  
+  comment/docs only change:
+  switched space and tab in default value of `selection-word-chars`
+  so there is no space at the value boundary
+  needed because markdown trims spaces at the beginning & end
+  of a code snippet
+  ```
+- [`c4c9e94`](https://github.com/ghostty-org/ghostty/commit/c4c9e945aefbd0afbfc21a05f76d06e36e10a625) Update VOUCHED list ([#12880](https://github.com/ghostty-org/ghostty/issues/12880)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12879#issuecomment-4587359428)
+  from @00-kat.
+  
+  Vouch: @masterflitzer
+  ```
+- [`16f2fdc`](https://github.com/ghostty-org/ghostty/commit/16f2fdc90c2ca59ed870c7b3355a337b1fd650b2) config: fix missing space in docs ([#12879](https://github.com/ghostty-org/ghostty/issues/12879)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  fixes #12873
+  
+  comment/docs only change:
+  switched space and tab in default value of `selection-word-chars` so
+  there is no space at the value boundary
+  needed because markdown trims spaces at the beginning & end of a code
+  snippet
+  ```
+- [`0f7cd84`](https://github.com/ghostty-org/ghostty/commit/0f7cd84b880b203c98683e520e84b9db0c5938d8) Update VOUCHED list ([#12889](https://github.com/ghostty-org/ghostty/issues/12889)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12840#discussioncomment-17132417)
+  from @bo2themax.
+  
+  Vouch: @52dyd
+  ```
+- [`b81670f`](https://github.com/ghostty-org/ghostty/commit/b81670f3f439eff8df615257ff70d9ef39e60065) macOS: mark Swift os.Logger interpolations as public ([#12877](https://github.com/ghostty-org/ghostty/issues/12877)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### AI Disclosure
+  
+  Claude implemented it. I'm fully aware of and confident about the
+  change; it's just chore work actually.
+  ```
+- [`43e0340`](https://github.com/ghostty-org/ghostty/commit/43e03401758e8e1e0d23afb3a8e2a00b43e8e8ee) Update iTerm2 colorschemes ([#12867](https://github.com/ghostty-org/ghostty/issues/12867)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260525-155808-7335c0a
+  ```
 
 ## May 30, 2026
 
