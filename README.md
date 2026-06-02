@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 1, 2026 at 22:02 UTC.
+> Last updated: June 2, 2026 at 00:46 UTC.
 
 ## June 1, 2026
 
@@ -523,112 +523,5 @@ Summary: 3 runs • 32 commits • 5 authors
   
   Assigned to Codex GPT 5.5(medium)
   PS: Sry for I don't write zig and let AI write this.
-  ```
-
-## May 26, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26461870831)  
-Summary: 1 runs • 5 commits • 3 authors
-
-### Changes
-
-- [`a746d0f`](https://github.com/ghostty-org/ghostty/commit/a746d0f7281954eb251915f4cd9fcea4924ad999) Update VOUCHED list ([#12816](https://github.com/ghostty-org/ghostty/issues/12816)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/12815#issuecomment-4537093020)
-  from @jcollie.
-  
-  Vouch: @nikicat
-  ```
-- [`0b6d91e`](https://github.com/ghostty-org/ghostty/commit/0b6d91e531a14c70f25bb1c8cd4a376a89bad7a4) apprt/gtk: reuse one audio-bell MediaFile per surface to fix thread leak ([@nikicat](https://github.com/nikicat))
-  ```text
-  Each audio bell called gtk.MediaFile.newForFilename, which spins up a
-  full GStreamer pipeline. The GTK4 GStreamer backend's GL sink starts
-  gstglcontext/gldisplay-event threads that are never joined on teardown,
-  so allocating a MediaFile per ring leaked a pipeline and ~4 threads on
-  every bell. A long-running instance accumulated 705 threads over ~4h of
-  normal use.
-  
-  Cache one MediaFile per surface (priv.bell_media), rebuilt only when
-  bell-audio-path changes and unref'd on dispose. Each bell now replays
-  the same pipeline via seek(0)+play() instead of creating a new one. The
-  notify::ended -> unref handler is removed: it was what discarded (and
-  leaked) a pipeline per ring. seek(0) is required so an ended stream
-  plays again (#8957).
-  
-  Verified on a real instance: GStreamer's global element counter reached
-  only oggdemux4 over an hour of use (one pipeline per bell-ringing
-  surface, reused) and thread count stayed flat, versus per-bell growth
-  before.
-  ```
-- [`0708f93`](https://github.com/ghostty-org/ghostty/commit/0708f932a51d7e4a0d1022a01f73d0267d42660d) apprt/gtk: add regression test for audio-bell MediaFile reuse ([@nikicat](https://github.com/nikicat))
-  ```text
-  Guards the contract that prevents the bell thread leak: bellMediaFile
-  must return the same cached MediaFile for an unchanged path and only
-  rebuild when the path changes. A revert to per-bell allocation (the
-  leak) would fail this. Runs in the existing test-gtk CI job; needs no
-  display or playback since the path bookkeeping is all that's asserted.
-  ```
-- [`9910a1a`](https://github.com/ghostty-org/ghostty/commit/9910a1a4753c9e135cd1add4119624f86d8167aa) test: add audio-bell thread-leak NixOS check (GNOME/Wayland) ([@nikicat](https://github.com/nikicat))
-  ```text
-  Adds a bell-leak-check-gnome NixOS test (nix/tests.nix) that launches
-  Ghostty under GNOME on Wayland, rings 100 bells in the window, and fails
-  if the GUI process thread count grows per-bell — the end-to-end
-  signature of the GStreamer pipeline leak fixed in this branch. Verified
-  locally: growth of ~1 thread over 100 bells, vs ~+400 pre-fix.
-  
-  Replaces the earlier Xvfb shell script + workflow job: per review, X11
-  support in GNOME is going away, and this belongs as a Nix check
-  alongside the other *-gnome tests rather than a standalone script.
-  
-  The VM has no GPU, so it renders via llvmpipe; the test gives the guest
-  enough cores/RAM for software GL and tolerates the +new-window D-Bus
-  activation exceeding its client-side timeout (the window still comes up)
-  by waiting for the window rather than hard-failing on the call.
-  ```
-- [`2e5ad91`](https://github.com/ghostty-org/ghostty/commit/2e5ad917eb4e325a3dbb161c3f41208a8cd35e44) apprt/gtk: fix audio-bell GStreamer thread leak (reuse one MediaFile per surface) ([#12815](https://github.com/ghostty-org/ghostty/issues/12815)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  ## Problem
-  
-  Every audio bell calls `gtk.MediaFile.newForFilename`, which spins up a
-  full GStreamer pipeline. The GTK4 GStreamer backend's GL sink starts
-  `gstglcontext`/`gldisplay-event` threads that are **never joined on
-  teardown**, so allocating a fresh `MediaFile` per ring leaks a pipeline
-  and ~4 threads on every bell. The old `notify::ended -> unref` handler
-  discarded the pipeline but did not (and could not) join those threads.
-  
-  A long-running instance accumulated **705 threads over ~4h** of normal
-  use.
-  
-  ## Fix
-  
-  Cache one `MediaFile` per surface (`priv.bell_media`), rebuilt only when
-  `bell-audio-path` changes and unref'd on `dispose`. Each bell now
-  replays the same pipeline via `seek(0)` + `play()` instead of creating a
-  new one. `seek(0)` is required so an ended stream plays again (cf.
-  #8957).
-  
-  ## Verification
-  
-  Confirmed on a real running instance with the fix: GStreamer's global
-  element counter only ever reached `oggdemux4` over an hour of use (one
-  pipeline per bell-ringing surface, reused for every subsequent bell) and
-  the process thread count stayed flat — versus the per-bell growth
-  before.
-  
-  ## Commits
-  
-  1. **The fix** — reuse one MediaFile per surface.
-  2. **Unit regression test** — guards the `bellMediaFile` reuse contract
-  (same path → same object, changed path → rebuild). Runs in the existing
-  `test-gtk` CI job; needs no display.
-  3. **End-to-end CI job** *(kept separate so it can be dropped
-  independently)* — `test/bell-leak.sh` + a `test-gtk-bell-leak` workflow
-  job that runs ghostty headless (Xvfb + software GL), rings 120 bells,
-  and fails if the thread count grows per-bell. It's heavier and more
-  environment-sensitive (needs Xvfb/Mesa/GStreamer on the runner), so it's
-  isolated for easy review/removal.
-  
-  🤖 Generated with [Claude Code](https://claude.com/claude-code)
   ```
 
