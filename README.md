@@ -8,7 +8,77 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 2, 2026 at 13:16 UTC.
+> Last updated: June 2, 2026 at 16:31 UTC.
+
+## June 2, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26822901695)  
+Summary: 1 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`ab82b8a`](https://github.com/ghostty-org/ghostty/commit/ab82b8ab720ce46183a58a55554e4a4a7423e3f5) core: fix use-after-free in Surface.setSelection ([@jparise](https://github.com/jparise))
+  ```text
+  setSelection captured the previous selection, then called Screen.select
+  (which deinits the previous selection's tracked pins), then compared the
+  new selection against the now-freed previous pin via `sel.eql(prev)`.
+  That read freed pin memory (use-after-free).
+  
+  The comparison was a copy-on-select optimization ("only re-copy if the
+  selection changed"). Remove it rather than repair it because:
+  
+  - It never fired correctly. It compared against freed memory, so the
+    shipped behavior was already "always copy".
+  
+  - It can't be repaired by copying `prev`'s pin before Screen.select.
+    That fixes the use-after-free but not the logic: the call sites (e.g.
+    mouse drag release) pass a selection equal to the one already set, so
+    a working `eql` skip would suppress the very copy those sites exist to
+    perform. A correct optimization would have to compare against the
+    last-copied selection (before the mouse event mutated the live one),
+    which would require extra state.
+  
+  - It isn't worth tracking that additional state. The copy runs once per
+    selection gesture (mouse up, double-click), which isn't in a hot path,
+    so skipping a redundant re-copy only saves a single clipboard write.
+  
+  Removing the skip eliminates the use-after-free and keeps the behavior
+  consistent with what we've already been doing.
+  ```
+- [`76b9bdb`](https://github.com/ghostty-org/ghostty/commit/76b9bdb1999398fa1b64d000f9a77088af232b62) terminal: test Screen.select frees existing pins ([@jparise](https://github.com/jparise))
+- [`6246c28`](https://github.com/ghostty-org/ghostty/commit/6246c288ae1087c8d67f75432a59da004b30bf25) core: fix use-after-free in Surface.setSelection ([#12894](https://github.com/ghostty-org/ghostty/issues/12894)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `setSelection` captured the previous selection, then called
+  `Screen.select` (which deinits the previous selection's tracked pins),
+  then compared the new selection against the now-freed previous pin via
+  `sel.eql(prev)`. That read freed pin memory (use-after-free).
+  
+  The comparison was a copy-on-select optimization ("only re-copy if the
+  selection changed"). Remove it rather than repair it because:
+  
+  - It never fired correctly. It compared against freed memory, so the
+  shipped behavior was already "always copy".
+  
+  - It can't be repaired by copying `prev`'s pin before `Screen.select`.
+  That fixes the use-after-free but not the logic: the call sites (e.g.
+  mouse drag release) pass a selection equal to the one already set, so a
+  working `eql` skip would suppress the very copy those sites exist to
+  perform. A correct optimization would have to compare against the
+  last-copied selection (before the mouse event mutated the live one),
+  which would require extra state.
+  
+  - It isn't worth tracking that additional state. The copy runs once per
+  selection gesture (mouse up, double-click), which isn't in a hot path,
+  so skipping a redundant re-copy only saves a single clipboard write.
+  
+  Removing the skip eliminates the use-after-free and keeps the behavior
+  consistent with what we've already been doing.
+  
+  ---
+  
+  _AI Disclosure_: Claude Opus 4.8 found this in a review while I was
+  working on adjacent code.
+  ```
 
 ## June 1, 2026
 
