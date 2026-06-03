@@ -8,7 +8,25 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 3, 2026 at 04:31 UTC.
+> Last updated: June 3, 2026 at 07:42 UTC.
+
+## June 3, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26869468488), [2](https://github.com/ghostty-org/ghostty/actions/runs/26864366652)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`ef68e96`](https://github.com/ghostty-org/ghostty/commit/ef68e96400fd8811b786c2b0e9ab49692eae8bab) macos: fix GHOSTTY_QUICK_TERMINAL not set for quick terminal splits (YuWiz)
+- [`4df593b`](https://github.com/ghostty-org/ghostty/commit/4df593bd24675b0f0e14add31825dc8b184cf724) macos: fix GHOSTTY_QUICK_TERMINAL not set for quick terminal splits ([#12896](https://github.com/ghostty-org/ghostty/issues/12896)) ([@bo2themax](https://github.com/bo2themax))
+- [`629838b`](https://github.com/ghostty-org/ghostty/commit/629838b9bd050b4708bdd162c115b58874646b34) Update VOUCHED list ([#12906](https://github.com/ghostty-org/ghostty/issues/12906)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12905#discussioncomment-17160340)
+  from @jcollie.
+  
+  Vouch: @c0x0o
+  ```
 
 ## June 2, 2026
 
