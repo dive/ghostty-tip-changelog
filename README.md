@@ -8,7 +8,117 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 4, 2026 at 16:08 UTC.
+> Last updated: June 4, 2026 at 18:46 UTC.
+
+## June 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26971272537)  
+Summary: 1 runs • 9 commits • 4 authors
+
+### Changes
+
+- [`d8f56b7`](https://github.com/ghostty-org/ghostty/commit/d8f56b790e2cce1dd42908a94655d9242a813892) font: add glyf entry decoder to outline ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add Glyf.Outline for decoding the contours and points of a Glyf.
+  ```
+- [`8eff74e`](https://github.com/ghostty-org/ghostty/commit/8eff74ef7680f40bbcc03d634ad1ad11417c29f3) font: add glyf rasterizer ([@mitchellh](https://github.com/mitchellh))
+- [`51995a7`](https://github.com/ghostty-org/ghostty/commit/51995a7822de65adfbd1f7c3208d9522500ee58c) font: glyf rasterization png comparison ([@mitchellh](https://github.com/mitchellh))
+- [`c4e1ab8`](https://github.com/ghostty-org/ghostty/commit/c4e1ab8883aca124eacbbec916f404a7f7bebf71) core: send selection_changed notification ([@jparise](https://github.com/jparise))
+  ```text
+  The core had no signal to the apprt when the active selection changed,
+  so a consumer (e.g. a screen reader) kept reading a stale selection
+  until some unrelated query refreshed it.
+  
+  This change adds a payload-less selection_changed action that's fired on
+  a selection state transition. The apprt reads the current selection
+  through the normal read path.
+  
+  This consolidates selection state changes so the notification fires
+  consistently: all sites route through setSelection rather than calling
+  screen.select directly, including the mouse paths that previously
+  bypassed it for clipboard timing.
+  
+  The new setSelectionAndCopy extends setSelection with the additional
+  'copy_on_select' behavior.
+  
+  On macOS, this posts .ghosttySelectionDidChange, which is debounced
+  before posting a NSAccessibility .selectedTextChanged notification.
+  
+  GTK has no consumer yet and no-ops the action.
+  ```
+- [`7fa6fff`](https://github.com/ghostty-org/ghostty/commit/7fa6fffbca802897047186eed7b43faa3bcb87cf) terminal: saturate cursor subtraction in resizeCols (zongyuan.li)
+  ```text
+  PageList.resize takes the .lt branch when columns shrink, which calls
+  resizeWithoutReflow (mutating self.rows to the new smaller value) and
+  then resizeCols with the original opts.cursor.y. When both axes shrink
+  in one call and the cursor sits at or past the new bottom row, the
+  expression `self.rows - c.y - 1` underflows and panics in safety builds.
+  
+  Use saturating subtraction; "remaining rows below cursor" is 0 once the
+  cursor sits at or past the new bottom.
+  ```
+- [`f135b95`](https://github.com/ghostty-org/ghostty/commit/f135b950989cbf404ef6dc52affc5c2f9060bba3) terminal: test shrinking both axes with cursor past new bottom (Zongyuan Li)
+  ```text
+  Adds a PageList regression test exercising the underflow path fixed in
+  7fa6fffbc, and a libghostty-vt C API test mirroring the original repro
+  through ghostty_terminal_resize.
+  ```
+- [`4782e59`](https://github.com/ghostty-org/ghostty/commit/4782e59eacfa3d79cf0862378a82dca1ff0476b3) terminal: saturate cursor subtraction in resizeCols ([#12907](https://github.com/ghostty-org/ghostty/issues/12907)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList.resize takes the .lt branch when columns shrink, which calls
+  resizeWithoutReflow (mutating self.rows to the new smaller value) and
+  then resizeCols with the original opts.cursor.y. When both axes shrink
+  in one call and the cursor sits at or past the new bottom row, the
+  expression `self.rows - c.y - 1` underflows and panics in safety builds.
+  
+  Use saturating subtraction; "remaining rows below cursor" is 0 once the
+  cursor sits at or past the new bottom.
+  
+  This problem is reported by
+  [discussion#12905](https://github.com/ghostty-org/ghostty/discussions/12905)
+  ```
+- [`52368cb`](https://github.com/ghostty-org/ghostty/commit/52368cbcff21d52d1c1b35a95543c31683618876) core: send selection_changed notification ([#12902](https://github.com/ghostty-org/ghostty/issues/12902)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The core had no signal to the apprt when the active selection changed,
+  so a consumer (e.g. a screen reader) kept reading a stale selection
+  until some unrelated query refreshed it.
+  
+  This change adds a payload-less selection_changed action that's fired on
+  a selection state transition. The apprt reads the current selection
+  through the normal read path.
+  
+  This consolidates selection state changes so the notification fires
+  consistently: all sites route through setSelection rather than calling
+  screen.select directly, including the mouse paths that previously
+  bypassed it for clipboard timing.
+  
+  The new setSelectionAndCopy extends setSelection with the additional
+  'copy_on_select' behavior.
+  
+  On macOS, this posts .ghosttySelectionDidChange, which is debounced
+  before posting a NSAccessibility .selectedTextChanged notification.
+  
+  GTK has no consumer yet and no-ops the action.
+  
+  See: #9932
+  ```
+- [`8fcead0`](https://github.com/ghostty-org/ghostty/commit/8fcead00e56a9c4e84af5ead9b8913824223f03e) font: glyf outline decoder and rasterizer ([#12893](https://github.com/ghostty-org/ghostty/issues/12893)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a Glyf outline decoder and rasterizer.
+  
+  So it turns out that FreeType and CoreText have very shitty APIs for raw
+  Glyf table rasterization. CoreText as far as I can find can't do it at
+  all. In both cases you have to create a synthetic font with just this
+  entry and rasterize the glyph. And the code to do all that was WAYYYYYY
+  complex such that this made way more sense.
+  
+  We need this for the Glyph Protocol.
+  
+  **AI disclosure:** Hand-written parser, rasterizer. AI assisted
+  validation and test writing. I read the spec myself.
+  
+  cc @qwerasd205
+  ```
 
 ## June 3, 2026
 
