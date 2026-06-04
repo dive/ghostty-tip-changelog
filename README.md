@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 3, 2026 at 21:58 UTC.
+> Last updated: June 4, 2026 at 00:51 UTC.
 
 ## June 3, 2026
 
@@ -506,68 +506,5 @@ Summary: 1 runs • 2 commits • 2 authors
   ```text
   This PR makes libghostty-vt preserve shell prompts across resize unless
   the shell explicitly opts into prompt clearing/redraw with `redraw=1`.
-  ```
-
-## May 28, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26600341544), [2](https://github.com/ghostty-org/ghostty/actions/runs/26554769180)  
-Summary: 2 runs • 5 commits • 1 authors
-
-### Changes
-
-- [`3cf01e8`](https://github.com/ghostty-org/ghostty/commit/3cf01e84453c73e196cd3900d1b30757f4358e84) libghostty: add utf-8 grapheme cell getter to C API ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a render-state row-cells getter that encodes the current cell's
-  full grapheme cluster directly as UTF-8 into a caller-provided
-  GhosttyBuffer. The getter writes the base codepoint first, followed by
-  any extra grapheme codepoints, and follows the existing buffer-writer
-  convention where len is bytes written on success or required capacity
-  on GHOSTTY_OUT_OF_SPACE.
-  
-  Previously C consumers could query grapheme codepoints, but bindings
-  that needed UTF-8 text had to reconstruct and encode the cluster
-  themselves. That duplicated terminal internals in downstream bindings
-  and made users pay for awkward cross-language struct handling. By
-  owning the UTF-8/grapheme behavior in libghostty, bindings can use one
-  stable C API and optionally wrap it with small binding-local helpers.
-  ```
-- [`519a612`](https://github.com/ghostty-org/ghostty/commit/519a612bebf25887973bab4ae22bba85f48a5e6b) libghostty: fix wasm build for selection gesture ([@mitchellh](https://github.com/mitchellh))
-- [`cb36966`](https://github.com/ghostty-org/ghostty/commit/cb36966a752982014827a9cabcf630ec3788b3d9) libghostty: add utf-8 grapheme cell getter to C API ([#12847](https://github.com/ghostty-org/ghostty/issues/12847)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a render-state row-cells getter that encodes the current cell's full
-  grapheme cluster directly as UTF-8 into a caller-provided GhosttyBuffer.
-  The getter writes the base codepoint first, followed by any extra
-  grapheme codepoints, and follows the existing buffer-writer convention
-  where len is bytes written on success or required capacity on
-  GHOSTTY_OUT_OF_SPACE.
-  
-  Previously C consumers could query grapheme codepoints, but bindings
-  that needed UTF-8 text had to reconstruct and encode the cluster
-  themselves. That duplicated terminal internals in downstream bindings
-  and made users pay for awkward cross-language struct handling. By owning
-  the UTF-8/grapheme behavior in libghostty, bindings can use one stable C
-  API and optionally wrap it with small binding-local helpers.
-  ```
-- [`8beea5f`](https://github.com/ghostty-org/ghostty/commit/8beea5f92dcfb229b9434eed6ea5548e32ed5df8) libghostty: expose row cell styling bit ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a render row-cells data key for querying whether the current cell has
-  explicit styling. This lets consumers avoid fetching a raw cell or full style
-  snapshot when all they need is the cell's HasStyling bit.
-  
-  The new key is appended to the existing enum for ABI safety and is served by
-  the existing row-cells getter path. Existing data keys and function exports are
-  unchanged.
-  ```
-- [`54ac5fd`](https://github.com/ghostty-org/ghostty/commit/54ac5fd21e5eeef5e910f7f646934dc58fd373f8) libghostty: expose row cell styling bit ([#12837](https://github.com/ghostty-org/ghostty/issues/12837)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a render row-cells data key for querying whether the current cell
-  has explicit styling. This lets consumers avoid fetching a raw cell or
-  full style snapshot when all they need is the cell's HasStyling bit.
-  
-  The new key is appended to the existing enum for ABI safety and is
-  served by the existing row-cells getter path. Existing data keys and
-  function exports are unchanged.
-  
-  This was identified as an allocation hot-spot in Go renderers.
   ```
 
