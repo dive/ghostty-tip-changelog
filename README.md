@@ -8,15 +8,36 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 4, 2026 at 18:46 UTC.
+> Last updated: June 4, 2026 at 21:33 UTC.
 
 ## June 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26971272537)  
-Summary: 1 runs • 9 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26973076631), [2](https://github.com/ghostty-org/ghostty/actions/runs/26971272537)  
+Summary: 2 runs • 13 commits • 5 authors
 
 ### Changes
 
+- [`2444e4d`](https://github.com/ghostty-org/ghostty/commit/2444e4d557e47ecb1a63d8198b7f28f3a94fa8f8) libghostty: add option to set default cursor style ([@noib3](https://github.com/noib3))
+  ```text
+  Adds an option to `libghostty-vt` to configure the default cursor style
+  that should be displayed when an app sends a DECSCUSR reset sequence
+  (`CSI 0 q`).
+  ```
+- [`66950a4`](https://github.com/ghostty-org/ghostty/commit/66950a4a537d1c21fe63a7c53d3c254bbe83679a) libghostty: add option to set default cursor blink ([@noib3](https://github.com/noib3))
+  ```text
+  Adds an option to `libghostty-vt` to configure whether the default
+  cursor displayed when an app sends a DECSCUSR reset sequence should
+  blink.
+  ```
+- [`e7b506c`](https://github.com/ghostty-org/ghostty/commit/e7b506c69d2ae8f071b29b1deb3c6ff93cf73a8d) Test setting/resetting the default cursor style and blink ([@noib3](https://github.com/noib3))
+- [`42fcd58`](https://github.com/ghostty-org/ghostty/commit/42fcd58dba54c2a0404c1c3d73c7d44081fac836) libghostty-vt: add options to configure default cursor's style and blink ([#12900](https://github.com/ghostty-org/ghostty/issues/12900)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR adds 2 options to `libghostty-vt` to configure the style and
+  blink status of the default cursor. They control how the terminal
+  renders the cursor when a program doesn't request any explicit style or
+  when it resets it to the terminal's default state by sending a DECSCUSR
+  reset sequence (`CSI 0 q`).
+  ```
 - [`d8f56b7`](https://github.com/ghostty-org/ghostty/commit/d8f56b790e2cce1dd42908a94655d9242a813892) font: add glyf entry decoder to outline ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add Glyf.Outline for decoding the contours and points of a Glyf.
