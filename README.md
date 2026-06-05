@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 4, 2026 at 21:33 UTC.
+> Last updated: June 5, 2026 at 00:44 UTC.
 
 ## June 4, 2026
 
@@ -619,23 +619,5 @@ Summary: 1 runs • 6 commits • 3 authors
   ### AI Disclosure
   
   No AI was used, code and comments were written by myself.
-  ```
-
-## May 29, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/26641829987)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`b771a3d`](https://github.com/ghostty-org/ghostty/commit/b771a3d4f1a2087ec5938e4a653c6926775caf5b) libghostty-vt: preserve shell prompts on resize by default ([@noib3](https://github.com/noib3))
-  ```text
-  This PR makes libghostty-vt preserve shell prompts across resize unless
-  the shell explicitly opts into prompt clearing/redraw with `redraw=1`.
-  ```
-- [`9017595`](https://github.com/ghostty-org/ghostty/commit/90175950d5004382abd3b0b9528e7be81b0b52ec) libghostty-vt: preserve shell prompts on resize by default ([#12653](https://github.com/ghostty-org/ghostty/issues/12653)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR makes libghostty-vt preserve shell prompts across resize unless
-  the shell explicitly opts into prompt clearing/redraw with `redraw=1`.
   ```
 
