@@ -8,7 +8,45 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 6, 2026 at 00:41 UTC.
+> Last updated: June 6, 2026 at 04:23 UTC.
+
+## June 6, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27050927493)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`a979b86`](https://github.com/ghostty-org/ghostty/commit/a979b8698b2798483bcb957c5f4059cb53c8dd72) terminal: hook up glyph protocol glossary to terminal state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This hooks up the glyph protocol glossary to the terminal state. This
+  effectively makes us handle the APC protocol for it both in Ghostty GUI
+  and libghostty, although we didn't implement the renderer yet.
+  
+  The Zig/C libghostty API also has a way to disable the protocol but it is
+  enabled by default. The memory usage is bound by the specification.
+  
+  For dirty tracking for the renderer, we're going with the simple route that
+  any glyph change marks a coarse grained dirty flag and we'll [in the future]
+  rebuild the entire state in the renderer. I think this will be fine for
+  realistic workloads, but we can reassess in the future when we have
+  real workloads.
+  ```
+- [`f146db5`](https://github.com/ghostty-org/ghostty/commit/f146db5535a154baa74806589f12d7e27daccbbe) terminal: hook up glyph protocol glossary to terminal state ([#12937](https://github.com/ghostty-org/ghostty/issues/12937)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This hooks up the glyph protocol glossary to the terminal state. This
+  effectively makes us handle the APC protocol for it both in Ghostty GUI
+  and libghostty, although we didn't implement the renderer yet.
+  
+  The Zig/C libghostty API also has a way to disable the protocol but it
+  is enabled by default. The memory usage is bound by the specification.
+  
+  For dirty tracking for the renderer, we're going with the simple route
+  that any glyph change marks a coarse grained dirty flag and we'll [in
+  the future] rebuild the entire state in the renderer. I think this will
+  be fine for realistic workloads, but we can reassess in the future when
+  we have real workloads.
+  ```
 
 ## June 5, 2026
 
