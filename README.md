@@ -8,15 +8,44 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 6, 2026 at 21:23 UTC.
+> Last updated: June 7, 2026 at 00:44 UTC.
 
 ## June 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27050927493)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27074213689), [2](https://github.com/ghostty-org/ghostty/actions/runs/27050927493)  
+Summary: 2 runs • 7 commits • 2 authors
 
 ### Changes
 
+- [`7777ded`](https://github.com/ghostty-org/ghostty/commit/7777dedd5f35ebbca89edf9dfdfe65b4a071d831) gtk: add "Close Split" to right-click context menu ([@cmwetherell](https://github.com/cmwetherell))
+  ```text
+  Add a "Close Split" option to the split submenu in the right-click
+  context menu, allowing users to close the focused split pane directly
+  from the context menu.
+  ```
+- [`4885a53`](https://github.com/ghostty-org/ghostty/commit/4885a53a98386da8b8e1c1cbff54e435d2c0dab3) gtk: rename close-pane to close-split ([@cmwetherell](https://github.com/cmwetherell))
+  ```text
+  Rename internal action and function from close-pane/actionClosePane
+  to close-split/actionCloseSplit for consistency with the UI label.
+  ```
+- [`247280f`](https://github.com/ghostty-org/ghostty/commit/247280fdbd453d8fd8157ada3a0232789a391802) gtk: regenerate translations for close-split menu item ([@cmwetherell](https://github.com/cmwetherell))
+- [`bcf1293`](https://github.com/ghostty-org/ghostty/commit/bcf12937d09d60ce23e46fd5a1851dfb3bb5e61c) Merge remote-tracking branch 'origin/main' into close-split-gtk ([@cmwetherell](https://github.com/cmwetherell))
+  ```text
+  # Conflicts:
+  #	po/hu.po
+  #	po/id.po
+  ```
+- [`7092b39`](https://github.com/ghostty-org/ghostty/commit/7092b39445bebfd3178f562eb9e5fa9a95a32332) GTK: Improve Split Close Behavior ([#11173](https://github.com/ghostty-org/ghostty/issues/11173)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  - Adds a "Close Split" option to the right-click context menu in the
+  split submenu
+  - Allows users to close the focused split pane directly from the context
+  menu
+  
+  Reference discussion:
+  https://github.com/ghostty-org/ghostty/discussions/10982
+  ```
 - [`a979b86`](https://github.com/ghostty-org/ghostty/commit/a979b8698b2798483bcb957c5f4059cb53c8dd72) terminal: hook up glyph protocol glossary to terminal state ([@mitchellh](https://github.com/mitchellh))
   ```text
   This hooks up the glyph protocol glossary to the terminal state. This
