@@ -8,7 +8,40 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 8, 2026 at 00:46 UTC.
+> Last updated: June 8, 2026 at 04:32 UTC.
+
+## June 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27113839529)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`002fd41`](https://github.com/ghostty-org/ghostty/commit/002fd41429036e973d7257174f40bc1e3106ceb7) lib-vt: add pwd_changed callback for OSC 7/9/1337 (Zongyuan Li)
+  ```text
+  Previously the libghostty-vt stream handler dropped .report_pwd as a
+  no-op, so embedders never saw shell-reported cwd changes and the
+  terminal's pwd field was never populated from escape sequences.
+  
+  Wire the action to setPwd and expose a pwd_changed callback analogous
+  to title_changed via GHOSTTY_TERMINAL_OPT_PWD_CHANGED. The payload is
+  passed through unparsed; embedders read it with ghostty_terminal_get
+  and decode any URI scheme themselves.
+  ```
+- [`2ba5e6b`](https://github.com/ghostty-org/ghostty/commit/2ba5e6b92963c9c9470fb30338989bb38fa11857) lib-vt: add pwd_changed callback for OSC 7/9/1337 ([#12956](https://github.com/ghostty-org/ghostty/issues/12956)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously the libghostty-vt stream handler dropped .report_pwd as a
+  no-op, so embedders never saw shell-reported cwd changes and the
+  terminal's pwd field was never populated from escape sequences.
+  
+  Wire the action to setPwd and expose a pwd_changed callback analogous to
+  title_changed via GHOSTTY_TERMINAL_OPT_PWD_CHANGED. The payload is
+  passed through unparsed; embedders read it with ghostty_terminal_get and
+  decode any URI scheme themselves.
+  
+  This is proposed in
+  [discussion#12927](https://github.com/ghostty-org/ghostty/discussions/12927)
+  ```
 
 ## June 6, 2026
 
