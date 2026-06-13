@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 12, 2026 at 21:34 UTC.
+> Last updated: June 13, 2026 at 00:47 UTC.
 
 ## June 10, 2026
 
@@ -105,72 +105,5 @@ Summary: 2 runs • 7 commits • 4 authors
   
   This is proposed in
   [discussion#12927](https://github.com/ghostty-org/ghostty/discussions/12927)
-  ```
-
-## June 6, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27074213689), [2](https://github.com/ghostty-org/ghostty/actions/runs/27050927493)  
-Summary: 2 runs • 7 commits • 2 authors
-
-### Changes
-
-- [`7777ded`](https://github.com/ghostty-org/ghostty/commit/7777dedd5f35ebbca89edf9dfdfe65b4a071d831) gtk: add "Close Split" to right-click context menu ([@cmwetherell](https://github.com/cmwetherell))
-  ```text
-  Add a "Close Split" option to the split submenu in the right-click
-  context menu, allowing users to close the focused split pane directly
-  from the context menu.
-  ```
-- [`4885a53`](https://github.com/ghostty-org/ghostty/commit/4885a53a98386da8b8e1c1cbff54e435d2c0dab3) gtk: rename close-pane to close-split ([@cmwetherell](https://github.com/cmwetherell))
-  ```text
-  Rename internal action and function from close-pane/actionClosePane
-  to close-split/actionCloseSplit for consistency with the UI label.
-  ```
-- [`247280f`](https://github.com/ghostty-org/ghostty/commit/247280fdbd453d8fd8157ada3a0232789a391802) gtk: regenerate translations for close-split menu item ([@cmwetherell](https://github.com/cmwetherell))
-- [`bcf1293`](https://github.com/ghostty-org/ghostty/commit/bcf12937d09d60ce23e46fd5a1851dfb3bb5e61c) Merge remote-tracking branch 'origin/main' into close-split-gtk ([@cmwetherell](https://github.com/cmwetherell))
-  ```text
-  # Conflicts:
-  #	po/hu.po
-  #	po/id.po
-  ```
-- [`7092b39`](https://github.com/ghostty-org/ghostty/commit/7092b39445bebfd3178f562eb9e5fa9a95a32332) GTK: Improve Split Close Behavior ([#11173](https://github.com/ghostty-org/ghostty/issues/11173)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  - Adds a "Close Split" option to the right-click context menu in the
-  split submenu
-  - Allows users to close the focused split pane directly from the context
-  menu
-  
-  Reference discussion:
-  https://github.com/ghostty-org/ghostty/discussions/10982
-  ```
-- [`a979b86`](https://github.com/ghostty-org/ghostty/commit/a979b8698b2798483bcb957c5f4059cb53c8dd72) terminal: hook up glyph protocol glossary to terminal state ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This hooks up the glyph protocol glossary to the terminal state. This
-  effectively makes us handle the APC protocol for it both in Ghostty GUI
-  and libghostty, although we didn't implement the renderer yet.
-  
-  The Zig/C libghostty API also has a way to disable the protocol but it is
-  enabled by default. The memory usage is bound by the specification.
-  
-  For dirty tracking for the renderer, we're going with the simple route that
-  any glyph change marks a coarse grained dirty flag and we'll [in the future]
-  rebuild the entire state in the renderer. I think this will be fine for
-  realistic workloads, but we can reassess in the future when we have
-  real workloads.
-  ```
-- [`f146db5`](https://github.com/ghostty-org/ghostty/commit/f146db5535a154baa74806589f12d7e27daccbbe) terminal: hook up glyph protocol glossary to terminal state ([#12937](https://github.com/ghostty-org/ghostty/issues/12937)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This hooks up the glyph protocol glossary to the terminal state. This
-  effectively makes us handle the APC protocol for it both in Ghostty GUI
-  and libghostty, although we didn't implement the renderer yet.
-  
-  The Zig/C libghostty API also has a way to disable the protocol but it
-  is enabled by default. The memory usage is bound by the specification.
-  
-  For dirty tracking for the renderer, we're going with the simple route
-  that any glyph change marks a coarse grained dirty flag and we'll [in
-  the future] rebuild the entire state in the renderer. I think this will
-  be fine for realistic workloads, but we can reassess in the future when
-  we have real workloads.
   ```
 
