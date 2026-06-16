@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 16, 2026 at 19:13 UTC.
+> Last updated: June 16, 2026 at 21:50 UTC.
 
 ## June 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27619391100)  
-Summary: 1 runs • 5 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27648954469), [2](https://github.com/ghostty-org/ghostty/actions/runs/27619391100)  
+Summary: 2 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`e2689b0`](https://github.com/ghostty-org/ghostty/commit/e2689b0ebb8112f9794eb4f0170aa24564071487) Update VOUCHED list ([#13032](https://github.com/ghostty-org/ghostty/issues/13032)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13030#issuecomment-4723744256)
+  from @jcollie.
+  
+  Vouch: @kostich
+  ```
+- [`e8e7fea`](https://github.com/ghostty-org/ghostty/commit/e8e7fea103ab8bff5384673a60e04b59939738dd) Update VOUCHED list ([#13033](https://github.com/ghostty-org/ghostty/issues/13033)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13031#discussioncomment-17329468)
+  from @jcollie.
+  
+  Vouch: @kostich
+  ```
 - [`4668a37`](https://github.com/ghostty-org/ghostty/commit/4668a371c1b8e70dd70f3ea7b05995db56a0f341) overrode function syncAppearance in order to update the tab bar as well ([@sahilkmishra](https://github.com/sahilkmishra))
 - [`749d454`](https://github.com/ghostty-org/ghostty/commit/749d45490a56b5719174b670cf02395bc2e46e7f) fix swiftlint ([@sahilkmishra](https://github.com/sahilkmishra))
 - [`c3ceb55`](https://github.com/ghostty-org/ghostty/commit/c3ceb55f5faf5dfc227c572ffd1e8004a03485fb) added comment explaining fix ([@sahilkmishra](https://github.com/sahilkmishra))
