@@ -8,15 +8,20 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 19, 2026 at 13:14 UTC.
+> Last updated: June 19, 2026 at 16:00 UTC.
 
 ## June 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27796816290)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27833752602), [2](https://github.com/ghostty-org/ghostty/actions/runs/27796816290)  
+Summary: 2 runs • 2 commits • 2 authors
 
 ### Changes
 
+- [`5d0a82b`](https://github.com/ghostty-org/ghostty/commit/5d0a82ba337368f5632ffa6ce4d7c558fa2de9ff) Remove unintended reasoning for user 'qappell' in vouched list ([#13050](https://github.com/ghostty-org/ghostty/issues/13050)) ([@tristan957](https://github.com/tristan957))
+  ```text
+  It seems that when I ran `!vouch qappell`, the qappell was used as the
+  reasoning for the vouch. That was not my intention.
+  ```
 - [`49a9181`](https://github.com/ghostty-org/ghostty/commit/49a9181560707936c587ae121656d2d762d27849) Update VOUCHED list ([#13043](https://github.com/ghostty-org/ghostty/issues/13043)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
