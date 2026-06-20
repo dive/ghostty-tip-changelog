@@ -8,7 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 20, 2026 at 12:37 UTC.
+> Last updated: June 20, 2026 at 15:33 UTC.
+
+## June 20, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27871780495)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`e2e6153`](https://github.com/ghostty-org/ghostty/commit/e2e61531123187d922408c3795be48d8df25c321) i18n(kk): translate missing "Close Split" string ([@AnmiTaliDev](https://github.com/AnmiTaliDev))
+- [`4749c4e`](https://github.com/ghostty-org/ghostty/commit/4749c4e93731067049bfbf2e4572061cef2bdd17) i18n(kk): translate missing "Close Split" string ([#13052](https://github.com/ghostty-org/ghostty/issues/13052)) ([@00-kat](https://github.com/00-kat))
 
 ## June 19, 2026
 
