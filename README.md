@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 23, 2026 at 21:33 UTC.
+> Last updated: June 24, 2026 at 00:38 UTC.
 
 ## June 23, 2026
 
@@ -686,21 +686,5 @@ Summary: 1 runs • 8 commits • 3 authors
   
   Claude implemented this, changes are looking good to me, but I could be
   wrong.
-  ```
-
-## June 17, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27707274148)  
-Summary: 1 runs • 1 commits • 1 authors
-
-### Changes
-
-- [`adce7b9`](https://github.com/ghostty-org/ghostty/commit/adce7b900ab7d13defea487a0a963c7786f7750b) Update VOUCHED list ([#13036](https://github.com/ghostty-org/ghostty/issues/13036)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13028#discussioncomment-17341591)
-  from @bo2themax.
-  
-  Vouch: @exlee
   ```
 
