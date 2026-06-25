@@ -8,15 +8,79 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 25, 2026 at 18:44 UTC.
+> Last updated: June 25, 2026 at 21:32 UTC.
 
 ## June 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28190387006)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28192883748), [2](https://github.com/ghostty-org/ghostty/actions/runs/28190387006)  
+Summary: 2 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`f52f8aa`](https://github.com/ghostty-org/ghostty/commit/f52f8aab95b268d6b0f3a483d6620246dd143779) macos: avoid notification publisher retain cycle ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Turns out combine's `publisher(for:,object:)` retains the object!
+  We verified this with a test script shown below. Fix this with a
+  manual filter. Found by @mustafa0x.
+  
+  ```
+  import Combine
+  import Foundation
+  
+  final class Token {
+      deinit { print("Token deinitialized") }
+  }
+  
+  weak var weakToken: Token?
+  var publisher: NotificationCenter.Publisher?
+  
+  // Create scope that will free token.
+  do {
+      let token = Token()
+      weakToken = token
+      publisher = NotificationCenter.default.publisher(
+          for: Notification.Name("TestNotification"),
+          object: token
+      )
+  }
+  
+  print("Retained:", weakToken != nil)
+  publisher = nil
+  print("Released:", weakToken == nil)
+  ```
+  ````
+- [`2415028`](https://github.com/ghostty-org/ghostty/commit/2415028fb256579c6c0f9e4ab7a15c0d59484fd0) macos: avoid notification publisher retain cycle ([#13094](https://github.com/ghostty-org/ghostty/issues/13094)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Turns out combine's `publisher(for:,object:)` retains the object! We
+  verified this with a test script shown below. Fix this with a manual
+  filter. Found by @mustafa0x.
+  
+  ```
+  import Combine
+  import Foundation
+  
+  final class Token {
+      deinit { print("Token deinitialized") }
+  }
+  
+  weak var weakToken: Token?
+  var publisher: NotificationCenter.Publisher?
+  
+  // Create scope that will free token.
+  do {
+      let token = Token()
+      weakToken = token
+      publisher = NotificationCenter.default.publisher(
+          for: Notification.Name("TestNotification"),
+          object: token
+      )
+  }
+  
+  print("Retained:", weakToken != nil)
+  publisher = nil
+  print("Released:", weakToken == nil)
+  ```
+  ````
 - [`5e872a6`](https://github.com/ghostty-org/ghostty/commit/5e872a6a681488b2ed1e87a23e12065c89948206) Update VOUCHED list ([#13093](https://github.com/ghostty-org/ghostty/issues/13093)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
