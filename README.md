@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: June 25, 2026 at 21:32 UTC.
+> Last updated: June 26, 2026 at 00:44 UTC.
 
 ## June 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28192883748), [2](https://github.com/ghostty-org/ghostty/actions/runs/28190387006)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28205137125), [2](https://github.com/ghostty-org/ghostty/actions/runs/28192883748), [3](https://github.com/ghostty-org/ghostty/actions/runs/28190387006)  
+Summary: 3 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`f9194f9`](https://github.com/ghostty-org/ghostty/commit/f9194f93deeec82670771fc3909132b37356b155) Update VOUCHED list ([#13098](https://github.com/ghostty-org/ghostty/issues/13098)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13096#discussioncomment-17439268)
+  from @jcollie.
+  
+  Vouch: @WilliamHCarter
+  ```
 - [`f52f8aa`](https://github.com/ghostty-org/ghostty/commit/f52f8aab95b268d6b0f3a483d6620246dd143779) macos: avoid notification publisher retain cycle ([@mitchellh](https://github.com/mitchellh))
   ````text
   Turns out combine's `publisher(for:,object:)` retains the object!
@@ -651,25 +659,4 @@ Summary: 1 runs • 2 commits • 2 authors
 
 - [`e2e6153`](https://github.com/ghostty-org/ghostty/commit/e2e61531123187d922408c3795be48d8df25c321) i18n(kk): translate missing "Close Split" string ([@AnmiTaliDev](https://github.com/AnmiTaliDev))
 - [`4749c4e`](https://github.com/ghostty-org/ghostty/commit/4749c4e93731067049bfbf2e4572061cef2bdd17) i18n(kk): translate missing "Close Split" string ([#13052](https://github.com/ghostty-org/ghostty/issues/13052)) ([@00-kat](https://github.com/00-kat))
-
-## June 19, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/27833752602), [2](https://github.com/ghostty-org/ghostty/actions/runs/27796816290)  
-Summary: 2 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`5d0a82b`](https://github.com/ghostty-org/ghostty/commit/5d0a82ba337368f5632ffa6ce4d7c558fa2de9ff) Remove unintended reasoning for user 'qappell' in vouched list ([#13050](https://github.com/ghostty-org/ghostty/issues/13050)) ([@tristan957](https://github.com/tristan957))
-  ```text
-  It seems that when I ran `!vouch qappell`, the qappell was used as the
-  reasoning for the vouch. That was not my intention.
-  ```
-- [`49a9181`](https://github.com/ghostty-org/ghostty/commit/49a9181560707936c587ae121656d2d762d27849) Update VOUCHED list ([#13043](https://github.com/ghostty-org/ghostty/issues/13043)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12645#discussioncomment-17343861)
-  from @tristan957.
-  
-  Vouch: @qappell
-  ```
 
