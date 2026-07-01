@@ -8,7 +8,116 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 1, 2026 at 00:44 UTC.
+> Last updated: July 1, 2026 at 04:31 UTC.
+
+## July 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`c6b0c0d`](https://github.com/ghostty-org/ghostty/commit/c6b0c0dcb45f4fa8dfb1d74604568ced30f8c48d) build(deps): bump namespacelabs/nscloud-cache-action from 1.5.0 to 1.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.5.0 to 1.6.0.
+  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/d6b68aa38adace8976c09629021052d57bb1ce9c...58bf6e08898e88803c098e2b522668541cd3b2e3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-cache-action
+    dependency-version: 1.6.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`e1d31de`](https://github.com/ghostty-org/ghostty/commit/e1d31deaaed21aa9225afca78d778fb373c95852) build(deps): bump namespacelabs/nscloud-cache-action from 1.5.0 to 1.6.0 ([#13126](https://github.com/ghostty-org/ghostty/issues/13126)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
+  from 1.5.0 to 1.6.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.6.0</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Remove unused Unix-only helpers from utils by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/148">namespacelabs/nscloud-cache-action#148</a></li>
+  <li>Validate cache links on Windows runners by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/149">namespacelabs/nscloud-cache-action#149</a></li>
+  <li>Early Windows support -&gt; Bump actions-toolkit to v0.4.0, fix
+  Dependabot &amp; patch security advisories by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/150">namespacelabs/nscloud-cache-action#150</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.6.0">https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.6.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/58bf6e08898e88803c098e2b522668541cd3b2e3"><code>58bf6e0</code></a>
+  Bump actions-toolkit to v0.4.0; fix Dependabot and patch security
+  advisories ...</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/07c62f87b6a9734917f8944b3afce3181492e327"><code>07c62f8</code></a>
+  Validate cache links on Windows runners (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/149">#149</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/148be15ff18531cb436517206569f053ce7bf8d1"><code>148be15</code></a>
+  Remove unused Unix-only helpers from utils (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/148">#148</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/d6b68aa38adace8976c09629021052d57bb1ce9c...58bf6e08898e88803c098e2b522668541cd3b2e3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.5.0&new-version=1.6.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## June 30, 2026
 
