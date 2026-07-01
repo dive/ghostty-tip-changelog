@@ -8,15 +8,32 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 1, 2026 at 15:52 UTC.
+> Last updated: July 1, 2026 at 18:39 UTC.
 
 ## July 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28537629892), [2](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
+Summary: 2 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`480edb4`](https://github.com/ghostty-org/ghostty/commit/480edb45e323daf21993c32d386a457ee8c23e96) ci: skip tip release when only non-artifact files change ([@claude](https://github.com/claude))
+  ```text
+  Detect changes since the last tip with dorny/paths-filter (base: tip)
+  and skip the build when a push touches only files that never reach the
+  built artifact: all of .github (except release-tip.yml, which defines the
+  build/tag/publish jobs) plus docs and repo/lint/editor metadata.
+  ```
+- [`8b71d7a`](https://github.com/ghostty-org/ghostty/commit/8b71d7a03cf345b6430171e480fa6e5135953095) ci: skip tip release when only non-artifact files change ([#13130](https://github.com/ghostty-org/ghostty/issues/13130)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Ignore more files when releasing tip. Moved release-tip run to a
+  separate script so we can test against it.
+  
+  ### AI Disclosure
+  
+  Claude did this, I reviewed the changes and asked it run the tests
+  locally before creating the pr.
+  ```
 - [`c6b0c0d`](https://github.com/ghostty-org/ghostty/commit/c6b0c0dcb45f4fa8dfb1d74604568ced30f8c48d) build(deps): bump namespacelabs/nscloud-cache-action from 1.5.0 to 1.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.5.0 to 1.6.0.
