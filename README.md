@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 2, 2026 at 19:17 UTC.
+> Last updated: July 2, 2026 at 22:02 UTC.
 
 ## July 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28563110896)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28622708104), [2](https://github.com/ghostty-org/ghostty/actions/runs/28563110896)  
+Summary: 2 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`f245cdc`](https://github.com/ghostty-org/ghostty/commit/f245cdc66721c3cea7551fca715f1ea04cd6bdc2) lib-vt: expose selection gesture to Zig ([@rockorager](https://github.com/rockorager))
+  ```text
+  Selection gestures are already part of the libghostty-vt C API, but the
+  native Zig module did not re-export the underlying terminal type. Zig
+  consumers that implement mouse selection had to reach into terminal
+  internals instead of using @import("ghostty-vt").
+  
+  Re-export SelectionGesture from lib_vt alongside the other terminal
+  selection and screen types.
+  ```
+- [`842badc`](https://github.com/ghostty-org/ghostty/commit/842badca5f1fc8e8bca1521bf7c619d26561aaa5) lib-vt: expose selection gesture to Zig ([#13156](https://github.com/ghostty-org/ghostty/issues/13156)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Selection gestures are already part of the libghostty-vt C API, but the
+  native Zig module did not re-export the underlying terminal type. Zig
+  consumers that implement mouse selection had to reach into terminal
+  internals instead of using @import("ghostty-vt").
+  
+  Re-export SelectionGesture from lib_vt alongside the other terminal
+  selection and screen types.
+  
+  AI Disclosure: I used AI. Yes, for +1
+  ```
 - [`aea63d7`](https://github.com/ghostty-org/ghostty/commit/aea63d71fe6630ae940b8ecf07d35851c0c11fba) libghostty: fix utf-8 grapheme length overflow ([@mitchellh](https://github.com/mitchellh))
   ```text
   The GRAPHEMES_UTF8 row-cells getter inferred its required byte
