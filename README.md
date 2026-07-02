@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 1, 2026 at 21:32 UTC.
+> Last updated: July 2, 2026 at 00:41 UTC.
 
 ## July 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28537629892), [2](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
-Summary: 2 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28551941025), [2](https://github.com/ghostty-org/ghostty/actions/runs/28537629892), [3](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
+Summary: 3 runs • 5 commits • 4 authors
 
 ### Changes
 
+- [`df5cee2`](https://github.com/ghostty-org/ghostty/commit/df5cee23829e14074d546c63baca839c47326d6f) Update VOUCHED list ([#13141](https://github.com/ghostty-org/ghostty/issues/13141)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13121#discussioncomment-17502740)
+  from @jcollie.
+  
+  Vouch: @yak3d
+  ```
 - [`480edb4`](https://github.com/ghostty-org/ghostty/commit/480edb45e323daf21993c32d386a457ee8c23e96) ci: skip tip release when only non-artifact files change ([@claude](https://github.com/claude))
   ```text
   Detect changes since the last tip with dorny/paths-filter (base: tip)
@@ -490,93 +498,5 @@ Summary: 1 runs • 2 commits • 2 authors
   
   #### AI Disclosure
   No AI was used.
-  ```
-
-## June 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28205137125), [2](https://github.com/ghostty-org/ghostty/actions/runs/28192883748), [3](https://github.com/ghostty-org/ghostty/actions/runs/28190387006)  
-Summary: 3 runs • 4 commits • 2 authors
-
-### Changes
-
-- [`f9194f9`](https://github.com/ghostty-org/ghostty/commit/f9194f93deeec82670771fc3909132b37356b155) Update VOUCHED list ([#13098](https://github.com/ghostty-org/ghostty/issues/13098)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13096#discussioncomment-17439268)
-  from @jcollie.
-  
-  Vouch: @WilliamHCarter
-  ```
-- [`f52f8aa`](https://github.com/ghostty-org/ghostty/commit/f52f8aab95b268d6b0f3a483d6620246dd143779) macos: avoid notification publisher retain cycle ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Turns out combine's `publisher(for:,object:)` retains the object!
-  We verified this with a test script shown below. Fix this with a
-  manual filter. Found by @mustafa0x.
-  
-  ```
-  import Combine
-  import Foundation
-  
-  final class Token {
-      deinit { print("Token deinitialized") }
-  }
-  
-  weak var weakToken: Token?
-  var publisher: NotificationCenter.Publisher?
-  
-  // Create scope that will free token.
-  do {
-      let token = Token()
-      weakToken = token
-      publisher = NotificationCenter.default.publisher(
-          for: Notification.Name("TestNotification"),
-          object: token
-      )
-  }
-  
-  print("Retained:", weakToken != nil)
-  publisher = nil
-  print("Released:", weakToken == nil)
-  ```
-  ````
-- [`2415028`](https://github.com/ghostty-org/ghostty/commit/2415028fb256579c6c0f9e4ab7a15c0d59484fd0) macos: avoid notification publisher retain cycle ([#13094](https://github.com/ghostty-org/ghostty/issues/13094)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Turns out combine's `publisher(for:,object:)` retains the object! We
-  verified this with a test script shown below. Fix this with a manual
-  filter. Found by @mustafa0x.
-  
-  ```
-  import Combine
-  import Foundation
-  
-  final class Token {
-      deinit { print("Token deinitialized") }
-  }
-  
-  weak var weakToken: Token?
-  var publisher: NotificationCenter.Publisher?
-  
-  // Create scope that will free token.
-  do {
-      let token = Token()
-      weakToken = token
-      publisher = NotificationCenter.default.publisher(
-          for: Notification.Name("TestNotification"),
-          object: token
-      )
-  }
-  
-  print("Retained:", weakToken != nil)
-  publisher = nil
-  print("Released:", weakToken == nil)
-  ```
-  ````
-- [`5e872a6`](https://github.com/ghostty-org/ghostty/commit/5e872a6a681488b2ed1e87a23e12065c89948206) Update VOUCHED list ([#13093](https://github.com/ghostty-org/ghostty/issues/13093)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13092#issuecomment-4802701425)
-  from @bo2themax.
-  
-  Vouch: @mustafa0x
   ```
 
