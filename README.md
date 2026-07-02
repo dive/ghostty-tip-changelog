@@ -8,7 +8,43 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 2, 2026 at 00:41 UTC.
+> Last updated: July 2, 2026 at 06:36 UTC.
+
+## July 2, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28563110896)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`aea63d7`](https://github.com/ghostty-org/ghostty/commit/aea63d71fe6630ae940b8ecf07d35851c0c11fba) libghostty: fix utf-8 grapheme length overflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GRAPHEMES_UTF8 row-cells getter inferred its required byte
+  accumulator from utf8CodepointSequenceLength, which stores the
+  value in u3. Multi-scalar clusters longer than seven UTF-8 bytes
+  could overflow that accumulator before the capacity check, causing
+  wrong probe sizes and allowing optimized builds to write past a
+  caller-provided buffer.
+  
+  Use usize for the required byte count so probing and capacity
+  checks match the later encode loop. Extend the render C API test
+  to cover the short combining cluster, an eight-byte flag cluster,
+  a longer family emoji, exact-size success, and the
+  cap == needed - 1 no-write boundary.
+  ```
+- [`c22df09`](https://github.com/ghostty-org/ghostty/commit/c22df09da10b27dd248b21b7be8b26dcbddeb8ef) libghostty: fix utf-8 grapheme length overflow ([#13145](https://github.com/ghostty-org/ghostty/issues/13145)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GRAPHEMES_UTF8 row-cells getter inferred its required byte
+  accumulator from utf8CodepointSequenceLength, which stores the value in
+  u3. Multi-scalar clusters longer than seven UTF-8 bytes could overflow
+  that accumulator before the capacity check, causing wrong probe sizes
+  and allowing optimized builds to write past a caller-provided buffer.
+  
+  Use usize for the required byte count so probing and capacity checks
+  match the later encode loop. Extend the render C API test to cover the
+  short combining cluster, an eight-byte flag cluster, a longer family
+  emoji, exact-size success, and the cap == needed - 1 no-write boundary.
+  ```
 
 ## July 1, 2026
 
