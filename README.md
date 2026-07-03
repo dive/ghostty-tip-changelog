@@ -8,15 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 3, 2026 at 19:12 UTC.
+> Last updated: July 3, 2026 at 22:01 UTC.
 
 ## July 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28677170266), [2](https://github.com/ghostty-org/ghostty/actions/runs/28640624400), [3](https://github.com/ghostty-org/ghostty/actions/runs/28640398405), [4](https://github.com/ghostty-org/ghostty/actions/runs/28636844086)  
-Summary: 4 runs • 9 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28679695704), [2](https://github.com/ghostty-org/ghostty/actions/runs/28677170266), [3](https://github.com/ghostty-org/ghostty/actions/runs/28640624400), [4](https://github.com/ghostty-org/ghostty/actions/runs/28640398405), [5](https://github.com/ghostty-org/ghostty/actions/runs/28636844086)  
+Summary: 5 runs • 11 commits • 5 authors
 
 ### Changes
 
+- [`8fe5913`](https://github.com/ghostty-org/ghostty/commit/8fe5913f7ee3eb1ea9da1b8fb1803fbe143dc069) kitty/gfx: fix build on targets without 64-bit atomics ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The generation counter added in bdc0b6c19 is a process-global
+  std.atomic.Value(u64). The Zig compiler rejects 64-bit atomic
+  operations on targets whose largest supported atomic size is 32 bits
+  (e.g. arm-linux-androideabi), which broke the libghostty-vt Android
+  build. This slipped past other CI targets because they're either
+  64-bit or compile kitty graphics out entirely (wasm32-freestanding).
+  
+  The counter backing nextGeneration is now comptime-selected: 64-bit
+  targets keep the lock-free atomic counter, while 32-bit targets fall
+  back to a mutex-protected u64. This preserves the process-wide
+  uniqueness and monotonicity guarantees of generation stamps
+  everywhere. The mutex cost is irrelevant since this is a cold path,
+  only invoked on content mutations.
+  ```
+- [`d560c64`](https://github.com/ghostty-org/ghostty/commit/d560c645488d158c3e554e13025c0eaad68d1f43) kitty/gfx: fix build on targets without 64-bit atomics ([#13174](https://github.com/ghostty-org/ghostty/issues/13174)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The generation counter added in bdc0b6c19 is a process-global
+  std.atomic.Value(u64). The Zig compiler rejects 64-bit atomic operations
+  on targets whose largest supported atomic size is 32 bits (e.g.
+  arm-linux-androideabi), which broke the libghostty-vt Android build.
+  This slipped past other CI targets because they're either 64-bit or
+  compile kitty graphics out entirely (wasm32-freestanding).
+  
+  The counter backing nextGeneration is now comptime-selected: 64-bit
+  targets keep the lock-free atomic counter, while 32-bit targets fall
+  back to a mutex-protected u64. This preserves the process-wide
+  uniqueness and monotonicity guarantees of generation stamps everywhere.
+  The mutex cost is irrelevant since this is a cold path, only invoked on
+  content mutations.
+  ```
 - [`bdc0b6c`](https://github.com/ghostty-org/ghostty/commit/bdc0b6c19c95300e1ab57c36c69e8fb4da1a0c88) kitty/gfx: add generation stamps, delete transmit time ([@mitchellh](https://github.com/mitchellh))
   ```text
   Add a generation counter to the kitty graphics image storage. Every
