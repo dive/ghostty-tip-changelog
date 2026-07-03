@@ -8,7 +8,422 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 3, 2026 at 02:31 UTC.
+> Last updated: July 3, 2026 at 06:26 UTC.
+
+## July 3, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28640624400), [2](https://github.com/ghostty-org/ghostty/actions/runs/28640398405), [3](https://github.com/ghostty-org/ghostty/actions/runs/28636844086)  
+Summary: 3 runs • 7 commits • 4 authors
+
+### Changes
+
+- [`3b63c6d`](https://github.com/ghostty-org/ghostty/commit/3b63c6dc651396c3b74e6a5bc510306df13cdb4c) Manually vouch `eunos-1128` & denounce `VectorPeak` ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  See #13163
+  
+  The `!denounce` command should ideally not ban the OP when a manual
+  target has been specified...
+  ```
+- [`bb7cd85`](https://github.com/ghostty-org/ghostty/commit/bb7cd85b2eeb5c298c0808401c80f714dfc98ff3) Manually vouch `eunos-1128` & denounce `VectorPeak` ([#13166](https://github.com/ghostty-org/ghostty/issues/13166)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  See #13163
+  
+  The `!denounce` command should ideally not ban the OP when a manual
+  target has been specified...
+  ```
+- [`9314b2c`](https://github.com/ghostty-org/ghostty/commit/9314b2c559ab6272b906584a4aabde354b7e9e05) Update VOUCHED list ([#13165](https://github.com/ghostty-org/ghostty/issues/13165)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13163#discussioncomment-17519109)
+  from @pluiedev.
+  
+  Denounce: @eunos-1128
+  ```
+- [`5a69903`](https://github.com/ghostty-org/ghostty/commit/5a699032ffa6fc1a314abd9993b3e5d7e2f102f5) build(deps): bump docker/build-push-action from 7.2.0 to 7.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 7.2.0 to 7.3.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases)
+  - [Commits](https://github.com/docker/build-push-action/compare/f9f3042f7e2789586610d6e8b85c8f03e5195baf...53b7df96c91f9c12dcc8a07bcb9ccacbed38856a)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: docker/build-push-action
+    dependency-version: 7.3.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`7873341`](https://github.com/ghostty-org/ghostty/commit/78733419a13a2b16317b2f82d7e58c1844d6aa24) build(deps): bump dorny/paths-filter from 4.0.1 to 4.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 4.0.1 to 4.0.2.
+  - [Release notes](https://github.com/dorny/paths-filter/releases)
+  - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/dorny/paths-filter/compare/fbd0ab8f3e69293af611ebaee6363fc25e6d187d...7b450fff21473bca461d4b92ce414b9d0420d706)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: dorny/paths-filter
+    dependency-version: 4.0.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`8a4d63c`](https://github.com/ghostty-org/ghostty/commit/8a4d63c4ce66373eb694b13349b4367c3fbe31cb) build(deps): bump dorny/paths-filter from 4.0.1 to 4.0.2 ([#13159](https://github.com/ghostty-org/ghostty/issues/13159)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from
+  4.0.1 to 4.0.2.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/releases">dorny/paths-filter's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v4.0.2</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>fix warning message by <a
+  href="https://github.com/cgundy"><code>@​cgundy</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/282">dorny/paths-filter#282</a></li>
+  <li>chore: fix GitHub spelling in logs by <a
+  href="https://github.com/squat"><code>@​squat</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/278">dorny/paths-filter#278</a></li>
+  <li>fix: use rev-parse instead of branch --show-current for older git
+  compat by <a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/303">dorny/paths-filter#303</a></li>
+  <li>fix: work around git dubious ownership errors in container jobs by
+  <a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/317">dorny/paths-filter#317</a></li>
+  <li>docs: update changelog for v4.0.2 by <a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/318">dorny/paths-filter#318</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a href="https://github.com/cgundy"><code>@​cgundy</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/282">dorny/paths-filter#282</a></li>
+  <li><a href="https://github.com/squat"><code>@​squat</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/278">dorny/paths-filter#278</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/dorny/paths-filter/compare/v4.0.1...v4.0.2">https://github.com/dorny/paths-filter/compare/v4.0.1...v4.0.2</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md">dorny/paths-filter's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <h2>v4.0.2</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/317">Work
+  around git dubious ownership errors in container jobs</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/303">Use
+  rev-parse instead of branch --show-current for older git compat</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/282">Fix
+  warning message</a></li>
+  </ul>
+  <h2>v4.0.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/255">Support
+  merge queue</a></li>
+  </ul>
+  <h2>v4.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/294">Update
+  action runtime to node24</a></li>
+  </ul>
+  <h2>v3.0.3</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/279">Add
+  missing predicate-quantifier</a></li>
+  </ul>
+  <h2>v3.0.2</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/224">Add
+  config parameter for predicate quantifier</a></li>
+  </ul>
+  <h2>v3.0.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/133">Compare
+  base and ref when token is empty</a></li>
+  </ul>
+  <h2>v3.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/210">Update to
+  Node.js 20</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/215">Update
+  all dependencies</a></li>
+  </ul>
+  <h2>v2.11.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/167">Update
+  @​actions/core to v1.10.0 - Fixes warning about deprecated
+  set-output</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/168">Document
+  need for pull-requests: read permission</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/164">Updating
+  to actions/checkout@v3</a></li>
+  </ul>
+  <h2>v2.11.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/157">Set
+  list-files input parameter as not required</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/161">Update
+  Node.js</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/162">Fix
+  incorrect handling of Unicode characters in exec()</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/163">Use
+  Octokit pagination</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/160">Updates
+  real world links</a></li>
+  </ul>
+  <h2>v2.10.2</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/91">Fix
+  getLocalRef() returns wrong ref</a></li>
+  </ul>
+  <h2>v2.10.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/85">Improve
+  robustness of change detection</a></li>
+  </ul>
+  <h2>v2.10.0</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/82">Add
+  ref input parameter</a></li>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/83">Fix
+  change detection in PR when pullRequest.changed_files is
+  incorrect</a></li>
+  </ul>
+  <h2>v2.9.3</h2>
+  <ul>
+  <li><a href="https://redirect.github.com/dorny/paths-filter/pull/78">Fix
+  change detection when base is a tag</a></li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/7b450fff21473bca461d4b92ce414b9d0420d706"><code>7b450ff</code></a>
+  docs: update changelog for v4.0.2 (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/318">#318</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/928037783a71f24983ea250c6e55290c1b2de54f"><code>9280377</code></a>
+  fix: work around git dubious ownership errors in container jobs (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/317">#317</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/f3ceefdc7ef57bc2d8560787d4b6c33e44044cec"><code>f3ceefd</code></a>
+  fix: use rev-parse instead of branch --show-current for older git compat
+  (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/303">#303</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/61f87a10cd2c304679af17bb73ef192addf33c1c"><code>61f87a1</code></a>
+  chore: fix GitHub spelling in logs (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/278">#278</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/b82ff81ffbe6fb4b636bb5b47e37fd8d12b32632"><code>b82ff81</code></a>
+  fix warning message (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/282">#282</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/dorny/paths-filter/compare/fbd0ab8f3e69293af611ebaee6363fc25e6d187d...7b450fff21473bca461d4b92ce414b9d0420d706">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=dorny/paths-filter&package-manager=github_actions&previous-version=4.0.1&new-version=4.0.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`8252871`](https://github.com/ghostty-org/ghostty/commit/8252871b2b5550ef9649c823530a688ea5175bc9) build(deps): bump docker/build-push-action from 7.2.0 to 7.3.0 ([#13143](https://github.com/ghostty-org/ghostty/issues/13143)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [docker/build-push-action](https://github.com/docker/build-push-action)
+  from 7.2.0 to 7.3.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/docker/build-push-action/releases">docker/build-push-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.3.0</h2>
+  <ul>
+  <li>Preserve names in esbuild bundle by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1567">docker/build-push-action#1567</a></li>
+  <li>Bump <code>@​docker/actions-toolkit</code> from 0.90.0 to 0.92.0 in
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1545">docker/build-push-action#1545</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1572">docker/build-push-action#1572</a></li>
+  <li>Bump <code>@​sigstore/core</code> from 3.1.0 to 3.2.1 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1568">docker/build-push-action#1568</a></li>
+  <li>Bump js-yaml from 4.1.1 to 4.3.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1566">docker/build-push-action#1566</a></li>
+  <li>Bump tmp from 0.2.5 to 0.2.7 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1547">docker/build-push-action#1547</a></li>
+  <li>Bump undici from 6.24.1 to 6.27.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1564">docker/build-push-action#1564</a></li>
+  <li>Bump vite from 7.3.2 to 7.3.6 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1563">docker/build-push-action#1563</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/docker/build-push-action/compare/v7.2.0...v7.3.0">https://github.com/docker/build-push-action/compare/v7.2.0...v7.3.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/53b7df96c91f9c12dcc8a07bcb9ccacbed38856a"><code>53b7df9</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1572">#1572</a>
+  from docker/dependabot/npm_and_yarn/docker/actions-t...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/154298c1ca89be1c0e019084f0611ddca621aafc"><code>154298c</code></a>
+  [dependabot skip] chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/cb1238b9c9eb453d106b4e4142a5bd9cde710040"><code>cb1238b</code></a>
+  chore(deps): Bump <code>@​docker/actions-toolkit</code> from 0.91.0 to
+  0.92.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/24f845d5cbe75d2d350a984fd0e18cb7a3f29c1c"><code>24f845d</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1566">#1566</a>
+  from docker/dependabot/npm_and_yarn/js-yaml-4.2.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/9c6973007b52c322651c38915d5e8824cea95c50"><code>9c69730</code></a>
+  [dependabot skip] chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/bc3a3a5f72a6dca16c2c2468d1dfc55ee66d2193"><code>bc3a3a5</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1574">#1574</a>
+  from docker/dependabot/github_actions/aws-actions/co...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/a82c504a2387bb8bedc50072f9c554ae2a7dab5d"><code>a82c504</code></a>
+  chore(deps): Bump js-yaml from 4.1.1 to 4.3.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/0285a75190c039d6dac52b7711abcef3f5d8f6f6"><code>0285a75</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1573">#1573</a>
+  from docker/dependabot/github_actions/actions/cache-...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/c6ad2a3f9644680619de938b97c8a10a87b2a88d"><code>c6ad2a3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1575">#1575</a>
+  from docker/dependabot/github_actions/actions/checko...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/d37484fb9737c5442a257e2f0ae5a8d756ed7d92"><code>d37484f</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1564">#1564</a>
+  from docker/dependabot/npm_and_yarn/undici-6.27.0</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/docker/build-push-action/compare/f9f3042f7e2789586610d6e8b85c8f03e5195baf...53b7df96c91f9c12dcc8a07bcb9ccacbed38856a">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=docker/build-push-action&package-manager=github_actions&previous-version=7.2.0&new-version=7.3.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## July 2, 2026
 
