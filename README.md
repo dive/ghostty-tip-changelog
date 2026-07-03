@@ -8,15 +8,93 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 3, 2026 at 16:21 UTC.
+> Last updated: July 3, 2026 at 19:12 UTC.
 
 ## July 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28640624400), [2](https://github.com/ghostty-org/ghostty/actions/runs/28640398405), [3](https://github.com/ghostty-org/ghostty/actions/runs/28636844086)  
-Summary: 3 runs • 7 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28677170266), [2](https://github.com/ghostty-org/ghostty/actions/runs/28640624400), [3](https://github.com/ghostty-org/ghostty/actions/runs/28640398405), [4](https://github.com/ghostty-org/ghostty/actions/runs/28636844086)  
+Summary: 4 runs • 9 commits • 5 authors
 
 ### Changes
 
+- [`bdc0b6c`](https://github.com/ghostty-org/ghostty/commit/bdc0b6c19c95300e1ab57c36c69e8fb4da1a0c88) kitty/gfx: add generation stamps, delete transmit time ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a generation counter to the kitty graphics image storage. Every
+  content mutation (image transmit/replace, placement add, delete)
+  assigns the storage a fresh stamp, and every image is stamped when
+  it is added or replaced.
+  
+  This solves two problems:
+  
+  First, a retransmission of the same image ID with identical dimensions
+  was previously undetectable by anything comparing width, height, format,
+  and data length; the per-image stamp changes on every add/replace, so caches
+  keyed on it always see the change. Second, the dirty flag was the only
+  storage-wide signal, and it is also set by scrolling and resizing, which move
+  placements without changing contents. The generation is only bumped by content
+  mutations, so an unchanged value means the placement set and all
+  image data are identical and consumers can skip re-reading them,
+  recomputing only placement geometry.
+  
+  The generation replaces Image.transmit_time entirely: newest-image
+  lookup by number, eviction ordering, and the renderer's texture
+  staleness checks all key on it now. A monotonic counter strictly
+  orders transmissions where Instant-based times could collide within
+  clock resolution (the renderer previously assumed equal timestamps
+  meant identical images), and this removes a syscall and an error
+  path per transmission.
+  
+  Delete commands now only mark a mutation (dirty flag and
+  generation) when they actually remove something. A delete-all runs
+  on every screen clear, so previously every ESC [ 2 J dirtied the
+  image state even with no images stored. Eviction via setLimit also
+  now marks the state dirty, which it previously did not.
+  
+  Both generations are exposed through libghostty-vt as
+  GHOSTTY_KITTY_GRAPHICS_DATA_GENERATION and
+  GHOSTTY_KITTY_IMAGE_DATA_GENERATION (uint64_t), and the headers now
+  document that stored image data is always post-inflate/post-decode:
+  COMPRESSION always reports NONE, FORMAT is never PNG, and DATA_PTR
+  is raw pixels ready for GPU upload.
+  
+      uint64_t gen = 0;
+      ghostty_kitty_graphics_get(
+          graphics, GHOSTTY_KITTY_GRAPHICS_DATA_GENERATION, &gen);
+      if (gen == last_gen) return; // nothing changed, skip re-reads
+  ```
+- [`4812fcd`](https://github.com/ghostty-org/ghostty/commit/4812fcdc7d1baa2f8d25f885f93f073b32e31a09) kitty/gfx: add generation stamps, delete transmit time ([#13173](https://github.com/ghostty-org/ghostty/issues/13173)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a generation counter to the kitty graphics image storage. Every
+  content mutation (image transmit/replace, placement add, delete) assigns
+  the storage a fresh stamp, and every image is stamped when it is added
+  or replaced.
+  
+  This solves two problems:
+  
+  First, a retransmission of the same image ID with identical dimensions
+  was previously undetectable by anything comparing width, height, format,
+  and data length; the per-image stamp changes on every add/replace, so
+  caches keyed on it always see the change. Second, the dirty flag was the
+  only storage-wide signal, and it is also set by scrolling and resizing,
+  which move placements without changing contents. The generation is only
+  bumped by content mutations, so an unchanged value means the placement
+  set and all image data are identical and consumers can skip re-reading
+  them, recomputing only placement geometry.
+  
+  The generation replaces Image.transmit_time entirely: newest-image
+  lookup by number, eviction ordering, and the renderer's texture
+  staleness checks all key on it now. A monotonic counter strictly orders
+  transmissions where Instant-based times could collide within clock
+  resolution (the renderer previously assumed equal timestamps meant
+  identical images), and this removes a syscall and an error path per
+  transmission.
+  
+  Delete commands now only mark a mutation (dirty flag and generation)
+  when they actually remove something. A delete-all runs on every screen
+  clear, so previously every ESC [ 2 J dirtied the image state even with
+  no images stored. Eviction via setLimit also now marks the state dirty,
+  which it previously did not.
+  ```
 - [`3b63c6d`](https://github.com/ghostty-org/ghostty/commit/3b63c6dc651396c3b74e6a5bc510306df13cdb4c) Manually vouch `eunos-1128` & denounce `VectorPeak` ([@pluiedev](https://github.com/pluiedev))
   ```text
   See #13163
