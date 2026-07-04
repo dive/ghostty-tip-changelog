@@ -8,15 +8,73 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 4, 2026 at 19:03 UTC.
+> Last updated: July 4, 2026 at 21:54 UTC.
 
 ## July 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28711497350), [2](https://github.com/ghostty-org/ghostty/actions/runs/28699453517), [3](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
-Summary: 3 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28720244698), [2](https://github.com/ghostty-org/ghostty/actions/runs/28711497350), [3](https://github.com/ghostty-org/ghostty/actions/runs/28699453517), [4](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
+Summary: 4 runs • 12 commits • 4 authors
 
 ### Changes
 
+- [`65e6128`](https://github.com/ghostty-org/ghostty/commit/65e61282a60afe36c6e9fabcd23c514fa683e9e9) lib-vt: add unicode grapheme width API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render text outside the terminal grid need to predict
+  how many cells text will occupy once it is written to the terminal.
+  The existing codepoint width API exposes the table used by print, but
+  that is not enough for mode 2027 grapheme clustering: VS15/VS16, ZWJ
+  sequences, skin tone modifiers, and other continuation codepoints can
+  change the width of the whole cluster.
+  
+  This exposes a single segment-and-measure API so callers use Ghostty
+  segmentation and width folding together:
+  
+      uint8_t width;
+      size_t n = ghostty_unicode_grapheme_width(cps, len, &width);
+  
+  From the Zig module:
+  
+      const vt = @import("ghostty-vt");
+      const result = vt.unicode.graphemeWidth(u21, cps);
+  
+  Callers loop until their string is consumed. The API is intentionally
+  not streaming: input must contain a complete first cluster or the
+  logical string end, so chunked readers should keep buffering when the
+  function consumes all available codepoints and more may arrive.
+  
+  The terminal hot path now shares the width-decision func with the
+  API, the helper is inline and preserves the old branch structure. So
+  this doesn't change codegen at all.
+  ```
+- [`98df7ef`](https://github.com/ghostty-org/ghostty/commit/98df7efc831b4d181bd472a4c508425d0fe399b7) lib-vt: add unicode grapheme width API ([#13186](https://github.com/ghostty-org/ghostty/issues/13186)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render text outside the terminal grid need to predict how
+  many cells text will occupy once it is written to the terminal. The
+  existing codepoint width API exposes the table used by print, but that
+  is not enough for mode 2027 grapheme clustering: VS15/VS16, ZWJ
+  sequences, skin tone modifiers, and other continuation codepoints can
+  change the width of the whole cluster.
+  
+  This exposes a single segment-and-measure API so callers use Ghostty
+  segmentation and width folding together:
+  
+      uint8_t width;
+      size_t n = ghostty_unicode_grapheme_width(cps, len, &width);
+  
+  From the Zig module:
+  
+      const vt = @import("ghostty-vt");
+      const result = vt.unicode.graphemeWidth(u21, cps);
+  
+  Callers loop until their string is consumed. The API is intentionally
+  not streaming: input must contain a complete first cluster or the
+  logical string end, so chunked readers should keep buffering when the
+  function consumes all available codepoints and more may arrive.
+  
+  The terminal hot path now shares the width-decision func with the API,
+  the helper is inline and preserves the old branch structure. So this
+  doesn't change codegen at all.
+  ```
 - [`61ce641`](https://github.com/ghostty-org/ghostty/commit/61ce641fcaf6900303a80ea6d9354a819033c8f7) Update VOUCHED list ([#13183](https://github.com/ghostty-org/ghostty/issues/13183)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
