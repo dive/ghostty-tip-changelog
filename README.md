@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 4, 2026 at 13:13 UTC.
+> Last updated: July 4, 2026 at 15:57 UTC.
 
 ## July 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28699453517), [2](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
-Summary: 2 runs • 9 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28711497350), [2](https://github.com/ghostty-org/ghostty/actions/runs/28699453517), [3](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
+Summary: 3 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`61ce641`](https://github.com/ghostty-org/ghostty/commit/61ce641fcaf6900303a80ea6d9354a819033c8f7) Update VOUCHED list ([#13183](https://github.com/ghostty-org/ghostty/issues/13183)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13182#issuecomment-4882909658)
+  from @trag1c.
+  
+  Vouch: @pearkes
+  ```
 - [`91c87e2`](https://github.com/ghostty-org/ghostty/commit/91c87e2cf324e113dbf4d6ff37f630210626092c) terminal: parse kitty drag and drop protocol (OSC 72) ([@ajr-khll](https://github.com/ajr-khll))
   ```text
   Adds an OSC 72 parser following the kitty drag and drop protocol
