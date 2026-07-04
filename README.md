@@ -8,7 +8,142 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 4, 2026 at 02:28 UTC.
+> Last updated: July 4, 2026 at 06:14 UTC.
+
+## July 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
+Summary: 1 runs • 4 commits • 1 authors
+
+### Changes
+
+- [`fc5a727`](https://github.com/ghostty-org/ghostty/commit/fc5a7277297f7098d1d53e4ad972d51a8fc4da4c) lib-vt: add unicode codepoint width API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render text outside the terminal grid need to predict
+  how many cells a codepoint will occupy once it is written to the
+  terminal. The immediate motivation is IME preedit overlay rendering:
+  measuring preedit text with font APIs (e.g. CoreText advances) can
+  disagree with the terminal's unicode table on ambiguous-width CJK and
+  emoji, causing the overlay to visibly jump when the composed text
+  commits and reflows through the real grid layout.
+  
+  This exposes the exact width table the terminal print path already
+  uses, so overlays are column-accurate by construction. From C:
+  
+      uint8_t w = ghostty_unicode_codepoint_width(0x4E00); // 2
+  
+  And from the Zig module:
+  
+      const vt = @import("ghostty-vt");
+      const w = vt.unicode.codepointWidth(0x4E00); // 2
+  
+  The function is total over its input: 0 for zero-width codepoints
+  (controls, combining marks, default-ignorables, surrogates), 2 for
+  wide codepoints (East Asian Wide/Fullwidth, regional indicators,
+  clamped at 2), and 1 for everything else, including invalid values
+  beyond U+10FFFF.
+  
+  Perf: uses the LUT lookup we use for the main core terminal
+  
+  Binary size: the width table was already linked into libghostty-vt
+  via the print path, so this adds only the exported wrapper.
+  ```
+- [`3a2e283`](https://github.com/ghostty-org/ghostty/commit/3a2e28329ce4a1fb7d06b9e17402298e9e84aca2) lib-vt: add scroll-to-row viewport scrolling ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a GHOSTTY_SCROLL_VIEWPORT_ROW tag with a `size_t row` member
+  in the value union. The row is an absolute offset from the top of the
+  scrollable area, clamped to the active area, in the same row space as
+  the scrollbar offset so thumb positions round-trip cleanly:
+  
+      ghostty_terminal_scroll_viewport(term,
+          (GhosttyTerminalScrollViewport){
+              .tag = GHOSTTY_SCROLL_VIEWPORT_ROW,
+              .value = {.row = 42},
+          });
+  
+  The tag is appended to the existing enum and the union fits within the
+  reserved padding, so this is ABI compatible.
+  
+  This also corrects the docs on GHOSTTY_TERMINAL_DATA_SCROLLBAR: the
+  getter is amortized O(1) (total is maintained incrementally, the offset
+  is cached), not "expensive". Since there is intentionally no change
+  callback, the docs now bless polling per frame or per write batch and
+  diffing, which is what Ghostty's own renderer does.
+  
+  Motivation: Embedders building native scrollbars can already read scroll state via
+  GHOSTTY_TERMINAL_DATA_SCROLLBAR, but the write side only exposed
+  top/bottom/delta scrolling. Mapping a scrollbar thumb drag to an
+  absolute position required reading the current offset and computing a
+  delta, which is two calls that must be sequenced atomically by the
+  caller.
+  
+  The core already supports absolute positioning and the macOS
+  app uses it for scroller drags via the scroll_to_row keybinding; this
+  exposes the same operation through the libghostty C API.
+  ```
+- [`8ef9193`](https://github.com/ghostty-org/ghostty/commit/8ef91934592e6cbc5d11919739438a8f8d43ea4e) lib-vt: add unicode codepoint width API ([#13178](https://github.com/ghostty-org/ghostty/issues/13178)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render text outside the terminal grid need to predict how
+  many cells a codepoint will occupy once it is written to the terminal.
+  The immediate motivation is IME preedit overlay rendering: measuring
+  preedit text with font APIs (e.g. CoreText advances) can disagree with
+  the terminal's unicode table on ambiguous-width CJK and emoji, causing
+  the overlay to visibly jump when the composed text commits and reflows
+  through the real grid layout.
+  
+  This exposes the exact width table the terminal print path already uses,
+  so overlays are column-accurate by construction. From C:
+  
+      uint8_t w = ghostty_unicode_codepoint_width(0x4E00); // 2
+  
+  And from the Zig module:
+  
+      const vt = @import("ghostty-vt");
+      const w = vt.unicode.codepointWidth(0x4E00); // 2
+  
+  The function is total over its input: 0 for zero-width codepoints
+  (controls, combining marks, default-ignorables, surrogates), 2 for wide
+  codepoints (East Asian Wide/Fullwidth, regional indicators, clamped at
+  2), and 1 for everything else, including invalid values beyond U+10FFFF.
+  
+  Perf: uses the LUT lookup we use for the main core terminal
+  
+  Binary size: the width table was already linked into libghostty-vt via
+  the print path, so this adds only the exported wrapper.
+  ```
+- [`cca5172`](https://github.com/ghostty-org/ghostty/commit/cca51729a1b6c095621bead1fec5daf3a21e3f50) lib-vt: add scroll-to-row viewport scrolling ([#13179](https://github.com/ghostty-org/ghostty/issues/13179)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a GHOSTTY_SCROLL_VIEWPORT_ROW tag with a `size_t row` member
+  in the value union. The row is an absolute offset from the top of the
+  scrollable area, clamped to the active area, in the same row space as
+  the scrollbar offset so thumb positions round-trip cleanly:
+  
+      ghostty_terminal_scroll_viewport(term,
+          (GhosttyTerminalScrollViewport){
+              .tag = GHOSTTY_SCROLL_VIEWPORT_ROW,
+              .value = {.row = 42},
+          });
+  
+  The tag is appended to the existing enum and the union fits within the
+  reserved padding, so this is ABI compatible.
+  
+  This also corrects the docs on GHOSTTY_TERMINAL_DATA_SCROLLBAR: the
+  getter is amortized O(1) (total is maintained incrementally, the offset
+  is cached), not "expensive". Since there is intentionally no change
+  callback, the docs now bless polling per frame or per write batch and
+  diffing, which is what Ghostty's own renderer does.
+  
+  Motivation: Embedders building native scrollbars can already read scroll
+  state via GHOSTTY_TERMINAL_DATA_SCROLLBAR, but the write side only
+  exposed top/bottom/delta scrolling. Mapping a scrollbar thumb drag to an
+  absolute position required reading the current offset and computing a
+  delta, which is two calls that must be sequenced atomically by the
+  caller.
+  
+  The core already supports absolute positioning and the macOS app uses it
+  for scroller drags via the scroll_to_row keybinding; this exposes the
+  same operation through the libghostty C API.
+  ```
 
 ## July 3, 2026
 
