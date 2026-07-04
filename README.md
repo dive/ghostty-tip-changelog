@@ -8,15 +8,45 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 4, 2026 at 06:14 UTC.
+> Last updated: July 4, 2026 at 10:51 UTC.
 
 ## July 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
-Summary: 1 runs • 4 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28699453517), [2](https://github.com/ghostty-org/ghostty/actions/runs/28695359537)  
+Summary: 2 runs • 9 commits • 3 authors
 
 ### Changes
 
+- [`91c87e2`](https://github.com/ghostty-org/ghostty/commit/91c87e2cf324e113dbf4d6ff37f630210626092c) terminal: parse kitty drag and drop protocol (OSC 72) ([@ajr-khll](https://github.com/ajr-khll))
+  ```text
+  Adds an OSC 72 parser following the kitty drag and drop protocol
+  specification. Parses metadata and payload into a Command.kitty_dnd_protocol
+  variant. Reassembly of chunked transfers and any action handling are
+  intentionally out of scope here; stream.zig logs the command as
+  unimplemented for now.
+  
+  Includes a walkthrough document covering the design and each touched file.
+  ```
+- [`dd6c09b`](https://github.com/ghostty-org/ghostty/commit/dd6c09bcf8b3e60d49883c55e042332a0bea4074) terminal: clean up OSC 72 parser comments and add tests ([@ajr-khll](https://github.com/ajr-khll))
+  ```text
+  Trims over-commented fields and enum variants to match the repo
+  baseline (kitty_clipboard_protocol style). Adds 11 tests covering
+  metadata/payload parsing, all EventType values, integer keys,
+  negative sentinels, case-sensitive key matching, and BEL terminator
+  recording. Removes the development walkthrough document.
+  ```
+- [`a6132c1`](https://github.com/ghostty-org/ghostty/commit/a6132c18bf4245b9ecead8095da8e637d4e2f0b8) terminal: add doc comments to OSC 72 EventType and Option enums ([@ajr-khll](https://github.com/ajr-khll))
+- [`c488ccd`](https://github.com/ghostty-org/ghostty/commit/c488ccda667afbad5e6bfc4815d3aa7abbde5fc8) terminal: correct OSC 72 doc comments for m, i, o, y, X, Y keys ([@ajr-khll](https://github.com/ajr-khll))
+- [`6887509`](https://github.com/ghostty-org/ghostty/commit/6887509035d379e728f1eafd7df4ead57e27ecce) Kitty dnd parser ([#13029](https://github.com/ghostty-org/ghostty/issues/13029)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  (#12852)
+  I opened a discussion to work on the new kitty dnd protocol and
+  implementing it for Ghostty. I was told to work on the parser but not to
+  hook up any actions to it yet. So, that's what I did! Largely based the
+  format on kitty_clipboard_protocol.zig, and used Claude Opus 4.8 (Claude
+  Code) for writing tests and some structural guidance early on. Would
+  love to get started on adding actions as well!
+  ```
 - [`fc5a727`](https://github.com/ghostty-org/ghostty/commit/fc5a7277297f7098d1d53e4ad972d51a8fc4da4c) lib-vt: add unicode codepoint width API ([@mitchellh](https://github.com/mitchellh))
   ```text
   Embedders that render text outside the terminal grid need to predict
