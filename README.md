@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 5, 2026 at 13:20 UTC.
+> Last updated: July 5, 2026 at 16:02 UTC.
 
 ## July 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [2](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`131ca6d`](https://github.com/ghostty-org/ghostty/commit/131ca6d9eb80b816488a342dfa3a9f4f7381bd73) Update VOUCHED list ([#13199](https://github.com/ghostty-org/ghostty/issues/13199)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13196#discussioncomment-17538577)
+  from @bo2themax.
+  
+  Vouch: @Nagato-Yuzuru
+  ```
 - [`02504bc`](https://github.com/ghostty-org/ghostty/commit/02504bcce1012f3341d8a011657e8d62ecb8528a) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
 - [`8642142`](https://github.com/ghostty-org/ghostty/commit/8642142a3d62beda7b1a9733c23bf11b80c720eb) Update iTerm2 colorschemes ([#13190](https://github.com/ghostty-org/ghostty/issues/13190)) ([@jcollie](https://github.com/jcollie))
   ```text
