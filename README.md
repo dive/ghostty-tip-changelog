@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 5, 2026 at 16:02 UTC.
+> Last updated: July 5, 2026 at 19:09 UTC.
 
 ## July 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [2](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28749549372), [2](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [3](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
+Summary: 3 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`243f7df`](https://github.com/ghostty-org/ghostty/commit/243f7df7c131f9cc69bed4bc4586f5bf17b9d4fa) Update VOUCHED list ([#13202](https://github.com/ghostty-org/ghostty/issues/13202)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13191#issuecomment-4887029233)
+  from @mitchellh.
+  
+  Vouch: @tasselx
+  ```
 - [`131ca6d`](https://github.com/ghostty-org/ghostty/commit/131ca6d9eb80b816488a342dfa3a9f4f7381bd73) Update VOUCHED list ([#13199](https://github.com/ghostty-org/ghostty/issues/13199)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
