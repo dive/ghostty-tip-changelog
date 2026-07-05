@@ -8,7 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 4, 2026 at 21:54 UTC.
+> Last updated: July 5, 2026 at 02:38 UTC.
+
+## July 5, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`02504bc`](https://github.com/ghostty-org/ghostty/commit/02504bcce1012f3341d8a011657e8d62ecb8528a) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`8642142`](https://github.com/ghostty-org/ghostty/commit/8642142a3d62beda7b1a9733c23bf11b80c720eb) Update iTerm2 colorschemes ([#13190](https://github.com/ghostty-org/ghostty/issues/13190)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260629-161812-8c97c3c
+  ```
 
 ## July 4, 2026
 
@@ -1149,86 +1163,5 @@ Summary: 1 runs • 1 commits • 1 authors
   from @mitchellh.
   
   Vouch: @quinnypig
-  ```
-
-## June 28, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28307553086), [2](https://github.com/ghostty-org/ghostty/actions/runs/28307122528)  
-Summary: 2 runs • 4 commits • 3 authors
-
-### Changes
-
-- [`07a56d0`](https://github.com/ghostty-org/ghostty/commit/07a56d08bd8c8fd326f7f499cfe3f07098c8e46e) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`07d3166`](https://github.com/ghostty-org/ghostty/commit/07d31666e73bce337b9cece60a884c67fe8906f4) Update iTerm2 colorschemes ([#13107](https://github.com/ghostty-org/ghostty/issues/13107)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260622-163450-75bc706
-  ```
-- [`e1e2e5f`](https://github.com/ghostty-org/ghostty/commit/e1e2e5f34ee6cd075383c6b0375e4c167abaa8d1) build(deps): bump mitchellh/vouch/action/check-issue ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [mitchellh/vouch/action/check-issue](https://github.com/mitchellh/vouch) from 52aec3d64655edf2fdb58f298e02da754a056daf to baeb3bf7c7e6c12d6e33bab3870b7e936580a934.
-  - [Release notes](https://github.com/mitchellh/vouch/releases)
-  - [Commits](https://github.com/mitchellh/vouch/compare/52aec3d64655edf2fdb58f298e02da754a056daf...baeb3bf7c7e6c12d6e33bab3870b7e936580a934)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: mitchellh/vouch/action/check-issue
-    dependency-version: baeb3bf7c7e6c12d6e33bab3870b7e936580a934
-    dependency-type: direct:production
-  ...
-  ```
-- [`18a44bf`](https://github.com/ghostty-org/ghostty/commit/18a44bfdd95d3bbe778c05770524506d98b0e84c) build(deps): bump mitchellh/vouch/action/check-issue from 52aec3d64655edf2fdb58f298e02da754a056daf to baeb3bf7c7e6c12d6e33bab3870b7e936580a934 ([#13099](https://github.com/ghostty-org/ghostty/issues/13099)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [mitchellh/vouch/action/check-issue](https://github.com/mitchellh/vouch)
-  from 52aec3d64655edf2fdb58f298e02da754a056daf to
-  baeb3bf7c7e6c12d6e33bab3870b7e936580a934.
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/mitchellh/vouch/commit/baeb3bf7c7e6c12d6e33bab3870b7e936580a934"><code>baeb3bf</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/mitchellh/vouch/issues/90">#90</a>
-  from trag1c/lock-issues</li>
-  <li>See full diff in <a
-  href="https://github.com/mitchellh/vouch/compare/52aec3d64655edf2fdb58f298e02da754a056daf...baeb3bf7c7e6c12d6e33bab3870b7e936580a934">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
   ```
 
