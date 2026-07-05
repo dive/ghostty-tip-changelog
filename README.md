@@ -8,15 +8,155 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 5, 2026 at 19:09 UTC.
+> Last updated: July 5, 2026 at 21:56 UTC.
 
 ## July 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28749549372), [2](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [3](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
-Summary: 3 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28755030114), [2](https://github.com/ghostty-org/ghostty/actions/runs/28754050801), [3](https://github.com/ghostty-org/ghostty/actions/runs/28753449265), [4](https://github.com/ghostty-org/ghostty/actions/runs/28752444628), [5](https://github.com/ghostty-org/ghostty/actions/runs/28749549372), [6](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [7](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
+Summary: 7 runs • 15 commits • 6 authors
 
 ### Changes
 
+- [`acd09c0`](https://github.com/ghostty-org/ghostty/commit/acd09c0a6cdda07a073047087388c49a76d8fd8c) macos: add tests for NSPasteboard.getOpinionatedStringContents ([@claude](https://github.com/claude))
+- [`49806fc`](https://github.com/ghostty-org/ghostty/commit/49806fc4cca56b8edaef18c8ccaae6bf26ac424b) macOS: read string contents per pasteboard item in order ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Pasteboards mixing file URLs with other items will now be pasted as joined string.
+  ```
+- [`1056599`](https://github.com/ghostty-org/ghostty/commit/10565995b9453757b72e634191d73abb2a420dc3) macOS: only read file urls for new-terminal services ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  macOS is already guarding this system, but guarding what we actually need anyway
+  ```
+- [`8d83849`](https://github.com/ghostty-org/ghostty/commit/8d838491326b6f75768df1fa70dba0072853e8c9) macOS: read string contents per pasteboard item ([#13170](https://github.com/ghostty-org/ghostty/issues/13170)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes: https://github.com/ghostty-org/ghostty/pull/4956, regression
+  from: https://github.com/ghostty-org/ghostty/pull/4956
+  
+  
+  ### AI Disclosure
+  
+  Claude wrote the tests before I changed `getOpinionatedStringContents`
+  ```
+- [`b213a72`](https://github.com/ghostty-org/ghostty/commit/b213a72c03b427607b43c89ff4223a7baa079fe8) macOS: only read file urls for new-terminal services ([#13169](https://github.com/ghostty-org/ghostty/issues/13169)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  macOS is already guarding this in Services settings, but guarding what
+  we actually need anyway
+  ```
+- [`2970e9a`](https://github.com/ghostty-org/ghostty/commit/2970e9a2a81d992c8c9a90e785cb65926b8172b3) lib-vt: many more color utility APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render theme editors, palette pickers, or custom
+  settings UI need to use the same color semantics as Ghostty.
+  
+  This moves the shared parsing paths into terminal/color and exposes them
+  through libghostty-vt. Config color and palette parsing now delegate to
+  the same helpers, so CLI/config behavior and the C ABI stay in lockstep.
+  
+  From C:
+  
+      GhosttyColorRgb rgb;
+      ghostty_color_parse("ForestGreen", 11, &rgb);
+  
+      uint8_t index;
+      ghostty_color_parse_palette_entry(
+          "0x10=#282c34", 12, &index, &rgb);
+  
+      const GhosttyColorX11Entry* names =
+          ghostty_color_x11_names();
+  
+  The exported color API is:
+  
+      ghostty_color_parse
+      ghostty_color_parse_x11
+      ghostty_color_parse_palette_entry
+      ghostty_color_palette_default
+      ghostty_color_palette_generate
+      ghostty_color_luminance
+      ghostty_color_perceived_luminance
+      ghostty_color_contrast
+      ghostty_color_x11_names
+      ghostty_color_x11_name_count
+  
+  The X11 name table is parsed once at comptime into null-terminated
+  entries in rgb.txt order. The existing case-insensitive map keeps the
+  same behavior for RGB.parse and +list-colors, while bindings can walk a
+  static table without allocations.
+  ```
+- [`63e75e8`](https://github.com/ghostty-org/ghostty/commit/63e75e86c282ca1d07de9588f0c2cfc268b2621b) lib-vt: many more color utility APIs ([#13206](https://github.com/ghostty-org/ghostty/issues/13206)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Embedders that render theme editors, palette pickers, or custom settings
+  UI need to use the same color semantics as Ghostty.
+  
+  This moves the shared parsing paths into terminal/color and exposes them
+  through libghostty-vt. Config color and palette parsing now delegate to
+  the same helpers, so CLI/config behavior and the C ABI stay in lockstep.
+  
+  From C:
+  
+      GhosttyColorRgb rgb;
+      ghostty_color_parse("ForestGreen", 11, &rgb);
+  
+      uint8_t index;
+      ghostty_color_parse_palette_entry(
+          "0x10=#282c34", 12, &index, &rgb);
+  
+      const GhosttyColorX11Entry* names =
+          ghostty_color_x11_names();
+  
+  The exported color API is:
+  
+      ghostty_color_parse
+      ghostty_color_parse_x11
+      ghostty_color_parse_palette_entry
+      ghostty_color_palette_default
+      ghostty_color_palette_generate
+      ghostty_color_luminance
+      ghostty_color_perceived_luminance
+      ghostty_color_contrast
+      ghostty_color_x11_names
+      ghostty_color_x11_name_count
+  
+  The X11 name table is parsed once at comptime into null-terminated
+  entries in rgb.txt order. The existing case-insensitive map keeps the
+  same behavior for RGB.parse and +list-colors, while bindings can walk a
+  static table without allocations.
+  
+  This doesn't add any more binary size since all of this was already used
+  by terminal internals.
+  ```
+- [`f00e906`](https://github.com/ghostty-org/ghostty/commit/f00e906949bbe46904ff7a13eeff9e8d4a292d09) lib-vt: add color scheme report encoder ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a shared encoder for CSI ? 997 ; Ps n color scheme reports and use
+  it for both CSI ? 996 n replies and unsolicited Termio reports. Export the
+  same encoder through the libghostty-vt C API with docs and an example.
+  
+  This is a really light API, arguably easy for consumers to hardcode,
+  but it didn't match the rest of our style in the libghostty API so we
+  should expose it.
+  
+  Example: GHOSTTY_COLOR_SCHEME_DARK encodes to ESC [ ? 997 ; 1 n,
+  while GHOSTTY_COLOR_SCHEME_LIGHT encodes to ESC [ ? 997 ; 2 n.
+  ```
+- [`4a7cabc`](https://github.com/ghostty-org/ghostty/commit/4a7cabc4fe7ccc1eacd40cdb561fdbd3bf66869f) lib-vt: add color scheme report encoder ([#13192](https://github.com/ghostty-org/ghostty/issues/13192)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a shared encoder for CSI ? 997 ; Ps n color scheme reports and use
+  it for both CSI ? 996 n replies and unsolicited Termio reports. Export
+  the same encoder through the libghostty-vt C API with docs and an
+  example.
+  
+  This is a really light API, arguably easy for consumers to hardcode, but
+  it didn't match the rest of our style in the libghostty API so we should
+  expose it.
+  ```
+- [`004c88e`](https://github.com/ghostty-org/ghostty/commit/004c88e41ebf02e07b55a392f984e4545c3d60c7) fix: set max window clamp to current monitor size ([@yak3d](https://github.com/yak3d))
+- [`715ef6c`](https://github.com/ghostty-org/ghostty/commit/715ef6c154997160b917f0168a60b636f32f4537) fix: set max window clamp to current monitor size ([#13171](https://github.com/ghostty-org/ghostty/issues/13171)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR fixes #7984. The issue was that GTK would clamp the window
+  itself based on the display it was opened on. We fix this by computing
+  the size based on the current display and then implicitly setting the
+  window size instead of relying on GTK to do it.
+  
+  Claude Code w/ Opus 4.7 was used to investigate, fix and explain some of
+  the Ghostty architecture to me.
+  ```
 - [`243f7df`](https://github.com/ghostty-org/ghostty/commit/243f7df7c131f9cc69bed4bc4586f5bf17b9d4fa) Update VOUCHED list ([#13202](https://github.com/ghostty-org/ghostty/issues/13202)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
