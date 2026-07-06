@@ -8,7 +8,436 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 6, 2026 at 12:41 UTC.
+> Last updated: July 6, 2026 at 17:39 UTC.
+
+## July 6, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28807063048), [2](https://github.com/ghostty-org/ghostty/actions/runs/28797087835)  
+Summary: 2 runs • 8 commits • 1 authors
+
+### Changes
+
+- [`258de36`](https://github.com/ghostty-org/ghostty/commit/258de36d152522476b9f2443e9f37aad8cc6f79b) benchmark: terminal-stream uses the full terminal handler ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The terminal-stream benchmark previously used a simplified handler
+  that handles print actions and drops everything else. That was
+  originally intended to isolate parse and print throughput, but it
+  understates the cost of escape-heavy streams: no terminal state is
+  updated for CSI/OSC/ESC sequences, and because actions are
+  dispatched at comptime, the unhandled action arms are eliminated
+  entirely, so the benchmark measures dispatch code that doesn't
+  exist in the real app.
+  
+  This switches the benchmark to the full readonly terminal stream
+  handler (terminal.TerminalStream). Every escape sequence now
+  updates real terminal state (styles, cursor movement, erases,
+  modes, etc.), closely mirroring the work the real IO thread does
+  per byte. This is the handler used to measure the VT throughput
+  changes in the following commits.
+  
+  Parser-in-isolation measurement remains covered by the separate
+  terminal-parser and osc-parser benchmarks, and print throughput is
+  identical under both handlers since printing flows into the same
+  Terminal call either way.
+  ```
+- [`47e26df`](https://github.com/ghostty-org/ghostty/commit/47e26df60f53471f2e210b5c43a965bf195faa42) terminal: batch printed codepoint runs into direct row fills ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13209
+  
+  After #13209 the IO pipeline delivers the parse thread's full
+  measured capacity, so IO throughput is now bound by VT processing.
+  Profiling `terminal-stream` on plain text showed ~85% of wall time
+  inside Terminal.print: every printable codepoint paid the full
+  per-character cost (right margin computation, grapheme clustering
+  checks, width lookup, wrap/insert mode checks, charset mapping,
+  per-cell style bookkeeping, dirty marking, cursor advance) even
+  though for typical bulk output every one of those answers is the
+  same for thousands of consecutive characters.
+  
+  This adds a new print_slice stream action carrying a run of
+  printable codepoints, emitted whenever the SIMD ground-state path
+  decodes multiple codepoints at once, plus Terminal.printSlice which
+  processes such runs in batch. Since action dispatch is comptime,
+  delivering a slice through the existing vt handler interface has
+  the same codegen as a dedicated entry point; handlers that don't
+  care about batching can simply loop and treat each codepoint as a
+  print action.
+  
+  printSlice hoists all run-invariant checks (status display, insert
+  and wraparound modes, charset state, hyperlink state) out of the
+  loop and then fills cells row by row. A single masked u64 compare
+  classifies each destination cell as "simple" (plain codepoint cell,
+  narrow, no hyperlink, style already matching the cursor); runs of
+  simple cells are written with a branch-free store loop, style-only
+  mismatches are handled inline with the same ref-counting printCell
+  does, and anything needing real cleanup (wide spacers, grapheme
+  data, hyperlinks) exits the fast path with the cursor positioned on
+  the offending cell so print() handles that one codepoint with full
+  generality. Dirty marking, previous_char, and cursor advancement
+  happen once per row instead of once per character.
+  
+  The fast path handles both narrow and wide codepoints (CJK/emoji are
+  written as wide+spacer_tail pair fills, including spacer-head
+  handling at the right edge) and stays exact under grapheme
+  clustering (mode 2027): a codepoint only joins a run if it is width
+  1 or 2 and is a grapheme break from the previously written
+  codepoint, so print() would never have attached it to the previous
+  cell. The first codepoint of a batch defers to print() whenever the
+  previous cell could carry cluster state we can't cheaply reason
+  about (including a pending wrap, where print attaches to the
+  pending cell instead of wrapping).
+  
+  Correctness is verified by a new differential fuzz test that runs
+  the same operations through per-codepoint print and randomly
+  chunked printSlice, comparing full screen dumps, cursor state, and
+  page integrity (style refcounts, grapheme maps) after every
+  operation, across wraps, margins, mode toggles, hyperlinks,
+  charsets, and wide/combining/ZWJ/RI/jamo codepoints.
+  
+  Throughput measured with ghostty-bench terminal-stream (full
+  terminal handler, 100 MB deterministic corpora, 120x80, M4 Max,
+  ReleaseFast, hyperfine means of 10 runs; ~15ms process startup
+  included in all numbers):
+  
+  | stream                    | before | after  | change |
+  |---------------------------|--------|--------|--------|
+  | ascii (no newlines)       | 784 ms | 138 ms | 5.7x   |
+  | ascii lines               | 833 ms | 198 ms | 4.2x   |
+  | unicode mixed-script      | 779 ms | 320 ms | 2.4x   |
+  | CJK (all wide)            | 424 ms | 126 ms | 3.4x   |
+  | unicode, mode 2027 on     | 807 ms | 367 ms | 2.2x   |
+  | CJK, mode 2027 on         | 495 ms | 198 ms | 2.5x   |
+  ```
+- [`1a88f36`](https://github.com/ghostty-org/ghostty/commit/1a88f3622b50e8d82d3d3ef6c6a56fdbddb895c9) terminal: dispatch CSI finals directly from stream fast paths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling escape-heavy streams showed the dominant remaining cost
+  was Parser.next: every byte routed through it copies a [3]?Action
+  return value that is ~240 bytes (the action union is sized by
+  osc.Command). A typical CSI sequence paid this twice: once for the
+  first byte after "ESC [" (csi_entry has no fast path, so even the
+  first parameter digit went through the table machine) and once for
+  the final byte that dispatches the sequence.
+  
+  This extends the existing stream fast paths to cover both. The
+  csi_param fast path now handles final bytes (0x40-0x7E) by
+  finalizing parameters and dispatching the CSI directly via a new
+  csiDispatchFinal, which replicates the parser's csi_dispatch action
+  (MAX_PARAMS overflow drop, trailing parameter finalization, and the
+  colon-separator validation for non-'m' finals) without constructing
+  the action array. A new csi_entry fast path handles the byte right
+  after "ESC [": first parameter digit, empty first parameter,
+  private markers (0x3C-0x3F), and parameterless finals. Everything
+  else (C0 controls, intermediates, the csi_entry colon edge case)
+  still defers to the state machine.
+  
+  Because these paths dispatch without going through Parser.next,
+  they would bypass a handler's vtRaw hook, so they are disabled at
+  comptime for handlers that declare one (the inspector). Those
+  handlers keep the exact previous behavior.
+  
+  Throughput measured with ghostty-bench terminal-stream (full
+  terminal handler, 100 MB deterministic corpora, 120x80, M4 Max,
+  ReleaseFast, hyperfine means of 10 runs). The csi corpus is a
+  realistic mix of SGR, cursor movement, erases, and mode changes
+  with short text runs; sgr is a doom-fire-like stream of truecolor
+  SGRs and cell pairs:
+  
+  | stream | before | after  | change |
+  |--------|--------|--------|--------|
+  | csi    | 618 ms | 525 ms | +18%   |
+  | sgr    | 486 ms | 414 ms | +17%   |
+  ```
+- [`253e4f9`](https://github.com/ghostty-org/ghostty/commit/253e4f9c3c439f241e93336940fe4bd200d4a7e2) terminal: bulk-parse CSI parameter bytes at the slice level ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  After the CSI dispatch fast paths, profiling showed the remaining
+  escape-sequence cost was the per-byte plumbing itself: for every
+  parameter byte of a sequence like "ESC [ 38;2;10;20;30 m" the
+  stream re-entered nextNonUtf8, re-checked the parser state, and
+  re-dispatched through the fast-path switch, paying call and state
+  check overhead per digit.
+  
+  consumeUntilGround now hands whole input slices to a new
+  consumeCsiParams loop whenever the parser is in the csi_param
+  state. It consumes runs of digits and separators with the parser
+  accumulator state held in locals, dispatches directly when it
+  reaches the final byte, and returns to the general path on the
+  first byte it doesn't understand (C0 controls, intermediates,
+  etc.), guaranteeing byte-for-byte identical semantics with the
+  per-byte fast path it hoists. Like the dispatch fast paths, this is
+  disabled at comptime for handlers that declare vtRaw so the
+  inspector continues to observe every action.
+  
+  Throughput measured with ghostty-bench terminal-stream (full
+  terminal handler, 100 MB deterministic corpora, 120x80, M4 Max,
+  ReleaseFast, hyperfine means of 10 runs):
+  
+  | stream | before | after  | change |
+  |--------|--------|--------|--------|
+  | csi    | 525 ms | 407 ms | +29%   |
+  | sgr    | 414 ms | 294 ms | +41%   |
+  
+  Combined with the previous commit, CSI-heavy streams are 1.5-1.7x
+  faster end to end than before this series.
+  ```
+- [`cee35ca`](https://github.com/ghostty-org/ghostty/commit/cee35cabf69d9cf2501c945fe6ee23811552b024) terminal: skip style map update when SGR leaves style unchanged ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling the csi benchmark showed ~20% of time in the style
+  ref-counted set (hash, probe, release/use churn) driven by
+  manualStyleUpdate, which runs after every SGR attribute even when
+  the attribute didn't actually change the cursor style. Real
+  programs re-assert the same style constantly (per span, per line,
+  or on every refresh of a mostly static screen), so a large share of
+  these updates are no-ops.
+  
+  Screen.setAttribute already snapshots the old style to restore it
+  on failure, so this compares the style after applying the attribute
+  and returns early when it's unchanged: the current style ID is
+  already correct and no release/lookup/use is needed.
+  
+  The tradeoff is one extra Style.eql on every style-changing
+  attribute. Measured with ghostty-bench terminal-stream (full
+  terminal handler, 100 MB deterministic corpora, 120x80, M4 Max,
+  ReleaseFast, hyperfine means of 10 runs) across corpora with
+  different repeated style rates (the csi/sgr corpora draw random
+  colors from a palette so nearly every SGR changes the style, which
+  is the worst case for this change; the redraw corpora model TUI
+  refreshes that re-assert the current style for 70% / 95% of SGRs):
+  
+  | stream              | before | after  | change |
+  |---------------------|--------|--------|--------|
+  | redraw (95% same)   | 277 ms | 260 ms | +7%    |
+  | redraw (70% same)   | 302 ms | 291 ms | +4%    |
+  | csi (~0% same)      | 407 ms | 414 ms | -2%    |
+  | sgr (~0% same)      | 295 ms | 303 ms | -3%    |
+  
+  Real-world SGR traffic is far closer to the redraw corpora than to
+  the adversarial random-color ones, so this trades a small worst
+  case regression for a solid win on the common pattern.
+  ```
+- [`2da015c`](https://github.com/ghostty-org/ghostty/commit/2da015cd6ac06cedc89e09756e895d2c1715205d) terminal: various VT processing optimizations (~1.5x to ~6x throughput increase) ([#13220](https://github.com/ghostty-org/ghostty/issues/13220)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a series of five commits that optimizes VT processing throughput
+  in various ways. Each commit is isolated, individually benchmarked, and
+  carries a detailed commit message so please read each for details about
+  each change.
+  
+  After #13209 made IO fully parser-bound, these gains should translate
+  directly into end-to-end IO throughput (until some other stage becomes
+  the new bottleneck). Plain ASCII processing went from ~128 MB/s to ~725
+  MB/s. `time cat ascii_150MB.txt` went from 1.5s before 13209 to 1.2s on
+  main to 566ms on this branch.
+  
+  ## The changes
+  
+  1. **batch printed codepoint runs into direct row fills**. Profiling
+  showed ~85% of plain-text time inside `Terminal.print`, re-answering the
+  same questions (margins, modes, width, charset, style) for every single
+  character. A new `print_slice` stream action delivers runs of decoded
+  codepoints to `Terminal.printSlice`, which hoists the invariants and
+  fills rows with a masked-compare + branch-free store loop, falling back
+  to `print()` for anything complex. **Result: 2.2x–5.7x on ascii plus
+  unicode text.**
+  2. **dispatch CSI finals directly from stream fast paths**. Every byte
+  through `Parser.next` copies a ~240 byte `[3]?Action` and a typical CSI
+  copied it twice. New `csi_entry/final` fast paths dispatch directly
+  without the action array. **Result: +17-18% on CSI streams.**
+  3. **bulk-parse CSI parameter bytes at the slice level**. Parameter
+  digits/separators are consumed in a tight slice loop with parser state
+  in locals instead of re-entering the per-byte path. **Result: +29-41% on
+  escape-heavy streams.**
+  4. **skip style map update when SGR leaves style unchanged**. Skip the
+  release/hash/probe/use churn when an SGR attribute is a no-op. **Result:
+  +4-7% on TUI-refresh patterns, -2-3% on adversarial random-color
+  streams** (tradeoff detailed in the commit message). This one is more
+  questionable, but willing to measure on real workloads.
+  
+  ## Benchmarks
+  
+  Measured with `ghostty-bench +terminal-stream` (full terminal handler,
+  100 MB deterministic synthetic corpora, 120x80 terminal, M4 Max, macOS
+  26, ReleaseFast, hyperfine means of 10 runs, ~15 ms process startup
+  included in all numbers). These are parser-stage numbers, not end-to-end
+  app numbers.
+  
+  | stream | before | after | throughput | change |
+  
+  |----------------------------|--------|--------|------------------|--------|
+  | ascii (no newlines) | 784 ms | 138 ms | 128 → 725 MB/s | 5.7x |
+  | ascii lines | 833 ms | 198 ms | 120 → 505 MB/s | 4.2x |
+  | unicode mixed-script | 779 ms | 320 ms | 128 → 313 MB/s | 2.4x |
+  | CJK (all wide) | 424 ms | 126 ms | 236 → 794 MB/s | 3.4x |
+  | unicode, mode 2027 on | 807 ms | 367 ms | 124 → 273 MB/s | 2.2x |
+  | CJK, mode 2027 on | 495 ms | 198 ms | 202 → 505 MB/s | 2.5x |
+  | csi mix (SGR/CUP/EL/modes) | 648 ms | 414 ms | 154 → 242 MB/s | 1.6x |
+  | sgr fire (doom-fire-like) | 495 ms | 303 ms | 202 → 330 MB/s | 1.6x |
+  | TUI redraw (repeat styles) | 642 ms | 291 ms | 156 → 344 MB/s | 2.2x |
+  | osc | 8.26 s | 8.20 s | (untouched path) | ~1.0x |
+  
+  **End-to-end note:** #13209 measured the parse thread pegged while the
+  gather thread used ~33% of a core, so parser gains of this size may make
+  gather (or the renderer lock) the new bottleneck for plain text before
+  the full 5.7x shows up end to end. I'll take a look at that soon...
+  
+  ## LLM Notes
+  
+  These findings were almost all found by Fable 5. I went through each
+  change and simplified quite a lot, read every single line, re-ran
+  verifications by hand. Fable in particular isn't good at writing elegant
+  Zig code, so there's a lot of style stuff. Ultimately though, I
+  understand all of this and feel comfortable with the changes.
+  ```
+- [`2f0e665`](https://github.com/ghostty-org/ghostty/commit/2f0e6659dd5f3fbc61d91a14389ca6bf54369564) termio: pipeline pty reads to overlap parsing with draining ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This replaces the single-threaded pty read loop on posix systems with
+  a two-stage pipeline: a new `io-gather` thread drains the pty into a
+  small ring of large buffers while the existing `io-reader` thread
+  parses the previous batch concurrently.
+  
+  The motivating discovery was actually found by Fable, but the
+  resulting code was hand-written and hand-verified (in addition to
+  model-verified as an extra check): on macOS the kernel tty output queue
+  caps every read on the pty master at about 1 KiB regardless of the
+  read buffer size. Instrumenting a pty with a 64 KB buffer while
+  streaming a 6.49 MB file produced 6,337 reads where every read was exactly
+  1024 bytes.
+  
+  This immediately made me realize two things about the old loop that we've
+  had since like 2023 which called processOutput once per read: all per-call
+  overhead (terminal lock, render wakeup, cursor timestamp) was paid per
+  kilobyte of bulk output, and the child could never run more than 1 KiB
+  ahead of us, so while we parsed the child (e.g. `cat`) sat blocked on a full
+  kernel queue instead of producing.
+  
+  In 2023, I justified this architecture by saying "reads are generally small"
+  but I didn't understand then that reads are generally small because the
+  kernel makes them small even if there is a lot of data.
+  
+  To preserve latency for the more typical
+  small-reads-that-are-actually-small, sub-1 KB payloads deliver on the first
+  EAGAIN with no added latency.
+  
+  End-to-end throughput was measured by timing `cat file > /dev/ttysN`
+  against a fresh app instance (M4 Max, macOS 26, ReleaseFast, medians
+  of repeated interleaved A/B runs):
+  
+  | stream                  | before       | after         | change  |
+  |-------------------------|--------------|---------------|---------|
+  | ascii.txt (6.5 MB)      | 91-92 MB/s   | 114-123 MB/s  | +25-30% |
+  | unicode.txt (8 MB)      | 116-117 MB/s | 180-183 MB/s  | +55%    |
+  | DOOM-Fire-Zig           | 530 fps      | 770 fps       | +45%    |
+  
+  The pipeline now delivers the parse stage's full measured capacity
+  (the parse thread is pegged while gather spends ~33% of a core, so
+  any IO throughput improvements are now fully parser-bound).
+  
+  **Linux note:** This needs to be verified on Linux. I think broadly
+  architecture is better and should never be worse. But its possible
+  some of the magic constants need to be tuned differently. Would love
+  more testing there.
+  ```
+- [`0535770`](https://github.com/ghostty-org/ghostty/commit/0535770e3541ab7b4ab536d57151db65f9f8c33d) termio: pipeline pty reads to overlap parsing with draining (25 - 55% IO throughput increase) ([#13209](https://github.com/ghostty-org/ghostty/issues/13209)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This replaces the single-threaded pty read loop on posix systems with a
+  two-stage pipeline: a new `io-gather` thread drains the pty into a small
+  ring of large buffers while the existing `io-reader` thread parses the
+  previous batch concurrently.
+  
+  After this, our IO throughput is now within noise (1 to 3%) of our VT
+  parsing and processing throughput. This means that any VT performance
+  improvements should raise IO throughput. We're completely bound by it
+  now.
+  
+  > [!IMPORTANT]
+  >
+  > **Against all odds, we've found a massive (25% to 55%) performance
+  improvement in Ghostty IO.** This is a subsystem we were happy to get 2%
+  improvement gains in recent years. And the change is relatively simple
+  and understandable, too.
+  
+  The motivating discovery was actually found by Fable, but the resulting
+  code was hand-written and hand-verified (in addition to model-verified
+  as an extra check): on macOS the kernel tty output queue caps every read
+  on the pty master at about 1 KiB regardless of the read buffer size.
+  Instrumenting a pty with a 64 KB buffer while streaming a 6.49 MB file
+  produced 6,337 reads where every read was exactly 1024 bytes.
+  
+  This immediately made me realize two things about the old loop that
+  we've had since like 2023 which called processOutput once per read: all
+  per-call overhead (terminal lock, render wakeup, cursor timestamp) was
+  paid per kilobyte of bulk output, and the child could never run more
+  than 1 KiB ahead of us, so while we parsed the child (e.g. `cat`) sat
+  blocked on a full kernel queue instead of producing.
+  
+  In 2023, I justified this architecture by saying "reads are generally
+  small" but I didn't understand then that reads are generally small
+  because the kernel makes them small even if there is a lot of data.
+  
+  To preserve latency for the more typical
+  small-reads-that-are-actually-small, sub-1 KB payloads deliver on the
+  first EAGAIN with no added latency.
+  
+  ## Benchmarks
+  
+  End-to-end throughput was measured by timing `cat file > /dev/ttysN`
+  against a fresh app instance (M4 Max, macOS 26, ReleaseFast, medians of
+  repeated interleaved A/B runs):
+  
+  | stream                  | before       | after         | change  |
+  |-------------------------|--------------|---------------|---------|
+  | ascii.txt (6.5 MB)      | 91-92 MB/s   | 114-123 MB/s  | +25-30% |
+  | unicode.txt (8 MB)      | 116-117 MB/s | 180-183 MB/s  | +55%    |
+  | DOOM-Fire-Zig           | 530 fps      | 770 fps       | +45%    |
+  
+  The pipeline now delivers the parse stage's full measured capacity (the
+  parse thread is pegged while gather spends ~33% of a core, so any IO
+  throughput improvements are now fully parser-bound).
+  
+  **Linux note:** This needs to be verified on Linux. I think broadly
+  architecture is better and should never be worse. But its possible some
+  of the magic constants need to be tuned differently. Would love more
+  testing there.
+  
+  ## Some Background on LLM Usage
+  
+  As noted above, the original promising path was found by Fable 5. I
+  decided to throw some money at analyzing our IO throughput, and went
+  into it expecting minor improvements at the cost of unmaintainable
+  special case optimizations (typical LLM results when given such tasks on
+  an already-optimized path).
+  
+  I spun off a Fable 5 session (API pricing) prior to some holiday weekend
+  (American, July 4th) festivities. When I came back late that night, it
+  pointed this path out with some pretty questionable code/results.
+  
+  The frustrating thing is that _I swear I tried this years ago_ and it
+  didn't deliver results. Unfortunately, it was long enough ago (probably
+  2023) that I can't remember nor do I have any evidence. But, my brain
+  had already clocked this possibility and blocked it out as "already
+  tried and failed." The code in question that this PR ultimately touched
+  has been basically unchanged for 2+ years.
+  
+  As a second point, this is a **great example of what I love about
+  LLMs**. I was not in a performance-hunting mood and I have other tasks I
+  need to get to while at the computer, so improving Ghostty performance
+  wasn't my current mode and I would not have worked on it anytime soon
+  while at the computer. But, I try to keep an agent running all the time,
+  and before my family came over for holiday afternoon, I decided today I
+  would try budgeting $100 to Fable to focus on Ghostty's IO performance.
+  Why not?
+  
+  I came back, saw some questionable but interesting results, and decided
+  it was worth some human hours to validate, understand, and work on this
+  myself. It was worth it. 😄
+  
+  Anyways, the total API cost of this if you're curious: **$88.28**.
+  
+  Remember, I **hand-wrote the code** so thats basically what it cost me
+  to discover this path. Fable did produce its own solution (in about 3x
+  the LoC change of this diff with non-idiomatic Zig styles, overly
+  defensive guards, and simultaneously poor error handling). So, I guess I
+  did pay for a solution. A bad one. Haha. But the problem it found was
+  real and good.
+  ```
 
 ## July 5, 2026
 
