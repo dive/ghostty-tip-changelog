@@ -8,15 +8,87 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 7, 2026 at 19:47 UTC.
+> Last updated: July 7, 2026 at 22:08 UTC.
 
 ## July 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28891474273), [2](https://github.com/ghostty-org/ghostty/actions/runs/28887370183), [3](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [4](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [5](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [6](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
-Summary: 6 runs • 14 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28899078944), [2](https://github.com/ghostty-org/ghostty/actions/runs/28896482651), [3](https://github.com/ghostty-org/ghostty/actions/runs/28891474273), [4](https://github.com/ghostty-org/ghostty/actions/runs/28887370183), [5](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [6](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [7](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [8](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
+Summary: 8 runs • 20 commits • 6 authors
 
 ### Changes
 
+- [`b953bb3`](https://github.com/ghostty-org/ghostty/commit/b953bb34630cbae71c6088d58e37745ae9b23119) terminal: fix bitmap allocator chunk region sizing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  BitmapAllocator.layout takes a capacity in bytes, but sized its chunk
+  region as `aligned_cap * chunk_size`, reserving chunk_size times more
+  memory than the bitmaps can ever address. As a result, the grapheme
+  region of every standard page reserved 128 KiB with only 8 KiB
+  reachable, and the string region 64 KiB with only 2 KiB reachable.
+  About ~180 KiB of waste in every 576 KiB page.
+  
+  Results for a standard page:
+  
+  | region | before | after |
+  |---|---|---|
+  | grapheme allocator | 131,136 B | 8,256 B |
+  | string allocator | 65,544 B | 2,056 B |
+  | page total | 589,824 B (576 KiB) | 409,600 B (400 KiB) |
+  
+  30% less memory for every standard page in every terminal,
+  including the preheated pages in the PageList pool.
+  ```
+- [`bc6ca3f`](https://github.com/ghostty-org/ghostty/commit/bc6ca3ff53bbb9c7f256ef235e67e22f95ea7ff7) terminal: fix bitmap allocator chunk region sizing ([#13240](https://github.com/ghostty-org/ghostty/issues/13240)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  BitmapAllocator.layout takes a capacity in bytes, but sized its chunk
+  region as `aligned_cap * chunk_size`, reserving chunk_size times more
+  memory than the bitmaps can ever address. As a result, the grapheme
+  region of every standard page reserved 128 KiB with only 8 KiB
+  reachable, and the string region 64 KiB with only 2 KiB reachable. About
+  ~180 KiB of waste in every 576 KiB page.
+  
+  Results for a standard page:
+  
+  | region | before | after |
+  |---|---|---|
+  | grapheme allocator | 131,136 B | 8,256 B |
+  | string allocator | 65,544 B | 2,056 B |
+  | page total | 589,824 B (576 KiB) | 409,600 B (400 KiB) |
+  
+  30% less memory for every standard page in every terminal, including the
+  preheated pages in the PageList pool.
+  ```
+- [`20a1bfa`](https://github.com/ghostty-org/ghostty/commit/20a1bfa5fd11c54a982d44566a843df0734cfb18) fix: pass RGB color inputs by pointer ([@elias8](https://github.com/elias8))
+- [`14c8298`](https://github.com/ghostty-org/ghostty/commit/14c82988309b7bffb590d47ca0d05aabb093da42) terminal: report OSC color queries in lib-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  libghostty-vt already tracked OSC color state but ignored color queries in the standalone stream handler. This meant embedders that installed write_pty still received no response for OSC 4/10/11/12 or Kitty OSC 21 queries.
+  
+  Resolve the current terminal colors through shared Terminal helpers and encode replies through the write_pty effect. Xterm queries use the fixed 16-bit rgb form, preserve the request terminator, and fall back from cursor to foreground when no cursor color is set. Kitty color queries now report supported terminal-backed keys and return empty values for unset dynamic colors.
+  
+  Add RGB wire encoders and tests covering the stream handler and C API. The OSC parser now releases color operation request lists during reset, fixing an allocation leak exposed by multi-query OSC color tests.
+  ```
+- [`5a4f810`](https://github.com/ghostty-org/ghostty/commit/5a4f8106a3ce03be7eb9946e666eeead83c4729b) fix(lib-vt): pass RGB color inputs by pointer ([#13238](https://github.com/ghostty-org/ghostty/issues/13238)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes C ABI compatibility issue on arm64 macOS by passing color by
+  reference instead of by value. I ran into an
+  [issue](https://github.com/elias8/libghostty/actions/runs/28889437162/job/85698207979?pr=93)
+  while working on the Dart bindings, where tests passed on Linux and
+  x86_64 macOS locally, but failed on arm64 macOS. The Dart FFI appears to
+  lower the argument (3 byte struct) differently on arm64 macOS. So the
+  change addresses that by changing the arguments to by reference and
+  aligns with the preexisting APIs.
+  
+  _AI disclosure: I used codex 5.5 to assist with debugging and making the
+  changes. However, I have reviewed all changes manually and verified by
+  running the tests both locally and on CI with the fix applied._
+  ```
+- [`3ff6d08`](https://github.com/ghostty-org/ghostty/commit/3ff6d08fad56f2d6b81420a27bdc56ee707b453e) lib-vt: report OSC and Kitty color queries ([#13239](https://github.com/ghostty-org/ghostty/issues/13239)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Hooks up responses to OSC and Kitty color queries if `write_pty` is set
+  for libghostty.
+  
+  Also found a memory leak: the OSC parser now releases color operation
+  request lists during reset.
+  ```
 - [`bb0ac4c`](https://github.com/ghostty-org/ghostty/commit/bb0ac4c723ec8b79a4d82e8a6c7fbbf8cd59794f) termio: don't bridge pty reads while the parser is idle ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes a frame time regression reported with fortio's `fps -fire`
