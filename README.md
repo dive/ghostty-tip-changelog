@@ -8,15 +8,324 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 6, 2026 at 22:09 UTC.
+> Last updated: July 7, 2026 at 02:38 UTC.
 
 ## July 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28807063048), [2](https://github.com/ghostty-org/ghostty/actions/runs/28797087835)  
-Summary: 2 runs • 8 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28827535657), [2](https://github.com/ghostty-org/ghostty/actions/runs/28807063048), [3](https://github.com/ghostty-org/ghostty/actions/runs/28797087835)  
+Summary: 3 runs • 16 commits • 1 authors
 
 ### Changes
 
+- [`4c5b1d5`](https://github.com/ghostty-org/ghostty/commit/4c5b1d5d52a5c8a79be2db897c8fbddaad64f1d2) bench: terminal-stream reads 64KiB chunks to match the IO thread ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The terminal-stream benchmark fed the stream in 4KiB chunks while
+  the real IO thread reads from the pty into 64KiB buffers (see
+  buffer_capacity in termio/Exec.zig) and hands those to the stream
+  whole. Chunk size affects measurement in two ways: it determines
+  how often the stream crosses a chunk boundary (partial UTF-8
+  sequences, escape sequences split mid-parse) and how many read
+  syscalls the harness itself performs (a 2.6 GB corpus is ~636k
+  pread calls at 4KiB versus ~40k at 64KiB).
+  
+  This bumps the benchmark read and dispatch buffers to 64KiB so the
+  stream is exercised with realistic chunk sizes. Measured with
+  ghostty-bench terminal-stream on a 2.6 GB recording of real
+  terminal sessions (120x80, M4 Max, ReleaseFast, hyperfine means):
+  
+  | harness      | time            | throughput |
+  |--------------|-----------------|------------|
+  | 4KiB chunks  | 9.651 s ± 0.013 | 270 MB/s   |
+  | 64KiB chunks | 9.582 s ± 0.101 | 272 MB/s   |
+  
+  The stream itself is barely chunk-size sensitive (most time is in
+  parsing and terminal state updates), but the harness now matches
+  what the IO thread actually does, and later commits are measured
+  against this configuration.
+  ```
+- [`cb4c49f`](https://github.com/ghostty-org/ghostty/commit/cb4c49fbf206ce0c474493a1354629ebba43e2b9) terminal: scalar UTF-8 decode consumes partial sequences cut off by ESC ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The scalar fallback of utf8DecodeUntilControlSeq (used when SIMD is
+  disabled, e.g. wasm builds) treated a valid-so-far but incomplete
+  UTF-8 sequence at the end of its decode region as pending input in
+  all cases: it stopped without consuming the bytes so a future chunk
+  could complete the sequence. That is correct when the region ends
+  at the end of the input, but the region can also be bounded by an
+  ESC byte. In that case the sequence can never be completed (the
+  next byte is already known to be ESC), and the SIMD implementation,
+  via simdutf, replaces the ill-formed prefix with U+FFFD and
+  consumes up to the ESC. The two implementations disagreed on both
+  the consumed count and the decoded output for inputs like
+  "\xC2\x1B[0m".
+  
+  The divergence is invisible at the stream level (the pending bytes
+  take the scalar nextUtf8 path which also emits a replacement
+  character once it sees the ESC) but it means the scalar decoder is
+  not a faithful reference for the SIMD one.
+  
+  This makes the scalar decoder treat a partial sequence bounded by
+  an ESC as a maximal subpart per Unicode 3-7: one U+FFFD, consumed
+  through the end of the region. Truncation at the true end of input
+  still leaves the bytes pending. Also adds a differential fuzz test
+  that runs 10k random mixtures of ASCII, escapes, controls, and
+  valid/invalid UTF-8 through both implementations and requires
+  identical results, which is what caught this.
+  ```
+- [`083d970`](https://github.com/ghostty-org/ghostty/commit/083d9709be0dc19dbd2392718288d5b6b578ea1d) terminal: decode ASCII inline in the SIMD scan for ESC ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling terminal-stream on a 2.6 GB recording of real terminal
+  sessions showed ~9% of total time inside the UTF-8 decode stage,
+  and most of it was not the decode itself: real streams contain an
+  escape sequence every ~18 bytes, so utf8DecodeUntilControlSeq is
+  called on short printable runs, and each call paid simdutf setup
+  plus its scalar rewind_and_convert_with_errors tail (which handles
+  the last partial SIMD block of every conversion) for only a
+  handful of bytes. The scalar tail alone accounted for ~3.4% of
+  total time.
+  
+  Terminal input is also overwhelmingly ASCII, for which UTF-8 to
+  UTF-32 "decoding" is just widening each byte to 32 bits. This
+  fuses the two passes: while scanning each chunk for ESC we also
+  check for bytes >= 0x80 and widen pure-ASCII chunks straight into
+  the output vector via PromoteTo, never touching simdutf. The first
+  non-ASCII byte hands the remainder of the run (up to the next ESC)
+  to the existing simdutf-based path, so non-ASCII text takes
+  exactly the same code as before. Inputs shorter than one vector
+  are handled by a scalar byte loop that likewise skips simdutf for
+  ASCII.
+  
+  The widening store needs a dedicated path for the HWY_SCALAR
+  fallback target (compiled on targets without guaranteed SIMD, e.g.
+  arm-linux-androideabi): its single-lane vectors cannot be halved
+  so the one lane is widened directly.
+  
+  The new differential fuzz test verifies the SIMD implementation
+  still matches the scalar reference exactly. Measured with
+  ghostty-bench terminal-stream (2.6 GB real-session corpus, 87%
+  printable ASCII / 5.5% ESC / 5.6% UTF-8, 120x80, M4 Max,
+  ReleaseFast, hyperfine means):
+  
+  | stream            | before          | after           | change |
+  |-------------------|-----------------|-----------------|--------|
+  | real 2.6 GB corpus | 9.582 s (272 MB/s) | 9.090 s (287 MB/s) | +5.4% |
+  ```
+- [`300f42c`](https://github.com/ghostty-org/ghostty/commit/300f42c7a970dfbbb313fd6456d4d0eb81e8efbd) terminal: handle CSI entry bytes inline in consumeUntilGround ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling terminal-stream on a 2.6 GB recording of real terminal
+  sessions showed ~7% of time in nextNonUtf8 self, and most calls
+  were for the structural bytes of CSI sequences: the '[' after ESC
+  and the single byte spent in the csi_entry state (a digit, private
+  marker, or final byte). Real streams contain tens of millions of
+  CSI sequences, and each paid two to three function calls just to
+  advance the parser through those states before the bulk parameter
+  loop could take over.
+  
+  This lifts both transitions into the consumeUntilGround loop: the
+  "ESC [" prefix is matched directly, and the csi_entry byte is
+  handled by a shared csiEntryByte helper that both the loop and
+  nextNonUtf8 use (the logic previously lived only in nextNonUtf8).
+  A typical CSI sequence now parses entirely within
+  consumeUntilGround/consumeCsiParams without any per-byte calls.
+  Handlers with a vtRaw hook keep the general path since csiEntryByte
+  dispatches finals directly.
+  
+  Measured with ghostty-bench terminal-stream (120x80, M4 Max,
+  ReleaseFast, hyperfine means of 5 runs). nextNonUtf8 self time
+  drops from ~7% to ~3% of the profile:
+  
+  | stream                     | before  | after   | change |
+  |----------------------------|---------|---------|--------|
+  | real 2.6 GB session corpus | 9.097 s | 8.854 s | +2.7%  |
+  | csi mix (SGR/CUP, 100 MB)  | 695 ms  | 674 ms  | +3.1%  |
+  ```
+- [`cb2d785`](https://github.com/ghostty-org/ghostty/commit/cb2d78587194d2cc451b5078412b2612ecb2371a) terminal: fill style-only cell runs in bulk in printSliceFill ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling terminal-stream on a 2.6 GB recording of real terminal
+  sessions showed printSliceFill as the single largest item (~25% of
+  total time), and disassembly showed the time split across three
+  scalar loops: the run-eligibility scan over codepoints, the
+  simple-cell check that guards the branch-free fill, and the general
+  path that fixes up style ref counts one cell at a time. The store
+  loop itself was already auto-vectorized by LLVM, but the two scans
+  are early-exit search loops that LLVM does not vectorize, and the
+  general path turns out to be the common case in real traffic:
+  styled text constantly overwrites cells holding a different style
+  (TUI redraws, scrolling colored output), so every such cell failed
+  the simple check and paid a release/use pair.
+  
+  Three changes, which only pay off together (vectorizing the scans
+  without the bulk path makes mismatch-heavy rows slower because the
+  wider check re-runs for every cell the general path consumes):
+  
+  The run-eligibility scan handles the narrow class, codepoints in
+  [0x10, 0xFF], eight lanes at a time. The simple-cell check compares
+  four masked cells per iteration. And a new bulk path handles runs
+  of cells that differ from the expected simple cell only by style
+  id: one vector scan finds the extent of the uniformly-styled run,
+  the ref counts are fixed with a single releaseMultiple/useMultiple
+  pair, and the cells are filled with the same branch-free store
+  loop as the simple case. Cells with graphemes, hyperlinks, or wide
+  content still fall back to print().
+  
+  Measured with ghostty-bench terminal-stream (120x80, M4 Max,
+  ReleaseFast, hyperfine means of 5 runs). The redraw corpus is a
+  full-screen 80-row styled repaint whose span color rotates every
+  frame, so every cell is overwritten with a different style:
+  
+  | stream                     | before  | after   | change |
+  |----------------------------|---------|---------|--------|
+  | real 2.6 GB session corpus | 8.826 s | 7.955 s | +11%   |
+  | TUI redraw (100 MB)        | 348 ms  | 287 ms  | +21%   |
+  ```
+- [`8d663a7`](https://github.com/ghostty-org/ghostty/commit/8d663a76e935d046198256698d2bd79d35f55a40) terminal: release style refs per run instead of per cell in clearCells ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  clearCells released the style reference of every styled cell
+  individually: an array index, a ref decrement, and a liveness
+  check per cell. Styled cells overwhelmingly come in runs sharing
+  the same style id (a colored status bar, a highlighted region, a
+  full row painted in one color), so most of that work is repeated
+  bookkeeping on the same style entry.
+  
+  This groups consecutive cells with the same style id and releases
+  each run with a single releaseMultiple call. Rows with alternating
+  styles degrade to the same per-cell cost as before; uniform rows,
+  the common case, do one ref-count update per run. The
+  releaseMultiple assertion that the ref count is at least the run
+  length holds by construction since every cell in the run held a
+  reference.
+  
+  Measured with ghostty-bench terminal-stream (120x80, M4 Max,
+  ReleaseFast, hyperfine means of 5 runs). The erase corpus paints a
+  full screen of styled rows and erases it with ED 2 in a loop,
+  which is the pattern full-screen TUIs produce on clear/redraw:
+  
+  | stream                     | before  | after   | change |
+  |----------------------------|---------|---------|--------|
+  | real 2.6 GB session corpus | 8.055 s | 7.965 s | +1.1%  |
+  | styled paint + ED 2 (100 MB) | 260 ms | 123 ms | 2.1x   |
+  ```
+- [`b505315`](https://github.com/ghostty-org/ghostty/commit/b5053153f40991558cccdc369761d68be17037fe) terminal: log unsupported-input messages once per distinct value ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Profiling terminal-stream on a 2.6 GB recording of real terminal
+  sessions showed ~5% of total time under writev, all of it log
+  output: the recording triggers ~120k warnings, dominated by a few
+  repeated messages ("unimplemented mode: 34", "invalid device
+  attributes command", "invalid C0 character") that some program in
+  the recorded session re-emitted on every frame or every prompt.
+  Each occurrence pays formatting plus a blocking write syscall,
+  and repeats add no diagnostic value beyond the first: the message
+  already includes the offending value.
+  
+  These messages are emitted in response to input that the terminal
+  application controls, so a misbehaving or merely chatty program
+  can flood the log indefinitely. This adds a logUnsupportedOnce
+  helper that suppresses repeats per (call site, value): each site
+  tracks the distinct keys it has logged (the mode number, final
+  byte, or first parameter, depending on the site) in a small fixed
+  table of 16 u32 slots, 64 bytes per site. Real streams only ever
+  produce a handful of distinct unsupported values per site, so if a
+  table fills, new values are suppressed too; by then the log
+  already shows the problem class and unbounded distinct values
+  would flood it anyway. Slots are claimed with 32-bit atomics
+  (native on wasm32) and never change afterwards, so lookups are a
+  lock-free scan and the worst case race is a duplicate message.
+  
+  The OSC 1 change-icon message moves from info to warn to match the
+  other unsupported-input messages the helper covers.
+  
+  Measured with ghostty-bench terminal-stream (2.6 GB real-session
+  corpus, 120x80, M4 Max, ReleaseFast, hyperfine means of 5 runs,
+  stderr to /dev/null which undersells the cost of a real log sink):
+  
+  | stream                     | before  | after   | change |
+  |----------------------------|---------|---------|--------|
+  | real 2.6 GB session corpus | 7.916 s | 7.674 s | +3.2%  |
+  
+  System time drops from 0.49 s to 0.22 s from the eliminated
+  writev calls.
+  ```
+- [`634957c`](https://github.com/ghostty-org/ghostty/commit/634957c8e67cad5040f54cef57de5502450d1f5f) terminal: VT throughput optimizations from real-world dataset (~1.2x to ~3.4x) ([#13226](https://github.com/ghostty-org/ghostty/issues/13226)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a series of seven commits that optimizes VT processing
+  throughput. Each commit is isolated, individually benchmarked, and
+  carries a detailed commit message so please read each for details about
+  each change.
+  
+  Whereas #13220 was driven by synthetic data, this series was driven by
+  profiling a 2.6 GB recording of real terminal sessions from an asciinema
+  data dump. Through this, I've been able to improve throughput processing
+  the full dump from 276 to 342 MB/s on my system.
+  
+  > [!NOTE]
+  >
+  > **LLM usage:** This series of work was largely driven by Fable 5 and
+  the summaries below started as LLM-written. I've proofread (and mostly
+  modified) every line of work and rewritten everything to be shorter and
+  more in line with how I'd describe a change. Nothing here was
+  unreviewed. I also threw away 3 sets of changes I didn't agree with the
+  maintenance of, but did speed up things a bit.
+  
+  ## The changes
+  
+  1. **decode ASCII inline in the SIMD scan for ESC**. Real streams call
+  `utf8DecodeUntilControlSeq` on short runs (an escape every ~18 bytes),
+  so ~9% of total time was simdutf setup plus its scalar tail paid per
+  tiny run. The ESC scan and the UTF-8 to UTF-32 "decode" (a widening for
+  ASCII) are now one pass. **Result: +5.4% on the real corpus.**
+  2. **handle CSI entry bytes inline in consumeUntilGround**. The `[`
+  after ESC and the single `csi_entry` byte each paid a `nextNonUtf8`
+  call, two to three calls for every one of the tens of millions of CSI
+  sequences in the recording. Both transitions are now handled in the
+  consumeUntilGround loop, so a typical CSI parses with no per-byte calls
+  at all. **Result: +2.7% real corpus, +3.1% CSI-heavy stream.**
+  3. **fill style-only cell runs in bulk in printSliceFill**. The largest
+  single item in the profile (~25%). The print fast path's two scans (run
+  eligibility, simple-cell check) are early-exit search loops LLVM won't
+  vectorize, and real traffic constantly lands in the general path because
+  styled text overwrites cells styled differently (TUI redraws), paying a
+  per-cell release/use pair. The scans are now vectorized and
+  uniformly-styled runs are consumed wholesale: one vector scan, one
+  releaseMultiple/useMultiple pair, one branch-free fill. **Result: +11%
+  real corpus, +21% TUI redraw.**
+  4. **release style refs per run instead of per cell in clearCells**.
+  Erasing styled rows released each cell's style reference one at a time
+  even though styled cells overwhelmingly share one style per run (status
+  bars, highlighted regions, solid rows). Runs now release with a single
+  releaseMultiple. **Result: +1.1% real corpus, 2.1x on full-screen styled
+  erase.**
+  5. **log unsupported-input messages once per distinct value**. The
+  recording triggers ~120k warnings, dominated by a few messages some
+  program re-emitted every frame ("unimplemented mode: 34"), each paying
+  formatting plus a blocking writev while adding nothing beyond the first
+  occurrence. A logUnsupportedOnce helper suppresses repeats per (call
+  site, value) using a 64-byte lock-free table per site. **Result: +3.2%
+  on the real corpus, system time halved.**
+  
+  ## Benchmarks
+  
+  Measured with `ghostty-bench +terminal-stream` (full terminal handler,
+  120x80 terminal, M4 Max, macOS 26, ReleaseFast, hyperfine means of 6
+  runs, 64KiB read chunks). These are parser-stage numbers, not end-to-end
+  app numbers.
+  
+  | stream | before | after | throughput | change |
+  
+  |-------------------------------|---------|---------|------------------|--------|
+  | real 2.6 GB session recording | 9.441 s | 7.609 s | 276 → 342 MB/s |
+  1.24x |
+  | ascii (no escapes) | 119 ms | 84 ms | 838 → 1186 MB/s | 1.41x |
+  | TUI redraw (rotating styles) | 417 ms | 293 ms | 240 → 342 MB/s |
+  1.42x |
+  | styled paint + ED 2 erase | 418 ms | 124 ms | 239 → 808 MB/s | 3.38x |
+  | csi mix (random-color SGR/CUP)| 695 ms | 696 ms | (adversarial) |
+  ~1.0x |
+  
+  Note the "csi mix" benchmark above was a generated adversarial input
+  e.g. a worst-case input for the changes we made. It wasn't based in
+  real-world data or expectations. But I asked for it to be done so we can
+  verify we don't see regressions too much (and were able to verify we see
+  basically none).
+  ```
 - [`258de36`](https://github.com/ghostty-org/ghostty/commit/258de36d152522476b9f2443e9f37aad8cc6f79b) benchmark: terminal-stream uses the full terminal handler ([@mitchellh](https://github.com/mitchellh))
   ```text
   The terminal-stream benchmark previously used a simplified handler
@@ -1523,183 +1832,6 @@ Summary: 3 runs • 5 commits • 4 authors
   
   [![Dependabot compatibility
   score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.5.0&new-version=1.6.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-
-## June 30, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28454269522)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`5d47602`](https://github.com/ghostty-org/ghostty/commit/5d476024b4e9960802dd5772aa5f77bab5df2a76) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.3 to 1.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.4.3 to 1.5.0.
-  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
-  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/15799a6b54e5765f85b2aac25b3f0df43ed571c0...d6b68aa38adace8976c09629021052d57bb1ce9c)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: namespacelabs/nscloud-cache-action
-    dependency-version: 1.5.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`0a50617`](https://github.com/ghostty-org/ghostty/commit/0a5061743d608a1b0349a3305a4136ff67600921) build(deps): bump namespacelabs/nscloud-cache-action from 1.4.3 to 1.5.0 ([#13120](https://github.com/ghostty-org/ghostty/issues/13120)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
-  from 1.4.3 to 1.5.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v1.5.0</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>Bump pnpm/action-setup from 5.0.0 to 6.0.3 in the
-  major-actions-dependencies group across 1 directory by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/127">namespacelabs/nscloud-cache-action#127</a></li>
-  <li>Bump the minor-npm-dependencies group across 1 directory with 8
-  updates by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/130">namespacelabs/nscloud-cache-action#130</a></li>
-  <li>ci: add --verbose to cargo invocations by <a
-  href="https://github.com/annervisser"><code>@​annervisser</code></a> in
-  <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/117">namespacelabs/nscloud-cache-action#117</a></li>
-  <li>Bump the minor-actions-dependencies group with 5 updates by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/133">namespacelabs/nscloud-cache-action#133</a></li>
-  <li>Bump eslint-plugin-n from 17.24.0 to 18.0.1 by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/132">namespacelabs/nscloud-cache-action#132</a></li>
-  <li>fix(ci): pin astral-sh/setup-uv to a valid v7 SHA by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/134">namespacelabs/nscloud-cache-action#134</a></li>
-  <li>ci: matrix pnpm versions to cover v11 by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/131">namespacelabs/nscloud-cache-action#131</a></li>
-  <li>Bump the major-actions-dependencies group across 1 directory with 2
-  updates by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/142">namespacelabs/nscloud-cache-action#142</a></li>
-  <li>Bump the minor-actions-dependencies group across 1 directory with 7
-  updates by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/145">namespacelabs/nscloud-cache-action#145</a></li>
-  <li>Bump the minor-npm-dependencies group across 1 directory with 9
-  updates by <a
-  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/144">namespacelabs/nscloud-cache-action#144</a></li>
-  <li>Pass spacectl binPath explicitly instead of relying on PATH by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/146">namespacelabs/nscloud-cache-action#146</a></li>
-  <li>ci: add tuist cache mode test by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/147">namespacelabs/nscloud-cache-action#147</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.5.0">https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.5.0</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/d6b68aa38adace8976c09629021052d57bb1ce9c"><code>d6b68aa</code></a>
-  ci: add tuist cache mode test (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/147">#147</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/aee11c4fe2689420e2ba4128c27a6e297217997c"><code>aee11c4</code></a>
-  Pass spacectl binPath explicitly instead of relying on PATH (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/146">#146</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/4cfea58f960c4e6cbab9f11ce754c4933274642d"><code>4cfea58</code></a>
-  Bump the minor-npm-dependencies group across 1 directory with 9 updates
-  (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/144">#144</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/2d59ae229313b90908155bbad0758681ad61a0d8"><code>2d59ae2</code></a>
-  Bump the minor-actions-dependencies group across 1 directory with 7
-  updates (...</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/18c2caf2ae15a55cd922b6430072bf4dcb42653c"><code>18c2caf</code></a>
-  Bump the major-actions-dependencies group across 1 directory with 2
-  updates (...</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/709f7233c082f4e6834932395fe47810bc3bbc52"><code>709f723</code></a>
-  ci: matrix pnpm versions to cover v11 (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/131">#131</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/34b9206dd6befcd25156541c21ecae4dd706db56"><code>34b9206</code></a>
-  Bump eslint-plugin-n from 17.24.0 to 18.0.1 (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/132">#132</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/8004c8e3d292e880d4d2dd8b79e96a531b6466be"><code>8004c8e</code></a>
-  fix(ci): pin astral-sh/setup-uv to valid v7.6.0 SHA (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/134">#134</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/0a5f069ee9873caaecdd04aa15a9b358c16b35bc"><code>0a5f069</code></a>
-  Bump the minor-actions-dependencies group with 5 updates (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/133">#133</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/064bb70e4ad00eaf0b1384a443a76315612db876"><code>064bb70</code></a>
-  ci: add --verbose to cargo invocations (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/117">#117</a>)</li>
-  <li>Additional commits viewable in <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/15799a6b54e5765f85b2aac25b3f0df43ed571c0...d6b68aa38adace8976c09629021052d57bb1ce9c">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.4.3&new-version=1.5.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
   
   Dependabot will resolve any conflicts with this PR as long as you don't
   alter it yourself. You can also trigger a rebase manually by commenting
