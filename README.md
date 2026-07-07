@@ -8,15 +8,112 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 7, 2026 at 11:42 UTC.
+> Last updated: July 7, 2026 at 14:20 UTC.
 
 ## July 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [2](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [3](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
-Summary: 3 runs • 8 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [2](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [3](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [4](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
+Summary: 4 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`77190bd`](https://github.com/ghostty-org/ghostty/commit/77190bd02301e2666adf926a1b7a891dc2189353) terminal: handful of scroll region optimizations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This optimizes scrolling inside a scroll region (DECSTBM).
+  
+  ## The changes
+  
+  1. **Stop creating scrollback for top-anchored regions on screens that don't
+    retain scrollback.** `index()` routed any full-width region with `top == 0`
+    through `cursorScrollAbove()`, which pushes the scrolled-out row into
+    scrollback. Every scroll paid `PageList.grow()` plus amortized page pruning,
+    which includes a 512 KB `memset` each time a page is recycled. These now
+    use the in-place region scroll instead. CSI S gets the same routing fix.
+    **Result: 1.05x-1.49x on the bottom-anchored region workloads, 1.25x on
+    alt-screen full-screen scrolling.**
+  
+  2. **Add a specialized `Screen.cursorScrollRegionUp()` for the region scroll
+     hot path.** The previous fast path (`PageList.eraseRowBounded`) paid
+     per-scroll bookkeeping that exceeded the actual row work.
+     The new function is built around the invariant that the cursor sits on the
+     bottom row of a full-width region.
+     **Result: 1.23x-1.24x on the top-anchored region workloads.**
+  
+  ## Benchmarks
+  
+  | workload | region (80 rows) | before | after | change |
+  |---|---|---|---|---|
+  | scrolling (control) | primary screen, no region | 237 ms | 235 ms | 1.0x |
+  | scrolling_bottom_region | alt, rows 1-79 | 243 ms | 231 ms | 1.05x |
+  | scrolling_bottom_small_region | alt, rows 1-40 | 311 ms | 208 ms | 1.49x |
+  | scrolling_top_region | alt, rows 2-80 | 283 ms | 229 ms | 1.23x |
+  | scrolling_top_small_region | alt, rows 40-80 | 258 ms | 208 ms | 1.24x |
+  | alt screen full-screen scrolling | alt, no region | 288 ms | 230 ms | 1.25x |
+  
+  ## LLM Notes
+  
+  Assisted by Fable 5: it diagnosed the vtebench gap, wrote the benchmark
+  harness payloads, profiled, and proposed hot paths. I manually wrote the
+  hot path replacements and had it judge my work.
+  ```
+- [`160c3c6`](https://github.com/ghostty-org/ghostty/commit/160c3c69ea9a47961dfd973a8190b774048c20a1) terminal: handful of scroll region optimizations (minor) ([#13231](https://github.com/ghostty-org/ghostty/issues/13231)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This optimizes scrolling inside a scroll region (DECSTBM).
+  
+  We're squeezing blood out of a rock here. There just isn't much
+  improvement to be had given our architecture for this case, but there
+  were a couple things found that result in modest gains.
+  
+  ## Vtebench
+  
+  You can see the modest gains here. Still behind Alacritty (very very
+  close).
+  
+  <img width="3558" height="2410" alt="CleanShot 2026-07-06 at 21 18
+  39@2x"
+  src="https://github.com/user-attachments/assets/3c800089-3510-4887-9872-e9926d686955"
+  />
+  
+  
+  ## The changes
+  
+  1. **Stop creating scrollback for top-anchored regions on screens that
+  don't retain scrollback.** `index()` routed any full-width region with
+  `top == 0` through `cursorScrollAbove()`, which pushes the scrolled-out
+  row into scrollback. Every scroll paid `PageList.grow()` plus amortized
+  page pruning, which includes a 512 KB `memset` each time a page is
+  recycled. These now use the in-place region scroll instead. CSI S gets
+  the same routing fix. **Result: 1.05x-1.49x on the bottom-anchored
+  region workloads, 1.25x on alt-screen full-screen scrolling.**
+  
+  2. **Add a specialized `Screen.cursorScrollRegionUp()` for the region
+  scroll hot path.** The previous fast path (`PageList.eraseRowBounded`)
+  paid per-scroll bookkeeping that exceeded the actual row work. The new
+  function is built around the invariant that the cursor sits on the
+  bottom row of a full-width region. **Result: 1.23x-1.24x on the
+  top-anchored region workloads.**
+  
+  ## Benchmarks
+  
+  | workload | region (80 rows) | before | after | change |
+   |---|---|---|---|---|
+  | scrolling (control) | primary screen, no region | 237 ms | 235 ms |
+  1.0x |
+  | scrolling_bottom_region | alt, rows 1-79 | 243 ms | 231 ms | 1.05x |
+  | scrolling_bottom_small_region | alt, rows 1-40 | 311 ms | 208 ms |
+  1.49x |
+   | scrolling_top_region | alt, rows 2-80 | 283 ms | 229 ms | 1.23x |
+  | scrolling_top_small_region | alt, rows 40-80 | 258 ms | 208 ms | 1.24x
+  |
+  | alt screen full-screen scrolling | alt, no region | 288 ms | 230 ms |
+  1.25x |
+  
+  ## LLM Notes
+  
+  Assisted by Fable 5: it diagnosed the vtebench gap, wrote the benchmark
+  harness payloads, profiled, and proposed hot paths. I manually wrote the
+  hot path replacements and had it judge my work.
+  ```
 - [`6e267d3`](https://github.com/ghostty-org/ghostty/commit/6e267d336396946e2e32be68e6b6d8a1cd85b60b) macOS: use the  `getOpinionatedStringContents` same as paste ([@bo2themax](https://github.com/bo2themax))
 - [`c41c6b8`](https://github.com/ghostty-org/ghostty/commit/c41c6b81a4642ccba18d47b375d9495664de72a0) macOS: use the`getOpinionatedStringContents` same as paste for dragging ([#13212](https://github.com/ghostty-org/ghostty/issues/13212)) ([@mitchellh](https://github.com/mitchellh))
   ```text
