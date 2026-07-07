@@ -8,15 +8,162 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 7, 2026 at 17:08 UTC.
+> Last updated: July 7, 2026 at 19:47 UTC.
 
 ## July 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [2](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [3](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [4](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
-Summary: 4 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28891474273), [2](https://github.com/ghostty-org/ghostty/actions/runs/28887370183), [3](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [4](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [5](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [6](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
+Summary: 6 runs • 14 commits • 5 authors
 
 ### Changes
 
+- [`bb0ac4c`](https://github.com/ghostty-org/ghostty/commit/bb0ac4c723ec8b79a4d82e8a6c7fbbf8cd59794f) termio: don't bridge pty reads while the parser is idle ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes a frame time regression reported with fortio's `fps -fire`
+  benchmark (fortio.org/terminal/fps): frame times nearly doubled at
+  typical grid sizes after #13209 (the pipelined pty reader), and were
+  more than 5x worse at small grids.
+  
+  ## The problem
+  
+  The `fps -fire` program follows a request/response pattern: write a
+  frame, end it with a cursor position query (CSI 6n), and block until
+  the reply arrives before starting the next frame.
+  
+  The gather stage treats any burst of 1 KiB or more as a saturated
+  stream. When its spin retries come up dry, it sleeps in a 1ms poll
+  expecting the writer's next refill so it can publish fewer, larger
+  batches. But a frame-synced writer will never refill here: it is
+  blocked waiting for a reply to a query that is sitting inside the
+  very batch the gather stage is holding back. The poll always sleeps
+  its full timeout, adding ~1.2ms to every round trip. Ouch!
+  
+  ## The fix
+  
+  Sleeping for a refill gap is only free while the parse stage is busy,
+  since the wait hides behind parse time. Once the parser is idle,
+  every additional microsecond spent bridging is added straight to
+  output latency. So:
+  
+  1. When the spin retries exhaust and the parse stage is idle,
+     deliver the batch immediately instead of polling.
+  
+  2. When the parse stage is busy, use a `pipe2` pipe to allow the parser
+     to notify the gather thread it is idle. In the middle of the `poll`
+     loop and sleep, we can get interrupted immediately and deliver
+     the batch.
+  
+  The pipe is only written while the gather stage is actively polling, so an
+  interactive terminal never pays the syscalls, and a saturated stream
+  never idles the parser, preserving full batching and throughput for
+  bulk output. Win, win, win!
+  
+  ## Benchmarks
+  
+  | workload | pre-#13209 | before | after |
+  |---|---|---|---|
+  | fps -fire 80x24 | 0.262 ms / 3674 fps | 1.435 ms / 694 fps | 0.234 ms / 4106 fps |
+  | fps -fire 160x45 | 1.012 ms / 975 fps | 1.823 ms / 545 fps | 0.701 ms / 1405 fps |
+  | fps -fire 284x68 | 2.443 ms / 407 fps | 2.391 ms / 414 fps | 1.351 ms / 732 fps |
+  | cat 19.3 MB | 0.204 s (95 MB/s) | 0.086 s (224 MB/s) | 0.082 s (236 MB/s) |
+  
+  ## LLM Notes
+  
+  Bisect script written by hand and found the offending commit. Fable 5
+  found the likely cause. I manually came up with the proposed solution and
+  wrote it out. Fable helped benchmark for me to verify my assumptions
+  conceptually and in the real world.
+  ```
+- [`e7a3a1f`](https://github.com/ghostty-org/ghostty/commit/e7a3a1fc8c7dd7d5c117c12fc66641ebc148ea16) termio: don't bridge pty reads while the parser is idle ([#13237](https://github.com/ghostty-org/ghostty/issues/13237)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes a frame time regression reported with fortio's `fps -fire`
+  benchmark (fortio.org/terminal/fps): frame times nearly doubled at
+  typical grid sizes after #13209 (the pipelined pty reader), and were
+  more than 5x worse at small grids.
+  
+  ## The problem
+  
+  The `fps -fire` program follows a request/response pattern: write a
+  frame, end it with a cursor position query (CSI 6n), and block until the
+  reply arrives before starting the next frame.
+  
+  The gather stage treats any burst of 1 KiB or more as a saturated
+  stream. When its spin retries come up dry, it sleeps in a 1ms poll
+  expecting the writer's next refill so it can publish fewer, larger
+  batches. But a frame-synced writer will never refill here: it is blocked
+  waiting for a reply to a query that is sitting inside the very batch the
+  gather stage is holding back. The poll always sleeps its full timeout,
+  adding ~1.2ms to every round trip. Ouch!
+  
+  ## The fix
+  
+  Sleeping for a refill gap is only free while the parse stage is busy,
+  since the wait hides behind parse time. Once the parser is idle, every
+  additional microsecond spent bridging is added straight to output
+  latency. So:
+  
+  1. When the spin retries exhaust and the parse stage is idle, deliver
+  the batch immediately instead of polling.
+  
+  2. When the parse stage is busy, use a `pipe2` pipe to allow the parser
+  to notify the gather thread it is idle. In the middle of the `poll` loop
+  and sleep, we can get interrupted immediately and deliver the batch.
+  
+  The pipe is only written while the gather stage is actively polling, so
+  an interactive terminal never pays the syscalls, and a saturated stream
+  never idles the parser, preserving full batching and throughput for bulk
+  output. Win, win, win!
+  
+  ## Benchmarks
+  
+  | workload | pre-#13209 | main | this PR |
+  |---|---|---|---|
+  | fps -fire 80x24 | 0.262 ms / 3674 fps | 1.435 ms / 694 fps | 0.234 ms
+  / 4106 fps |
+  | fps -fire 160x45 | 1.012 ms / 975 fps | 1.823 ms / 545 fps | 0.701 ms
+  / 1405 fps |
+  | fps -fire 284x68 | 2.443 ms / 407 fps | 2.391 ms / 414 fps | 1.351 ms
+  / 732 fps |
+  | cat 19.3 MB | 0.204 s (95 MB/s) | 0.086 s (224 MB/s) | 0.082 s (236
+  MB/s) |
+  
+  ## LLM Notes
+  
+  Bisect script written by hand and found the offending commit. Fable 5
+  found the likely cause. I manually came up with the proposed solution
+  and wrote it out. Fable helped benchmark for me to verify my assumptions
+  conceptually and in the real world. Commit message written by hand
+  except for the benchmark results.
+  ```
+- [`bed4716`](https://github.com/ghostty-org/ghostty/commit/bed47168ca7f34fe0a27e9f13c46b8df97cb77ca) termio: bound POSIX read-ahead on non-Darwin ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  The pipelined POSIX pty reader uses multiple large gather buffers to avoid
+  stalling on Darwin, where pty reads are capped around 1KiB. On Linux this can
+  let bulk terminal producers run too far ahead of terminal parsing/rendering.
+  
+  Frame-style terminal apps such as DOOM-fire can then report very high producer
+  FPS while Ghostty displays stale frames from the buffered stream.
+  
+  Keep the Darwin-tuned 4 x 64KiB pipeline, but reduce non-Darwin read-ahead to
+  2 x 8KiB so the pty can apply backpressure before multiple frames are queued.
+  ```
+- [`15a2edc`](https://github.com/ghostty-org/ghostty/commit/15a2edcbb93aa03a512cfe92b7bdca49ac1a9e98) termio: bound POSIX read-ahead on non-Darwin ([#13236](https://github.com/ghostty-org/ghostty/issues/13236)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The pipelined POSIX pty reader uses multiple large gather buffers to
+  avoid stalling on Darwin, where pty reads are capped around 1KiB. On
+  Linux this can let bulk terminal producers run too far ahead of terminal
+  parsing/rendering.
+  
+  Frame-style terminal apps such as DOOM-fire can then report very high
+  producer FPS while Ghostty displays stale frames from the buffered
+  stream.
+  
+  Keep the Darwin-tuned 4 x 64KiB pipeline, but reduce non-Darwin
+  read-ahead to 2 x 8KiB so the pty can apply backpressure before multiple
+  frames are queued.
+  
+  AI disclosure: Codex gpt-5.5 xhigh helped.
+  ```
 - [`77190bd`](https://github.com/ghostty-org/ghostty/commit/77190bd02301e2666adf926a1b7a891dc2189353) terminal: handful of scroll region optimizations ([@mitchellh](https://github.com/mitchellh))
   ```text
   This optimizes scrolling inside a scroll region (DECSTBM).
