@@ -8,7 +8,174 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 7, 2026 at 02:38 UTC.
+> Last updated: July 7, 2026 at 06:41 UTC.
+
+## July 7, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [2](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [3](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
+Summary: 3 runs • 8 commits • 4 authors
+
+### Changes
+
+- [`6e267d3`](https://github.com/ghostty-org/ghostty/commit/6e267d336396946e2e32be68e6b6d8a1cd85b60b) macOS: use the  `getOpinionatedStringContents` same as paste ([@bo2themax](https://github.com/bo2themax))
+- [`c41c6b8`](https://github.com/ghostty-org/ghostty/commit/c41c6b81a4642ccba18d47b375d9495664de72a0) macOS: use the`getOpinionatedStringContents` same as paste for dragging ([#13212](https://github.com/ghostty-org/ghostty/issues/13212)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The only difference of getting the string contents between dragging
+  pasteboard and general pasteboard is the URL now. It was first
+  introduced in #4962, I don't why it was added, since `public.url` often
+  comes with `public.utf8-plain-text` when dragging.
+  
+  I also check with iTerm's
+  [PTYTextView](https://github.com/gnachman/iTerm2/blob/f267f243e59855e2b1b44df3343d07174de7857b/sources/TerminalView/PTYTextView.m#L307),
+  it doesn't register URL either, so I think it's safe for us to remove
+  it.
+  
+  > I checked the iTerm's source after my changes, I hope that doesn't
+  violates any licensing
+  ```
+- [`d8464a5`](https://github.com/ghostty-org/ghostty/commit/d8464a5f5b1755c606486ce0da80160c52a5b78b) Update VOUCHED list ([#13229](https://github.com/ghostty-org/ghostty/issues/13229)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13129#discussioncomment-17555238)
+  from @tristan957.
+  
+  Vouch: @escalonc
+  ```
+- [`dac341c`](https://github.com/ghostty-org/ghostty/commit/dac341cad56fecc436750525fa7b8757a6028ffc) font/sprite: make cursor height respect adjust-cursor-height ([@qwerasd205](https://github.com/qwerasd205))
+  ```text
+  This was a regression caused by the sprite face rework (#7732), I'm
+  surprised it went unnoticed for so long.
+  ```
+- [`e8f3f6c`](https://github.com/ghostty-org/ghostty/commit/e8f3f6c438ac61fbb6189d4a88a7c7716f658219) font/sprite: add regression test for cursor-height metric ([@qwerasd205](https://github.com/qwerasd205))
+- [`446f80f`](https://github.com/ghostty-org/ghostty/commit/446f80f4edd16d217e8ec928664d86a529b3a223) terminal: render state update optimizations (~2.7x to ~11x less lock hold) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This optimizes `RenderState.update`, the per-frame call that snapshots
+  terminal state for the renderer and is the main reason the renderer
+  thread holds the terminal lock.
+  
+  Lock hold time is reduced ~2.7x to ~11x depending on the frame.
+  
+  ## The changes
+  
+  1. iterate page chunks instead of rows in `update`
+  2. classify cells with masked vector compares.
+  3. split the update into `beginUpdate`/`endUpdate` phases. There's a
+     lot to be gained by accumulating data with the lock held and then
+     processing it out of the lock.
+  4. generalize the masked-compare scans into `page.Mask`. This is just
+     a really common pattern we're doing now and it yields a ton of great
+     value. Its error prone so lets make it a tested helper.
+  
+  ## Benchmarks
+  
+  Measured with the new `ghostty-bench +screen-clone` modes (`render`,
+  `render-locked`, `render-clean`, `render-partial`), 120x80 terminal, M4
+  Max, macOS 26, ReleaseFast, hyperfine means of 10+ runs, per-update
+  times derived from fixed-count update loops with process startup
+  subtracted. "Lock held" is the time the terminal lock must be held per
+  update; "before" held the lock for the entire update.
+  
+  | scenario | before (lock held) | after (lock held) | after (total) | lock change |
+  |----------|--------------------|-------------------|---------------|-------------|
+  | clean frame (nothing dirty) | 202 ns | 19 ns | 19 ns | 10.9x |
+  | partial frame (1 dirty row) | 290 ns | 54 ns | 54 ns | 5.4x |
+  | full rebuild, lightly styled | 6.9 µs | 2.5 µs | 3.0 µs | 2.7x |
+  | full rebuild, fully styled | 9.3 µs | 2.4 µs | 8.0 µs | 3.8x |
+  | full rebuild, fully styled, 250x150 | 49.9 µs | 9.4 µs | 31.6 µs | 5.3x |
+  | full rebuild, plain text | 1.9 µs | 1.9 µs | 1.9 µs | 1.0x (memcpy floor) |
+  
+  The clean and partial cases are the steady-state frame costs (cursor
+  blink, mouse movement, typing). The full-rebuild cases are the contended
+  ones: colored scrolling output (build logs, htop, vim) moves the
+  viewport pin every frame, forcing a full rebuild exactly when the IO
+  thread is busiest, so that row of the table is where lock contention
+  actually hurts. Plain text was already at the memcpy floor and is
+  unchanged.
+  
+  ## LLM Notes
+  
+  This work was driven by Fable 5: benchmarks, optimizations, the property
+  test, and the measurements above. I reviewed every line, simplified the
+  design in a few places (API naming, the Mask helper shape), and re-ran
+  the verifications myself.
+  ```
+- [`98a7c0f`](https://github.com/ghostty-org/ghostty/commit/98a7c0f6f95f412504d6d45fba9f8acc6ed1f6da) terminal: render state update optimizations (~2.7x to ~11x lock time reduction) ([#13227](https://github.com/ghostty-org/ghostty/issues/13227)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This optimizes `RenderState.update`, the per-frame call that snapshots
+  terminal state for the renderer and is the main reason the renderer
+  thread holds the terminal lock.
+  
+  Lock hold time is reduced ~2.7x to ~11x depending on the frame. This was
+  already a super fast part of Ghostty, so I don't expect any noticeable
+  changes for end users or library users. But, why not be fast?
+  
+  ## The changes
+  
+  1. iterate page chunks instead of rows in `update`
+  2. classify cells with masked vector compares.
+  3. split the update into `beginUpdate`/`endUpdate` phases. There's a lot
+  to be gained by accumulating data with the lock held and then processing
+  it out of the lock.
+  4. generalize the masked-compare scans into `page.Mask`. This is just a
+  really common pattern we're doing now and it yields a ton of great
+  value. Its error prone so lets make it a tested helper.
+  
+  ## Benchmarks
+  
+  Measured with the new `ghostty-bench +screen-clone` modes (`render`,
+  `render-locked`, `render-clean`, `render-partial`), 120x80 terminal, M4
+  Max, macOS 26, ReleaseFast, hyperfine means of 10+ runs, per-update
+  times derived from fixed-count update loops with process startup
+  subtracted. "Lock held" is the time the terminal lock must be held per
+  update; "before" held the lock for the entire update.
+  
+  | scenario | before (lock held) | after (lock held) | after (total) |
+  lock change |
+  
+  |----------|--------------------|-------------------|---------------|-------------|
+  | clean frame (nothing dirty) | 202 ns | 19 ns | 19 ns | 10.9x |
+  | partial frame (1 dirty row) | 290 ns | 54 ns | 54 ns | 5.4x |
+  | full rebuild, lightly styled | 6.9 µs | 2.5 µs | 3.0 µs | 2.7x |
+  | full rebuild, fully styled | 9.3 µs | 2.4 µs | 8.0 µs | 3.8x |
+  | full rebuild, fully styled, 250x150 | 49.9 µs | 9.4 µs | 31.6 µs |
+  5.3x |
+  | full rebuild, plain text | 1.9 µs | 1.9 µs | 1.9 µs | 1.0x (memcpy
+  floor) |
+  
+  The clean and partial cases are the steady-state frame costs (cursor
+  blink, mouse movement, typing). The full-rebuild cases are the contended
+  ones: colored scrolling output (build logs, htop, vim) moves the
+  viewport pin every frame, forcing a full rebuild exactly when the IO
+  thread is busiest, so that row of the table is where lock contention
+  actually hurts. Plain text was already at the memcpy floor and is
+  unchanged.
+  
+  ## LLM Notes
+  
+  This work was driven by Fable 5: benchmarks, optimizations, the property
+  test, and the measurements above. I reviewed every line, simplified the
+  design in a few places (API naming, the Mask helper shape), and re-ran
+  the verifications myself.
+  ```
+- [`cabbdee`](https://github.com/ghostty-org/ghostty/commit/cabbdee32b75ac71f0e2b19b31e4c25da97b5461) Fix `adjust-cursor-height` regression ([#13225](https://github.com/ghostty-org/ghostty/issues/13225)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `cursor-height` metric (and corresponding `adjust-`) was introduced
+  by #3062 but the sprite face rework in #7732 accidentally removed the
+  logic that it relied on. I've moved the logic to live inside of the
+  sprite face itself (which, I think, was my plan while writing the
+  rework, I just forgot to actually do it lol), and added a test for the
+  height metric being respected and the re-centering being performed
+  correctly.
+  
+  This problem came to my attention because of #13221, which didn't go
+  about doing the fix the right way, but did make me realize that it was a
+  problem in the first place (since I had thought that I had already
+  implemented this logic when doing the rework!)
+  
+  ### Verification
+  
+  https://github.com/user-attachments/assets/4074690b-846e-442d-8ec0-91a34042f6eb
+  ```
 
 ## July 6, 2026
 
