@@ -8,15 +8,76 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 8, 2026 at 16:26 UTC.
+> Last updated: July 8, 2026 at 19:17 UTC.
 
 ## July 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28919853743), [2](https://github.com/ghostty-org/ghostty/actions/runs/28916631760)  
-Summary: 2 runs • 8 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28965283998), [2](https://github.com/ghostty-org/ghostty/actions/runs/28919853743), [3](https://github.com/ghostty-org/ghostty/actions/runs/28916631760)  
+Summary: 3 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`0274e7a`](https://github.com/ghostty-org/ghostty/commit/0274e7ad843627aa097f77c531f4baf399247c5d) macos: fix quick terminal restoring stale size after display reconnect ([@quinnypig](https://github.com/quinnypig))
+  ```text
+  The quick terminal caches its last-closed window frame per display so it
+  can restore the user's size when reopened. The cache entry was considered
+  valid whenever the current screen was the same size *or larger* than when
+  the frame was saved ("persist when screens grow"). This has led to a pattern
+  that was simply maddening. To wit:
+  
+  That rule breaks across display changes. When an external display is
+  disconnected and later reconnected at a different resolution (common
+  after traveling with a laptop) the same display can come back larger
+  than when the frame was cached. The stale frame is still treated as valid
+  and restored, so the quick terminal no longer fills the screen (it appears
+  at a partial width/height). Because the cache is persisted, restarting
+  Ghostty does not clear it, and the user is slowly driven mad.
+  
+  Only treat a cached frame as valid when the screen geometry matches
+  exactly (both backing scale factor and frame size). On any mismatch we
+  drop the entry and fall back to the configured quick-terminal-size. Manual
+  resizes are still remembered across toggles within a stable display
+  configuration.
+  
+  Fixes the regression reported in #12348.
+  ```
+- [`f815f84`](https://github.com/ghostty-org/ghostty/commit/f815f8459421e4b53e6c4b9ba559a74e9dc62798) macos: fix quick terminal restoring stale size after display reconnect ([#13250](https://github.com/ghostty-org/ghostty/issues/13250)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  "Why is my quick terminal not taking up the entire top of my docked Mac
+  screen after I reconnect?" Boy howdy are you in the right PR.
+  
+  It turns out that the quick terminal caches its last-closed window frame
+  per display so it can restore the user's size when reopened. The cache
+  entry was considered valid whenever the current screen was the same size
+  *or larger* than when the frame was saved ("persist when screens grow").
+  This has led to a pattern that was simply maddening. To wit: that rule
+  breaks across display changes.
+  
+  When an external display is disconnected and later reconnected at a
+  different resolution (common after traveling with a laptop, do not even
+  get me started on projectors) the same display can come back larger than
+  when the frame was cached. The stale frame is still treated as valid and
+  restored, so the quick terminal no longer fills the screen (it appears
+  at a partial width/height). Because the cache is persisted, restarting
+  Ghostty does not clear it, and the user is slowly driven mad. Welcome to
+  madness; we have snacks.
+  
+  This PR addresses this by treating a cached frame as valid when the
+  screen geometry matches exactly (both backing scale factor and frame
+  size). On any mismatch we drop the entry and fall back to the configured
+  quick-terminal-size. Manual resizes are still remembered across toggles
+  within a stable display configuration.
+  
+  Fixes the regression reported in #12348.
+  
+  AI disclaimer: I used AI for this. Of course I used AI for this, my code
+  is terrible on a good day. Specifically, Claude Code, as well as a
+  custom harness that has the curious tendency to write commit messages
+  containing conspiracy theories about the code because I am history's
+  greatest monster.
+  
+  Fight me!
+  ```
 - [`751a60d`](https://github.com/ghostty-org/ghostty/commit/751a60df61526ab71e32838f321ada374b3c1a43) macos: route IME preedit commits through key events ([@qappell](https://github.com/qappell))
 - [`91f66da`](https://github.com/ghostty-org/ghostty/commit/91f66da24527fa02d92b5fd0b41cd020f553a64c) macos: route IME preedit commits through key events ([#13222](https://github.com/ghostty-org/ghostty/issues/13222)) ([@bo2themax](https://github.com/bo2themax))
 - [`8307349`](https://github.com/ghostty-org/ghostty/commit/8307349ec5ff1502fc033869643b36f5173bf0a2) terminal: fix increaseCapacity growth from zero-capacity dimensions ([@mitchellh](https://github.com/mitchellh))
