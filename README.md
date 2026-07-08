@@ -8,7 +8,178 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 8, 2026 at 02:12 UTC.
+> Last updated: July 8, 2026 at 05:46 UTC.
+
+## July 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28919853743), [2](https://github.com/ghostty-org/ghostty/actions/runs/28916631760)  
+Summary: 2 runs • 8 commits • 3 authors
+
+### Changes
+
+- [`751a60d`](https://github.com/ghostty-org/ghostty/commit/751a60df61526ab71e32838f321ada374b3c1a43) macos: route IME preedit commits through key events ([@qappell](https://github.com/qappell))
+- [`91f66da`](https://github.com/ghostty-org/ghostty/commit/91f66da24527fa02d92b5fd0b41cd020f553a64c) macos: route IME preedit commits through key events ([#13222](https://github.com/ghostty-org/ghostty/issues/13222)) ([@bo2themax](https://github.com/bo2themax))
+- [`8307349`](https://github.com/ghostty-org/ghostty/commit/8307349ec5ff1502fc033869643b36f5173bf0a2) terminal: fix increaseCapacity growth from zero-capacity dimensions ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList.increaseCapacity grows a capacity dimension by doubling it.
+  If the dimension is zero, doubling "succeeds" without growing: the
+  page is reallocated and recloned with an identical capacity, violating
+  the documented guarantee that we always increase by at least one unit.
+  Every unbounded retry site (startHyperlink, cursorSetHyperlink, the
+  reflow probes, insertLines/deleteLines) then loops forever reallocating
+  a page per iteration, and the single-retry sites (styles, graphemes)
+  fail their retry and silently drop data.
+  
+  No production page has a zero dimension today, which is why this has
+  never fired: standard capacities are nonzero and doubling keeps them
+  nonzero. But exactRowCapacity legitimately returns zero for dimensions
+  with no content (a compacted plain text page has zero styles, grapheme,
+  string, and hyperlink capacity), so any compaction work makes this
+  reachable.
+  
+  Growth from zero now jumps straight to the standard default for the
+  dimension rather than doubling. The default is what every standard
+  page starts with, so single-retry callers are guaranteed enough room
+  for their pending allocation, whereas doubling from a minimum unit
+  could still come up short (a single grapheme can need multiple chunks,
+  and a style set below capacity 3 cannot store anything).
+  ```
+- [`e44f5cb`](https://github.com/ghostty-org/ghostty/commit/e44f5cb0fa1aa02158e29b295833e1c3c024570e) terminal: guard RefCountedSet lookups against zero-capacity sets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Layout.init(0) is an explicitly supported special case that produces a
+  valid zero-capacity set with a zero-size table. But lookupContext had
+  no guard for it: probing computes `table[hash & 0]` and reads whatever
+  memory follows the set in its backing buffer, treating those bytes as
+  an item ID which is then used to index the (also zero-size) items
+  array, an out-of-bounds read reaching arbitrarily far past the set.
+  
+  This has never fired in practice because no production page carries a
+  zero-capacity set today, and where one could occur the adjacent bytes
+  happen to be zero (which reads as an empty bucket and returns null).
+  Page.exactRowCapacity legitimately produces zero capacities for pages
+  without styled or hyperlinked cells though, so any page compaction
+  work makes this reachable with nonzero adjacent memory: in a Page
+  layout the styles set can be followed by the grapheme bitmap, which
+  is initialized to all ones.
+  
+  Lookups on a zero-capacity set now return null without touching the
+  table. This also covers add, which looks up before inserting and
+  already handles the zero capacity correctly after that point by
+  returning OutOfMemory. All other entry points assert on valid IDs,
+  which a zero-capacity set cannot have.
+  ```
+- [`c442eb4`](https://github.com/ghostty-org/ghostty/commit/c442eb4b308381aeabfbdbedc092e42eba806b66) terminal: document the pool reuse zeroing invariant ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList skips zeroing pooled page buffers in release builds, relying
+  on the OS page allocator handing out zeroed pages and destroyNodeExt
+  zeroing buffers before returning them to the pool. There is a hidden
+  exception: std.heap.MemoryPool writes its free list node into the
+  first pointer-size bytes of a free-listed buffer, so a reused buffer
+  is not fully zero. This is only safe because the page rows array is
+  laid out at offset 0, a page always has at least one row, and initBuf
+  fully rewrites every row, overwriting the stale free list pointer.
+  
+  None of that was written down or checked anywhere, so a future layout
+  reorder (or a zero-row page) would corrupt pages in release builds
+  only, in a way that depends on pool reuse patterns. This adds a
+  comptime assert that a Row covers at least a pointer, a runtime assert
+  that pages always have at least one row, and comments tying the
+  invariant together at the layout, initBuf, and pool reuse sites.
+  
+  Also fixes stale doc comments: deinit referenced a clonePool function
+  that no longer exists, and Screen tests referenced increaseCapacity by
+  its old adjustCapacity name.
+  ```
+- [`d3f4476`](https://github.com/ghostty-org/ghostty/commit/d3f4476dbfb770694aa8b53195b7a7337965b1fe) terminal: various PageList hardening for capacity edge cases ([#13244](https://github.com/ghostty-org/ghostty/issues/13244)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Each commit is standalone. This contains various unoffensive hardening
+  of edge cases in PageList layout stuff. None of this is reachable today,
+  but I'm just buttoning this up to experiment with compaction/compression
+  of pages in various scenarios.
+  ```
+- [`896aca4`](https://github.com/ghostty-org/ghostty/commit/896aca499001f42e132f456ebc9cdfed616cf1fb) terminal: return free-listed page memory to the OS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The PageList page pool never returns memory to the OS: destroyed pages
+  are zeroed and free-listed until the surface exits. Any operation that
+  shrinks the page count (clearing scrollback, pruning churn, resets,
+  reflow) therefore retains its high-water RSS forever.
+  
+  Clearing a full scrollback keeps all of it resident, which at the default 10MB
+  scrollback-limit is 10MB per terminal of memory that can never be
+  used again for anything else.
+  
+  Lots of memes on the internet about this, and it turns out operating
+  systems give us an answer for this (both Linux and macOS at least),
+  so let's do it kids.
+  
+  Pool items can't be individually freed since they live inside arena
+  chunks, but they are page-aligned and page-multiple sized, so we can
+  decommit them while they sit in the free list. Our page-aligned
+  allocation pays off, again!
+  
+  On Linux, madvise(MADV_DONTNEED) reclaims the pages immediately and
+  guarantees zero-fill on the next touch, which also lets us skip the
+  zeroing memset entirely, making destroy cheaper.
+  
+  On macOS, we zero in place and mark the item MADV_FREE_REUSABLE, which
+  removes it from the process footprint immediately. Reuse is paired
+  with MADV_FREE_REUSE when the pool hands a buffer back out so that
+  footprint accounting stays correct. The zero invariant required by
+  page reuse holds either way: reusable page contents are either
+  preserved (our zeroes) or reclaimed and zero-filled by the kernel.
+  
+  Other platforms and test builds keep the existing memset behavior.
+  
+  ## LLM Notes
+  
+  Fable 5 found the retention behavior while re-analyzing scrollback
+  memory, wrote the change and tests, and verified the madvise semantics
+  empirically with memory probes on macOS and a real Linux kernel, plus
+  before/after throughput benchmarks on both. I reviewed the analysis,
+  the diff, rewrote the code to be more idiomatic Zig, and wrote this
+  commit message you're reading.
+  ```
+- [`ad692f1`](https://github.com/ghostty-org/ghostty/commit/ad692f1e858b8c6475aec4539934526a8d783e6d) terminal: return free-listed page memory to the OS ([#13245](https://github.com/ghostty-org/ghostty/issues/13245)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This uses `madvise` flags on both macOS and Linux to mark our unused
+  pool items as free memory and not show up in RSS (until they're actually
+  used). We can do this since we do page-aligned/page-multiple
+  allocations, heyo!
+  
+  Background: The PageList page pool never returns memory to the OS:
+  destroyed pages are zeroed and free-listed until the surface exits. Any
+  operation that shrinks the page count (clearing scrollback, pruning
+  churn, resets, reflow) therefore retains its high-water RSS forever.
+  Clearing a full scrollback keeps all of it resident, which at the
+  default 10MB scrollback-limit is 10MB per terminal of memory that can
+  never be used again for anything else.
+  
+  Lots of memes on the internet about this, and it turns out operating
+  systems give us an answer for this (both Linux and macOS at least), so
+  let's do it kids.
+  
+  On Linux, madvise(MADV_DONTNEED) reclaims the pages immediately and
+  guarantees zero-fill on the next touch, which also lets us skip the
+  zeroing memset entirely, making destroy cheaper.
+  
+  On macOS, we zero in place and mark the item MADV_FREE_REUSABLE, which
+  removes it from the process footprint immediately. Reuse is paired with
+  MADV_FREE_REUSE when the pool hands a buffer back out so that footprint
+  accounting stays correct. The zero invariant required by page reuse
+  holds either way: reusable page contents are either preserved (our
+  zeroes) or reclaimed and zero-filled by the kernel.
+  
+  Other platforms and test builds keep the existing memset behavior.
+  
+  ## LLM Notes
+  
+  Fable 5 found the retention behavior while re-analyzing scrollback
+  memory, wrote the change and tests, and verified the madvise semantics
+  empirically with memory probes on macOS and a real Linux kernel, plus
+  before/after throughput benchmarks on both. I reviewed the analysis, the
+  diff, rewrote the code to be more idiomatic Zig, and wrote this commit
+  message you're reading.
+  ```
 
 ## July 7, 2026
 
