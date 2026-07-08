@@ -8,15 +8,55 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 7, 2026 at 22:08 UTC.
+> Last updated: July 8, 2026 at 02:12 UTC.
 
 ## July 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28899078944), [2](https://github.com/ghostty-org/ghostty/actions/runs/28896482651), [3](https://github.com/ghostty-org/ghostty/actions/runs/28891474273), [4](https://github.com/ghostty-org/ghostty/actions/runs/28887370183), [5](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [6](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [7](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [8](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
-Summary: 8 runs • 20 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28904916842), [2](https://github.com/ghostty-org/ghostty/actions/runs/28899078944), [3](https://github.com/ghostty-org/ghostty/actions/runs/28896482651), [4](https://github.com/ghostty-org/ghostty/actions/runs/28891474273), [5](https://github.com/ghostty-org/ghostty/actions/runs/28887370183), [6](https://github.com/ghostty-org/ghostty/actions/runs/28872066911), [7](https://github.com/ghostty-org/ghostty/actions/runs/28841679058), [8](https://github.com/ghostty-org/ghostty/actions/runs/28840138366), [9](https://github.com/ghostty-org/ghostty/actions/runs/28839347060)  
+Summary: 9 runs • 22 commits • 6 authors
 
 ### Changes
 
+- [`16e4b5e`](https://github.com/ghostty-org/ghostty/commit/16e4b5e98f10f255bdda934a61ff41e9b3a849c7) terminal: track page ownership explicitly on pagelist nodes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList decided whether a page's backing memory belongs to the memory
+  pool or the heap by comparing its length against std_size. This was super
+  error-prone and the source of many bugs historically. We locked it down
+  but its bothered me and has gotten in the way of another feature I've
+  wanted to do: memory compaction.
+  
+  First, this commit records the ownership explicitly on each node and uses it
+  everywhere ownership was previously inferred from size.
+  
+  Second, createPage gains an exact_size option that forces an exact-size
+  heap allocation even when the layout would fit a pool item.
+  
+  Third, compact() now uses it to shrink any page to its minimum size,
+  including standard pages. Nothing calls compact [YET!] but this is going
+  to be the key to compressing scrollback history.
+  
+  This is groundwork for a ton of memory savings. Coming soon.
+  ```
+- [`39b3c47`](https://github.com/ghostty-org/ghostty/commit/39b3c4771701cf7b97b9d027fcd8416b7f59976e) terminal: track page ownership explicitly on pagelist nodes ([#13241](https://github.com/ghostty-org/ghostty/issues/13241)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList decided whether a page's backing memory belongs to the memory
+  pool or the heap by comparing its length against std_size. This was
+  super error-prone and the source of many bugs historically. We locked it
+  down but its bothered me and has gotten in the way of another feature
+  I've wanted to do: memory compaction.
+  
+  First, this commit records the ownership explicitly on each node and
+  uses it everywhere ownership was previously inferred from size.
+  
+  Second, createPage gains an exact_size option that forces an exact-size
+  heap allocation even when the layout would fit a pool item.
+  
+  Third, compact() now uses it to shrink any page to its minimum size,
+  including standard pages. Nothing calls compact [YET!] but this is going
+  to be the key to compressing scrollback history.
+  
+  This is groundwork for a ton of memory savings. Coming soon.
+  ```
 - [`b953bb3`](https://github.com/ghostty-org/ghostty/commit/b953bb34630cbae71c6088d58e37745ae9b23119) terminal: fix bitmap allocator chunk region sizing ([@mitchellh](https://github.com/mitchellh))
   ```text
   BitmapAllocator.layout takes a capacity in bytes, but sized its chunk
@@ -2213,139 +2253,5 @@ Summary: 2 runs • 4 commits • 2 authors
   match the later encode loop. Extend the render C API test to cover the
   short combining cluster, an eight-byte flag cluster, a longer family
   emoji, exact-size success, and the cap == needed - 1 no-write boundary.
-  ```
-
-## July 1, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28551941025), [2](https://github.com/ghostty-org/ghostty/actions/runs/28537629892), [3](https://github.com/ghostty-org/ghostty/actions/runs/28485879059)  
-Summary: 3 runs • 5 commits • 4 authors
-
-### Changes
-
-- [`df5cee2`](https://github.com/ghostty-org/ghostty/commit/df5cee23829e14074d546c63baca839c47326d6f) Update VOUCHED list ([#13141](https://github.com/ghostty-org/ghostty/issues/13141)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13121#discussioncomment-17502740)
-  from @jcollie.
-  
-  Vouch: @yak3d
-  ```
-- [`480edb4`](https://github.com/ghostty-org/ghostty/commit/480edb45e323daf21993c32d386a457ee8c23e96) ci: skip tip release when only non-artifact files change ([@claude](https://github.com/claude))
-  ```text
-  Detect changes since the last tip with dorny/paths-filter (base: tip)
-  and skip the build when a push touches only files that never reach the
-  built artifact: all of .github (except release-tip.yml, which defines the
-  build/tag/publish jobs) plus docs and repo/lint/editor metadata.
-  ```
-- [`8b71d7a`](https://github.com/ghostty-org/ghostty/commit/8b71d7a03cf345b6430171e480fa6e5135953095) ci: skip tip release when only non-artifact files change ([#13130](https://github.com/ghostty-org/ghostty/issues/13130)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Ignore more files when releasing tip. Moved release-tip run to a
-  separate script so we can test against it.
-  
-  ### AI Disclosure
-  
-  Claude did this, I reviewed the changes and asked it run the tests
-  locally before creating the pr.
-  ```
-- [`c6b0c0d`](https://github.com/ghostty-org/ghostty/commit/c6b0c0dcb45f4fa8dfb1d74604568ced30f8c48d) build(deps): bump namespacelabs/nscloud-cache-action from 1.5.0 to 1.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.5.0 to 1.6.0.
-  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
-  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/d6b68aa38adace8976c09629021052d57bb1ce9c...58bf6e08898e88803c098e2b522668541cd3b2e3)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: namespacelabs/nscloud-cache-action
-    dependency-version: 1.6.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`e1d31de`](https://github.com/ghostty-org/ghostty/commit/e1d31deaaed21aa9225afca78d778fb373c95852) build(deps): bump namespacelabs/nscloud-cache-action from 1.5.0 to 1.6.0 ([#13126](https://github.com/ghostty-org/ghostty/issues/13126)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
-  from 1.5.0 to 1.6.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v1.6.0</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>Remove unused Unix-only helpers from utils by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/148">namespacelabs/nscloud-cache-action#148</a></li>
-  <li>Validate cache links on Windows runners by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/149">namespacelabs/nscloud-cache-action#149</a></li>
-  <li>Early Windows support -&gt; Bump actions-toolkit to v0.4.0, fix
-  Dependabot &amp; patch security advisories by <a
-  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/150">namespacelabs/nscloud-cache-action#150</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.6.0">https://github.com/namespacelabs/nscloud-cache-action/compare/v1...v1.6.0</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/58bf6e08898e88803c098e2b522668541cd3b2e3"><code>58bf6e0</code></a>
-  Bump actions-toolkit to v0.4.0; fix Dependabot and patch security
-  advisories ...</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/07c62f87b6a9734917f8944b3afce3181492e327"><code>07c62f8</code></a>
-  Validate cache links on Windows runners (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/149">#149</a>)</li>
-  <li><a
-  href="https://github.com/namespacelabs/nscloud-cache-action/commit/148be15ff18531cb436517206569f053ce7bf8d1"><code>148be15</code></a>
-  Remove unused Unix-only helpers from utils (<a
-  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/148">#148</a>)</li>
-  <li>See full diff in <a
-  href="https://github.com/namespacelabs/nscloud-cache-action/compare/d6b68aa38adace8976c09629021052d57bb1ce9c...58bf6e08898e88803c098e2b522668541cd3b2e3">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.5.0&new-version=1.6.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
   ```
 
