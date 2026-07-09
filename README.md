@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 8, 2026 at 22:01 UTC.
+> Last updated: July 9, 2026 at 02:30 UTC.
 
 ## July 8, 2026
 
@@ -2427,63 +2427,5 @@ Summary: 5 runs • 11 commits • 5 authors
   
   
   </details>
-  ```
-
-## July 2, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28622708104), [2](https://github.com/ghostty-org/ghostty/actions/runs/28563110896)  
-Summary: 2 runs • 4 commits • 2 authors
-
-### Changes
-
-- [`f245cdc`](https://github.com/ghostty-org/ghostty/commit/f245cdc66721c3cea7551fca715f1ea04cd6bdc2) lib-vt: expose selection gesture to Zig ([@rockorager](https://github.com/rockorager))
-  ```text
-  Selection gestures are already part of the libghostty-vt C API, but the
-  native Zig module did not re-export the underlying terminal type. Zig
-  consumers that implement mouse selection had to reach into terminal
-  internals instead of using @import("ghostty-vt").
-  
-  Re-export SelectionGesture from lib_vt alongside the other terminal
-  selection and screen types.
-  ```
-- [`842badc`](https://github.com/ghostty-org/ghostty/commit/842badca5f1fc8e8bca1521bf7c619d26561aaa5) lib-vt: expose selection gesture to Zig ([#13156](https://github.com/ghostty-org/ghostty/issues/13156)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Selection gestures are already part of the libghostty-vt C API, but the
-  native Zig module did not re-export the underlying terminal type. Zig
-  consumers that implement mouse selection had to reach into terminal
-  internals instead of using @import("ghostty-vt").
-  
-  Re-export SelectionGesture from lib_vt alongside the other terminal
-  selection and screen types.
-  
-  AI Disclosure: I used AI. Yes, for +1
-  ```
-- [`aea63d7`](https://github.com/ghostty-org/ghostty/commit/aea63d71fe6630ae940b8ecf07d35851c0c11fba) libghostty: fix utf-8 grapheme length overflow ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The GRAPHEMES_UTF8 row-cells getter inferred its required byte
-  accumulator from utf8CodepointSequenceLength, which stores the
-  value in u3. Multi-scalar clusters longer than seven UTF-8 bytes
-  could overflow that accumulator before the capacity check, causing
-  wrong probe sizes and allowing optimized builds to write past a
-  caller-provided buffer.
-  
-  Use usize for the required byte count so probing and capacity
-  checks match the later encode loop. Extend the render C API test
-  to cover the short combining cluster, an eight-byte flag cluster,
-  a longer family emoji, exact-size success, and the
-  cap == needed - 1 no-write boundary.
-  ```
-- [`c22df09`](https://github.com/ghostty-org/ghostty/commit/c22df09da10b27dd248b21b7be8b26dcbddeb8ef) libghostty: fix utf-8 grapheme length overflow ([#13145](https://github.com/ghostty-org/ghostty/issues/13145)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The GRAPHEMES_UTF8 row-cells getter inferred its required byte
-  accumulator from utf8CodepointSequenceLength, which stores the value in
-  u3. Multi-scalar clusters longer than seven UTF-8 bytes could overflow
-  that accumulator before the capacity check, causing wrong probe sizes
-  and allowing optimized builds to write past a caller-provided buffer.
-  
-  Use usize for the required byte count so probing and capacity checks
-  match the later encode loop. Extend the render C API test to cover the
-  short combining cluster, an eight-byte flag cluster, a longer family
-  emoji, exact-size success, and the cap == needed - 1 no-write boundary.
   ```
 
