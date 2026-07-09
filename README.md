@@ -8,7 +8,53 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 9, 2026 at 14:46 UTC.
+> Last updated: July 9, 2026 at 17:18 UTC.
+
+## July 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29034451943)  
+Summary: 1 runs • 4 commits • 3 authors
+
+### Changes
+
+- [`60121a0`](https://github.com/ghostty-org/ghostty/commit/60121a039941ba79a7076a58fd6a0f75af695a76) Revert "termio: bound POSIX read-ahead on non-Darwin" ([@rockorager](https://github.com/rockorager))
+  ```text
+  This reverts commit bed47168ca7f34fe0a27e9f13c46b8df97cb77ca.
+  ```
+- [`b14d923`](https://github.com/ghostty-org/ghostty/commit/b14d9238366f87e1792a4363d60523ced10e310f) Revert "termio: bound POSIX read-ahead on non-Darwin" ([#13253](https://github.com/ghostty-org/ghostty/issues/13253)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This reverts commit bed47168ca7f34fe0a27e9f13c46b8df97cb77ca.
+  
+  This commit reduced the buffer size and count on non-Darwin. This
+  introduced a ~20% perf loss on linux for high throughput loads on a
+  questionable claim. Producers of bytes should not be pacing frames based
+  on how fast they can write to the terminal.
+  ```
+- [`9c9cf3e`](https://github.com/ghostty-org/ghostty/commit/9c9cf3e8217471169563a29e6f0c3fd33a90f050) renderer: avoid allocating when there are no active links ([@jparise](https://github.com/jparise))
+  ```text
+  Determine if any links are active before building the string and
+  byte-to-cell map. Those buffers scale with viewport size, and this
+  function runs during frame updates, so avoid allocating them when the
+  current mouse/modifier state can't highlight any regex links.
+  
+  This adds an additional `self.links` iteration, but that list is usually
+  small, the "active" check is cheap, and it breaks on the first hit.
+  ```
+- [`7cb44fe`](https://github.com/ghostty-org/ghostty/commit/7cb44fea332efa74e3843e531fd1aa4e764a8e4d) renderer: avoid allocating when there are no active links ([#13258](https://github.com/ghostty-org/ghostty/issues/13258)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Determine if any links are active before building the string and
+  byte-to-cell map. Those buffers scale with viewport size, and this
+  function runs during frame updates, so avoid allocating them when the
+  current mouse/modifier state can't highlight any regex links.
+  
+  This adds an additional `self.links` iteration, but that list is usually
+  small, the "active" check is cheap, and it breaks on the first hit.
+  
+  ---
+  
+  GPT 5.5 spotted this and wrote the test case. I came up with the
+  tradeoffs myself and wrote the runtime code.
+  ```
 
 ## July 8, 2026
 
