@@ -8,15 +8,469 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 9, 2026 at 19:37 UTC.
+> Last updated: July 9, 2026 at 22:17 UTC.
 
 ## July 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29034451943)  
-Summary: 1 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29048787966), [2](https://github.com/ghostty-org/ghostty/actions/runs/29046999434), [3](https://github.com/ghostty-org/ghostty/actions/runs/29034451943)  
+Summary: 3 runs • 26 commits • 4 authors
 
 ### Changes
 
+- [`c62c159`](https://github.com/ghostty-org/ghostty/commit/c62c1598413fdf6b72a4b64aafa25e44b71a1915) terminal: add standalone LZ4 block codec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrollback compression needs a codec that can be used from libghostty-vt
+  without pulling in libc, and we need to measure it before integrating it
+  with terminal page ownership.
+  
+  This adds an allocation-free raw LZ4 block codec in scalar Zig.  Callers
+  provide the input, output, and fixed-size scratch table. The decoder
+  uses an exact-size output contract so page metadata mismatches fail
+  cleanly. Compatibility vectors, boundary cases, random round trips, and
+  fuzz coverage exercise the block format.
+  
+  Also adds a page-compression benchmark that operates on reusable raw
+  page corpora. Compression and decompression have separate modes with
+  setup outside the timed region, plus a ratio report and no-op baseline.
+  Nothing uses compression in the terminal yet; this is the isolated codec
+  and measurement groundwork.
+  ```
+- [`ebc3ffd`](https://github.com/ghostty-org/ghostty/commit/ebc3ffd222f65765261cd30cfc2273643133ef89) terminal: add compressed page representation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The standalone LZ4 codec had no representation for terminal page
+  ownership or metadata, so PageList integration would otherwise need to
+  reconstruct every Page field independently.
+  
+  Add compress.Page, which embeds the complete terminal Page while
+  retaining its original virtual mapping and owns only an exact-sized
+  encoded block. Compression is kept only when the encoded state is
+  strictly smaller, and scratch output is capped at that profitability
+  boundary so a future PageList caller can borrow a standard pool item.
+  
+  Extend the page-compression benchmark with a store mode that measures
+  the encoded copy, allocation, bounded retention, and eviction path.
+  Nothing uses compression from PageList yet; this remains isolated
+  groundwork.
+  ```
+- [`f6fd4cb`](https://github.com/ghostty-org/ghostty/commit/f6fd4cb0878a04a96b67fc46be674f19f5883a13) terminal: generalize page memory reclamation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList's virtual-memory helpers were tied to pool items even though
+  the underlying decommit and recommit operations also apply to retained
+  page mappings.
+  
+  Move the helpers into terminal/mem.zig and express their different
+  failure contracts as generic modes. Zero mode preserves the existing
+  pool invariant and fallbacks, while strict mode only succeeds when the
+  operating system accepts reclamation and avoids touching memory that
+  will be restored.
+  
+  PageList now uses the shared zero mode for its page pool. The strict
+  path is tested in isolation and remains unused, so this does not enable
+  page compression yet.
+  ```
+- [`421fe8d`](https://github.com/ghostty-org/ghostty/commit/421fe8dabe585aee5131e3960e492d29bd373043) terminal: integrate compressed pages into PageList ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList nodes previously exposed Page directly, so introducing a
+  compressed representation would require every consumer to understand its
+  state and ownership.
+  
+  Add resident and compressed node states behind a page access boundary.
+  Content access transparently recommits and restores retained mappings,
+  while metadata traversal stays compressed and lifecycle paths can
+  discard encoded contents without decoding. Compression borrows pool
+  memory for standard scratch and uses temporary aligned storage for
+  oversized pages.
+  
+  Migrate terminal, rendering, search, formatting, and C API consumers to
+  the new boundary. Hot grow, scroll, and print paths reuse resolved
+  pages, with an explicit resident-only accessor where live cursor
+  pointers prove that the page cannot be compressed.
+  
+  The compression entry point remains private with no production callers,
+  so normal terminal behavior and scrollback accounting are unchanged.
+  ReleaseFast terminal-stream comparisons across bulk output, scrolling,
+  redraw, and erase workloads remain within 2% of the parent revision.
+  ```
+- [`9156ada`](https://github.com/ghostty-org/ghostty/commit/9156ada1692c7b6ac8408463639e3836af51f432) terminal: add cold-history compression pass ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList could compress individual nodes but had no policy-level
+  operation for selecting pages that are safe to reclaim. The compressed
+  state therefore remained reachable only from tests.
+  
+  Add a stateless pass that considers only complete history pages while
+  the viewport follows the active area. It gates work on supported
+  retained-mapping reclamation, reports attempts and retained bytes, and
+  leaves restoration lazy when a resize pulls compressed history back into
+  the active area.
+  
+  Add a live scrollback-compression benchmark for measuring complete
+  PageList compression and restoration against saved VT corpora. The pass
+  still has no production callers, and ReleaseFast terminal-stream
+  comparisons remain within the existing throughput guardrail.
+  ```
+- [`70e788f`](https://github.com/ghostty-org/ghostty/commit/70e788f06677e36d1f0e8c1f21c3751531ac3246) terminal: add incremental scrollback compression ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cold-history compression previously required scanning every eligible
+  page in one call, which makes it unsuitable for an idle-time scheduler.
+  The inspector also restored compressed pages while traversing collapsed
+  entries, hiding the representation and undoing reclamation.
+  
+  Add caller-owned serial state that resumes compression without retaining
+  node pointers. Each invocation inspects at most eight candidates and
+  attempts one resident page. List mutations restart safely, while
+  unsupported or historical viewports stop work. Keep a stateless
+  whole-history operation for measurement.
+  
+  Expose metadata-only storage and memory accounting for diagnostics,
+  update the inspector to restore only expanded pages, and add an
+  incremental live scrollback benchmark. This remains disconnected from
+  production scheduling.
+  ```
+- [`e7969ed`](https://github.com/ghostty-org/ghostty/commit/e7969ed43658b1330e282254cc1f0fe3805379f7) terminal: make PageList compression self-contained ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Incremental compression previously exposed its traversal state to
+  callers, requiring them to coordinate the cursor with PageList lifetime
+  and topology changes. Read-only consumers also had to restore compressed
+  nodes to inspect their contents.
+  
+  Move the continuation state into PageList and expose a single mode-based
+  compression entry point. Incremental passes restart safely across
+  mutations and verify a no-work pass before becoming idle, while full
+  passes leave incremental state fresh.
+  
+  Add preserved page reads which decode compressed nodes into caller-owned
+  storage without changing their representation, and migrate the
+  scrollback compression benchmark to the new API.
+  ```
+- [`0d015b2`](https://github.com/ghostty-org/ghostty/commit/0d015b2fcea547b698ef66c084d5946ec9c8f662) terminal: preserve compressed pages during search ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Search previously used the normal page access boundary while formatting
+  history and checking soft-wrap boundaries. Inspecting compressed history
+  therefore restored its retained mapping and undid the memory
+  reclamation.
+  
+  Format through preserved page snapshots and copy row counts and wrap
+  state into the sliding window's owned metadata. Overlap decisions reuse
+  the same snapshot, so compressed pages are decoded at most once per
+  append and remain compressed after matching.
+  
+  Add a cross-page regression which searches compressed history and
+  verifies both source nodes retain their compressed representation.
+  ```
+- [`f8c217e`](https://github.com/ghostty-org/ghostty/commit/f8c217e557e5aee4275e29ba4fedc559d1c730f5) terminal: track pending scrollback compression ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList previously kept only traversal position, so callers had no
+  central signal for deciding when an incremental compression pass should
+  run. Scheduling policy had to infer work from output and UI activity.
+  
+  Track compression dirtiness alongside the PageList continuation state.
+  Growth preserves valid progress while marking work pending, and resize
+  or viewport transitions restart from the oldest page. A no-work
+  verification pass clears the state.
+  
+  Expose Terminal helpers which report whether compression is required and
+  run compression against primary scrollback even while the alternate
+  screen is active. Unsupported retained-memory targets report no work.
+  ```
+- [`461562c`](https://github.com/ghostty-org/ghostty/commit/461562ca4ffe344dd1a6f7f24ab1f32fbb0fd448) terminal: enable idle scrollback compression ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrollback compression was available only through explicit PageList
+  calls, so normal renderer-backed surfaces never reclaimed cold history.
+  
+  Debounce renderer wakeups with a one-shot timer and run bounded
+  compression steps only when the terminal lock is immediately available.
+  Timer state is isolated in the renderer and becomes idle once PageList
+  reports that the pass is complete.
+  
+  Keep inspector reads representation-preserving by decoding compressed
+  pages into temporary copies. Update the scrollback configuration and
+  benchmark documentation to describe the production behavior and its
+  memory accounting.
+  ```
+- [`b9bb50c`](https://github.com/ghostty-org/ghostty/commit/b9bb50c832378bf1a7f45538b4d117f3e4137ebf) terminal: optimize page compression codec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The raw LZ4 codec previously kept one match candidate and extended and
+  copied matches byte by byte. This limited compression quality and made
+  page restoration substantially more expensive than the reference
+  decoder.
+  
+  Pack two candidates into the existing 16 KiB table, accelerate long
+  literal searches, and compare matching runs a word at a time. Decode
+  short literals and common repeated patterns with fixed-width copies
+  while retaining exact bounds checks for malformed blocks.
+  
+  This keeps the public API, workspace size, block format, and
+  allocation-free dependency model unchanged.
+  ```
+- [`181254d`](https://github.com/ghostty-org/ghostty/commit/181254d36a14e563cf81690b31b275ada841171c) terminal: debounce compression by page activity ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Compression scheduling previously postponed its idle timer after every
+  renderer wake. The inspector redraw loop wakes the renderer
+  continuously, so opening it could prevent pending scrollback compression
+  from ever starting.
+  
+  Track compression-relevant PageList activity with a wrapping 48-bit
+  token and restart the timer only when the composite Terminal token
+  changes. This removes the separate dirty bit while reserving 16 bits for
+  future Terminal-owned compression triggers.
+  
+  Expose target availability through the terminal package and leave
+  renderer compression state undefined on unsupported targets so its timer
+  is never initialized.
+  ```
+- [`95685af`](https://github.com/ghostty-org/ghostty/commit/95685afd26813b5ad93c912199f39e6295a919a3) terminal: compress offscreen scrollback history ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Compression previously stopped whenever the viewport left the active
+  area, leaving all scrollback resident while a user viewed history.
+  
+  Traverse complete historical pages through a metadata-only iterator
+  which skips the contiguous visible range. Restart incremental traversal
+  after every viewport movement so pages become eligible once they leave
+  view, while visible pages remain resident for immediate redraw.
+  
+  Add a PageList-only drain mode for tests and benchmarks, and update
+  scrollback documentation to describe the offscreen eligibility rule.
+  ```
+- [`0fb89f4`](https://github.com/ghostty-org/ghostty/commit/0fb89f4ffebabd7ea868f75a93f14a41ff65764a) terminal: configure scrollback compression ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Idle compression was always enabled on supported renderer-backed
+  surfaces and the default logical scrollback limit remained sized for
+  fully resident history.
+  
+  Add a default-on scrollback-compression option and make renderer
+  scheduling honor it across config reloads. Existing compressed pages
+  remain encoded when the option is disabled, while reenabling it starts a
+  fresh idle pass.
+  
+  Raise the default logical scrollback limit from 10 MB to 50 MB and
+  document typical physical-memory savings, content-dependent behavior,
+  and retained virtual address usage.
+  ```
+- [`6d5dda4`](https://github.com/ghostty-org/ghostty/commit/6d5dda40db6e6fbde98064e0bd6ec3d2de29c928) inspector: clarify page compression memory ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The PageList overview mixed structural state with a long list of exact
+  byte counters, making the compression result difficult to interpret.
+  
+  Keep the overview focused on grid and scrollback structure, and add a
+  dedicated compression section before scrollbar details. Present page
+  states, uncompressed size, encoded ratio, resident estimate, and savings
+  using readable units and scoped help text.
+  ```
+- [`172f15d`](https://github.com/ghostty-org/ghostty/commit/172f15da3b904633f798d99cb6e43acd78cbdc79) terminal: expose compression through libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrollback compression scheduling was only available to Zig callers that
+  used Terminal directly, leaving C embedders unable to drive the same idle
+  compression policy.
+  
+  Define ABI-aware mode and result enums on Terminal and export activity
+  and compression operations through the C API. Keep scheduling
+  caller-owned, validate C inputs, and document the incremental contract
+  with a complete example.
+  
+  Report unsupported reclamation consistently for full passes so callers
+  can disable compression on targets that cannot retain decommitted
+  mappings.
+  ```
+- [`25e6245`](https://github.com/ghostty-org/ghostty/commit/25e62456914392344bc6d7e3bbd9fb5a3a50fbc5) renderer: avoid starving scrollback compression ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Inspector rendering can hold the terminal mutex while waking the
+  renderer. When the compression scheduler failed to acquire that mutex,
+  it treated every wake as possible terminal activity and restarted the
+  idle timer. Frequent inspector frames could therefore postpone
+  compression indefinitely until another interaction changed the timing.
+  
+  Keep an existing compression deadline when a wake encounters lock
+  contention. The timer callback already rechecks both terminal activity
+  and lock availability, while the first contended wake still arms a
+  timer when none is active.
+  ```
+- [`9a4bd21`](https://github.com/ghostty-org/ghostty/commit/9a4bd2120a56073435c45c5249144817b400019a) terminal: optimize LZ4 decoding and add differential tests ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The block decoder previously copied literals through variable-length
+  memcpy calls and expanded every match with word loops that carried an
+  overcopy fallback in each branch. Real page blocks decode as millions
+  of tiny sequences, so per-sequence overhead dominated restore time.
+  
+  Decode short literal runs and in-token matches with blind fixed-width
+  copies whose margin checks subsume the exact bounds checks they
+  replace. Expand small repeating periods into pattern-word stores,
+  copy distant long matches with one exact memcpy, and propagate the
+  rare non-power-of-two short offsets bytewise. Page corpora restore
+  13% to 19% faster and text around twice as fast, while compressor
+  output stays byte-for-byte unchanged.
+  
+  Replace the fuzz test with a differential property suite which
+  round-trips generated inputs, validates blocks with an independent
+  format walker, rejects wrong-size outputs, and decodes corrupted and
+  truncated blocks. A light version runs as a normal unit test; the
+  exhaustive version runs when GHOSTTY_LZ4_SLOW is set. An AGENTS.md
+  records the benchmarking, testing, and verification workflow for
+  this directory.
+  ```
+- [`7e02af8`](https://github.com/ghostty-org/ghostty/commit/7e02af87980bfdaad6d393b985d35c917476878e) terminal: scrollback page compression (70 to 90% memory savings) ([#13264](https://github.com/ghostty-org/ghostty/issues/13264)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds transparent compression for non-active/non-viewport scrollback
+  pages, reducing physical memory for compressed pages by anywhere from
+  70% to 90%. Compression is obviously highly dependent on the shape of
+  the data, but these are the numbers I got for normal scrollback.
+  
+  Due to compression being available, I bumped the default scrollback
+  limit from 10MB to 50MB. On average, a full scrollback still uses less
+  memory than the prior limit due to the compression ratios.
+  
+  ## Demo
+  
+  Here is a demo video showing me filling my scrollback and using the
+  inspector so you can see the live compression/decompression activity and
+  results:
+  
+  
+  https://github.com/user-attachments/assets/7b9d0383-42f7-47bf-8b3f-853e3f89549c
+  
+  ## Resident vs. Virtual Memory
+  
+  This PR works by lowering _resident/physicalmemory, but doesn't touch
+  _virtual_ memory.
+  
+  Practically what this means is that users need to make sure they're
+  looking at resident memory to see the change.
+  
+  We use OS primitives like `MADV_DONTNEED` on Linux or
+  `MADV_FREE_REUSABLE` on Darwin to discard our physical memory, but
+  retain our virtual memory allocations. This is awesome because it means
+  our decompression is infallible: the OS has already given us the memory,
+  but it just remaps it at that point.
+  
+  This is baked into the core implementation, so compression only works on
+  systems that support an OS primitive to retain virtual mappings while
+  discarding physical. Today, that is macOS and 64-bit Linux. Other
+  operating systems have support we just haven't coded it up yet.
+  
+  ## Implementation
+  
+  A major refactor had to happen to PageList to represent nodes as either
+  resident or compressed. Pins typically accessed node content directly so
+  we had to add a bunch of helpers to read metadata without decompression
+  (but some access requires it).
+  
+  Compression is relatively slow and its important we don't impact IO
+  performance. So we support incremental compression passes and they only
+  run when the terminal is idle (250ms timer on the render thread that
+  resets on any activity). Benchmarks show zero regression in IO
+  throughput on this change.
+  
+  In order to maintain the no-libc invariant for libghostty-vt, we use a
+  hand-written (an AI assisted optimization) LZ4 compression
+  implementation. The performance and compression ratio is _okay_. Its a
+  good first step for this. I think in the future I want to look at other
+  implementations we can bring in based on build configuration.
+  
+  ## Performance
+  
+  Measured with a saved 7.3 MB corpus made by repeating `gh --help` output
+  into a 120x80 terminal with a 50 MB scrollback limit on my machine:
+  
+  | compression measurement | result |
+  |-------------------------|--------|
+  | pages compressed | 121 |
+  | raw page backing | 49.56 MB |
+  | encoded storage | 3.03 MB (6.11% of raw) |
+  | estimated physical memory savings | 46.53 MB (93.89%) |
+  | full compression | 30.3 ms total, 12.2 ms over the 18.1 ms no-op
+  baseline (~101 µs/page) |
+  | incremental drain | 29.7 ms total, 11.6 ms over baseline (~96 µs/page)
+  |
+  | compress and restore | 33.5 ms total, 3.2 ms over full compression
+  (~26 µs/page to restore) |
+  
+  The workload above is especially repetitive, so its 6.11% encoded ratio
+  is better than the 10% to 30% expected for text-heavy terminal history
+  in general. Steady-state throughput is unchanged within noise
+  (`terminal-stream` benchmarks and manual `cat` timings).
+  
+  ## libghostty-vt
+  
+  The same caller-driven compression controls are exposed to Zig and C.
+  
+  Note that compression _is not automatic_ for libghostty users. Callers
+  must determine their own definition of "idle" and when to compress and
+  call our incremental callback APIs to perform the compression.
+  Decompression is automatic and as-needed (and will trigger
+  recompression-required flags so callers are aware).
+  
+  ## LLM Notes
+  
+  This work was done in concert with Codex. I reviewed and
+  rewrote/reshaped pretty much every change extensively, particularly
+  PageList/Terminal. This PR message is written by hand, commit messages
+  are LLM written but reviewed.
+  ```
+- [`d34b54e`](https://github.com/ghostty-org/ghostty/commit/d34b54e9b4ecdf17f5c161cc7fe5164a69be586e) renderer: hand off state mutex to avoid starving frames ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  The renderer state mutex is unfair on all platforms (os_unfair_lock
+  on macOS, a futex based lock elsewhere). A thread that unlocks and
+  right away locks again wins over a sleeping waiter, because the
+  waiter first has to be woken up and scheduled. The termio parse
+  thread does exactly this under heavy pty output: it relocks the
+  mutex for every batch and never sleeps in between, so the renderer
+  can starve in updateFrame for as long as the output lasts.
+  
+  Fix this by letting the parse thread stay off the lock until the
+  renderer had its turn. `renderer.State` gets two atomics: a waiter
+  count (`demand`) and a generation counter (`handoff_gen`). The renderer
+  takes the mutex through lockDemand/unlockDemand which update these,
+  and the parse thread calls yieldToDemand between batches. If a
+  waiter exists it sleeps on a futex until the renderer took and
+  released the lock, with a 1ms timeout so a lost wake can not stall
+  IO forever.
+  
+  All the atomics are monotonic on purpose: they are only a hint for
+  scheduling, the mutex still protects the terminal state itself.
+  When the renderer is not waiting the cost for the parse loop is a
+  single relaxed atomic load per batch.
+  ```
+- [`4f53b84`](https://github.com/ghostty-org/ghostty/commit/4f53b846bc19a47752cad946b842972abfc8e7aa) renderer: move State declaration to top of file ([@Uzaaft](https://github.com/Uzaaft))
+- [`11b9a6e`](https://github.com/ghostty-org/ghostty/commit/11b9a6ef17e21b89e2ef14dd786992cc5577b69b) renderer: hand off state mutex to avoid starving frames ([#13265](https://github.com/ghostty-org/ghostty/issues/13265)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The mutex is unfair. From my understanding (after a brief convo with
+  @rockorager), it's a race between the parse thread and the renderer
+  thread.
+  
+  The parse thread is unlocking it then locking it faster than the
+  renderer thread can get a lock/unlock. Under sustained pty output the
+  parse thread never sleeps between batches, so the renderer's frame
+  snapshot can starve for as long as the output lasts.
+  
+  The fix here makes the parse thread voluntarily stay off the lock until
+  the renderer has had one turn by introducing two atomics:
+  
+  - `demand`: a waiter count. The renderer increments it before locking
+  and decrements it after acquiring, so demand > 0 means "the renderer is
+  queued on the lock or about to be."
+  - `handoff_gen`: a generation counter. The renderer bumps it (with a
+  futex wake) after unlocking, meaning "a waiter completed one full turn."
+  
+  At each batch boundary the parse thread checks demand (a single relaxed
+  load in the common case, so this **should** cost nothing when the
+  renderer isn't waiting). If a waiter exists, it futex-waits on
+  handoff_gen until the renderer has taken and released the lock, bounded
+  by a 1ms timeout, trying to ensure a lost wake can't stall IO.
+  
+  This is inspired from `parking_lot` form rust land, which has eventual
+  fairness, but applied only at the one site that misbehaves.
+  
+  ## LLM Note
+  
+  I used Fable 5 in Amp to write the code, but only after I identified the
+  problem myself from previous experience with mutex fairness (and the
+  convo above with rockorager).
+  
+  The diagnosis — the parse thread barging the unfair mutex and starving
+  the renderer — came first.Fable then traced the exact loop in
+  `Exec.zig/generic.zig` and implemented the handoff protocol.
+  
+  I've reviewed the changes.
+  ```
 - [`60121a0`](https://github.com/ghostty-org/ghostty/commit/60121a039941ba79a7076a58fd6a0f75af695a76) Revert "termio: bound POSIX read-ahead on non-Darwin" ([@rockorager](https://github.com/rockorager))
   ```text
   This reverts commit bed47168ca7f34fe0a27e9f13c46b8df97cb77ca.
