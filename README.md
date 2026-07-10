@@ -8,7 +8,272 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 10, 2026 at 02:33 UTC.
+> Last updated: July 10, 2026 at 06:39 UTC.
+
+## July 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29066195131), [2](https://github.com/ghostty-org/ghostty/actions/runs/29065831060)  
+Summary: 2 runs • 10 commits • 3 authors
+
+### Changes
+
+- [`035ae8d`](https://github.com/ghostty-org/ghostty/commit/035ae8ddb683e7147f8ecd8878ad43e201a26ac3) build(deps): bump cachix/install-nix-action from 31.10.6 to 31.10.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.6 to 31.10.7.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/8aa03977d8d733052d78f4e008a241fd1dbf36b3...a49548c11d9846ad46ecc0115273879b045f001c)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.10.7
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`5bc6588`](https://github.com/ghostty-org/ghostty/commit/5bc6588e43e280b32049a18835414688a46bdb26) terminal/search: ignore empty search needles ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Low-level search state accepted an empty needle even though the search
+  thread normally filters it out. SlidingWindow treated the empty string
+  as a zero-length match and underflowed while calculating its inclusive
+  end offset. Active and viewport overlap calculations could also
+  underflow while loading adjacent pages.
+  
+  Treat an empty needle as an inactive search with no matches or history,
+  and saturate the viewport overlap length.
+  ```
+- [`0ff4e41`](https://github.com/ghostty-org/ghostty/commit/0ff4e41b22b4da6e5603dd69570eabf4083c8ede) terminal: fix pin wrapping at row boundaries ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Pin.leftWrap and rightWrap calculated the destination using the
+  remainder after consuming the current row. When that remainder was an
+  exact multiple of the column count, rightWrap subtracted one from zero
+  and leftWrap produced a column equal to the width. Dereferencing either
+  pin could panic. A maximum usize offset on a one-column page also
+  overflowed the row count.
+  
+  Base the row and column calculations on the remainder minus one. This
+  maps exact multiples to the final cell of the correct row and keeps the
+  maximum offset calculation in range so traversal reports overflow
+  normally.
+  ```
+- [`0aaedf4`](https://github.com/ghostty-org/ghostty/commit/0aaedf4360ff3db1d724e148acc6f1c69d196c76) terminal: saturate origin cursor offsets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  setCursorPos added origin-mode margins to requested row and column
+  values before clamping them to the scrolling region. A request near
+  maxInt(usize) overflowed during that addition and crashed instead of
+  landing on the region boundary.
+  
+  Use saturating addition for the origin offsets. The existing clamp then
+  places oversized requests on the bottom-right margin without changing
+  normal cursor positioning.
+  ```
+- [`6236d38`](https://github.com/ghostty-org/ghostty/commit/6236d3859c3687cbc25537d5ceabf1c6b56749bb) Misc runtime safety fixes ([#13275](https://github.com/ghostty-org/ghostty/issues/13275)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Runtime safety violating scenarios found by GPT 5.6. Verified each one
+  manually. See each commit.
+  
+  I'm going to keep searching so not going to merge this yet.
+  ```
+- [`35e1a01`](https://github.com/ghostty-org/ghostty/commit/35e1a0160c4f6797e1bb1ef8e7a2b8c6b114ab58) build(deps): bump cachix/install-nix-action from 31.10.6 to 31.10.7 ([#13271](https://github.com/ghostty-org/ghostty/issues/13271)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.10.6 to 31.10.7.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.10.7</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.34.7 -&gt; 2.34.8 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/278">cachix/install-nix-action#278</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.10.6...v31.10.7">https://github.com/cachix/install-nix-action/compare/v31.10.6...v31.10.7</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/a49548c11d9846ad46ecc0115273879b045f001c"><code>a49548c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/278">#278</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/147e749b5f8b678f21493ce9aa9cbecb5df69d6f"><code>147e749</code></a>
+  nix: 2.34.7 -&gt; 2.34.8</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/23cf0fec1d55e0b1f2631aedd2a610c21ef8b077"><code>23cf0fe</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/276">#276</a>
+  from cachix/dependabot/github_actions/actions/checkout-7</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/8bdfc70a3e5c0e108d7943e2bfe3d74fa0a4d095"><code>8bdfc70</code></a>
+  chore(deps): bump actions/checkout from 6 to 7</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/8aa03977d8d733052d78f4e008a241fd1dbf36b3...a49548c11d9846ad46ecc0115273879b045f001c">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.6&new-version=31.10.7)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`f6f79ac`](https://github.com/ghostty-org/ghostty/commit/f6f79acce6c2805baeaa1b3a6bc4ab918b096c25) terminal: dispatch APC string bytes in bulk slices ([@rockorager](https://github.com/rockorager))
+  ```text
+  APC payloads such as Kitty graphics images can be megabytes of base64
+  data, but every byte was dispatched individually: through the VT state
+  machine table, an apc_put action, the stream handler, the APC protocol
+  handler, and finally a per-byte ArrayList append in the Kitty command
+  parser. Five layers of dispatch per byte made large image transfers
+  far slower than they needed to be.
+  
+  Add a bulk fast path alongside the existing CSI fast paths in
+  consumeUntilGround: scan the longest run of apc_put bytes (stopping
+  at any byte the parse table doesn't treat as APC payload: CAN, SUB,
+  ESC, and most C1 bytes exit or abort the string state, and 0xA0-0xFF
+  are ignored by it) and dispatch the run as a single new apc_put_slice
+  action. The APC handler identifies the protocol from the first few
+  bytes as before, then passes the remainder of each slice to the
+  protocol parser in bulk; the Kitty parser appends payload data with a
+  single appendSlice. Ignored/unknown APC sequences now drop each slice
+  in O(1) instead of per-byte dispatch.
+  
+  The fast path is guarded the same way as the CSI fast paths: handlers
+  with a vtRaw hook (the inspector) keep receiving per-byte apc_put
+  actions, and the scalar next() path is unchanged.
+  
+  Also add benchmark support: a `ghostty-gen +kitty` synthetic generator
+  emitting well-formed Kitty graphics transmit commands with 4 KiB
+  random base64 payloads (not valid image data; the corpus exercises
+  the parsing paths, not image decoding), and a `ghostty-bench
+  +apc-parser` benchmark that measures the stream -> APC -> Kitty parse
+  path without image decode/storage.
+  
+  Benchmarks on a 64 MiB corpus (hyperfine, ReleaseFast, x86_64 Linux,
+  baseline is identical source with only the fast path disabled):
+  
+    apc-parser:               1.061 s -> 43 ms  (~25x)
+    terminal-stream (kitty):  1.163 s -> 72 ms  (~16x)
+    terminal-stream (ascii):  no change
+  
+  The ascii case was verified with retired instruction counts (perf
+  stat, pinned to one core) since wall time on the test machine has
+  4-7 ms of noise: 988,030,458 vs 988,045,833 instructions (+0.0016%),
+  a fixed startup-size delta; the ground-state hot loop never reaches
+  the new branch.
+  ```
+- [`6275184`](https://github.com/ghostty-org/ghostty/commit/627518447395c9ff328e6ef8222f3a9409e4c40d) terminal/search: reset cached results after resize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen searches only reset cached dimensions while feeding more
+  history. Selecting or reloading a result immediately after a resize
+  left flattened highlights pointing at page nodes freed by reflow. The
+  next selection operation could dereference those stale pointers and
+  crash.
+  
+  Centralize dimension invalidation and run it before feed, reload, and
+  selection paths inspect cached state. Add regression coverage for
+  selecting a cached active match after a column resize.
+  ```
+- [`7f073c4`](https://github.com/ghostty-org/ghostty/commit/7f073c4cf2cd892441f7b9ab401823435567cbd1) terminal: dispatch APC string bytes in bulk slices ([#13270](https://github.com/ghostty-org/ghostty/issues/13270)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  APC payloads such as Kitty graphics images can be megabytes of base64
+  data, but every byte was dispatched individually: through the VT state
+  machine table, an apc_put action, the stream handler, the APC protocol
+  handler, and finally a per-byte ArrayList append in the Kitty command
+  parser. Five layers of dispatch per byte made large image transfers far
+  slower than they needed to be.
+  
+  Add a bulk fast path alongside the existing CSI fast paths in
+  consumeUntilGround: scan the longest run of apc_put bytes (stopping at
+  any byte the parse table doesn't treat as APC payload: CAN, SUB, ESC,
+  and most C1 bytes exit or abort the string state, and 0xA0-0xFF are
+  ignored by it) and dispatch the run as a single new apc_put_slice
+  action. The APC handler identifies the protocol from the first few bytes
+  as before, then passes the remainder of each slice to the protocol
+  parser in bulk; the Kitty parser appends payload data with a single
+  appendSlice. Ignored/unknown APC sequences now drop each slice in O(1)
+  instead of per-byte dispatch.
+  
+  The fast path is guarded the same way as the CSI fast paths: handlers
+  with a vtRaw hook (the inspector) keep receiving per-byte apc_put
+  actions, and the scalar next() path is unchanged.
+  
+  Also add benchmark support: a `ghostty-gen +kitty` synthetic generator
+  emitting well-formed Kitty graphics transmit commands with 4 KiB random
+  base64 payloads (not valid image data; the corpus exercises the parsing
+  paths, not image decoding), and a `ghostty-bench +apc-parser` benchmark
+  that measures the stream -> APC -> Kitty parse path without image
+  decode/storage.
+  
+  Benchmarks on a 64 MiB corpus (hyperfine, ReleaseFast, x86_64 Linux,
+  baseline is identical source with only the fast path disabled):
+  
+    apc-parser:               1.061 s -> 43 ms  (~25x)
+    terminal-stream (kitty):  1.163 s -> 72 ms  (~16x)
+    terminal-stream (ascii):  no change
+  
+  The ascii case was verified with retired instruction counts (perf stat,
+  pinned to one core) since wall time on the test machine has 4-7 ms of
+  noise: 988,030,458 vs 988,045,833 instructions (+0.0016%), a fixed
+  startup-size delta; the ground-state hot loop never reaches the new
+  branch.
+  
+  AI Disclosure: This code was written with the assistance of Fable 5 via
+  Amp.
+  ```
+- [`a23d90c`](https://github.com/ghostty-org/ghostty/commit/a23d90c89afa00fd5563a3db89d8a1cfab3e7573) terminal/search: reset cached results after resize ([#13274](https://github.com/ghostty-org/ghostty/issues/13274)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen searches only reset cached dimensions while feeding more history.
+  Selecting or reloading a result immediately after a resize left
+  flattened highlights pointing at page nodes freed by reflow. The next
+  selection operation could dereference those stale pointers and crash.
+  
+  Centralize dimension invalidation and run it before feed, reload, and
+  selection paths inspect cached state. Add regression coverage for
+  selecting a cached active match after a column resize.
+  ```
 
 ## July 9, 2026
 
