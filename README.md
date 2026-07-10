@@ -8,15 +8,259 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 10, 2026 at 16:51 UTC.
+> Last updated: July 10, 2026 at 19:20 UTC.
 
 ## July 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29104158270), [2](https://github.com/ghostty-org/ghostty/actions/runs/29099448298), [3](https://github.com/ghostty-org/ghostty/actions/runs/29066195131), [4](https://github.com/ghostty-org/ghostty/actions/runs/29065831060)  
-Summary: 4 runs • 42 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29110411824), [2](https://github.com/ghostty-org/ghostty/actions/runs/29108801187), [3](https://github.com/ghostty-org/ghostty/actions/runs/29104158270), [4](https://github.com/ghostty-org/ghostty/actions/runs/29099448298), [5](https://github.com/ghostty-org/ghostty/actions/runs/29066195131), [6](https://github.com/ghostty-org/ghostty/actions/runs/29065831060)  
+Summary: 6 runs • 58 commits • 4 authors
 
 ### Changes
 
+- [`f1a5fab`](https://github.com/ghostty-org/ghostty/commit/f1a5fab45264b2c1ef4bee0bda2d0cc724300682) terminal: keep page serial floor conservative ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Page generations are not ordered with the page list because splits
+  and in-place replacements insert fresh generations before older live
+  pages. Advancing page_serial_min while pruning could therefore reject
+  live successors and fail PageList integrity checks.
+  
+  Keep the floor as a whole-list invalidation epoch and use the existing
+  pointer-plus-generation membership check for ordinary removals. Add
+  bounded pruning coverage for split and replacement ordering, and verify
+  reset still rejects a stale generation when its node address is reused.
+  ```
+- [`a804e3a`](https://github.com/ghostty-org/ghostty/commit/a804e3ac78b21978c3513ccde47901da096b6844) terminal: invalidate partially erased page refs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Partial history erasure shifted retained rows while preserving the
+  node generation. Cached flattened matches then passed pointer-plus-
+  generation validation and could be tracked with coordinates beyond the
+  shortened page.
+  
+  Renew the generation before reinitializing or shifting a page layout,
+  and mark compression activity so an incremental pass restarts and
+  revisits a restored cold page. The conservative serial floor permits
+  the fresh generation to remain before older live successors without
+  rejecting them.
+  ```
+- [`91a63e5`](https://github.com/ghostty-org/ghostty/commit/91a63e5287c06c5a9545752028a3afe5ef7b4933) terminal: invalidate split source page refs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList.split moved the source suffix into a fresh target but left
+  the shortened source on its old generation. Cached matches in that
+  suffix could therefore pass validation against the live source pointer
+  and reach pin tracking with invalid coordinates.
+  
+  Renew the source generation only after target cloning succeeds, and
+  mark compression activity so restored history is reconsidered. The
+  conservative floor keeps bounded pruning safe even when the renewed
+  source and fresh target precede older successors.
+  ```
+- [`83aada2`](https://github.com/ghostty-org/ghostty/commit/83aada2056a5668a984f0345908487857acfae9a) terminal/search: preserve serial order in reverse matches ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reverse multi-page highlight construction reordered node and row-
+  bound columns but left captured page generations in their original
+  order. Every cross-page result therefore paired each node with another
+  page generation and could be rejected as stale despite remaining live.
+  
+  Reverse the serial column with the other flattened chunk metadata and
+  cover the node-plus-generation pairing in the existing boundary match
+  test.
+  ```
+- [`c243d89`](https://github.com/ghostty-org/ghostty/commit/c243d89bdf78e5341ca0b7e509d0798bd60c06ab) terminal/search: include generations in viewport fingerprints ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ViewportSearch compared only cached node addresses when deciding
+  whether to reuse its owned search window. An in-place layout change or
+  pool address reuse could therefore make stale text and coordinates
+  appear current.
+  
+  Snapshot each node generation with its pointer and compare only those
+  captured values. This detects a renewed generation at the same address
+  without ever dereferencing cached node pointers.
+  ```
+- [`c9ad708`](https://github.com/ghostty-org/ghostty/commit/c9ad708ef77a953a995d59725d11fcf14f8cd74c) terminal: validate flattened highlight generations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  RenderState applied flattened highlights after releasing the terminal
+  lock and matched them to copied rows by node address alone. A recycled
+  address could therefore make a stale asynchronous highlight decorate
+  unrelated content.
+  
+  Capture the live node generation with each render row and require both
+  the pointer and copied generation to match. Validation remains lock-
+  free and never dereferences a potentially stale node.
+  ```
+- [`a89c613`](https://github.com/ghostty-org/ghostty/commit/a89c6133c5be223def8b6ab6c1b9b27f0ba5db41) terminal/search: validate history before reload ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ScreenSearch reloaded active state before pruning stale flattened
+  history. Reload could compare a shifted tracked selection against
+  cached page coordinates and panic before the later validation step ran.
+  
+  Prune history immediately after dimension reconciliation in
+  reloadActive, before any cached coordinate is inspected or converted to
+  a pin. Selection now relies on that ordering and avoids a redundant
+  second prune.
+  ```
+- [`d0a26d1`](https://github.com/ghostty-org/ghostty/commit/d0a26d1460cfb55e8ce8c62bdb5ad3b883e2577d) terminal: reschedule compression after page replacement ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Compaction and capacity growth publish fresh page generations, so an
+  active incremental traversal can detect them. They did not update the
+  separate activity token, however, and a completed compressor could
+  remain idle after either operation restored or replaced a cold page.
+  
+  Mark successful replacements as compression activity without resetting
+  the exact continuation marker. The next scheduled step can retain valid
+  progress or restart through the existing generation checks.
+  ```
+- [`dd956f3`](https://github.com/ghostty-org/ghostty/commit/dd956f37cc8154c6c17d2290c11070b472237bc6) terminal: renew generations for shifted rows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Single-row erasure and trailing blank-row trimming can remap or remove
+  stored row coordinates while retaining the same node. External pointer-
+  plus-generation references could therefore survive these less common
+  PageList mutation paths.
+  
+  Renew each affected node inside the traversal that already changes it,
+  and signal compression activity only when row erasure begins in
+  history. This adds constant work per touched page without another list
+  scan or normal append cost.
+  ```
+- [`f6d9a58`](https://github.com/ghostty-org/ghostty/commit/f6d9a582e41579660c0b491ded1f1970b851f7f3) terminal: rename page serial floor as epoch ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  page_serial_min no longer represented the minimum live page serial.
+  Its name still suggested an ordering relationship and obscured the
+  remaining reset-only invalidation behavior.
+  
+  Rename the field to page_serial_epoch and document its O(1) rejection
+  and ScreenSearch bulk-pruning utility. Explicitly verify that ordinary
+  bounded pruning does not begin a new whole-list epoch.
+  ```
+- [`0bad91a`](https://github.com/ghostty-org/ghostty/commit/0bad91adb84efc5256f02b4bacf5513695ebac27) terminal: renew generations for direct row shifts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen scroll fast paths and Terminal line insertion/deletion move Row
+  values directly instead of using PageList erasure helpers. Their node
+  generations therefore stayed valid after cached row coordinates changed.
+  
+  Expose the PageList layout invalidator to sibling terminal modules and
+  renew each affected existing page once before full-row rotations or
+  swaps. Keep partial-width cell moves on the content-only path and cover
+  same-page, cross-page, and fresh-tail behavior.
+  ```
+- [`89eca06`](https://github.com/ghostty-org/ghostty/commit/89eca063e9f59c1826f5c1017c17417b0d0acfb4) terminal/search: avoid pruning history on reload ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  reloadActive previously pruned every cached history result whenever the
+  active area changed. Search reconciliation runs under the terminal lock,
+  so this scaled with both result and page counts on a frame-paced path.
+  
+  Validate only the selected history result during reload. Keep full
+  pruning before selection navigation so stale candidates are removed
+  before their coordinates are tracked.
+  ```
+- [`53bd14f`](https://github.com/ghostty-org/ghostty/commit/53bd14fecfd68c6c0ab64d37b5943247299e2b40) terminal: update page serial to be treated as a generation marker (correctness) ([#13282](https://github.com/ghostty-org/ghostty/issues/13282)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This changes our `page_serial` semantics from monotonic min to a
+  generation marker (any change means you should reload). This fixes a
+  number of real bugs that search had.
+  
+  In reality, this invariant was already broken and not true. So this PR
+  comes to reality with that and fixes all our usage. The most visible
+  failures were panics when selecting cached search results after
+  partially erasing a history page or splitting a page, but the same bug
+  class affected viewport search fingerprints and asynchronous render
+  highlights.
+  
+  It was mostly search, for now, but this type of fix is important for
+  some upcoming work I'm playing around with regarding deferred reflow and
+  disk offload.
+  
+  ## Page Serial Semantics
+  
+  `Node.serial` is now explicitly a page generation. It changes whenever a
+  node is allocated or reused, and whenever an in-place mutation changes
+  the meaning or valid range of its row coordinates.
+  
+  `page_serial_min` is renamed to `page_serial_epoch` to reflect its
+  remaining purpose. Only a whole-list reset advances the epoch. A serial
+  below the epoch is definitely stale and can be rejected in O(1); a
+  serial at or above it is only potentially valid and is checked against
+  the live list using its captured pointer and generation.
+  
+  ## Performance
+  
+  The generation bump is constant work per node whose layout is already
+  being changed. There is no additional page-list scan on normal row
+  append or scrollback pruning.
+  
+  I did add a new field to the render state, so I ran render state
+  benchmarks we already have that shows a very slight slowdown but this is
+  acceptable especially given recent speedups outweigh this significantly:
+  
+  | render measurement | before | after | change |
+  |--------------------|--------|-------|--------|
+  | full rebuild | 2.915 us/update | 2.926 us/update | +0.27% |
+  | lock-held rebuild | 2.472 us/update | 2.489 us/update | +0.53% (within
+  noise) |
+  | clean update | 19.03 ns/update | 19.30 ns/update | +1.43% (+0.27 ns) |
+  | one dirty row | 52.97 ns/update | 53.40 ns/update | +0.96% (within
+  noise) |
+  | flattened highlight miss | 86.77 ns/update | 86.87 ns/update | +0.19%
+  (within noise) |
+  | flattened highlight match | 88.38 ns/update | 90.26 ns/update | +2.00%
+  (+1.88 ns) |
+  
+  ## LLM Notes
+  
+  This work was done in concert with Codex. I reviewed and reshaped the
+  serial model, implementation, tests, documentation, and performance
+  analysis throughout. This PR message is hand-written.
+  ```
+- [`0a410f1`](https://github.com/ghostty-org/ghostty/commit/0a410f18e5f83ef30308cc381de134a7cf23a718) terminal: add clipboard_set effect for OSC 52 clipboard writes ([@pearkes](https://github.com/pearkes))
+  ```text
+  libghostty-vt already parses OSC 52 into the clipboard_contents action but
+  the stream handler dropped it in the no-effect list, so embedders had no way
+  to observe a program's clipboard writes. Add a clipboard_set effect following
+  the existing bell/title_changed pattern and expose it through the C API as
+  GHOSTTY_TERMINAL_OPT_CLIPBOARD_SET.
+  
+  The callback receives the OSC 52 kind byte and the base64 payload exactly as
+  received; decoding and kind interpretation are left to the embedder, matching
+  how ghostty itself defers decoding to the apprt layer.
+  
+  Clipboard read requests ("?") are never forwarded: answering one would let
+  any program running in the terminal silently read the user's clipboard, and
+  a VT state library cannot mediate that with user consent. Empty payloads are
+  also ignored rather than inventing clear semantics.
+  ```
+- [`634ef71`](https://github.com/ghostty-org/ghostty/commit/634ef71986c6a4b37c3c10eda92cd6b53fee8af0) terminal: make clipboard writes protocol neutral ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13182
+  
+  Replace the OSC 52-specific kind and encoded payload callback with an
+  atomic clipboard write containing a normalized destination and decoded
+  MIME representations. This keeps protocol details out of embedders and
+  lets iTerm2 Copy use the same semantic path.
+  
+  Represent clears with an empty content list, preserve binary payloads,
+  and return a generic result for protocols that acknowledge writes. Add
+  the C ABI descriptors, layout metadata, and effects example so future
+  multipart protocols can reuse the callback without another API break.
+  ```
+- [`d4ac93a`](https://github.com/ghostty-org/ghostty/commit/d4ac93a0395d321b043ee0116dc8a1a384f0fb83) terminal: add clipboard_set effect for OSC 52 clipboard writes ([#13182](https://github.com/ghostty-org/ghostty/issues/13182)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  libghostty-vt was already parsing OSC 52 into the clipboard_contents
+  action but the stream handler dropped, so there was no way to observe
+  clipboard writes (in this case, a program using go-libghostty). This
+  adds a clipboard_set effect following the existing bell/title_changed
+  pattern and expose it through the C API as
+  `GHOSTTY_TERMINAL_OPT_CLIPBOARD_SET`.
+  
+  The callback receives the OSC 52 kind byte and the base64 payload
+  exactly as received; decoding and kind interpretation are left to the
+  embedder, matching how decoding is typically deferred.
+  
+  Note this intentionally does not deal with clipboard read requests given
+  the security implications.
+  
+  AI disclosure: Fable (via Claude Code) did the majority of the work
+  here, I validated it on the client side and fully understand the pattern
+  we're fitting into.
+  ```
 - [`8c523ed`](https://github.com/ghostty-org/ghostty/commit/8c523ed03919d6c5ba747283d6724eabaaa2b27f) terminal: vectorize APC payload scanning ([@rockorager](https://github.com/rockorager))
   ```text
   Kitty graphics payloads are dispatched in bulk, but finding each slice
