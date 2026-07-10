@@ -8,15 +8,303 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 10, 2026 at 14:10 UTC.
+> Last updated: July 10, 2026 at 16:51 UTC.
 
 ## July 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29066195131), [2](https://github.com/ghostty-org/ghostty/actions/runs/29065831060)  
-Summary: 2 runs • 10 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29104158270), [2](https://github.com/ghostty-org/ghostty/actions/runs/29099448298), [3](https://github.com/ghostty-org/ghostty/actions/runs/29066195131), [4](https://github.com/ghostty-org/ghostty/actions/runs/29065831060)  
+Summary: 4 runs • 42 commits • 3 authors
 
 ### Changes
 
+- [`8c523ed`](https://github.com/ghostty-org/ghostty/commit/8c523ed03919d6c5ba747283d6724eabaaa2b27f) terminal: vectorize APC payload scanning ([@rockorager](https://github.com/rockorager))
+  ```text
+  Kitty graphics payloads are dispatched in bulk, but finding each slice
+  boundary still examines every byte with a scalar loop. This leaves large
+  direct base64 image transmissions parser-bound.
+  
+  Scan ordinary APC bytes using the vector width recommended for the compile
+  target. Keep the scalar scan both as the tail and as the full fallback when
+  the target has no recommended vector width. Test state-machine boundaries
+  against byte-at-a-time parsing.
+  
+  A ReleaseFast APC parser benchmark over the same 64 MiB Kitty graphics
+  corpus, with 10 warmups and 30 measured runs, produced:
+  
+                    mean       median
+    scalar        37.6 ms      32.6 ms
+    vectorized    22.3 ms      19.0 ms
+  
+  Hyperfine reports the vectorized version as 1.69 times faster overall, with
+  the median runtime improving by approximately 42 percent.
+  ```
+- [`4aa3c10`](https://github.com/ghostty-org/ghostty/commit/4aa3c1051d861cd3eff9e4abdd85e4cc9524e978) terminal: vectorize APC payload scanning ([#13281](https://github.com/ghostty-org/ghostty/issues/13281)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Kitty graphics payloads are dispatched in bulk, but finding each slice
+  boundary still examines every byte with a scalar loop. This leaves large
+  direct base64 image transmissions parser-bound.
+  
+  Scan ordinary APC bytes using the vector width recommended for the
+  compile target. Keep the scalar scan both as the tail and as the full
+  fallback when the target has no recommended vector width. Test
+  state-machine boundaries against byte-at-a-time parsing.
+  
+  A ReleaseFast APC parser benchmark over the same 64 MiB Kitty graphics
+  corpus, with 10 warmups and 30 measured runs, produced:
+  
+  ```
+                    mean       median
+    scalar        37.6 ms      32.6 ms
+    vectorized    22.3 ms      19.0 ms
+  ```
+  Hyperfine reports the vectorized version as **1.69 times faster
+  overall**, with the median runtime improving by approximately 42
+  percent.
+  
+  AI Disclosure: This patch was created with the assistance of GPT-5.6
+  ````
+- [`c753fe4`](https://github.com/ghostty-org/ghostty/commit/c753fe4a4f589cc016a8346be222394902cb1f4d) terminal: handle minimum row scroll delta ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageList.scroll negated negative row deltas to obtain their
+  magnitude. minInt(isize) has no positive signed representation, so
+  callers could trigger a runtime safety panic before the existing
+  traversal had a chance to clamp at the top.
+  
+  Use @abs to calculate an unsigned magnitude that represents every isize
+  value. The same value now drives both cached-pin and general traversal
+  paths.
+  ```
+- [`afbf5ba`](https://github.com/ghostty-org/ghostty/commit/afbf5ba1564a87fd4c6d39117d6c66552b08ee71) terminal: handle minimum prompt scroll delta ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Prompt scrolling negated negative deltas to count the requested jumps.
+  minInt(isize) has no positive signed representation, so a caller could
+  trigger a runtime safety panic before the search for an earlier prompt
+  started.
+  
+  Use @abs to produce the full unsigned magnitude. An extreme negative
+  request now follows the normal prompt traversal and clamps at the oldest
+  available prompt.
+  ```
+- [`e6e4a9f`](https://github.com/ghostty-org/ghostty/commit/e6e4a9fdc1b5e793f54f3f981c70b640062b5354) terminal: widen cell screen coordinates ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cell.screenPoint accumulated page row counts in CellCountInt even
+  though screen point Y coordinates are u32. Once scrollback crossed
+  65,535 rows, walking back through page metadata overflowed and trapped
+  in runtime safety builds.
+  
+  Accumulate directly in u32 so page-local u16 row counts widen before
+  addition and the result uses the full range promised by point.Coordinate.
+  ```
+- [`30b42f4`](https://github.com/ghostty-org/ghostty/commit/30b42f42a3b33732154a07a556e6f768e6a0a949) terminal: reject unrepresentable pin coordinates ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  pointFromPin accumulated scrollback rows directly into the u32 Y
+  field. An unbounded PageList with more than 2^32 rows could overflow
+  while converting a valid pin and panic in runtime safety builds.
+  
+  Use checked additions for every cross-page row contribution. If the
+  pin cannot fit in point.Coordinate, return null through the existing
+  out-of-range result instead of trapping.
+  ```
+- [`d6e24d9`](https://github.com/ghostty-org/ghostty/commit/d6e24d9856723055dbafc8d4133c440a265fa278) terminal: make pin traversal width-aware ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Pin movement assumed every page had the same column count. During an
+  incomplete reflow, crossing into a narrower page could produce an
+  out-of-bounds x coordinate, while wrapped movement could land on the
+  wrong row or stop early.
+  
+  Use destination page widths while moving vertically or wrapping, and
+  reject points that exceed the resolved page. Add synthetic mixed-width
+  coverage for movement, wrapping, overflow, and point conversion.
+  ```
+- [`0cb0047`](https://github.com/ghostty-org/ghostty/commit/0cb004734eeb56f17bf1a72bbbd8cda6c924173e) terminal: ignore empty cell clears ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen.clearCells accepted a slice but its runtime safety validation
+  indexed the first and last elements unconditionally. Passing an empty
+  range therefore panicked before the otherwise valid no-op clear.
+  
+  Return immediately for an empty slice so validation and managed-memory
+  bookkeeping only run when there are cells to clear.
+  ```
+- [`8f1c2fe`](https://github.com/ghostty-org/ghostty/commit/8f1c2fe959f28d3d12c1a183d7213eb36c74402e) terminal: handle backwards selection timestamps ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  SelectionGesture passed caller-supplied repeat timestamps directly to
+  Instant.since. A C API client or non-monotonic timer could provide an
+  earlier timestamp after a later one, causing a runtime safety panic
+  while converting negative elapsed seconds to u64.
+  
+  Compare instants before calculating elapsed time and treat backwards
+  timestamps as failed repeats. The next press becomes a new single-click
+  anchor, matching other invalid repeat inputs.
+  ```
+- [`3d08161`](https://github.com/ghostty-org/ghostty/commit/3d08161b5053ea8930b97232ab88486d2ff6a7bf) terminal: handle empty tabstop ranges ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Tabstops.reset subtracted one from the column count before iterating
+  default stops. Although init and resize accept zero columns, resetting
+  that state with a nonzero interval underflowed and panicked.
+  
+  Return after clearing when the grid has fewer than two columns. Empty
+  and single-column tabstop sets now preserve the normal no-stop result.
+  ```
+- [`fa8cae8`](https://github.com/ghostty-org/ghostty/commit/fa8cae88b25f7c8fba3328f9e27edcb66a148341) terminal: use destination width for line selection ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Semantic line selection moved to the previous row when the next row
+  started with different content, then assigned the previous pin an x
+  coordinate from the next page. During incomplete reflow, a wider next
+  page produced an out-of-bounds pin and a runtime safety panic.
+  
+  Set the end column from the page that owns the destination pin. Line
+  selection now remains valid while crossing mixed-width page boundaries.
+  ```
+- [`a9f5b7e`](https://github.com/ghostty-org/ghostty/commit/a9f5b7eba26ed50b73158f0f8a564c00106db7a0) terminal: clamp selection rows to page width ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  containedRowCached built full-row and rectangular selections using
+  the desired screen width. During incomplete reflow, an intermediate
+  narrower page received endpoints beyond its cell range, and consumers
+  could panic when resolving the returned pins.
+  
+  Use the owning page width for full rows and clamp rectangular bounds to
+  that width. Every contained-row selection now returns resolvable pins.
+  ```
+- [`a55850c`](https://github.com/ghostty-org/ghostty/commit/a55850c981f2ee39b3c47c7fe0b0fef13570f311) terminal: use previous page width for cursor cells ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  cursorCellEndOfPrev moved its pin to the previous row but then set the
+  column from the desired screen width. If incomplete reflow left that
+  previous page narrower, resolving the cell used an out-of-bounds column
+  and panicked in runtime safety builds.
+  
+  Set the column from the page reached by the cursor pin so the returned
+  cell is always the actual final cell of that row.
+  ```
+- [`08e376f`](https://github.com/ghostty-org/ghostty/commit/08e376f2398d210cb1f67d3d14c901d3c70f071e) terminal: bound selection drag geometry ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Selection drags converted caller-provided floating-point positions directly
+  to u32 and multiplied geometry dimensions without checking their range.
+  Non-finite positions, oversized values, overflowing dimensions, or empty
+  core geometry could therefore panic in runtime safety builds.
+  
+  Clamp pixel positions to the representable u32 range, reject empty
+  geometry, and saturate the pixel span when dimensions overflow. Valid
+  drags keep their existing threshold behavior.
+  ```
+- [`6071606`](https://github.com/ghostty-org/ghostty/commit/6071606577d80d75865bdd91bd5f7b6df4a0d60e) terminal: clamp cloned selections to page width ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen.clone clipped selections with the desired screen width or copied
+  rectangle columns unchanged. PageList.clone preserves stored page widths,
+  so a clipped boundary on a narrower page produced an invalid tracked pin
+  and panicked during runtime validation.
+  
+  Build fallback pins from the first or last cloned node and clamp rectangle
+  columns to that node. Clipped selections now remain valid during reflow.
+  ```
+- [`b6f34be`](https://github.com/ghostty-org/ghostty/commit/b6f34be44f8efc16e58072d0681d4bb0ab076f75) terminal: clamp mirrored selection corners ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rectangle orientation swaps endpoint columns when a selection is mirrored.
+  During incomplete reflow, copying a column from a wider page onto the
+  narrower corner page created an invalid pin that panicked when resolved.
+  
+  Clamp every swapped column to the page that owns the oriented corner.
+  Top-left and bottom-right calculations now always return valid pins.
+  ```
+- [`e727a36`](https://github.com/ghostty-org/ghostty/commit/e727a36589dffa5b42f76e83d260a5617cdde54e) terminal: clear rows using stored page width ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen.clearRows sliced backing cells using the desired PageList width.
+  During incomplete reflow, clearing a narrower stored page extended the
+  slice past its row and tripped clearCells runtime validation before any
+  cells were cleared.
+  
+  Obtain cells from the owning page and use its stored width for whole-row
+  managed-memory bookkeeping. Mixed-width history rows now clear safely.
+  ```
+- [`b287f6d`](https://github.com/ghostty-org/ghostty/commit/b287f6d1ab98e92b05ae6a2b4ea29d4daad9d3bd) terminal: handle stored grapheme boundaries ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With mode 2027 disabled, the printer attaches zero-width codepoints without applying Unicode grapheme boundaries. Enabling the mode later and printing another non-ASCII codepoint asserted that every stored pair was part of one grapheme and panicked when it was not.
+  
+  Feed all stored codepoints through the grapheme state machine and let it reset at existing boundaries before testing the new codepoint. The deterministic print comparison can now exercise live mode changes without clearing the screen first.
+  ```
+- [`0481027`](https://github.com/ghostty-org/ghostty/commit/04810273afc2c1dba73cf32ebb6d63ceb37df168) terminal: wrap implicit hyperlink identifiers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Implicit OSC 8 hyperlinks incremented a u32 identifier with checked arithmetic even though the cursor contract allows the sequence to wrap. Reaching the maximum identifier therefore caused a runtime safety panic before the link could be installed.
+  
+  Use wrapping arithmetic for both the successful increment and the error rollback. The identifier now returns to zero at the boundary, while failed allocation attempts still restore the original value.
+  ```
+- [`1d5b6f9`](https://github.com/ghostty-org/ghostty/commit/1d5b6f90e5278fc53820605fae47ca0fa5b926a7) terminal: reserve pwd terminator atomically ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  setPwd appended the path bytes and terminating NUL with separate fallible operations. If only the terminator allocation failed, the function returned OutOfMemory but left a nonempty unterminated buffer that made getPwd panic on its sentinel check.
+  
+  Reserve checked capacity for the complete sentinel-terminated value before clearing the old state, then use infallible appends. Allocation failure now leaves a valid prior value instead of exposing partial data.
+  ```
+- [`fdd255c`](https://github.com/ghostty-org/ghostty/commit/fdd255c78201ee11da23661b8a2e7b5b5461b09d) terminal: reserve title terminator atomically ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  setTitle appended the title bytes and terminating NUL with separate fallible operations. If only the terminator allocation failed, it returned OutOfMemory but left a nonempty unterminated buffer that made getTitle panic on its sentinel check.
+  
+  Reserve checked capacity before clearing the existing title, then append both the title and terminator without further allocation. Allocation failure now leaves the prior valid title intact.
+  ```
+- [`91f0cf6`](https://github.com/ghostty-org/ghostty/commit/91f0cf67d51c4bf8c642ed1545583421764ee130) terminal: preserve tabstops on resize failure ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Terminal.resize deinitialized the current tab stops before allocating their replacement. If a resize beyond the inline tab-stop capacity ran out of memory, the terminal retained an undefined tab-stop value and normal deinitialization dereferenced a poisoned pointer.
+  
+  Allocate and initialize the replacement first, then release the old tab stops only after allocation succeeds. A failed resize now retains the original tab stops and remains safe to destroy.
+  ```
+- [`0c29900`](https://github.com/ghostty-org/ghostty/commit/0c299000f8059d1fe8fa34539a5ed0044c1cfae4) terminal: preserve aliased selection pins ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Screen.select accepted an already tracked selection by value. Passing the screen's current selection back into the setter caused the old selection cleanup to free the same pin pair that the replacement retained, so the next selection operation dereferenced stale pool entries and panicked.
+  
+  When replacing tracked state, release only old pins that are not also owned by the replacement. Exact and partial aliases now retain their shared pins while ordinary replacements still reclaim both old entries.
+  ```
+- [`a14a619`](https://github.com/ghostty-org/ghostty/commit/a14a619ceb5d5518155b1e1657f69a3928e9ea9b) terminal: handle aliased pwd updates ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  setPwd can receive the slice returned by getPwd. Clearing the list retained its allocation, so appending that same slice used memcpy with aliased source and destination ranges and panicked in runtime-safe builds.
+  
+  Resize the list within its reserved capacity and copy the value forward before writing the sentinel. This supports the complete current value and its subslices without weakening allocation-failure atomicity.
+  ```
+- [`dace6d1`](https://github.com/ghostty-org/ghostty/commit/dace6d1c6d4a4351e9abc1d9816ed6dd9cb5a446) terminal: handle aliased title updates ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  setTitle can receive the slice returned by getTitle. Clearing the list retained its allocation, so appending that same slice used memcpy with aliased source and destination ranges and panicked in runtime-safe builds.
+  
+  Resize the list within its reserved capacity and copy the value forward before writing the sentinel. This supports the complete current value and its subslices without weakening allocation-failure atomicity.
+  ```
+- [`cfce1cd`](https://github.com/ghostty-org/ghostty/commit/cfce1cd56c339bd23f92a3434f2b0a7f4573a69b) terminal: duplicate hyperlinks before replacement ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  startHyperlink accepts borrowed URI and ID slices. When those slices came from the current cursor hyperlink, startHyperlinkOnce ended and freed that hyperlink before duplicating the replacement, then dereferenced the released URI and segfaulted.
+  
+  Duplicate the new hyperlink before ending the prior one. Aliased inputs remain valid through the copy, and allocation failure leaves the existing cursor hyperlink intact.
+  ```
+- [`d239f98`](https://github.com/ghostty-org/ghostty/commit/d239f98056667bf6053347971b74c36d974f9519) terminal/search: drop pruned selections ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Partial history erasure can remove a page without marking tracked pins as garbage because they move coherently to the next page. ScreenSearch therefore retained a selection whose cached history result was subsequently removed by pruneHistory. Selecting again indexed an empty history result list and panicked.
+  
+  Clear the tracked selection when its combined result index falls within the history suffix being pruned. Retained active and newer history selections keep their existing indices.
+  ```
+- [`5d8eb78`](https://github.com/ghostty-org/ghostty/commit/5d8eb78b73c1f1974319b0ec32c7559dc21b41b0) terminal/search: reset pins while feeding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PageListSearch.feed changed only the node of its tracked progress pin. If the preceding history page had fewer rows or columns after a split, the retained bottom-right coordinates fell outside that page and the next PageList integrity check panicked.
+  
+  Reset both coordinates to the new node's actual bottom-right cell whenever feed advances. The progress pin now remains valid across heterogeneous page sizes.
+  ```
+- [`86e1f7b`](https://github.com/ghostty-org/ghostty/commit/86e1f7b8b53e75809dd8e48d849de502d9397dec) terminal/search: reject replaced result pages ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  History pruning only compared cached serials with page_serial_min. Replacing a historical node through compaction left its old serial above that cutoff, so selecting the cached match attempted to track a destroyed node and hit the PageList validity assertion.
+  
+  Validate every flattened chunk by finding the live node and matching its serial without dereferencing stale pointers. Remove only the invalid result and adjust any later selection index so unrelated older results remain available.
+  ```
+- [`73ac36f`](https://github.com/ghostty-org/ghostty/commit/73ac36fa5679f3990b39cdcae75dfd10816e8ee9) terminal/search: discard destroyed screen state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Search selection could run after the terminal removed a screen but before the next refresh reconciled the cached searchers. Reloading that stale ScreenSearch dereferenced freed PageList nodes, while normal cleanup also tried to untrack pins from the destroyed list.
+  
+  Reconcile under the terminal lock before selecting, track ScreenSet generations so allocator address reuse cannot hide replacements, and release stale search buffers without touching pins already freed with the screen. Cleanup now takes the same lock when live pins must be untracked.
+  ```
+- [`9b466e9`](https://github.com/ghostty-org/ghostty/commit/9b466e9c5567211543e3f01b73dc76f251a66ccd) terminal: fix count-limited page iteration ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Count-limited PageIterator traversal took the minimum of the page and requested lengths, then tested whether that minimum exceeded the request. The condition was impossible, so iteration never crossed a page. Reverse traversal also excluded the current row and subtracted one from row zero, causing a runtime safety panic.
+  
+  Count the current row in both directions, consume the returned length, and move to an adjacent page only when the request has rows remaining. Returned chunks now preserve their half-open bounds at row zero and across page boundaries.
+  ```
+- [`3f2b794`](https://github.com/ghostty-org/ghostty/commit/3f2b7946d7362419186fa87d4f7c3aa80cfdeba8) Misc runtime safety fixes ([#13278](https://github.com/ghostty-org/ghostty/issues/13278)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  All found by GPT 5.6. I'm still going through manual review of each one
+  now and will remove or rewrite the ones that are pointless or
+  unreachable (if any, I prompted it to ignore those too).
+  ```
 - [`035ae8d`](https://github.com/ghostty-org/ghostty/commit/035ae8ddb683e7147f8ecd8878ad43e201a26ac3) build(deps): bump cachix/install-nix-action from 31.10.6 to 31.10.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.6 to 31.10.7.
