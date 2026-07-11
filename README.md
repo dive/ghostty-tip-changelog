@@ -8,7 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 11, 2026 at 15:50 UTC.
+> Last updated: July 11, 2026 at 18:54 UTC.
+
+## July 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29163919811), [2](https://github.com/ghostty-org/ghostty/actions/runs/29162364457)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`ae76cfb`](https://github.com/ghostty-org/ghostty/commit/ae76cfbfcf7e531f89e8287b6e3e29c78fbdb305) i18n: fix untranslated Close Split string in zh_CN.po ([@Arvin7liu](https://github.com/Arvin7liu))
+- [`d31ac2b`](https://github.com/ghostty-org/ghostty/commit/d31ac2be380de05dbcded8b35302fbb43281364a) i18n: Fix untranslated Close Split string in zh_CN.po ([#13296](https://github.com/ghostty-org/ghostty/issues/13296)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Fix one untranslated string in the Simplified Chinese localization
+  (`zh_CN.po`).
+  
+  ## Changes
+  
+  - `msgid "Close Split"`: `""` → `"关闭分屏"`
+  
+  This achieves terminology consistency:
+  - Split → 分屏 (already established)
+  - Close Split? → 关闭分屏吗？ (already existed)
+  - Close Split → 关闭分屏 (this fix)
+  ```
+- [`78a9731`](https://github.com/ghostty-org/ghostty/commit/78a9731c9da011207be5c92c40ce9dfe836fa0a9) Update VOUCHED list ([#13299](https://github.com/ghostty-org/ghostty/issues/13299)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13296#issuecomment-4948155117)
+  from @00-kat.
+  
+  Vouch: @Arvin7liu
+  ```
 
 ## July 10, 2026
 
