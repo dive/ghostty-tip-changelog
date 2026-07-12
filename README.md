@@ -8,15 +8,162 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 11, 2026 at 21:43 UTC.
+> Last updated: July 12, 2026 at 02:13 UTC.
 
 ## July 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29163919811), [2](https://github.com/ghostty-org/ghostty/actions/runs/29162364457)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29170016149), [2](https://github.com/ghostty-org/ghostty/actions/runs/29163919811), [3](https://github.com/ghostty-org/ghostty/actions/runs/29162364457)  
+Summary: 3 runs • 7 commits • 5 authors
 
 ### Changes
 
+- [`7e14347`](https://github.com/ghostty-org/ghostty/commit/7e14347c130c3296136a28fb4255e94e1ca672e7) terminal: bound page map probe lengths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13292
+  
+  Page maps previously allowed a 100% load factor. Once live entries
+  and tombstones filled every slot, a missing-key lookup or insertion
+  could scan the entire map.
+  
+  Reserve 20% of each offset hash map as insertion headroom and track
+  that budget separately from the live count. Port the allocation-free
+  in-place rehash from Zig HashMapUnmanaged so canonical insertion can
+  rebuild fragmented probes and restore tombstone-exhausted headroom
+  without growing the page. Assumed-capacity insertion now applies the
+  same guard, preventing the headroom counter from wrapping.
+  
+  Pass the exact requested hyperlink count into map layout before
+  load-factor scaling, avoiding a redundant power-of-two rounding step.
+  Screen-level recovery now grows only when live hyperlinks actually fill
+  usable capacity.
+  
+  ReleaseFast terminal benchmarks compare main with the combined map
+  changes:
+  
+  | workload | before | after | speedup |
+  |---|---:|---:|---:|
+  | map churn | 1.253 s | 12.5 ms | 100x |
+  | full OSC 8 stream | 3.576 s | 75.6 ms | 47x |
+  | clear and redraw | 299.1 ms | 118.3 ms | 2.5x |
+  ```
+- [`65f953e`](https://github.com/ghostty-org/ghostty/commit/65f953e8e82f7dfd9e5eb4e04538ad88a71f2452) terminal: avoid duplicate probes when moving cell data ([@rockorager](https://github.com/rockorager))
+  ```text
+  Hyperlink and grapheme maps are keyed by cell offset. Moving their
+  data removes the source entry and reinserts it at a destination known
+  to be absent. Generic clobbering insertion still searches the probe
+  sequence to rule out a duplicate.
+  
+  Use no-clobber insertion for these moves so the first available
+  tombstone can be reused. If a destination reaches a free slot after
+  tombstones exhaust insertion headroom, rebuild the map in place and
+  retry before decrementing the budget. This keeps the known-absent fast
+  path safe at every load state.
+  
+  The ReleaseFast movement benchmark improves from 133.7 ms to 126.4 ms,
+  a 5.5% reduction. The linked-line control remains neutral at 395.4 ms
+  before and 395.7 ms after.
+  ```
+- [`fedd42e`](https://github.com/ghostty-org/ghostty/commit/fedd42e8d66b2ba5665031000ce842ca0535a610) terminal: use backward-shift deletion in page maps ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Page maps handled removal with tombstones, which a fixed-capacity map
+  can never outgrow. Keeping probe lengths bounded required an insertion
+  headroom counter, an allocation-free rehash, and five separate recovery
+  paths with subtle invariants: removal created a tombstone without
+  restoring headroom, so the counter could reach zero while the map was
+  half empty and every insertion path had to be prepared to rebuild.
+  
+  Replace tombstones with backward-shift deletion (Knuth vol. 3, 6.4
+  algorithm R). Removal restores the table to the state it would be in
+  had the key never been inserted, so probe chains stay canonical at all
+  times and fragmentation cannot accumulate by construction. This deletes
+  the headroom counter, the in-place rehash, and every recovery path.
+  Insertion no longer invalidates pointers; removal may now move other
+  entries instead, and no caller holds entry pointers across removals.
+  
+  Removal costs a cluster scan instead of a byte write, paying
+  incrementally what tombstones deferred to later probes and periodic
+  rebuilds. Free slots remain all-zero bytes so probe loops keep fusing
+  the state and fingerprint checks into single-byte compares. A
+  randomized oracle test against the stdlib map and a canonical-placement
+  invariant check cover the new removal path, including full tables where
+  no free slot terminates the shift.
+  
+  ReleaseFast benchmarks against the prior map commits:
+  
+  | workload | delta |
+  |---|---:|
+  | map churn, 50% load | 1.23x faster |
+  | map churn, 75% load | 1.15x faster |
+  | map churn, max load | 1.07x slower |
+  | map lookup | neutral |
+  | clear and redraw stream | 1.32x faster |
+  | full OSC 8 stream | 1.06x faster |
+  | linked-line movement | neutral |
+  ```
+- [`a887df4`](https://github.com/ghostty-org/ghostty/commit/a887df42c56f6de86c0fe6da9c4eeca37931e083) terminal: bound page map probe lengths without tombstones ([#13294](https://github.com/ghostty-org/ghostty/issues/13294)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replaces #13292
+  
+  This optimizes page-local hyperlink and grapheme maps under full
+  occupancy, repeated clear and redraw, and managed-cell movement.
+  
+  Hyperlink maps previously allowed 100% occupancy and retained tombstones
+  after removals. This PR bounds probe lengths with a reserved load factor
+  and removes tombstones from the design entirely: removal now restores
+  the table to the exact state it would be in had the key never been
+  inserted, so fragmentation cannot accumulate by construction.
+  
+  Clear and redraw improves by 2.4x, hyperlinked cell movement by 10.4x, a
+  scrolling OSC 8 stream by 1.7x, and normal ASCII/unicode output does not
+  regress.
+  
+  ## The changes
+  
+  1. **Reserve probe headroom in hyperlink cell maps.** Hash maps now
+  support a maximum load config and hyperlink maps set it to 80%.
+  **Result: known-absent cell movement improves from 1.550 s to 149 ms.**
+  
+  2. **Replace tombstone removal with backward-shift deletion.** Removing
+  an entry now closes the hole by shifting later entries backward. This
+  keeps probe chains short without tombstones, headroom bookkeeping, or
+  periodic rehashing. Removal may move other entries, but no caller
+  retains pointers across removals. **Result: clear and redraw improves
+  from 672 ms to 512 ms over the tombstone revision, 2.4x over baseline,
+  and the map shrinks by ~140 lines, improving maintenance.**
+  
+  3. **Avoid duplicate probes when moving managed cell data.** Hyperlink
+  and grapheme movement already guarantees that the destination is absent,
+  so these paths use no-clobber insertion and skip duplicate detection.
+  With backward-shift deletion this fast path is safe at every load state
+  without special cases, because removing the source genuinely frees a
+  slot before the destination is inserted. **Result: movement stays at
+  parity with the tombstone revision (149 ms vs 148 ms) while its
+  rehash-retry guard is deleted.**
+  
+  Note a trade-off: the map-churn microbenchmark at maximum load is ~16%
+  slower, because removal pays a cluster scan up front instead of
+  deferring cost to later probes and periodic rebuilds. But its a
+  synthetic case that isn't grounded in reality. Instead, the realistic
+  counterpart (clear and redraw at high occupancy through the full VT
+  stream) is 31% faster, and lookups are neutral.
+  
+  ## Benchmarks
+  
+  | workload | baseline | tombstones | this PR |
+  |---|---:|---:|---:|
+  | clear and redraw, 3,000 frames | 1.243 s | 671.9 ms | 511.6 ms |
+  | scrolling OSC 8 stream, 39 MiB | 5.375 s | 3.484 s | 3.214 s |
+  | known-absent cell movement | 1.550 s | 148.2 ms | 149.2 ms |
+  | map churn, 50% load | n/a | 566.8 ms | 464.6 ms |
+  | map churn, max load | n/a | 1.088 s | 1.259 s |
+  | map lookup | n/a | 636.2 ms | 643.0 ms |
+  
+  ## LLM Notes
+  
+  Assisted by GPT 5.6 and Fable. Hand-reviewed, transition to backshift
+  was my nudge, benchmark numbers are from an LLM benchmark run using
+  committed benchmarks.
+  ```
 - [`ae76cfb`](https://github.com/ghostty-org/ghostty/commit/ae76cfbfcf7e531f89e8287b6e3e29c78fbdb305) i18n: fix untranslated Close Split string in zh_CN.po ([@Arvin7liu](https://github.com/Arvin7liu))
 - [`d31ac2b`](https://github.com/ghostty-org/ghostty/commit/d31ac2be380de05dbcded8b35302fbb43281364a) i18n: Fix untranslated Close Split string in zh_CN.po ([#13296](https://github.com/ghostty-org/ghostty/issues/13296)) ([@00-kat](https://github.com/00-kat))
   ```text
@@ -2829,175 +2976,5 @@ Summary: 3 runs • 16 commits • 1 authors
   defensive guards, and simultaneously poor error handling). So, I guess I
   did pay for a solution. A bad one. Haha. But the problem it found was
   real and good.
-  ```
-
-## July 5, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/28755030114), [2](https://github.com/ghostty-org/ghostty/actions/runs/28754050801), [3](https://github.com/ghostty-org/ghostty/actions/runs/28753449265), [4](https://github.com/ghostty-org/ghostty/actions/runs/28752444628), [5](https://github.com/ghostty-org/ghostty/actions/runs/28749549372), [6](https://github.com/ghostty-org/ghostty/actions/runs/28743971848), [7](https://github.com/ghostty-org/ghostty/actions/runs/28725807699)  
-Summary: 7 runs • 15 commits • 6 authors
-
-### Changes
-
-- [`acd09c0`](https://github.com/ghostty-org/ghostty/commit/acd09c0a6cdda07a073047087388c49a76d8fd8c) macos: add tests for NSPasteboard.getOpinionatedStringContents ([@claude](https://github.com/claude))
-- [`49806fc`](https://github.com/ghostty-org/ghostty/commit/49806fc4cca56b8edaef18c8ccaae6bf26ac424b) macOS: read string contents per pasteboard item in order ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Pasteboards mixing file URLs with other items will now be pasted as joined string.
-  ```
-- [`1056599`](https://github.com/ghostty-org/ghostty/commit/10565995b9453757b72e634191d73abb2a420dc3) macOS: only read file urls for new-terminal services ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  macOS is already guarding this system, but guarding what we actually need anyway
-  ```
-- [`8d83849`](https://github.com/ghostty-org/ghostty/commit/8d838491326b6f75768df1fa70dba0072853e8c9) macOS: read string contents per pasteboard item ([#13170](https://github.com/ghostty-org/ghostty/issues/13170)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes: https://github.com/ghostty-org/ghostty/pull/4956, regression
-  from: https://github.com/ghostty-org/ghostty/pull/4956
-  
-  
-  ### AI Disclosure
-  
-  Claude wrote the tests before I changed `getOpinionatedStringContents`
-  ```
-- [`b213a72`](https://github.com/ghostty-org/ghostty/commit/b213a72c03b427607b43c89ff4223a7baa079fe8) macOS: only read file urls for new-terminal services ([#13169](https://github.com/ghostty-org/ghostty/issues/13169)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  macOS is already guarding this in Services settings, but guarding what
-  we actually need anyway
-  ```
-- [`2970e9a`](https://github.com/ghostty-org/ghostty/commit/2970e9a2a81d992c8c9a90e785cb65926b8172b3) lib-vt: many more color utility APIs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Embedders that render theme editors, palette pickers, or custom
-  settings UI need to use the same color semantics as Ghostty.
-  
-  This moves the shared parsing paths into terminal/color and exposes them
-  through libghostty-vt. Config color and palette parsing now delegate to
-  the same helpers, so CLI/config behavior and the C ABI stay in lockstep.
-  
-  From C:
-  
-      GhosttyColorRgb rgb;
-      ghostty_color_parse("ForestGreen", 11, &rgb);
-  
-      uint8_t index;
-      ghostty_color_parse_palette_entry(
-          "0x10=#282c34", 12, &index, &rgb);
-  
-      const GhosttyColorX11Entry* names =
-          ghostty_color_x11_names();
-  
-  The exported color API is:
-  
-      ghostty_color_parse
-      ghostty_color_parse_x11
-      ghostty_color_parse_palette_entry
-      ghostty_color_palette_default
-      ghostty_color_palette_generate
-      ghostty_color_luminance
-      ghostty_color_perceived_luminance
-      ghostty_color_contrast
-      ghostty_color_x11_names
-      ghostty_color_x11_name_count
-  
-  The X11 name table is parsed once at comptime into null-terminated
-  entries in rgb.txt order. The existing case-insensitive map keeps the
-  same behavior for RGB.parse and +list-colors, while bindings can walk a
-  static table without allocations.
-  ```
-- [`63e75e8`](https://github.com/ghostty-org/ghostty/commit/63e75e86c282ca1d07de9588f0c2cfc268b2621b) lib-vt: many more color utility APIs ([#13206](https://github.com/ghostty-org/ghostty/issues/13206)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Embedders that render theme editors, palette pickers, or custom settings
-  UI need to use the same color semantics as Ghostty.
-  
-  This moves the shared parsing paths into terminal/color and exposes them
-  through libghostty-vt. Config color and palette parsing now delegate to
-  the same helpers, so CLI/config behavior and the C ABI stay in lockstep.
-  
-  From C:
-  
-      GhosttyColorRgb rgb;
-      ghostty_color_parse("ForestGreen", 11, &rgb);
-  
-      uint8_t index;
-      ghostty_color_parse_palette_entry(
-          "0x10=#282c34", 12, &index, &rgb);
-  
-      const GhosttyColorX11Entry* names =
-          ghostty_color_x11_names();
-  
-  The exported color API is:
-  
-      ghostty_color_parse
-      ghostty_color_parse_x11
-      ghostty_color_parse_palette_entry
-      ghostty_color_palette_default
-      ghostty_color_palette_generate
-      ghostty_color_luminance
-      ghostty_color_perceived_luminance
-      ghostty_color_contrast
-      ghostty_color_x11_names
-      ghostty_color_x11_name_count
-  
-  The X11 name table is parsed once at comptime into null-terminated
-  entries in rgb.txt order. The existing case-insensitive map keeps the
-  same behavior for RGB.parse and +list-colors, while bindings can walk a
-  static table without allocations.
-  
-  This doesn't add any more binary size since all of this was already used
-  by terminal internals.
-  ```
-- [`f00e906`](https://github.com/ghostty-org/ghostty/commit/f00e906949bbe46904ff7a13eeff9e8d4a292d09) lib-vt: add color scheme report encoder ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a shared encoder for CSI ? 997 ; Ps n color scheme reports and use
-  it for both CSI ? 996 n replies and unsolicited Termio reports. Export the
-  same encoder through the libghostty-vt C API with docs and an example.
-  
-  This is a really light API, arguably easy for consumers to hardcode,
-  but it didn't match the rest of our style in the libghostty API so we
-  should expose it.
-  
-  Example: GHOSTTY_COLOR_SCHEME_DARK encodes to ESC [ ? 997 ; 1 n,
-  while GHOSTTY_COLOR_SCHEME_LIGHT encodes to ESC [ ? 997 ; 2 n.
-  ```
-- [`4a7cabc`](https://github.com/ghostty-org/ghostty/commit/4a7cabc4fe7ccc1eacd40cdb561fdbd3bf66869f) lib-vt: add color scheme report encoder ([#13192](https://github.com/ghostty-org/ghostty/issues/13192)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a shared encoder for CSI ? 997 ; Ps n color scheme reports and use
-  it for both CSI ? 996 n replies and unsolicited Termio reports. Export
-  the same encoder through the libghostty-vt C API with docs and an
-  example.
-  
-  This is a really light API, arguably easy for consumers to hardcode, but
-  it didn't match the rest of our style in the libghostty API so we should
-  expose it.
-  ```
-- [`004c88e`](https://github.com/ghostty-org/ghostty/commit/004c88e41ebf02e07b55a392f984e4545c3d60c7) fix: set max window clamp to current monitor size ([@yak3d](https://github.com/yak3d))
-- [`715ef6c`](https://github.com/ghostty-org/ghostty/commit/715ef6c154997160b917f0168a60b636f32f4537) fix: set max window clamp to current monitor size ([#13171](https://github.com/ghostty-org/ghostty/issues/13171)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR fixes #7984. The issue was that GTK would clamp the window
-  itself based on the display it was opened on. We fix this by computing
-  the size based on the current display and then implicitly setting the
-  window size instead of relying on GTK to do it.
-  
-  Claude Code w/ Opus 4.7 was used to investigate, fix and explain some of
-  the Ghostty architecture to me.
-  ```
-- [`243f7df`](https://github.com/ghostty-org/ghostty/commit/243f7df7c131f9cc69bed4bc4586f5bf17b9d4fa) Update VOUCHED list ([#13202](https://github.com/ghostty-org/ghostty/issues/13202)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13191#issuecomment-4887029233)
-  from @mitchellh.
-  
-  Vouch: @tasselx
-  ```
-- [`131ca6d`](https://github.com/ghostty-org/ghostty/commit/131ca6d9eb80b816488a342dfa3a9f4f7381bd73) Update VOUCHED list ([#13199](https://github.com/ghostty-org/ghostty/issues/13199)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13196#discussioncomment-17538577)
-  from @bo2themax.
-  
-  Vouch: @Nagato-Yuzuru
-  ```
-- [`02504bc`](https://github.com/ghostty-org/ghostty/commit/02504bcce1012f3341d8a011657e8d62ecb8528a) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`8642142`](https://github.com/ghostty-org/ghostty/commit/8642142a3d62beda7b1a9733c23bf11b80c720eb) Update iTerm2 colorschemes ([#13190](https://github.com/ghostty-org/ghostty/issues/13190)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260629-161812-8c97c3c
   ```
 
