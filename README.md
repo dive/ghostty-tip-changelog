@@ -8,7 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 12, 2026 at 18:58 UTC.
+> Last updated: July 12, 2026 at 21:42 UTC.
+
+## July 12, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29207635351), [2](https://github.com/ghostty-org/ghostty/actions/runs/29206968818)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`a3ac713`](https://github.com/ghostty-org/ghostty/commit/a3ac713b777b7d85e260a2367c0d7e5498c8b5ea) Update VOUCHED list ([#13309](https://github.com/ghostty-org/ghostty/issues/13309)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13308#discussioncomment-17614846)
+  from @jcollie.
+  
+  Vouch: @ruoyouz
+  ```
+- [`9659167`](https://github.com/ghostty-org/ghostty/commit/9659167ecd177f2bea9d33532d30666f8b321cd4) terminal/search: reuse viewport fingerprint storage ([@jparise](https://github.com/jparise))
+  ```text
+  Retain the existing fingerprint's storage instead of allocating a fresh
+  owned slice on every update. The previous approach built a replacement
+  fingerprint before it knew whether the viewport changed, discarding it
+  for unchanged viewports.
+  
+  The fingerprint now rebuilds in place after reserving viewport-sized
+  capacity and reports whether its contents changed. Unchanged viewport
+  updates skip the allocation, while changed viewports will usually reuse
+  the existing buffer for the lifetime of the active search.
+  ```
+- [`c4c61c5`](https://github.com/ghostty-org/ghostty/commit/c4c61c5a80ec40b2488fb005f28241e5c01331ce) terminal/search: reuse viewport fingerprint storage ([#13307](https://github.com/ghostty-org/ghostty/issues/13307)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Retain the existing fingerprint's storage instead of allocating a fresh
+  owned slice on every update. The previous approach built a replacement
+  fingerprint before it knew whether the viewport changed, discarding it
+  for unchanged viewports.
+  
+  The fingerprint now rebuilds in place after reserving viewport-sized
+  capacity and reports whether its contents changed. Unchanged viewport
+  updates skip the allocation, while changed viewports will usually reuse
+  the existing buffer for the lifetime of the active search.
+  ```
 
 ## July 11, 2026
 
