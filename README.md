@@ -8,7 +8,597 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 14, 2026 at 16:09 UTC.
+> Last updated: July 14, 2026 at 19:11 UTC.
+
+## July 14, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29351501961), [2](https://github.com/ghostty-org/ghostty/actions/runs/29349604817)  
+Summary: 2 runs • 11 commits • 3 authors
+
+### Changes
+
+- [`f8041e8`](https://github.com/ghostty-org/ghostty/commit/f8041e849b36efbbb9736b6ecf0ccfcb01d94e69) Update VOUCHED list ([#13330](https://github.com/ghostty-org/ghostty/issues/13330)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13329#discussioncomment-17638470)
+  from @rockorager.
+  
+  Vouch: @aymanbagabas
+  ```
+- [`7622200`](https://github.com/ghostty-org/ghostty/commit/76222008ebf9d0a6bcb53d14116a4fbe445f70f0) build(deps): bump mitchellh/vouch/action/manage-by-issue ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [mitchellh/vouch/action/manage-by-issue](https://github.com/mitchellh/vouch) from 1.4.2 to 1.5.0.
+  - [Release notes](https://github.com/mitchellh/vouch/releases)
+  - [Commits](https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mitchellh/vouch/action/manage-by-issue
+    dependency-version: 1.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`8093d2d`](https://github.com/ghostty-org/ghostty/commit/8093d2d437bcbd7e55ab710dba524c81cc2189d3) build(deps): bump mitchellh/vouch/action/check-pr from 1.4.2 to 1.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [mitchellh/vouch/action/check-pr](https://github.com/mitchellh/vouch) from 1.4.2 to 1.5.0.
+  - [Release notes](https://github.com/mitchellh/vouch/releases)
+  - [Commits](https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mitchellh/vouch/action/check-pr
+    dependency-version: 1.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`3f6b9a1`](https://github.com/ghostty-org/ghostty/commit/3f6b9a16bca2b65139f9ae4ff1fe9d1760f4bf49) build(deps): bump mitchellh/vouch/action/check-issue ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [mitchellh/vouch/action/check-issue](https://github.com/mitchellh/vouch) from baeb3bf7c7e6c12d6e33bab3870b7e936580a934 to d66fa29a64600490892131ad87597c30c91fcac4.
+  - [Release notes](https://github.com/mitchellh/vouch/releases)
+  - [Commits](https://github.com/mitchellh/vouch/compare/baeb3bf7c7e6c12d6e33bab3870b7e936580a934...d66fa29a64600490892131ad87597c30c91fcac4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mitchellh/vouch/action/check-issue
+    dependency-version: d66fa29a64600490892131ad87597c30c91fcac4
+    dependency-type: direct:production
+  ...
+  ```
+- [`97f70cc`](https://github.com/ghostty-org/ghostty/commit/97f70cccfa004ead2d0485120eb2f7292a3d65c5) build(deps): bump mitchellh/vouch/action/manage-by-discussion ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [mitchellh/vouch/action/manage-by-discussion](https://github.com/mitchellh/vouch) from 1.4.2 to 1.5.0.
+  - [Release notes](https://github.com/mitchellh/vouch/releases)
+  - [Commits](https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mitchellh/vouch/action/manage-by-discussion
+    dependency-version: 1.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`0ac423d`](https://github.com/ghostty-org/ghostty/commit/0ac423d57b9d9a31bb4044e9ed669a4e3d9a671d) build(deps): bump mitchellh/vouch/action/sync-codeowners ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [mitchellh/vouch/action/sync-codeowners](https://github.com/mitchellh/vouch) from 1.4.2 to 1.5.0.
+  - [Release notes](https://github.com/mitchellh/vouch/releases)
+  - [Commits](https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mitchellh/vouch/action/sync-codeowners
+    dependency-version: 1.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`728134f`](https://github.com/ghostty-org/ghostty/commit/728134f3fbea4d097cc6da6041b5cc780a2a31ef) build(deps): bump mitchellh/vouch/action/sync-codeowners from 1.4.2 to 1.5.0 ([#13316](https://github.com/ghostty-org/ghostty/issues/13316)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [mitchellh/vouch/action/sync-codeowners](https://github.com/mitchellh/vouch)
+  from 1.4.2 to 1.5.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/mitchellh/vouch/releases">mitchellh/vouch/action/sync-codeowners's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.5.0</h2>
+  <h2>What's New</h2>
+  <h3>Improvements</h3>
+  <p>-<strong><code>action/check-issue</code></strong> has a new option
+  <code>auto-lock</code> to automatically lock closed issues. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/90">#90</a>)</p>
+  <ul>
+  <li><strong><code>gh-manage-by-discussion</code></strong> supports
+  numerical IDs. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/77">#77</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/d66fa29a64600490892131ad87597c30c91fcac4"><code>d66fa29</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/93">#93</a>
+  from mitchellh/dependabot/github_actions/actions/check...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/c22b93d0e8352a4323b9e24a1b313b349735657a"><code>c22b93d</code></a>
+  Bump actions/checkout from 6.0.2 to 7.0.0</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/baeb3bf7c7e6c12d6e33bab3870b7e936580a934"><code>baeb3bf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/90">#90</a>
+  from trag1c/lock-issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/52aec3d64655edf2fdb58f298e02da754a056daf"><code>52aec3d</code></a>
+  add an option to lock closed issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/3dbc69c691b8832a0dbb3913f47563b7c16c99f7"><code>3dbc69c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/87">#87</a>
+  from freepicheep/example-attribute</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/a6933466b4243576126c2fadc20d18d765ae11c6"><code>a693346</code></a>
+  Update VOUCHED list</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/21177c0fec7b362251e27867e49b255906559fa6"><code>21177c0</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/74">#74</a>
+  from pavelzw/vouch-cli</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/527cdc34880f5579be51349c22e61506d439c04e"><code>527cdc3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/81">#81</a>
+  from mitchellh/dependabot/github_actions/hustcer/setup...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/1895e9c54f125df407f75cef7b409274a124f348"><code>1895e9c</code></a>
+  feat: use <a
+  href="https://github.com/example"><code>@​example</code></a> attribute
+  for command examples</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/8c80ada45b47ed245457b8c7c50f860bcea6cf74"><code>8c80ada</code></a>
+  Update README</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=mitchellh/vouch/action/sync-codeowners&package-manager=github_actions&previous-version=1.4.2&new-version=1.5.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`4862e73`](https://github.com/ghostty-org/ghostty/commit/4862e73419ca22ec7d1f095fe6c5bb789ad25681) build(deps): bump mitchellh/vouch/action/manage-by-discussion from 1.4.2 to 1.5.0 ([#13315](https://github.com/ghostty-org/ghostty/issues/13315)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [mitchellh/vouch/action/manage-by-discussion](https://github.com/mitchellh/vouch)
+  from 1.4.2 to 1.5.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/mitchellh/vouch/releases">mitchellh/vouch/action/manage-by-discussion's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.5.0</h2>
+  <h2>What's New</h2>
+  <h3>Improvements</h3>
+  <p>-<strong><code>action/check-issue</code></strong> has a new option
+  <code>auto-lock</code> to automatically lock closed issues. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/90">#90</a>)</p>
+  <ul>
+  <li><strong><code>gh-manage-by-discussion</code></strong> supports
+  numerical IDs. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/77">#77</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/d66fa29a64600490892131ad87597c30c91fcac4"><code>d66fa29</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/93">#93</a>
+  from mitchellh/dependabot/github_actions/actions/check...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/c22b93d0e8352a4323b9e24a1b313b349735657a"><code>c22b93d</code></a>
+  Bump actions/checkout from 6.0.2 to 7.0.0</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/baeb3bf7c7e6c12d6e33bab3870b7e936580a934"><code>baeb3bf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/90">#90</a>
+  from trag1c/lock-issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/52aec3d64655edf2fdb58f298e02da754a056daf"><code>52aec3d</code></a>
+  add an option to lock closed issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/3dbc69c691b8832a0dbb3913f47563b7c16c99f7"><code>3dbc69c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/87">#87</a>
+  from freepicheep/example-attribute</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/a6933466b4243576126c2fadc20d18d765ae11c6"><code>a693346</code></a>
+  Update VOUCHED list</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/21177c0fec7b362251e27867e49b255906559fa6"><code>21177c0</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/74">#74</a>
+  from pavelzw/vouch-cli</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/527cdc34880f5579be51349c22e61506d439c04e"><code>527cdc3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/81">#81</a>
+  from mitchellh/dependabot/github_actions/hustcer/setup...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/1895e9c54f125df407f75cef7b409274a124f348"><code>1895e9c</code></a>
+  feat: use <a
+  href="https://github.com/example"><code>@​example</code></a> attribute
+  for command examples</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/8c80ada45b47ed245457b8c7c50f860bcea6cf74"><code>8c80ada</code></a>
+  Update README</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=mitchellh/vouch/action/manage-by-discussion&package-manager=github_actions&previous-version=1.4.2&new-version=1.5.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`07a8706`](https://github.com/ghostty-org/ghostty/commit/07a87067f5e28289fa5c6f22babfca334531c0cd) build(deps): bump mitchellh/vouch/action/check-issue from baeb3bf7c7e6c12d6e33bab3870b7e936580a934 to d66fa29a64600490892131ad87597c30c91fcac4 ([#13314](https://github.com/ghostty-org/ghostty/issues/13314)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [mitchellh/vouch/action/check-issue](https://github.com/mitchellh/vouch)
+  from baeb3bf7c7e6c12d6e33bab3870b7e936580a934 to
+  d66fa29a64600490892131ad87597c30c91fcac4.
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/d66fa29a64600490892131ad87597c30c91fcac4"><code>d66fa29</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/93">#93</a>
+  from mitchellh/dependabot/github_actions/actions/check...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/c22b93d0e8352a4323b9e24a1b313b349735657a"><code>c22b93d</code></a>
+  Bump actions/checkout from 6.0.2 to 7.0.0</li>
+  <li>See full diff in <a
+  href="https://github.com/mitchellh/vouch/compare/baeb3bf7c7e6c12d6e33bab3870b7e936580a934...d66fa29a64600490892131ad87597c30c91fcac4">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`e758e2b`](https://github.com/ghostty-org/ghostty/commit/e758e2b9ee5cf43ac744d546f17f19a1b5b2faae) build(deps): bump mitchellh/vouch/action/check-pr from 1.4.2 to 1.5.0 ([#13313](https://github.com/ghostty-org/ghostty/issues/13313)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [mitchellh/vouch/action/check-pr](https://github.com/mitchellh/vouch)
+  from 1.4.2 to 1.5.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/mitchellh/vouch/releases">mitchellh/vouch/action/check-pr's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.5.0</h2>
+  <h2>What's New</h2>
+  <h3>Improvements</h3>
+  <p>-<strong><code>action/check-issue</code></strong> has a new option
+  <code>auto-lock</code> to automatically lock closed issues. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/90">#90</a>)</p>
+  <ul>
+  <li><strong><code>gh-manage-by-discussion</code></strong> supports
+  numerical IDs. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/77">#77</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/d66fa29a64600490892131ad87597c30c91fcac4"><code>d66fa29</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/93">#93</a>
+  from mitchellh/dependabot/github_actions/actions/check...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/c22b93d0e8352a4323b9e24a1b313b349735657a"><code>c22b93d</code></a>
+  Bump actions/checkout from 6.0.2 to 7.0.0</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/baeb3bf7c7e6c12d6e33bab3870b7e936580a934"><code>baeb3bf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/90">#90</a>
+  from trag1c/lock-issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/52aec3d64655edf2fdb58f298e02da754a056daf"><code>52aec3d</code></a>
+  add an option to lock closed issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/3dbc69c691b8832a0dbb3913f47563b7c16c99f7"><code>3dbc69c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/87">#87</a>
+  from freepicheep/example-attribute</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/a6933466b4243576126c2fadc20d18d765ae11c6"><code>a693346</code></a>
+  Update VOUCHED list</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/21177c0fec7b362251e27867e49b255906559fa6"><code>21177c0</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/74">#74</a>
+  from pavelzw/vouch-cli</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/527cdc34880f5579be51349c22e61506d439c04e"><code>527cdc3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/81">#81</a>
+  from mitchellh/dependabot/github_actions/hustcer/setup...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/1895e9c54f125df407f75cef7b409274a124f348"><code>1895e9c</code></a>
+  feat: use <a
+  href="https://github.com/example"><code>@​example</code></a> attribute
+  for command examples</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/8c80ada45b47ed245457b8c7c50f860bcea6cf74"><code>8c80ada</code></a>
+  Update README</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=mitchellh/vouch/action/check-pr&package-manager=github_actions&previous-version=1.4.2&new-version=1.5.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`cf60af2`](https://github.com/ghostty-org/ghostty/commit/cf60af281bd7559a819aa25372cef01d623b8c5a) build(deps): bump mitchellh/vouch/action/manage-by-issue from 1.4.2 to 1.5.0 ([#13312](https://github.com/ghostty-org/ghostty/issues/13312)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [mitchellh/vouch/action/manage-by-issue](https://github.com/mitchellh/vouch)
+  from 1.4.2 to 1.5.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/mitchellh/vouch/releases">mitchellh/vouch/action/manage-by-issue's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.5.0</h2>
+  <h2>What's New</h2>
+  <h3>Improvements</h3>
+  <p>-<strong><code>action/check-issue</code></strong> has a new option
+  <code>auto-lock</code> to automatically lock closed issues. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/90">#90</a>)</p>
+  <ul>
+  <li><strong><code>gh-manage-by-discussion</code></strong> supports
+  numerical IDs. (<a
+  href="https://redirect.github.com/mitchellh/vouch/pull/77">#77</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/d66fa29a64600490892131ad87597c30c91fcac4"><code>d66fa29</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/93">#93</a>
+  from mitchellh/dependabot/github_actions/actions/check...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/c22b93d0e8352a4323b9e24a1b313b349735657a"><code>c22b93d</code></a>
+  Bump actions/checkout from 6.0.2 to 7.0.0</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/baeb3bf7c7e6c12d6e33bab3870b7e936580a934"><code>baeb3bf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/90">#90</a>
+  from trag1c/lock-issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/52aec3d64655edf2fdb58f298e02da754a056daf"><code>52aec3d</code></a>
+  add an option to lock closed issues</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/3dbc69c691b8832a0dbb3913f47563b7c16c99f7"><code>3dbc69c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/87">#87</a>
+  from freepicheep/example-attribute</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/a6933466b4243576126c2fadc20d18d765ae11c6"><code>a693346</code></a>
+  Update VOUCHED list</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/21177c0fec7b362251e27867e49b255906559fa6"><code>21177c0</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/74">#74</a>
+  from pavelzw/vouch-cli</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/527cdc34880f5579be51349c22e61506d439c04e"><code>527cdc3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/mitchellh/vouch/issues/81">#81</a>
+  from mitchellh/dependabot/github_actions/hustcer/setup...</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/1895e9c54f125df407f75cef7b409274a124f348"><code>1895e9c</code></a>
+  feat: use <a
+  href="https://github.com/example"><code>@​example</code></a> attribute
+  for command examples</li>
+  <li><a
+  href="https://github.com/mitchellh/vouch/commit/8c80ada45b47ed245457b8c7c50f860bcea6cf74"><code>8c80ada</code></a>
+  Update README</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/mitchellh/vouch/compare/c6d80ead49839655b61b422700b7a3bc9d0804a9...d66fa29a64600490892131ad87597c30c91fcac4">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=mitchellh/vouch/action/manage-by-issue&package-manager=github_actions&previous-version=1.4.2&new-version=1.5.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## July 13, 2026
 
