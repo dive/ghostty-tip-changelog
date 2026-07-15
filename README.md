@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 15, 2026 at 19:03 UTC.
+> Last updated: July 15, 2026 at 21:54 UTC.
 
 ## July 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29386904038)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29451493235), [2](https://github.com/ghostty-org/ghostty/actions/runs/29386904038)  
+Summary: 2 runs • 4 commits • 4 authors
 
 ### Changes
 
+- [`42b4c59`](https://github.com/ghostty-org/ghostty/commit/42b4c5972d01eccfcd5e896ce5c7b63e8307ccb4) cleanup: remove dead code line ([@Secrus](https://github.com/Secrus))
+- [`b094737`](https://github.com/ghostty-org/ghostty/commit/b0947378349eff70f7030dda0e6d022fae1e6fbd) cleanup: remove dead code line ([#13349](https://github.com/ghostty-org/ghostty/issues/13349)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Pointed out on Discord, this code is dead, `std.debug.assert` is
+  imported, but never used.
+  ```
 - [`59c3a08`](https://github.com/ghostty-org/ghostty/commit/59c3a08366ce9464b21dcc2521890b2e033d6a18) build(deps): bump softprops/action-gh-release from 3.0.1 to 3.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 3.0.1 to 3.0.2.
