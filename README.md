@@ -8,15 +8,78 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 17, 2026 at 16:10 UTC.
+> Last updated: July 17, 2026 at 18:59 UTC.
 
 ## July 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29586962822)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29602269436), [2](https://github.com/ghostty-org/ghostty/actions/runs/29600718239), [3](https://github.com/ghostty-org/ghostty/actions/runs/29586962822)  
+Summary: 3 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`89b103d`](https://github.com/ghostty-org/ghostty/commit/89b103dd5ec669318de53fa361195d155b9e7155) terminal: more full featured resize (cell geo, sync rendering, etc.) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes the Terminal.resize handle more of the common elements that
+  a core terminal emulator should: cell geoemtry handling (if exists),
+  updates synchronized output modes.
+  
+  This adds a new TerminalStream.resize that also handles the side effects
+  for more easy integration into downstream libghostty-vt consumers, namely
+  mode 2048 in-band signaling handling.
+  ```
+- [`dde3d4d`](https://github.com/ghostty-org/ghostty/commit/dde3d4d6b05338e1860a7c45fd17990a6d634e8b) terminal: screen resize failures are now safe ([@mitchellh](https://github.com/mitchellh))
+- [`a3c1cab`](https://github.com/ghostty-org/ghostty/commit/a3c1caba545e7894b21fa359701d245b82b82083) terminal: resize failures are now almost fully safe ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Terminal resize could leave tab stops, pixel geometry, synchronized output,
+  or screen dimensions partially updated when a later allocation failed. This
+  is now safe. There is one exception, see the code comments.
+  ```
+- [`d7e9773`](https://github.com/ghostty-org/ghostty/commit/d7e9773329ae86e6117c9ab5b6531367ac8c530a) terminal: make resize handling error-safe, handle more logic ([#13367](https://github.com/ghostty-org/ghostty/issues/13367)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes error returns in `Screen.resize` and `Terminal.resize` safe:
+  they leave the terminal/screen in its prior state (with one exception,
+  noted below). Previously, both were documented as leaving the terminal
+  in a garbage stage on error.
+  
+  Unit tests with tripwire added to verify errdefer behaviors.
+  
+  This also includes a refactor: the common behaviors that resize needs
+  such as updating cell size in pixels, disabling synchronized output,
+  handling mode 2048, are now pulled into libghostty-vt. This will make it
+  easier for downstream libghostty users to make proper terminals.
+  
+  **The one perfect undo exception:** If the primary screen can resize but
+  the alt screen cannot, then we try our best to do something reasonable,
+  in order:
+  
+  1. If we're on the primary screen, we just deallocate the alt screen.
+  It'll be reallocated lazily (and may fail) in the future. Worst case
+  here is we lose screen data if the future TUI doesn't expect a clear on
+  enter/exit.
+  
+  2. If we're on the alt screen, we deallocate to try recover memory, then
+  reinitialize eagerly at the new size hoping to at least have a blank alt
+  screen. Similar to 1, we lose screen data here, but its likely screen
+  data that mattered since we were actively on the alt screen.
+  
+  3. If the eager reinit fails, we switch to the primary screen. This is
+  the biggest issue, cause the TUI program won't know this happened and
+  probably do some crazy stuff on the primary screen. But, its also a
+  super exceptional situation.
+  
+  In every case though, the terminal is consistent and safe to use.
+  
+  **LLM notes:** Only used as a judge and to assist with test writing, not
+  used at all for commit messages, PR, or non-test logic.
+  ```
+- [`f21d376`](https://github.com/ghostty-org/ghostty/commit/f21d37688368be95b0ee57674f30e9af9376f40b) Update VOUCHED list ([#13368](https://github.com/ghostty-org/ghostty/issues/13368)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13366#discussioncomment-17675218)
+  from @jcollie.
+  
+  Vouch: @AprilNEA
+  ```
 - [`0f0ede8`](https://github.com/ghostty-org/ghostty/commit/0f0ede81d5950f7889dccde07a450d162ffd6e7c) build(deps): bump namespacelabs/nscloud-cache-action from 1.6.0 to 1.6.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.6.0 to 1.6.1.
