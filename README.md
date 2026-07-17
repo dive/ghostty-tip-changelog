@@ -8,15 +8,48 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 17, 2026 at 18:59 UTC.
+> Last updated: July 17, 2026 at 21:46 UTC.
 
 ## July 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29602269436), [2](https://github.com/ghostty-org/ghostty/actions/runs/29600718239), [3](https://github.com/ghostty-org/ghostty/actions/runs/29586962822)  
-Summary: 3 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29610434744), [2](https://github.com/ghostty-org/ghostty/actions/runs/29602269436), [3](https://github.com/ghostty-org/ghostty/actions/runs/29600718239), [4](https://github.com/ghostty-org/ghostty/actions/runs/29586962822)  
+Summary: 4 runs • 9 commits • 3 authors
 
 ### Changes
 
+- [`439d35e`](https://github.com/ghostty-org/ghostty/commit/439d35e27ca2ef7ae62af5d3a386dad4f7ad0bdf) libghostty: mark semantic stream failures ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The libghostty-vt stream is made to be infallible: in the case of any error
+  it just logs and moves on. That's because a terminal can't really... stop,
+  under normal operations. But, under special operations (fuzzing, replays,
+  etc.) it can and should stop!
+  
+  Rather than make the operation fallible, its simply enough for me at least
+  to know that something went wrong. This is a simple change that adds a simple
+  flag that is flagged to true when such a scenario happens.
+  
+  For normal Ghostty GUI operations, this isn't used at all. For libghostty
+  consumers they can choose to read it if they want, but don't have to.
+  
+  This also adds a C API to read it.
+  ```
+- [`6711672`](https://github.com/ghostty-org/ghostty/commit/6711672dec655b620ae64cde1e1ff6cee2e95b18) libghostty: mark semantic stream failures ([#13369](https://github.com/ghostty-org/ghostty/issues/13369)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The libghostty-vt stream is made to be infallible: in the case of any
+  error it just logs and moves on. That's because a terminal can't
+  really... stop, under normal operations. But, under special operations
+  (fuzzing, replays, etc.) it can and should stop!
+  
+  Rather than make the operation fallible, its simply enough for me at
+  least to know that something went wrong. This is a simple change that
+  adds a simple flag that is flagged to true when such a scenario happens.
+  
+  For normal Ghostty GUI operations, this isn't used at all. For
+  libghostty consumers they can choose to read it if they want, but don't
+  have to.
+  
+  This also adds a C API to read it.
+  ```
 - [`89b103d`](https://github.com/ghostty-org/ghostty/commit/89b103dd5ec669318de53fa361195d155b9e7155) terminal: more full featured resize (cell geo, sync rendering, etc.) ([@mitchellh](https://github.com/mitchellh))
   ```text
   This makes the Terminal.resize handle more of the common elements that
