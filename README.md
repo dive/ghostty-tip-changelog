@@ -8,7 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 18, 2026 at 02:00 UTC.
+> Last updated: July 18, 2026 at 05:19 UTC.
+
+## July 18, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29629221748)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`c594031`](https://github.com/ghostty-org/ghostty/commit/c594031d5085527182e608a6100cbfa75cfd022f) terminal: move cursor defaults into terminal state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cursor defaults were duplicated across stream handlers and it was a
+  pretty significant amount of simple and yet non-trivial logic to
+  understand.
+  
+  Store these on Terminal itself and have methods to route things like
+  DECSCUSR through for consistent behaviors.
+  ```
+- [`f3c9a2b`](https://github.com/ghostty-org/ghostty/commit/f3c9a2b7262a989ba7e9408d00471fda8f788d16) terminal: move cursor defaults into terminal state ([#13370](https://github.com/ghostty-org/ghostty/issues/13370)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cursor defaults were duplicated across stream handlers and it was a
+  pretty significant amount of simple and yet non-trivial logic to
+  understand.
+  
+  Store these on Terminal itself and have methods to route things like
+  DECSCUSR through for consistent behaviors.
+  
+  No AI usage here.
+  ```
 
 ## July 17, 2026
 
