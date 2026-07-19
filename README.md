@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 19, 2026 at 15:52 UTC.
+> Last updated: July 19, 2026 at 18:58 UTC.
 
 ## July 19, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29693133907), [2](https://github.com/ghostty-org/ghostty/actions/runs/29689282072)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29697007776), [2](https://github.com/ghostty-org/ghostty/actions/runs/29693133907), [3](https://github.com/ghostty-org/ghostty/actions/runs/29689282072)  
+Summary: 3 runs • 5 commits • 3 authors
 
 ### Changes
 
+- [`2da02f4`](https://github.com/ghostty-org/ghostty/commit/2da02f4d289d917538c907b362e69878e064c36e) config: update `background-blur` to reflect growing adoption ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  `ext-background-effect-v1` is finally seeing major adoption throughout
+  KWin, Mutter, cosmic-comp, Niri, etc. and we should update our comments
+  on that.
+  ```
+- [`2511abe`](https://github.com/ghostty-org/ghostty/commit/2511abe3dd864013ef9a20c14c50e432f901f703) config: update `background-blur` to reflect growing adoption ([#13384](https://github.com/ghostty-org/ghostty/issues/13384)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  `ext-background-effect-v1` is finally seeing major adoption throughout
+  KWin, Mutter, cosmic-comp, Niri, etc. and we should update our comments
+  on that.
+  ```
 - [`c9c017e`](https://github.com/ghostty-org/ghostty/commit/c9c017e8e5dd3c2a03fad48d365154b15df173ac) Update VOUCHED list ([#13383](https://github.com/ghostty-org/ghostty/issues/13383)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
