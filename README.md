@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 20, 2026 at 19:37 UTC.
+> Last updated: July 20, 2026 at 21:56 UTC.
 
 ## July 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29761838058), [2](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
-Summary: 2 runs • 8 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29778065680), [2](https://github.com/ghostty-org/ghostty/actions/runs/29761838058), [3](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
+Summary: 3 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`74d0c72`](https://github.com/ghostty-org/ghostty/commit/74d0c72fd9318ad3ab95bfb56f6c2d995e267e2e) Update VOUCHED list ([#13401](https://github.com/ghostty-org/ghostty/issues/13401)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13400#discussioncomment-17706483)
+  from @jcollie.
+  
+  Vouch: @Ragnoroct
+  ```
 - [`ee9d5b3`](https://github.com/ghostty-org/ghostty/commit/ee9d5b352f1ba4b87c36ff7cab7708ccfcb2f4c9) terminal: handle page capacity errors in eraseRow ([@mitchellh](https://github.com/mitchellh))
   ```text
   Re: #13160 (related but not that issue)
