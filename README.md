@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 19, 2026 at 21:45 UTC.
+> Last updated: July 20, 2026 at 02:32 UTC.
 
 ## July 19, 2026
 
@@ -1246,42 +1246,5 @@ Summary: 2 runs • 11 commits • 3 authors
   
   
   </details>
-  ```
-
-## July 13, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29217291958)  
-Summary: 1 runs • 5 commits • 4 authors
-
-### Changes
-
-- [`7fa4376`](https://github.com/ghostty-org/ghostty/commit/7fa43764b0c612cc2fdc2a73b1d929e312996ce6) add nushell complete attribute ([@ruoyouz](https://github.com/ruoyouz))
-- [`71522c3`](https://github.com/ghostty-org/ghostty/commit/71522c31143df15090cf55f2d9647d3ff3bdb5d7) remove unneeded comments ([@ruoyouz](https://github.com/ruoyouz))
-- [`bc8bb6c`](https://github.com/ghostty-org/ghostty/commit/bc8bb6c0f0307ca3b48c01061bca63ce5643dc3d) terminal/search: don't clear storage when updating fingerprint ([@vancluever](https://github.com/vancluever))
-  ```text
-  Using `clearRetainingCapacity` as it was being used in
-  Fingerprint.update produces undefined behavior; both the old "copy" and
-  current version of the fingerprint would still be using the same
-  storage.
-  
-  This commit changes the function so that the storage is more clearly
-  re-used, and shrunk at the end if need be.
-  ```
-- [`89621a1`](https://github.com/ghostty-org/ghostty/commit/89621a194c4896f4d0f13e2e332efd123c519a7f) terminal/search: don't clear storage when updating fingerprint ([#13311](https://github.com/ghostty-org/ghostty/issues/13311)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Using `clearRetainingCapacity` as it was being used in
-  Fingerprint.update produces undefined behavior; both the old "copy" and
-  current version of the fingerprint would still be using the same
-  storage.
-  
-  This commit changes the function so that the storage is more clearly
-  re-used, and shrunk at the end if need be.
-  ```
-- [`55a3e33`](https://github.com/ghostty-org/ghostty/commit/55a3e33ab26a23d75b274b23c7f76d837db00578) nushell: add complete attribute ([#13310](https://github.com/ghostty-org/ghostty/issues/13310)) ([@jparise](https://github.com/jparise))
-  ```text
-  Added correct attribute so nushell can generate completions for ghostty
-  redefined commands (i.e., `ssh` and `sudo`).
-  
-  Fixes #12008
   ```
 
