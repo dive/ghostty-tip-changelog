@@ -8,7 +8,86 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 20, 2026 at 13:55 UTC.
+> Last updated: July 20, 2026 at 16:20 UTC.
+
+## July 20, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
+Summary: 1 runs • 6 commits • 3 authors
+
+### Changes
+
+- [`a65e11c`](https://github.com/ghostty-org/ghostty/commit/a65e11cc928f1ecf4d4a1d640d28a37c06e3d20f) kitty images: add support for transient usage hints ([@jcollie](https://github.com/jcollie))
+  ```text
+  Kitty 0.48 added support for usage hints in the image protocol,
+  specifically for marking images as "transient", meaning that they
+  should be prioritized for eviction if there is memory pressure.
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#image-usage-hints
+  
+  Also changed the eviction algorithm to use an allocated array for
+  organizing the images to be evicted rather than using an ArrayList to
+  minimize the number of allocations made (no real memory savings though).
+  ```
+- [`2104e07`](https://github.com/ghostty-org/ghostty/commit/2104e0749c6da413b173bce375d77975fd41f4be) macOS: hide visible NSScrollPocket for hidden title bar ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/issues/13390
+  ```
+- [`0433262`](https://github.com/ghostty-org/ghostty/commit/043326249387b36a2655c7f24bb856bbc1aca4ea) terminal: handle page capacity errors in cursorScrollAbove ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Re: #13160
+  
+  When cursorScrollAbove rotates rows across a page boundary, the last
+  row of the previous page is cloned into the destination page. That can
+  cause capacity failures we didn't previously handle.
+  
+  The error propagated out of the operation after rows had already been rotated,
+  leaving the page list half-mutated. Subsequent operations on the corrupted state
+  can cause crashes since the state was incoherent.
+  
+  Handle these errors the same way insertLines and deleteLines already
+  do for their cross-page copies: increase the destination page capacity
+  for the dimension that ran out and retry the row copy.
+  ```
+- [`56b086b`](https://github.com/ghostty-org/ghostty/commit/56b086bd93b69884263a8a4a4a10f4bc1b9b4539) terminal: handle page capacity errors in cursorScrollAbove ([#13394](https://github.com/ghostty-org/ghostty/issues/13394)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Re: #13160
+  
+  When cursorScrollAbove rotates rows across a page boundary, the last row
+  of the previous page is cloned into the destination page. That can cause
+  capacity failures we didn't previously handle.
+  
+  The error propagated out of the operation after rows had already been
+  rotated, leaving the page list half-mutated. Subsequent operations on
+  the corrupted state can cause crashes since the state was incoherent.
+  
+  Handle these errors the same way insertLines and deleteLines already do
+  for their cross-page copies: increase the destination page capacity for
+  the dimension that ran out and retry the row copy.
+  ```
+- [`18d8303`](https://github.com/ghostty-org/ghostty/commit/18d8303972b1f68b865add30c700f821332de554) kitty images: add support for transient usage hints ([#13389](https://github.com/ghostty-org/ghostty/issues/13389)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Kitty 0.48 added support for usage hints in the image protocol,
+  specifically for marking images as "transient", meaning that they should
+  be prioritized for eviction if there is memory pressure.
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#image-usage-hints
+  
+  Also changed the eviction algorithm to use an allocated array for
+  organizing the images to be evicted rather than using an ArrayList to
+  minimize the number of allocations made (no real memory savings though).
+  ```
+- [`ff8457b`](https://github.com/ghostty-org/ghostty/commit/ff8457b70fd44b6b0d29906098134716c16287d0) macOS: hide visible NSScrollPocket for hidden title bar ([#13393](https://github.com/ghostty-org/ghostty/issues/13393)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/issues/13390
+  
+  Technically it would be safe to remove `#available(macOS 27, *)` check,
+  but I haven't tested all the os versions, so I kept it there.
+  
+  ### AI Disclosure
+  
+  No AI is used for this one.
+  ```
 
 ## July 19, 2026
 
