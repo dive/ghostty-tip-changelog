@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 20, 2026 at 16:20 UTC.
+> Last updated: July 20, 2026 at 19:37 UTC.
 
 ## July 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
-Summary: 1 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29761838058), [2](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
+Summary: 2 runs • 8 commits • 3 authors
 
 ### Changes
 
+- [`ee9d5b3`](https://github.com/ghostty-org/ghostty/commit/ee9d5b352f1ba4b87c36ff7cab7708ccfcb2f4c9) terminal: handle page capacity errors in eraseRow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Re: #13160 (related but not that issue)
+  
+  PageList eraseRow and eraseRowBounded have the same issue previously
+  fixed for cursorScrollAbove: when shifting rows up across a page boundary,
+  the top row of the next page is cloned into the last row of the
+  previous page, and that clone can fail if the destination page lacks
+  capacity for the row's managed memory.
+  
+  Handle the errors the same way the other cross-page copies do:
+  increase the destination page capacity for the dimension that ran
+  out and retry the row copy.
+  
+  This type of logic was repeated EVERYWHERE so I extracted this into a
+  helper in PageList and Screen. They're slightly different due to the extra
+  accounting that Screen has to do for the cursor.
+  
+  Don't know of any scenario this actually happened in the real world but
+  it was trivially reproducible with tests.
+  ```
+- [`ea7dc5c`](https://github.com/ghostty-org/ghostty/commit/ea7dc5c000c31c44ff2cdc5bd23dea4c090bf800) terminal: handle page capacity errors in eraseRow ([#13397](https://github.com/ghostty-org/ghostty/issues/13397)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Re: #13160 (related but not that issue)
+  
+  PageList eraseRow and eraseRowBounded have the same issue previously
+  fixed for cursorScrollAbove: when shifting rows up across a page
+  boundary, the top row of the next page is cloned into the last row of
+  the previous page, and that clone can fail if the destination page lacks
+  capacity for the row's managed memory.
+  
+  Handle the errors the same way the other cross-page copies do: increase
+  the destination page capacity for the dimension that ran out and retry
+  the row copy.
+  
+  This type of logic was repeated EVERYWHERE so I extracted this into a
+  helper in PageList and Screen. They're slightly different due to the
+  extra accounting that Screen has to do for the cursor.
+  
+  Don't know of any scenario this actually happened in the real world but
+  it was trivially reproducible with tests.
+  ```
 - [`a65e11c`](https://github.com/ghostty-org/ghostty/commit/a65e11cc928f1ecf4d4a1d640d28a37c06e3d20f) kitty images: add support for transient usage hints ([@jcollie](https://github.com/jcollie))
   ```text
   Kitty 0.48 added support for usage hints in the image protocol,
