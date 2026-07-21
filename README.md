@@ -8,15 +8,16 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 21, 2026 at 02:10 UTC.
+> Last updated: July 21, 2026 at 05:44 UTC.
 
 ## July 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29794463583), [2](https://github.com/ghostty-org/ghostty/actions/runs/29790117224)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29798507621), [2](https://github.com/ghostty-org/ghostty/actions/runs/29794463583), [3](https://github.com/ghostty-org/ghostty/actions/runs/29790117224)  
+Summary: 3 runs • 4 commits • 4 authors
 
 ### Changes
 
+- [`88b4cd0`](https://github.com/ghostty-org/ghostty/commit/88b4cd047fa627cdca6781bc7e7dc8b75a2cecb9) gitignore: add zig-pkg so switching between branches doesn't produce noise ([@mitchellh](https://github.com/mitchellh))
 - [`f547745`](https://github.com/ghostty-org/ghostty/commit/f5477459ea23fe09bb047ed9e89a5ae53a3269bd) build(deps): bump actions/checkout from 7.0.0 to 7.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [actions/checkout](https://github.com/actions/checkout) from 7.0.0 to 7.0.1.
