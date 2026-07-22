@@ -8,7 +8,196 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 22, 2026 at 13:39 UTC.
+> Last updated: July 22, 2026 at 16:17 UTC.
+
+## July 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29936126378)  
+Summary: 1 runs • 9 commits • 2 authors
+
+### Changes
+
+- [`e8525c0`](https://github.com/ghostty-org/ghostty/commit/e8525c0fd907a6bfa91286984c767894b2b8fa65) Update to Zig 0.16.0 ([@vancluever](https://github.com/vancluever))
+  ```text
+  This commit represents the majority of the work necessary to upgrade
+  Ghostty to use Zig 0.16.0.
+  
+  Key parts:
+  
+  * In addition to its previous responsibilities, the global state now
+    houses state for global I/O implementations and the process
+    environment. It is now also utilized in the main application along
+    with the C library. Where necessary, global state is isolated from key
+    parts of the implementation (e.g., in libghostty subsystems), and it's
+    expected that this list will grow.
+  
+  * We currently manage our own C translation layer where necessary. In
+    these cases, cImport has been removed in favor of the new external
+    translate-c package. Due to fixes that have needed be made to properly
+    translate the dependencies that were swapped out, as mentioned, we
+    have had to backport fixes from the current translate-c package (and
+    the upstream Arocc dependency). We will host this ourselves until Zig
+    0.17.0 is released with these fixes.
+  
+  * Where necessary (only a small number of cases), some stdlib code from
+    0.15.2 (and even from 0.17.0) has been taken, adopted, and vendored in
+    lib/compat.
+  ```
+- [`f2a7652`](https://github.com/ghostty-org/ghostty/commit/f2a7652abab5d03f846f3150f9cc1b2dc23bb3dd) mitchell's touchups ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - benchmark: avoid buffers to avoid a memcpy
+  - build: keep frame pointers on macOS. There was some debug changes from
+    Zig 0.15 and this helps. Also, Apple actually requires/expects x29 to
+    always be a frame pointer.
+  - build/macos: force libSystem symbols instead of compiler-rt
+  - global: add InitOpts.tool so that ghostty-gen/bench can parse their
+    own actions in `+action`
+  - quirks: provide our own vectorized memset. see the comment for more
+    details why.
+  - synthetic: fix UB by accessing global.io before it was initialized
+  - terminal/hash_map: force inline for unique repr types. Zig 0.15
+    inlined and 0.16 doesn't, measured a huge slowdown in hyperlink
+    benchmarks.
+  - terminal: add explicit `@Vector` usage for storing a run of identical cells
+    as well as for scanning printable cells. This auto-vectorized in Zig
+    0.15 but not in Zig 0.16. This produces the same assembly.
+  - unicode: properties and LUT need power-of-two backing integer to avoid
+    bad LLVM codegen
+  ```
+- [`da04b65`](https://github.com/ghostty-org/ghostty/commit/da04b65d4c3e590aa37a431ec6e25efc6900224d) terminal: init_single_threaded for C API ([@vancluever](https://github.com/vancluever))
+  ```text
+  The C API is assumed to be single-threaded per VT instance.
+  Additionally, using fully-threaded I/O instances registers signal
+  handlers, and would do a pair of registrations once per instance, which
+  could easily get out of hand (and is not really what we intend anyway).
+  
+  init_single_threaded does not register signal handlers, so it does not
+  have this issue, and matches the execution model of the C VT API
+  (single-threaded/not thread-safe within a single VT instance).
+  
+  This also fixes an initialization issue with the threaded I/O instance
+  in general (needs allocation as the memory location would have gone out
+  of scope before).
+  ```
+- [`048619a`](https://github.com/ghostty-org/ghostty/commit/048619a6bf548684ec6af3a3b0d3cc45dd9f189e) global: take minimal instead of juicy main ([@vancluever](https://github.com/vancluever))
+  ```text
+  The early-stage main Zig wrapper recognizes if main only needs the
+  minimal state (args and lower-level environment) and skips a bunch of
+  unneeded initialization (allocator, arena, threaded I/O, and the
+  higher-level environment map). Particularly, the fact that it does not
+  set up an I/O instance means that we won't have any unneeded signal
+  handlers set up for the unused threaded I/O implementation, which is
+  similar in spirit to the fixes we applied for the C VT implementation,
+  with the notable difference that we do actually set a threaded I/O up in
+  global state - hence, again, we don't want the duplicate unused one.
+  ```
+- [`4956668`](https://github.com/ghostty-org/ghostty/commit/4956668702f3e029b615a5600531eadc40170f9b) vt: get rid of log spam on tests ([@vancluever](https://github.com/vancluever))
+  ```text
+  Zig 0.16.0 made the criteria for reporting "failed command" stricter (or
+  looser, depending on your perspective I guess...) - now, tests that
+  print anything to stderr cause the message to appear.
+  
+  Note that in this instance tests still pass and you get a return code of
+  0, but nonetheless, it can be confusing.
+  
+  Additionally, having spammy passing tests in general is not necessarily
+  a great experience, so this should help with that.
+  
+  Note that this change was already done to the main tests. We can add a
+  build argument to control this if need be.
+  ```
+- [`7121ab6`](https://github.com/ghostty-org/ghostty/commit/7121ab6c3f0e868d3383c59a2e4d5a564f96aa9f) global: state should default to null ([@vancluever](https://github.com/vancluever))
+- [`a77c706`](https://github.com/ghostty-org/ghostty/commit/a77c706a180528f8197771abd51436d98ccd854a) fix process and global error handling ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Restore the error handling that the removed std.posix fork and waitpid
+  wrappers previously provided. Raw fork failures now propagate, waitpid
+  retries interruptions before reading status, and edit-config constructs the
+  sentinel-terminated argv required by execve.
+  
+  Let global initialization own cleanup through its existing errdefer so
+  temporary paths are freed once. Report initialization failures with the
+  static synchronous I/O provider because global I/O has already been torn
+  down by that point.
+  ```
+- [`b988efc`](https://github.com/ghostty-org/ghostty/commit/b988efcfe584e88a3d0330e2c17c386ffa419d72) fix some 0.16 translation regressions ([@mitchellh](https://github.com/mitchellh))
+- [`7aa9591`](https://github.com/ghostty-org/ghostty/commit/7aa9591746ffa4d2eee458960c76554352832595) Update to Zig 0.16.0 ([#12726](https://github.com/ghostty-org/ghostty/issues/12726)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes #12228
+  Supersedes #12388
+  
+  **UPDATED** - Also check comments for additional details!
+  
+  This commit represents the majority of the work necessary to upgrade
+  Ghostty to use Zig 0.16.0.
+  
+  At this point, all tests pass under Linux, but more work may be
+  necessary to get them to build and function on other platforms.
+  
+  There are some parts of this update that deserve commentary, so that
+  follows below:
+  
+  ## Expanded use of global state (IO/environment related)
+  
+  Global state, once generally only used by the C library, has now been
+  expanded to be used across the project at large. The static local
+  variable that holds the state has been moved private in its source
+  container with all attributes that need to be accessed globally gated
+  behind accessors, most of which guard on testing and send test copies
+  instead. Use of the global state in non-testing scenarios asserts that
+  the state has been initialized through `init` naturally through the
+  optional assertion process.
+  
+  The rationale for this change is to have a location to store a
+  general-purpose I/O implementation and environment variables, both of
+  which are now provided through [Juicy
+  Main](https://ziglang.org/download/0.16.0/release-notes.html#Juicy-Main)
+  and hence can no longer be accessed or mutated through stdlib without
+  use of lower-level system calls and hacks (some of which are employed,
+  but sparingly).
+  
+  As the code matures, dependence on global state should naturally slim
+  down.
+  
+  We do not allow global state to be used in libghostty-vt. There are
+  comptime guards that prevent this should compilation of libghostty-vt
+  end up pulling `global.zig`. This means that as per the last paragraph,
+  work has already begun to de-couple the codebase from global state where
+  necessary. Additionally, in some places where environment needs to be
+  updated and where it can be done in an isolated fashion, environment
+  maps are used - system-level injection of environment through the use of
+  `setenv` or `unsetenv` now only happens during early initialization (and
+  hopefully we can remove these in the future too, especially since they
+  require re-synchronization of the higher-level environment primitives
+  after this is done).
+  
+  ## The `lib/compat` Tree
+  
+  Some stdlib features that have been removed but still either seem they
+  would be valuable to us or outright complex to move away from
+  (particularly `SegmentedList`) have been extracted from 0.15.2, updated
+  as needed, and placed in `src/lib/compat`. The intention again is to
+  allow for piecemeal migration to more modern implementations or possibly
+  straight local versions.
+  
+  This paradigm has also allowed us to add `std.Io.Condition.waitTimeout`,
+  which incidentally was missed in the 0.16.0 shuffle and has been
+  re-added for 0.17.0. We can remove this in favor of the upstream when we
+  eventually migrate to that, obviously.
+  
+  Note that there was a lot more of this extracted code when this work was
+  started, but a lot of said code has been removed (namely environment or
+  process/fd-related functionality).
+  
+  ## translate-c Issues (functional on Linux, Darwin WIP)
+  
+  There have been a number of C translation issues that we have been
+  working through through submitted patches and the great help from folks
+  on the Arocc and Zig side. This is ongoing, with the remaining work to
+  getting things fixed mainly focused on the MacOS side. Stay tuned for
+  further developments.
+  
+  As mentioned at the top, follow comments for more details!
+  ```
 
 ## July 21, 2026
 
