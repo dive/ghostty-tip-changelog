@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 22, 2026 at 19:06 UTC.
+> Last updated: July 22, 2026 at 22:00 UTC.
 
 ## July 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29936126378)  
-Summary: 1 runs • 9 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29956921809), [2](https://github.com/ghostty-org/ghostty/actions/runs/29949317476), [3](https://github.com/ghostty-org/ghostty/actions/runs/29936126378)  
+Summary: 3 runs • 14 commits • 2 authors
 
 ### Changes
 
+- [`1c861e3`](https://github.com/ghostty-org/ghostty/commit/1c861e3c476f2489008c12fc0b75af72c1b8484d) pkg/apple-sdk: support Xcode 27 SDK headers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Xcode 27's math.h uses the __need_infinity_nan protocol provided by
+  matching Clang resource headers. Zig 0.16's bundled float.h predates
+  that protocol, causing the bundled libc++ compilation to fail.
+  
+  Overlay the SDK math.h through the Apple SDK libc include path and
+  provide the missing infinity and NaN definitions. The compatibility
+  header can be removed once Zig's bundled Clang headers support the
+  protocol.
+  ```
+- [`d97a574`](https://github.com/ghostty-org/ghostty/commit/d97a5742423551e8847f2c81f6c10feeb6f5a66e) ci: test with Xcode 27 ([@mitchellh](https://github.com/mitchellh))
+- [`ab0b9da`](https://github.com/ghostty-org/ghostty/commit/ab0b9da9e88fcb4b0533a1854e84628f663930af) pkg/apple-sdk: support Xcode 27 SDK headers ([#13419](https://github.com/ghostty-org/ghostty/issues/13419)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Xcode 27's math.h uses the __need_infinity_nan protocol provided by
+  matching Clang resource headers. Zig 0.16's bundled float.h predates
+  that protocol, causing the bundled libc++ compilation to fail.
+  
+  Overlay the SDK math.h through the Apple SDK libc include path and
+  provide the missing infinity and NaN definitions. The compatibility
+  header can be removed once Zig's bundled Clang headers support the
+  protocol.
+  ```
+- [`dac134d`](https://github.com/ghostty-org/ghostty/commit/dac134d254bab15209e494413973e4f902b654c6) pkg/apple-sdk: enable libc++ availability annotations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13417
+  
+  The bundled upstream libc++ headers in Zig 0.16 skip the Apple-configured
+  availability setting. This causes the headers to assume every LLVM 21
+  ABI symbol is present in the target system libc++, producing binaries
+  that fail at launch on macOS versions without `std::__hash_memory`.
+  
+  Enable the Apple vendor availability table for compile steps configured
+  by the Apple SDK helper. libc++ now selects its inline compatibility
+  implementation when the target system dylib does not provide the symbol.
+  
+  References in the mega comment
+  ```
+- [`49a76f2`](https://github.com/ghostty-org/ghostty/commit/49a76f244d6db48115ec48b4d9b5d40593386099) pkg/apple-sdk: enable libc++ availability annotations ([#13418](https://github.com/ghostty-org/ghostty/issues/13418)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13417
+  
+  The bundled upstream libc++ headers in Zig 0.16 skip the
+  Apple-configured availability setting. This causes the headers to assume
+  every LLVM 21 ABI symbol is present in the target system libc++,
+  producing binaries that fail at launch on macOS versions without
+  `std::__hash_memory`.
+  
+  Enable the Apple vendor availability table for compile steps configured
+  by the Apple SDK helper. libc++ now selects its inline compatibility
+  implementation when the target system dylib does not provide the symbol.
+  
+  References in the mega comment
+  ```
 - [`e8525c0`](https://github.com/ghostty-org/ghostty/commit/e8525c0fd907a6bfa91286984c767894b2b8fa65) Update to Zig 0.16.0 ([@vancluever](https://github.com/vancluever))
   ```text
   This commit represents the majority of the work necessary to upgrade
