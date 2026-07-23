@@ -8,7 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 23, 2026 at 11:05 UTC.
+> Last updated: July 23, 2026 at 13:45 UTC.
+
+## July 23, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
+Summary: 1 runs • 4 commits • 3 authors
+
+### Changes
+
+- [`960c2cc`](https://github.com/ghostty-org/ghostty/commit/960c2cca5d57ca6e293efd2d7b7a0f590412cfa8) fix: fix kitty temp directory copy length mismatch ([@elias8](https://github.com/elias8))
+- [`e663d54`](https://github.com/ghostty-org/ghostty/commit/e663d54051d3af9103d1d889d3d7eac7d7176931) os/hostname: switch to std.Io.net.HostName.validate ([@jparise](https://github.com/jparise))
+  ```text
+  Zig 0.16's hostname validation routine is RFC 1123-compliant, so we can
+  use it directly rather than rolling our own.
+  
+  Ref: https://codeberg.org/ziglang/zig/commit/efe649b13e582be855376944bac1346426e238d6
+  Ref: https://github.com/ziglang/zig/pull/25710
+  ```
+- [`4154185`](https://github.com/ghostty-org/ghostty/commit/4154185e23707870a118767afa1dc074828a3b2f) os/hostname: switch to std.Io.net.HostName.validate ([#13428](https://github.com/ghostty-org/ghostty/issues/13428)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig 0.16's hostname validation routine is RFC 1123-compliant, so we can
+  use it directly rather than rolling our own.
+  
+  Ref:
+  https://codeberg.org/ziglang/zig/commit/efe649b13e582be855376944bac1346426e238d6
+  Ref: https://github.com/ziglang/zig/pull/25710
+  ```
+- [`30de782`](https://github.com/ghostty-org/ghostty/commit/30de782e8edb5658e6539f5ccebcdcfa6582f102) fix(terminal): fix kitty temp directory copy length mismatch ([#13424](https://github.com/ghostty-org/ghostty/issues/13424)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  EDIT:
+  [exposed](https://github.com/elias8/libghostty/actions/runs/29996356691/job/89171182671?pr=113#step:12:447)
+  while syncing libghostty dart bindings to latest main.
+  ```
 
 ## July 22, 2026
 
