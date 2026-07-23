@@ -8,15 +8,39 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 23, 2026 at 13:45 UTC.
+> Last updated: July 23, 2026 at 16:22 UTC.
 
 ## July 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
-Summary: 1 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30016145400), [2](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
+Summary: 2 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`d65cb51`](https://github.com/ghostty-org/ghostty/commit/d65cb5128abfbee4dcb8a4ace3bcb35c1a7f0790) build: link libghostty-vt on Apple hosts with native linker ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replaces: https://github.com/ghostty-org/ghostty/pull/13427
+  
+  Zig's Mach-O linker does not emit LC_ENCRYPTION_INFO_64 for physical
+  iOS dylibs. This allows libghostty-vt to build successfully but causes
+  frameworks containing it to fail App Store validation.
+  
+  I think it'd be cleaner to always just build Apple targets on Apple hosts
+  with the native linker. We don't need to rely on Zig being correct and
+  this helps ensure compatibility for details like this.
+  ```
+- [`15484b6`](https://github.com/ghostty-org/ghostty/commit/15484b607eb5a518dedf1548247c923b8abaae7c) build: link libghostty-vt on Apple hosts with native linker ([#13430](https://github.com/ghostty-org/ghostty/issues/13430)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replaces: https://github.com/ghostty-org/ghostty/pull/13427
+  
+  Zig's Mach-O linker does not emit LC_ENCRYPTION_INFO_64 for physical iOS
+  dylibs. This allows libghostty-vt to build successfully but causes
+  frameworks containing it to fail App Store validation.
+  
+  I think it'd be cleaner to always just build Apple targets on Apple
+  hosts with the native linker. We don't need to rely on Zig being correct
+  and this helps ensure compatibility for details like this.
+  ```
 - [`960c2cc`](https://github.com/ghostty-org/ghostty/commit/960c2cca5d57ca6e293efd2d7b7a0f590412cfa8) fix: fix kitty temp directory copy length mismatch ([@elias8](https://github.com/elias8))
 - [`e663d54`](https://github.com/ghostty-org/ghostty/commit/e663d54051d3af9103d1d889d3d7eac7d7176931) os/hostname: switch to std.Io.net.HostName.validate ([@jparise](https://github.com/jparise))
   ```text
