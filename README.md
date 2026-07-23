@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 23, 2026 at 19:06 UTC.
+> Last updated: July 23, 2026 at 22:00 UTC.
 
 ## July 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30016145400), [2](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
-Summary: 2 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30046267613), [2](https://github.com/ghostty-org/ghostty/actions/runs/30016145400), [3](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
+Summary: 3 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`f8e13f3`](https://github.com/ghostty-org/ghostty/commit/f8e13f31e6a25f55bfb9725f9b55f74cea1af50f) Fix desktop detection tests when running from Gnome ([@jcollie](https://github.com/jcollie))
+  ```text
+  Environment variables from the "real" environment leaked into the test
+  after the Zig 0.16 update which would cause them to fail if you ran them
+  on a Gnome system.
+  ```
+- [`e6e26e1`](https://github.com/ghostty-org/ghostty/commit/e6e26e165ab143f087761cee9f8a479801a27ba7) Fix desktop detection tests when running from Gnome ([#13434](https://github.com/ghostty-org/ghostty/issues/13434)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Environment variables from the "real" environment leaked into the test
+  after the Zig 0.16 update which would cause them to fail if you ran them
+  on a Gnome system.
+  ```
 - [`d65cb51`](https://github.com/ghostty-org/ghostty/commit/d65cb5128abfbee4dcb8a4ace3bcb35c1a7f0790) build: link libghostty-vt on Apple hosts with native linker ([@mitchellh](https://github.com/mitchellh))
   ```text
   Replaces: https://github.com/ghostty-org/ghostty/pull/13427
