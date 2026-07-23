@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 22, 2026 at 22:00 UTC.
+> Last updated: July 23, 2026 at 02:20 UTC.
 
 ## July 22, 2026
 
@@ -886,108 +886,6 @@ Summary: 4 runs • 9 commits • 3 authors
   
   [![Dependabot compatibility
   score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.6.0&new-version=1.6.1)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-
-## July 16, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29461862065)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`68376f5`](https://github.com/ghostty-org/ghostty/commit/68376f5accba208498ef4a6333a5d097db4e3c20) build(deps): bump cachix/install-nix-action from 31.10.7 to 31.11.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.10.7 to 31.11.0.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/a49548c11d9846ad46ecc0115273879b045f001c...630ae543ea3a38a9a4166f03376c02c50f408342)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.11.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`73534c4`](https://github.com/ghostty-org/ghostty/commit/73534c4680a809398b396c94ac7f12fcccb7963d) build(deps): bump cachix/install-nix-action from 31.10.7 to 31.11.0 ([#13351](https://github.com/ghostty-org/ghostty/issues/13351)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.10.7 to 31.11.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.11.0</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.34.8 -&gt; 2.35.1 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/279">cachix/install-nix-action#279</a>
-  Release notes: <a
-  href="https://discourse.nixos.org/t/nix-2-35-0-released/78914">https://discourse.nixos.org/t/nix-2-35-0-released/78914</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31.10.7...v31.11.0">https://github.com/cachix/install-nix-action/compare/v31.10.7...v31.11.0</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/630ae543ea3a38a9a4166f03376c02c50f408342"><code>630ae54</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/279">#279</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/0247906e3a81152580edf10a53a0f6c191922535"><code>0247906</code></a>
-  nix: 2.34.8 -&gt; 2.35.1</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/a49548c11d9846ad46ecc0115273879b045f001c...630ae543ea3a38a9a4166f03376c02c50f408342">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.10.7&new-version=31.11.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
   
   Dependabot will resolve any conflicts with this PR as long as you don't
   alter it yourself. You can also trigger a rebase manually by commenting
