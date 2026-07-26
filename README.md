@@ -8,15 +8,81 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 26, 2026 at 19:02 UTC.
+> Last updated: July 26, 2026 at 21:54 UTC.
 
 ## July 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30187225687)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30219700544), [2](https://github.com/ghostty-org/ghostty/actions/runs/30187225687)  
+Summary: 2 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`88bd4fd`](https://github.com/ghostty-org/ghostty/commit/88bd4fdcea7a6416c17c3ace9be6b5aac60d55a7) feat: implement vicinae-hotkey-v1 ([@aurelleb](https://github.com/aurelleb))
+- [`9c6f287`](https://github.com/ghostty-org/ghostty/commit/9c6f287aab4358d49a9c6b9ebb734bea1a04bc63) chore: regenerate translations ([@aurelleb](https://github.com/aurelleb))
+- [`3024c5d`](https://github.com/ghostty-org/ghostty/commit/3024c5d19e0d5fbe399fbe2192e3dfd3b9793c46) refactor: address nits ([@aurelleb](https://github.com/aurelleb))
+- [`0075c75`](https://github.com/ghostty-org/ghostty/commit/0075c75b6127cffe09126b84d3c23ae5101d0447) refactor: remove unneeded appendAssumeCapacity ([@aurelleb](https://github.com/aurelleb))
+- [`7ee3ac9`](https://github.com/ghostty-org/ghostty/commit/7ee3ac9ec856d279310faf23947e600769cb3764) refactor: use arena allocator ([@aurelleb](https://github.com/aurelleb))
+- [`32e76d8`](https://github.com/ghostty-org/ghostty/commit/32e76d8ed0a2e52e4af70b1e05bda8e1cdb1a4c1) feat: implement global shortcuts through vicinae-hotkey-v1 ([#13464](https://github.com/ghostty-org/ghostty/issues/13464)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR provides an implementation for the
+  [vicinae-hotkey-v1](https://github.com/vicinaehq/vicinae-wayland-protocols/tree/main/staging/vicinae-hotkey)
+  protocol, as discussed
+  [here](https://github.com/ghostty-org/ghostty/discussions/13453).
+  
+  This is a wayland protocol that allows the client to dynamically
+  negotiate global shortcuts with the compositor. Unlike the portal, the
+  clients are free to bind, rebind, and unbind global shortcuts they
+  reserve.
+  
+  Here are a few advantages of using this over the global shortcut portal
+  for ghostty specifically:
+  
+  - `vicinae-hotkey-v1` lets the client know the state of its bindings at
+  all time, if a global bind is not granted by the compositor the cllient
+  is notified with a descriptive error message which is designed to help
+  the user understand what the problem might be. In my implementation, I
+  decided I would show a desktop notification to the user in case a global
+  shortcut reservation fails.
+  
+  - Global binds set in the config cannot drift from what is actually
+  registered, cannot be unilaterally changed by the user in compositor
+  settings, and do not pollute the global shortcut namespace permanently.
+  Reservations are only active while ghostty is running.
+  
+  - The protocol provides the client with an input serial that can be used
+  to generate an `xdg_activation` token, allowing ghostty to steal focus
+  when one of its global shortcut is used. Currently ghostty doesn't have
+  an input serial to pass to `xdg_activation`. I didn't wire it for now,
+  in order keep things simple. But I guess it will be a nice to have.
+  
+  ---
+  
+  AI disclosure: most of the code was written by Fable 5 (Claude Code), as
+  zig is not my primary language.
+  
+  From an implementation perspective: I made it so that
+  `vicinae-hotkey-v1` is used to manage global shortcuts over the portal
+  when the global is advertised by the compositor. If it's not available,
+  we fallback on the portal like before.
+  
+  At this time the protocol is implemented by Hyprland (since
+  [v0.56.0](https://github.com/hyprwm/Hyprland/pull/15010)) and there is
+  an open PR for [niri](https://github.com/niri-wm/niri/pull/4145). There
+  is also an official [wayland-protocols
+  proposal](https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/525).
+  
+  As for the clients, for now the only implementer (that I know of) is
+  [vicinae](https://github.com/vicinaehq/vicinae).
+  
+  The idea would be to merge this `vicinae-hotkey-v1` implementation and
+  then have it be superseded by the upstream version later, assuming it is
+  turned into an official extension protocol following the
+  wayland-protocols process.
+  
+  PS: sorry for the diff noise about all the .po changes, I'm not sure
+  whether this is intended or not, but I did regenerate the translations
+  as asked
+  ```
 - [`2de5e7d`](https://github.com/ghostty-org/ghostty/commit/2de5e7d38e1354759211722a8687c0815d2cf02c) Update VOUCHED list ([#13463](https://github.com/ghostty-org/ghostty/issues/13463)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
