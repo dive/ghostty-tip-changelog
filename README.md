@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 27, 2026 at 16:54 UTC.
+> Last updated: July 27, 2026 at 19:19 UTC.
 
 ## July 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [2](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [3](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
-Summary: 3 runs • 13 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30295137203), [2](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [3](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [4](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
+Summary: 4 runs • 15 commits • 4 authors
 
 ### Changes
 
+- [`10e6ace`](https://github.com/ghostty-org/ghostty/commit/10e6ace6b66bddcee1a746c8d5fffb414209cf2a) GhosttyI18n: fix build on freebsd with zig 0.16 ([@svmhdvn](https://github.com/svmhdvn))
+- [`c14cb51`](https://github.com/ghostty-org/ghostty/commit/c14cb5196adf4350e6b86f81c871502281016701) GhosttyI18n: fix build on freebsd with zig 0.16 ([#13485](https://github.com/ghostty-org/ghostty/issues/13485)) ([@jcollie](https://github.com/jcollie))
 - [`28f02ac`](https://github.com/ghostty-org/ghostty/commit/28f02ac3ce1656f41134f53dc8bf8e3882e14507) Update VOUCHED list ([#13487](https://github.com/ghostty-org/ghostty/issues/13487)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
