@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 27, 2026 at 19:19 UTC.
+> Last updated: July 27, 2026 at 22:01 UTC.
 
 ## July 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30295137203), [2](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [3](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [4](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
-Summary: 4 runs • 15 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30304357049), [2](https://github.com/ghostty-org/ghostty/actions/runs/30295137203), [3](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [4](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [5](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
+Summary: 5 runs • 22 commits • 6 authors
 
 ### Changes
 
+- [`c3655ba`](https://github.com/ghostty-org/ghostty/commit/c3655ba258d930b1eceae05a91a226a8f3720cb9) terminal: expose desktop notification effect ([@pearkes](https://github.com/pearkes))
+- [`47d602c`](https://github.com/ghostty-org/ghostty/commit/47d602c422d180eb08627dd29f3386719fac7dcb) terminal: expose progress report effect ([@pearkes](https://github.com/pearkes))
+- [`628adaf`](https://github.com/ghostty-org/ghostty/commit/628adaf30f54b7310a163fed164d72ea4391ed3c) terminal: share progress state enum ([@pearkes](https://github.com/pearkes))
+- [`2729996`](https://github.com/ghostty-org/ghostty/commit/2729996eab608d19847f4d0c37508442bb3a2096) terminal: update event tests for constructor API ([@pearkes](https://github.com/pearkes))
+- [`d0e72a3`](https://github.com/ghostty-org/ghostty/commit/d0e72a3ab654326bc1e5de07199cee229066ee19) font/sprite: update to z2d 0.12.1, use native path insetting ([@vancluever](https://github.com/vancluever))
+  ```text
+  This change updates z2d to 0.12.1 and changes the sprite font path
+  insetting functionality to use the new path offset abilities released in
+  the update.
+  
+  In addition, there has been a slight change to the drawing of E0B5 and
+  its respective reflection; we now add a 1-pixel horizontal line segment
+  to each end to force them to be perpendicular. This is because
+  offsetting pre-expands the curves and ultimately causes the end segments
+  of the curve itself to have slight non-horizontal angles, which produce
+  small artifacts at the ends without the forced horizontal ends.
+  ```
+- [`eb9faed`](https://github.com/ghostty-org/ghostty/commit/eb9faed28beac3a0736dc4b6d3327ece78266c03) font/sprite: update to z2d 0.12.1, use native path insetting ([#13489](https://github.com/ghostty-org/ghostty/issues/13489)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This change updates z2d to 0.12.1 and changes the sprite font path
+  insetting functionality to use the new path offset abilities released in
+  the update.
+  
+  In addition, there has been a slight change to the drawing of E0B5 and
+  its respective reflection; we now add a 1-pixel horizontal line segment
+  to each end to force them to be perpendicular. This is because
+  offsetting pre-expands the curves and ultimately causes the end segments
+  of the curve itself to have slight non-horizontal angles, which produce
+  small artifacts at the ends without the forced horizontal ends.
+  ```
+- [`2dd79f3`](https://github.com/ghostty-org/ghostty/commit/2dd79f3bc6af649e68422b08e21ad0300fd8b391) Expose additional events: desktop and progress ([#13483](https://github.com/ghostty-org/ghostty/issues/13483)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This exposes libghostty-vt callbacks for additional terminal events.
+  
+  * Desktop notifications from OSC 9/777
+  * Progress reports from OSC 9;4, including state and optional percentage
+  * Uses the `lib.Enum` progress state
+  * Exposes both through the existing terminal option/effect API
+  
+  AI disclosure: Sol-5.6 was used extensively to write the code, I
+  reviewed it personally.
+  ```
 - [`10e6ace`](https://github.com/ghostty-org/ghostty/commit/10e6ace6b66bddcee1a746c8d5fffb414209cf2a) GhosttyI18n: fix build on freebsd with zig 0.16 ([@svmhdvn](https://github.com/svmhdvn))
 - [`c14cb51`](https://github.com/ghostty-org/ghostty/commit/c14cb5196adf4350e6b86f81c871502281016701) GhosttyI18n: fix build on freebsd with zig 0.16 ([#13485](https://github.com/ghostty-org/ghostty/issues/13485)) ([@jcollie](https://github.com/jcollie))
 - [`28f02ac`](https://github.com/ghostty-org/ghostty/commit/28f02ac3ce1656f41134f53dc8bf8e3882e14507) Update VOUCHED list ([#13487](https://github.com/ghostty-org/ghostty/issues/13487)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
