@@ -8,7 +8,94 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 27, 2026 at 12:16 UTC.
+> Last updated: July 27, 2026 at 16:54 UTC.
+
+## July 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [2](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [3](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
+Summary: 3 runs • 13 commits • 2 authors
+
+### Changes
+
+- [`28f02ac`](https://github.com/ghostty-org/ghostty/commit/28f02ac3ce1656f41134f53dc8bf8e3882e14507) Update VOUCHED list ([#13487](https://github.com/ghostty-org/ghostty/issues/13487)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13485#issuecomment-5094118020)
+  from @jcollie.
+  
+  Vouch: @svmhdvn
+  ```
+- [`f4c68d6`](https://github.com/ghostty-org/ghostty/commit/f4c68d65e5008b950c9a2aac9fa928b244dc3b99) terminal: support runtime scrollback limits ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrollback limits were fixed when a terminal screen was initialized.
+  Move byte and line state and enforcement into a shared Limits type so
+  PageList can update both constraints after initialization and resize.
+  
+  Add runtime setters to PageList and Terminal. Lowering a limit prunes
+  eligible history immediately, while zero bytes switches the primary
+  screen to no-scrollback behavior and clears retained history. Keep
+  alternate screens unchanged.
+  ```
+- [`03d5fa2`](https://github.com/ghostty-org/ghostty/commit/03d5fa268902d609b2872178a1d5a4d9ff351ee7) lib-vt: move scrollback limits to terminal_set ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Terminal construction previously accepted GhosttyTerminalOptions with
+  dimensions and one scrollback byte limit. Remove the options struct from
+  the ABI and make ghostty_terminal_new accept columns and rows directly.
+  
+  Add byte and line limit options to ghostty_terminal_set and forward them
+  to the runtime Terminal setters. NULL removes a limit, while zero bytes
+  disables scrollback. Update type metadata, tests, and all API examples.
+  ```
+- [`a27e04e`](https://github.com/ghostty-org/ghostty/commit/a27e04e8f938be5a6b4c1831d78fea57fae5813f) lib-vt: readers for configured scrollback limits ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  C API callers could configure runtime scrollback limits but could not
+  read them back. Add terminal data keys for the primary screen byte and
+  line configurations.
+  
+  Return GHOSTTY_NO_VALUE for unlimited limits and keep reads stable while
+  an alternate screen is active. Document the configured-value semantics
+  and add focused coverage for defaults, updates, and unlimited values.
+  ```
+- [`5fd2973`](https://github.com/ghostty-org/ghostty/commit/5fd2973b9a53ca639e82f1db178587f553dc6e0a) lib-vt: better docs for C options ([@mitchellh](https://github.com/mitchellh))
+- [`5a35415`](https://github.com/ghostty-org/ghostty/commit/5a35415a5d59a117e654735ca5a01f876dec5841) libghostty: scrollback limits can be changed at runtime ([#13481](https://github.com/ghostty-org/ghostty/issues/13481)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This is an ABI breaking change for C libs.**
+  
+  Fixes https://github.com/ghostty-org/ghostty/issues/13268
+  
+  You can now change scrollback limits (bytes and lines) at runtime.
+  
+  This breaks the ABI but makes for a much more long-term pattern:
+  `ghostty_terminal_new` now only takes viewport size, and you set
+  scrollback configurations with the generic `ghostty_terminal_set`. The
+  `GhosttyTerminalOptions` struct is fully removed. I think this will
+  serve us much better over the long term.
+  ```
+- [`5b2d3b7`](https://github.com/ghostty-org/ghostty/commit/5b2d3b7df184b8395519baa235ee9539e2fb1a9b) terminal: limit scrollback by physical lines ([@mitchellh](https://github.com/mitchellh))
+- [`86f81fb`](https://github.com/ghostty-org/ghostty/commit/86f81fb5b1e45a14281a23e556f916096093e3a3) terminal: expose scrollback line limit ([@mitchellh](https://github.com/mitchellh))
+- [`10bc434`](https://github.com/ghostty-org/ghostty/commit/10bc43420cef8b5c8f1a4ac28b5a917d5c12b9cb) terminal: make scrollback byte limit optional ([@mitchellh](https://github.com/mitchellh))
+- [`65c4821`](https://github.com/ghostty-org/ghostty/commit/65c48213b6ebbc7c8382d86ccf429101969040c4) config: expose scrollback line limit ([@mitchellh](https://github.com/mitchellh))
+- [`1092204`](https://github.com/ghostty-org/ghostty/commit/1092204df19bf56eb5b983dcc44394a1855f111e) config: support unlimited scrollback limits ([@mitchellh](https://github.com/mitchellh))
+- [`659a60a`](https://github.com/ghostty-org/ghostty/commit/659a60ae53e96e6303e50180fa68587b7cacc911) terminal/search: fix tests ([@mitchellh](https://github.com/mitchellh))
+- [`739603b`](https://github.com/ghostty-org/ghostty/commit/739603b8a2b643b167031a99718127cc0ca311a5) Introduce `scrollback-limit-lines` to limit scrollback by lines instead of bytes ([#13473](https://github.com/ghostty-org/ghostty/issues/13473)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new config `scrollback-limit-lines` to limit scrollback by
+  lines instead of bytes. This also renames `scrollback-limit` to
+  `scrollback-limit-bytes` to make it clear what it does but we have a
+  compatibility entry so old configurations will continue to work, so its
+  not breaking.
+  
+  **This is NOT exclusive to `scrollback-limit-bytes`**. When both are
+  set, then the _first limit reached_ is used. Since lines is affected by
+  viewport size and bytes are affected by entries (more styles, more
+  graphemes, etc.), they serve somewhat different purposes and it might be
+  useful to set both.
+  
+  The default remains 50MB of bytes, unlimited lines.
+  
+  This is not exposed to libghostty yet. I have that coming as a follow up
+  change.
+  ```
 
 ## July 26, 2026
 
