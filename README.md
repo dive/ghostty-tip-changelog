@@ -8,15 +8,152 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 26, 2026 at 21:54 UTC.
+> Last updated: July 27, 2026 at 02:28 UTC.
 
 ## July 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30219700544), [2](https://github.com/ghostty-org/ghostty/actions/runs/30187225687)  
-Summary: 2 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30223933750), [2](https://github.com/ghostty-org/ghostty/actions/runs/30222980936), [3](https://github.com/ghostty-org/ghostty/actions/runs/30222642647), [4](https://github.com/ghostty-org/ghostty/actions/runs/30219700544), [5](https://github.com/ghostty-org/ghostty/actions/runs/30187225687)  
+Summary: 5 runs • 27 commits • 8 authors
 
 ### Changes
 
+- [`e31f729`](https://github.com/ghostty-org/ghostty/commit/e31f729b38d5008be7860b1493d3bee28e571431) deps: update translate-c backport ([@vancluever](https://github.com/vancluever))
+  ```text
+  This updates the translate-c backport to use the Zig lib dir from the
+  build graph rather than an external "zig env" invocation.
+  ```
+- [`1fe1b2d`](https://github.com/ghostty-org/ghostty/commit/1fe1b2d23c93a252babf7606e74215acdabf5013) build: fix static libghostty-vt linking on Windows ([@noib3](https://github.com/noib3))
+  ```text
+  This PR fixes static linking for libghostty-vt on Windows by propagating
+  a couple of missing dependencies (discovered while running Neovim's Zig
+  build, see
+  https://github.com/neovim/neovim/actions/runs/30130848061/job/89604799965?pr=39773).
+  ```
+- [`84254a9`](https://github.com/ghostty-org/ghostty/commit/84254a9d8cb7d8bd28852933484be3f499cfbeee) build: avoid MSVC C++ runtime in no-libcxx builds ([@noib3](https://github.com/noib3))
+  ```text
+  AI-assisted: Codex
+  ```
+- [`3b46000`](https://github.com/ghostty-org/ghostty/commit/3b4600014c0e897acd2db469af6e101f1f8645eb) clarify comments ([@mitchellh](https://github.com/mitchellh))
+- [`82e53e3`](https://github.com/ghostty-org/ghostty/commit/82e53e3f6e219e0cf0499fe29c82d925ea26cd5e) deps: update translate-c backport ([#13454](https://github.com/ghostty-org/ghostty/issues/13454)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Was brought up as possibly being a build issue here:
+  https://codeberg.org/vancluever/translate-c/pulls/1
+  
+  I do think that this is the better approach and seems to be the close
+  equivalent of the `.zig_ilb` option that's coming with `LazyPath` in
+  0.17.0 (which is how translate-c behaves there).
+  
+  I was looking for something like this initially and I _think_ I might
+  have passed over it to start with because it was a bit hard to determine
+  the circumstances that `b.graph.zig_lib_directory` would be null, but
+  upon further examination, I think such cases would be rare if they
+  happened at all. Rather than default to the cwd in this event though I
+  just get it to error out - that way we'll know if it ever is the case!
+  ```
+- [`24f7fb9`](https://github.com/ghostty-org/ghostty/commit/24f7fb983506469843c824f65e0c0f7cdf33661c) build: fix static libghostty-vt linking on Windows ([#13452](https://github.com/ghostty-org/ghostty/issues/13452)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR fixes static linking for libghostty-vt on Windows by propagating
+  a couple of missing dependencies (discovered while running Neovim's Zig
+  build, see [this CI
+  run](https://github.com/neovim/neovim/actions/runs/30130848061/job/89604799965?pr=39773)).
+  ```
+- [`39ae85f`](https://github.com/ghostty-org/ghostty/commit/39ae85f040dd922990e58b8a830414b471ddaf97) lib-vt: handle DECRQSS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move DECRQSS response encoding into the terminal DCS handler so both
+  the full termio path and libghostty-vt terminal stream emit the same
+  replies. The C API stream now maintains and releases DCS parser state
+  and forwards responses through write_pty.
+  ```
+- [`40ab02e`](https://github.com/ghostty-org/ghostty/commit/40ab02e3389fe9ff59c3ea682a48359c68ecaf4a) lib-vt: handle DECRQSS ([#13471](https://github.com/ghostty-org/ghostty/issues/13471)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Move DECRQSS response encoding into the terminal DCS handler so both the
+  full termio path and libghostty-vt terminal stream emit the same
+  replies. The C API stream now maintains and releases DCS parser state
+  and forwards responses through write_pty.
+  ```
+- [`4c1d696`](https://github.com/ghostty-org/ghostty/commit/4c1d69696b636fe9915d3d766dc597d36cef0e5e) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`5caf20e`](https://github.com/ghostty-org/ghostty/commit/5caf20e3e580dbda86fb3bba73211194843af757) terminal: avoid reallocating tabstop storage ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Resizing tabstops to an already-supported width previously allocated and
+  copied an equally sized dynamic buffer because the capacity check
+  excluded equality. Treat an exactly sized buffer as sufficient, avoiding
+  the temporary allocation and copy.
+  Add a fixed-buffer regression test so an unnecessary second allocation
+  fails the test.
+  ```
+- [`35790a7`](https://github.com/ghostty-org/ghostty/commit/35790a7e567124779329a546498f42788b41e0c9) Revert "macOS: fix undo new tab will cause a crash ([#9512](https://github.com/ghostty-org/ghostty/issues/9512))" ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This reverts commit fbabafe8e305716d8a5152d6b48014c6814289f2, reversing
+  changes made to 7f0468f910fba3e73303bccf1e3d92a36ece3acd.
+  ```
+- [`a6edca2`](https://github.com/ghostty-org/ghostty/commit/a6edca2d7cef427e78145f7beee6a06af058d5fe) macOS: free surface synchronously in deinit on main thread ([@bo2themax](https://github.com/bo2themax))
+- [`20c3eae`](https://github.com/ghostty-org/ghostty/commit/20c3eae04dee606349eb21e2dd0293b203d47179) memset should match the C ABI ([@noib3](https://github.com/noib3))
+  ```text
+  The custom memset accepted its fill value as u8 even though C callers
+  pass int. Accept c_int and explicitly truncate it to the low byte, which
+  is what other implementations of this do.
+  ```
+- [`cb2fef3`](https://github.com/ghostty-org/ghostty/commit/cb2fef39027b6cdfa2b1e4400a0efa90763fea3f) terminal: preserve underline style in DECRQSS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  DECRQSS previously serialized every active underline as SGR 4,
+  which caused double, curly, dotted, and dashed styles to round-trip
+  as single underlines.
+  
+  Emit the 4:n form for extended underline styles while retaining the
+  legacy 4 form for single underlines, and cover every supported style.
+  ```
+- [`1eecfe0`](https://github.com/ghostty-org/ghostty/commit/1eecfe089f7e0cb06a328c91e327b5b1188c415a) macOS: free surface synchronously in deinit on main thread ([#13364](https://github.com/ghostty-org/ghostty/issues/13364)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Since the renderer thread now emits scrollbar events on almost every
+  frame, there's always a `.scrollbar` message for the dying surface in
+  the app mailbox.
+  
+  The OS runtime seems to schedule `appTick` and `ghostty_surface_free`
+  differently across macOS pre-26, 26 and 27.
+  
+  On macOS 26.x, `ghostty_app_free` happens after
+  `App.scrollbar(_:target:v:)`, leaving `surface.userdata` pointing at a
+  freed `SurfaceView`.
+  
+  When `deinit` runs on the main thread, free the surface synchronously
+  instead of detaching to a task. This fixes both crashes mentioned in
+  https://github.com/ghostty-org/ghostty/pull/9512 and
+  https://github.com/ghostty-org/ghostty/issues/13359.
+  
+  ### AI Disclosure
+  
+  I used Claude to analyze the backtrace, but the code is written and
+  tested by myself.
+  ```
+- [`8374aa7`](https://github.com/ghostty-org/ghostty/commit/8374aa7850ee5a2630bfda87c279f5fe101df972) Update iTerm2 colorschemes ([#13461](https://github.com/ghostty-org/ghostty/issues/13461)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260720-153658-97e244c
+  ```
+- [`be3d4a5`](https://github.com/ghostty-org/ghostty/commit/be3d4a53358c7b28f610dd28036b7c7671a4c8ea) terminal: avoid reallocating tabstop storage ([#13465](https://github.com/ghostty-org/ghostty/issues/13465)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Avoid redundant tabstop allocation when the current buffer already
+  satisfies the requested size
+  ```
+- [`6f10ddf`](https://github.com/ghostty-org/ghostty/commit/6f10ddfe83d59d8633421a8bfa13cffbdd0fd121) terminal: preserve underline style in DECRQSS ([#13470](https://github.com/ghostty-org/ghostty/issues/13470)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  DECRQSS previously serialized every active underline as SGR 4, which
+  caused double, curly, dotted, and dashed styles to round-trip as single
+  underlines.
+  
+  Emit the 4:n form for extended underline styles while retaining the
+  legacy 4 form for single underlines, and cover every supported style.
+  ```
+- [`edcb6fb`](https://github.com/ghostty-org/ghostty/commit/edcb6fb509682d6cfc95b338891e259e22e4e637) memset should match the C ABI ([#13469](https://github.com/ghostty-org/ghostty/issues/13469)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The custom memset accepted its fill value as u8 even though C callers
+  pass int. Accept c_int and explicitly truncate it to the low byte, which
+  is what other implementations of this do.
+  ```
+- [`1ce5d42`](https://github.com/ghostty-org/ghostty/commit/1ce5d4229e1dccad2fe83278847048471532e99d) Revert "macOS: fix undo new tab will cause a crash ([#9512](https://github.com/ghostty-org/ghostty/issues/9512))" ([#13467](https://github.com/ghostty-org/ghostty/issues/13467)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We don't need this anymore after #13364
+  ```
 - [`88bd4fd`](https://github.com/ghostty-org/ghostty/commit/88bd4fdcea7a6416c17c3ace9be6b5aac60d55a7) feat: implement vicinae-hotkey-v1 ([@aurelleb](https://github.com/aurelleb))
 - [`9c6f287`](https://github.com/ghostty-org/ghostty/commit/9c6f287aab4358d49a9c6b9ebb734bea1a04bc63) chore: regenerate translations ([@aurelleb](https://github.com/aurelleb))
 - [`3024c5d`](https://github.com/ghostty-org/ghostty/commit/3024c5d19e0d5fbe399fbe2192e3dfd3b9793c46) refactor: address nits ([@aurelleb](https://github.com/aurelleb))
@@ -705,134 +842,5 @@ Summary: 3 runs • 4 commits • 4 authors
   from @jcollie.
   
   Vouch: @carldaws
-  ```
-
-## July 20, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/29778065680), [2](https://github.com/ghostty-org/ghostty/actions/runs/29761838058), [3](https://github.com/ghostty-org/ghostty/actions/runs/29756162299)  
-Summary: 3 runs • 9 commits • 4 authors
-
-### Changes
-
-- [`74d0c72`](https://github.com/ghostty-org/ghostty/commit/74d0c72fd9318ad3ab95bfb56f6c2d995e267e2e) Update VOUCHED list ([#13401](https://github.com/ghostty-org/ghostty/issues/13401)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13400#discussioncomment-17706483)
-  from @jcollie.
-  
-  Vouch: @Ragnoroct
-  ```
-- [`ee9d5b3`](https://github.com/ghostty-org/ghostty/commit/ee9d5b352f1ba4b87c36ff7cab7708ccfcb2f4c9) terminal: handle page capacity errors in eraseRow ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Re: #13160 (related but not that issue)
-  
-  PageList eraseRow and eraseRowBounded have the same issue previously
-  fixed for cursorScrollAbove: when shifting rows up across a page boundary,
-  the top row of the next page is cloned into the last row of the
-  previous page, and that clone can fail if the destination page lacks
-  capacity for the row's managed memory.
-  
-  Handle the errors the same way the other cross-page copies do:
-  increase the destination page capacity for the dimension that ran
-  out and retry the row copy.
-  
-  This type of logic was repeated EVERYWHERE so I extracted this into a
-  helper in PageList and Screen. They're slightly different due to the extra
-  accounting that Screen has to do for the cursor.
-  
-  Don't know of any scenario this actually happened in the real world but
-  it was trivially reproducible with tests.
-  ```
-- [`ea7dc5c`](https://github.com/ghostty-org/ghostty/commit/ea7dc5c000c31c44ff2cdc5bd23dea4c090bf800) terminal: handle page capacity errors in eraseRow ([#13397](https://github.com/ghostty-org/ghostty/issues/13397)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Re: #13160 (related but not that issue)
-  
-  PageList eraseRow and eraseRowBounded have the same issue previously
-  fixed for cursorScrollAbove: when shifting rows up across a page
-  boundary, the top row of the next page is cloned into the last row of
-  the previous page, and that clone can fail if the destination page lacks
-  capacity for the row's managed memory.
-  
-  Handle the errors the same way the other cross-page copies do: increase
-  the destination page capacity for the dimension that ran out and retry
-  the row copy.
-  
-  This type of logic was repeated EVERYWHERE so I extracted this into a
-  helper in PageList and Screen. They're slightly different due to the
-  extra accounting that Screen has to do for the cursor.
-  
-  Don't know of any scenario this actually happened in the real world but
-  it was trivially reproducible with tests.
-  ```
-- [`a65e11c`](https://github.com/ghostty-org/ghostty/commit/a65e11cc928f1ecf4d4a1d640d28a37c06e3d20f) kitty images: add support for transient usage hints ([@jcollie](https://github.com/jcollie))
-  ```text
-  Kitty 0.48 added support for usage hints in the image protocol,
-  specifically for marking images as "transient", meaning that they
-  should be prioritized for eviction if there is memory pressure.
-  
-  https://sw.kovidgoyal.net/kitty/graphics-protocol/#image-usage-hints
-  
-  Also changed the eviction algorithm to use an allocated array for
-  organizing the images to be evicted rather than using an ArrayList to
-  minimize the number of allocations made (no real memory savings though).
-  ```
-- [`2104e07`](https://github.com/ghostty-org/ghostty/commit/2104e0749c6da413b173bce375d77975fd41f4be) macOS: hide visible NSScrollPocket for hidden title bar ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Fixes https://github.com/ghostty-org/ghostty/issues/13390
-  ```
-- [`0433262`](https://github.com/ghostty-org/ghostty/commit/043326249387b36a2655c7f24bb856bbc1aca4ea) terminal: handle page capacity errors in cursorScrollAbove ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Re: #13160
-  
-  When cursorScrollAbove rotates rows across a page boundary, the last
-  row of the previous page is cloned into the destination page. That can
-  cause capacity failures we didn't previously handle.
-  
-  The error propagated out of the operation after rows had already been rotated,
-  leaving the page list half-mutated. Subsequent operations on the corrupted state
-  can cause crashes since the state was incoherent.
-  
-  Handle these errors the same way insertLines and deleteLines already
-  do for their cross-page copies: increase the destination page capacity
-  for the dimension that ran out and retry the row copy.
-  ```
-- [`56b086b`](https://github.com/ghostty-org/ghostty/commit/56b086bd93b69884263a8a4a4a10f4bc1b9b4539) terminal: handle page capacity errors in cursorScrollAbove ([#13394](https://github.com/ghostty-org/ghostty/issues/13394)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Re: #13160
-  
-  When cursorScrollAbove rotates rows across a page boundary, the last row
-  of the previous page is cloned into the destination page. That can cause
-  capacity failures we didn't previously handle.
-  
-  The error propagated out of the operation after rows had already been
-  rotated, leaving the page list half-mutated. Subsequent operations on
-  the corrupted state can cause crashes since the state was incoherent.
-  
-  Handle these errors the same way insertLines and deleteLines already do
-  for their cross-page copies: increase the destination page capacity for
-  the dimension that ran out and retry the row copy.
-  ```
-- [`18d8303`](https://github.com/ghostty-org/ghostty/commit/18d8303972b1f68b865add30c700f821332de554) kitty images: add support for transient usage hints ([#13389](https://github.com/ghostty-org/ghostty/issues/13389)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Kitty 0.48 added support for usage hints in the image protocol,
-  specifically for marking images as "transient", meaning that they should
-  be prioritized for eviction if there is memory pressure.
-  
-  https://sw.kovidgoyal.net/kitty/graphics-protocol/#image-usage-hints
-  
-  Also changed the eviction algorithm to use an allocated array for
-  organizing the images to be evicted rather than using an ArrayList to
-  minimize the number of allocations made (no real memory savings though).
-  ```
-- [`ff8457b`](https://github.com/ghostty-org/ghostty/commit/ff8457b70fd44b6b0d29906098134716c16287d0) macOS: hide visible NSScrollPocket for hidden title bar ([#13393](https://github.com/ghostty-org/ghostty/issues/13393)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes https://github.com/ghostty-org/ghostty/issues/13390
-  
-  Technically it would be safe to remove `#available(macOS 27, *)` check,
-  but I haven't tested all the os versions, so I kept it there.
-  
-  ### AI Disclosure
-  
-  No AI is used for this one.
   ```
 
