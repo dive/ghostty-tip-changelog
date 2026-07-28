@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 28, 2026 at 13:52 UTC.
+> Last updated: July 28, 2026 at 16:37 UTC.
 
 ## July 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [2](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [3](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
+Summary: 3 runs • 7 commits • 6 authors
 
 ### Changes
 
+- [`95befb3`](https://github.com/ghostty-org/ghostty/commit/95befb33775a4d292732b5d2605d3e95dec05c81) Update VOUCHED list ([#13495](https://github.com/ghostty-org/ghostty/issues/13495)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13491#discussioncomment-17814823)
+  from @tristan957.
+  
+  Vouch: @ruseel
+  ```
+- [`d716955`](https://github.com/ghostty-org/ghostty/commit/d71695550d4f4aba8b28ce700eeb4b95365ca0e9) config: update info about global keybinds on Linux ([@pluiedev](https://github.com/pluiedev))
+- [`d320cd7`](https://github.com/ghostty-org/ghostty/commit/d320cd7df28e4abf6483e021402c65f2ca3f53a2) cli: fix list-themes preview lifecycle ([@jparise](https://github.com/jparise))
+  ```text
+  Start the vaxis event loop so the theme preview can receive terminal
+  input, and retain its environment map for as long as vaxis may access
+  it.
+  ```
+- [`74f45b3`](https://github.com/ghostty-org/ghostty/commit/74f45b321982546e182885a06051c2aab62ce01d) config: update info about global keybinds on Linux ([#13492](https://github.com/ghostty-org/ghostty/issues/13492)) ([@mitchellh](https://github.com/mitchellh))
+- [`6e21f41`](https://github.com/ghostty-org/ghostty/commit/6e21f41c0cc6bd09b19e0cc6b8267c7c29ac6159) cli: fix list-themes preview lifecycle ([#13466](https://github.com/ghostty-org/ghostty/issues/13466)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Start the vaxis event loop so the theme preview can receive terminal
+  input, and retain its environment map for as long as vaxis may access
+  it.
+  ```
 - [`4a22eed`](https://github.com/ghostty-org/ghostty/commit/4a22eed6d9e054fc162a1fb8d4b2899f144da174) renderer/metal: fix 2x sizeof over-allocation in Buffer.sync ([@Uzaaft](https://github.com/Uzaaft))
   ```text
   Buffer.sync and Buffer.syncFromArrayLists computed the new buffer size
