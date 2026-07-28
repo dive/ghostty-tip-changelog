@@ -8,7 +8,45 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 28, 2026 at 02:04 UTC.
+> Last updated: July 28, 2026 at 05:42 UTC.
+
+## July 28, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`4a22eed`](https://github.com/ghostty-org/ghostty/commit/4a22eed6d9e054fc162a1fb8d4b2899f144da174) renderer/metal: fix 2x sizeof over-allocation in Buffer.sync ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Buffer.sync and Buffer.syncFromArrayLists computed the new buffer size
+  in bytes (req_bytes * 2) and then multiplied by @sizeOf(T) again when
+  passing it to newBufferWithLength:, allocating data.len * sizeOf(T)^2 * 2
+  bytes. For the 32-byte CellText buffers this is a 64x over-allocation
+  and for the 4-byte CellBg buffers 8x, per swap-chain frame (e.g. ~9.4MB
+  instead of ~300KB per frame for a full 120x40 screen of text).
+  
+  Match the OpenGL buffer implementation: track the new length in units
+  of T and multiply by @sizeOf(T) exactly once.
+  ```
+- [`a60cd15`](https://github.com/ghostty-org/ghostty/commit/a60cd15bb5a197d8e2596e86442031cbece06bcc) renderer/metal: fix 2x sizeof over-allocation in Buffer.sync ([#13490](https://github.com/ghostty-org/ghostty/issues/13490)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Seems to me the grow path in `Buffer.sync` (and `syncFromArrayLists`)
+  multiplies by `@sizeOf(T)` twice: `req_bytes` is already a byte count,
+  it gets doubled into size, and then the `newBufferWithLength:` call does
+  `size * @sizeOf(T)` on top of that. So every reallocation ends up being
+  `data.len` × `@sizeOf(T)`^2 × 2 bytes instead of the intended `data.len`
+  × `@sizeOf(T)` × 2.
+  
+  The OpenGL version of this same helper does it what seems to be the
+  intended way, so this looks like a mixup rather than a deliberate safety
+  margin.
+  
+  This makes the Metal implementation match the OpenGL one: track the new
+  length in units of T (which also fixes self.len going stale after a
+  grow. It's documented as the allocated element count but was never
+  updated here)
+  ```
 
 ## July 27, 2026
 
