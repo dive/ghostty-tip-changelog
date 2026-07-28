@@ -8,15 +8,92 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 28, 2026 at 16:37 UTC.
+> Last updated: July 28, 2026 at 19:15 UTC.
 
 ## July 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [2](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [3](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
-Summary: 3 runs • 7 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30380212926), [2](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [3](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [4](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
+Summary: 4 runs • 12 commits • 7 authors
 
 ### Changes
 
+- [`2f3814c`](https://github.com/ghostty-org/ghostty/commit/2f3814ca5e6cfcbd504ff86b8120f7e6b7266f56) gtk: honor suspended window state ([@rockorager](https://github.com/rockorager))
+  ```text
+  GTK exposes the Wayland xdg_toplevel suspended state when the
+  compositor knows a window is not visible. Ghostty previously only used
+  widget map state, so it could continue rendering a mapped surface on an
+  inactive workspace or behind other windows.
+  
+  Combine the mapped and suspended states for surface occlusion and update
+  all displayed surfaces whenever the toplevel suspension state changes.
+  
+  Amp-Thread-ID: https://ampcode.com/threads/T-019fa965-aa5f-7099-85b4-a9679d2c8bd3
+  ```
+- [`6c8c079`](https://github.com/ghostty-org/ghostty/commit/6c8c07981d7b4d7c6509323ffb1fe19f45e8af1c) terminal: add visibility reports ([@rockorager](https://github.com/rockorager))
+  ```text
+  Applications cannot infer whether an unfocused terminal remains visible, so
+  focus reports are insufficient for avoiding expensive rendering while a
+  view is hidden.
+  
+  Implement private mode 2033 and the visibility query/report sequences.
+  Track conservative per-surface visibility, report every effective change
+  while enabled, and always answer explicit queries and mode enables. Keep
+  view visibility across terminal resets because it is owned by the host,
+  not terminal state.
+  
+  Amp-Thread-ID: https://ampcode.com/threads/T-019fa965-aa5f-7099-85b4-a9679d2c8bd3
+  ```
+- [`03eaa01`](https://github.com/ghostty-org/ghostty/commit/03eaa01d484b8c6a098bc94c948e474f33879677) terminal: add visibility reports with GTK suspension tracking ([#13494](https://github.com/ghostty-org/ghostty/issues/13494)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  Applications cannot reliably determine whether an unfocused terminal is
+  still
+  visible, so focus reports alone are insufficient for avoiding
+  unnecessary
+  rendering.
+  
+  This adds terminal visibility reporting by:
+  
+  - implementing private mode 2033
+  - supporting `CSI ? 998 n` visibility queries and `CSI ? 999 ; Ps n`
+  responses
+  - reporting effective visibility changes while mode 2033 is enabled
+  - preserving host-owned visibility state across terminal resets
+  - treating unknown visibility conservatively as potentially visible
+  
+  On GTK 4.12 and newer, surface visibility now combines widget mapping
+  with the
+  toplevel `suspended` state. This allows Ghostty to recognize windows
+  hidden on
+  another workspace or otherwise known by the compositor to be
+  non-visible.
+  Older GTK versions retain the existing conservative behavior.
+  
+  ## Testing
+  
+  Added coverage for:
+  
+  - mode 2033 support and enable/disable behavior
+  - explicit visibility queries
+  - immediate reports when enabling the mode
+  - visible and non-visible responses
+  - visibility persistence across terminal resets
+  - suppression of visibility queries in read-only mode
+  
+  ## AI disclosure
+  
+  Amp assisted with the implementation, tests, commit messages, and this
+  pull
+  request description. I reviewed the resulting changes and understand how
+  they
+  interact with the terminal, termio, surface, and GTK visibility paths.
+  
+  Implements: #13451
+  Reference: https://rockorager.dev/misc/visibility-reports/
+  ```
+- [`07f6c6b`](https://github.com/ghostty-org/ghostty/commit/07f6c6bb07afe0f1d44e5b05fc50b543b6ee878c) mirror deps ([@mitchellh](https://github.com/mitchellh))
+- [`4133c6e`](https://github.com/ghostty-org/ghostty/commit/4133c6e48c4b99d19f5885478a19db4868994d07) mirror deps ([#13496](https://github.com/ghostty-org/ghostty/issues/13496)) ([@mitchellh](https://github.com/mitchellh))
 - [`95befb3`](https://github.com/ghostty-org/ghostty/commit/95befb33775a4d292732b5d2605d3e95dec05c81) Update VOUCHED list ([#13495](https://github.com/ghostty-org/ghostty/issues/13495)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
