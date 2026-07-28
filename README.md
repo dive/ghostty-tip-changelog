@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 28, 2026 at 19:15 UTC.
+> Last updated: July 28, 2026 at 21:58 UTC.
 
 ## July 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30380212926), [2](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [3](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [4](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
-Summary: 4 runs • 12 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30394987951), [2](https://github.com/ghostty-org/ghostty/actions/runs/30393463354), [3](https://github.com/ghostty-org/ghostty/actions/runs/30380212926), [4](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [5](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [6](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
+Summary: 6 runs • 14 commits • 7 authors
 
 ### Changes
 
+- [`232d40c`](https://github.com/ghostty-org/ghostty/commit/232d40c062e2fb6fedc24276843afae7a315a664) Update VOUCHED list ([#13499](https://github.com/ghostty-org/ghostty/issues/13499)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13498#issuecomment-5109104876)
+  from @mitchellh.
+  
+  Vouch: @vegerot
+  ```
+- [`7bea975`](https://github.com/ghostty-org/ghostty/commit/7bea975bd34f8da977674246b36ae80c6df57d09) Update VOUCHED list ([#13497](https://github.com/ghostty-org/ghostty/issues/13497)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13458#discussioncomment-17817388)
+  from @jcollie.
+  
+  Vouch: @RoniJacobson
+  ```
 - [`2f3814c`](https://github.com/ghostty-org/ghostty/commit/2f3814ca5e6cfcbd504ff86b8120f7e6b7266f56) gtk: honor suspended window state ([@rockorager](https://github.com/rockorager))
   ```text
   GTK exposes the Wayland xdg_toplevel suspended state when the
