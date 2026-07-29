@@ -8,7 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 29, 2026 at 02:07 UTC.
+> Last updated: July 29, 2026 at 05:46 UTC.
+
+## July 29, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30419843281)  
+Summary: 1 runs • 4 commits • 3 authors
+
+### Changes
+
+- [`4b58623`](https://github.com/ghostty-org/ghostty/commit/4b586231af5aa8c1f4221704ef452782715022ef) docs: clarify macOS dependencies ([@vegerot](https://github.com/vegerot))
+  ```text
+  reword: The doc said "macOS doesn't need any dependencies" and then immediately listed things you needed to install for macOS 😁.  This is just rewording the doc to be more consistent.
+  ```
+- [`1cc5e7b`](https://github.com/ghostty-org/ghostty/commit/1cc5e7bec1eb81c05bb79cc3af22c98cabdbe7cd) update zig-gobject to 0.3.2 ([@jcollie](https://github.com/jcollie))
+  ```text
+  Includes better ZIg 0.16 compat and updates for Gnome 50.
+  ```
+- [`6bbbf59`](https://github.com/ghostty-org/ghostty/commit/6bbbf59e9fb08b769539899f27034c50b4ac8de2) update zig-gobject to 0.3.2 ([#13502](https://github.com/ghostty-org/ghostty/issues/13502)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Includes better ZIg 0.16 compat and updates for Gnome 50.
+  ```
+- [`ae87274`](https://github.com/ghostty-org/ghostty/commit/ae8727401d8c549671c36cdc326a94f47c94b635) docs: clarify macOS dependencies ([#13498](https://github.com/ghostty-org/ghostty/issues/13498)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  reword: The doc said "macOS doesn't need any dependencies" and then
+  immediately listed things you needed to install for macOS 😁. This is
+  just rewording the doc to be more consistent.
+  ```
 
 ## July 28, 2026
 
