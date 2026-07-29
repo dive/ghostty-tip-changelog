@@ -8,15 +8,88 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 29, 2026 at 13:58 UTC.
+> Last updated: July 29, 2026 at 16:16 UTC.
 
 ## July 29, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30419843281)  
-Summary: 1 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30467033163), [2](https://github.com/ghostty-org/ghostty/actions/runs/30460185353), [3](https://github.com/ghostty-org/ghostty/actions/runs/30419843281)  
+Summary: 3 runs • 9 commits • 6 authors
 
 ### Changes
 
+- [`9fc2a30`](https://github.com/ghostty-org/ghostty/commit/9fc2a3085201f8b51095ff509ef8ebf2b7ed2c55) url: exclude trailing spaces from path matches ([@ruseel](https://github.com/ruseel))
+  ```text
+  #13491
+  #9921
+  
+  Path matching previously included end-of-line spaces. Pi redraws can
+  leave blank cells after a path, causing cmd-click to open a pathname
+  that includes those cells. Do not include trailing whitespace in path
+  matches.
+  
+  AI disclosure: Pi using GPT-5.6 Terra High was used to investigate
+  and write this change. I reviewed it personally.
+  ```
+- [`c3b5cab`](https://github.com/ghostty-org/ghostty/commit/c3b5cab94165ea253b8e33683d5fd76fdddb025a) wayland/Hotkeys: polish & simplify ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  I've come up with a way to avoid manually allocating each entry which
+  honestly makes the code flow much more smoothly. Basically you collect
+  all the applicable keybinds first, then try to bind them with their
+  stable memory addresses.
+  ```
+- [`adfef29`](https://github.com/ghostty-org/ghostty/commit/adfef29776abcafad57fa17c973a8651ab95b3b9) wayland/Hotkeys: polish & simplify ([#13512](https://github.com/ghostty-org/ghostty/issues/13512)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I've come up with a way to avoid manually allocating each entry which
+  honestly makes the code flow much more smoothly. Basically you collect
+  all the applicable keybinds first, then try to bind them with their
+  stable memory addresses.
+  ```
+- [`6ad1fe7`](https://github.com/ghostty-org/ghostty/commit/6ad1fe7d8cbda36c77b337a96c9bea8a77883699) url: exclude trailing spaces from path matches ([#13505](https://github.com/ghostty-org/ghostty/issues/13505)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This change improves the user experience for Pi TUI users on macOS.
+  
+  As a user of Ghostty 1.3.1, Pi 0.80.7, and macOS 26.5, I noticed that
+  Command-click was not working.
+  
+  With Pi's help (GPT-5.6 Terra High), I narrowed the cause down to Pi's
+  redraw
+  behavior and `src/config/url.zig`'s regular expression. More details are
+  in
+  [Vouch Request
+  #13491](https://github.com/ghostty-org/ghostty/discussions/13491).
+  
+  The `trailing_spaces_at_eol` behavior in `src/config/url.zig` was
+  introduced in
+  [PR #9921](https://github.com/ghostty-org/ghostty/pull/9921) while
+  improving
+  Command-click handling for relative and local paths. The concern about
+  matching
+  trailing whitespace was also noted in [a review
+  comment](https://github.com/ghostty-org/ghostty/pull/9921#issuecomment-3661107609).
+  
+  However, supporting file paths with trailing spaces does not seem like a
+  good
+  trade-off because it blocks Command-click for file paths displayed by Pi
+  TUI.
+  
+  This PR removes that behavior.
+  
+  I tested this on my Mac with a patched Ghostty build, and Command-click
+  worked
+  correctly for file paths in Pi TUI.
+  
+  AI disclosure: I used Pi with GPT-5.6 Terra High to investigate and
+  implement this change.
+  I reviewed the code and tested the result myself.
+  ```
+- [`a34bf0d`](https://github.com/ghostty-org/ghostty/commit/a34bf0dce717fe29c209b77e58f0d6e372bb3747) Update VOUCHED list ([#13511](https://github.com/ghostty-org/ghostty/issues/13511)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13508#discussioncomment-17828581)
+  from @jcollie.
+  
+  Vouch: @simonbcn
+  ```
 - [`4b58623`](https://github.com/ghostty-org/ghostty/commit/4b586231af5aa8c1f4221704ef452782715022ef) docs: clarify macOS dependencies ([@vegerot](https://github.com/vegerot))
   ```text
   reword: The doc said "macOS doesn't need any dependencies" and then immediately listed things you needed to install for macOS 😁.  This is just rewording the doc to be more consistent.
