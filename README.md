@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 29, 2026 at 21:55 UTC.
+> Last updated: July 30, 2026 at 01:56 UTC.
 
 ## July 29, 2026
 
@@ -647,73 +647,5 @@ Summary: 1 runs • 1 commits • 1 authors
   from @jcollie.
   
   Vouch: @SanJJ1
-  ```
-
-## July 23, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30046267613), [2](https://github.com/ghostty-org/ghostty/actions/runs/30016145400), [3](https://github.com/ghostty-org/ghostty/actions/runs/30010810985)  
-Summary: 3 runs • 8 commits • 4 authors
-
-### Changes
-
-- [`f8e13f3`](https://github.com/ghostty-org/ghostty/commit/f8e13f31e6a25f55bfb9725f9b55f74cea1af50f) Fix desktop detection tests when running from Gnome ([@jcollie](https://github.com/jcollie))
-  ```text
-  Environment variables from the "real" environment leaked into the test
-  after the Zig 0.16 update which would cause them to fail if you ran them
-  on a Gnome system.
-  ```
-- [`e6e26e1`](https://github.com/ghostty-org/ghostty/commit/e6e26e165ab143f087761cee9f8a479801a27ba7) Fix desktop detection tests when running from Gnome ([#13434](https://github.com/ghostty-org/ghostty/issues/13434)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Environment variables from the "real" environment leaked into the test
-  after the Zig 0.16 update which would cause them to fail if you ran them
-  on a Gnome system.
-  ```
-- [`d65cb51`](https://github.com/ghostty-org/ghostty/commit/d65cb5128abfbee4dcb8a4ace3bcb35c1a7f0790) build: link libghostty-vt on Apple hosts with native linker ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Replaces: https://github.com/ghostty-org/ghostty/pull/13427
-  
-  Zig's Mach-O linker does not emit LC_ENCRYPTION_INFO_64 for physical
-  iOS dylibs. This allows libghostty-vt to build successfully but causes
-  frameworks containing it to fail App Store validation.
-  
-  I think it'd be cleaner to always just build Apple targets on Apple hosts
-  with the native linker. We don't need to rely on Zig being correct and
-  this helps ensure compatibility for details like this.
-  ```
-- [`15484b6`](https://github.com/ghostty-org/ghostty/commit/15484b607eb5a518dedf1548247c923b8abaae7c) build: link libghostty-vt on Apple hosts with native linker ([#13430](https://github.com/ghostty-org/ghostty/issues/13430)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Replaces: https://github.com/ghostty-org/ghostty/pull/13427
-  
-  Zig's Mach-O linker does not emit LC_ENCRYPTION_INFO_64 for physical iOS
-  dylibs. This allows libghostty-vt to build successfully but causes
-  frameworks containing it to fail App Store validation.
-  
-  I think it'd be cleaner to always just build Apple targets on Apple
-  hosts with the native linker. We don't need to rely on Zig being correct
-  and this helps ensure compatibility for details like this.
-  ```
-- [`960c2cc`](https://github.com/ghostty-org/ghostty/commit/960c2cca5d57ca6e293efd2d7b7a0f590412cfa8) fix: fix kitty temp directory copy length mismatch ([@elias8](https://github.com/elias8))
-- [`e663d54`](https://github.com/ghostty-org/ghostty/commit/e663d54051d3af9103d1d889d3d7eac7d7176931) os/hostname: switch to std.Io.net.HostName.validate ([@jparise](https://github.com/jparise))
-  ```text
-  Zig 0.16's hostname validation routine is RFC 1123-compliant, so we can
-  use it directly rather than rolling our own.
-  
-  Ref: https://codeberg.org/ziglang/zig/commit/efe649b13e582be855376944bac1346426e238d6
-  Ref: https://github.com/ziglang/zig/pull/25710
-  ```
-- [`4154185`](https://github.com/ghostty-org/ghostty/commit/4154185e23707870a118767afa1dc074828a3b2f) os/hostname: switch to std.Io.net.HostName.validate ([#13428](https://github.com/ghostty-org/ghostty/issues/13428)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Zig 0.16's hostname validation routine is RFC 1123-compliant, so we can
-  use it directly rather than rolling our own.
-  
-  Ref:
-  https://codeberg.org/ziglang/zig/commit/efe649b13e582be855376944bac1346426e238d6
-  Ref: https://github.com/ziglang/zig/pull/25710
-  ```
-- [`30de782`](https://github.com/ghostty-org/ghostty/commit/30de782e8edb5658e6539f5ccebcdcfa6582f102) fix(terminal): fix kitty temp directory copy length mismatch ([#13424](https://github.com/ghostty-org/ghostty/issues/13424)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  EDIT:
-  [exposed](https://github.com/elias8/libghostty/actions/runs/29996356691/job/89171182671?pr=113#step:12:447)
-  while syncing libghostty dart bindings to latest main.
   ```
 
