@@ -8,15 +8,80 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 30, 2026 at 16:22 UTC.
+> Last updated: July 30, 2026 at 19:17 UTC.
 
 ## July 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30528378351), [2](https://github.com/ghostty-org/ghostty/actions/runs/30510818052)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30572539376), [2](https://github.com/ghostty-org/ghostty/actions/runs/30565278840), [3](https://github.com/ghostty-org/ghostty/actions/runs/30528378351), [4](https://github.com/ghostty-org/ghostty/actions/runs/30510818052)  
+Summary: 4 runs • 10 commits • 2 authors
 
 ### Changes
 
+- [`b61fd5f`](https://github.com/ghostty-org/ghostty/commit/b61fd5fbb6830b2546cfcaab0e17e6df010e4075) terminal: add iterator to ref counted set ([@mitchellh](https://github.com/mitchellh))
+- [`fc1bd06`](https://github.com/ghostty-org/ghostty/commit/fc1bd06a1a090d0ebe59a6b04b021440fbae5b57) terminal: PageList builder to build from raw pages ([@mitchellh](https://github.com/mitchellh))
+- [`35db320`](https://github.com/ghostty-org/ghostty/commit/35db32078bc97a54334895bd32a83fce8fc0ef4c) terminal: PageList allocatePage ([@mitchellh](https://github.com/mitchellh))
+- [`e77c261`](https://github.com/ghostty-org/ghostty/commit/e77c2612e51af6489cb60043af31aef2da3a5fa5) lib: Zig enums have stable values ([@mitchellh](https://github.com/mitchellh))
+- [`457c5a0`](https://github.com/ghostty-org/ghostty/commit/457c5a0a64632282f7f8c2833013b38dc2c312ed) terminal: PageList align Builder/PageAllocation APIs better ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rename Builder.addPage and PageAllocation.cancel to their consistent allocatePage and deinit forms. Track successful ownership transfers so both builder APIs can use unconditional deferred cleanup without releasing pages transferred to a PageList.
+  ```
+- [`4d605bf`](https://github.com/ghostty-org/ghostty/commit/4d605bf0d819df901a0332bbb320dc849fdd82e4) Misc improvements for future binary snapshot API ([#13525](https://github.com/ghostty-org/ghostty/issues/13525)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extracted out the raw `src/terminal` changes needed for the future
+  snapshot work, 4 separate changes. These are uncontroversial and
+  relatively simple, summarized below. Tests AI assisted but the rest
+  including commit messages, this PR message, etc. all organic.
+  
+  * **Add iterator to ref counted set.** Iterate over live entries and
+  their IDs. Const, doesn't mutate the set.
+  * **lib.Enum produces stable enums for Zig.** Basically the same as C
+  except it uses the smallest fitting integer including the holes.
+  * **PageList: a couple helpers for manually creating pages.** There is
+  `PageList.Builder` for creating a new pagelist and
+  `PageList.allocatePage` for modifying an existing one. This allows
+  PageList construction from raw pages.
+  ```
+- [`d5c7e54`](https://github.com/ghostty-org/ghostty/commit/d5c7e54ae465895fe849de3f35a1440a434db983) terminal: fix string capacity check in hyperlink reflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13522
+  
+  Fixes unreachable when reflow dupes a hyperlink into a destination page
+  whose string allocator is nearly full.
+  
+  The capacity precondition in ReflowCursor.writeCell performed a single
+  test allocation of `uri.len + id.len` bytes before duping a hyperlink
+  into the destination page. But PageEntry.dupe allocates the URI and
+  the explicit ID as two separate allocations, and the string allocator
+  rounds every allocation up to its 32-byte chunk size independently, so
+  the two separate allocations can require one more chunk than the
+  single combined test allocation.
+  
+  Write a new helper to make sure we get the right amount of space
+  using the same allocation pattern of dupe.
+  ```
+- [`506de85`](https://github.com/ghostty-org/ghostty/commit/506de8517a6579926d35a7b9ae388f32afb8fe42) terminal: fix string capacity check in hyperlink reflow ([#13524](https://github.com/ghostty-org/ghostty/issues/13524)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13522
+  
+  Fixes unreachable when reflow dupes a hyperlink into a destination page
+  whose string allocator is nearly full.
+  
+  The capacity precondition in ReflowCursor.writeCell performed a single
+  test allocation of `uri.len + id.len` bytes before duping a hyperlink
+  into the destination page. But PageEntry.dupe allocates the URI and the
+  explicit ID as two separate allocations, and the string allocator rounds
+  every allocation up to its 32-byte chunk size independently, so the two
+  separate allocations can require one more chunk than the single combined
+  test allocation.
+  
+  Write a new helper to make sure we get the right amount of space using
+  the same allocation pattern of dupe.
+  
+  **AI note:** Verified upstream via Fable. I told it to ignore any
+  conclusions and do its own validation and fix suggestion. It did
+  validate it with a failing test which I studied. It implement a fix, I
+  rewrote it to be more idiomatic.
+  ```
 - [`70c498a`](https://github.com/ghostty-org/ghostty/commit/70c498ac3273661aebf6cce9904c0d42b2e5d299) Update VOUCHED list ([#13521](https://github.com/ghostty-org/ghostty/issues/13521)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
