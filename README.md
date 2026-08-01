@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: July 31, 2026 at 21:59 UTC.
+> Last updated: August 1, 2026 at 02:22 UTC.
 
 ## July 30, 2026
 
@@ -699,26 +699,5 @@ Summary: 5 runs • 27 commits • 8 authors
   from @pluiedev.
   
   Vouch: @aurelleb
-  ```
-
-## July 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30165528111)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`fa3802a`](https://github.com/ghostty-org/ghostty/commit/fa3802a70eb7522567c6303a171b9d36bd5dec03) macOS: change split drag's point style to match HIG ([@bo2themax](https://github.com/bo2themax))
-- [`66fed65`](https://github.com/ghostty-org/ghostty/commit/66fed652a148cda9d8ea90b1b34ae9768871dbd9) macOS: change split drag's point style to match HIG ([#13433](https://github.com/ghostty-org/ghostty/issues/13433)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  <img width="637" height="373" alt="image"
-  src="https://github.com/user-attachments/assets/bdcd25f1-7755-47d0-8582-26ea8a00a0ca"
-  />
-  
-  Previously there's mismatch with
-  [`CursorStyle.cursor`](https://github.com/ghostty-org/ghostty/blob/15484b607eb5a518dedf1548247c923b8abaae7c/macos/Sources/Helpers/Cursor.swift#L74-L109)
-  
-  >
-  https://developer.apple.com/design/human-interface-guidelines/pointing-devices#Pointers
   ```
 
