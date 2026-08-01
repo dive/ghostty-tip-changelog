@@ -8,15 +8,166 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 1, 2026 at 13:07 UTC.
+> Last updated: August 1, 2026 at 15:57 UTC.
 
 ## August 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [2](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
-Summary: 2 runs • 39 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30702183255), [2](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [3](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
+Summary: 3 runs • 49 commits • 2 authors
 
 ### Changes
 
+- [`dc52c24`](https://github.com/ghostty-org/ghostty/commit/dc52c248e73386fef496c3bbe8643d6276b7fbfc) benchmark: terminal-resize ([@mitchellh](https://github.com/mitchellh))
+- [`4a88cc5`](https://github.com/ghostty-org/ghostty/commit/4a88cc5948295019d85f09ad77bcc303b7aba69a) terminal: skip reflow pin scans for rows without pins ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reflow scanned the full tracked pin list for every source cell it
+  copied, twice per cell in the wide-character case, even though pins
+  are rare and at most a handful exist. Each check also went through
+  node.page(), which can restore a compressed page just to compare
+  pointers.
+  
+  reflowRow now determines once per row whether any tracked pin is on
+  the source row and skips the per-cell pin scans entirely when there
+  is none, which is the overwhelmingly common case. The comparisons
+  use node identity instead of pages: a node owns exactly one page, so
+  they are equivalent, and this avoids the restore hazard.
+  
+  1.09x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  ```
+- [`c5ca2db`](https://github.com/ghostty-org/ghostty/commit/c5ca2db1b6ef2d8a160767cb0c13ec2d2061e83f) terminal: memoize style id mapping during reflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Memoize the most recent style mapping and when there is a reuse
+  bump the ref with `use()`. This avoids a lookup (`addWithId`) on
+  every single styled cell.
+  
+  1.25x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  ```
+- [`c249b9d`](https://github.com/ghostty-org/ghostty/commit/c249b9de3496bc3e8c4128686ba64553e17409a8) terminal: bulk-copy runs of simple cells during reflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reflow copied every cell through a per-cell state machine
+  (writeCell) that dispatches on content tag, wide property, grapheme,
+  hyperlink, and style handling, and advances the destination cursor
+  one cell at a time. The vast majority of cells in practice are
+  narrow text or bg-color cells with no managed memory that share a
+  single style across long runs.
+  
+  reflowRow now scans ahead for the run of such cells bounded by the
+  remaining space in the destination row, copies the run with a single
+  memcpy, and adjusts the style ref count once for the whole run via
+  useMultiple. Wide characters, spacers, graphemes, hyperlinks, Kitty
+  placeholders, and rows containing tracked pins all take the original
+  per-cell path, and a style set failure falls back to writeCell which
+  handles growing page capacity.
+  
+  2.19x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  ```
+- [`179161c`](https://github.com/ghostty-org/ghostty/commit/179161c081199d49c6b1238418b0a8712855e2f3) terminal: memoize reflow new-page capacity adjustment ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  reflowRow computed the capacity for prospective destination pages on
+  every source row via Capacity.adjust, which performs a full page
+  layout calculation to find the available grid space.
+  
+  The result only depends on the source page, and reflow visits source pages
+  sequentially and never revisits one, so memoize the adjustment per
+  source page so we only do this once.
+  
+  1.06x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  ```
+- [`46276d0`](https://github.com/ghostty-org/ghostty/commit/46276d046ced8930501c8a7a056d96fecf9aa789) terminal: recycle pages within a column reflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In `resizeCols`, stash the most recently finished source node
+  instead of destroying it, so we can recycle it without a bunch of
+  syscalls.
+  
+  1.30x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles),
+  with system time dropping from 34ms to 8ms per run.
+  ```
+- [`0fb3565`](https://github.com/ghostty-org/ghostty/commit/0fb3565c768ea6a07cfa5d3d71d106a126af667a) terminal: support nested field paths and eqlAny in Mask ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Two small extensions to the Mask helper, both motivated by the
+  reflow bulk run scan in the next commits.
+  
+  fieldMask now accepts dot-separated field paths so a mask can cover
+  a nested field of a packed struct or packed union member, e.g.
+  "content.codepoint.data" covers exactly the codepoint bits of a cell
+  without its padding. Packed union members all share bit offset zero.
+  
+  Mask gains eqlAny, the "any" counterpart to eql: it returns whether
+  any value in a group has masked fields equal to the expected
+  pattern. This supports run scans that must stop when a sentinel
+  value appears anywhere in a group, such as the Kitty virtual
+  placeholder codepoint which requires slow-path handling.
+  ```
+- [`d4e446c`](https://github.com/ghostty-org/ghostty/commit/d4e446c4803d2ad6dd3a3eb40a1dd9ad6037fc21) terminal: reduce reflow run scan to masked compares ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Finding the length of a bulk-copyable cell run evaluated the
+  field-wise bulkCopyable predicate plus a style compare per cell,
+  which compiles to a chain of extracts and branches and had become
+  the hottest loop in a column reflow.
+  
+  Once the first cell passes the full predicate, a cell continues the
+  run iff it matches the first cell in content tag, style id, wide
+  property, and hyperlink flag, so the continuation test is now a
+  masked compare of the raw cell bits via the Mask helper, plus a
+  masked equality test against the Kitty virtual placeholder codepoint
+  for text runs (placeholders must set a row flag so they take the
+  slow path). This is slightly stricter than the predicate (a bg-color
+  cell no longer extends an unstyled text run), which only splits a
+  copy into multiple runs and remains correct.
+  
+  1.21x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  ```
+- [`ec5b369`](https://github.com/ghostty-org/ghostty/commit/ec5b369611ae59675d7c78168dd25600b85d105f) terminal: vectorize reflow run scan ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The masked-compare scan that finds bulk-copyable cell runs still
+  processed one cell per iteration and remained the largest single
+  cost in a column reflow.
+  
+  Scan whole groups of cells at a time using the group variants of the
+  Mask helper: a group that fully matches the run pattern (and, for
+  text runs, contains no Kitty virtual placeholder, via eqlAny)
+  extends the run by the whole group, and any mismatch falls through
+  to the scalar loop which finds the exact end of the run within it.
+  The group length comes from the shared simd.lanes helper where the
+  target has SIMD support and falls back to a plain unrolled group
+  elsewhere.
+  
+  1.19x faster on ghostty-bench +terminal-resize --mode=cols (120x80
+  terminal, 10k-line scrollback, shrink/grow column reflow cycles).
+  Combined with the preceding reflow optimizations, resize with reflow
+  is 5.8x faster than before the series.
+  ```
+- [`aa21cae`](https://github.com/ghostty-org/ghostty/commit/aa21caeaa3a2feb6ef1251d20bd81b52f1da0940) terminal: improve resize with reflow performance (~6x faster) ([#13537](https://github.com/ghostty-org/ghostty/issues/13537)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Improves the time to resize mixed content w/ wrapping 120x80, 10k lines
+  of scrollback by about ~6x.
+  
+  I'm working on deferred resize in another branch, but it still follows
+  roughly the same logic so I instead decided to shift course and look at
+  the existing full-pagelist resize+reflow and found many places to
+  improve while keeping understanding.
+  
+  The optimizations here match the general patterns of other recent
+  optimizations: cache some stuff, reuse some pages, bring in our
+  `page.Mask` helper and add vectorized ops. Nothing exotic we haven't
+  been doing recently.
+  
+  Also note the Neovim project brought this up as a noticeable issue and I
+  believe this will help mitigate their issues until we get proper
+  deferred reflow in.
+  
+  **LLM notes:** The optimizations were produced with Fable 5 using a
+  profile-driven approach (macOS `sample` plus disassembly-level
+  attribution of the hot loops at each step). I then requested each be
+  split into its own measurable commit, reviewed each in isolation, and
+  modified most of the commit messages. This PR message is hand-written.
+  ```
 - [`8fca649`](https://github.com/ghostty-org/ghostty/commit/8fca64957b8e5fc7348378f116179af56df3151d) cli: report ssh terminfo cache failures ([@jparise](https://github.com/jparise))
   ```text
   A state directory with the wrong permissions left the terminfo cache
