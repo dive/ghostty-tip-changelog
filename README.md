@@ -8,15 +8,104 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 1, 2026 at 15:57 UTC.
+> Last updated: August 1, 2026 at 19:00 UTC.
 
 ## August 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30702183255), [2](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [3](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
-Summary: 3 runs • 49 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30710337334), [2](https://github.com/ghostty-org/ghostty/actions/runs/30708032098), [3](https://github.com/ghostty-org/ghostty/actions/runs/30707014679), [4](https://github.com/ghostty-org/ghostty/actions/runs/30702183255), [5](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [6](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
+Summary: 6 runs • 61 commits • 9 authors
 
 ### Changes
 
+- [`60b4a35`](https://github.com/ghostty-org/ghostty/commit/60b4a358548a658bbb9810688e0cf7ba617edc9e) Fix CircBuf metadata after shrinking ([@fallintoplace](https://github.com/fallintoplace))
+- [`7a512c3`](https://github.com/ghostty-org/ghostty/commit/7a512c31252e32751e0d2691dd6ce48c68fc9798) gtk: fix capitalization of banner title ([@jcollie](https://github.com/jcollie))
+- [`e9e7864`](https://github.com/ghostty-org/ghostty/commit/e9e7864b43c7ce8bc520f95f964f7409f2d12dfe) remove fuzze entries in *.po files ([@jcollie](https://github.com/jcollie))
+- [`b2d4462`](https://github.com/ghostty-org/ghostty/commit/b2d44625908eb56aee299d8511d803bc11ab79fc) gtk: fix capitalization of banner title ([#10642](https://github.com/ghostty-org/ghostty/issues/10642)) ([@trag1c](https://github.com/trag1c))
+- [`2ee42ad`](https://github.com/ghostty-org/ghostty/commit/2ee42adc76bd9270d754ae38415cfc7d5018654c) datastruct/circ_buf: fix metadata after shrinking ([#13515](https://github.com/ghostty-org/ghostty/issues/13515)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ## Summary
+  
+  - normalize circular-buffer metadata after every resize
+  - retain the oldest values when shrinking below the current length
+  - cover partial shrink, exact-length shrink, and empty-to-zero
+  boundaries
+  
+  ## Root cause
+  
+  `resize` rotated live values to index zero before reallocating, but only
+  repaired `head` and `full` when capacity grew. Shrinking a partially
+  filled buffer could therefore leave `head` beyond the new allocation and
+  report a length greater than capacity. A later append could index
+  outside the resized storage.
+  
+  ## Validation
+  
+  - `zig fmt --check src/datastruct/circ_buf.zig`
+  - `zig test src/circ_buf_test.zig --test-filter 'CircBuf resize'` using
+  a temporary import harness: 8 tests passed
+  ```
+- [`74ad15c`](https://github.com/ghostty-org/ghostty/commit/74ad15c104fda80da15ced0863c0d4b1673be37f) Update VOUCHED list ([#13542](https://github.com/ghostty-org/ghostty/issues/13542)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13527#issuecomment-5152299257)
+  from @jcollie.
+  
+  Vouch: @gadgetman6
+  ```
+- [`e40a547`](https://github.com/ghostty-org/ghostty/commit/e40a5475dbca846f80d18314337b797efd1e4ff4) Rewrite localization teams docs for clarity and permit reviewer bias. ([@00-kat](https://github.com/00-kat))
+- [`ad96613`](https://github.com/ghostty-org/ghostty/commit/ad96613a8c04093b94ab05107fc9fc22d802c380) inspector: add copy and export for terminal IO events ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Adds "Copy" and "Export to file" buttons to the Terminal IO inspector
+  so recorded VT events can be saved outside the app for sharing or
+  analysis.
+  
+  Export is wired up through a new export_terminal_io apprt action,
+  handled with a native save dialog on both macOS and GTK.
+  ```
+- [`31f4931`](https://github.com/ghostty-org/ghostty/commit/31f4931f8b053abc72fdf17aa3173aa0ed85f27c) i18n: add missing strings ([@Uzaaft](https://github.com/Uzaaft))
+- [`2c0d258`](https://github.com/ghostty-org/ghostty/commit/2c0d2588a746e75240273986977c93fb604bfa73) inspector: make `FileChooser` cast type-safe ([@Uzaaft](https://github.com/Uzaaft))
+- [`57ad6c7`](https://github.com/ghostty-org/ghostty/commit/57ad6c77a5121fa920a938450c722b22385f2cdd) Rewrite the localization teams docs to improve legibility, and explicitly permit members who know each other ([#12720](https://github.com/ghostty-org/ghostty/issues/12720)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  ~~Maybe I have too many exclamation marks, let me know if I should
+  metaphorically calm down.~~ Fixed now.
+  
+  My wording is intentionally biased toward languages spoken less
+  (**edit**: not nearly as much anymore), but I specifically do not
+  disallow members who know each other regardless of language popularity.
+  Quoting myself from Discord[^convo]:
+  
+  > people who know each other are more likely to have more similar tastes
+  or quirks in their language use by virtue of (perhaps subconsciously)
+  stealing off each other, and there's also the whole “eh it's good enough
+  i trust that you thought it through” thing that's more likely if you
+  know the other translators already
+  
+  I don't believe it's *necessarily worse*, and if you have more than two
+  members then the issue greatly diminishes too, but I don't want people
+  to see this and go “oh no I need to get my translations in before
+  Ghostty 1.4 that releases while I'm sleeping tomorrow so I should ask my
+  bestie to help”, and to instead be willing to be more patient, at least
+  for a reasonable amount of time (which I consider to be ≤ 2 months).
+  
+  [^convo]: @trag1c and I chatted about this prior to this PR in
+  `#maintainers` on the Ghostty Discord server. If you have access to that
+  channel, check out these links:
+  [1](https://discord.com/channels/1005603569187160125/1337443701403815999/1504241367357063188),
+  [2](https://discord.com/channels/1005603569187160125/1337443701403815999/1504465642361979021),
+  [3](https://discord.com/channels/1005603569187160125/1337443701403815999/1505255908676993135).
+  ```
+- [`631c71e`](https://github.com/ghostty-org/ghostty/commit/631c71e41c4d5e305ff826dbb5d7864e702b60ca) inspector: add copy and export for terminal IO events ([#13519](https://github.com/ghostty-org/ghostty/issues/13519)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds "Copy" and "Export to file" buttons to the Terminal IO inspector so
+  recorded VT events can be saved outside the app for sharing or analysis.
+  
+  Found myself needing/wishing for this while I was debugging my tmux fork
+  with libghostty-vt.
+  
+  
+  Disclaimer: I haven't considered performance at all, so please lmk if
+  there are anything here you would like me to optimize.
+  ```
 - [`dc52c24`](https://github.com/ghostty-org/ghostty/commit/dc52c248e73386fef496c3bbe8643d6276b7fbfc) benchmark: terminal-resize ([@mitchellh](https://github.com/mitchellh))
 - [`4a88cc5`](https://github.com/ghostty-org/ghostty/commit/4a88cc5948295019d85f09ad77bcc303b7aba69a) terminal: skip reflow pin scans for rows without pins ([@mitchellh](https://github.com/mitchellh))
   ```text
