@@ -8,7 +8,343 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 1, 2026 at 02:22 UTC.
+> Last updated: August 1, 2026 at 05:50 UTC.
+
+## August 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [2](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
+Summary: 2 runs • 39 commits • 2 authors
+
+### Changes
+
+- [`8fca649`](https://github.com/ghostty-org/ghostty/commit/8fca64957b8e5fc7348378f116179af56df3151d) cli: report ssh terminfo cache failures ([@jparise](https://github.com/jparise))
+  ```text
+  A state directory with the wrong permissions left the terminfo cache
+  failing with errors that named no path, so there was nothing to act on:
+  
+      $ ghostty +ssh-cache --add=user@host
+      Error: Unable to add 'user@host' to cache. Error: error.AccessDenied
+  
+  Every +ssh-cache failure now names its cache file, and +ssh no longer
+  swallows cache-related errors.
+  
+  Error messages in these actions are also lowercased after the "Error: "
+  prefix and append the error with ": {t}" rather than a second "Error: ".
+  
+  Ref: https://github.com/ghostty-org/ghostty/issues/9393#issuecomment-5145799368
+  ```
+- [`ca3dc9e`](https://github.com/ghostty-org/ghostty/commit/ca3dc9eeac7893d6ac4507d60761226cb16fd09f) cli: classify ssh cache errors in DiskCache ([@jparise](https://github.com/jparise))
+- [`08f039f`](https://github.com/ghostty-org/ghostty/commit/08f039fbb3dea9c6b1cdb5ff4550666598122346) cli: report ssh terminfo cache failures ([#13533](https://github.com/ghostty-org/ghostty/issues/13533)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A state directory with the wrong permissions left the terminfo cache
+  failing with errors that named no path, so there was nothing to act on:
+  
+      $ ghostty +ssh-cache --add=user@host
+      Error: Unable to add 'user@host' to cache. Error: error.AccessDenied
+  
+  Every +ssh-cache failure now names its cache file, and +ssh no longer
+  swallows cache-related errors.
+  
+  Error messages in these actions are also lowercased after the "Error: "
+  prefix and append the error with ": {t}" rather than a second "Error: ".
+  
+  Ref:
+  https://github.com/ghostty-org/ghostty/issues/9393#issuecomment-5145799368
+  ```
+- [`fdf8dfd`](https://github.com/ghostty-org/ghostty/commit/fdf8dfd7b17410751d9ec7e082665b07ec9d31b5) terminal/snapshot: define v0 record framing ([@mitchellh](https://github.com/mitchellh))
+- [`b4fd26f`](https://github.com/ghostty-org/ghostty/commit/b4fd26f0d934809f12333f1bf81c38f7ab6beeec) terminal/snapshot: hyperlink and style encoding ([@mitchellh](https://github.com/mitchellh))
+- [`805c3b0`](https://github.com/ghostty-org/ghostty/commit/805c3b0bafc28bc063d3fe9b8e73261075a0525a) terminal/snapshot: start page encoding ([@mitchellh](https://github.com/mitchellh))
+- [`d44baa9`](https://github.com/ghostty-org/ghostty/commit/d44baa91476ad3747271a52575ff147193102b14) terminal/snapshot: setup the snapshot main ([@mitchellh](https://github.com/mitchellh))
+- [`2fc238e`](https://github.com/ghostty-org/ghostty/commit/2fc238ed01bca7c3bc46a8a728ac35356fb4b4a8) terminal/snapshot: decode directly into pages ([@mitchellh](https://github.com/mitchellh))
+- [`406f5e7`](https://github.com/ghostty-org/ghostty/commit/406f5e7d82466e4bee0a3b1289df9905053b1968) terminal/snapshot: encode sparse page grids ([@mitchellh](https://github.com/mitchellh))
+- [`83ffa74`](https://github.com/ghostty-org/ghostty/commit/83ffa74e2b9057614a1f204747faa4d54a742012) terminal/snapshot: page records ([@mitchellh](https://github.com/mitchellh))
+- [`e8e56e7`](https://github.com/ghostty-org/ghostty/commit/e8e56e782c7cfa277839b489d5b13396f8bbe24b) terminal/snapshot: small edits ([@mitchellh](https://github.com/mitchellh))
+- [`6508cbb`](https://github.com/ghostty-org/ghostty/commit/6508cbbb49616a1b12f80f225f87240e10c2db49) terminal/snapshot: screen record ([@mitchellh](https://github.com/mitchellh))
+- [`f50bdfa`](https://github.com/ghostty-org/ghostty/commit/f50bdfab200b97142f4cf97feb3b7a456552f389) terminal/snapshot: screen plus active encoding ([@mitchellh](https://github.com/mitchellh))
+- [`d34fd05`](https://github.com/ghostty-org/ghostty/commit/d34fd0593eb241b7f76e7ab9e01cb079e4bc92c0) terminal/snapshot: screen decoding ([@mitchellh](https://github.com/mitchellh))
+- [`7d91b87`](https://github.com/ghostty-org/ghostty/commit/7d91b8776664208a1582846f1286396edbce04da) terminal/snapshot: history record ([@mitchellh](https://github.com/mitchellh))
+- [`0288bec`](https://github.com/ghostty-org/ghostty/commit/0288bec3cf314af00fb1b8425b32fc578fb23019) terminal/snapshot: terminal record ([@mitchellh](https://github.com/mitchellh))
+- [`83e4827`](https://github.com/ghostty-org/ghostty/commit/83e482700b7e647bc9c6da985493f7b2ae991e92) terminal/snapshot: ready/finish checkpoints ([@mitchellh](https://github.com/mitchellh))
+- [`86ec146`](https://github.com/ghostty-org/ghostty/commit/86ec1463348441fa0b914dbde8b657eb96148775) terminal/snapshot: full encode/decode ([@mitchellh](https://github.com/mitchellh))
+- [`b867a0f`](https://github.com/ghostty-org/ghostty/commit/b867a0f59e3ceee335828cc79e2c7bdb2a69c467) terminal/snapshot: use lib.Enum enums where possible ([@mitchellh](https://github.com/mitchellh))
+- [`43ec9b3`](https://github.com/ghostty-org/ghostty/commit/43ec9b373b76a8c0e86a093f63aee643e01c69ff) terminal/snapshot: harden hyperlink decoding, allow invalid hyperlinks for page ([@mitchellh](https://github.com/mitchellh))
+- [`92c8dfd`](https://github.com/ghostty-org/ghostty/commit/92c8dfd5084d8e9b88397dab1cb61ad0d38b1d4b) terminal/snapshot: clean up tests ([@mitchellh](https://github.com/mitchellh))
+- [`32f11a4`](https://github.com/ghostty-org/ghostty/commit/32f11a4663c897366f91876b5dda7fdc715e6ac0) terminal/snapshot: test fixtures ([@mitchellh](https://github.com/mitchellh))
+- [`627f343`](https://github.com/ghostty-org/ghostty/commit/627f3430975db22582b88a7f528518d58bdff188) build: helpgen needs terminal options ([@mitchellh](https://github.com/mitchellh))
+- [`13bc78b`](https://github.com/ghostty-org/ghostty/commit/13bc78b7f33536351fef16b2e37992b845215679) terminal/snapshot: grid tests ([@mitchellh](https://github.com/mitchellh))
+- [`38d92c5`](https://github.com/ghostty-org/ghostty/commit/38d92c50c9c8c19f543a13c126aa8710f9f6e856) terminal/snapshot: kaitai verification ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Describe the complete version 1 snapshot format with a Kaitai schema and make every golden fixture self-describing for automatic discovery. Add a verifier that compiles the schema, parses all fixtures, and checks record checksums, checkpoint digests, and cross-record invariants.
+  
+  Preserve Kaitai metadata when generating fixture candidates and provide the compiler and Python runtime dependencies through the development shell. Keep the mode registry portable to Kaitai JavaScript targets so the complete fixture also works in the web IDE.
+  ```
+- [`66ea61d`](https://github.com/ghostty-org/ghostty/commit/66ea61dd9d6f62995451ad92a3f499839ab7db7a) ci: verify snapshot kaitai ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Run the snapshot Kaitai verifier in its own required xsm job. This gives schema, fixture, checksum, and cross-record validation a distinct CI result without coupling it to the libghostty-vt test suite.
+  ```
+- [`f8ac0ca`](https://github.com/ghostty-org/ghostty/commit/f8ac0ca98fcc12c1970560dd40f7bb2e39dc3ba4) terminal/snapshot: accept kitty placeholder cells, track rows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Treat Kitty virtual placeholder codepoints as ordinary valid grid content during snapshot restore and derive the native row lookup hint from decoded cells. Image and placement registries remain intentionally omitted.
+  
+  Cover the behavior with a complete snapshot round trip containing a real virtual placement and its grapheme diacritics.
+  ```
+- [`a508720`](https://github.com/ghostty-org/ghostty/commit/a508720a89c5e899e6bc8883e1cc23851ea4ddb8) terminal/snapshot: grid decode robustness principle ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Keep snapshot grid encoding strict by rejecting malformed wide-cell relationships before they can produce invalid wire data.
+  
+  Decode untrusted grids liberally while preserving record alignment. Unknown semantic values and content kinds degrade to safe defaults, optional graphemes and hyperlinks are dropped when invalid or over capacity, and malformed wide-cell markers normalize to narrow cells.
+  ```
+- [`465488d`](https://github.com/ghostty-org/ghostty/commit/465488d6b4f7a0eb7fac09e37aff8078f28b472a) terminal/snapshot: screen robustness ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Keep SCREEN encoding strict while allowing decoding to recover from unknown or noncanonical semantic state. Cursor positions now clamp to the restored active area, and invalid enum values, reserved bits, and optional state degrade to native defaults.
+  ```
+- [`a44eb83`](https://github.com/ghostty-org/ghostty/commit/a44eb8335884b104f2d44c4a613161db595e457f) terminal/snapshot: style/hyperlink robustness in page and screen ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Keep the standalone style and hyperlink codecs strict while allowing PAGE and SCREEN decoders to discard invalid optional data at boundaries they own. Normalize invalid styles to defaults, ignore unrepresentable hyperlinks, reuse duplicate entries, and validate hyperlink values before encoding.
+  ```
+- [`7c64181`](https://github.com/ghostty-org/ghostty/commit/7c64181b69df1ac6e7c1883aa939cfc2bfccde41) terminal/snapshot: history robustness ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Treat HISTORY row counts as canonical metadata rather than a reason to reject otherwise usable history. Restore topology from the declared PAGE sequence while keeping record framing, routing keys, and sequence boundaries strict.
+  ```
+- [`9d1c6a9`](https://github.com/ghostty-org/ghostty/commit/9d1c6a9217bc79e9598bacdf3c8160bfaddf6be7) terminal/snapshot: terminal robustness ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Normalize unknown terminal-wide semantic fields during restore while keeping dimensions and screen count structural. Preserve canonical encoding, ignore reserved mode and tab-stop bits, reset invalid color and scrolling state, and clamp finite scrollback policies to the native range.
+  ```
+- [`58e9209`](https://github.com/ghostty-org/ghostty/commit/58e92098a209a137ff6af376086ae965124ec5f1) terminal/snapshot: snapshot robustness ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Route HISTORY sequences by their encoded screen key so both keyed sequence groups can arrive in either order. Keep undeclared and duplicate routing strict, separate HISTORY manifest parsing from page restoration, and clear decoder-only generation state before returning the terminal.
+  ```
+- [`f0fe788`](https://github.com/ghostty-org/ghostty/commit/f0fe788fcc7ef47f7e59745e7884c9bcff295f17) terminal/snapshot: less buffering, better stream writing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Stream complete snapshot records to any std.Io.Writer while retaining one reusable payload buffer for length and CRC calculation. Update BLAKE3 incrementally so checkpoints no longer require rehashing an allocating destination.
+  
+  Wrap decode hashing in StreamReader to enforce exact checkpoint boundaries. Preserve v1 bytes while allowing snapshots to begin at the current writer position and retaining only valid prefixes on failures.
+  ```
+- [`d37e1fe`](https://github.com/ghostty-org/ghostty/commit/d37e1fe184f0486e155d61b1cee1c6d82c8d199f) terminal/snapshot: format doesn't require EOF ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Treat FINISH as the self-delimiting snapshot boundary instead of peeking for end-of-file. Normal decoding now leaves continuation bytes unread, allowing snapshots and live protocol data to share a stream without waiting for closure.
+  
+  Add decodeExact for bounded files that still require strict exhaustion, and update the Kaitai schema, documentation, and tests for continuation and sequential snapshot decoding.
+  ```
+- [`e2e74fe`](https://github.com/ghostty-org/ghostty/commit/e2e74fecbe08cd545dc748435ab20cec424756d5) terminal/snapshot: move history size hints to screen record ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Publish each screen's logical history extent before READY so clients can size scrollbars while older pages are still arriving. Keep the value advisory and continue deriving native PageList totals from decoded pages.
+  
+  Reduce HISTORY to its structural screen key and page count, and update the format documentation, Kaitai schema, verifier, and versioned fixtures.
+  ```
+- [`05d4934`](https://github.com/ghostty-org/ghostty/commit/05d4934848307cb3025702d480a3bde20d901250) terminal/snapshot: better root export ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Expose complete encode and decode entry points directly from terminal.snapshot instead of requiring terminal.snapshot.snapshot. Reorder the decode APIs to accept the allocator and I/O context before the reader.
+  ```
+- [`6b09bb3`](https://github.com/ghostty-org/ghostty/commit/6b09bb3fcaad6805c56ed51528dd86df33d13030) terminal/snapshot: ignore hex files in typos ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Exclude annotated snapshot fixture hex files from typo checking. Their arbitrary binary byte sequences can otherwise be misidentified as misspelled words.
+  ```
+- [`154ddc2`](https://github.com/ghostty-org/ghostty/commit/154ddc2a2f071585ae5b64dfdb6565b3061e8604) terminal/snapshot: binary snapshot format ([#13534](https://github.com/ghostty-org/ghostty/issues/13534)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds the first version of a binary snapshot format for terminal
+  state.
+  
+  Use cases: replay software (like asciinema), multiplexers (like zmx),
+  scrollback-saving on disk, etc.
+  
+  The intention of the binary snapshot format is to be able to fully
+  encode and decode terminal state across mediums such as network and
+  disk. You can also encode partial terminal state (e.g. only one screen
+  or even one page of contents). Long term, the intention is to also
+  support streaming state while a live terminal is running, but this
+  initial PR focuses on the full snapshot first (with some design choices
+  to get to the streaming state in the future).
+  
+  The format is documented in the Zig code, but I also did a
+  [Kaitai](https://kaitai.io/) descriptor and both the Zig and Kaitai spec
+  verify they can parse committed fixtures. This helps identify drift in
+  the format or encoder/decoders in any way since this must ultimately be
+  a fixed format.
+  
+  > [!NOTE]
+  >
+  > **On reviewability:** this is a massive PR that I don't expect anyone
+  to reasonably review. I'm going through it line-by-line (again) but I
+  purposely extracted any changes that affect other parts of Ghostty out
+  to other already-merged PRs. This one is isolated purely to a package
+  that isn't called by any client software. **So the plan is if this rough
+  shape looks good I'll merge it and we'll iterate from there.**
+  
+  > [!WARNING]
+  >
+  > **Experimental.** The format can and will change. And we may also
+  decide that binary snapshotting in this way isn't the right direction
+  altogether (although, I'm pretty confident it is). It'd be impossible to
+  get a single large perfect PR because it'd be even larger than this by
+  multiples. So instead, we'll iterate on main so long as this work is not
+  touching any production code, which it isn't!
+  
+  ## Example
+  
+  Encode:
+  
+  ```zig
+  const terminal = @import("terminal/main.zig");
+  
+  var file_buffer: [16 * 1024]u8 = undefined;
+  var file_writer = file.writer(io, &file_buffer);
+  try terminal.snapshot.encode(alloc, &file_writer.interface, &t);
+  try file_writer.interface.flush();
+  ```
+  
+  Decode a full terminal:
+  
+  ```zig
+  var t = try terminal.snapshot.decode(&reader, io, alloc);
+  defer t.deinit(alloc);
+  ```
+  
+  ## Future
+  
+  This PR purposely only supports a synchronous encode/decode. I wanted to
+  get the large groundwork in before iterating further. Some iterations in
+  the future:
+  
+  * Kitty graphics
+  * Live terminal snapshotting
+  * PTY stream continuation records (so VT state machines can stay in
+  sync)
+  * Performance work (encoding and decoding, maybe size)
+  * Configurable limits to prevent DoS
+  * C API
+  * etc...
+  
+  ## Wire format
+  
+  The "robustness principle" is a guiding principle: "be conservative in
+  what you do, be liberal in what you accept from others." Our encoders
+  have a lot of extra validation, our decoders massage invalid data into
+  reasonable defaults (e.g. invalid styles become unstyled text).
+  
+  > [!IMPORTANT]
+  >
+  > **Version 1 has no compatibility promise.** We use version 1 in the
+  envelope header. We will absolutely break this format as needed as we
+  iterate and improve on it...
+  
+  ### Envelope
+  
+  Every snapshot starts with a fixed ten-byte envelope:
+  
+  | Offset | Size | Field |
+  | ---: | ---: | :--- |
+  | 0 | 8 | Magic: `GHOSTSNP` |
+  | 8 | 2 | Snapshot version: `1` |
+  
+  ### Record framing
+  
+  After the envelope, records are concatenated back-to-back. Every record
+  has a fixed header:
+  
+  | Offset | Size | Field |
+  | ---: | ---: | :--- |
+  | 0 | 2 | Record tag |
+  | 2 | 4 | Payload length |
+  | 6 | 4 | CRC32C |
+  | 10 | variable | Payload |
+  
+  CRC32C covers the encoded tag, payload length, and payload. The
+  payload-length boundary prevents a malformed record decoder from
+  consuming bytes belonging to the next record.
+  
+  The registered record tags are:
+  
+  | Value | Tag | Purpose |
+  | ---: | :--- | :--- |
+  | 1 | `TERMINAL` | Terminal-wide state and declared screens |
+  | 2 | `SCREEN` | One screen's live state and active page manifest |
+  | 3 | `PAGE` | One self-contained set of rows and cells |
+  | 4 | `HISTORY` | One screen's historical page manifest |
+  | 5 | `READY` | Digest of the renderable prefix |
+  | 6 | `FINISH` | Digest of the complete snapshot |
+  
+  To view the format of each record, read its corresponding
+  `terminal/snapshot/<type>.zig` file.
+  
+  ### Complete record sequence
+  
+  ```text
+  +----------------------------------------+
+  | Envelope                               |
+  +----------------------------------------+
+  | TERMINAL                               |
+  +----------------------------------------+
+  | SCREEN * terminal.screen_count         |
+  | PAGE   * each screen.page_count        |
+  +----------------------------------------+
+  | READY                                  |
+  +----------------------------------------+
+  | HISTORY * terminal.screen_count        |
+  | PAGE    * each history.page_count       |
+  +----------------------------------------+
+  | FINISH                                 |
+  +----------------------------------------+
+  | Optional containing-transport bytes    |
+  +----------------------------------------+
+  ```
+  
+  `SCREEN` and `HISTORY` groups are routed by their encoded screen key and
+  may arrive in either key order.
+  
+  ## Checkpoints and validation
+  
+  Each record has an independent CRC32C, but per-record checksums cannot
+  detect a valid record being reordered, omitted, or duplicated. `READY`
+  and `FINISH` therefore contain BLAKE3-256 digests over exact snapshot
+  prefixes:
+  
+  - `READY` covers the envelope, `TERMINAL`, and all live `SCREEN`/`PAGE`
+  sequences. It does not include itself.
+  - `FINISH` covers that same prefix, the complete `READY` record, and all
+  `HISTORY`/`PAGE` sequences. It does not include itself.
+  
+  This gives the format two useful integrity boundaries:
+  
+  ```text
+  envelope ... active pages | READY | history pages | FINISH
+  <------ renderable ------->
+  <------------- complete snapshot --------------->
+  ```
+  
+  ## Performance
+  
+  ### Size, Compression Recommended
+  
+  We intentionally use a simple grid over something like RLE (run-length
+  encoding). So every row contains exactly `columns` cells and each is
+  16-bytes! This is large! A 80x24, 10,000 line scrollback terminal
+  uncompressed would be ~13MB. However, with zstd level 1 compression that
+  goes down to 260K.
+  
+  ### Speed
+  
+  We haven't benchmarked encoding or decoding speed yet. This PR focused
+  on getting a format in place. This will be heavily optimized later. I
+  suspect its probably pretty darn slow, actually.
+  
+  ## Kaitai Struct
+  
+  I added a `snapshot.ksy` Kaita Struct spec that independently describes
+  the complete format. This is used by us for format validation but it can
+  also be used to programmatically generate parsers. For example, our test
+  fixture in the Kaita Struct web IDE decodes to:
+  
+  <img width="523" height="779" alt="image"
+  src="https://github.com/user-attachments/assets/cd199c73-b6d6-4b35-8957-0cfe3d1a18f2"
+  />
+  
+  **AI Usage:** This work was done in concert with various models and
+  agents. Writing full encoders/decoders is tedious so it took a lot of
+  that way. A lot of review was done by AI (trying to find holes, issues,
+  inconsistencies). The actual binary protocol design and iteration was
+  done by me. This PR message was written by me.
+  ````
 
 ## July 30, 2026
 
