@@ -8,15 +8,111 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 2, 2026 at 13:09 UTC.
+> Last updated: August 2, 2026 at 15:56 UTC.
 
 ## August 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30752310032), [2](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
+Summary: 2 runs • 12 commits • 6 authors
 
 ### Changes
 
+- [`aa74971`](https://github.com/ghostty-org/ghostty/commit/aa7497128252d8e4ba67b48a0d3908d91afa469f) build: lower iOS deployment target version ([@elias8](https://github.com/elias8))
+- [`f024d21`](https://github.com/ghostty-org/ghostty/commit/f024d21fc46ab2110ef6573f7f5ea5263330cad7) Fix superfluous newline in html formatting ([@RoniJacobson](https://github.com/RoniJacobson))
+  ```text
+  Every page is formatted in a div, and when the div closes it creates a newline in the html rendering.
+  In order to fix this a newline is now removed whenever the div is closed (if there are any newlines waiting to be rendered).
+  ```
+- [`75302fe`](https://github.com/ghostty-org/ghostty/commit/75302feda446d8340dd8a065fb706f72248658e9) Add test for superfluous newline in html formatting ([@RoniJacobson](https://github.com/RoniJacobson))
+- [`f5911d6`](https://github.com/ghostty-org/ghostty/commit/f5911d6964c9ccf95b26a25882ea4620c7280f46) comment: fix grammar and acronym casing in message.zig doc comments ([@12ya](https://github.com/12ya))
+  ```text
+  - "the number of messages we send to the IO thread are also very few"
+    had a subject-verb agreement issue; reworded to "is also very small"
+  - Capitalized "pty" -> "PTY"
+  ```
+- [`a7cfa6f`](https://github.com/ghostty-org/ghostty/commit/a7cfa6fc238635af1ad8e4e5cc39980bbb3dc3b0) config: update scrollbar doc per current implementation ([@bo2themax](https://github.com/bo2themax))
+- [`70e41e9`](https://github.com/ghostty-org/ghostty/commit/70e41e96d334d02668f8fda139fea3c020cf11bf) terminal/snapshot: pty continuation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Builds on #13544
+  
+  This adds a new CONTINUATION record type that is sent before READY.
+  CONTINUATION contains the bytes (if any) that will bring a ground-state
+  VT state machine up to the same state.
+  
+  This allows snapshotting a terminal instance that is, for example,
+  blocked waiting for a caller to complet an in-flight Kitty graphics
+  protocol send. In practice, I think this will be rare. But in theory, it
+  avoids a DoS-type attack.
+  
+  The continuation state must be the MINIMAL set of bytes that will move
+  the virtual terminal state from a ground to non-ground state. The reason
+  it must be minimal is because any extra bytes can duplicate work into the
+  terminal that might already exist.
+  ```
+- [`e85bf9f`](https://github.com/ghostty-org/ghostty/commit/e85bf9fb2d36ad9cfb6dd879716ad9300c2e8ea6) terminal/snapshot: pty continuation record ([#13556](https://github.com/ghostty-org/ghostty/issues/13556)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Builds on #13544
+  
+  This adds a new CONTINUATION record type that is sent before READY.
+  CONTINUATION contains the bytes (if any) that will bring a ground-state
+  VT state machine up to the same state.
+  
+  This allows snapshotting a terminal instance that is, for example,
+  blocked waiting for a caller to complet an in-flight Kitty graphics
+  protocol send. In practice, I think this will be rare. But in theory, it
+  avoids a DoS-type attack.
+  
+  The continuation state must be the MINIMAL set of bytes that will move
+  the virtual terminal state from a ground to non-ground state. The reason
+  it must be minimal is because any extra bytes can duplicate work into
+  the terminal that might already exist.
+  ```
+- [`322636b`](https://github.com/ghostty-org/ghostty/commit/322636bfb0f467b179b7b59383956149759fb525) config: update scrollbar doc per current implementation ([#13553](https://github.com/ghostty-org/ghostty/issues/13553)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We should also update the doc after #9865, which is discussed in
+  https://github.com/ghostty-org/ghostty/discussions/9610
+  ```
+- [`f683042`](https://github.com/ghostty-org/ghostty/commit/f6830420cefb3b06552dad2e29f09f6f302dd57b) termio: fix doc comment grammar and PTY casing in message.zig ([#13549](https://github.com/ghostty-org/ghostty/issues/13549)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### What
+  Comment-only cleanup in `src/termio/message.zig`:
+  
+  - Fixes a subject-verb agreement error in the `Message` union's doc
+    comment: "the number of messages ... are also very few" -> "is also
+    very small"
+  - Capitalizes "pty" to "PTY" in several doc comments
+  
+  ### Why
+  Caught while reading through `message.zig`. No functional changes,
+  doc comments only.
+  ```
+- [`915496c`](https://github.com/ghostty-org/ghostty/commit/915496c22104b621a70c29557dede737f9398f3c) libghostty(formatter): fix superfluous newline in html formatting ([#13543](https://github.com/ghostty-org/ghostty/issues/13543)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  In the html formatter every page is formatted in a div. When the div
+  closes it causes a newline in the html rendering. In order to fix this a
+  newline is now removed whenever the div is closed (if there are any
+  newlines waiting to be rendered - as far as I could see in my testing
+  there was always one).
+  
+  I thought of trying to add a test but could not think of a way to do so
+  without adding a massive blob of html into the file.
+  
+  Before (orange was added by me to show where the div ends):
+  <img width="1278" height="586" alt="image"
+  src="https://github.com/user-attachments/assets/473ba28d-bec0-481f-9a89-a6a72c9a3657"
+  />
+  
+  After:
+  <img width="959" height="439" alt="image"
+  src="https://github.com/user-attachments/assets/27bae0d3-cc82-4dc8-aa72-c4a8b0f7d424"
+  />
+  
+  No AI was used in this pr.
+  ```
+- [`bab076c`](https://github.com/ghostty-org/ghostty/commit/bab076c1a2dfbf7fd288d4221fc1feb830e45b82) build: lower iOS deployment target version ([#13539](https://github.com/ghostty-org/ghostty/issues/13539)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reopening #13535.
+  ```
 - [`6837d70`](https://github.com/ghostty-org/ghostty/commit/6837d7027f226355db661e8215a3ad24ffaf4eb5) Update VOUCHED list ([#13550](https://github.com/ghostty-org/ghostty/issues/13550)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
