@@ -8,15 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 1, 2026 at 21:49 UTC.
+> Last updated: August 2, 2026 at 02:18 UTC.
 
 ## August 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30710337334), [2](https://github.com/ghostty-org/ghostty/actions/runs/30708032098), [3](https://github.com/ghostty-org/ghostty/actions/runs/30707014679), [4](https://github.com/ghostty-org/ghostty/actions/runs/30702183255), [5](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [6](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
-Summary: 6 runs • 61 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30719797621), [2](https://github.com/ghostty-org/ghostty/actions/runs/30710337334), [3](https://github.com/ghostty-org/ghostty/actions/runs/30708032098), [4](https://github.com/ghostty-org/ghostty/actions/runs/30707014679), [5](https://github.com/ghostty-org/ghostty/actions/runs/30702183255), [6](https://github.com/ghostty-org/ghostty/actions/runs/30682038661), [7](https://github.com/ghostty-org/ghostty/actions/runs/30681000128)  
+Summary: 7 runs • 65 commits • 10 authors
 
 ### Changes
 
+- [`cc1d262`](https://github.com/ghostty-org/ghostty/commit/cc1d262105b31dc3f2607fd34ff036a004347fec) macOS: fix update error pill is not showing properly ([@bo2themax](https://github.com/bo2themax))
+- [`68beeeb`](https://github.com/ghostty-org/ghostty/commit/68beeeb3f6c9d296d99d821b17a477623d98b035) terminal: add stream continuation tracking for replay ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds opt-in continuation tracking to `terminal.Stream` that allows
+  any caller to call `writeContinuation` in order to get the minimum bytes
+  necessary from a grounded parser state to the identical state.
+  
+  This enables reliable stream restart across serialization states, which
+  could be used for local restart, networked terminals, etc. For me, this
+  is used for multiplexers. :)
+  
+  ## Implementation
+  
+  The implementation of this was really carefully done to avoid any
+  negative performance impact particularly when continuation tracking is
+  _off_.
+  
+  The way this work is simple:
+  
+    1. ESC is the only char that leaves the ground state and most
+       ESC sequences are short. So if we're in a non-ground state, we
+       do a backwards vectorized search to find the last `ESC` in the
+       input slice. If one doesn't exist, we assume we found it previously
+       and store the whole slice (rare, since ESC sequences are usually
+       short like I said).
+  
+    2. If we're in the ground state that means we only have a potential
+       incomplete UTF-8 codepoint, so we find the lead UTF-8 byte.
+  
+    3. When writing, we normalize the suffix to drop things like BEL
+       commands that would've already been handled to avoid
+       double-calling.
+  
+  ## Performance
+  
+  Via `ghostty-bench +terminal-stream`
+  
+    Corpus                     main      tracking off  tracking on
+    plain ASCII (256 MiB)      175.4ms   175.8ms       175.5ms
+    UTF-8 (32 MiB)             268.4ms   270.0ms       269.9ms
+    5% invalid UTF-8 (32 MiB)  316.4ms   317.8ms       320.2ms
+    CSI-heavy (32 MiB)         145.0ms   146.3ms       145.9ms
+    OSC (32 MiB)               1621.0ms  1627.5ms      1638.3ms
+    Kitty APC (128 MiB)        95.5ms    96.9ms        96.3ms
+    mixed traffic (32 MiB)     172.4ms   172.0ms       172.3ms
+    giant APC (128 MiB)        38.3ms    38.3ms        40.8ms
+  ```
+- [`f588078`](https://github.com/ghostty-org/ghostty/commit/f5880782fe34faccd30bb0c903055987171b6370) terminal: add stream continuation tracking for replay ([#13544](https://github.com/ghostty-org/ghostty/issues/13544)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds opt-in continuation tracking to `terminal.Stream` that allows
+  any caller to call `writeContinuation` in order to get the minimum bytes
+  necessary from a grounded parser state to the identical state.
+  
+  This enables reliable stream restart across serialization states, which
+  could be used for local restart, networked terminals, etc. For me, this
+  is used for multiplexers. :)
+  
+  **LLM usage:** I wrote the continuation tracker myself, used a mix of
+  5.6+Fable to review it for me, applied their feedback directly. Only
+  place with predominantly AI code are tests, which I reviewed. Commit and
+  PR message written myself.
+  
+  ## Implementation
+  
+  The implementation of this was really carefully done to avoid any
+  negative performance impact particularly when continuation tracking is
+  _off_.
+  
+  The way this work is simple:
+  
+  1. ESC is the only char that leaves the ground state and most ESC
+  sequences are short. So if we're in a non-ground state, we do a
+  backwards vectorized search to find the last `ESC` in the input slice.
+  If one doesn't exist, we assume we found it previously and store the
+  whole slice (rare, since ESC sequences are usually short like I said).
+  
+  2. If we're in the ground state that means we only have a potential
+  incomplete UTF-8 codepoint, so we find the lead UTF-8 byte.
+  
+  3. When writing, we normalize the suffix to drop things like BEL
+  commands that would've already been handled to avoid double-calling.
+  
+  ## Performance
+  
+  No real impact.
+  
+  Via `ghostty-bench +terminal-stream`.
+  
+  Corpus | Main | PR w/ Tracking Off | PR w/ Tracking On
+  -- | -- | -- | --
+  Plain ASCII (256 MiB) | 175.4 ms | 175.8 ms | 175.5 ms
+  UTF-8 (32 MiB) | 268.4 ms | 270.0 ms | 269.9 ms
+  5% invalid UTF-8 (32 MiB) | 316.4 ms | 317.8 ms | 320.2 ms
+  CSI-heavy (32 MiB) | 145.0 ms | 146.3 ms | 145.9 ms
+  OSC (32 MiB) | 1621.0 ms | 1627.5 ms | 1638.3 ms
+  Kitty APC (128 MiB) | 95.5 ms | 96.9 ms | 96.3 ms
+  Mixed traffic (32 MiB) | 172.4 ms | 172.0 ms | 172.3 ms
+  Giant APC (128 MiB) | 38.3 ms | 38.3 ms | 40.8 ms
+  ```
+- [`46edeee`](https://github.com/ghostty-org/ghostty/commit/46edeee407ff1cd15fb7db3837025386b2f3a327) macOS: fix update error pill is not showing properly ([#13540](https://github.com/ghostty-org/ghostty/issues/13540)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `acknowledgement` will call `dismissUpdateInstallation` so the error
+  state will never happen.
+  ```
 - [`60b4a35`](https://github.com/ghostty-org/ghostty/commit/60b4a358548a658bbb9810688e0cf7ba617edc9e) Fix CircBuf metadata after shrinking ([@fallintoplace](https://github.com/fallintoplace))
 - [`7a512c3`](https://github.com/ghostty-org/ghostty/commit/7a512c31252e32751e0d2691dd6ce48c68fc9798) gtk: fix capitalization of banner title ([@jcollie](https://github.com/jcollie))
 - [`e9e7864`](https://github.com/ghostty-org/ghostty/commit/e9e7864b43c7ce8bc520f95f964f7409f2d12dfe) remove fuzze entries in *.po files ([@jcollie](https://github.com/jcollie))
@@ -1056,224 +1160,5 @@ Summary: 5 runs • 22 commits • 6 authors
   
   This is not exposed to libghostty yet. I have that coming as a follow up
   change.
-  ```
-
-## July 26, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30223933750), [2](https://github.com/ghostty-org/ghostty/actions/runs/30222980936), [3](https://github.com/ghostty-org/ghostty/actions/runs/30222642647), [4](https://github.com/ghostty-org/ghostty/actions/runs/30219700544), [5](https://github.com/ghostty-org/ghostty/actions/runs/30187225687)  
-Summary: 5 runs • 27 commits • 8 authors
-
-### Changes
-
-- [`e31f729`](https://github.com/ghostty-org/ghostty/commit/e31f729b38d5008be7860b1493d3bee28e571431) deps: update translate-c backport ([@vancluever](https://github.com/vancluever))
-  ```text
-  This updates the translate-c backport to use the Zig lib dir from the
-  build graph rather than an external "zig env" invocation.
-  ```
-- [`1fe1b2d`](https://github.com/ghostty-org/ghostty/commit/1fe1b2d23c93a252babf7606e74215acdabf5013) build: fix static libghostty-vt linking on Windows ([@noib3](https://github.com/noib3))
-  ```text
-  This PR fixes static linking for libghostty-vt on Windows by propagating
-  a couple of missing dependencies (discovered while running Neovim's Zig
-  build, see
-  https://github.com/neovim/neovim/actions/runs/30130848061/job/89604799965?pr=39773).
-  ```
-- [`84254a9`](https://github.com/ghostty-org/ghostty/commit/84254a9d8cb7d8bd28852933484be3f499cfbeee) build: avoid MSVC C++ runtime in no-libcxx builds ([@noib3](https://github.com/noib3))
-  ```text
-  AI-assisted: Codex
-  ```
-- [`3b46000`](https://github.com/ghostty-org/ghostty/commit/3b4600014c0e897acd2db469af6e101f1f8645eb) clarify comments ([@mitchellh](https://github.com/mitchellh))
-- [`82e53e3`](https://github.com/ghostty-org/ghostty/commit/82e53e3f6e219e0cf0499fe29c82d925ea26cd5e) deps: update translate-c backport ([#13454](https://github.com/ghostty-org/ghostty/issues/13454)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Was brought up as possibly being a build issue here:
-  https://codeberg.org/vancluever/translate-c/pulls/1
-  
-  I do think that this is the better approach and seems to be the close
-  equivalent of the `.zig_ilb` option that's coming with `LazyPath` in
-  0.17.0 (which is how translate-c behaves there).
-  
-  I was looking for something like this initially and I _think_ I might
-  have passed over it to start with because it was a bit hard to determine
-  the circumstances that `b.graph.zig_lib_directory` would be null, but
-  upon further examination, I think such cases would be rare if they
-  happened at all. Rather than default to the cwd in this event though I
-  just get it to error out - that way we'll know if it ever is the case!
-  ```
-- [`24f7fb9`](https://github.com/ghostty-org/ghostty/commit/24f7fb983506469843c824f65e0c0f7cdf33661c) build: fix static libghostty-vt linking on Windows ([#13452](https://github.com/ghostty-org/ghostty/issues/13452)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR fixes static linking for libghostty-vt on Windows by propagating
-  a couple of missing dependencies (discovered while running Neovim's Zig
-  build, see [this CI
-  run](https://github.com/neovim/neovim/actions/runs/30130848061/job/89604799965?pr=39773)).
-  ```
-- [`39ae85f`](https://github.com/ghostty-org/ghostty/commit/39ae85f040dd922990e58b8a830414b471ddaf97) lib-vt: handle DECRQSS ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Move DECRQSS response encoding into the terminal DCS handler so both
-  the full termio path and libghostty-vt terminal stream emit the same
-  replies. The C API stream now maintains and releases DCS parser state
-  and forwards responses through write_pty.
-  ```
-- [`40ab02e`](https://github.com/ghostty-org/ghostty/commit/40ab02e3389fe9ff59c3ea682a48359c68ecaf4a) lib-vt: handle DECRQSS ([#13471](https://github.com/ghostty-org/ghostty/issues/13471)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Move DECRQSS response encoding into the terminal DCS handler so both the
-  full termio path and libghostty-vt terminal stream emit the same
-  replies. The C API stream now maintains and releases DCS parser state
-  and forwards responses through write_pty.
-  ```
-- [`4c1d696`](https://github.com/ghostty-org/ghostty/commit/4c1d69696b636fe9915d3d766dc597d36cef0e5e) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`5caf20e`](https://github.com/ghostty-org/ghostty/commit/5caf20e3e580dbda86fb3bba73211194843af757) terminal: avoid reallocating tabstop storage ([@Uzaaft](https://github.com/Uzaaft))
-  ```text
-  Resizing tabstops to an already-supported width previously allocated and
-  copied an equally sized dynamic buffer because the capacity check
-  excluded equality. Treat an exactly sized buffer as sufficient, avoiding
-  the temporary allocation and copy.
-  Add a fixed-buffer regression test so an unnecessary second allocation
-  fails the test.
-  ```
-- [`35790a7`](https://github.com/ghostty-org/ghostty/commit/35790a7e567124779329a546498f42788b41e0c9) Revert "macOS: fix undo new tab will cause a crash ([#9512](https://github.com/ghostty-org/ghostty/issues/9512))" ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  This reverts commit fbabafe8e305716d8a5152d6b48014c6814289f2, reversing
-  changes made to 7f0468f910fba3e73303bccf1e3d92a36ece3acd.
-  ```
-- [`a6edca2`](https://github.com/ghostty-org/ghostty/commit/a6edca2d7cef427e78145f7beee6a06af058d5fe) macOS: free surface synchronously in deinit on main thread ([@bo2themax](https://github.com/bo2themax))
-- [`20c3eae`](https://github.com/ghostty-org/ghostty/commit/20c3eae04dee606349eb21e2dd0293b203d47179) memset should match the C ABI ([@noib3](https://github.com/noib3))
-  ```text
-  The custom memset accepted its fill value as u8 even though C callers
-  pass int. Accept c_int and explicitly truncate it to the low byte, which
-  is what other implementations of this do.
-  ```
-- [`cb2fef3`](https://github.com/ghostty-org/ghostty/commit/cb2fef39027b6cdfa2b1e4400a0efa90763fea3f) terminal: preserve underline style in DECRQSS ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  DECRQSS previously serialized every active underline as SGR 4,
-  which caused double, curly, dotted, and dashed styles to round-trip
-  as single underlines.
-  
-  Emit the 4:n form for extended underline styles while retaining the
-  legacy 4 form for single underlines, and cover every supported style.
-  ```
-- [`1eecfe0`](https://github.com/ghostty-org/ghostty/commit/1eecfe089f7e0cb06a328c91e327b5b1188c415a) macOS: free surface synchronously in deinit on main thread ([#13364](https://github.com/ghostty-org/ghostty/issues/13364)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Since the renderer thread now emits scrollbar events on almost every
-  frame, there's always a `.scrollbar` message for the dying surface in
-  the app mailbox.
-  
-  The OS runtime seems to schedule `appTick` and `ghostty_surface_free`
-  differently across macOS pre-26, 26 and 27.
-  
-  On macOS 26.x, `ghostty_app_free` happens after
-  `App.scrollbar(_:target:v:)`, leaving `surface.userdata` pointing at a
-  freed `SurfaceView`.
-  
-  When `deinit` runs on the main thread, free the surface synchronously
-  instead of detaching to a task. This fixes both crashes mentioned in
-  https://github.com/ghostty-org/ghostty/pull/9512 and
-  https://github.com/ghostty-org/ghostty/issues/13359.
-  
-  ### AI Disclosure
-  
-  I used Claude to analyze the backtrace, but the code is written and
-  tested by myself.
-  ```
-- [`8374aa7`](https://github.com/ghostty-org/ghostty/commit/8374aa7850ee5a2630bfda87c279f5fe101df972) Update iTerm2 colorschemes ([#13461](https://github.com/ghostty-org/ghostty/issues/13461)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260720-153658-97e244c
-  ```
-- [`be3d4a5`](https://github.com/ghostty-org/ghostty/commit/be3d4a53358c7b28f610dd28036b7c7671a4c8ea) terminal: avoid reallocating tabstop storage ([#13465](https://github.com/ghostty-org/ghostty/issues/13465)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Avoid redundant tabstop allocation when the current buffer already
-  satisfies the requested size
-  ```
-- [`6f10ddf`](https://github.com/ghostty-org/ghostty/commit/6f10ddfe83d59d8633421a8bfa13cffbdd0fd121) terminal: preserve underline style in DECRQSS ([#13470](https://github.com/ghostty-org/ghostty/issues/13470)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  DECRQSS previously serialized every active underline as SGR 4, which
-  caused double, curly, dotted, and dashed styles to round-trip as single
-  underlines.
-  
-  Emit the 4:n form for extended underline styles while retaining the
-  legacy 4 form for single underlines, and cover every supported style.
-  ```
-- [`edcb6fb`](https://github.com/ghostty-org/ghostty/commit/edcb6fb509682d6cfc95b338891e259e22e4e637) memset should match the C ABI ([#13469](https://github.com/ghostty-org/ghostty/issues/13469)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The custom memset accepted its fill value as u8 even though C callers
-  pass int. Accept c_int and explicitly truncate it to the low byte, which
-  is what other implementations of this do.
-  ```
-- [`1ce5d42`](https://github.com/ghostty-org/ghostty/commit/1ce5d4229e1dccad2fe83278847048471532e99d) Revert "macOS: fix undo new tab will cause a crash ([#9512](https://github.com/ghostty-org/ghostty/issues/9512))" ([#13467](https://github.com/ghostty-org/ghostty/issues/13467)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We don't need this anymore after #13364
-  ```
-- [`88bd4fd`](https://github.com/ghostty-org/ghostty/commit/88bd4fdcea7a6416c17c3ace9be6b5aac60d55a7) feat: implement vicinae-hotkey-v1 ([@aurelleb](https://github.com/aurelleb))
-- [`9c6f287`](https://github.com/ghostty-org/ghostty/commit/9c6f287aab4358d49a9c6b9ebb734bea1a04bc63) chore: regenerate translations ([@aurelleb](https://github.com/aurelleb))
-- [`3024c5d`](https://github.com/ghostty-org/ghostty/commit/3024c5d19e0d5fbe399fbe2192e3dfd3b9793c46) refactor: address nits ([@aurelleb](https://github.com/aurelleb))
-- [`0075c75`](https://github.com/ghostty-org/ghostty/commit/0075c75b6127cffe09126b84d3c23ae5101d0447) refactor: remove unneeded appendAssumeCapacity ([@aurelleb](https://github.com/aurelleb))
-- [`7ee3ac9`](https://github.com/ghostty-org/ghostty/commit/7ee3ac9ec856d279310faf23947e600769cb3764) refactor: use arena allocator ([@aurelleb](https://github.com/aurelleb))
-- [`32e76d8`](https://github.com/ghostty-org/ghostty/commit/32e76d8ed0a2e52e4af70b1e05bda8e1cdb1a4c1) feat: implement global shortcuts through vicinae-hotkey-v1 ([#13464](https://github.com/ghostty-org/ghostty/issues/13464)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR provides an implementation for the
-  [vicinae-hotkey-v1](https://github.com/vicinaehq/vicinae-wayland-protocols/tree/main/staging/vicinae-hotkey)
-  protocol, as discussed
-  [here](https://github.com/ghostty-org/ghostty/discussions/13453).
-  
-  This is a wayland protocol that allows the client to dynamically
-  negotiate global shortcuts with the compositor. Unlike the portal, the
-  clients are free to bind, rebind, and unbind global shortcuts they
-  reserve.
-  
-  Here are a few advantages of using this over the global shortcut portal
-  for ghostty specifically:
-  
-  - `vicinae-hotkey-v1` lets the client know the state of its bindings at
-  all time, if a global bind is not granted by the compositor the cllient
-  is notified with a descriptive error message which is designed to help
-  the user understand what the problem might be. In my implementation, I
-  decided I would show a desktop notification to the user in case a global
-  shortcut reservation fails.
-  
-  - Global binds set in the config cannot drift from what is actually
-  registered, cannot be unilaterally changed by the user in compositor
-  settings, and do not pollute the global shortcut namespace permanently.
-  Reservations are only active while ghostty is running.
-  
-  - The protocol provides the client with an input serial that can be used
-  to generate an `xdg_activation` token, allowing ghostty to steal focus
-  when one of its global shortcut is used. Currently ghostty doesn't have
-  an input serial to pass to `xdg_activation`. I didn't wire it for now,
-  in order keep things simple. But I guess it will be a nice to have.
-  
-  ---
-  
-  AI disclosure: most of the code was written by Fable 5 (Claude Code), as
-  zig is not my primary language.
-  
-  From an implementation perspective: I made it so that
-  `vicinae-hotkey-v1` is used to manage global shortcuts over the portal
-  when the global is advertised by the compositor. If it's not available,
-  we fallback on the portal like before.
-  
-  At this time the protocol is implemented by Hyprland (since
-  [v0.56.0](https://github.com/hyprwm/Hyprland/pull/15010)) and there is
-  an open PR for [niri](https://github.com/niri-wm/niri/pull/4145). There
-  is also an official [wayland-protocols
-  proposal](https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/525).
-  
-  As for the clients, for now the only implementer (that I know of) is
-  [vicinae](https://github.com/vicinaehq/vicinae).
-  
-  The idea would be to merge this `vicinae-hotkey-v1` implementation and
-  then have it be superseded by the upstream version later, assuming it is
-  turned into an official extension protocol following the
-  wayland-protocols process.
-  
-  PS: sorry for the diff noise about all the .po changes, I'm not sure
-  whether this is intended or not, but I did regenerate the translations
-  as asked
-  ```
-- [`2de5e7d`](https://github.com/ghostty-org/ghostty/commit/2de5e7d38e1354759211722a8687c0815d2cf02c) Update VOUCHED list ([#13463](https://github.com/ghostty-org/ghostty/issues/13463)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13462#discussioncomment-17783961)
-  from @pluiedev.
-  
-  Vouch: @aurelleb
   ```
 
