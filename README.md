@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 2, 2026 at 19:01 UTC.
+> Last updated: August 2, 2026 at 21:50 UTC.
 
 ## August 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30752310032), [2](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
-Summary: 2 runs • 12 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30765748163), [2](https://github.com/ghostty-org/ghostty/actions/runs/30752310032), [3](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
+Summary: 3 runs • 13 commits • 6 authors
 
 ### Changes
 
+- [`a4f9b9c`](https://github.com/ghostty-org/ghostty/commit/a4f9b9cea23e84873f785c77eaa3475689354e43) Update VOUCHED list ([#13564](https://github.com/ghostty-org/ghostty/issues/13564)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13563#issuecomment-5160200376)
+  from @trag1c.
+  
+  Denounce: @guysoft
+  ```
 - [`aa74971`](https://github.com/ghostty-org/ghostty/commit/aa7497128252d8e4ba67b48a0d3908d91afa469f) build: lower iOS deployment target version ([@elias8](https://github.com/elias8))
 - [`f024d21`](https://github.com/ghostty-org/ghostty/commit/f024d21fc46ab2110ef6573f7f5ea5263330cad7) Fix superfluous newline in html formatting ([@RoniJacobson](https://github.com/RoniJacobson))
   ```text
