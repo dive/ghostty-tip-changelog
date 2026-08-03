@@ -8,7 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 3, 2026 at 02:22 UTC.
+> Last updated: August 3, 2026 at 06:16 UTC.
+
+## August 3, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`e37865b`](https://github.com/ghostty-org/ghostty/commit/e37865bedc2e1b4884f728f41f0d4a179418387f) terminal/snapshot: add incremental decoder ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new `terminal.snapshot.Decoder` that allows for incremental
+  decoding of a snapshot stream. There are two methods: `ready` builds up
+  the entire terminal up to READY. Then `next` acts like a Zig iterator
+  and applies incremental history as it becomes available. In between
+  calls to `ready` and `next` the caller can do whatever.
+  ```
+- [`b4592ee`](https://github.com/ghostty-org/ghostty/commit/b4592eefd27290457852ad7d4f16799ecc00b983) terminal/snapshot: add incremental decoder ([#13569](https://github.com/ghostty-org/ghostty/issues/13569)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new `terminal.snapshot.Decoder` that allows for incremental
+  decoding of a snapshot stream. There are two methods: `ready` builds up
+  the entire terminal up to READY. Then `next` acts like a Zig iterator
+  and applies incremental history as it becomes available. In between
+  calls to `ready` and `next` the caller can do whatever.
+  
+  The use case for this: with a 1MB ascii stream, the time to decode to
+  READY is ~40us on my machine, versus 1.5ms for the entire history. This
+  means that a terminal could be rendered and visible after 40us rather
+  than waiting for the full terminal. This isn't a large terminal, but
+  that READY time should be pretty standard since screens don't get that
+  big, but history is unbounded.
+  ```
 
 ## August 2, 2026
 
