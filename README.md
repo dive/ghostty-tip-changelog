@@ -8,15 +8,132 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 3, 2026 at 17:05 UTC.
+> Last updated: August 3, 2026 at 19:24 UTC.
 
 ## August 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [2](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [3](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
-Summary: 3 runs • 15 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30840279326), [2](https://github.com/ghostty-org/ghostty/actions/runs/30834015563), [3](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [4](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [5](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
+Summary: 5 runs • 21 commits • 5 authors
 
 ### Changes
 
+- [`c11fe54`](https://github.com/ghostty-org/ghostty/commit/c11fe5486f7c1f0aa346b8f0a23ea0fcedf79433) core: avoid copying OSC 52 clipboard responses ([@jparise](https://github.com/jparise))
+  ```text
+  OSC 52 clipboard reads built their response in an allocated buffer and
+  then passed it through Message.writeReq, which allocated a second copy
+  for large responses.
+  
+  Instead, transfer the allocated response directly using .write_alloc.
+  
+  Small responses now retain their initial allocation until the IO thread
+  consumes them instead of being copied inline and freed immediately.
+  Their allocation count is unchanged, while large responses improve from
+  two allocations to one. Both cases avoid the additional copy.
+  ```
+- [`ac04fc2`](https://github.com/ghostty-org/ghostty/commit/ac04fc276169c70d31aa6fcfc5b43fc160d6fe6e) core: avoid copying OSC 52 clipboard responses ([#13577](https://github.com/ghostty-org/ghostty/issues/13577)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  OSC 52 clipboard reads built their response in an allocated buffer and
+  then passed it through Message.writeReq, which allocated a second copy
+  for large responses.
+  
+  Instead, transfer the allocated response directly using .write_alloc.
+  
+  Small responses now retain their initial allocation until the IO thread
+  consumes them instead of being copied inline and freed immediately.
+  Their allocation count is unchanged, while large responses improve from
+  two allocations to one. Both cases avoid the additional copy.
+  ```
+- [`90da3ab`](https://github.com/ghostty-org/ghostty/commit/90da3aba58a8c5f44d97bd9ec54eaa1696591256) gtk: fix split sizing to eliminate flickering ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  For widget resizes the split ratio is now synced directly from the
+  propMaxPosition callback in the SplitTreeSplit widget, instead of an
+  idle callback. With this change all surfaces will be sized correctly
+  from the start, in a single round of size allocation in GTK. Previously,
+  surfaces would initially be shown with the wrong size for a few frames
+  until the idle callback ran, resulting in visible flickering. This was
+  especially visible when resizing a split quickly by holding down the
+  resize keybind.
+  
+  Moved logic to sync split ratio between gtk.Paned widget and split tree
+  into new syncSplitRatio function in the SplitTreeSplit widget. Added
+  debug assertions and log warnings to syncSplitRatio where we look up
+  the split tree.
+  ```
+- [`957ed21`](https://github.com/ghostty-org/ghostty/commit/957ed21d5c6241f81526581db78520d3c3196421) core: free allocated writes in read-only mode ([@jparise](https://github.com/jparise))
+  ```text
+  Read-only filtering happens in Surface.queueIo after callers construct
+  the message. This early return leaked write_alloc payloads because the
+  IO thread never receives them and therefore does not perform its normal
+  cleanup.
+  ```
+- [`7d74809`](https://github.com/ghostty-org/ghostty/commit/7d748097a069768e12fa9bf63d598215a3e8f7a3) core: free allocated writes in read-only mode ([#13574](https://github.com/ghostty-org/ghostty/issues/13574)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Read-only filtering happens in Surface.queueIo after callers construct
+  the message. This early return leaked write_alloc payloads because the
+  IO thread never receives them and therefore does not perform its normal
+  cleanup.
+  ```
+- [`da581e0`](https://github.com/ghostty-org/ghostty/commit/da581e0fb7a49af38b59a91ef59e1677ff06435a) gtk: improve split sizing ([#13414](https://github.com/ghostty-org/ghostty/issues/13414)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR improves the way splits/surfaces are sized in the GTK app, which
+  eliminates flickering and slightly improves performance.
+  
+  Fixes #13328, #12709, #11187.
+  Related #8208 (closed) but some later comments mention flickering issues
+  persisting.
+  Builds on top of the changes in #12698.
+  
+  Previously an idle callback was used to sync the split ratio between the
+  GTK widget tree and the split tree data structure that represents the
+  split layout. The widget tree contains a `SplitTreeSplit` widget, which
+  wraps a `GtkPaned` widget, for every split. During size allocation a
+  `GtkPaned` widget first computes the initial position of the divider and
+  thereby the size for its two children. We get notified of that position
+  (and the max possible position) via the `propPosition/propMaxPosition`
+  callbacks in `SplitTreeSplit` and set up an idle callback (the `onIdle`
+  function) to update the position if it does not match the desired split
+  ratio. Since the initial position is often not correct, especially in
+  nested layouts or if the ratio is not 0.5, a surface will first be shown
+  with the wrong size for a few frames until the idle callback runs and
+  corrects the sizing. In nested layouts it might take multiple rounds of
+  size allocation and idle callbacks until every surface gets the correct
+  size. This causes flickering as widgets eventually snap to another size,
+  which is especially noticeable if the layout changes quickly e.g. when
+  resizing a split using keybinds.
+  
+  To fix this, the divider position will now be corrected directly from
+  the `propMaxPosition` callback, which runs during GTK size allocation,
+  right after a `GtkPaned` computes the initial position and right before
+  it uses the position to allocate sizes for its two children. With this
+  change every surface will be sized correctly during the first round of
+  size allocation.
+  The idle callback is still used to update the ratio in the split tree
+  when a split is resized by manually dragging the divider in the UI. The
+  logic to sync the split ratio was moved to the new `syncSplitRatio`
+  function which is called from both `propMaxPosition` and `onIdle`.
+  
+  This is kind of hacky, but I reviewed the GTK source code in detail to
+  verify that this is safe (see the various code comments for more
+  details). I also tested extensively on both Hyprland and KDE Plasma:
+  creating deeply nested layouts, resizing with both keybinds and dragging
+  dividers by hand, with multiple tabs, resizing the entire window,
+  resizing entire subtrees to 0 and back. Everything seems to work fine.
+  
+  For performance testing I used sysprof which can also collect GTK stats.
+  When creating/deleting/resizing splits I can measure a slight but
+  consistent increase in GTK FPS (+5 to 10) on my system. Other than that
+  CPU usage and FPS seem to be the same before and after. I guess this
+  makes sense, while we added a bit of work to the GTK loop during size
+  allocation, we avoid surfaces being resized.
+  
+  For the flickering, here's a side-by-side comparison. Left is before the
+  changes, right is after.
+  
+  
+  https://github.com/user-attachments/assets/2a4f0b4b-e113-49b5-b0d7-d9e507a5a4ff
+  
+  AI Disclosure: no AI was used.
+  ```
 - [`15c50c1`](https://github.com/ghostty-org/ghostty/commit/15c50c1db1983961c9aa37a2fc0f51327ad26608) crash: do not use global state ([@vancluever](https://github.com/vancluever))
   ```text
   This removes use of global state from the crash reporting functionality
