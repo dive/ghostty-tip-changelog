@@ -8,15 +8,343 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 2, 2026 at 21:50 UTC.
+> Last updated: August 3, 2026 at 02:22 UTC.
 
 ## August 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30765748163), [2](https://github.com/ghostty-org/ghostty/actions/runs/30752310032), [3](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
-Summary: 3 runs • 13 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30770277131), [2](https://github.com/ghostty-org/ghostty/actions/runs/30769052845), [3](https://github.com/ghostty-org/ghostty/actions/runs/30765748163), [4](https://github.com/ghostty-org/ghostty/actions/runs/30752310032), [5](https://github.com/ghostty-org/ghostty/actions/runs/30743972710)  
+Summary: 5 runs • 25 commits • 7 authors
 
 ### Changes
 
+- [`7031c89`](https://github.com/ghostty-org/ghostty/commit/7031c892b2d1309d4463a56654b90bd0501f3970) synthetic: line length options for the ascii generator ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The ascii generator emits an unbroken stream of printable bytes, which
+  exercises terminal wrapping but produces only full-width rows. Add
+  line-min and line-max options that emit CR LF-terminated lines with a
+  uniformly distributed printable length so generated corpora can also
+  model shell-like output where most rows end well before the last
+  column. The default behavior is unchanged.
+  ```
+- [`0b5e124`](https://github.com/ghostty-org/ghostty/commit/0b5e12453b639af3f904ad57123cb075a97a82f8) benchmark: add terminal-snapshot benchmark ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Measures the terminal binary snapshot codecs in both directions
+  against the same terminal state. Setup feeds a pre-generated VT
+  stream (for example from ghostty-gen ascii) to a terminal outside
+  the timed region.
+  
+  Baseline measurements at this commit (M-series, ReleaseFast, 80x24,
+  unlimited scrollback, 1 MB corpora, per-loop time with setup
+  subtracted):
+  
+    ascii lines 1-70:  34.16 MB  encode  92.8 ms  decode 119.8 ms
+    ascii full-wrap:   16.01 MB  encode  43.6 ms  decode  56.2 ms
+    utf8:               4.33 MB  encode  12.4 ms  decode  19.0 ms
+  ```
+- [`ed0f54f`](https://github.com/ghostty-org/ghostty/commit/ed0f54fb8ccf45fc502de25f2c0f1e60967fc2a4) terminal/snapshot: 8-byte grid cells with blank elision ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Rework the PAGE grid encoding for codec speed and size. This is a
+  breaking change to the work-in-progress version 1 wire format.
+  
+  Cells were previously a fixed 16-byte header plus inline grapheme
+  suffixes: one byte each for content kind, width, and flags, a
+  reserved byte, 16-bit style and hyperlink IDs, a 32-bit value, and an
+  always-present 32-bit suffix count that was almost always zero. Cells
+  are now one 64-bit little-endian word with a documented bit registry
+  that carries the hyperlink ID in its high bits. The layout
+  deliberately coincides with the native cell so clean rows encode as a
+  straight copy of page memory and decode as one bulk read plus an
+  in-place normalization pass; a comptime check falls back to a
+  portable field-by-field codec if the native layout ever diverges.
+  
+  Each row header also gains an encoded cell count so trailing default
+  cells are elided instead of spending 16 bytes apiece encoding
+  nothing: on typical shell output most of every row is blank, and
+  measurement showed 97% of encoded snapshot bytes were zero. Grapheme
+  suffixes move out of the cell stream into a per-grid section of
+  (row, column, codepoints) entries, which keeps row decoding
+  fixed-stride and bulk-copyable.
+  
+  Decode ID remapping switches from hash maps to direct-indexed tables
+  sized by the 16-bit encoded ID space, removing per-styled-cell hash
+  lookups.
+  
+  Benchmark deltas at this commit (terminal-snapshot, M-series,
+  ReleaseFast, 1 MB corpora):
+  
+    ascii lines 1-70:  34.16 MB -> 7.66 MB (4.5x)
+                       encode 92.8 -> 18.2 ms, decode 119.8 -> 28.0 ms
+    ascii full-wrap:   16.01 MB -> 8.04 MB (2.0x)
+                       encode 43.6 -> 18.4 ms, decode  56.2 -> 25.6 ms
+    utf8:               4.33 MB -> 1.90 MB (2.3x)
+                       encode 12.4 ->  4.9 ms, decode  19.0 ->  9.6 ms
+  ```
+- [`9cc061c`](https://github.com/ghostty-org/ghostty/commit/9cc061c28cc79f5c11eae1299fe06fe486ada157) terminal/snapshot: hardware-accelerated CRC32C ([@mitchellh](https://github.com/mitchellh))
+- [`9f66563`](https://github.com/ghostty-org/ghostty/commit/9f66563479df3b12e08d28fca2bb7bbe4ce65e16) terminal/snapshot: gate page verification on slow runtime safety ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PAGE decoding verified the complete native integrity of every decoded
+  page unconditionally, building per-cell reference maps that accounted
+  for roughly a fifth of decode time. The decoder normalizes every
+  semantic value while decoding, so a completed decode upholds page
+  invariants by construction and the verification only defends against
+  decoder bugs. Follow the native page policy instead: assertIntegrity
+  and friends run full verification only when slow runtime safety is
+  enabled, which keeps the check in debug and test builds where those
+  bugs are caught.
+  
+  Benchmark deltas at this commit (terminal-snapshot, 1 MB corpora):
+  
+    ascii lines 1-70:  decode 15.5 -> 12.2 ms (encode unchanged)
+  ```
+- [`3e5d128`](https://github.com/ghostty-org/ghostty/commit/3e5d128353171df595a9535e595f18a4406db0c2) terminal/snapshot: stage PAGE payloads while decoding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PAGE payloads were decoded through a stack of stream adapters:
+  a CRC32C-hashing reader over a length-limited reader over the
+  BLAKE3-hashing snapshot reader. Every row paid several adapter
+  crossings and both hashes were fed row-sized chunks, which kept
+  BLAKE3 out of its efficient many-block path and made adapter
+  overhead about a quarter of decode time.
+  
+  Decode now reads the remaining payload into a scratch buffer with
+  one bulk read, so each hash sees the payload as a single update, and
+  then parses the tables and grid from a flat in-memory reader. Row
+  headers are also read as one three-byte read instead of two calls.
+  Staging is capped at 8 MiB, far above any standard-capacity page
+  payload, so a hostile declared length cannot force a large
+  allocation; larger payloads fall back to the streaming path. CRC
+  validation and exact-exhaustion checks are unchanged, with the
+  staged reader checked for leftover bytes to preserve
+  PayloadNotExhausted semantics.
+  
+  Benchmark deltas at this commit (terminal-snapshot, 1 MB corpora):
+  
+    ascii lines 1-70:  decode 12.2 -> 8.1 ms (encode unchanged)
+    ascii full-wrap:   decode 11.1 -> 7.2 ms
+    utf8:              decode  3.1 -> 2.1 ms
+  
+  Relative to the previous wire format and codecs, the series is a
+  16.0x encode and 14.8x decode improvement on line-shaped scrollback
+  at 4.5x smaller wire size.
+  ```
+- [`9e3019f`](https://github.com/ghostty-org/ghostty/commit/9e3019f1905496970e90eb9169fac4ebc0804321) terminal/snapshot: variable-width grid cell encoding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a per-row encoded cell width to the PAGE grid format. Rows
+  previously always spent eight bytes per cell, but a plain text cell
+  carries only a codepoint: on line-shaped scrollback most encoded
+  bytes were predictable zeros that still had to pass through CRC32C,
+  BLAKE3, both codecs, and any transport compression the caller
+  applies.
+  
+  Each row now declares one of four widths in previously reserved row
+  flag bits, chosen canonically as the smallest width admitted by the
+  bitwise OR of the row cell words: one or two bytes transport a bare
+  codepoint, four bytes transport the low word half (any content kind,
+  style IDs up to sixty-three, no wide or flag or hyperlink bits), and
+  eight bytes remain the full word. Every width is a truncation on
+  encode and a zero-extension on decode, so narrow rows encode and
+  decode as vectorizable integer loops, one and two byte rows need at
+  most surrogate replacement and skip cell normalization entirely, and
+  full-width rows keep the existing bulk copy. Decoders use the
+  declared width for framing and accept rows encoded wider than
+  necessary. Rows containing wide characters, hyperlinks, semantic
+  content, or large style IDs still use the full width, which leaves
+  CJK-heavy content unchanged.
+  
+  Benchmark deltas at this commit (terminal-snapshot, M-series,
+  ReleaseFast, 1 MB corpora):
+  
+    ascii lines 1-70:  7.66 MB -> 1.03 MB (7.4x)
+                       encode 5.8 -> 2.0 ms, decode 8.1 -> 2.7 ms
+    ascii full-wrap:   8.04 MB -> 1.04 MB (7.7x)
+                       encode 5.4 -> 1.3 ms, decode 7.2 -> 1.8 ms
+    utf8:              unchanged (wide cells keep rows at full width)
+  
+  For a caller compressing the stream, the lines snapshot end to end
+  with zstd -1: encode plus compress 18.5 -> 2.8 ms, decompress plus
+  decode 15.8 -> 3.6 ms, and the compressed size itself drops from
+  1.35 MB to 0.86 MB because the packed stream is denser for the
+  entropy coder.
+  ```
+- [`d351d9c`](https://github.com/ghostty-org/ghostty/commit/d351d9ce07d53c9bee9db4bf28a95c17c0a9d448) terminal/snapshot: more efficient binary form, optimize wire size + encode/decode speeds ([#13566](https://github.com/ghostty-org/ghostty/issues/13566)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Reworks the terminal PAGE grid wire format and optimize both
+  encode/decode. Example improvements for 1MB of VT input w/ full
+  scrollback: ~30x smaller wire size, ~45x faster encoding and decoding.
+  
+  > [!IMPORTANT]
+  >
+  > **Snapshot version 1 is still explicitly a work-in-progress format, so
+  this breaks wire compatibility**.
+  
+  The original snapshot version I merged favored simplicity over
+  optimization. This was the format used a proof-of-concept in my own
+  projects, but I knew it wasn't what I wanted to ship. This PR looks at
+  the record formats and trades simplicity for performance, a fair trade
+  for a performance-sensitive binary format.
+  
+  Overview of changes:
+  
+  - **8-byte grid cells.** Cells are now one 64-bit word whose layout
+  deliberately coincides with the native cell. Previously, cells were 16
+  bytes each and in our 1MB corpus 97% of the data was `0`. Lol.
+  - **Blank trailing cells are not written.** Rows declare an encoded cell
+  count so trailing blank cells cost nothing.
+  - **Hardware CRC32C.** Added `src/crc32c.zig` that uses inline-asm on
+  aarch64/x86_64 to get hardware speeds for CRC32. Zig's stdlib is 0.56
+  GB/s, aarch64 hardware is 10 GB/s on my computer.
+  - **Variable-width cells.** Each row declares how many bytes transport
+  each cell word: 1, 2, 4, or 8 depending on the widest row cell.
+  
+  ## Format
+  
+  Grid layout, per PAGE record:
+  
+  ```
+     old                                new
+     +--------------------------+      +--------------------------+
+     | row 0                    |      | row 0                    |
+     |   flags (1)              |      |   flags + width (1)      |
+     |   cols * 16B cells with  |      |   encoded cell count (2) |
+     |   inline suffixes        |      |   count * width cells    |
+     +--------------------------+      +--------------------------+
+     | ...                      |      | ...                      |
+     +--------------------------+      +--------------------------+
+     | row (rows - 1)           |      | row (rows - 1)           |
+     +--------------------------+      +--------------------------+
+                                       | grapheme suffix section  |
+                                       +--------------------------+
+  ```
+  
+  Every row previously carried exactly `cols` cells; now it carries cells
+  only through its last non-default cell, and the cells past the count are
+  implicitly zero. The row flag byte gains the encoded cell width in its
+  previously reserved bits:
+  
+  ```
+     bit 0 wrap                 bit 2-3 semantic prompt
+     bit 1 wrap continuation    bit 4-5 encoded cell width (log2 bytes)
+  ```
+  
+  The cell itself, old fixed 16-byte header versus the new single word:
+  
+  ```
+     old (16 bytes + inline suffixes)     new (one u64 word)
+     +--------+---------+--------+        bit  0 +------------------+
+     | kind 1 | width 1 | flags 1|               | content kind  2b |
+     +--------+---------+--------+        bit  2 +------------------+
+     | zero 1 | style id 2       |               | content      24b |
+     +--------+------------------+        bit 26 +------------------+
+     | hyperlink id 2            |               | style ID     16b |
+     +---------------------------+        bit 42 +------------------+
+     | value 4                   |               | width kind    2b |
+     +---------------------------+        bit 44 +------------------+
+     | grapheme count 4          |               | protected     1b |
+     +---------------------------+        bit 45 +------------------+
+     | grapheme cps 4 * count    |               | hyperlink     1b |
+     +---------------------------+        bit 46 +------------------+
+                                                 | semantic      2b |
+                                          bit 48 +------------------+
+                                                 | hyperlink ID 16b |
+                                          bit 64 +------------------+
+  ```
+  
+  The word's bit layout intentionally matches the native cell (with the
+  wire hyperlink ID in the native padding), so full-width rows are a
+  straight copy of page memory. The row's encoded width then transports
+  each word truncated, and decode is the matching zero-extension:
+  
+  ```
+     width | bytes | admitted cells
+     ------+-------+------------------------------------------------
+       0   |   1   | codepoint <= U+00FF, nothing else set
+       1   |   2   | codepoint <= U+FFFF, nothing else set
+       2   |   4   | any content kind/codepoint, style IDs 1-63,
+           |       | narrow, no flags, no hyperlink
+       3   |   8   | everything
+  ```
+  
+  Grapheme suffixes were inline after each cell, which forced per-cell
+  framing decisions; they are now one section after the rows, so a
+  grapheme-free page (the overwhelming case) pays 4 bytes total:
+  
+  ```
+     old: ... | cell | cp cp | cell | ...      (inline, per cell)
+  
+     new: +----------------+----------------------------------+
+          | entry count 4  | entries: row 2, col 2, count 2,  |
+          |                |          count * codepoint 4     |
+          +----------------+----------------------------------+
+  ```
+  
+  ## Performance
+  
+  Setup: `ghostty-bench +terminal-snapshot`, 80x24 terminal with unlimited
+  scrollback fed 1 MB of VT input.
+  
+  Per-commit improvements:
+  
+  | change                        | wire size | encode  | decode   |
+  |-------------------------------|-----------|---------|----------|
+  | baseline (v1 before this PR)  | 34.16 MB  | 92.8 ms | 119.8 ms |
+  | 8-byte cells + blank elision  | 7.66 MB   | 18.2 ms | 28.0 ms  |
+  | hardware CRC32C               | 7.66 MB   | 5.8 ms  | 15.5 ms  |
+  | gate page verification        | 7.66 MB   | 5.8 ms  | 12.2 ms  |
+  | staged PAGE payload decoding  | 7.66 MB   | 5.8 ms  | 8.1 ms   |
+  | variable-width cells          | 1.03 MB   | 2.0 ms  | 2.7 ms   |
+  
+  Final result across various inputs:
+  
+  | corpus | wire size | encode | decode |
+  
+  |----------------------------|------------------------|----------------------|-----------------------|
+  | ascii lines 1-70 | 34.16 -> 1.03 MB (33x) | 92.8 -> 2.0 ms (46x) |
+  119.8 -> 2.7 ms (44x) |
+  | ascii full-width wrap | 16.01 -> 1.04 MB (15x) | 43.6 -> 1.3 ms (34x)
+  | 56.2 -> 1.8 ms (31x) |
+  | utf8 (wide/grapheme heavy) | 4.33 -> 1.89 MB (2.3x) | 12.4 -> 1.7 ms
+  (7x) | 19.0 -> 2.2 ms (9x) |
+  
+  ### Relationship with Compression
+  
+  I expect that users of this will wrap everything in compression, so I
+  also benchmarked all my changes against a caller-owned zstd compressor
+  to ensure we're making the write tradeoffs. Less bytes means less time
+  in a compressor, even if a ton of 0s compresses really well.
+  
+  My results: `zstd -1` over the `lines` snapshot drops from 12.7 ms to
+  0.8 ms, and the compressed artifact shrinks from 1.35 MB to 0.86 MB. So
+  the end state is a win-win.
+  ````
+- [`3a606c6`](https://github.com/ghostty-org/ghostty/commit/3a606c6c41b83996d5f23860062548a63a08546c) macOS: install update with same code path ([@bo2themax](https://github.com/bo2themax))
+- [`c992658`](https://github.com/ghostty-org/ghostty/commit/c992658b2994a560b052f79b241e4cd02df843c5) terminal/osc: decode OSC 52 base64 with the SIMD decoder ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  OSC 52 clipboard writes decoded their base64 payload with the scalar
+  std implementation while Kitty graphics payloads already used the SIMD
+  decoder in src/simd.
+  
+  Move clipboard path to use the same SIMD decoder. The encode side
+  of the read reply stays scalar since the codebase has no SIMD
+  encoder. 3.3x faster on a 4KB-payload decode micro-benchmark.
+  ```
+- [`39799a6`](https://github.com/ghostty-org/ghostty/commit/39799a61ce116a4f85e5f98582017383bd73ebc8) terminal/osc: decode OSC 52 base64 with the SIMD decoder ([#13565](https://github.com/ghostty-org/ghostty/issues/13565)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  use simd decoder for OSC 52 clipboard instead of the scalar impl.
+  ```
+- [`f424b20`](https://github.com/ghostty-org/ghostty/commit/f424b20589e3cd286a7ec3c49836849150c1bcf5) macOS: install update with same code path ([#13562](https://github.com/ghostty-org/ghostty/issues/13562)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously if you select "**Install and Relaunch**" in the update pill,
+  there's still a confirmation alert about killing active process, but it
+  will just relaunch regardlessly(which is the intended behaviour) when
+  you do it in the command palette.
+  
+  Using UpdateState to check so Ghostty will relaunch immediately when
+  user chooses "Install and Relaunch".
+  
+  > For the auto update case, this will be handled a bit differently in
+  the future. If an update is already installed and waiting for relaunch
+  (that the user is not aware of), quitting Ghostty will still remind them
+  if there's active processes.
+  ```
 - [`a4f9b9c`](https://github.com/ghostty-org/ghostty/commit/a4f9b9cea23e84873f785c77eaa3475689354e43) Update VOUCHED list ([#13564](https://github.com/ghostty-org/ghostty/issues/13564)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -1149,136 +1477,5 @@ Summary: 6 runs • 14 commits • 7 authors
   length in units of T (which also fixes self.len going stale after a
   grow. It's documented as the allocated element count but was never
   updated here)
-  ```
-
-## July 27, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30304357049), [2](https://github.com/ghostty-org/ghostty/actions/runs/30295137203), [3](https://github.com/ghostty-org/ghostty/actions/runs/30286163644), [4](https://github.com/ghostty-org/ghostty/actions/runs/30281549818), [5](https://github.com/ghostty-org/ghostty/actions/runs/30270547633)  
-Summary: 5 runs • 22 commits • 6 authors
-
-### Changes
-
-- [`c3655ba`](https://github.com/ghostty-org/ghostty/commit/c3655ba258d930b1eceae05a91a226a8f3720cb9) terminal: expose desktop notification effect ([@pearkes](https://github.com/pearkes))
-- [`47d602c`](https://github.com/ghostty-org/ghostty/commit/47d602c422d180eb08627dd29f3386719fac7dcb) terminal: expose progress report effect ([@pearkes](https://github.com/pearkes))
-- [`628adaf`](https://github.com/ghostty-org/ghostty/commit/628adaf30f54b7310a163fed164d72ea4391ed3c) terminal: share progress state enum ([@pearkes](https://github.com/pearkes))
-- [`2729996`](https://github.com/ghostty-org/ghostty/commit/2729996eab608d19847f4d0c37508442bb3a2096) terminal: update event tests for constructor API ([@pearkes](https://github.com/pearkes))
-- [`d0e72a3`](https://github.com/ghostty-org/ghostty/commit/d0e72a3ab654326bc1e5de07199cee229066ee19) font/sprite: update to z2d 0.12.1, use native path insetting ([@vancluever](https://github.com/vancluever))
-  ```text
-  This change updates z2d to 0.12.1 and changes the sprite font path
-  insetting functionality to use the new path offset abilities released in
-  the update.
-  
-  In addition, there has been a slight change to the drawing of E0B5 and
-  its respective reflection; we now add a 1-pixel horizontal line segment
-  to each end to force them to be perpendicular. This is because
-  offsetting pre-expands the curves and ultimately causes the end segments
-  of the curve itself to have slight non-horizontal angles, which produce
-  small artifacts at the ends without the forced horizontal ends.
-  ```
-- [`eb9faed`](https://github.com/ghostty-org/ghostty/commit/eb9faed28beac3a0736dc4b6d3327ece78266c03) font/sprite: update to z2d 0.12.1, use native path insetting ([#13489](https://github.com/ghostty-org/ghostty/issues/13489)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This change updates z2d to 0.12.1 and changes the sprite font path
-  insetting functionality to use the new path offset abilities released in
-  the update.
-  
-  In addition, there has been a slight change to the drawing of E0B5 and
-  its respective reflection; we now add a 1-pixel horizontal line segment
-  to each end to force them to be perpendicular. This is because
-  offsetting pre-expands the curves and ultimately causes the end segments
-  of the curve itself to have slight non-horizontal angles, which produce
-  small artifacts at the ends without the forced horizontal ends.
-  ```
-- [`2dd79f3`](https://github.com/ghostty-org/ghostty/commit/2dd79f3bc6af649e68422b08e21ad0300fd8b391) Expose additional events: desktop and progress ([#13483](https://github.com/ghostty-org/ghostty/issues/13483)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This exposes libghostty-vt callbacks for additional terminal events.
-  
-  * Desktop notifications from OSC 9/777
-  * Progress reports from OSC 9;4, including state and optional percentage
-  * Uses the `lib.Enum` progress state
-  * Exposes both through the existing terminal option/effect API
-  
-  AI disclosure: Sol-5.6 was used extensively to write the code, I
-  reviewed it personally.
-  ```
-- [`10e6ace`](https://github.com/ghostty-org/ghostty/commit/10e6ace6b66bddcee1a746c8d5fffb414209cf2a) GhosttyI18n: fix build on freebsd with zig 0.16 ([@svmhdvn](https://github.com/svmhdvn))
-- [`c14cb51`](https://github.com/ghostty-org/ghostty/commit/c14cb5196adf4350e6b86f81c871502281016701) GhosttyI18n: fix build on freebsd with zig 0.16 ([#13485](https://github.com/ghostty-org/ghostty/issues/13485)) ([@jcollie](https://github.com/jcollie))
-- [`28f02ac`](https://github.com/ghostty-org/ghostty/commit/28f02ac3ce1656f41134f53dc8bf8e3882e14507) Update VOUCHED list ([#13487](https://github.com/ghostty-org/ghostty/issues/13487)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13485#issuecomment-5094118020)
-  from @jcollie.
-  
-  Vouch: @svmhdvn
-  ```
-- [`f4c68d6`](https://github.com/ghostty-org/ghostty/commit/f4c68d65e5008b950c9a2aac9fa928b244dc3b99) terminal: support runtime scrollback limits ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Scrollback limits were fixed when a terminal screen was initialized.
-  Move byte and line state and enforcement into a shared Limits type so
-  PageList can update both constraints after initialization and resize.
-  
-  Add runtime setters to PageList and Terminal. Lowering a limit prunes
-  eligible history immediately, while zero bytes switches the primary
-  screen to no-scrollback behavior and clears retained history. Keep
-  alternate screens unchanged.
-  ```
-- [`03d5fa2`](https://github.com/ghostty-org/ghostty/commit/03d5fa268902d609b2872178a1d5a4d9ff351ee7) lib-vt: move scrollback limits to terminal_set ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Terminal construction previously accepted GhosttyTerminalOptions with
-  dimensions and one scrollback byte limit. Remove the options struct from
-  the ABI and make ghostty_terminal_new accept columns and rows directly.
-  
-  Add byte and line limit options to ghostty_terminal_set and forward them
-  to the runtime Terminal setters. NULL removes a limit, while zero bytes
-  disables scrollback. Update type metadata, tests, and all API examples.
-  ```
-- [`a27e04e`](https://github.com/ghostty-org/ghostty/commit/a27e04e8f938be5a6b4c1831d78fea57fae5813f) lib-vt: readers for configured scrollback limits ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  C API callers could configure runtime scrollback limits but could not
-  read them back. Add terminal data keys for the primary screen byte and
-  line configurations.
-  
-  Return GHOSTTY_NO_VALUE for unlimited limits and keep reads stable while
-  an alternate screen is active. Document the configured-value semantics
-  and add focused coverage for defaults, updates, and unlimited values.
-  ```
-- [`5fd2973`](https://github.com/ghostty-org/ghostty/commit/5fd2973b9a53ca639e82f1db178587f553dc6e0a) lib-vt: better docs for C options ([@mitchellh](https://github.com/mitchellh))
-- [`5a35415`](https://github.com/ghostty-org/ghostty/commit/5a35415a5d59a117e654735ca5a01f876dec5841) libghostty: scrollback limits can be changed at runtime ([#13481](https://github.com/ghostty-org/ghostty/issues/13481)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  **This is an ABI breaking change for C libs.**
-  
-  Fixes https://github.com/ghostty-org/ghostty/issues/13268
-  
-  You can now change scrollback limits (bytes and lines) at runtime.
-  
-  This breaks the ABI but makes for a much more long-term pattern:
-  `ghostty_terminal_new` now only takes viewport size, and you set
-  scrollback configurations with the generic `ghostty_terminal_set`. The
-  `GhosttyTerminalOptions` struct is fully removed. I think this will
-  serve us much better over the long term.
-  ```
-- [`5b2d3b7`](https://github.com/ghostty-org/ghostty/commit/5b2d3b7df184b8395519baa235ee9539e2fb1a9b) terminal: limit scrollback by physical lines ([@mitchellh](https://github.com/mitchellh))
-- [`86f81fb`](https://github.com/ghostty-org/ghostty/commit/86f81fb5b1e45a14281a23e556f916096093e3a3) terminal: expose scrollback line limit ([@mitchellh](https://github.com/mitchellh))
-- [`10bc434`](https://github.com/ghostty-org/ghostty/commit/10bc43420cef8b5c8f1a4ac28b5a917d5c12b9cb) terminal: make scrollback byte limit optional ([@mitchellh](https://github.com/mitchellh))
-- [`65c4821`](https://github.com/ghostty-org/ghostty/commit/65c48213b6ebbc7c8382d86ccf429101969040c4) config: expose scrollback line limit ([@mitchellh](https://github.com/mitchellh))
-- [`1092204`](https://github.com/ghostty-org/ghostty/commit/1092204df19bf56eb5b983dcc44394a1855f111e) config: support unlimited scrollback limits ([@mitchellh](https://github.com/mitchellh))
-- [`659a60a`](https://github.com/ghostty-org/ghostty/commit/659a60ae53e96e6303e50180fa68587b7cacc911) terminal/search: fix tests ([@mitchellh](https://github.com/mitchellh))
-- [`739603b`](https://github.com/ghostty-org/ghostty/commit/739603b8a2b643b167031a99718127cc0ca311a5) Introduce `scrollback-limit-lines` to limit scrollback by lines instead of bytes ([#13473](https://github.com/ghostty-org/ghostty/issues/13473)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a new config `scrollback-limit-lines` to limit scrollback by
-  lines instead of bytes. This also renames `scrollback-limit` to
-  `scrollback-limit-bytes` to make it clear what it does but we have a
-  compatibility entry so old configurations will continue to work, so its
-  not breaking.
-  
-  **This is NOT exclusive to `scrollback-limit-bytes`**. When both are
-  set, then the _first limit reached_ is used. Since lines is affected by
-  viewport size and bytes are affected by entries (more styles, more
-  graphemes, etc.), they serve somewhat different purposes and it might be
-  useful to set both.
-  
-  The default remains 50MB of bytes, unlimited lines.
-  
-  This is not exposed to libghostty yet. I have that coming as a follow up
-  change.
   ```
 
