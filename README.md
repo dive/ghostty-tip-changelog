@@ -8,15 +8,159 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 3, 2026 at 12:17 UTC.
+> Last updated: August 3, 2026 at 17:05 UTC.
 
 ## August 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [2](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [3](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
+Summary: 3 runs • 15 commits • 2 authors
 
 ### Changes
 
+- [`15c50c1`](https://github.com/ghostty-org/ghostty/commit/15c50c1db1983961c9aa37a2fc0f51327ad26608) crash: do not use global state ([@vancluever](https://github.com/vancluever))
+  ```text
+  This removes use of global state from the crash reporting functionality
+  (everything in src/crash).
+  
+  This particularly ensures that there are no races on the system
+  environment during the execution of the initialization thread that would
+  possibly cause crashes, particularly in any (albeit unsupported) 3rd
+  party integrations of libghostty-internal.
+  
+  Ultimately, this pushes any coupling of I/O and environment to places
+  that would more correctly interface with global state, such as the
+  same-thread global.init, and the crash report CLI.
+  
+  Note that similar de-coupling actions have been taken on XDG and home
+  directory functionality, pushing their coupling points up the stack in a
+  similar way.
+  ```
+- [`b5290e7`](https://github.com/ghostty-org/ghostty/commit/b5290e74c42c2fc5f891eb20f08d0ac0c7c634f8) terminal/snapshot: release decoded hyperlink table refs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Decoded hyperlink table entries retained their insertion reference after
+  the grid added its per-cell references. Overwriting all linked cells could
+  therefore leave unused entries alive indefinitely.
+  
+  Release each accepted wire table entry after grid decoding, including
+  duplicate values that map to one native ID. Regression coverage verifies
+  exact cell ownership and reaping after overwrite.
+  ```
+- [`f99896b`](https://github.com/ghostty-org/ghostty/commit/f99896bf8c2438e2edbc2a5779a1f2fafa9bcc6d) terminal/snapshot: preserve style reader errors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Lenient style decoding previously caught every error, so PAGE and SCREEN
+  could treat truncation or an I/O failure as an invalid semantic style and
+  continue from a corrupted stream position.
+  
+  Add a nullable decoder that discards only invalid style contents while
+  propagating reader failures. Update snapshot callers and cover both semantic
+  fallback and structural failure behavior.
+  ```
+- [`cafe7d5`](https://github.com/ghostty-org/ghostty/commit/cafe7d5da43fb19020117e1ab5cca06751f8d0c7) terminal/snapshot: clamp decoded saved cursors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  SCREEN decoding restored saved cursor coordinates directly from the wire
+  even when they exceeded the current terminal dimensions, unlike the live
+  cursor restoration path.
+  ```
+- [`7d9aaa2`](https://github.com/ghostty-org/ghostty/commit/7d9aaa29703750c4f129790314a54c9a6cd5c7c5) terminal/snapshot: clarify incremental history errors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Document why incremental history decoding exposes native page finalization
+  errors and intentionally bypasses the one-shot ExistingHistory guard after READY.
+  ```
+- [`5c65304`](https://github.com/ghostty-org/ghostty/commit/5c65304a27402f64a7d7356a92b08973e99bc911) crash: do not use global state ([#13567](https://github.com/ghostty-org/ghostty/issues/13567)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This removes use of global state from the crash reporting functionality
+  (everything in `src/crash`).
+  
+  This particularly ensures that there are no races on the system
+  environment during the execution of the initialization thread that would
+  possibly cause crashes, particularly in any (albeit unsupported) 3rd
+  party integrations of libghostty-internal.
+  
+  Ultimately, this pushes any coupling of I/O and environment to places
+  that would more correctly interface with global state, such as the
+  same-thread `global.init`, and the crash report CLI.
+  
+  Note that similar de-coupling actions have been taken on XDG and home
+  directory functionality, pushing their coupling points up the stack in a
+  similar way.
+  ```
+- [`863fc95`](https://github.com/ghostty-org/ghostty/commit/863fc9531ae0b8e09b7103a9089dfc00319a7d9c) terminal/snapshot: more misc bugs ([#13573](https://github.com/ghostty-org/ghostty/issues/13573)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Again nothing critical, just some polish around the edges.
+  ```
+- [`d148471`](https://github.com/ghostty-org/ghostty/commit/d14847183844e84fb8282ebe5a6c9061f40530e3) terminal/snapshot: preserve mixed-width pending wrap ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  SCREEN decode clamped the cursor x coordinate to the physical page
+  width, but validated pending wrap against the terminal-wide column
+  count. A lazily reflowed page narrower than the current terminal could
+  therefore lose a valid pending-wrap state at its last physical column.
+  The next write would continue on the same row instead of wrapping.
+  
+  Validate pending wrap against the cursor page width, matching the clamp
+  and the page-local cursor pin. Add a mixed-width decode regression that
+  places the cursor at the narrow page boundary.
+  ```
+- [`cbc9f36`](https://github.com/ghostty-org/ghostty/commit/cbc9f360b1d6be9305f25cd6e68c49884fa24187) terminal/snapshot: report invalid decoder states ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Decoder.next treated calls before READY and calls after any prior decode
+  error as unreachable. Network or mux glue that retried after a truncated
+  history record, or invoked next before setup completed, could therefore
+  turn a recoverable protocol misuse into a process panic.
+  
+  Add DecoderNotReady and DecoderFailed to NextError and return them for
+  the start and failed states. Keep finished calls idempotent, and cover
+  both an early call and a retry after FINISH truncation.
+  ```
+- [`e89ff37`](https://github.com/ghostty-org/ghostty/commit/e89ff37aa8a551369a8f5ae9022cc43410b6d59e) terminal/snapshot: encode screen pages safely ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  SCREEN encoding assumed every page from the active boundary onward was
+  resident. A debug assertion guarded that PageList policy invariant, but
+  release builds immediately used pageAssumeResident. If compression policy
+  ever allowed a SCREEN suffix page to remain compressed, the encoder would
+  read an inactive union field, causing undefined behavior and potentially
+  a crash or corrupt snapshot.
+  
+  Use pagePreservingState for every SCREEN suffix page, as HISTORY already
+  does, and include allocation failure in EncodeError. Resident pages remain
+  a zero-allocation borrow while compressed pages decode into temporary
+  read-only storage without changing the source representation. Exercise the
+  path with an explicitly compressed active suffix page.
+  ```
+- [`9a5279d`](https://github.com/ghostty-org/ghostty/commit/9a5279db682832274442ba2471d277b2ca9b4fa4) terminal/snapshot: release decoded style table refs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  PAGE decoding inserted every valid style table entry into the native
+  ref-counted set before decoding cells. That insertion contributed one
+  reference in addition to every cell reference, unlike organically built
+  pages where the initial add belongs to the first cell. An unused encoded
+  style therefore remained live with refcount one and was emitted again on
+  every re-encode; used styles were also permanently over-counted.
+  
+  After the grid has installed all cell references, release the temporary
+  table-owned reference once per distinct live style. Unused styles become
+  dead immediately and used styles retain exactly their cell count. Cover
+  used reference counts, unordered sparse IDs, and canonical first
+  re-encoding of an unused entry.
+  ```
+- [`418b5d1`](https://github.com/ghostty-org/ghostty/commit/418b5d18054a015f25efc30592a412a0ac5c6c68) terminal/snapshot: harden grapheme suffix decode ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Grapheme suffix decoding accepted U+0000 even though zero is the native
+  empty-cell sentinel. It also appended codepoints one at a time and, when
+  page capacity failed after a prefix had been stored, left that truncated
+  prefix attached to the cell. Hostile snapshots could therefore introduce
+  invalid cluster data or render a partial cluster depending on allocator
+  capacity.
+  
+  Ignore NUL alongside invalid scalar values. If any append runs out of
+  native capacity, remove the prefix already attached and consume the rest
+  of the declared suffix without applying it, making delivery atomic at the
+  cluster level. Cover NUL input and a failure after 128 accepted suffix
+  codepoints.
+  ```
+- [`0b940ed`](https://github.com/ghostty-org/ghostty/commit/0b940ed58925cdf5b27e9c10855694f0f83c0d57) terminal/snapshot: misc bugs ([#13572](https://github.com/ghostty-org/ghostty/issues/13572)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Misc bugs related to snapshotting. Nothing critical. Each backed by a
+  failed test w/o the change that passes with it.
+  ```
 - [`e37865b`](https://github.com/ghostty-org/ghostty/commit/e37865bedc2e1b4884f728f41f0d4a179418387f) terminal/snapshot: add incremental decoder ([@mitchellh](https://github.com/mitchellh))
   ```text
   This adds a new `terminal.snapshot.Decoder` that allows for incremental
