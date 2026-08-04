@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 4, 2026 at 11:19 UTC.
+> Last updated: August 4, 2026 at 13:58 UTC.
 
 ## August 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 1 runs • 14 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [2](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [3](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
+Summary: 3 runs • 17 commits • 5 authors
 
 ### Changes
 
+- [`85083d2`](https://github.com/ghostty-org/ghostty/commit/85083d23cd12e2959f11dd247916c43a51f5f10e) config: clarify cursor-click-to-move's relation to shell-integration ([@lotheac](https://github.com/lotheac))
+  ```text
+  the original wording is a bit confusing; I thought cursor-click-to-move
+  required shell-integration to be enabled, and was confused when the
+  mouse was still moving my cursor in fish even with
+  shell-integration=none.
+  ```
+- [`1f6e266`](https://github.com/ghostty-org/ghostty/commit/1f6e26642e540ddf01803858772909c4fab33428) config: clarify cursor-click-to-move's relation to shell-integration ([#13589](https://github.com/ghostty-org/ghostty/issues/13589)) ([@jparise](https://github.com/jparise))
+- [`bdd849f`](https://github.com/ghostty-org/ghostty/commit/bdd849fc2feff762612c2d057db7e013c118e390) Update VOUCHED list ([#13596](https://github.com/ghostty-org/ghostty/issues/13596)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13589#issuecomment-5178660481)
+  from @jparise.
+  
+  Vouch: @lotheac
+  ```
 - [`9e6e2ea`](https://github.com/ghostty-org/ghostty/commit/9e6e2ea964587757b0e26178950c624c955ee6ed) renderer: reset terminal state cleanup counter ([@jparise](https://github.com/jparise))
   ```text
   Reset the frame counter whenever retained render state is cleared.
