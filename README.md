@@ -8,15 +8,36 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 3, 2026 at 22:03 UTC.
+> Last updated: August 4, 2026 at 02:02 UTC.
 
 ## August 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30855802273), [2](https://github.com/ghostty-org/ghostty/actions/runs/30840279326), [3](https://github.com/ghostty-org/ghostty/actions/runs/30834015563), [4](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [5](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [6](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
-Summary: 6 runs • 27 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30862297316), [2](https://github.com/ghostty-org/ghostty/actions/runs/30855802273), [3](https://github.com/ghostty-org/ghostty/actions/runs/30840279326), [4](https://github.com/ghostty-org/ghostty/actions/runs/30834015563), [5](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [6](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [7](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
+Summary: 7 runs • 29 commits • 5 authors
 
 ### Changes
 
+- [`ca8868a`](https://github.com/ghostty-org/ghostty/commit/ca8868a2956de2ffd8113d7279ecbdd699c23772) font/shaper: eliminate grapheme candidate allocations ([@jparise](https://github.com/jparise))
+  ```text
+  RunIterator allocated a list of font candidates for every multi-codepoint
+  grapheme, then scanned it for the first font covering the entire cluster.
+  
+  Instead, check the primary and additional font candidates as they're
+  discovered. This preserves their order while removing the temporary
+  array and avoids additional lookups when the primary font supports the
+  full grapheme.
+  ```
+- [`f124c42`](https://github.com/ghostty-org/ghostty/commit/f124c42ab97e729fd9b14a8cfe8f919b4054aa34) font/shaper: eliminate grapheme candidate allocations ([#13584](https://github.com/ghostty-org/ghostty/issues/13584)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  RunIterator allocated a list of font candidates for every
+  multi-codepoint grapheme, then scanned it for the first font covering
+  the entire cluster.
+  
+  Instead, check the primary and additional font candidates as they're
+  discovered. This preserves their order while removing the temporary
+  array and avoids additional lookups when the primary font supports the
+  full grapheme.
+  ```
 - [`2f7fbad`](https://github.com/ghostty-org/ghostty/commit/2f7fbadb0b9cda181282c836771610358543a032) termio: free resources for discarded messages ([@jparise](https://github.com/jparise))
   ```text
   Messages can own allocated data or a derived config. Some paths (writer
@@ -1782,158 +1803,5 @@ Summary: 3 runs • 9 commits • 6 authors
   reword: The doc said "macOS doesn't need any dependencies" and then
   immediately listed things you needed to install for macOS 😁. This is
   just rewording the doc to be more consistent.
-  ```
-
-## July 28, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30394987951), [2](https://github.com/ghostty-org/ghostty/actions/runs/30393463354), [3](https://github.com/ghostty-org/ghostty/actions/runs/30380212926), [4](https://github.com/ghostty-org/ghostty/actions/runs/30372308941), [5](https://github.com/ghostty-org/ghostty/actions/runs/30370584052), [6](https://github.com/ghostty-org/ghostty/actions/runs/30325837845)  
-Summary: 6 runs • 14 commits • 7 authors
-
-### Changes
-
-- [`232d40c`](https://github.com/ghostty-org/ghostty/commit/232d40c062e2fb6fedc24276843afae7a315a664) Update VOUCHED list ([#13499](https://github.com/ghostty-org/ghostty/issues/13499)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13498#issuecomment-5109104876)
-  from @mitchellh.
-  
-  Vouch: @vegerot
-  ```
-- [`7bea975`](https://github.com/ghostty-org/ghostty/commit/7bea975bd34f8da977674246b36ae80c6df57d09) Update VOUCHED list ([#13497](https://github.com/ghostty-org/ghostty/issues/13497)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13458#discussioncomment-17817388)
-  from @jcollie.
-  
-  Vouch: @RoniJacobson
-  ```
-- [`2f3814c`](https://github.com/ghostty-org/ghostty/commit/2f3814ca5e6cfcbd504ff86b8120f7e6b7266f56) gtk: honor suspended window state ([@rockorager](https://github.com/rockorager))
-  ```text
-  GTK exposes the Wayland xdg_toplevel suspended state when the
-  compositor knows a window is not visible. Ghostty previously only used
-  widget map state, so it could continue rendering a mapped surface on an
-  inactive workspace or behind other windows.
-  
-  Combine the mapped and suspended states for surface occlusion and update
-  all displayed surfaces whenever the toplevel suspension state changes.
-  
-  Amp-Thread-ID: https://ampcode.com/threads/T-019fa965-aa5f-7099-85b4-a9679d2c8bd3
-  ```
-- [`6c8c079`](https://github.com/ghostty-org/ghostty/commit/6c8c07981d7b4d7c6509323ffb1fe19f45e8af1c) terminal: add visibility reports ([@rockorager](https://github.com/rockorager))
-  ```text
-  Applications cannot infer whether an unfocused terminal remains visible, so
-  focus reports are insufficient for avoiding expensive rendering while a
-  view is hidden.
-  
-  Implement private mode 2033 and the visibility query/report sequences.
-  Track conservative per-surface visibility, report every effective change
-  while enabled, and always answer explicit queries and mode enables. Keep
-  view visibility across terminal resets because it is owned by the host,
-  not terminal state.
-  
-  Amp-Thread-ID: https://ampcode.com/threads/T-019fa965-aa5f-7099-85b4-a9679d2c8bd3
-  ```
-- [`03eaa01`](https://github.com/ghostty-org/ghostty/commit/03eaa01d484b8c6a098bc94c948e474f33879677) terminal: add visibility reports with GTK suspension tracking ([#13494](https://github.com/ghostty-org/ghostty/issues/13494)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  Applications cannot reliably determine whether an unfocused terminal is
-  still
-  visible, so focus reports alone are insufficient for avoiding
-  unnecessary
-  rendering.
-  
-  This adds terminal visibility reporting by:
-  
-  - implementing private mode 2033
-  - supporting `CSI ? 998 n` visibility queries and `CSI ? 999 ; Ps n`
-  responses
-  - reporting effective visibility changes while mode 2033 is enabled
-  - preserving host-owned visibility state across terminal resets
-  - treating unknown visibility conservatively as potentially visible
-  
-  On GTK 4.12 and newer, surface visibility now combines widget mapping
-  with the
-  toplevel `suspended` state. This allows Ghostty to recognize windows
-  hidden on
-  another workspace or otherwise known by the compositor to be
-  non-visible.
-  Older GTK versions retain the existing conservative behavior.
-  
-  ## Testing
-  
-  Added coverage for:
-  
-  - mode 2033 support and enable/disable behavior
-  - explicit visibility queries
-  - immediate reports when enabling the mode
-  - visible and non-visible responses
-  - visibility persistence across terminal resets
-  - suppression of visibility queries in read-only mode
-  
-  ## AI disclosure
-  
-  Amp assisted with the implementation, tests, commit messages, and this
-  pull
-  request description. I reviewed the resulting changes and understand how
-  they
-  interact with the terminal, termio, surface, and GTK visibility paths.
-  
-  Implements: #13451
-  Reference: https://rockorager.dev/misc/visibility-reports/
-  ```
-- [`07f6c6b`](https://github.com/ghostty-org/ghostty/commit/07f6c6bb07afe0f1d44e5b05fc50b543b6ee878c) mirror deps ([@mitchellh](https://github.com/mitchellh))
-- [`4133c6e`](https://github.com/ghostty-org/ghostty/commit/4133c6e48c4b99d19f5885478a19db4868994d07) mirror deps ([#13496](https://github.com/ghostty-org/ghostty/issues/13496)) ([@mitchellh](https://github.com/mitchellh))
-- [`95befb3`](https://github.com/ghostty-org/ghostty/commit/95befb33775a4d292732b5d2605d3e95dec05c81) Update VOUCHED list ([#13495](https://github.com/ghostty-org/ghostty/issues/13495)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13491#discussioncomment-17814823)
-  from @tristan957.
-  
-  Vouch: @ruseel
-  ```
-- [`d716955`](https://github.com/ghostty-org/ghostty/commit/d71695550d4f4aba8b28ce700eeb4b95365ca0e9) config: update info about global keybinds on Linux ([@pluiedev](https://github.com/pluiedev))
-- [`d320cd7`](https://github.com/ghostty-org/ghostty/commit/d320cd7df28e4abf6483e021402c65f2ca3f53a2) cli: fix list-themes preview lifecycle ([@jparise](https://github.com/jparise))
-  ```text
-  Start the vaxis event loop so the theme preview can receive terminal
-  input, and retain its environment map for as long as vaxis may access
-  it.
-  ```
-- [`74f45b3`](https://github.com/ghostty-org/ghostty/commit/74f45b321982546e182885a06051c2aab62ce01d) config: update info about global keybinds on Linux ([#13492](https://github.com/ghostty-org/ghostty/issues/13492)) ([@mitchellh](https://github.com/mitchellh))
-- [`6e21f41`](https://github.com/ghostty-org/ghostty/commit/6e21f41c0cc6bd09b19e0cc6b8267c7c29ac6159) cli: fix list-themes preview lifecycle ([#13466](https://github.com/ghostty-org/ghostty/issues/13466)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Start the vaxis event loop so the theme preview can receive terminal
-  input, and retain its environment map for as long as vaxis may access
-  it.
-  ```
-- [`4a22eed`](https://github.com/ghostty-org/ghostty/commit/4a22eed6d9e054fc162a1fb8d4b2899f144da174) renderer/metal: fix 2x sizeof over-allocation in Buffer.sync ([@Uzaaft](https://github.com/Uzaaft))
-  ```text
-  Buffer.sync and Buffer.syncFromArrayLists computed the new buffer size
-  in bytes (req_bytes * 2) and then multiplied by @sizeOf(T) again when
-  passing it to newBufferWithLength:, allocating data.len * sizeOf(T)^2 * 2
-  bytes. For the 32-byte CellText buffers this is a 64x over-allocation
-  and for the 4-byte CellBg buffers 8x, per swap-chain frame (e.g. ~9.4MB
-  instead of ~300KB per frame for a full 120x40 screen of text).
-  
-  Match the OpenGL buffer implementation: track the new length in units
-  of T and multiply by @sizeOf(T) exactly once.
-  ```
-- [`a60cd15`](https://github.com/ghostty-org/ghostty/commit/a60cd15bb5a197d8e2596e86442031cbece06bcc) renderer/metal: fix 2x sizeof over-allocation in Buffer.sync ([#13490](https://github.com/ghostty-org/ghostty/issues/13490)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Seems to me the grow path in `Buffer.sync` (and `syncFromArrayLists`)
-  multiplies by `@sizeOf(T)` twice: `req_bytes` is already a byte count,
-  it gets doubled into size, and then the `newBufferWithLength:` call does
-  `size * @sizeOf(T)` on top of that. So every reallocation ends up being
-  `data.len` × `@sizeOf(T)`^2 × 2 bytes instead of the intended `data.len`
-  × `@sizeOf(T)` × 2.
-  
-  The OpenGL version of this same helper does it what seems to be the
-  intended way, so this looks like a mixup rather than a deliberate safety
-  margin.
-  
-  This makes the Metal implementation match the OpenGL one: track the new
-  length in units of T (which also fixes self.len going stale after a
-  grow. It's documented as the allocated element count but was never
-  updated here)
   ```
 
