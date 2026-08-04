@@ -8,15 +8,16 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 4, 2026 at 16:48 UTC.
+> Last updated: August 4, 2026 at 19:23 UTC.
 
 ## August 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [2](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [3](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [4](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [5](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [6](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 6 runs • 26 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30930443397), [2](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [3](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [4](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [5](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [6](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [7](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
+Summary: 7 runs • 27 commits • 7 authors
 
 ### Changes
 
+- [`48d85ea`](https://github.com/ghostty-org/ghostty/commit/48d85eaeb06ac9fc49073815bda5bac97de655ca) core: fix mouse reporting mutex lock ([@mitchellh](https://github.com/mitchellh))
 - [`488b710`](https://github.com/ghostty-org/ghostty/commit/488b7109bb4df41589846e1e872db114d3d6c9bb) gtk: forward middle click to TUIs with mouse reporting ([@ajr-khll](https://github.com/ajr-khll))
 - [`ca56412`](https://github.com/ghostty-org/ghostty/commit/ca56412bf28ae4de7e323d4b30b39844501be05b) gtk: forward middle click to TUIs with mouse reporting ([#13108](https://github.com/ghostty-org/ghostty/issues/13108)) ([@mitchellh](https://github.com/mitchellh))
   ```text
