@@ -8,7 +8,154 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 4, 2026 at 02:02 UTC.
+> Last updated: August 4, 2026 at 05:42 UTC.
+
+## August 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
+Summary: 1 runs • 14 commits • 3 authors
+
+### Changes
+
+- [`9e6e2ea`](https://github.com/ghostty-org/ghostty/commit/9e6e2ea964587757b0e26178950c624c955ee6ed) renderer: reset terminal state cleanup counter ([@jparise](https://github.com/jparise))
+  ```text
+  Reset the frame counter whenever retained render state is cleared.
+  Otherwise, every subsequent frame will be deinitialized and rebuilt.
+  ```
+- [`04f1bc0`](https://github.com/ghostty-org/ghostty/commit/04f1bc0960908ede6976f4030408454481605fc0) winproto/wayland: disable custom blur on GTK >=4.23.3 ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  GTK 4.23.3 added its own (much smarter) implementation of background blur,
+  which means our implementation is not only redundant, it also crashes the
+  program because a surface cannot have multiple associated blur objects.
+  Ergo, don't do custom blur on newer GTK versions.
+  
+  See #13578
+  ```
+- [`3263fc6`](https://github.com/ghostty-org/ghostty/commit/3263fc6c4b6e3e85155797d85086480aba6b7375) gtk: use native blur on GTK 4.23.3+ ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Finally, what was previously thought impossible, is now possible.
+  The blur region itself is far more accurate than what we can conjure up
+  on our own, and in a much more finetuned and detailed way too.
+  Thank you, GTK devs!
+  ```
+- [`b11d608`](https://github.com/ghostty-org/ghostty/commit/b11d60818a8b311db39c3b8cb0a10f6d51bdec44) synthetic: styled output generator ([@mitchellh](https://github.com/mitchellh))
+- [`85b1dd0`](https://github.com/ghostty-org/ghostty/commit/85b1dd0dd9a3b3216eed939a5b8274209a1f4587) benchmark: formatter benchmark ([@mitchellh](https://github.com/mitchellh))
+- [`8838c37`](https://github.com/ghostty-org/ghostty/commit/8838c37f4c60f9fc0bcaf796ae43dd5ed958c040) terminal: fast print styles ([@mitchellh](https://github.com/mitchellh))
+- [`79aa256`](https://github.com/ghostty-org/ghostty/commit/79aa256fa26c06f4cf89a9962ab8faf40a210642) terminal: speed up formatter mostly by avoiding std.fmt ([@mitchellh](https://github.com/mitchellh))
+- [`d4391ff`](https://github.com/ghostty-org/ghostty/commit/d4391ff835fba87d3f6616b94299ab358c4cef1a) fastprint: fix compile errors ([@mitchellh](https://github.com/mitchellh))
+- [`2b6a1e4`](https://github.com/ghostty-org/ghostty/commit/2b6a1e41fcedd93d620e4462372606371bde8a56) macos: avoid leaking ports while awaiting accessibility ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #11799
+  
+  Creating a CGEventTap without Accessibility permission leaks a Mach
+  port inside CoreGraphics on every failed attempt. The global keybind
+  listener retried this once per second while waiting for permission, so
+  Ghostty eventually exhausted the process port limit.
+  
+  Request Accessibility access once, poll AXIsProcessTrusted while
+  access is denied, and create the event tap only after access is
+  granted. Stop polling before creation so an unrelated tap failure
+  cannot restart the leaking retry loop.
+  ```
+- [`2ed67ca`](https://github.com/ghostty-org/ghostty/commit/2ed67cadd1c5f52d2eaedf2f99968eed0c6eac15) terminal: redesign pin map for formatter ([@mitchellh](https://github.com/mitchellh))
+- [`74b4264`](https://github.com/ghostty-org/ghostty/commit/74b426458b7b4a53c15a7e19a55c50e605ba7690) gtk: use native blur on GTK 4.23.3+ ([#13586](https://github.com/ghostty-org/ghostty/issues/13586)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Finally, what was previously thought impossible, is now possible.
+  The blur region itself is far more accurate than what we can conjure up
+  on our own, and in a much more finetuned and detailed way too.
+  Thank you, GTK devs!
+  
+  Closes #13581
+  ```
+- [`e69dc2b`](https://github.com/ghostty-org/ghostty/commit/e69dc2bee8ac57f853ee07590548590a35aab89b) renderer: reset terminal state cleanup counter ([#13585](https://github.com/ghostty-org/ghostty/issues/13585)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reset the frame counter whenever retained render state is cleared.
+  Otherwise, every subsequent frame will be deinitialized and rebuilt.
+  ```
+- [`b9d8829`](https://github.com/ghostty-org/ghostty/commit/b9d88292be587388a336a2e59c08c4e993c04109) terminal: speed up formatting anywhere from ~1.5x to ~8x ([#13587](https://github.com/ghostty-org/ghostty/issues/13587)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR speeds up our formatting (plain text, html, and VT) by anywhere
+  from ~1.5x to ~8x.
+  
+  The formatter is the hot path behind multiple features in Ghostty GUI:
+  clipboard copy (plain/VT/HTML), `write_screen_file`, `selectionString`,
+  and terminal search sliding window. It's also the hot path for
+  libghostty users, namely people like
+  [zmx](https://github.com/neurosnap/zmx) which utilize the VT formatter
+  to restore a terminal.
+  
+  This PR also adds the benchmarking infrastructure for the formatter.
+  
+  ## How
+  
+  - **Fast cell-run optimization.** For simple cells (single codepoint, no
+  style/hyperlink) we encode them as a single run rather than one at a
+  time.
+  - **Make some arguments comptime.** Generates more code but benchmarks
+  show it improves things, specifically for per-format switches that we do
+  a LOT.
+  - **Interned style id fast path.** Styles are interned per page, so id
+  equality implies style equality. We track the id of the active style and
+  skip the per-cell `Style` copy + `eql` when it matches.
+  - **Fast printing.** Avoid `std.fmt` where possible and assemble
+  integers, RGB colors, codepoints in fixed-width buffers with a single
+  memcpy. This was extracted partially to `fastprint.zig` so we can reuse
+  it.
+  - **Avoid double-formatting for tracked pins.** Previously we formatted
+  twice (once through a `Discarding` writer to count bytes) for pin maps.
+  Now I'm smarter about it and do a single pass.
+  
+  ## Performance
+  
+  All on my machine, 80x24 terminal, 10K lines of scrollback.
+  
+  | workload              | main     | this PR  | speedup | throughput |
+  | --------------------- | -------- | -------- | ------- | ---------- |
+  | plain / plain         | 5.74 ms  | 1.67 ms  | 3.4x    | 364 MB/s   |
+  | plain / vt            | 6.46 ms  | 1.04 ms  | 6.2x    | 596 MB/s   |
+  | plain / html          | 7.39 ms  | 2.32 ms  | 3.2x    | 308 MB/s   |
+  | unicode / plain       | 9.74 ms  | 5.42 ms  | 1.8x    | 276 MB/s   |
+  | unicode / vt          | 10.42 ms | 5.53 ms  | 1.9x    | 275 MB/s   |
+  | unicode / html        | 12.53 ms | 7.35 ms  | 1.7x    | 509 MB/s   |
+  | styled / plain        | 5.65 ms  | 1.69 ms  | 3.4x    | 360 MB/s   |
+  | styled / vt           | 9.07 ms  | 4.20 ms  | 2.2x    | 409 MB/s   |
+  | styled / html         | 10.78 ms | 6.64 ms  | 1.6x    | 740 MB/s   |
+  | mixed / plain         | 8.59 ms  | 4.81 ms  | 1.8x    | 226 MB/s   |
+  | mixed / vt            | 11.25 ms | 6.65 ms  | 1.7x    | 250 MB/s   |
+  | mixed / html          | 14.47 ms | 10.52 ms | 1.4x    | 414 MB/s   |
+  | wrapped / plain       | 7.30 ms  | 1.11 ms  | 6.6x    | 733 MB/s   |
+  | wrapped / vt          | 8.14 ms  | 1.04 ms  | 7.8x    | 789 MB/s   |
+  | wrapped / html        | 9.00 ms  | 2.12 ms  | 4.2x    | 465 MB/s   |
+  | pin-map / plain       | 12.51 ms | 3.80 ms  | 3.3x    |            |
+  | pin-map / vt          | 13.12 ms | 2.99 ms  | 4.4x    |            |
+  | active screen / plain | 12.5 µs  | 2.7 µs   | 4.6x    |            |
+  | active screen / vt    | 18.4 µs  | 6.8 µs   | 2.7x    |            |
+  
+  Workloads:
+  - `plain` is ASCII lines
+  - `unicode` is 2/3/4-byte codepoints with 10% grapheme clusters
+  - `styled` is heavy SGR churn
+  - `mixed` is styles + Unicode + hyperlinks
+  -  `wrapped` is a continuous soft-wrapped stream
+  - `pin-map`/`active screen` are the selectionString/search-style and
+  visible-screen-only cases respectively.
+  ```
+- [`6687d60`](https://github.com/ghostty-org/ghostty/commit/6687d6089dc254b14b1cdb22ca310f8394c3290f) macos: avoid leaking ports while awaiting accessibility ([#13590](https://github.com/ghostty-org/ghostty/issues/13590)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #11799
+  
+  Creating a CGEventTap without Accessibility permission leaks a Mach port
+  inside CoreGraphics on every failed attempt. The global keybind listener
+  retried this once per second while waiting for permission, so Ghostty
+  eventually exhausted the process port limit.
+  
+  Request Accessibility access once, poll AXIsProcessTrusted while access
+  is denied, and create the event tap only after access is granted. Stop
+  polling before creation so an unrelated tap failure cannot restart the
+  leaking retry loop.
+  
+  Tested this with various settings and global keys working fine.
+  ```
 
 ## August 3, 2026
 
