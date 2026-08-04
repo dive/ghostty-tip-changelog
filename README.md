@@ -8,15 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 4, 2026 at 19:23 UTC.
+> Last updated: August 4, 2026 at 22:07 UTC.
 
 ## August 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30930443397), [2](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [3](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [4](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [5](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [6](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [7](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 7 runs • 27 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30953205060), [2](https://github.com/ghostty-org/ghostty/actions/runs/30941010176), [3](https://github.com/ghostty-org/ghostty/actions/runs/30930443397), [4](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [5](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [6](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [7](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [8](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [9](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
+Summary: 9 runs • 36 commits • 10 authors
 
 ### Changes
 
+- [`63d08c0`](https://github.com/ghostty-org/ghostty/commit/63d08c0342ba4b5132de7b3098797a80eba8b757) macOS: show cancel update option when its actually cancellable ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  `extracting` and `installing` state aren't cancellable by us
+  ```
+- [`ccb08f3`](https://github.com/ghostty-org/ghostty/commit/ccb08f35f683d6087786dda8e793e911ef1a2f8a) macOS: show cancel update option when its actually cancellable ([#13612](https://github.com/ghostty-org/ghostty/issues/13612)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `extracting` and `installing` state aren't cancellable by us.
+  
+  > Recommend reviewing with whitespace hidden
+  ```
+- [`02f3483`](https://github.com/ghostty-org/ghostty/commit/02f34835ea48b9daee0abdcc09fca02702def688) datastruct: remove unused LRU implementation ([@Uzaaft](https://github.com/Uzaaft))
+- [`8cfbaf5`](https://github.com/ghostty-org/ghostty/commit/8cfbaf545ab4215ccc9820ba905f502387d1de1f) config: formatted action should be parsable into the original ([@bo2themax](https://github.com/bo2themax))
+- [`b67f8ef`](https://github.com/ghostty-org/ghostty/commit/b67f8ef51d8092ff3aaf52574a89c98f9f46b0ca) config: don't escape Binding.Action.String ([@bo2themax](https://github.com/bo2themax))
+- [`066a0b7`](https://github.com/ghostty-org/ghostty/commit/066a0b7c45e50694df0c3c3892961523162a55ad) macOS: show description when subtitle missing in CommandPalette ([@bo2themax](https://github.com/bo2themax))
+- [`51cf099`](https://github.com/ghostty-org/ghostty/commit/51cf099678d90775b3c587e5e34427531396d75e) datastruct: remove unused LRU implementation ([#13607](https://github.com/ghostty-org/ghostty/issues/13607)) ([@jcollie](https://github.com/jcollie))
+- [`760a250`](https://github.com/ghostty-org/ghostty/commit/760a2500291df56c42cccd4d34efeeceaf8bd6ae) config: formatted action should be parsable into the original  ([#13609](https://github.com/ghostty-org/ghostty/issues/13609)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This fixes the issue where an action with string as it's parameter is
+  not working correctly in CommandPalette, found in #9671. For example:
+  
+  ```
+  command-palette-entry = title:"Set Ghostty Title",description:test sending text.,action:set_tab_title:👻
+  keybind=cmd+r=set_tab_title:👻
+  ```
+  
+  Keybind works perfectly, but the title is escaped when triggering in
+  CommandPalette.
+  
+  > Introduced in
+  [#8873](https://github.com/ghostty-org/ghostty/pull/8873/changes#diff-9e7936787320bcf70e332c868125039d8c0a7f96c4a88f2af0af21d952c6830dR1216),
+  I tested the fixed issue as well, the following config still parses
+  correctly, mentioned in
+  https://github.com/ghostty-org/ghostty/issues/8849#issuecomment-3322018212.
+  
+  ```
+  command-palette-entry = title:Focus Split: Next,description:"Focus the next split, if any.",action:goto_split:next
+  ```
+  
+  Also `ghostty +show-config` now will also output the readable strings as
+  well.
+  <img width="1078" height="428" alt="image"
+  src="https://github.com/user-attachments/assets/f9dc1447-7b4e-44f4-8362-b54f4d805c7a"
+  />
+  ````
+- [`b8ab2ff`](https://github.com/ghostty-org/ghostty/commit/b8ab2ff16847b73afd2ea99498e44ab6694e930f) macOS: show/search description when subtitle missing in CommandPalette ([#13610](https://github.com/ghostty-org/ghostty/issues/13610)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  <img width="1125" height="552" alt="image"
+  src="https://github.com/user-attachments/assets/09866c9b-d5c4-422f-860b-de4de4cca055"
+  />
+  ```
 - [`48d85ea`](https://github.com/ghostty-org/ghostty/commit/48d85eaeb06ac9fc49073815bda5bac97de655ca) core: fix mouse reporting mutex lock ([@mitchellh](https://github.com/mitchellh))
 - [`488b710`](https://github.com/ghostty-org/ghostty/commit/488b7109bb4df41589846e1e872db114d3d6c9bb) gtk: forward middle click to TUIs with mouse reporting ([@ajr-khll](https://github.com/ajr-khll))
 - [`ca56412`](https://github.com/ghostty-org/ghostty/commit/ca56412bf28ae4de7e323d4b30b39844501be05b) gtk: forward middle click to TUIs with mouse reporting ([#13108](https://github.com/ghostty-org/ghostty/issues/13108)) ([@mitchellh](https://github.com/mitchellh))
