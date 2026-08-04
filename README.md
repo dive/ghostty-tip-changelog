@@ -8,15 +8,74 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 4, 2026 at 13:58 UTC.
+> Last updated: August 4, 2026 at 16:48 UTC.
 
 ## August 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [2](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [3](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 3 runs • 17 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [2](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [3](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [4](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [5](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [6](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
+Summary: 6 runs • 26 commits • 7 authors
 
 ### Changes
 
+- [`488b710`](https://github.com/ghostty-org/ghostty/commit/488b7109bb4df41589846e1e872db114d3d6c9bb) gtk: forward middle click to TUIs with mouse reporting ([@ajr-khll](https://github.com/ajr-khll))
+- [`ca56412`](https://github.com/ghostty-org/ghostty/commit/ca56412bf28ae4de7e323d4b30b39844501be05b) gtk: forward middle click to TUIs with mouse reporting ([#13108](https://github.com/ghostty-org/ghostty/issues/13108)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fix for Issue #12940
+  I actually do not know if this has already been resolved and the issue
+  is just still open. Either way, here's a fix. Now we run a check to see
+  if the current program is accepting mouse events before discarding the
+  middle click.
+  ```
+- [`08342c9`](https://github.com/ghostty-org/ghostty/commit/08342c92446ceda22b49f42ce39e8c4714054a6e) Update VOUCHED list ([#13603](https://github.com/ghostty-org/ghostty/issues/13603)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13602#discussioncomment-17895866)
+  from @jcollie.
+  
+  Vouch: @UnsaltedScholar
+  ```
+- [`df23bef`](https://github.com/ghostty-org/ghostty/commit/df23bef0e91d602ab4b95e33ef9a4c213a1058da) i18n: translation support for command palete and Latvian translation for it ([@EriksRemess](https://github.com/EriksRemess))
+- [`1125fa2`](https://github.com/ghostty-org/ghostty/commit/1125fa26df6387131295fb4433ffcab411f0bcfc) i18n: note about i18n.N_ usage and @inComptime() return msgid for i18n._ ([@EriksRemess](https://github.com/EriksRemess))
+- [`e0744dd`](https://github.com/ghostty-org/ghostty/commit/e0744dde62c53555aa6b9457e2bb9fd8c74a1dc2) i18n - command palette - empty translations ([@EriksRemess](https://github.com/EriksRemess))
+- [`cfa0ca7`](https://github.com/ghostty-org/ghostty/commit/cfa0ca710659175d3ae21b2c136dcf1024fd5d91) macos: defer transparent titlebar KVO rebinding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13386
+  
+  Defer transparent-titlebar KVO rebinding to the next main-queue turn.
+  Track the observed tab group so unchanged bindings are preserved.
+  
+  Previously, a tab-group callback could invalidate and recreate its own
+  observation before returning, leaving closed terminal windows registered
+  with AppKit after the undo timeout. These windows accumulated titlebar and
+  layer state, increasing memory use and WindowServer CPU with tab churn.
+  
+  Validated with an AppDelegate change that sat and created/closed tabs
+  in a loop, then counted weak controllers/windows/nsapp window.
+  ```
+- [`363e6e6`](https://github.com/ghostty-org/ghostty/commit/363e6e6b427c1f3a6647b14692f1953746d83045) i18n: translation support for command palete ([#11641](https://github.com/ghostty-org/ghostty/issues/11641)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Most obvious next step in translating Ghostty is the command palette.
+  Added support for i18n.N_ (https://docs.gtk.org/glib/i18n.html#macros).
+  Made a Latvian translation for the command palette to test. Codex did
+  bulk of the translations but I verified them.
+  ```
+- [`594ee21`](https://github.com/ghostty-org/ghostty/commit/594ee212bc3c048ffa06ba90623eaf207a4d145c) macos: defer transparent titlebar KVO rebinding ([#13601](https://github.com/ghostty-org/ghostty/issues/13601)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13386, based on
+  https://github.com/mustafa0x/ghostty/commit/a8c090
+  
+  Defer transparent-titlebar KVO rebinding to the next main-queue turn.
+  Track the observed tab group so unchanged bindings are preserved.
+  
+  Previously, a tab-group callback could invalidate and recreate its own
+  observation before returning, leaving closed terminal windows registered
+  with AppKit after the undo timeout. These windows accumulated titlebar
+  and layer state, increasing memory use and WindowServer CPU with tab
+  churn.
+  
+  Validated with an AppDelegate change that sat and created/closed tabs in
+  a loop, then counted weak controllers/windows/nsapp window.
+  ```
 - [`85083d2`](https://github.com/ghostty-org/ghostty/commit/85083d23cd12e2959f11dd247916c43a51f5f10e) config: clarify cursor-click-to-move's relation to shell-integration ([@lotheac](https://github.com/lotheac))
   ```text
   the original wording is a bit confusing; I thought cursor-click-to-move
