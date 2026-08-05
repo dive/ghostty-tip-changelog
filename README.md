@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 05:41 UTC.
+> Last updated: August 5, 2026 at 08:27 UTC.
 
 ## August 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [2](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
-Summary: 2 runs • 5 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [2](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [3](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 3 runs • 7 commits • 5 authors
 
 ### Changes
 
+- [`f5419b9`](https://github.com/ghostty-org/ghostty/commit/f5419b9b151e85c027f481f045f586e10ddf1d01) gtk: do not set bell ringing if already focused ([@lotheac](https://github.com/lotheac))
+- [`9e30f70`](https://github.com/ghostty-org/ghostty/commit/9e30f70f23418fecbdca1088673000417527c4e4) gtk: do not set bell ringing if already focused ([#13597](https://github.com/ghostty-org/ghostty/issues/13597)) ([@pluiedev](https://github.com/pluiedev))
 - [`2346c4f`](https://github.com/ghostty-org/ghostty/commit/2346c4fe4767373cda50b5977d95191f714b1cca) Update VOUCHED list ([#13617](https://github.com/ghostty-org/ghostty/issues/13617)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
