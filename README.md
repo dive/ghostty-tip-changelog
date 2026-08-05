@@ -8,15 +8,130 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 19:22 UTC.
+> Last updated: August 5, 2026 at 22:07 UTC.
 
 ## August 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31034042138), [2](https://github.com/ghostty-org/ghostty/actions/runs/31028395613), [3](https://github.com/ghostty-org/ghostty/actions/runs/31025899355), [4](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [5](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [6](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [7](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [8](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
-Summary: 8 runs • 36 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31042413734), [2](https://github.com/ghostty-org/ghostty/actions/runs/31038815123), [3](https://github.com/ghostty-org/ghostty/actions/runs/31034042138), [4](https://github.com/ghostty-org/ghostty/actions/runs/31028395613), [5](https://github.com/ghostty-org/ghostty/actions/runs/31025899355), [6](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [7](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [8](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [9](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [10](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 10 runs • 44 commits • 9 authors
 
 ### Changes
 
+- [`0060d89`](https://github.com/ghostty-org/ghostty/commit/0060d89b5be3a8b07d43599ea88fc7c5893bf36e) core: fix encoded key request cleanup ([@jparise](https://github.com/jparise))
+  ```text
+  Encoded key requests are owned by the caller until they are added to a
+  key sequence or queued for IO. The child_exited path and failed queue
+  append returned without freeing the allocated request.
+  
+  The existing errdefer was also too broad: after queueIo took ownership, a
+  later setSelection or queueRender error could free the queued request.
+  
+  We now free requests in the return paths that still own them, and the
+  errdefer has been removed.
+  
+  Also, activate a sequence only after encoding and queue append succeed
+  so failure preserves the previous sequence state.
+  ```
+- [`168c7b9`](https://github.com/ghostty-org/ghostty/commit/168c7b94672d91cded4b506143cb0ebebc5d1ceb) core: fix encoded key request cleanup ([#13635](https://github.com/ghostty-org/ghostty/issues/13635)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Encoded key requests are owned by the caller until they are added to a
+  key sequence or queued for IO. The child_exited path and failed queue
+  append returned without freeing the allocated request.
+  
+  The existing errdefer was also too broad: after queueIo took ownership,
+  a later setSelection or queueRender error could free the queued request.
+  
+  We now free requests in the return paths that still own them, and the
+  errdefer has been removed.
+  
+  Also, activate a sequence only after encoding and queue append succeed
+  so failure preserves the previous sequence state.
+  ```
+- [`8696bef`](https://github.com/ghostty-org/ghostty/commit/8696bef64486a51bb3b637c74d93a6f6079a900b) macos: guard fullscreen tab presentation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13611
+  
+  Route new-tab window presentation through an Objective-C exception catcher.
+  
+  AppKit can raise an NSInternalInconsistencyException while selecting a
+  new tab in native fullscreen.
+  
+  Catch the presentation exception, report it through the existing error
+  logging path, and leave Ghostty running when AppKit’s fullscreen window
+  stack is inconsistent.
+  
+  This was pretty hard to reproduce but I was able to reproduce it about
+  1/3rd of the time via AppleScript automation...
+  ```
+- [`bfd40c8`](https://github.com/ghostty-org/ghostty/commit/bfd40c84bd56965ab1a0e5112a4f3e380a31b18a) terminal: reset wrap state for CSI 2 K ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13616
+  
+  Reset the soft-wrap state when CSI 2 K erases the complete cursor
+  row. Previously, erase-to-end reset the flag while complete-line erase
+  left it set.
+  
+  WezTerm, kitty, Alacritty, VTE, and xterm.js clear the wrap state for
+  complete-line erase. xterm preserves it, but xterm copies physical rows
+  during resize instead of reflowing them. Diverge from xterm so reflow in
+  Ghostty does not treat erased rows as one logical line, and cover the
+  behavior with a resize regression test.
+  ```
+- [`c247e45`](https://github.com/ghostty-org/ghostty/commit/c247e455c2b5f742ba837602ac31e85908dd1292) config: refill after ignored line boundaries ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Refill the line iterator when an ignored comment or blank line
+  consumes the remaining buffered data.
+  
+  Configuration parsing previously stopped silently at these boundaries
+  and left every subsequent setting unapplied.
+  
+  Request more data before continuing the loop and cover both comment
+  and blank line boundaries with buffered-reader regression tests.
+  ```
+- [`713ad0e`](https://github.com/ghostty-org/ghostty/commit/713ad0eb18dc28c735c1c24f2d9a628fe5fd461f) config: refill after ignored line boundaries ([#13638](https://github.com/ghostty-org/ghostty/issues/13638)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/13441
+  
+  Refill the line iterator when an ignored comment or blank line consumes
+  the remaining buffered data.
+  
+  Configuration parsing previously stopped silently at these boundaries
+  and left every subsequent setting unapplied.
+  
+  Request more data before continuing the loop and cover both comment and
+  blank line boundaries with buffered-reader regression tests.
+  ```
+- [`b1887bd`](https://github.com/ghostty-org/ghostty/commit/b1887bd71601b699a9678c92000969cac16874f6) terminal: reset wrap state for CSI 2 K ([#13637](https://github.com/ghostty-org/ghostty/issues/13637)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13616
+  
+  Reset the soft-wrap state when CSI 2 K erases the complete cursor row.
+  Previously, erase-to-end reset the flag while complete-line erase left
+  it set.
+  
+  WezTerm, kitty, Alacritty, VTE, and xterm.js clear the wrap state for
+  complete-line erase. xterm preserves it, but xterm copies physical rows
+  during resize instead of reflowing them. Diverge from xterm so reflow in
+  Ghostty does not treat erased rows as one logical line, and cover the
+  behavior with a resize regression test.
+  ```
+- [`d0659ba`](https://github.com/ghostty-org/ghostty/commit/d0659ba52192b1dc40c3cc671ba71aeb7780568f) macos: guard fullscreen tab presentation with objc catcher ([#13636](https://github.com/ghostty-org/ghostty/issues/13636)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13611
+  
+  Route new-tab window presentation through an Objective-C exception
+  catcher.
+  
+  AppKit can raise an NSInternalInconsistencyException while selecting a
+  new tab in native fullscreen.
+  
+  Catch the presentation exception, report it through the existing error
+  logging path, and leave Ghostty running when AppKit’s fullscreen window
+  stack is inconsistent.
+  
+  This was pretty hard to reproduce but I was able to reproduce it about
+  1/3rd of the time via AppleScript automation...
+  ```
 - [`77537c8`](https://github.com/ghostty-org/ghostty/commit/77537c8065f3055d214144caab7d137543a6e133) macos: handled untrusted OSC8 hyperlinks more carefully ([@mitchellh](https://github.com/mitchellh))
   ```text
   OSC8 hyperlinks previously executed directly via the NSWorkspace opener
