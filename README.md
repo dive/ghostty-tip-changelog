@@ -8,15 +8,291 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 13:56 UTC.
+> Last updated: August 5, 2026 at 16:27 UTC.
 
 ## August 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [2](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [3](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
-Summary: 3 runs • 7 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [2](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [3](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [4](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [5](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 5 runs • 30 commits • 9 authors
 
 ### Changes
 
+- [`c092b2b`](https://github.com/ghostty-org/ghostty/commit/c092b2bcf51415a83ff9a1f2fddf67caa58b1283) terminal: report DECECM as permanently reset ([@athaapa](https://github.com/athaapa))
+- [`f1ca88d`](https://github.com/ghostty-org/ghostty/commit/f1ca88da37315b0ab96be66e7697cec6a5c1da45) terminal: clarify DECECM report handling ([@athaapa](https://github.com/athaapa))
+- [`7bb3758`](https://github.com/ghostty-org/ghostty/commit/7bb37580084b990029f04dca366f2d7d1ca1d089) terminal: document DECECM report behavior ([@athaapa](https://github.com/athaapa))
+- [`d866fa4`](https://github.com/ghostty-org/ghostty/commit/d866fa4553850050ec54eefa9daf2c63a9f4f4e5) terminal/kitty: fix graphics range deletion ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use inclusive image ID bounds for the Kitty graphics protocol range
+  delete operation.
+  
+  Range deletion previously joined the lower and upper bound checks with or,
+  which matched every placement for any valid range. A targeted delete could
+  therefore remove every graphics placement.
+  
+  Join the bounds with and and update the lowercase and uppercase range tests
+  to keep placements below and above the selected interval.
+  ```
+- [`af2faa3`](https://github.com/ghostty-org/ghostty/commit/af2faa311a5a16b40afff8410a28da077b8ced57) terminal/kitty: restrict temporary image file paths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Require temporary image file paths to match complete directory
+  components when checking /tmp, /dev/shm, the configured temporary
+  directory, and its resolved path.
+  
+  The previous byte-prefix checks accepted similarly named sibling
+  directories such as /tmpX. A temporary-file transmission could read
+  and unlink a file outside the permitted temporary directories.
+  
+  Add a component-boundary helper and regression coverage for built-in
+  and configured directory prefixes. An integration test also verifies
+  that a rejected file remains on disk.
+  ```
+- [`e5840bb`](https://github.com/ghostty-org/ghostty/commit/e5840bb9bacdaae78c42baa4b276f52eaa91fdbe) terminal/kitty: harden placement geometry ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Treat Kitty placement dimensions and offsets as untrusted values when
+  calculating pixel, grid, and rectangle geometry. Saturate results that
+  do not fit and return no rectangle when missing pixel metrics produces
+  an empty grid.
+  
+  Unchecked u32 arithmetic previously panicked in safe builds and wrapped
+  in fast builds. A zero row count could underflow into a maximum-size
+  page traversal, while maximum dimensions could spin cursor movement or
+  overflow render visibility calculations.
+  
+  Use checked integer scaling instead of floating-point casts, saturating
+  arithmetic for extents and cursor columns, and bound off-screen cursor
+  work to the terminal row count. Compute C API visibility in i64 and
+  cover maximum protocol values in storage, execution, and render-info
+  tests.
+  ```
+- [`fb4c561`](https://github.com/ghostty-org/ghostty/commit/fb4c56159fe8c6c19fa84c2a6691a44098c65e78) core: transfer long key encoding buffer ([@jparise](https://github.com/jparise))
+  ```text
+  The long-preedit fallback introduced in e95b1707c intentionally allocated
+  twice. The encoder wrote into an oversized caller-owned buffer and returned
+  only the written subslice, so transferring it required manually shrinking
+  the allocation or tracking its original capacity. The copy kept that rare
+  path simple.
+  
+  The key encoder moved to std.Io.Writer.Allocating in 44496df899. Its
+  toOwnedSlice method handles shrinking and ownership transfer, remapping when
+  the allocator supports it and falling back to an allocation and copy when it
+  does not. Use it directly for WriteReq.alloc to remove the guaranteed second
+  allocation while preserving cleanup on failure.
+  ```
+- [`ec04900`](https://github.com/ghostty-org/ghostty/commit/ec04900ab957c7637584e2002aeb6f24c985bd70) terminal/kitty: validate opened image file paths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Validate Kitty file transmissions against a canonical path derived from
+  the open file handle. Keep temporary file policy and cleanup keyed to
+  that handle path.
+  
+  Path validation previously ran before opening, so a local cooperating
+  process could replace a symlink or directory entry and make Ghostty
+  read a blocklisted file.
+  
+  Open the submitted path once, derive its canonical path from the handle,
+  and use the same handle for stat and reads. Add a regression test that
+  replaces a blocked symlink after open and verifies the pinned target is
+  still rejected.
+  ```
+- [`f766f30`](https://github.com/ghostty-org/ghostty/commit/f766f303a7d39b9f41fdda1b6d71b329f410d45f) terminal/kitty: validate shared memory ranges ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Validate Kitty shared memory byte ranges before mapping and copying
+  image data. Interpret S as a byte count from O and preserve default
+  raw-image sizing.
+  
+  Shared memory transmissions previously multiplied untrusted u32
+  dimensions before the limit check and sliced mappings with an unchecked
+  offset. Malformed commands could panic in safe builds or request a
+  wrapped allocation in fast builds.
+  
+  Reject oversized dimensions before widening size arithmetic, derive
+  bounded ranges from the stat size, and enforce max_size before
+  constructing a slice. Add regression tests for explicit and implicit
+  offsets, out-of-bounds offsets, and maximum dimensions.
+  ```
+- [`590d669`](https://github.com/ghostty-org/ghostty/commit/590d669c4a72eb9cb990bf0162071c2b9eb0f7ad) terminal/kitty: limit png decoder allocations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Limit individual allocator requests made by PNG decoders to the Kitty
+  graphics protocol's 400 MiB image ceiling. Add a reusable allocator
+  wrapper for callers that need per-request bounds.
+  
+  PNG decoding previously used Wuffs' 4 GiB package limit and checked
+  the result only after allocation. A tiny PNG with oversized dimensions
+  could cause a multi-gigabyte RSS spike before being rejected.
+  
+  Wrap decoder allocators with LimitedAllocator and translate limit
+  rejections to invalid image data while preserving genuine out-of-memory
+  errors. Add allocator boundary tests and regression coverage for a
+  crafted PNG below Wuffs' limit.
+  ```
+- [`d0c516f`](https://github.com/ghostty-org/ghostty/commit/d0c516f8f384ee4cc3304c4eef3dabc07c432de4) terminal/kitty: release replaced placement pins ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Release a Kitty graphics placement's tracked pin before replacement.
+  
+  Repeated updates to an external placement previously leaked tracked pins.
+  
+  Pass the owning screen to storage and deinitialize the old placement.
+  ```
+- [`402b922`](https://github.com/ghostty-org/ghostty/commit/402b9227de1efab24de981ce0d71b4d378417490) terminal/kitty: reclaim pruned placements ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reclaim pin-backed Kitty graphics placements after their tracked screen
+  content is pruned. Treat garbage pins as non-renderable until the next
+  placement command sweeps them.
+  
+  Placements that scrolled beyond retained history previously remained in
+  the placement map and tracked-pin set. Long-running graphics output could
+  accumulate stale state, and remapped garbage pins could appear at an
+  unrelated fallback location.
+  
+  Sweep garbage placements before growing the placement map, releasing each
+  tracked pin while preserving virtual placements. Return no geometry or
+  visible render position for garbage pins and cover both storage and C API
+  behavior with regression tests.
+  ```
+- [`e206558`](https://github.com/ghostty-org/ghostty/commit/e2065583a41e576cd94927832d8e8b72f0cae1f1) core: transfer long key encoding buffer ([#13628](https://github.com/ghostty-org/ghostty/issues/13628)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The long-preedit fallback introduced in e95b1707c intentionally
+  allocated twice. The encoder wrote into an oversized caller-owned buffer
+  and returned only the written subslice, so transferring it required
+  manually shrinking the allocation or tracking its original capacity. The
+  copy kept that rare path simple.
+  
+  The key encoder moved to std.Io.Writer.Allocating in 44496df899. Its
+  toOwnedSlice method handles shrinking and ownership transfer, remapping
+  when the allocator supports it and falling back to an allocation and
+  copy when it does not. Use it directly for WriteReq.alloc to remove the
+  guaranteed second allocation while preserving cleanup on failure.
+  ```
+- [`dd03528`](https://github.com/ghostty-org/ghostty/commit/dd035284c2c548c139e4b312751f7b9ef628d251) Kitty graphics protocol bugs ([#13630](https://github.com/ghostty-org/ghostty/issues/13630)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Specifics in each commit message. This will be part of a security
+  advisory in 1.4.0 since these patches issues related to overflows, DoS,
+  unbounded memory allocation, etc.
+  ```
+- [`33d34cf`](https://github.com/ghostty-org/ghostty/commit/33d34cf5ce7bece9e108aaab069584c0628300be) terminal: avoid VS15 cursor underflow ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Handle VS15 width changes when the wide grapheme base is directly under
+  the cursor. Cover both disabled wraparound and restored pending-wrap
+  cursor states.
+  
+  A zero cursor distance previously underflowed while locating the spacer
+  tail. Debug builds panicked and ReleaseFast computed an out-of-bounds
+  cell pointer before updating it.
+  
+  Find the spacer from the wide base instead of subtracting from the
+  cursor distance. Reposition the cursor from the base column and clamp it
+  to the active right margin.
+  ```
+- [`fe98aef`](https://github.com/ghostty-org/ghostty/commit/fe98aef21cf29e06555a3c76527923eb0256af2b) terminal: report DECECM as permanently reset ([#12660](https://github.com/ghostty-org/ghostty/issues/12660)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes #12505
+  
+  This PR allows Ghostty to respond to DECRQM queries for DECECM with the
+  "permanently reset".
+  
+  AI disclosure: I used Codex to help inspect the relevant code path and
+  explain the issue, but I reviewed and made the code changes myself.
+  ```
+- [`bd21ff1`](https://github.com/ghostty-org/ghostty/commit/bd21ff153e047f2480086aa4eb88c88fa8368823) terminal: avoid VS15 cursor underflow ([#13631](https://github.com/ghostty-org/ghostty/issues/13631)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Handle VS15 width changes when the wide grapheme base is directly under
+  the cursor.
+  
+  A zero cursor distance previously underflowed while locating the spacer
+  tail. Debug builds panicked and ReleaseFast computed an out-of-bounds
+  cell pointer before updating it.
+  ```
+- [`f17b425`](https://github.com/ghostty-org/ghostty/commit/f17b425aac518acd7cb7cbc500b862656631a4a8) surface: use id instead of intFromPtr ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  intFromPtr was always a hack that we had to use before we had stable
+  surface IDs, and it was always slightly unsafe. Let's do it properly
+  this time.
+  ```
+- [`c93752a`](https://github.com/ghostty-org/ghostty/commit/c93752a008b5a9a9a717c9e2bea4742d7efb4c00) macOS: suppress restart tips for auto update ([@bo2themax](https://github.com/bo2themax))
+- [`5b70f20`](https://github.com/ghostty-org/ghostty/commit/5b70f208bc6870bb32f13720376840edc3c5ed31) terminal: print repeated characters through printSlice ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  While doing some work on my tmux fork I noticed multiple parts of
+  libghostty-vt was slower than tmux equivalents(isolated). Turns out they
+  do some smart stuff there.
+  
+  printRepeat called print() once per repeat, so something like \x1b[2000b
+  ran grapheme checks, width lookups, wrap handling, etc etc 2000 times.
+  
+  printSlice is already documented as semantically identical to
+  calling print per codepoint, so this just feeds the repeated
+  codepoint through it in 4096-entry stack chunks. Simple runs take
+  the batched fast path, and anything that needs care falls back to the
+  previous behaviour.
+  ```
+- [`19e9f49`](https://github.com/ghostty-org/ghostty/commit/19e9f49089606310bb717a6a8e49174ffdd0e90a) surface: use id instead of intFromPtr ([#13620](https://github.com/ghostty-org/ghostty/issues/13620)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  intFromPtr was always a hack that we had to use before we had stable
+  surface IDs, and it was always slightly unsafe. Let's do it properly
+  this time.
+  ```
+- [`3f8b99b`](https://github.com/ghostty-org/ghostty/commit/3f8b99bb68cb46381924f33496b7e6a25d3859a8) terminal: print repeated characters through printSlice ([#13625](https://github.com/ghostty-org/ghostty/issues/13625)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  `printRepeat` (CSI `b`, repeat the previous character N times) calls
+  `print()` once per repeat, so something like `\x1b[2000b` ran grapheme
+  checks, width lookups, wrap handling, and the integrity assert 2000
+  times for what is usually the same character on the same row.
+  
+  `Terminal.print` was 24% of samples on a REP-heavy micro benchmark.
+  
+  This PR just aims to add a fast path by introducing a chunking
+  mechanism. anything that needs care (insert mode, grapheme clustering,
+  hyperlinks) still falls back to per-codepoint print() inside printSlice,
+  so behavior *should* stay unchanged.
+  
+  Some profiling data:
+  
+  Generated with some plain stupid logic:
+  
+  ```py
+  D = "benchdata"
+  parts, total = [], 0
+  while total < 40_000_000:
+      line = "x" + "\x1b[80b" + "y" + "\x1b[35b" + "\r\n"
+      parts.append(line); total += len(line)
+  open(f"{D}/rep.bin", "wb").write("".join(parts).encode())
+  ```
+  **macOS (hyperfine, 15 runs, warmup 3):**
+  
+  | | mean |
+  |---|---|
+  | before | 2.360 s |
+  | after | 1.166 s |
+  
+  
+  And now the really interesting and promising stuff
+  
+  **Linux, 24-core NixOS x86_64 (poop, 6s sampling):**
+  
+  | | wall_time | instructions | branch_misses | peak_rss |
+  |---|---|---|---|---|
+  | before | 1.51 s | 50.9 G | 9.41 M | 6.82 MB |
+  | after | 562 ms | 9.07 G | 114 K | 6.74 MB |
+  ````
+- [`5944ab2`](https://github.com/ghostty-org/ghostty/commit/5944ab286d825b48b68d0e99088273cf435d6870) macOS: suppress restart tips for auto update ([#13623](https://github.com/ghostty-org/ghostty/issues/13623)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With this, users will not be prompted to restart the app when an
+  automatic update is ready. Relaunching with this state will have no
+  visible difference to users.
+  
+  If the user checks for updates manually, either by menu, command
+  palette, or keybind, a restart alert will be prompted.
+  
+  Closes #13478
+  
+  Auto updates:
+  
+  
+  https://github.com/user-attachments/assets/f77f65a1-6e2f-4002-961c-fee4b73d447e
+  
+  Manual Updates:
+  
+  
+  https://github.com/user-attachments/assets/8a52a5a0-2022-413f-97c5-6f9a2eb26e7a
+  ```
 - [`f5419b9`](https://github.com/ghostty-org/ghostty/commit/f5419b9b151e85c027f481f045f586e10ddf1d01) gtk: do not set bell ringing if already focused ([@lotheac](https://github.com/lotheac))
 - [`9e30f70`](https://github.com/ghostty-org/ghostty/commit/9e30f70f23418fecbdca1088673000417527c4e4) gtk: do not set bell ringing if already focused ([#13597](https://github.com/ghostty-org/ghostty/issues/13597)) ([@pluiedev](https://github.com/pluiedev))
 - [`2346c4f`](https://github.com/ghostty-org/ghostty/commit/2346c4fe4767373cda50b5977d95191f714b1cca) Update VOUCHED list ([#13617](https://github.com/ghostty-org/ghostty/issues/13617)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
