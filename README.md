@@ -8,15 +8,141 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 16:27 UTC.
+> Last updated: August 5, 2026 at 19:22 UTC.
 
 ## August 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [2](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [3](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [4](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [5](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
-Summary: 5 runs • 30 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31034042138), [2](https://github.com/ghostty-org/ghostty/actions/runs/31028395613), [3](https://github.com/ghostty-org/ghostty/actions/runs/31025899355), [4](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [5](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [6](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [7](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [8](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 8 runs • 36 commits • 9 authors
 
 ### Changes
 
+- [`77537c8`](https://github.com/ghostty-org/ghostty/commit/77537c8065f3055d214144caab7d137543a6e133) macos: handled untrusted OSC8 hyperlinks more carefully ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  OSC8 hyperlinks previously executed directly via the NSWorkspace opener
+  so a malicious application can just do whatever it wanted and trick the
+  user into opening something through Launch Services.
+  
+  This PR notifies apprt of OSC8 hyperlinks so they can be handled
+  specially. In this PR, I added macOS-specific handling of OSC8 through a
+  variety of improvements:
+  
+    - Preview text is sanitized, so invisible Unicode characters now show.
+    - Questionable-looking URLs require confirmation to open, but a user
+      can confirm to open.
+    - Very questionable or definitely unsafe URLs are blocked with an
+      alert that only allows the user to copy the link. The alert also
+      notifies the user why.
+  ```
+- [`54fe8e1`](https://github.com/ghostty-org/ghostty/commit/54fe8e188552977249a084db687e75aee6bf12e9) macos: handled untrusted OSC8 hyperlinks more carefully ([#13634](https://github.com/ghostty-org/ghostty/issues/13634)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  OSC8 hyperlinks previously executed directly via the NSWorkspace opener
+  so a malicious application can just do whatever it wanted and trick the
+  user into opening something through Launch Services.
+  
+  This PR notifies apprt of OSC8 hyperlinks so they can be handled
+  specially. In this PR, I added macOS-specific handling of OSC8 through a
+  variety of improvements:
+  
+    - Preview text is sanitized, so invisible Unicode characters now show.
+  - Questionable-looking URLs require confirmation to open, but a user can
+  confirm to open.
+  - Very questionable or definitely unsafe URLs are blocked with an alert
+  that only allows the user to copy the link. The alert also notifies the
+  user why.
+  
+  This PR also adds an explicit `link-osc8` config (default true) that
+  users can use to disable osc8 completely.
+  
+  ## Demos
+  
+  ### Custom URL Schemes (Confirm)
+  
+  <img width="1432" height="1110" alt="CleanShot 2026-08-05 at 10 25
+  57@2x"
+  src="https://github.com/user-attachments/assets/f7773ca2-3389-4749-a5c9-393ae097c044"
+  />
+  
+  ### Invisible Characters (Block)
+  
+  <img width="1432" height="1110" alt="CleanShot 2026-08-05 at 10 26
+  44@2x"
+  src="https://github.com/user-attachments/assets/bd2d0f33-f128-46e8-9bdb-227afecbb942"
+  />
+  
+  ### Executable Target (Block)
+  
+  <img width="1432" height="1110" alt="CleanShot 2026-08-05 at 10 27
+  31@2x"
+  src="https://github.com/user-attachments/assets/080c0524-2c8e-4931-892f-d2643a5d0d4e"
+  />
+  ```
+- [`727b8a0`](https://github.com/ghostty-org/ghostty/commit/727b8a02f8734840de664c060678dd66f01931f6) terminal: bound OSC and grapheme allocations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cap allocating OSC payloads at 8 MiB and retain at most 64 grapheme
+  suffix codepoints per cell. Our limits are generous compared to other
+  terminals and this prevents an easy DoS.
+  
+  When the grapheme codepoint max is hit we just ignore any remainders.
+  This can result in real broken graphemes because Unicode spec is really
+  unbounded on them but for all practical use cases its reasonable.
+  
+  Compared to other terminals:
+  
+  | Terminal | OSC capture limit | Cell codepoints |
+  | --- | ---: | ---: |
+  | Ghostty | 8 MiB | 65 |
+  | kitty | ~256 KiB ordinary | 24 |
+  | VTE | 4,096 scalars | 11 |
+  | xterm | 20 or 600 KB | 3 default, 6 max |
+  | Alacritty | unbounded | unbounded |
+  | WezTerm | unbounded | no explicit limit |
+  ```
+- [`46767b5`](https://github.com/ghostty-org/ghostty/commit/46767b521358200bfe3f268f365ccd2f218db558) terminal: bound OSC and grapheme allocations ([#13633](https://github.com/ghostty-org/ghostty/issues/13633)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cap allocating OSC payloads at 8 MiB and retain at most 64 grapheme
+  suffix codepoints per cell. Our limits are generous compared to other
+  terminals and this prevents an easy DoS.
+  
+  When the grapheme codepoint max is hit we just ignore any remainders.
+  This can result in real broken graphemes because Unicode spec is really
+  unbounded on them but for all practical use cases its reasonable.
+  
+  Compared to other terminals:
+  
+  | Terminal | OSC capture limit | Cell codepoints |
+  | --- | ---: | ---: |
+  | Ghostty | 8 MiB | 65 |
+  | kitty | ~256 KiB ordinary | 24 |
+  | VTE | 4,096 scalars | 11 |
+  | xterm | 20 or 600 KB | 3 default, 6 max |
+  | Alacritty | unbounded | unbounded |
+  | WezTerm | unbounded | no explicit limit |
+  ```
+- [`38e891e`](https://github.com/ghostty-org/ghostty/commit/38e891e6c0bbaa50661b529424fc9fdd866ae252) terminal: require opt-in for title reports ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add an explicit libghostty-vt title-report option and keep CSI 21 t
+  disabled unless an embedder enables it.
+  
+  Previously, registering the general PTY write callback also caused the
+  terminal to echo attacker-controlled window titles. This exposed
+  embedders to command injection after user interaction.
+  
+  Gate the response in the shared terminal stream, append the C API
+  option without renumbering existing values, and cover the default,
+  opt-in, and reset behavior in Zig and C API tests.
+  ```
+- [`ad27c98`](https://github.com/ghostty-org/ghostty/commit/ad27c989a4cc59b9e9f906cd4e07cdc8c30b332b) libghostty-vt: require opt-in for title reports ([#13632](https://github.com/ghostty-org/ghostty/issues/13632)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add an explicit libghostty-vt title-report option and keep CSI 21 t
+  disabled unless an embedder enables it.
+  
+  Previously, registering the general PTY write callback also caused the
+  terminal to echo attacker-controlled window titles. This exposed
+  embedders to command injection after user interaction. Ghostty fixed
+  this a long time ago by making CSI 21 t an opt-in in the config. Do the
+  same but with our C/Zig API.
+  ```
 - [`c092b2b`](https://github.com/ghostty-org/ghostty/commit/c092b2bcf51415a83ff9a1f2fddf67caa58b1283) terminal: report DECECM as permanently reset ([@athaapa](https://github.com/athaapa))
 - [`f1ca88d`](https://github.com/ghostty-org/ghostty/commit/f1ca88da37315b0ab96be66e7697cec6a5c1da45) terminal: clarify DECECM report handling ([@athaapa](https://github.com/athaapa))
 - [`7bb3758`](https://github.com/ghostty-org/ghostty/commit/7bb37580084b990029f04dca366f2d7d1ca1d089) terminal: document DECECM report behavior ([@athaapa](https://github.com/athaapa))
