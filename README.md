@@ -8,7 +8,40 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 02:01 UTC.
+> Last updated: August 5, 2026 at 05:41 UTC.
+
+## August 5, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [2](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 2 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`2346c4f`](https://github.com/ghostty-org/ghostty/commit/2346c4fe4767373cda50b5977d95191f714b1cca) Update VOUCHED list ([#13617](https://github.com/ghostty-org/ghostty/issues/13617)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/12984#issuecomment-5187316604)
+  from @mitchellh.
+  
+  Denounce: @jamesarch
+  ```
+- [`a86c49d`](https://github.com/ghostty-org/ghostty/commit/a86c49d7af2a92e945487f52e821ee478e276fad) macOS: rename UpdateState.isIdle to isHidden ([@bo2themax](https://github.com/bo2themax))
+- [`a00d155`](https://github.com/ghostty-org/ghostty/commit/a00d155e9cb31829a27c3342653e30c6220e93ca) config: limit command translations to GTK ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13614
+  
+  Only translate the shared default commands when building the GTK runtime.
+  macOS now use the source strings until we do broader localization.
+  ```
+- [`d2f08f1`](https://github.com/ghostty-org/ghostty/commit/d2f08f1589cbe73e1f7cbedc2db9c5e1ae5a1ca6) config: limit command translations to GTK ([#13615](https://github.com/ghostty-org/ghostty/issues/13615)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13614
+  
+  Only translate the shared default commands when building the GTK
+  runtime. macOS now use the source strings until we do broader
+  localization.
+  ```
+- [`d7f7a4e`](https://github.com/ghostty-org/ghostty/commit/d7f7a4e736d47bb3501d22cc9118b23dd398a764) macOS: rename UpdateState.isIdle to isHidden ([#13613](https://github.com/ghostty-org/ghostty/issues/13613)) ([@mitchellh](https://github.com/mitchellh))
 
 ## August 4, 2026
 
