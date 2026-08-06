@@ -8,15 +8,490 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 5, 2026 at 22:07 UTC.
+> Last updated: August 6, 2026 at 02:05 UTC.
 
 ## August 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31042413734), [2](https://github.com/ghostty-org/ghostty/actions/runs/31038815123), [3](https://github.com/ghostty-org/ghostty/actions/runs/31034042138), [4](https://github.com/ghostty-org/ghostty/actions/runs/31028395613), [5](https://github.com/ghostty-org/ghostty/actions/runs/31025899355), [6](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [7](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [8](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [9](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [10](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
-Summary: 10 runs • 44 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31056985659), [2](https://github.com/ghostty-org/ghostty/actions/runs/31055889251), [3](https://github.com/ghostty-org/ghostty/actions/runs/31051671572), [4](https://github.com/ghostty-org/ghostty/actions/runs/31042413734), [5](https://github.com/ghostty-org/ghostty/actions/runs/31038815123), [6](https://github.com/ghostty-org/ghostty/actions/runs/31034042138), [7](https://github.com/ghostty-org/ghostty/actions/runs/31028395613), [8](https://github.com/ghostty-org/ghostty/actions/runs/31025899355), [9](https://github.com/ghostty-org/ghostty/actions/runs/31024376852), [10](https://github.com/ghostty-org/ghostty/actions/runs/31015249528), [11](https://github.com/ghostty-org/ghostty/actions/runs/30982669077), [12](https://github.com/ghostty-org/ghostty/actions/runs/30973436116), [13](https://github.com/ghostty-org/ghostty/actions/runs/30970856835)  
+Summary: 13 runs • 84 commits • 11 authors
 
 ### Changes
 
+- [`f1d2250`](https://github.com/ghostty-org/ghostty/commit/f1d225020ae68b789b663b7b0637ac52c0a38a05) core: avoid allocating for small pwd change actions ([@jparise](https://github.com/jparise))
+  ```text
+  Surface.handleMessage allocated a null-terminated copy for every working
+  directory update.
+  
+  Use a small 256-byte stack-fallback buffer for common working directory
+  lengths without adding significant pressure to this deep call stack. Longer
+  paths retain the existing heap behavior, and performAction continues to borrow
+  the value only for the duration of the call.
+  ```
+- [`b5e86a4`](https://github.com/ghostty-org/ghostty/commit/b5e86a42844e8be67af67c7d612a058ed8cd340c) terminal/kitty: release evicted placement pins ([@ampagent](https://github.com/ampagent))
+  ```text
+  Image eviction removed associated placements from storage without
+  deinitializing them. Pin-backed placements therefore remained registered
+  with the screen after eviction, allowing graphics-heavy output to
+  accumulate stale tracked pins.
+  
+  Pass the owning screen through image insertion and eviction, and
+  deinitialize each placement before removing it. Cover both the released
+  pin and a retained image's live pin in the eviction regression test.
+  ```
+- [`ea21a2f`](https://github.com/ghostty-org/ghostty/commit/ea21a2f141e309fffc549d8639479622d504051b) core: avoid allocating for pwd change actions ([#13654](https://github.com/ghostty-org/ghostty/issues/13654)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Surface.handleMessage allocated a null-terminated copy for every working
+  directory update. OSC 7 values fit within the parser's 2 KiB fixed
+  buffer, so use stack-fallback storage sized for that bound and its
+  terminator.
+  
+  The message type does not enforce the OSC bound, so an oversized future
+  producer still falls back to the heap. performAction already borrows the
+  value only for the duration of the call, preserving its existing
+  lifetime.
+  ```
+- [`8eecb8f`](https://github.com/ghostty-org/ghostty/commit/8eecb8fdbfcc21bfda31ee759ff3ef23216d80fb) terminal: release Kitty placement pins on eviction ([#13656](https://github.com/ghostty-org/ghostty/issues/13656)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Image eviction removed associated placements from storage without
+  deinitializing them. Pin-backed placements therefore remained registered
+  with the screen after eviction, allowing graphics-heavy output to
+  accumulate stale tracked pins.
+  
+  Pass the owning screen through image insertion and eviction, and
+  deinitialize each placement before removing it. Cover both the released
+  pin and a retained image's live pin in the eviction regression test.
+  ```
+- [`d02ad96`](https://github.com/ghostty-org/ghostty/commit/d02ad967b62af94d7ffaca3bbac9029966ff8824) macOS: update command options match order ([@claude](https://github.com/claude))
+  ```text
+  Matches are sorted in the following order:
+  leadingColor > title > subtitle > description.
+  
+  Ranking is lexicographic on (colorScore, textScore)
+  ```
+- [`4371871`](https://github.com/ghostty-org/ghostty/commit/4371871bc2074c8b615583bd4a7ebc1957480d58) terminal/kitty: evict without scratch allocation ([@jparise](https://github.com/jparise))
+  ```text
+  Track each image's placement count in its existing metadata. This lets
+  us use constant-time usage checks (rather than scans) during eviction.
+  
+  Select the best candidate directly from storage on each eviction, preserving
+  the existing priority order: unused status, transient hint, generation, then
+  ID.
+  
+  Since eviction no longer allocates, it can't fail, so callers no longer
+  need to handle out-of-memory conditions.
+  ```
+- [`d28bc12`](https://github.com/ghostty-org/ghostty/commit/d28bc121a88def99cbc5ec8be1e18bc40f789325) macos: synchronize cached value access ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13276
+  
+  Make CachedValue safe for concurrent terminal content reads and expiry.
+  
+  The expiry task could previously release cached Swift String storage
+  while another thread retained it, aborting the process during otherwise
+  normal terminal use.
+  
+  Protect cached values and task handles with an NSLock, and exercise
+  concurrent reads across repeated expiration in a regression test.
+  ```
+- [`57c1baf`](https://github.com/ghostty-org/ghostty/commit/57c1baf43ae5b576644879212ec6e9cc46284ff3) macos: defer overlapping clipboard completion ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #/13074
+  
+  Overlapping clipboard confirmations now defer denial until the next
+  main queue turn rather than completing inside the confirmation callback.
+  
+  This prevents the native request state from being invalidated while its
+  callback is still active, avoiding the OSC 52 crash reported in #13074.
+  
+  The deferred closure retains the originating surface view and completes
+  the ignored request with empty data, preserving the existing deny
+  behavior.
+  ```
+- [`8524cb5`](https://github.com/ghostty-org/ghostty/commit/8524cb593c5fa542f017744c7879c22c66a5e377) terminal/kitty: fix point deletion calculations (d=p, d=c) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fix d=p and d=c point deletion so only placements intersecting the
+  target cell are removed.
+  
+  Previously, placements spanning multiple rows could be deleted from
+  columns outside the target because the page-order comparison flattened
+  row and column coordinates.
+  
+  Check the rectangle's column independently and use page order only for
+  its row span, matching Kitty's implementation:
+  https://github.com/kovidgoyal/kitty/blob/master/kitty/graphics.c
+  
+  NOTE: I did not look at Kitty's source prior to fixing this. I only
+  referenced it after the fix to verify that the behavior matches.
+  
+  Spec:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#deleting-images
+  ```
+- [`f973bd5`](https://github.com/ghostty-org/ghostty/commit/f973bd53ba90f161c7629d01b195b0a7f2ed88a5) terminal: report overline in DECRQSS SGR response ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #11638
+  
+  Report SGR 53 when the active cursor style has overline enabled.
+  ```
+- [`c9ef382`](https://github.com/ghostty-org/ghostty/commit/c9ef382fc97d8256b9c5af3e8f13841896b0db15) macos: synchronize cached value access ([#13646](https://github.com/ghostty-org/ghostty/issues/13646)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13276
+  
+  Make CachedValue safe for concurrent terminal content reads and expiry.
+  
+  The expiry task could previously release cached Swift String storage
+  while another thread retained it, aborting the process during otherwise
+  normal terminal use.
+  
+  Protect cached values and task handles with an NSLock, and exercise
+  concurrent reads across repeated expiration in a regression test.
+  ```
+- [`ae0ff51`](https://github.com/ghostty-org/ghostty/commit/ae0ff51c42f859b483b4a5a073b7fb4941f78273) macos: defer overlapping clipboard completion ([#13648](https://github.com/ghostty-org/ghostty/issues/13648)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13074
+  
+  Overlapping clipboard confirmations now defer denial until the next main
+  queue turn rather than completing inside the confirmation callback.
+  
+  This prevents the native request state from being invalidated while its
+  callback is still active, avoiding the OSC 52 crash reported in #13074.
+  
+  The deferred closure retains the originating surface view and completes
+  the ignored request with empty data, preserving the existing deny
+  behavior.
+  ```
+- [`a61e15e`](https://github.com/ghostty-org/ghostty/commit/a61e15efd563f7b21098561e8d282999b5634985) terminal/kitty: fix point deletion calculations (d=p, d=c) ([#13652](https://github.com/ghostty-org/ghostty/issues/13652)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/12346
+  
+  Fix d=p and d=c point deletion so only placements intersecting the
+  target cell are removed.
+  
+  Previously, placements spanning multiple rows could be deleted from
+  columns outside the target because the page-order comparison flattened
+  row and column coordinates.
+  
+  Check the rectangle's column independently and use page order only for
+  its row span, matching Kitty's implementation:
+  https://github.com/kovidgoyal/kitty/blob/master/kitty/graphics.c
+  
+  NOTE: I did not look at Kitty's source prior to fixing this. I only
+  referenced it after the fix to verify that the behavior matches.
+  
+  Spec:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#deleting-images
+  ```
+- [`090d161`](https://github.com/ghostty-org/ghostty/commit/090d161b2855a0235771954c88059399dae6e058) terminal: report overline in DECRQSS SGR response ([#13653](https://github.com/ghostty-org/ghostty/issues/13653)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #11638
+  
+  Report SGR 53 when the active cursor style has overline enabled.
+  ```
+- [`9cb2147`](https://github.com/ghostty-org/ghostty/commit/9cb21476411cba36844d3dd67373b11a9328f5e8) terminal/kitty: evict without scratch allocation ([#13627](https://github.com/ghostty-org/ghostty/issues/13627)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Track each image's placement count in its existing metadata. This lets
+  us use constant-time usage checks (rather than scans) during eviction.
+  
+  Select the best candidate directly from storage on each eviction,
+  preserving the existing priority order: unused status, transient hint,
+  generation, then ID.
+  
+  Since eviction no longer allocates, it can't fail, so callers no longer
+  need to handle out-of-memory conditions.
+  ```
+- [`e886012`](https://github.com/ghostty-org/ghostty/commit/e88601239d9ea8c4f93ad123e031f789c64eca3f) macOS: update command options match order ([#13624](https://github.com/ghostty-org/ghostty/issues/13624)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Matches are sorted in the following order:
+  leadingColor > title > subtitle > description.
+  
+  Ranking is lexicographic on (colorScore, textScore)
+  
+  <img height="300" alt="image"
+  src="https://github.com/user-attachments/assets/1ec99e67-537e-4fc6-b595-d7eec8cbf31d"
+  />
+  
+  
+  ### AI Disclosure
+  
+  Claude reviewed and added unit tests, also did some refactoring of my
+  original implementation.
+  ```
+- [`1d053bd`](https://github.com/ghostty-org/ghostty/commit/1d053bd6ea28d9109fa352862588e421c2f2767f) gtk: implement drag-to-move for splits ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  One major todo is moving splits across different split trees (i.e.
+  moving across tabs and windows), but that would involve a lot more logic.
+  This MVP version works for now.
+  
+  GTK version of #10090
+  
+  Closes #10224
+  ```
+- [`98fae16`](https://github.com/ghostty-org/ghostty/commit/98fae16a0503548b894e4bbed84f645a79ab5210) gtk: support cross-tree surface drag and drop ([@pluiedev](https://github.com/pluiedev))
+- [`261848c`](https://github.com/ghostty-org/ghostty/commit/261848c2fbd34ddb5fb74dcc8327c5ded980d691) gtk: reformat blueprints ([@pluiedev](https://github.com/pluiedev))
+- [`7a04755`](https://github.com/ghostty-org/ghostty/commit/7a047553c7ab35863a0bc10ea4bc029c9a4f1993) macos: avoid IOSurface leak on automated surface creation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13444
+  
+  A close while AppKit temporarily cleared/changed a surface's window would
+  leak the surface in the controller's pslit tree. This retained surface kept
+  a bunch of resources around, particularly large IOSurfaces.
+  
+  This seems to only be reproducible under scripted load: rapid terminal
+  creation/destruction so that destruction happens just while there is a nil
+  window on a surface view.
+  
+  Track surface ownership in a weak controller map updated alongside the split
+  tree, with validated fallbacks for existing attachment state. Resolve
+  scripted and App Intent operations through that ownership, and route
+  non-confirming root closes directly through the immediate tab or window close
+  path so teardown always reaches the renderer.
+  ```
+- [`4b4a5b2`](https://github.com/ghostty-org/ghostty/commit/4b4a5b2411091ccda2cd6373631ec7ccd184c577) renderer/metal: clear callback before layer release ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clear the IOSurfaceLayer display callback when releasing the wrapper.
+  The host view can retain the backing layer beyond renderer teardown.
+  This prevents a later Core Animation display pass from invoking the
+  callback with a freed renderer context.
+  ```
+- [`a177ba9`](https://github.com/ghostty-org/ghostty/commit/a177ba90af18d5df91b2b5cb8dddc0a55905c37f) macos: tolerate display link creation failures ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13293
+  
+  Treat Core Video display link creation as optional when macOS has no
+  active displays. The previous error path reported every creation
+  failure as out of memory and aborted renderer initialization.
+  
+  This also resyncs the display link on any display change so when
+  a display becomes available it re-adds itself.
+  
+  Tabs created while the session is locked now initialize normally and
+  fall back to event-driven rendering without vsync.
+  ```
+- [`15ac61d`](https://github.com/ghostty-org/ghostty/commit/15ac61db164fd6b6fdef0163ebddf3e07db4842a) gtk: implement drag-to-move for splits ([#10423](https://github.com/ghostty-org/ghostty/issues/10423)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  One major todo is moving splits across different split trees (i.e.
+  moving across tabs and windows), but that would involve a lot more
+  logic. This MVP version works for now.
+  
+  Video demo (somehow the encode quality is terrible - I'll fix this
+  later):
+  
+  
+  https://github.com/user-attachments/assets/a5029451-9641-4680-bff6-38f52ebded4b
+  
+  
+  GTK version of #10090
+  
+  Closes #10224
+  ```
+- [`d166c05`](https://github.com/ghostty-org/ghostty/commit/d166c05edd5732b4eb2db907d18f14a2faff77a2) font: handle missing CoreText display names ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  CTFontCopyDisplayName can return null.
+  ```
+- [`74f01cf`](https://github.com/ghostty-org/ghostty/commit/74f01cf5df5c3426c37951015500c92a20afdfa9) macos: prevent stale search selection crash ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13266
+  
+  Keep search text and its selection range synchronized as a single
+  state transition.
+  
+  Deleting or replacing a search term could leave a String.Index range
+  from the old value attached to the text field. Applying that range
+  could crash the app.
+  
+  Clear selection before publishing new text.
+  ```
+- [`7a9c369`](https://github.com/ghostty-org/ghostty/commit/7a9c369cf5da72d41946f683c48b0466a210cb7e) terminal: preserve cursor when formatting tabstops ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13269
+  
+  Move VT tabstop serialization ahead of screen formatting so cursor-moving
+  CHA and HTS sequences run before screen state is restored.
+  
+  Tabstop-enabled snapshots previously finished at the final configured
+  tabstop instead of the serialized cursor position. Replaying a snapshot
+  could resume input in the wrong column.
+  
+  Keep tabstop bytes in their original pin-map accounting and extend the
+  round-trip test to verify tabstops, cursor position, and map length.
+  ```
+- [`2b32b5b`](https://github.com/ghostty-org/ghostty/commit/2b32b5b75cfe7a31a6043a82d111065b0279b875) core: close retained temp directory handles ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13219
+  
+  Screen file actions intentionally retain their temporary directory so
+  the generated path remains valid after dispatch. The directory and
+  parent handles were retained with it, while TempDir.deinit also left the
+  parent handle open.
+  
+  Each successful action leaked two descriptors. Repeated screen,
+  scrollback, or selection writes could exhaust the process descriptor
+  limit and prevent new PTYs, tabs, and windows from opening.
+  
+  Give TempDir an exhaustive close mode that either deletes or retains its
+  contents while always releasing both handles. Defer screen-file cleanup,
+  retaining only after successful dispatch, and cover both lifecycle paths
+  with descriptor tests.
+  ```
+- [`880eded`](https://github.com/ghostty-org/ghostty/commit/880eded1586d7414874025863bbd9ebede1027e5) macos: avoid IOSurface leak on automated surface creation ([#13640](https://github.com/ghostty-org/ghostty/issues/13640)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13444
+  
+  A close while AppKit temporarily cleared/changed a surface's window
+  would leak the surface in the controller's pslit tree. This retained
+  surface kept a bunch of resources around, particularly large IOSurfaces.
+  
+  This seems to only be reproducible under scripted load: rapid terminal
+  creation/destruction so that destruction happens just while there is a
+  nil window on a surface view.
+  
+  Track surface ownership in a weak controller map updated alongside the
+  split tree, with validated fallbacks for existing attachment state.
+  Resolve scripted and App Intent operations through that ownership, and
+  route non-confirming root closes directly through the immediate tab or
+  window close path so teardown always reaches the renderer.
+  ```
+- [`bb1f590`](https://github.com/ghostty-org/ghostty/commit/bb1f5908f8ba737d0bccdc777b99aec2099f7d5f) terminfo: advertise overline support ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #12885
+  
+  Ghostty already implements SGR 53 and 55, but its terminfo description
+  does not expose the corresponding Smol and Rmol capabilities. Add both
+  entries so the advertised capabilities match the renderer.
+  ```
+- [`7cd2f65`](https://github.com/ghostty-org/ghostty/commit/7cd2f65f5cb3578d2751ae31bcbcf44189879430) terminal: color reset should set override to null, not default ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #12755
+  
+  Reset previously copied the active default into the override. This is
+  wrong, a reset should unset the override and defer back to the default.
+  
+  Reset foreground, background, and cursor colors now resolve through the
+  current default while explicit OSC overrides remain unchanged across
+  configuration updates.
+  
+  Set a configured background in the OSC 11 regression, assert OSC 111
+  clears its override, then change the default to verify the reset color
+  follows it.
+  ```
+- [`e205647`](https://github.com/ghostty-org/ghostty/commit/e20564791e538249c99b65bf8457d3a29df9c981) libghostty-vt: spacer-tail handling needs to respect slow runtime safety ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Debug libghostty-vt dependencies embedded in ReleaseFast or ReleaseSmall
+  binaries no longer panic when narrow text overwrites the tail of a wide
+  glyph.
+  
+  Replace the root module's std.debug.runtime_safety gate with
+  build_options.slow_runtime_safety so mixed optimization modes use the
+  dependency's safety configuration consistently.
+  ```
+- [`b30387a`](https://github.com/ghostty-org/ghostty/commit/b30387a80f6a0aede4986251583fe1569c9819da) renderer/metal: clear callback before layer release ([#13641](https://github.com/ghostty-org/ghostty/issues/13641)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/13242
+  
+  Clear the IOSurfaceLayer display callback when releasing the wrapper.
+  The host view can retain the backing layer beyond renderer teardown.
+  This prevents a later Core Animation display pass from invoking the
+  callback with a freed renderer context.
+  
+  This doesn't happen the way Ghostty GUI uses our renderer, but it is
+  possible for folks using ghostty-internal and its straightforward and
+  easy for us to fix it.
+  ```
+- [`71c2d68`](https://github.com/ghostty-org/ghostty/commit/71c2d68eb40d4e51d30d94e46e7b0c305aa4407f) macos: tolerate display link creation failures ([#13639](https://github.com/ghostty-org/ghostty/issues/13639)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13293
+  
+  Treat Core Video display link creation as optional when macOS has no
+  active displays. The previous error path reported every creation failure
+  as out of memory and aborted renderer initialization.
+  
+  Tabs created while the session is locked now initialize normally and
+  fall back to event-driven rendering without vsync.
+  ```
+- [`b60970c`](https://github.com/ghostty-org/ghostty/commit/b60970ce250e9000f48e013ba9d1f9efb0316f49) macos: handle missing CoreText display names ([#13642](https://github.com/ghostty-org/ghostty/issues/13642)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/13262
+  
+  CTFontCopyDisplayName can return null.
+  ```
+- [`5033ea8`](https://github.com/ghostty-org/ghostty/commit/5033ea83d83c243b2eddc8a38745a791a52ee177) terminal: preserve cursor when formatting tabstops ([#13643](https://github.com/ghostty-org/ghostty/issues/13643)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13269
+  
+  Move VT tabstop serialization ahead of screen formatting so
+  cursor-moving CHA and HTS sequences run before screen state is restored.
+  
+  Tabstop-enabled snapshots previously finished at the final configured
+  tabstop instead of the serialized cursor position. Replaying a snapshot
+  could resume input in the wrong column.
+  
+  Keep tabstop bytes in their original pin-map accounting and extend the
+  round-trip test to verify tabstops, cursor position, and map length.
+  ```
+- [`0dcb411`](https://github.com/ghostty-org/ghostty/commit/0dcb41168123068d7f9a7e49b561789dcba870df) fix screen action fd leak from tempdir ([#13644](https://github.com/ghostty-org/ghostty/issues/13644)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13219
+  
+  Screen file actions intentionally retain their temporary directory so
+  the generated path remains valid after dispatch. The directory and
+  parent handles were retained with it, while TempDir.deinit also left the
+  parent handle open.
+  
+  Each successful action leaked two descriptors. Repeated screen,
+  scrollback, or selection writes could exhaust the process descriptor
+  limit and prevent new PTYs, tabs, and windows from opening.
+  
+  Give TempDir an exhaustive close mode that either deletes or retains its
+  contents while always releasing both handles. Defer screen-file cleanup,
+  retaining only after successful dispatch, and cover both lifecycle paths
+  with descriptor tests.
+  ```
+- [`78dec34`](https://github.com/ghostty-org/ghostty/commit/78dec345b25dfd9e4dbbcc4ba1d5ac040aae2204) terminfo: advertise overline support ([#13649](https://github.com/ghostty-org/ghostty/issues/13649)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #12885
+  
+  Ghostty already implements SGR 53 and 55, but its terminfo description
+  does not expose the corresponding Smol and Rmol capabilities. Add both
+  entries so the advertised capabilities match the renderer. Tmux uses
+  this to gate overline.
+  ```
+- [`1aeca67`](https://github.com/ghostty-org/ghostty/commit/1aeca6705eab280e12352e3866e3162002b242a0) terminal: color reset should set override to null, not default ([#13650](https://github.com/ghostty-org/ghostty/issues/13650)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #12755
+  
+  Reset previously copied the active default into the override. This is
+  wrong, a reset should unset the override and defer back to the default.
+  
+  Reset foreground, background, and cursor colors now resolve through the
+  current default while explicit OSC overrides remain unchanged across
+  configuration updates.
+  
+  Set a configured background in the OSC 11 regression, assert OSC 111
+  clears its override, then change the default to verify the reset color
+  follows it.
+  ```
+- [`9ed6142`](https://github.com/ghostty-org/ghostty/commit/9ed61428daa9f15b2dc89e73f9fe0d16d3a6bb71) libghostty-vt: spacer-tail handling needs to respect slow runtime safety ([#13651](https://github.com/ghostty-org/ghostty/issues/13651)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Debug libghostty-vt dependencies embedded in ReleaseFast or ReleaseSmall
+  binaries no longer panic when narrow text overwrites the tail of a wide
+  glyph.
+  
+  Replace the root module's std.debug.runtime_safety gate with
+  build_options.slow_runtime_safety so mixed optimization modes use the
+  dependency's safety configuration consistently.
+  ```
+- [`947e839`](https://github.com/ghostty-org/ghostty/commit/947e839930718fb1d4903f75aba5b314bb5fc1e4) macos: prevent stale search selection crash ([#13645](https://github.com/ghostty-org/ghostty/issues/13645)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13266
+  
+  Keep search text and its selection range synchronized as a single state
+  transition.
+  
+  Deleting or replacing a search term could leave a String.Index range
+  from the old value attached to the text field. Applying that range could
+  crash the app.
+  
+  Clear selection before publishing new text.
+  ```
 - [`0060d89`](https://github.com/ghostty-org/ghostty/commit/0060d89b5be3a8b07d43599ea88fc7c5893bf36e) core: fix encoded key request cleanup ([@jparise](https://github.com/jparise))
   ```text
   Encoded key requests are owned by the caller until they are added to a
@@ -2441,93 +2916,4 @@ Summary: 7 runs • 65 commits • 10 authors
   inconsistencies). The actual binary protocol design and iteration was
   done by me. This PR message was written by me.
   ````
-
-## July 30, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30572539376), [2](https://github.com/ghostty-org/ghostty/actions/runs/30565278840), [3](https://github.com/ghostty-org/ghostty/actions/runs/30528378351), [4](https://github.com/ghostty-org/ghostty/actions/runs/30510818052)  
-Summary: 4 runs • 10 commits • 2 authors
-
-### Changes
-
-- [`b61fd5f`](https://github.com/ghostty-org/ghostty/commit/b61fd5fbb6830b2546cfcaab0e17e6df010e4075) terminal: add iterator to ref counted set ([@mitchellh](https://github.com/mitchellh))
-- [`fc1bd06`](https://github.com/ghostty-org/ghostty/commit/fc1bd06a1a090d0ebe59a6b04b021440fbae5b57) terminal: PageList builder to build from raw pages ([@mitchellh](https://github.com/mitchellh))
-- [`35db320`](https://github.com/ghostty-org/ghostty/commit/35db32078bc97a54334895bd32a83fce8fc0ef4c) terminal: PageList allocatePage ([@mitchellh](https://github.com/mitchellh))
-- [`e77c261`](https://github.com/ghostty-org/ghostty/commit/e77c2612e51af6489cb60043af31aef2da3a5fa5) lib: Zig enums have stable values ([@mitchellh](https://github.com/mitchellh))
-- [`457c5a0`](https://github.com/ghostty-org/ghostty/commit/457c5a0a64632282f7f8c2833013b38dc2c312ed) terminal: PageList align Builder/PageAllocation APIs better ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Rename Builder.addPage and PageAllocation.cancel to their consistent allocatePage and deinit forms. Track successful ownership transfers so both builder APIs can use unconditional deferred cleanup without releasing pages transferred to a PageList.
-  ```
-- [`4d605bf`](https://github.com/ghostty-org/ghostty/commit/4d605bf0d819df901a0332bbb320dc849fdd82e4) Misc improvements for future binary snapshot API ([#13525](https://github.com/ghostty-org/ghostty/issues/13525)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Extracted out the raw `src/terminal` changes needed for the future
-  snapshot work, 4 separate changes. These are uncontroversial and
-  relatively simple, summarized below. Tests AI assisted but the rest
-  including commit messages, this PR message, etc. all organic.
-  
-  * **Add iterator to ref counted set.** Iterate over live entries and
-  their IDs. Const, doesn't mutate the set.
-  * **lib.Enum produces stable enums for Zig.** Basically the same as C
-  except it uses the smallest fitting integer including the holes.
-  * **PageList: a couple helpers for manually creating pages.** There is
-  `PageList.Builder` for creating a new pagelist and
-  `PageList.allocatePage` for modifying an existing one. This allows
-  PageList construction from raw pages.
-  ```
-- [`d5c7e54`](https://github.com/ghostty-org/ghostty/commit/d5c7e54ae465895fe849de3f35a1440a434db983) terminal: fix string capacity check in hyperlink reflow ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13522
-  
-  Fixes unreachable when reflow dupes a hyperlink into a destination page
-  whose string allocator is nearly full.
-  
-  The capacity precondition in ReflowCursor.writeCell performed a single
-  test allocation of `uri.len + id.len` bytes before duping a hyperlink
-  into the destination page. But PageEntry.dupe allocates the URI and
-  the explicit ID as two separate allocations, and the string allocator
-  rounds every allocation up to its 32-byte chunk size independently, so
-  the two separate allocations can require one more chunk than the
-  single combined test allocation.
-  
-  Write a new helper to make sure we get the right amount of space
-  using the same allocation pattern of dupe.
-  ```
-- [`506de85`](https://github.com/ghostty-org/ghostty/commit/506de8517a6579926d35a7b9ae388f32afb8fe42) terminal: fix string capacity check in hyperlink reflow ([#13524](https://github.com/ghostty-org/ghostty/issues/13524)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13522
-  
-  Fixes unreachable when reflow dupes a hyperlink into a destination page
-  whose string allocator is nearly full.
-  
-  The capacity precondition in ReflowCursor.writeCell performed a single
-  test allocation of `uri.len + id.len` bytes before duping a hyperlink
-  into the destination page. But PageEntry.dupe allocates the URI and the
-  explicit ID as two separate allocations, and the string allocator rounds
-  every allocation up to its 32-byte chunk size independently, so the two
-  separate allocations can require one more chunk than the single combined
-  test allocation.
-  
-  Write a new helper to make sure we get the right amount of space using
-  the same allocation pattern of dupe.
-  
-  **AI note:** Verified upstream via Fable. I told it to ignore any
-  conclusions and do its own validation and fix suggestion. It did
-  validate it with a failing test which I studied. It implement a fix, I
-  rewrote it to be more idiomatic.
-  ```
-- [`70c498a`](https://github.com/ghostty-org/ghostty/commit/70c498ac3273661aebf6cce9904c0d42b2e5d299) Update VOUCHED list ([#13521](https://github.com/ghostty-org/ghostty/issues/13521)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13520#discussioncomment-17837792)
-  from @pluiedev.
-  
-  Vouch: @carlvillads
-  ```
-- [`96e39f8`](https://github.com/ghostty-org/ghostty/commit/96e39f82355d6bbc09f777c775bf01e667f3803e) Update VOUCHED list ([#13518](https://github.com/ghostty-org/ghostty/issues/13518)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13516#discussioncomment-17834904)
-  from @jcollie.
-  
-  Vouch: @fallintoplace
-  ```
 
