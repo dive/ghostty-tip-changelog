@@ -8,15 +8,71 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 6, 2026 at 13:53 UTC.
+> Last updated: August 6, 2026 at 23:53 UTC.
 
 ## August 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31075330039), [2](https://github.com/ghostty-org/ghostty/actions/runs/31070313370)  
-Summary: 2 runs • 8 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31109909886), [2](https://github.com/ghostty-org/ghostty/actions/runs/31075330039), [3](https://github.com/ghostty-org/ghostty/actions/runs/31070313370)  
+Summary: 3 runs • 14 commits • 4 authors
 
 ### Changes
 
+- [`cfc19e8`](https://github.com/ghostty-org/ghostty/commit/cfc19e8053b96dbc9a7d7994b84ec6eef7eb17de) libghostty: add configurable mode defaults, remove mode_set/get ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ABI BREAKING: This removes `ghostty_terminal_mode_get` and `_mode_set`.
+  We can now represent these operations completely with standard
+  `ghostty_terminal_get` and `ghostty_terminal_set`, which makes it much
+  more flexible to preserve ABI in the future.
+  
+  This is all centered around a new `GhosttyTerminalModeConfig` structure
+  that is an in or out parameter depending on use case.
+  
+  This also adds a new `GHOSTTY_TERMINAL_OPT_MODE_DEFAULT` option that
+  can be used to set the _default_ value of mode that happens when a RIS
+  event (full reset) is sent.
+  ```
+- [`301bd6f`](https://github.com/ghostty-org/ghostty/commit/301bd6f8b0251301f25f0943f85264fd8f6845e3) macOS: hide settings menu icon on macOS 27 ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Settings appears to be somehow special and it's not hidden previously.
+  ```
+- [`76907d8`](https://github.com/ghostty-org/ghostty/commit/76907d8de8c78f51d3c44a941772759da24cbc5f) macOS: remove flaky color match tests ([@bo2themax](https://github.com/bo2themax))
+- [`33bdeed`](https://github.com/ghostty-org/ghostty/commit/33bdeed1cbc69196c10466d0c9d881c0a7a7ac9c) macOS: remove flaky color match tests ([#13667](https://github.com/ghostty-org/ghostty/issues/13667)) ([@mitchellh](https://github.com/mitchellh))
+- [`99c483f`](https://github.com/ghostty-org/ghostty/commit/99c483f477dcf3d6523a976772dcac71ab9466d3) macOS: hide settings menu icon on macOS 27 ([#13664](https://github.com/ghostty-org/ghostty/issues/13664)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Settings appears to be somehow special and it's not hidden previously.
+  
+  This would require building with Xcode 27 tho.
+  
+  <img width="704" height="364" alt="image"
+  src="https://github.com/user-attachments/assets/2cb23a01-6840-40a2-b794-6a8e914aaa7d"
+  />
+  ```
+- [`afa9e4f`](https://github.com/ghostty-org/ghostty/commit/afa9e4fad065653a87e89e9ea75c54ee7fb3f94a) libghostty: add configurable mode defaults, remove mode_set/get ([#13661](https://github.com/ghostty-org/ghostty/issues/13661)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ABI BREAKING: This removes `ghostty_terminal_mode_get` and `_mode_set`.
+  We can now represent these operations completely with standard
+  `ghostty_terminal_get` and `ghostty_terminal_set`, which makes it much
+  more flexible to preserve ABI in the future.
+  
+  This is all centered around a new `GhosttyTerminalModeConfig` structure
+  that is an in or out parameter depending on use case.
+  
+  This also adds a new `GHOSTTY_TERMINAL_OPT_MODE_DEFAULT` option that can
+  be used to set the _default_ value of mode that happens when a RIS event
+  (full reset) is sent. Note that not all modes are configurable because
+  some are set based on live terminal state and aren't modes in and of
+  themselves.
+  
+  ## Why Delete Functions? Why Not Add?
+  
+  Once tagged, the goal of `libghostty-vt` is to remain HIGHLY ABI
+  compatible. We are striving for top tier ABI compatibility similar to
+  legendary C libraries. That means we need to be highly confident in our
+  API shapes: functions, structs, etc. and using shapes that we can retain
+  ABI compatibility even as we add features. Every function is a risk. By
+  pushing stuff into our `_get/_set` patterns, its easier to maintain ABI
+  compatibility.
+  ```
 - [`49fd1ae`](https://github.com/ghostty-org/ghostty/commit/49fd1ae654c97fbc4e6f7ba94b3ee8b563378e2c) build: default dependencies to lib-vt mode ([@mitchellh](https://github.com/mitchellh))
   ```text
   Related to #10651
