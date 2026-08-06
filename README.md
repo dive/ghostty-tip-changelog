@@ -8,7 +8,91 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 6, 2026 at 02:05 UTC.
+> Last updated: August 6, 2026 at 05:43 UTC.
+
+## August 6, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31070313370)  
+Summary: 1 runs • 6 commits • 3 authors
+
+### Changes
+
+- [`f0f3f4d`](https://github.com/ghostty-org/ghostty/commit/f0f3f4d8d816836e8e527dc1938841462913a1fa) GTK: move audio bell processing to the application ([@jcollie](https://github.com/jcollie))
+  ```text
+  This fixes #13647 by using at most one GStreamer thread per application.
+  This was previously addressed in #12815 which used at most one GStreamer
+  thread per surface. Originally discussed in #12808.
+  ```
+- [`1d6bc68`](https://github.com/ghostty-org/ghostty/commit/1d6bc6829812a448ac6148e7e86e36dff30d19fb) lib: remove cutPrefix implementation ([@jparise](https://github.com/jparise))
+  ```text
+  We can use std.mem.cutPrefix directly now that we're on Zig 0.16.
+  ```
+- [`e1fc390`](https://github.com/ghostty-org/ghostty/commit/e1fc390c192ca2ebba6b61403bb335f0d03b4d2b) GTK: move audio bell processing to the application ([#13657](https://github.com/ghostty-org/ghostty/issues/13657)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This fixes #13647 by using at most one GStreamer thread per application.
+  This was previously addressed in #12815 which used at most one GStreamer
+  thread per surface. Originally discussed in #12808.
+  ```
+- [`63da4e8`](https://github.com/ghostty-org/ghostty/commit/63da4e84d49d34a026ff7771699db237de65c044) lib: remove backported cutPrefix implementation ([#13658](https://github.com/ghostty-org/ghostty/issues/13658)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We can use std.mem.cutPrefix directly now that we're on Zig 0.16.
+  ```
+- [`e0ef934`](https://github.com/ghostty-org/ghostty/commit/e0ef934f736089efc60288caff1061a2ba82c2fc) termio: replace SegmentedPool with std.MemoryPool ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The purpose of SegmentedPool was pointer-stable values for the pty write
+  path, and the std.MemoryPool provides that.
+  
+  SegmentedPool is actually so old it predates a stdlib memory pool!
+  Just noting why I did it in the first place. I also wrote it when I was
+  pretty fucking bad at Zig, so I'm shocked its lasted this long.
+  
+  The write path is hot , so the replacement was benchmarked against the old
+  SegmentedPool plus a rewrite simple Pool I did before realizing...
+  wait... why not just a MemoryPool. Benchmarked using the real 240-byte xev
+  write request.
+  
+    workload                    old                     std.MemoryPool
+    depth-1 (keystroke echo)    3.93 ns/op              0.96 ns/op
+    burst (1MiB paste, d=256)   4.27 ns/op              1.00 ns/op
+    cold growth (32 -> 16k)     4.54 ns/op              6.48 ns/op
+    malloc create/destroy       15.9 ns/op              (baseline)
+  
+  Cold growth is slower but this is only a cost when the pool grows.
+  
+  Note this also gets rid of the preallocation, which didn't show any
+  measurable performance benefit at all. This has the benefit of shrinking
+  our ThreadData by ~10KB.
+  ```
+- [`f948d42`](https://github.com/ghostty-org/ghostty/commit/f948d4207655f31ae9b95fa039e73524df43cd13) termio: replace SegmentedPool with std.MemoryPool ([#13659](https://github.com/ghostty-org/ghostty/issues/13659)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  The purpose of SegmentedPool was pointer-stable values for the pty write
+  path, and the std.MemoryPool provides that.
+  
+  SegmentedPool is actually so old it predates a stdlib memory pool! Just
+  noting why I did it in the first place. I also wrote it when I was
+  pretty fucking bad at Zig, so I'm shocked its lasted this long.
+  
+  The write path is hot , so the replacement was benchmarked against the
+  old SegmentedPool plus a rewrite simple Pool I did before realizing...
+  wait... why not just a MemoryPool. Benchmarked using the real 240-byte
+  xev write request.
+  
+  ```
+    workload                    old                     std.MemoryPool
+    depth-1 (keystroke echo)    3.93 ns/op              0.96 ns/op
+    burst (1MiB paste, d=256)   4.27 ns/op              1.00 ns/op
+    cold growth (32 -> 16k)     4.54 ns/op              6.48 ns/op
+    malloc create/destroy       15.9 ns/op              (baseline)
+  ```
+  
+  Cold growth is slower but this is only a cost when the pool grows.
+  
+  Note this also gets rid of the preallocation, which didn't show any
+  measurable performance benefit at all. This has the benefit of shrinking
+  our ThreadData by ~10KB.
+  
+  This was motivated by #13655
+  ````
 
 ## August 5, 2026
 
