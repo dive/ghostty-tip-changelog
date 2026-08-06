@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 6, 2026 at 05:43 UTC.
+> Last updated: August 6, 2026 at 08:25 UTC.
 
 ## August 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31070313370)  
-Summary: 1 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31075330039), [2](https://github.com/ghostty-org/ghostty/actions/runs/31070313370)  
+Summary: 2 runs • 8 commits • 3 authors
 
 ### Changes
 
+- [`49fd1ae`](https://github.com/ghostty-org/ghostty/commit/49fd1ae654c97fbc4e6f7ba94b3ee8b563378e2c) build: default dependencies to lib-vt mode ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Related to #10651
+  
+  Default Ghostty dependency builds to libghostty-vt-only mode and
+  avoid initializing anything that would trigger broader dependency
+  requirements.
+  
+  The impact of this is that Zig consumers can import ghostty-vt without
+  requiring Xcode on macOS.
+  ```
+- [`ec58fbc`](https://github.com/ghostty-org/ghostty/commit/ec58fbc6a2da89f6d17381d56ef316f29dbf789b) build: default dependencies to lib-vt mode to avoid Xcode requirements ([#13660](https://github.com/ghostty-org/ghostty/issues/13660)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Related to #10651
+  
+  Default Ghostty dependency builds to libghostty-vt-only mode and avoid
+  initializing anything that would trigger broader dependency
+  requirements.
+  
+  The impact of this is that Zig consumers can import ghostty-vt without
+  requiring Xcode on macOS.
+  ```
 - [`f0f3f4d`](https://github.com/ghostty-org/ghostty/commit/f0f3f4d8d816836e8e527dc1938841462913a1fa) GTK: move audio bell processing to the application ([@jcollie](https://github.com/jcollie))
   ```text
   This fixes #13647 by using at most one GStreamer thread per application.
