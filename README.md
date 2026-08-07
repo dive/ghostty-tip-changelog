@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 7, 2026 at 18:47 UTC.
+> Last updated: August 7, 2026 at 21:33 UTC.
 
 ## August 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31191840813), [2](https://github.com/ghostty-org/ghostty/actions/runs/31189543209), [3](https://github.com/ghostty-org/ghostty/actions/runs/31187359620), [4](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
-Summary: 4 runs • 26 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31217902577), [2](https://github.com/ghostty-org/ghostty/actions/runs/31191840813), [3](https://github.com/ghostty-org/ghostty/actions/runs/31189543209), [4](https://github.com/ghostty-org/ghostty/actions/runs/31187359620), [5](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
+Summary: 5 runs • 28 commits • 9 authors
 
 ### Changes
 
+- [`e83cf0b`](https://github.com/ghostty-org/ghostty/commit/e83cf0b06f504be8917292b180ac65b0de685ac0) macOS: fix quit alert missing when hidden ([@bo2themax](https://github.com/bo2themax))
+- [`2602886`](https://github.com/ghostty-org/ghostty/commit/2602886144c7e95099c9e2ba07f181c69e7276f3) macOS: fix quit alert missing when hidden ([#13686](https://github.com/ghostty-org/ghostty/issues/13686)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes https://github.com/ghostty-org/ghostty/discussions/13685.
+  
+  Removed presumably deprecated check introduced in
+  8f1a014afd9c6724b767b2fbf65d27d26b3c01e5 for update pill
+  > I checked for auto update as well, it works as before this, and for
+  manual updates we're not confirming anyway, so I think its safe to
+  remove it now.
+  
+  Each BaseTerminalController already has quit check and confirming code
+  added in that review windows pr. It didn't cover QT before, overriding
+  it to animate in for showing alert.
+  
+  [#5450](https://github.com/ghostty-org/ghostty/issues/5450) stays fixed.
+  
+  
+  
+  
+  https://github.com/user-attachments/assets/dbf36f16-e3ce-4f6a-bc25-367fe48739b9
+  ```
 - [`e11bfb5`](https://github.com/ghostty-org/ghostty/commit/e11bfb513919c51d3f842a367c787ab026d8d868) macos: sync appearance when new windows are created ([#13324](https://github.com/ghostty-org/ghostty/issues/13324)) ([@zenangst](https://github.com/zenangst))
   ```text
   call `syncAppearance` after `super.showWindow` has been called to
