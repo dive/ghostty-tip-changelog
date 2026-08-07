@@ -8,7 +8,51 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 7, 2026 at 02:25 UTC.
+> Last updated: August 7, 2026 at 04:50 UTC.
+
+## August 7, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
+Summary: 1 runs • 11 commits • 6 authors
+
+### Changes
+
+- [`25b2d8a`](https://github.com/ghostty-org/ghostty/commit/25b2d8a38568eab31283786f6a1f1501411863b5) input,apprt: add new_tab_to_new_window action ([@pluiedev](https://github.com/pluiedev))
+- [`f6fca9a`](https://github.com/ghostty-org/ghostty/commit/f6fca9aabffc4f0576f9c427672b1972ed813dec) gtk: implement `move_tab_to_new_window` ([@pluiedev](https://github.com/pluiedev))
+- [`f03d71d`](https://github.com/ghostty-org/ghostty/commit/f03d71d970a65aa6f58b6a836469258fbf2d52f4) po: update template ([@pluiedev](https://github.com/pluiedev))
+- [`18f06ef`](https://github.com/ghostty-org/ghostty/commit/18f06ef03c8827cb2f794741c469b7091a2da112) macOS: fix unsupported action falls through wrong handling ([@bo2themax](https://github.com/bo2themax))
+- [`1118773`](https://github.com/ghostty-org/ghostty/commit/111877354edd2c29a78f35c2023492d699454026) core,gtk: add move_tab_to_new_window action ([#13621](https://github.com/ghostty-org/ghostty/issues/13621)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Implements most of #2630
+  
+  This is in reality a really simple change and ideally we can get this
+  out before the 1.4 string freeze
+  ```
+- [`22d1317`](https://github.com/ghostty-org/ghostty/commit/22d13172cde98a0a4dda05d3d6a3fcb0dd8ed018) macOS: fix unsupported action falls through wrong handling ([#13668](https://github.com/ghostty-org/ghostty/issues/13668)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  There're won't be any visible errors, but
+  `keybind=cmd+r=toggle_tab_overview/toggle_window_decorations/size_limit/quit_time`
+  shouldn't go to `showChildExited`
+  
+  ## AI Disclosure
+  
+  Found by Claude during another quest, but I changed on myself.
+  ```
+- [`a14eba7`](https://github.com/ghostty-org/ghostty/commit/a14eba7478fc1af4e6e0cf4a793728d308f3278f) input: update toggle_maximize documentation ([@claude](https://github.com/claude))
+- [`c011ad8`](https://github.com/ghostty-org/ghostty/commit/c011ad87070a742b39eaffee800a006f3c977988) Update wording ([@bo2themax](https://github.com/bo2themax))
+- [`f9b2ad8`](https://github.com/ghostty-org/ghostty/commit/f9b2ad8dbed93e0b8cdd6320d8f5a46ba15c5bc8) input: update toggle_maximize documentation ([#13673](https://github.com/ghostty-org/ghostty/issues/13673)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## AI Closure
+  
+  Claude found and changed it
+  ```
+- [`987f442`](https://github.com/ghostty-org/ghostty/commit/987f44260d10a9f685d06f0ff638457aee64f2f2) cli: add g/G as vi-style aliases for Home/End in list-themes ([@bousii](https://github.com/bousii))
+- [`7e567c3`](https://github.com/ghostty-org/ghostty/commit/7e567c3f03e914140f0b6beb8b03c20efcc03188) cli: add g/G as vi-style aliases for Home/End in list-themes ([#13681](https://github.com/ghostty-org/ghostty/issues/13681)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I was messing around with this tool the other day on a 60% keyboard so I
+  thought this would be a nice addition for situations like that. Keeps in
+  line with the vi/less j and k inputs that this tool has as well.
+  ```
 
 ## August 6, 2026
 
