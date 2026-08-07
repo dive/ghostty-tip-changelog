@@ -8,15 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 7, 2026 at 12:52 UTC.
+> Last updated: August 7, 2026 at 15:50 UTC.
 
 ## August 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
-Summary: 1 runs • 11 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31189543209), [2](https://github.com/ghostty-org/ghostty/actions/runs/31187359620), [3](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
+Summary: 3 runs • 18 commits • 7 authors
 
 ### Changes
 
+- [`daeed25`](https://github.com/ghostty-org/ghostty/commit/daeed25b378d219268ad023e9a18b933a74b3250) font/coretext: creation functions can return null, handle OOM ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Catch NULL results from CoreFoundation/CoreText creation functions and
+  return error.OOM rather than null derefs later. I verified that this is
+  possible but didn't verify the behavior when it happens, this is just
+  defensive based on the report here: #13671 because it costs us nothing
+  really.
+  ```
+- [`9682685`](https://github.com/ghostty-org/ghostty/commit/96826853bde13bad0825cd0afe35584a0760d17a) macOS: fix window sizing after dragging a split into a window ([@bo2themax](https://github.com/bo2themax))
+- [`571c62d`](https://github.com/ghostty-org/ghostty/commit/571c62dada5da79f68d12d376957cc1d02d846b1) font/coretext: creation functions can return null, handle OOM ([#13679](https://github.com/ghostty-org/ghostty/issues/13679)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Catch NULL results from CoreFoundation/CoreText creation functions and
+  return error.OOM rather than null derefs later. I verified that this is
+  possible but didn't verify the behavior when it happens, this is just
+  defensive based on the report here: #13671 because it costs us nothing
+  really.
+  ```
+- [`faeac91`](https://github.com/ghostty-org/ghostty/commit/faeac91fa5ea91d855d623c551c18036dbaa0209) macOS: fix window sizing after dragging a split into a window ([#13682](https://github.com/ghostty-org/ghostty/issues/13682)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Regression from
+  [#13601](https://github.com/ghostty-org/ghostty/issues/13601), but I
+  don't see why it matters. But the surface's bounds changes after
+  window's created.
+  ```
+- [`44a05a8`](https://github.com/ghostty-org/ghostty/commit/44a05a88aad347916fd2447bf29b637d553238b7) macos: discard debounced selection notification ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discard the selection notification payload before debouncing
+  accessibility changes.
+  
+  The debouncer previously retained the notification and its surface
+  object, keeping a closed tab's view and PTY alive after the undo
+  timeout.
+  ```
+- [`fcee198`](https://github.com/ghostty-org/ghostty/commit/fcee19819e0a0fa6656ca8f3a946d193edf63cc9) macos: discard debounced selection notification ([#13676](https://github.com/ghostty-org/ghostty/issues/13676)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discard the selection notification payload before debouncing
+  accessibility changes.
+  
+  The debouncer previously retained the notification and its surface
+  object, keeping a closed tab's view and PTY alive after the undo
+  timeout.
+  ```
+- [`7f96e0b`](https://github.com/ghostty-org/ghostty/commit/7f96e0bdab175deb7205ec54e0c8a084283bf015) Update VOUCHED list ([#13683](https://github.com/ghostty-org/ghostty/issues/13683)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13675#issuecomment-5218250080)
+  from @jcollie.
+  
+  Vouch: @zenangst
+  ```
 - [`25b2d8a`](https://github.com/ghostty-org/ghostty/commit/25b2d8a38568eab31283786f6a1f1501411863b5) input,apprt: add new_tab_to_new_window action ([@pluiedev](https://github.com/pluiedev))
 - [`f6fca9a`](https://github.com/ghostty-org/ghostty/commit/f6fca9aabffc4f0576f9c427672b1972ed813dec) gtk: implement `move_tab_to_new_window` ([@pluiedev](https://github.com/pluiedev))
 - [`f03d71d`](https://github.com/ghostty-org/ghostty/commit/f03d71d970a65aa6f58b6a836469258fbf2d52f4) po: update template ([@pluiedev](https://github.com/pluiedev))
