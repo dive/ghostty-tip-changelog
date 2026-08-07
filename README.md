@@ -8,15 +8,137 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 7, 2026 at 15:50 UTC.
+> Last updated: August 7, 2026 at 18:47 UTC.
 
 ## August 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31189543209), [2](https://github.com/ghostty-org/ghostty/actions/runs/31187359620), [3](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
-Summary: 3 runs • 18 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31191840813), [2](https://github.com/ghostty-org/ghostty/actions/runs/31189543209), [3](https://github.com/ghostty-org/ghostty/actions/runs/31187359620), [4](https://github.com/ghostty-org/ghostty/actions/runs/31146859128)  
+Summary: 4 runs • 26 commits • 9 authors
 
 ### Changes
 
+- [`e11bfb5`](https://github.com/ghostty-org/ghostty/commit/e11bfb513919c51d3f842a367c787ab026d8d868) macos: sync appearance when new windows are created ([#13324](https://github.com/ghostty-org/ghostty/issues/13324)) ([@zenangst](https://github.com/zenangst))
+  ```text
+  call `syncAppearance` after `super.showWindow` has been called to
+  ensure that the window is visible.
+  ```
+- [`b9113d2`](https://github.com/ghostty-org/ghostty/commit/b9113d2e7f0a978003a82b9a2deb8b27e2f1bb80) build: fix flatpak/snap, restore rpath opt, fix local gtk4-layer-shell ([@vancluever](https://github.com/vancluever))
+  ```text
+  This fixes regressions in the flatpak/snap builds, and knock-on stuff
+  that was discovered as as a result:
+  
+  * Update the Zig versions in the flatpak/snap build configuration files.
+  * Restore the classic -Dpatch-rpath option, and add a new -Dpatch-interp
+    option. This ensures that the snap can still use -Dpatch-rpath
+    correctly.
+  * There seems to be an issue in Zig when parsing IPv6 addresses that
+    leads to issues loading resolv.conf files; when trying to load a
+    nameserver that has an IPv6 address with a numeric interface index as
+    the scoped zone ID, Zig will try to resolve the interface as a name
+    rather than just use the index. This is coming up in snap builds
+    because the build process seems to, by default, use the exhaustive
+    /run/systemd/resolve/resolv.conf file, versus the simpler stub
+    (stub-resolv.conf) file. We work around this for the time being by
+    linking the stub at the end of the Zig part, overwriting the link to
+    the non-stub file.
+  * Fixed gtk4-layer-shell packaging - the migration to external
+    translate-c meant that non-system builds of the dependency were not
+    handing the local gtk4-layer-shell headers over for translation. Now,
+    instead, we've extracted the management of the gtk4-layer-shell source
+    and wayland-protocols generation to a locally-cached object so that
+    the source can be shared by both C translation and the library build
+    in a way that is not coupled to any particular step.
+  ```
+- [`219173a`](https://github.com/ghostty-org/ghostty/commit/219173ab370839889a191d3fd6855e53cb82e95d) terminal/snapshot: remove BLAKE3 digests ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove BLAKE3 prefix digests. Keep READY/FINISH as empty records since
+  they're semantically important markers.
+  
+  Our existing format (CRC32 per-record, declared counts, strict tag ordering
+  requirements, etc.) already detect: accidental corruption, truncation,
+  data omission, and duplication.
+  
+  BLAKE3 only protects against valid records being swapped or removed entirely.
+  It is heavy for just that, and callers can solve that anyways via their
+  own transport (like, just use TCP). For more adversarial protection,
+  callers can also add layers like TLS or their own alternate signing
+  methods depending on their own threat models.
+  
+  Removing the hash improves encode times by ~1.4x, decode times by ~1.3x.
+  Time-to-READY decoding is effectively unchanged because it was such a
+  small package to begin with.
+  ```
+- [`fd98370`](https://github.com/ghostty-org/ghostty/commit/fd98370211d5e1657a3430dde5ca1c59cb5f92ab) macOS: fix swiftlint ([@bo2themax](https://github.com/bo2themax))
+- [`0a78672`](https://github.com/ghostty-org/ghostty/commit/0a78672e7cd4303588aada1d7bf2a6a28129cb65) build: fix flatpak/snap, restore rpath opt, fix local gtk4-layer-shell ([#13677](https://github.com/ghostty-org/ghostty/issues/13677)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes regressions in the flatpak/snap builds, and knock-on stuff
+  that was discovered as as a result:
+  
+  * Update the Zig versions in the flatpak/snap build configuration files.
+  * Restore the classic `-Dpatch-rpath` option, and add a new
+  `-Dpatch-interp` option. This ensures that the snap can still use
+  `-Dpatch-rpath` correctly.
+  * There seems to be an issue in Zig when parsing IPv6 addresses that
+  leads to issues loading `resolv.conf` files; when trying to load a
+  nameserver that has an IPv6 address with a numeric interface index as
+  the scoped zone ID, Zig will try to resolve the interface as a name
+  rather than just use the index. This is coming up in snap builds because
+  the build process seems to, by default, use the exhaustive
+  `/run/systemd/resolve/resolv.conf` file, versus the simpler stub
+  (`stub-resolv.conf`) file. We work around this for the time being by
+  linking the stub at the end of the Zig part, overwriting the link to the
+  non-stub file.
+  * Fixed `gtk4-layer-shell` packaging - the migration to external
+  translate-c meant that non-system builds of the dependency were not
+  handing the local `gtk4-layer-shell` headers over for translation. Now,
+  instead, we've extracted the management of the `gtk4-layer-shell` source
+  and `wayland-protocols` generation to a locally-cached object so that
+  the source can be shared by both C translation and the library build in
+  a way that is not coupled to any particular step.
+  ```
+- [`204989a`](https://github.com/ghostty-org/ghostty/commit/204989ad90e3ca104eb76e55a77afb185f2ed074) terminal/snapshot: remove BLAKE3 digests ([#13680](https://github.com/ghostty-org/ghostty/issues/13680)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove BLAKE3 prefix digests. Keep READY/FINISH as empty records since
+  they're semantically important markers.
+  
+  Our existing format (CRC32 per-record, declared counts, strict tag
+  ordering requirements, etc.) already detect: accidental corruption,
+  truncation, data omission, and duplication.
+  
+  BLAKE3 only protects against valid records being swapped or removed
+  entirely. It is heavy for just that, and callers can solve that anyways
+  via their own transport (like, just use TCP). For more adversarial
+  protection, callers can also add layers like TLS or their own alternate
+  signing methods depending on their own threat models.
+  
+  Removing the hash improves encode times by ~1.4x, decode times by ~1.3x.
+  Time-to-READY decoding is effectively unchanged because it was such a
+  small package to begin with.
+  
+  **AI usage:** I had it clean up the comments and the tests, but I did
+  the blake3 removal and marker changes, and wrote the commit message
+  myself. All reviewed.
+  ```
+- [`34282fc`](https://github.com/ghostty-org/ghostty/commit/34282fc7b3ba3e7f42281db73647a83768710f89) macOS: fix swiftlint ([#13684](https://github.com/ghostty-org/ghostty/issues/13684)) ([@mitchellh](https://github.com/mitchellh))
+- [`4693e1b`](https://github.com/ghostty-org/ghostty/commit/4693e1b546dfc00128d5fe83533def5a92c69ab0) macos: sync appearance when new windows are created ([#13675](https://github.com/ghostty-org/ghostty/issues/13675)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  For new windows to get their appearance synced, we need to call
+  `syncAppearance` after `super.showWindow(sender)`. All previous calls to
+  `syncAppearance` on `TerminalWindow` will be ignored because the window
+  needs to have `isVisible` set to `true`.
+  
+  This regression was introduced by:
+  5368adcd29754939e6c283198ef6b1c122293815
+  
+  It added `.dropFirst()` to the `focusedSurface` appearance publishers in
+  `TerminalController.swift` which removes the initial call of the
+  subscription.
+  
+  Fixes https://github.com/ghostty-org/ghostty/issues/13324
+  
+  (landed on the same fix as @rasitakyol found here:
+  https://github.com/ghostty-org/ghostty/pull/13341)
+  ```
 - [`daeed25`](https://github.com/ghostty-org/ghostty/commit/daeed25b378d219268ad023e9a18b933a74b3250) font/coretext: creation functions can return null, handle OOM ([@mitchellh](https://github.com/mitchellh))
   ```text
   Catch NULL results from CoreFoundation/CoreText creation functions and
