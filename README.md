@@ -8,7 +8,126 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 9, 2026 at 01:17 UTC.
+> Last updated: August 9, 2026 at 04:14 UTC.
+
+## August 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [2](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
+Summary: 2 runs • 8 commits • 2 authors
+
+### Changes
+
+- [`74efadb`](https://github.com/ghostty-org/ghostty/commit/74efadb446205eb052ce10d202300b2dc8970947) lib-vt: answer XTGETTCAP queries ([@fornwall](https://github.com/fornwall))
+  ```text
+  Ghostty's full termio path answers XTGETTCAP from the static terminfo
+  map, but terminal/stream_terminal.zig, which backs libghostty-vt,
+  parses the same DCS request and then discards it. There is no XTGETTCAP
+  effect either, so an embedder cannot restore the replies through the
+  C API.
+  
+  Programs query these over SSH instead of assuming the remote host has
+  the client's terminfo entry. This matters more for an embedder than for
+  the desktop app, which can install its entry on the remote through
+  shell integration.
+  
+  Answer the queries in stream_terminal the same way termio does: look
+  up each requested key in the static terminfo map and write the reply
+  to the pty, skipping the lookups entirely when no write_pty effect is
+  set. The map now stores null-terminated responses so they can be
+  handed straight to write_pty without copying. terminal/dcs.zig and the
+  termio path are unchanged.
+  
+  "TN" is handled separately. It names the terminfo entry the terminal
+  runs as, so it has to agree with TERM -- which is set in
+  termio/Exec.zig, a layer libghostty-vt does not contain. The library
+  never sees TERM and cannot answer on the embedder's behalf, and
+  answering with Ghostty's own entry from the static map would misreport
+  every embedder, so "TN" is intercepted before the map lookup. The name
+  is instead configured through a new option,
+  GHOSTTY_TERMINAL_OPT_TERMINFO_NAME: the string is copied into the
+  terminal, names longer than 128 bytes are rejected, and while unset
+  the query goes unanswered.
+  
+  This is the first dependency from src/terminal on src/terminfo, so
+  libghostty-vt now carries Ghostty's terminfo table: +16,023 bytes
+  (+1.9%) on a wasm32-freestanding ReleaseSmall build.
+  ```
+- [`f64f4ac`](https://github.com/ghostty-org/ghostty/commit/f64f4aca2c29b554d111b36c3d946a9bddd159ff) lib-vt: answer XTGETTCAP queries ([#13530](https://github.com/ghostty-org/ghostty/issues/13530)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Ghostty's full termio path answers XTGETTCAP from the static terminfo
+  map, but `terminal/stream_terminal.zig`, which backs libghostty-vt,
+  parses the same DCS request and then discards it. There is no XTGETTCAP
+  effect either, so an embedder cannot restore the replies through the C
+  API.
+  
+  Programs query these over SSH instead of assuming the remote host has
+  the client's terminfo entry. This matters more for an embedder than for
+  the desktop app, which can install its entry on the remote through shell
+  integration.
+  
+  Answer the queries in `stream_terminal` the same way termio does: look
+  up each requested key in the static terminfo map and write the reply to
+  the pty, skipping the lookups entirely when no `write_pty` effect is
+  set. The map now stores null-terminated responses so they can be handed
+  straight to `write_pty` without copying. `terminal/dcs.zig` and the
+  termio path are unchanged.
+  
+  `TN` is handled separately. It names the terminfo entry the terminal
+  runs as, so it has to agree with `TERM` — which is set in
+  `termio/Exec.zig`, a layer libghostty-vt does not contain. The library
+  never sees `TERM` and cannot answer on the embedder's behalf, and
+  answering with Ghostty's own entry from the static map would misreport
+  every embedder, so `TN` is intercepted before the map lookup. The name
+  is instead configured through a new option,
+  `GHOSTTY_TERMINAL_OPT_TERMINFO_NAME`: the string is copied into the
+  terminal, names longer than 128 bytes are rejected, and while unset the
+  query goes unanswered.
+  
+  This is the first dependency from `src/terminal` on `src/terminfo`, so
+  libghostty-vt now carries Ghostty's terminfo table: +16,023 bytes
+  (+1.9%) on a `wasm32-freestanding` `ReleaseSmall` build.
+  
+  ---
+  
+  AI usage: Created with claude code and opus 5. I have reviewed the code
+  and made modifications where it made sense. I have also tested this end
+  to end in an application.
+  ```
+- [`afb351f`](https://github.com/ghostty-org/ghostty/commit/afb351f8385d8b895671cb398d13fb39e06611f4) terminal/stream: fast-path APC termination ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  APC payload bytes are bulk consumed, but the terminating byte still passed
+  through the generic parser action loop. Handle ESC and C1 ST directly after
+  bulk consumption while leaving other transitions on the scalar path.
+  ```
+- [`b537282`](https://github.com/ghostty-org/ghostty/commit/b537282411ae731f3d49705be391320ff5f51e9e) terminal/apc: support reporting unknown APC sequences ([@mitchellh](https://github.com/mitchellh))
+- [`6b990de`](https://github.com/ghostty-org/ghostty/commit/6b990de5be7fcce9ffc7bed1a713f64c8503fbff) terminal: C API for unknown sequences ([@mitchellh](https://github.com/mitchellh))
+- [`7e8b4f3`](https://github.com/ghostty-org/ghostty/commit/7e8b4f360be6f9aea0bced4641e25dd564d60abc) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`94beef8`](https://github.com/ghostty-org/ghostty/commit/94beef81efad44514c328564d2e6c2fefc243712) libghostty: effect for unknown sequence (APC only this PR) ([#13702](https://github.com/ghostty-org/ghostty/issues/13702)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This introduces a new effect for Zig/C callers to detect unknown
+  sequences.
+  
+  This PR starts only with APC, but the API shape is such that we can add
+  other types (OSC next) in future PRs. The goal of this is to have zero
+  overhead in the disabled/undetected (both) case, and minimal overhead in
+  the detected case.
+  
+  This is important in particular for libghostty consumers because it
+  allows them to implement their own custom protocols and/or support
+  features libghostty doesn't support. It isn't possible to support them
+  at the same performance libghostty does but supporting them in general
+  is usually valuable.
+  
+  From a Zig API to enable this, users must set `unknown_max_bytes` for
+  the APC handler AND update their stream handler to recognize unknown
+  sequences. The built-in `stream_terminal` stream type has an exposed
+  callback for this, so both must be set.
+  ```
+- [`163e229`](https://github.com/ghostty-org/ghostty/commit/163e229756e632e39838a9f6e26402269dda213a) Update iTerm2 colorschemes ([#13704](https://github.com/ghostty-org/ghostty/issues/13704)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260803-155300-875a82f
+  ```
 
 ## August 8, 2026
 
