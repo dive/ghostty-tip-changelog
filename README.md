@@ -8,15 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 9, 2026 at 12:38 UTC.
+> Last updated: August 9, 2026 at 15:25 UTC.
 
 ## August 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [2](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
-Summary: 2 runs • 8 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [2](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [3](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [4](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
+Summary: 4 runs • 18 commits • 5 authors
 
 ### Changes
 
+- [`16e13a5`](https://github.com/ghostty-org/ghostty/commit/16e13a59aeda57ccb1b9998ab989615960dbcafb) build: fix Linux Android SDK fallback path ([@fornwall](https://github.com/fornwall))
+  ```text
+  Use the standard ~/Android/Sdk capitalization for the Linux SDK fallback.
+  
+  This lets NDK discovery work when neither ANDROID_NDK_HOME nor an SDK
+  environment variable is set.
+  ```
+- [`74f91d1`](https://github.com/ghostty-org/ghostty/commit/74f91d1b439e7b906f003e60a65bd8994c3c77a5) macOS: support `drag-handle` config ([@bo2themax](https://github.com/bo2themax))
+- [`fde9e28`](https://github.com/ghostty-org/ghostty/commit/fde9e281c4a6bd9e62d87eedc66e3c3dc48e40cc) agents: remove double negative ([@jparise](https://github.com/jparise))
+- [`349664f`](https://github.com/ghostty-org/ghostty/commit/349664f031852bc6cca44c96dda7bf2b779d0402) agents: remove double negative ([#13710](https://github.com/ghostty-org/ghostty/issues/13710)) ([@mitchellh](https://github.com/mitchellh))
+- [`da59a2e`](https://github.com/ghostty-org/ghostty/commit/da59a2ec42744e81c4cdafbd2a3507f257c455be) macOS: support `drag-handle` config ([#13709](https://github.com/ghostty-org/ghostty/issues/13709)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes https://github.com/ghostty-org/ghostty/discussions/12332
+  
+  Also a tiny rephrasing for the documentation.
+  ```
+- [`2dc0883`](https://github.com/ghostty-org/ghostty/commit/2dc08839b1a1a331d9ba71ca097c5f8db2965182) build: fix Linux Android SDK fallback path ([#13705](https://github.com/ghostty-org/ghostty/issues/13705)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use the standard `~/Android/Sdk` capitalization for the Linux SDK
+  fallback.
+  
+  This lets NDK discovery work when neither `ANDROID_NDK_HOME` nor an
+  `SDK` environment variable is set.
+  ```
+- [`c6e7e9e`](https://github.com/ghostty-org/ghostty/commit/c6e7e9e4e2fa27e1a5dea57e878eb1146faaf62b) config: add `drag-handle` ([@pluiedev](https://github.com/pluiedev))
+- [`65a3e66`](https://github.com/ghostty-org/ghostty/commit/65a3e666efdda5191051f94a5414eb2cf516245c) gtk: drag overlay toggle ([@pluiedev](https://github.com/pluiedev))
+- [`850ca8c`](https://github.com/ghostty-org/ghostty/commit/850ca8c7b1c69078621aea638bb6564d7b3d53b5) gtk: rebind is-split after moving split cross-tree ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  It turns out we never unbound the split from its original tree after
+  moving, which means `is-split` in particular is desynced and leads to
+  hilarious artifacts like how `unfocused-split-*` options just stop
+  working properly. I only realized this is a thing after the naïve
+  drag handle config option didn't work properly. Fun!
+  ```
+- [`05221c1`](https://github.com/ghostty-org/ghostty/commit/05221c11c9db0715666fc6e038915128fc6a563e) core,gtk: add `drag-handle` config ([#13706](https://github.com/ghostty-org/ghostty/issues/13706)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Fixes hundreds of complaints about the fact that drag handles cannot be
+  hidden, on GTK at least.
+  
+  I'm not sure if we ever made an issue for this? If you come across any
+  discussions asking for this, please link them here :)
+  ```
 - [`74efadb`](https://github.com/ghostty-org/ghostty/commit/74efadb446205eb052ce10d202300b2dc8970947) lib-vt: answer XTGETTCAP queries ([@fornwall](https://github.com/fornwall))
   ```text
   Ghostty's full termio path answers XTGETTCAP from the static terminfo
