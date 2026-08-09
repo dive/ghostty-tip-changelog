@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 9, 2026 at 15:25 UTC.
+> Last updated: August 9, 2026 at 18:31 UTC.
 
 ## August 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [2](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [3](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [4](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
-Summary: 4 runs • 18 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31325264351), [2](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [3](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [4](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [5](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
+Summary: 5 runs • 20 commits • 6 authors
 
 ### Changes
 
+- [`034506f`](https://github.com/ghostty-org/ghostty/commit/034506f14562242c70618aaf5775366766653ffd) gtk: add +new-tab cli action ([@jcollie](https://github.com/jcollie))
+- [`9d8fbd1`](https://github.com/ghostty-org/ghostty/commit/9d8fbd15b3b4e385b82c1a9e31cdbb99a74dabd6) gtk: add +new-tab action ([#11762](https://github.com/ghostty-org/ghostty/issues/11762)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR adds a `+new-tab` CLI action, useful for automation on GTK. This
+  mainly re-uses machinery added for the `+new-window`, but adds in a
+  unique surface ID for identifying surfaces for IPC purposes (and
+  eliminates use of raw pointers for callbacks from notifications).
+  ```
 - [`16e13a5`](https://github.com/ghostty-org/ghostty/commit/16e13a59aeda57ccb1b9998ab989615960dbcafb) build: fix Linux Android SDK fallback path ([@fornwall](https://github.com/fornwall))
   ```text
   Use the standard ~/Android/Sdk capitalization for the Linux SDK fallback.
