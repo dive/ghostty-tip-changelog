@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 10, 2026 at 10:11 UTC.
+> Last updated: August 10, 2026 at 12:55 UTC.
 
 ## August 10, 2026
 
@@ -2271,7 +2271,7 @@ Summary: 13 runs • 84 commits • 11 authors
 ## August 4, 2026
 
 Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30953205060), [2](https://github.com/ghostty-org/ghostty/actions/runs/30941010176), [3](https://github.com/ghostty-org/ghostty/actions/runs/30930443397), [4](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [5](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [6](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [7](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [8](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [9](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 9 runs • 44 commits • 10 authors
+Summary: 9 runs • 36 commits • 10 authors
 
 ### Changes
 
@@ -2400,193 +2400,6 @@ Summary: 9 runs • 44 commits • 10 authors
   from @jparise.
   
   Vouch: @lotheac
-  ```
-- [`2f7fbad`](https://github.com/ghostty-org/ghostty/commit/2f7fbadb0b9cda181282c836771610358543a032) termio: free resources for discarded messages ([@jparise](https://github.com/jparise))
-  ```text
-  Messages can own allocated data or a derived config. Some paths (writer
-  thread draining, mailbox shutdown with unread messages, and queue push
-  failures) discarded messages without releasing those resources.
-  
-  This change adds Message.deinit and uses it whenever a message is
-  discarded.
-  ```
-- [`d7bb4b8`](https://github.com/ghostty-org/ghostty/commit/d7bb4b8639614c7d6eeac403bf92d64066b2c73f) libghostty-vt: add C API for snapshotting functions ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Expose terminal snapshot through the libghostty-vt C API and add
-  a new C example that runs in CI to verify this stuff works!
-  
-  ## Example
-  
-  ```c
-  size_t continuation_limit = 1024;
-  assert(ghostty_terminal_set(
-      terminal,
-      GHOSTTY_TERMINAL_OPT_CONTINUATION_MAX_BYTES,
-      &continuation_limit) == GHOSTTY_SUCCESS);
-  
-  uint8_t *bytes = NULL;
-  size_t len = 0;
-  assert(ghostty_snapshot_encode_alloc(
-      terminal, NULL, &bytes, &len) == GHOSTTY_SUCCESS);
-  
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new_buf(
-      NULL, &decoder, bytes, len) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal restored = NULL;
-  assert(ghostty_snapshot_decoder_decode(
-      decoder, &restored) == GHOSTTY_SUCCESS);
-  
-  ghostty_snapshot_decoder_free(decoder);
-  ghostty_free(NULL, bytes, len);
-  ```
-  
-  Streaming decode:
-  
-  ```c
-  GhosttyReader reader = {
-      .read = read_snapshot,
-      .userdata = source,
-  };
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new(
-      NULL, &decoder, reader) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal terminal = NULL;
-  assert(ghostty_snapshot_decoder_ready(
-      decoder, &terminal) == GHOSTTY_SUCCESS);
-  
-  GhosttyResult result;
-  while ((result = ghostty_snapshot_decoder_next(decoder)) ==
-         GHOSTTY_SUCCESS) {
-    size_t rows = 0;
-    assert(ghostty_snapshot_decoder_get(
-        decoder,
-        GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_ROWS,
-        &rows) == GHOSTTY_SUCCESS);
-    render(terminal);
-  }
-  assert(result == GHOSTTY_NO_VALUE);
-  ```
-  ````
-- [`6760c64`](https://github.com/ghostty-org/ghostty/commit/6760c6482be2df6da273239d684086394ccac29a) terminal: support pending image payloads for kitty graphics ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Represent Kitty image data as a complete/pending tagged union.
-  Kitty images can now be completed _later_ if we have all their other
-  metadata up front.
-  
-  This will be used by the snapshot API to transmit lightweight
-  information up front so that renderers of the snapshot can show
-  placeholders and accept mutating pty data, while the real image data
-  streams in later.
-  ```
-- [`a011043`](https://github.com/ghostty-org/ghostty/commit/a011043784101325d747030b41067b65d15d164a) termio: free resources for discarded messages ([#13579](https://github.com/ghostty-org/ghostty/issues/13579)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Messages can own allocated data or a derived config. Some paths (writer
-  thread draining, mailbox shutdown with unread messages, and queue push
-  failures) discarded messages without releasing those resources.
-  
-  This change adds Message.deinit and uses it whenever a message is
-  discarded.
-  ```
-- [`5700414`](https://github.com/ghostty-org/ghostty/commit/5700414f14428dd83af58670a5a42a7de3706109) libghostty-vt: add C API for snapshotting functions ([#13580](https://github.com/ghostty-org/ghostty/issues/13580)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Expose terminal snapshot through the libghostty-vt C API and add a new C
-  example that runs in CI to verify this stuff works!
-  
-  ## Example
-  
-  ```c
-  // Enable PTY continuation tracking
-  size_t continuation_limit = 1024;
-  assert(ghostty_terminal_set(
-      terminal,
-      GHOSTTY_TERMINAL_OPT_CONTINUATION_MAX_BYTES,
-      &continuation_limit) == GHOSTTY_SUCCESS);
-  
-  // Encode a terminal with heap allocation
-  uint8_t *bytes = NULL;
-  size_t len = 0;
-  assert(ghostty_snapshot_encode_alloc(
-      terminal, NULL, &bytes, &len) == GHOSTTY_SUCCESS);
-  
-  // Full blocking decode from an owned buffer.
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new_buf(
-      NULL, &decoder, bytes, len) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal restored = NULL;
-  assert(ghostty_snapshot_decoder_decode(
-      decoder, &restored) == GHOSTTY_SUCCESS);
-  
-  ghostty_snapshot_decoder_free(decoder);
-  ghostty_free(NULL, bytes, len);
-  ```
-  
-  Streaming decode:
-  
-  ```c
-  // Streaming decoder from a custom reader IO function.
-  GhosttyReader reader = {
-      .read = read_snapshot,
-      .userdata = source,
-  };
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new(
-      NULL, &decoder, reader) == GHOSTTY_SUCCESS);
-  
-  // Read up to the ready state (when we can render and start processing pty bytes)
-  GhosttyTerminal terminal = NULL;
-  assert(ghostty_snapshot_decoder_ready(
-      decoder, &terminal) == GHOSTTY_SUCCESS);
-  
-  // Sometime later or async process remaining frames.
-  GhosttyResult result;
-  while ((result = ghostty_snapshot_decoder_next(decoder)) ==
-         GHOSTTY_SUCCESS) {
-    size_t rows = 0;
-    assert(ghostty_snapshot_decoder_get(
-        decoder,
-        GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_ROWS,
-        &rows) == GHOSTTY_SUCCESS);
-    render(terminal);
-  }
-  assert(result == GHOSTTY_NO_VALUE);
-  ```
-  ````
-- [`7e50356`](https://github.com/ghostty-org/ghostty/commit/7e50356642afead216a35c8968f4c33cb38d7f04) terminal: support pending image payloads for kitty graphics ([#13582](https://github.com/ghostty-org/ghostty/issues/13582)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Represent Kitty image data as a complete/pending tagged union. Kitty
-  images can now be completed _later_ if we have all their other metadata
-  up front.
-  
-  This will be used by the snapshot API to transmit lightweight
-  information up front so that renderers of the snapshot can show
-  placeholders and accept mutating pty data, while the real image data
-  streams in later.
-  
-  No user-visible behavior changes today.
-  ```
-- [`ca8868a`](https://github.com/ghostty-org/ghostty/commit/ca8868a2956de2ffd8113d7279ecbdd699c23772) font/shaper: eliminate grapheme candidate allocations ([@jparise](https://github.com/jparise))
-  ```text
-  RunIterator allocated a list of font candidates for every multi-codepoint
-  grapheme, then scanned it for the first font covering the entire cluster.
-  
-  Instead, check the primary and additional font candidates as they're
-  discovered. This preserves their order while removing the temporary
-  array and avoids additional lookups when the primary font supports the
-  full grapheme.
-  ```
-- [`f124c42`](https://github.com/ghostty-org/ghostty/commit/f124c42ab97e729fd9b14a8cfe8f919b4054aa34) font/shaper: eliminate grapheme candidate allocations ([#13584](https://github.com/ghostty-org/ghostty/issues/13584)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  RunIterator allocated a list of font candidates for every
-  multi-codepoint grapheme, then scanned it for the first font covering
-  the entire cluster.
-  
-  Instead, check the primary and additional font candidates as they're
-  discovered. This preserves their order while removing the temporary
-  array and avoids additional lookups when the primary font supports the
-  full grapheme.
   ```
 - [`9e6e2ea`](https://github.com/ghostty-org/ghostty/commit/9e6e2ea964587757b0e26178950c624c955ee6ed) renderer: reset terminal state cleanup counter ([@jparise](https://github.com/jparise))
   ```text
