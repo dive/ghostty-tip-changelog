@@ -8,15 +8,121 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 9, 2026 at 21:25 UTC.
+> Last updated: August 10, 2026 at 01:19 UTC.
 
 ## August 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31325264351), [2](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [3](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [4](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [5](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
-Summary: 5 runs • 20 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31337999494), [2](https://github.com/ghostty-org/ghostty/actions/runs/31325264351), [3](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [4](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [5](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [6](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
+Summary: 6 runs • 27 commits • 6 authors
 
 ### Changes
 
+- [`0aa71d0`](https://github.com/ghostty-org/ghostty/commit/0aa71d02ed068a3a036721ab9e480cbdf82ac329) terminal: reduce Parser.Action log formatting code size ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Shrinks libghostty-vt dylib by ~2%.
+  ```
+- [`f368543`](https://github.com/ghostty-org/ghostty/commit/f36854345e50fe382f37a6ef5859f9013787a23b) libghostty: skip stack traces in release panic handlers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The default Zig panic handler unwinds the stack and symbolicates it,
+  which drags in ~160KB worth of helper machinery. For an embedded library
+  this isn't great because the embedder's environment should be providing
+  this as long as libghostty is compiled with symbols or has a way to
+  symbolize.
+  
+  Change ReleaseFast/ReleaseSmall libghostty-vt builds to use a custom
+  panic handler. Debug/ReleaseSafe keep the full Zig handlers.
+  
+  This shrinks libghostty-vt on macOS by ~160KB (~9%).
+  ```
+- [`579db41`](https://github.com/ghostty-org/ghostty/commit/579db418934a5990296b7fd65d1b6b586b46dfc6) libghostty: log to stderr with raw writes, not lockStderr ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  see the prior commit, but most importantly this makes it so we can
+  replace our IO impl from Threaded.
+  ```
+- [`82df79e`](https://github.com/ghostty-org/ghostty/commit/82df79ec8d2c61f3beb3ecfc543ed32cb4aba450) libghostty: replace Io.Threaded with custom Io impl (TinyIo) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new Io implementation `TinyIo` that only supports the operations
+  we need and doesn't support concurrency. This shrinks the binary size
+  of libghostty by anywhere from ~100KB (macOS) to ~200KB (Linux) and
+  runtime memory requirements by over 256KB (the thread-local storage
+  `std.Io.Threaded` creates plus the 18KB threaded structure is gone).
+  
+  `TinyIo` is POSIX-only: Windows keeps std.Io.Threaded, and on
+  freestanding targets (wasm) TinyIo degrades to std.Io.failing
+  behavior just like before.
+  
+  It is also exported from the Zig module as `ghostty.TinyIo` so
+  Zig embedders can opt into the same size win when constructing
+  terminals.
+  ```
+- [`d524a0f`](https://github.com/ghostty-org/ghostty/commit/d524a0fe645cfd4d9ae27bd8451b934dcf2ebaef) libghostty: guard release builds against std debug Io ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Release libghostty-vt builds carefully avoid referencing
+  std.Options.debug_io because its default implementation is
+  std.Io.Threaded, and referencing that vtable keeps every operation
+  Threaded supports linked into the binary: roughly 110KB of unreachable
+  code. Nothing references it today, but any std.debug.print,
+  std.debug.lockStderr, or std.log default-handler call added to
+  release-reachable code would silently reintroduce all of it.
+  
+  Declare std_options_debug_io in the root module so std uses our value
+  instead of constructing the Threaded default. Development builds
+  (Debug, ReleaseSafe, tests) forward the std default so std.debug.print
+  and friends work normally. ReleaseFast and ReleaseSmall builds declare
+  it as a @compileError: since std only analyzes the declaration lazily,
+  at the moment something references a debug Io code path, the error
+  fires exactly at the offending reference, turning a silent size
+  regression into a build failure with a message explaining the
+  alternatives.
+  
+  Release binaries are byte-identical when the guard is not tripped.
+  ```
+- [`a15ddda`](https://github.com/ghostty-org/ghostty/commit/a15dddae2a497e6540feca5c6adc7e86edd59adb) TinyIo: fix failing tests in CI ([@mitchellh](https://github.com/mitchellh))
+- [`fea378e`](https://github.com/ghostty-org/ghostty/commit/fea378e565c8ddb7f49808c4f2e36a4a932e35ff) libghostty: reduce binary size ~16% (macOS), ~22% (Linux) ([#13715](https://github.com/ghostty-org/ghostty/issues/13715)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This shrinks the binary size of libghostty-vt by **16% on aarch64 macOS
+  and 22% on x86_64 Linux**. It also shrinks the in-memory footprint by
+  ~256KB per thread + ~20KB per app. All benchmarks remain the same, no
+  speedups or slowdowns.
+  
+  Each commit message explains an individual tactic used, but to
+  summarize:
+  
+  1. **No stack traces in release panic handlers (~160KB).** This requires
+  the Zig stack unwind and symbolication logic. I don't think this makes
+  sense in an embedded library because the embedder should handle this.
+  
+  2. **An alternate `std.Io` implementation called `TinyIo` (~100KB to
+  200KB).** See later... since this is the big one.
+  
+  3. **Disable recursive Parser.Action logging (~35KB).** We now only log
+  the top-level fields of a Parser.Action, which lowers the amount of
+  `std.fmt` codegen significantly.
+  
+  All sizes above are aarch64 macOS and x86_64 Linux ReleaseFast
+  libghostty builds.
+  
+  ## TinyIo
+  
+  I think the main complexity introduction here is our alternate `std.Io`
+  implementation `TinyIo`. This is an IO implementation that implements IO
+  operations we need through direct syscalls and does not support
+  concurrency or any other options like network, progress, etc.
+  
+  Why? Because of the way `std.Io` works through vtable dispatch, the
+  linker and dead code removal can't prune ANY of the function pointers.
+  So our binary has full implementations of all the networking,
+  concurrency, etc. related code even though we don't use it.
+  
+  This has a runtime effect too: even though we put `std.Io.Threaded` in
+  single-threaded mode, it still allocates ~256KB of TLS _per thread_, and
+  its raw struct state is ~18KB (versus 80 _bytes_ for `TinyIo`).
+  
+  For future maintenance: I exhaustively implemented the vtable rather
+  than use the failing vtable from Zig stdlib so any Zig changes to add
+  new fields to this error so we can determine if we want to support it or
+  not.
+  ```
 - [`034506f`](https://github.com/ghostty-org/ghostty/commit/034506f14562242c70618aaf5775366766653ffd) gtk: add +new-tab cli action ([@jcollie](https://github.com/jcollie))
 - [`9d8fbd1`](https://github.com/ghostty-org/ghostty/commit/9d8fbd15b3b4e385b82c1a9e31cdbb99a74dabd6) gtk: add +new-tab action ([#11762](https://github.com/ghostty-org/ghostty/issues/11762)) ([@jcollie](https://github.com/jcollie))
   ```text
@@ -1926,484 +2032,5 @@ Summary: 9 runs • 36 commits • 10 authors
   leaking retry loop.
   
   Tested this with various settings and global keys working fine.
-  ```
-
-## August 3, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30862297316), [2](https://github.com/ghostty-org/ghostty/actions/runs/30855802273), [3](https://github.com/ghostty-org/ghostty/actions/runs/30840279326), [4](https://github.com/ghostty-org/ghostty/actions/runs/30834015563), [5](https://github.com/ghostty-org/ghostty/actions/runs/30829026722), [6](https://github.com/ghostty-org/ghostty/actions/runs/30823354937), [7](https://github.com/ghostty-org/ghostty/actions/runs/30782256667)  
-Summary: 7 runs • 29 commits • 5 authors
-
-### Changes
-
-- [`ca8868a`](https://github.com/ghostty-org/ghostty/commit/ca8868a2956de2ffd8113d7279ecbdd699c23772) font/shaper: eliminate grapheme candidate allocations ([@jparise](https://github.com/jparise))
-  ```text
-  RunIterator allocated a list of font candidates for every multi-codepoint
-  grapheme, then scanned it for the first font covering the entire cluster.
-  
-  Instead, check the primary and additional font candidates as they're
-  discovered. This preserves their order while removing the temporary
-  array and avoids additional lookups when the primary font supports the
-  full grapheme.
-  ```
-- [`f124c42`](https://github.com/ghostty-org/ghostty/commit/f124c42ab97e729fd9b14a8cfe8f919b4054aa34) font/shaper: eliminate grapheme candidate allocations ([#13584](https://github.com/ghostty-org/ghostty/issues/13584)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  RunIterator allocated a list of font candidates for every
-  multi-codepoint grapheme, then scanned it for the first font covering
-  the entire cluster.
-  
-  Instead, check the primary and additional font candidates as they're
-  discovered. This preserves their order while removing the temporary
-  array and avoids additional lookups when the primary font supports the
-  full grapheme.
-  ```
-- [`2f7fbad`](https://github.com/ghostty-org/ghostty/commit/2f7fbadb0b9cda181282c836771610358543a032) termio: free resources for discarded messages ([@jparise](https://github.com/jparise))
-  ```text
-  Messages can own allocated data or a derived config. Some paths (writer
-  thread draining, mailbox shutdown with unread messages, and queue push
-  failures) discarded messages without releasing those resources.
-  
-  This change adds Message.deinit and uses it whenever a message is
-  discarded.
-  ```
-- [`d7bb4b8`](https://github.com/ghostty-org/ghostty/commit/d7bb4b8639614c7d6eeac403bf92d64066b2c73f) libghostty-vt: add C API for snapshotting functions ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Expose terminal snapshot through the libghostty-vt C API and add
-  a new C example that runs in CI to verify this stuff works!
-  
-  ## Example
-  
-  ```c
-  size_t continuation_limit = 1024;
-  assert(ghostty_terminal_set(
-      terminal,
-      GHOSTTY_TERMINAL_OPT_CONTINUATION_MAX_BYTES,
-      &continuation_limit) == GHOSTTY_SUCCESS);
-  
-  uint8_t *bytes = NULL;
-  size_t len = 0;
-  assert(ghostty_snapshot_encode_alloc(
-      terminal, NULL, &bytes, &len) == GHOSTTY_SUCCESS);
-  
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new_buf(
-      NULL, &decoder, bytes, len) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal restored = NULL;
-  assert(ghostty_snapshot_decoder_decode(
-      decoder, &restored) == GHOSTTY_SUCCESS);
-  
-  ghostty_snapshot_decoder_free(decoder);
-  ghostty_free(NULL, bytes, len);
-  ```
-  
-  Streaming decode:
-  
-  ```c
-  GhosttyReader reader = {
-      .read = read_snapshot,
-      .userdata = source,
-  };
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new(
-      NULL, &decoder, reader) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal terminal = NULL;
-  assert(ghostty_snapshot_decoder_ready(
-      decoder, &terminal) == GHOSTTY_SUCCESS);
-  
-  GhosttyResult result;
-  while ((result = ghostty_snapshot_decoder_next(decoder)) ==
-         GHOSTTY_SUCCESS) {
-    size_t rows = 0;
-    assert(ghostty_snapshot_decoder_get(
-        decoder,
-        GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_ROWS,
-        &rows) == GHOSTTY_SUCCESS);
-    render(terminal);
-  }
-  assert(result == GHOSTTY_NO_VALUE);
-  ```
-  ````
-- [`6760c64`](https://github.com/ghostty-org/ghostty/commit/6760c6482be2df6da273239d684086394ccac29a) terminal: support pending image payloads for kitty graphics ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Represent Kitty image data as a complete/pending tagged union.
-  Kitty images can now be completed _later_ if we have all their other
-  metadata up front.
-  
-  This will be used by the snapshot API to transmit lightweight
-  information up front so that renderers of the snapshot can show
-  placeholders and accept mutating pty data, while the real image data
-  streams in later.
-  ```
-- [`a011043`](https://github.com/ghostty-org/ghostty/commit/a011043784101325d747030b41067b65d15d164a) termio: free resources for discarded messages ([#13579](https://github.com/ghostty-org/ghostty/issues/13579)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Messages can own allocated data or a derived config. Some paths (writer
-  thread draining, mailbox shutdown with unread messages, and queue push
-  failures) discarded messages without releasing those resources.
-  
-  This change adds Message.deinit and uses it whenever a message is
-  discarded.
-  ```
-- [`5700414`](https://github.com/ghostty-org/ghostty/commit/5700414f14428dd83af58670a5a42a7de3706109) libghostty-vt: add C API for snapshotting functions ([#13580](https://github.com/ghostty-org/ghostty/issues/13580)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  Expose terminal snapshot through the libghostty-vt C API and add a new C
-  example that runs in CI to verify this stuff works!
-  
-  ## Example
-  
-  ```c
-  // Enable PTY continuation tracking
-  size_t continuation_limit = 1024;
-  assert(ghostty_terminal_set(
-      terminal,
-      GHOSTTY_TERMINAL_OPT_CONTINUATION_MAX_BYTES,
-      &continuation_limit) == GHOSTTY_SUCCESS);
-  
-  // Encode a terminal with heap allocation
-  uint8_t *bytes = NULL;
-  size_t len = 0;
-  assert(ghostty_snapshot_encode_alloc(
-      terminal, NULL, &bytes, &len) == GHOSTTY_SUCCESS);
-  
-  // Full blocking decode from an owned buffer.
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new_buf(
-      NULL, &decoder, bytes, len) == GHOSTTY_SUCCESS);
-  
-  GhosttyTerminal restored = NULL;
-  assert(ghostty_snapshot_decoder_decode(
-      decoder, &restored) == GHOSTTY_SUCCESS);
-  
-  ghostty_snapshot_decoder_free(decoder);
-  ghostty_free(NULL, bytes, len);
-  ```
-  
-  Streaming decode:
-  
-  ```c
-  // Streaming decoder from a custom reader IO function.
-  GhosttyReader reader = {
-      .read = read_snapshot,
-      .userdata = source,
-  };
-  GhosttySnapshotDecoder decoder = NULL;
-  assert(ghostty_snapshot_decoder_new(
-      NULL, &decoder, reader) == GHOSTTY_SUCCESS);
-  
-  // Read up to the ready state (when we can render and start processing pty bytes)
-  GhosttyTerminal terminal = NULL;
-  assert(ghostty_snapshot_decoder_ready(
-      decoder, &terminal) == GHOSTTY_SUCCESS);
-  
-  // Sometime later or async process remaining frames.
-  GhosttyResult result;
-  while ((result = ghostty_snapshot_decoder_next(decoder)) ==
-         GHOSTTY_SUCCESS) {
-    size_t rows = 0;
-    assert(ghostty_snapshot_decoder_get(
-        decoder,
-        GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_ROWS,
-        &rows) == GHOSTTY_SUCCESS);
-    render(terminal);
-  }
-  assert(result == GHOSTTY_NO_VALUE);
-  ```
-  ````
-- [`7e50356`](https://github.com/ghostty-org/ghostty/commit/7e50356642afead216a35c8968f4c33cb38d7f04) terminal: support pending image payloads for kitty graphics ([#13582](https://github.com/ghostty-org/ghostty/issues/13582)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Represent Kitty image data as a complete/pending tagged union. Kitty
-  images can now be completed _later_ if we have all their other metadata
-  up front.
-  
-  This will be used by the snapshot API to transmit lightweight
-  information up front so that renderers of the snapshot can show
-  placeholders and accept mutating pty data, while the real image data
-  streams in later.
-  
-  No user-visible behavior changes today.
-  ```
-- [`c11fe54`](https://github.com/ghostty-org/ghostty/commit/c11fe5486f7c1f0aa346b8f0a23ea0fcedf79433) core: avoid copying OSC 52 clipboard responses ([@jparise](https://github.com/jparise))
-  ```text
-  OSC 52 clipboard reads built their response in an allocated buffer and
-  then passed it through Message.writeReq, which allocated a second copy
-  for large responses.
-  
-  Instead, transfer the allocated response directly using .write_alloc.
-  
-  Small responses now retain their initial allocation until the IO thread
-  consumes them instead of being copied inline and freed immediately.
-  Their allocation count is unchanged, while large responses improve from
-  two allocations to one. Both cases avoid the additional copy.
-  ```
-- [`ac04fc2`](https://github.com/ghostty-org/ghostty/commit/ac04fc276169c70d31aa6fcfc5b43fc160d6fe6e) core: avoid copying OSC 52 clipboard responses ([#13577](https://github.com/ghostty-org/ghostty/issues/13577)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  OSC 52 clipboard reads built their response in an allocated buffer and
-  then passed it through Message.writeReq, which allocated a second copy
-  for large responses.
-  
-  Instead, transfer the allocated response directly using .write_alloc.
-  
-  Small responses now retain their initial allocation until the IO thread
-  consumes them instead of being copied inline and freed immediately.
-  Their allocation count is unchanged, while large responses improve from
-  two allocations to one. Both cases avoid the additional copy.
-  ```
-- [`90da3ab`](https://github.com/ghostty-org/ghostty/commit/90da3aba58a8c5f44d97bd9ec54eaa1696591256) gtk: fix split sizing to eliminate flickering ([@dkinzler](https://github.com/dkinzler))
-  ```text
-  For widget resizes the split ratio is now synced directly from the
-  propMaxPosition callback in the SplitTreeSplit widget, instead of an
-  idle callback. With this change all surfaces will be sized correctly
-  from the start, in a single round of size allocation in GTK. Previously,
-  surfaces would initially be shown with the wrong size for a few frames
-  until the idle callback ran, resulting in visible flickering. This was
-  especially visible when resizing a split quickly by holding down the
-  resize keybind.
-  
-  Moved logic to sync split ratio between gtk.Paned widget and split tree
-  into new syncSplitRatio function in the SplitTreeSplit widget. Added
-  debug assertions and log warnings to syncSplitRatio where we look up
-  the split tree.
-  ```
-- [`957ed21`](https://github.com/ghostty-org/ghostty/commit/957ed21d5c6241f81526581db78520d3c3196421) core: free allocated writes in read-only mode ([@jparise](https://github.com/jparise))
-  ```text
-  Read-only filtering happens in Surface.queueIo after callers construct
-  the message. This early return leaked write_alloc payloads because the
-  IO thread never receives them and therefore does not perform its normal
-  cleanup.
-  ```
-- [`7d74809`](https://github.com/ghostty-org/ghostty/commit/7d748097a069768e12fa9bf63d598215a3e8f7a3) core: free allocated writes in read-only mode ([#13574](https://github.com/ghostty-org/ghostty/issues/13574)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Read-only filtering happens in Surface.queueIo after callers construct
-  the message. This early return leaked write_alloc payloads because the
-  IO thread never receives them and therefore does not perform its normal
-  cleanup.
-  ```
-- [`da581e0`](https://github.com/ghostty-org/ghostty/commit/da581e0fb7a49af38b59a91ef59e1677ff06435a) gtk: improve split sizing ([#13414](https://github.com/ghostty-org/ghostty/issues/13414)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR improves the way splits/surfaces are sized in the GTK app, which
-  eliminates flickering and slightly improves performance.
-  
-  Fixes #13328, #12709, #11187.
-  Related #8208 (closed) but some later comments mention flickering issues
-  persisting.
-  Builds on top of the changes in #12698.
-  
-  Previously an idle callback was used to sync the split ratio between the
-  GTK widget tree and the split tree data structure that represents the
-  split layout. The widget tree contains a `SplitTreeSplit` widget, which
-  wraps a `GtkPaned` widget, for every split. During size allocation a
-  `GtkPaned` widget first computes the initial position of the divider and
-  thereby the size for its two children. We get notified of that position
-  (and the max possible position) via the `propPosition/propMaxPosition`
-  callbacks in `SplitTreeSplit` and set up an idle callback (the `onIdle`
-  function) to update the position if it does not match the desired split
-  ratio. Since the initial position is often not correct, especially in
-  nested layouts or if the ratio is not 0.5, a surface will first be shown
-  with the wrong size for a few frames until the idle callback runs and
-  corrects the sizing. In nested layouts it might take multiple rounds of
-  size allocation and idle callbacks until every surface gets the correct
-  size. This causes flickering as widgets eventually snap to another size,
-  which is especially noticeable if the layout changes quickly e.g. when
-  resizing a split using keybinds.
-  
-  To fix this, the divider position will now be corrected directly from
-  the `propMaxPosition` callback, which runs during GTK size allocation,
-  right after a `GtkPaned` computes the initial position and right before
-  it uses the position to allocate sizes for its two children. With this
-  change every surface will be sized correctly during the first round of
-  size allocation.
-  The idle callback is still used to update the ratio in the split tree
-  when a split is resized by manually dragging the divider in the UI. The
-  logic to sync the split ratio was moved to the new `syncSplitRatio`
-  function which is called from both `propMaxPosition` and `onIdle`.
-  
-  This is kind of hacky, but I reviewed the GTK source code in detail to
-  verify that this is safe (see the various code comments for more
-  details). I also tested extensively on both Hyprland and KDE Plasma:
-  creating deeply nested layouts, resizing with both keybinds and dragging
-  dividers by hand, with multiple tabs, resizing the entire window,
-  resizing entire subtrees to 0 and back. Everything seems to work fine.
-  
-  For performance testing I used sysprof which can also collect GTK stats.
-  When creating/deleting/resizing splits I can measure a slight but
-  consistent increase in GTK FPS (+5 to 10) on my system. Other than that
-  CPU usage and FPS seem to be the same before and after. I guess this
-  makes sense, while we added a bit of work to the GTK loop during size
-  allocation, we avoid surfaces being resized.
-  
-  For the flickering, here's a side-by-side comparison. Left is before the
-  changes, right is after.
-  
-  
-  https://github.com/user-attachments/assets/2a4f0b4b-e113-49b5-b0d7-d9e507a5a4ff
-  
-  AI Disclosure: no AI was used.
-  ```
-- [`15c50c1`](https://github.com/ghostty-org/ghostty/commit/15c50c1db1983961c9aa37a2fc0f51327ad26608) crash: do not use global state ([@vancluever](https://github.com/vancluever))
-  ```text
-  This removes use of global state from the crash reporting functionality
-  (everything in src/crash).
-  
-  This particularly ensures that there are no races on the system
-  environment during the execution of the initialization thread that would
-  possibly cause crashes, particularly in any (albeit unsupported) 3rd
-  party integrations of libghostty-internal.
-  
-  Ultimately, this pushes any coupling of I/O and environment to places
-  that would more correctly interface with global state, such as the
-  same-thread global.init, and the crash report CLI.
-  
-  Note that similar de-coupling actions have been taken on XDG and home
-  directory functionality, pushing their coupling points up the stack in a
-  similar way.
-  ```
-- [`b5290e7`](https://github.com/ghostty-org/ghostty/commit/b5290e74c42c2fc5f891eb20f08d0ac0c7c634f8) terminal/snapshot: release decoded hyperlink table refs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Decoded hyperlink table entries retained their insertion reference after
-  the grid added its per-cell references. Overwriting all linked cells could
-  therefore leave unused entries alive indefinitely.
-  
-  Release each accepted wire table entry after grid decoding, including
-  duplicate values that map to one native ID. Regression coverage verifies
-  exact cell ownership and reaping after overwrite.
-  ```
-- [`f99896b`](https://github.com/ghostty-org/ghostty/commit/f99896bf8c2438e2edbc2a5779a1f2fafa9bcc6d) terminal/snapshot: preserve style reader errors ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Lenient style decoding previously caught every error, so PAGE and SCREEN
-  could treat truncation or an I/O failure as an invalid semantic style and
-  continue from a corrupted stream position.
-  
-  Add a nullable decoder that discards only invalid style contents while
-  propagating reader failures. Update snapshot callers and cover both semantic
-  fallback and structural failure behavior.
-  ```
-- [`cafe7d5`](https://github.com/ghostty-org/ghostty/commit/cafe7d5da43fb19020117e1ab5cca06751f8d0c7) terminal/snapshot: clamp decoded saved cursors ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  SCREEN decoding restored saved cursor coordinates directly from the wire
-  even when they exceeded the current terminal dimensions, unlike the live
-  cursor restoration path.
-  ```
-- [`7d9aaa2`](https://github.com/ghostty-org/ghostty/commit/7d9aaa29703750c4f129790314a54c9a6cd5c7c5) terminal/snapshot: clarify incremental history errors ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Document why incremental history decoding exposes native page finalization
-  errors and intentionally bypasses the one-shot ExistingHistory guard after READY.
-  ```
-- [`5c65304`](https://github.com/ghostty-org/ghostty/commit/5c65304a27402f64a7d7356a92b08973e99bc911) crash: do not use global state ([#13567](https://github.com/ghostty-org/ghostty/issues/13567)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This removes use of global state from the crash reporting functionality
-  (everything in `src/crash`).
-  
-  This particularly ensures that there are no races on the system
-  environment during the execution of the initialization thread that would
-  possibly cause crashes, particularly in any (albeit unsupported) 3rd
-  party integrations of libghostty-internal.
-  
-  Ultimately, this pushes any coupling of I/O and environment to places
-  that would more correctly interface with global state, such as the
-  same-thread `global.init`, and the crash report CLI.
-  
-  Note that similar de-coupling actions have been taken on XDG and home
-  directory functionality, pushing their coupling points up the stack in a
-  similar way.
-  ```
-- [`863fc95`](https://github.com/ghostty-org/ghostty/commit/863fc9531ae0b8e09b7103a9089dfc00319a7d9c) terminal/snapshot: more misc bugs ([#13573](https://github.com/ghostty-org/ghostty/issues/13573)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Again nothing critical, just some polish around the edges.
-  ```
-- [`d148471`](https://github.com/ghostty-org/ghostty/commit/d14847183844e84fb8282ebe5a6c9061f40530e3) terminal/snapshot: preserve mixed-width pending wrap ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  SCREEN decode clamped the cursor x coordinate to the physical page
-  width, but validated pending wrap against the terminal-wide column
-  count. A lazily reflowed page narrower than the current terminal could
-  therefore lose a valid pending-wrap state at its last physical column.
-  The next write would continue on the same row instead of wrapping.
-  
-  Validate pending wrap against the cursor page width, matching the clamp
-  and the page-local cursor pin. Add a mixed-width decode regression that
-  places the cursor at the narrow page boundary.
-  ```
-- [`cbc9f36`](https://github.com/ghostty-org/ghostty/commit/cbc9f360b1d6be9305f25cd6e68c49884fa24187) terminal/snapshot: report invalid decoder states ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Decoder.next treated calls before READY and calls after any prior decode
-  error as unreachable. Network or mux glue that retried after a truncated
-  history record, or invoked next before setup completed, could therefore
-  turn a recoverable protocol misuse into a process panic.
-  
-  Add DecoderNotReady and DecoderFailed to NextError and return them for
-  the start and failed states. Keep finished calls idempotent, and cover
-  both an early call and a retry after FINISH truncation.
-  ```
-- [`e89ff37`](https://github.com/ghostty-org/ghostty/commit/e89ff37aa8a551369a8f5ae9022cc43410b6d59e) terminal/snapshot: encode screen pages safely ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  SCREEN encoding assumed every page from the active boundary onward was
-  resident. A debug assertion guarded that PageList policy invariant, but
-  release builds immediately used pageAssumeResident. If compression policy
-  ever allowed a SCREEN suffix page to remain compressed, the encoder would
-  read an inactive union field, causing undefined behavior and potentially
-  a crash or corrupt snapshot.
-  
-  Use pagePreservingState for every SCREEN suffix page, as HISTORY already
-  does, and include allocation failure in EncodeError. Resident pages remain
-  a zero-allocation borrow while compressed pages decode into temporary
-  read-only storage without changing the source representation. Exercise the
-  path with an explicitly compressed active suffix page.
-  ```
-- [`9a5279d`](https://github.com/ghostty-org/ghostty/commit/9a5279db682832274442ba2471d277b2ca9b4fa4) terminal/snapshot: release decoded style table refs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  PAGE decoding inserted every valid style table entry into the native
-  ref-counted set before decoding cells. That insertion contributed one
-  reference in addition to every cell reference, unlike organically built
-  pages where the initial add belongs to the first cell. An unused encoded
-  style therefore remained live with refcount one and was emitted again on
-  every re-encode; used styles were also permanently over-counted.
-  
-  After the grid has installed all cell references, release the temporary
-  table-owned reference once per distinct live style. Unused styles become
-  dead immediately and used styles retain exactly their cell count. Cover
-  used reference counts, unordered sparse IDs, and canonical first
-  re-encoding of an unused entry.
-  ```
-- [`418b5d1`](https://github.com/ghostty-org/ghostty/commit/418b5d18054a015f25efc30592a412a0ac5c6c68) terminal/snapshot: harden grapheme suffix decode ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Grapheme suffix decoding accepted U+0000 even though zero is the native
-  empty-cell sentinel. It also appended codepoints one at a time and, when
-  page capacity failed after a prefix had been stored, left that truncated
-  prefix attached to the cell. Hostile snapshots could therefore introduce
-  invalid cluster data or render a partial cluster depending on allocator
-  capacity.
-  
-  Ignore NUL alongside invalid scalar values. If any append runs out of
-  native capacity, remove the prefix already attached and consume the rest
-  of the declared suffix without applying it, making delivery atomic at the
-  cluster level. Cover NUL input and a failure after 128 accepted suffix
-  codepoints.
-  ```
-- [`0b940ed`](https://github.com/ghostty-org/ghostty/commit/0b940ed58925cdf5b27e9c10855694f0f83c0d57) terminal/snapshot: misc bugs ([#13572](https://github.com/ghostty-org/ghostty/issues/13572)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Misc bugs related to snapshotting. Nothing critical. Each backed by a
-  failed test w/o the change that passes with it.
-  ```
-- [`e37865b`](https://github.com/ghostty-org/ghostty/commit/e37865bedc2e1b4884f728f41f0d4a179418387f) terminal/snapshot: add incremental decoder ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a new `terminal.snapshot.Decoder` that allows for incremental
-  decoding of a snapshot stream. There are two methods: `ready` builds up
-  the entire terminal up to READY. Then `next` acts like a Zig iterator
-  and applies incremental history as it becomes available. In between
-  calls to `ready` and `next` the caller can do whatever.
-  ```
-- [`b4592ee`](https://github.com/ghostty-org/ghostty/commit/b4592eefd27290457852ad7d4f16799ecc00b983) terminal/snapshot: add incremental decoder ([#13569](https://github.com/ghostty-org/ghostty/issues/13569)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a new `terminal.snapshot.Decoder` that allows for incremental
-  decoding of a snapshot stream. There are two methods: `ready` builds up
-  the entire terminal up to READY. Then `next` acts like a Zig iterator
-  and applies incremental history as it becomes available. In between
-  calls to `ready` and `next` the caller can do whatever.
-  
-  The use case for this: with a 1MB ascii stream, the time to decode to
-  READY is ~40us on my machine, versus 1.5ms for the entire history. This
-  means that a terminal could be rendered and visible after 40us rather
-  than waiting for the full terminal. This isn't a large terminal, but
-  that READY time should be pretty standard since screens don't get that
-  big, but history is unbounded.
   ```
 
