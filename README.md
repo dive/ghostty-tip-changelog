@@ -8,15 +8,48 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 10, 2026 at 12:55 UTC.
+> Last updated: August 10, 2026 at 15:55 UTC.
 
 ## August 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [2](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [3](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
-Summary: 3 runs • 17 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [2](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [3](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [4](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
+Summary: 4 runs • 21 commits • 6 authors
 
 ### Changes
 
+- [`fd47b15`](https://github.com/ghostty-org/ghostty/commit/fd47b15cd4dad1152e17d13b8f79a0f1183c61f2) gtk: free hotkeys memory on app teardown ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  Free array list memory in Hotkeys.deinit to avoid DebugAllocator
+  throwing an error about leaked memory.
+  ```
+- [`0a183c9`](https://github.com/ghostty-org/ghostty/commit/0a183c923bfc6150e710121f481e3d03464f1b60) core/gtk: allow editing Ghostty config in a Ghostty window ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR extends the `open_config` keybind action to allow editing the
+  Ghostty config in a new Ghostty window using the editor configured in
+  `$EDITOR` or `$VISUAL`.
+  ```
+- [`e53b18a`](https://github.com/ghostty-org/ghostty/commit/e53b18a64726ad0ef0860d1dd77065defca8223f) gtk: free hotkeys memory on app teardown ([#13727](https://github.com/ghostty-org/ghostty/issues/13727)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  In debug builds the DebugAllocator throws an error about leaked memory
+  when you close Ghostty, if you have global keybinds in your config with
+  a Wayland compositor that supports the vicinae-hotkey protocol. The
+  cause is the `Hotkeys.entries` array list never actually being freed.
+  Not really a problem because the list should be kept around until app
+  teardown anyway, but not getting an error every time would be nice (even
+  if you need a somewhat specific setup for this to even happen right
+  now).
+  
+  To fix this free the array list memory in Hotkeys.deinit with
+  `ArrayList.clearAndFree`. As the existing comment on `deinit` already
+  mentions, we can't use `ArrayList.deinit` because it leaves the list in
+  an invalid state and `Hotkeys.clear` might still get called and use it.
+  ```
+- [`0914c5c`](https://github.com/ghostty-org/ghostty/commit/0914c5c2f1b96cefb2277a2cb871db181fd559da) core/gtk: allow editing Ghostty config in a Ghostty window ([#11905](https://github.com/ghostty-org/ghostty/issues/11905)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This PR extends the `open_config` keybind action to allow editing the
+  Ghostty config in a new Ghostty window using the editor configured in
+  `$EDITOR` or `$VISUAL`.
+  ```
 - [`d6248a3`](https://github.com/ghostty-org/ghostty/commit/d6248a32dd724e1cd9c7f9b68c9360f3ad630d47) ghostty.h: mark as internal ([@pluiedev](https://github.com/pluiedev))
   ```text
   Its moniker has been `libghostty-internal` for *quite* a while now among
