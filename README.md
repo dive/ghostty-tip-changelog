@@ -8,15 +8,81 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 10, 2026 at 15:55 UTC.
+> Last updated: August 10, 2026 at 18:49 UTC.
 
 ## August 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [2](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [3](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [4](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
-Summary: 4 runs • 21 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31414618806), [2](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [3](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [4](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [5](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
+Summary: 5 runs • 23 commits • 7 authors
 
 ### Changes
 
+- [`1dbc8ca`](https://github.com/ghostty-org/ghostty/commit/1dbc8ca30c8ce929019c8a4d971113fc79cd4d58) apprt/gtk: add WeakRef.deinit and use it at teardown sites ([@hakonhagland](https://github.com/hakonhagland))
+  ```text
+  A GWeakRef must be released before the memory holding it is freed: the
+  target keeps a pointer to the GWeakRef so it can clear it at finalize,
+  and if that memory is gone by then the target walks into whatever now
+  occupies it. inspector_window.zig already carries this warning, and
+  every call site follows it — but the rule lives in a comment in one
+  file, while the type itself offers only set and get, so releasing one
+  looks like an ordinary assignment.
+  
+  Give it a name. deinit forwards to g_weak_ref_clear, which is the call
+  GLib documents for a GWeakRef that is going away, and the dispose-time
+  clears now use it. set(null) still works and is unchanged; the clear in
+  handleReloadConfig stays a set(null) because the object is still alive
+  there and the reference is reused.
+  
+  Zig has no destructors so this enforces nothing. It puts the
+  requirement on the type someone is already looking at.
+  ```
+- [`951a03b`](https://github.com/ghostty-org/ghostty/commit/951a03b58bf60e73d2d361ac8848cb9423c8be26) apprt/gtk: add WeakRef.deinit and use it at teardown sites ([#13732](https://github.com/ghostty-org/ghostty/issues/13732)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #13713.
+  
+  `WeakRef(T)` offers `set` and `get`, so releasing one is spelled
+  `set(null)` — indistinguishable from an ordinary assignment. The
+  requirement that it *must* happen before the owning memory is freed
+  lives in a comment in `class/inspector_window.zig`, which is not where
+  somebody using the type is looking.
+  
+  This adds `deinit`, forwarding to `g_weak_ref_clear` — the call GLib
+  documents for a `GWeakRef` that is going away — and switches the
+  dispose-time clears to it.
+  
+  ### What changed
+  
+  - `weak_ref.zig`: new `deinit`, with the reasoning in its doc comment.
+  - `window.zig`, `split_tree.zig`, `application.zig`,
+  `command_palette.zig`: the four dispose-time clears now call `deinit`.
+  
+  `set(null)` is unchanged and still valid. The clear in
+  `Application.handleReloadConfig` deliberately stays a `set(null)`: the
+  object is alive there and the reference is reused, so it is a logical
+  clear rather than teardown — which is the distinction the new name is
+  meant to make visible.
+  
+  ### Why it is worth a method
+  
+  Zig has no destructors, so this enforces nothing; it is documentation
+  that happens to be executable. The concrete case is in #13713: I added a
+  `WeakRef(Window)` in a downstream branch, did not clear it, and closing
+  a window that had shown that dialog deadlocked the GTK main loop inside
+  `weak_ref_data_clear_list` locking freed memory. Every upstream call
+  site already gets this right — the point is only to put the rule where
+  the next person will see it.
+  
+  ### Testing
+  
+  `zig build test` passes. `zig fmt --check` clean. Built and used on
+  Linux/GTK; the change is behaviourally identical to what was there,
+  since `g_weak_ref_clear` and `g_weak_ref_set(NULL)` both unregister.
+  
+  ---
+  
+  **AI disclosure per `AI_POLICY.md`:** I investigated the underlying
+  incident with Claude Code and it drafted this change; I reviewed it.
+  ```
 - [`fd47b15`](https://github.com/ghostty-org/ghostty/commit/fd47b15cd4dad1152e17d13b8f79a0f1183c61f2) gtk: free hotkeys memory on app teardown ([@dkinzler](https://github.com/dkinzler))
   ```text
   Free array list memory in Hotkeys.deinit to avoid DebugAllocator
