@@ -8,7 +8,505 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 10, 2026 at 01:19 UTC.
+> Last updated: August 10, 2026 at 04:25 UTC.
+
+## August 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [2](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
+Summary: 2 runs • 15 commits • 3 authors
+
+### Changes
+
+- [`a82637b`](https://github.com/ghostty-org/ghostty/commit/a82637b53aa434fa5c8bc8360c58561d7d48a8e1) crash: resolve sentry directories on the init thread ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Sentry initialization already ran on a separate thread, but the cache
+  and state directory resolution happened on the main thread before
+  spawning it. On macOS the cache dir resolution calls NSFileManager
+  URLForDirectory:inDomain:appropriateForURL:create:error: which takes
+  multiple milliseconds and was the single largest cost in global.init.
+  
+  All directory resolution now happens on the init thread.
+  
+    before: 2967us-4018us
+    after:    30us-70us (env map snapshot + thread spawn)
+  
+  global.init total drops from ~3.4-5.0ms to ~0.4-1.0ms.
+  ```
+- [`3225e9e`](https://github.com/ghostty-org/ghostty/commit/3225e9ebb195b1cc237c7b8d9de3d51c6863cb5e) macos: cache unified logging loggers per scope ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The logFn for macOS unified logging created and released an os_log_t
+  logger on every single log call. Loggers are now cached per log scope for
+  the process lifetime via an atomic pointer (a creation race wastes at most
+  one create).
+  
+  Measured on macOS (Apple Silicon) with local timing instrumentation
+  during app launch, the version-info logging block in global.init:
+  
+    before: 1070us-2629us
+    after:   858us-1319us
+  ```
+- [`afc79b8`](https://github.com/ghostty-org/ghostty/commit/afc79b8ccf4098ba15659578d0fc666c74fb61bd) font: look up Apple Color Emoji by exact name on macOS ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Apple Color Emoji fallback font was discovered with the generic
+  discovery path, which builds a CTFontCollection and runs system-wide
+  font matching. Since we know the exact font we want, we can look it
+  up directly with CTFontCreateWithName instead.
+  ```
+- [`c454a3b`](https://github.com/ghostty-org/ghostty/commit/c454a3bf47cd72945b7f4db3b53f8af332e167c9) font: support warmup threads ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The first CoreText font query in a process initializes the system
+  font database, which takes multiple milliseconds (~7ms measured in an
+  isolated process; 2-4ms observed inside Ghostty startup). This cost
+  was previously paid during the first surface's font grid
+  initialization, on the critical path to the first window.
+  
+  App.create can now spawn a background thread that performs the warmup.
+  ```
+- [`131b293`](https://github.com/ghostty-org/ghostty/commit/131b293dbbf426acf57618bc43bef0a4fe260d12) renderer/metal: warm up the Metal device machinery at app creation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The first Metal device query in a process (MTLCopyAllDevices) takes
+  multiple milliseconds; once the framework is warm, subsequent queries
+  are effectively free (measured ~15ms cold, ~1us warm in isolation).
+  This cost was paid during the first surface's renderer
+  initialization, on the critical path to the first window.
+  
+  Measured on macOS (Apple Silicon) with local timing instrumentation
+  during app launch, first surface renderer initialization:
+  
+    GraphicsAPI.init before: 4227us (device query ~3.5ms)
+    GraphicsAPI.init after:  ~900us (device query 20-25us)
+  ```
+- [`de1336f`](https://github.com/ghostty-org/ghostty/commit/de1336faddbdffc8fb4f58af3597d3f031e2b2d9) renderer/metal: warm up command queue and shader pipelines ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Extend the Metal portion of the startup warmup thread to also create
+  (and discard) a command queue and build (and discard) the shader
+  pipelines for both pixel formats we may use (which one is used
+  depends on the blending config). The first command queue for a device
+  and the first render pipeline state creations pay one-time driver
+  setup and shader compilation costs; once warm, the real creations
+  during surface initialization hit driver and OS caches.
+  
+  Measured on macOS (Apple Silicon) with local timing instrumentation
+  during app launch, first surface renderer initialization:
+  
+    queue creation:  717us -> 93us
+    pipeline builds: 1023us -> 347us
+    renderer init total: 2777us -> 1466us
+  ```
+- [`db6d20d`](https://github.com/ghostty-org/ghostty/commit/db6d20dce1df0614b4903a4c5c5489a384ab8eeb) apprt/embedded: initialize the TIS keymap lazily ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The embedded apprt App init created the keyboard layout keymap
+  eagerly, which requires talking to the text input system (TIS). The
+  first TIS call in a process is slow: 6.6ms measured inside
+  ghostty_app_new during app launch (up to ~30ms in a cold process).
+  
+  The keymap is only used for keyboard layout queries (option-as-alt
+  detection, layout change reload), which happen once keyboard events
+  are flowing. By then AppKit has already warmed TIS and the call is
+  effectively free (~0.2us measured warm). So initialize the keymap
+  lazily on first use. If the layout changes before the keymap was ever
+  created, reload is a no-op since lazy init picks up the current
+  layout.
+  
+  Measured on macOS (Apple Silicon) with local timing instrumentation
+  during app launch:
+  
+    embedded app init before: ~6.7ms (keymap 6614us)
+    embedded app init after:  ~60us (config clone only)
+  ```
+- [`4b1e02c`](https://github.com/ghostty-org/ghostty/commit/4b1e02c7c3cf6d6a3548a67d88d08d4962ff67ed) macos: do not load the config errors window when there are no errors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Measured on macOS (Apple Silicon) during app launch, via a startup
+  timeline instrumented across the Swift app and libghostty:
+  
+    config apply, errors step:      35.5ms -> 0.1ms
+    main() -> first frame rendered: ~126ms -> ~93ms
+    main() -> window visible:       ~193ms -> ~173ms
+  ```
+- [`da74563`](https://github.com/ghostty-org/ghostty/commit/da745630bed8689365be0ec9a0cfe283a2ed965d) macos: only check for auto-tabbing when tabbing preference is always ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  windowDidLoad undoes macOS automatic window tabbing by inspecting
+  window.tabGroup. Accessing tabGroup on a fresh window materializes
+  AppKit's tab group machinery, which takes ~15-20ms and is on the
+  critical path of every window creation, including the first window at
+  app launch.
+  
+  AppKit only auto-tabs a fresh window when the system tabbing
+  preference is "always": the tab bar "+" button goes through
+  newWindowForTab which we intercept and route through our own tab
+  logic, so it never auto-tabs. Guard the check on
+  NSWindow.userTabbingPreference == .always so everyone else skips the
+  tab group materialization entirely.
+  
+  Measured on macOS (Apple Silicon) during app launch via the startup
+  timeline instrumentation:
+  
+    windowDidLoad tab group check: 17.8ms -> ~0ms
+    main() -> window visible: median ~173ms -> ~165ms (n=7)
+  ```
+- [`931a538`](https://github.com/ghostty-org/ghostty/commit/931a538a3992c0f33c6647360bd15ff54f0f7a87) comments ([@mitchellh](https://github.com/mitchellh))
+- [`ad08f3b`](https://github.com/ghostty-org/ghostty/commit/ad08f3b0378b119c584aa54980fc5f7fb18b45bb) macos: reduce app launch time ~15%, time to first frame ~27% ([#13722](https://github.com/ghostty-org/ghostty/issues/13722)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Startup optimizations for macOS! Highlights:
+  
+   * Process exec to visible window: **15% reduction, ~193ms to ~165ms.**
+   * Time to first rendered frame: **27% reduction, ~126ms to ~92ms.**
+  * Zig startup time goes from **20ms to ~5ms**, the remainder is
+  AppKit/Swift stuff.
+  
+  > [!NOTE]
+  >
+  > "Time to first rendered frame?" I measured the time between global
+  init start to the first Metal callback saying that a frame was
+  completed/drawn. This is faster than when it is _presented_ because we
+  can create an IOSurfaceLayer and draw to it before AppKit finishes its
+  startup and shows the window. But, the good news is this means that when
+  the window is shown, the frame is already drawn!
+  
+  See individual commits for speeds, but a summary below:
+  
+  1. **Resolve Sentry directories on the init thread, not startup thread
+  (~3-4ms).** Sentry init already ran on a thread, but directory
+  resolution happened on the main thread first, and on macOS that calls
+  `NSFileManager URLForDirectory:` which is slow as shit.
+  
+  2. **Initialize the TIS keymap lazily (~7ms).** The keymap is only
+  needed once keyboard events flow. If AppKit isn't warmed up, this is
+  SLOW. Defer setup until its needed.
+  
+  3. **Warm up the font registry and Metal on background threads (~7ms+
+  off the first surface).** The first CoreText query initializes the
+  system font database (~7ms) and the first Metal device/queue/pipeline
+  use pays framework init and shader compilation costs. `App.create` now
+  spawns a detached warmup thread per subsystem so this overlaps config
+  load, AppKit launch, and window creation. First font grid init went from
+  ~4.5ms to ~1.1ms, renderer init from ~6.8ms to ~1.5ms.
+  
+  4. **Look up Apple Color Emoji by exact name.** We know exactly which
+  font we want, so skip the system-wide `CTFontCollection` matching
+  (~312us to ~13us).
+  
+  5. **Cache unified logging loggers per scope.** We created and released
+  an `os_log_t` on every log call. I actually had a comment saying this is
+  slow but probably won't matter. Well, we log a lot on startup, and this
+  actually mattered.
+  
+  ## Warmup Threads
+  
+  As a note, some of the biggest speedups are by using "warmup" threads.
+  These are one-time launched threads on system start that basically just
+  "touch" the relevant frameworks (CoreText/Metal). The initial touching
+  of these frameworks has a ton of cost associated with them (and they're
+  thread-safe), so we can shave off a bunch of time by just touching them
+  in the background.
+  
+  This sets up a race between our own startup needing it and these warmup
+  threads, but in every case I measured, the warmup threads win.
+  
+  ## Linux
+  
+  All the optimizations here focused really on slow macOS APIs. I plan on
+  measuring on Linux, but nothing here should slow it down.
+  
+  **AI usage:** Fable was used for this one to find the issues, help
+  perform the measurements, and draft commit messages by splitting up my
+  work. I wrote the code, then edited the commit messages. This PR message
+  is fully hand-written.
+  ```
+- [`b8222f4`](https://github.com/ghostty-org/ghostty/commit/b8222f4a8403765050cca52c537ddd7638725457) terminal/kitty: clear placements on image retransmit ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13719
+  
+  The Kitty graphics protocol requires retransmitting data for a
+  specific image ID to delete the previous image and all of its
+  placements.
+  
+  Ghostty instead preserved the placement count and map when replacing image
+  data. Repeated `a=T` commands therefore added one anonymous placement per
+  frame and retained its tracked pin.
+  
+  Spec: https://sw.kovidgoyal.net/kitty/graphics-protocol/#display-images-on-screen
+  ```
+- [`156bc8c`](https://github.com/ghostty-org/ghostty/commit/156bc8c814292349981f3adbfb1120c3d4f02020) terminal/kitty: clear placements on image retransmit ([#13723](https://github.com/ghostty-org/ghostty/issues/13723)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13719
+  
+  The Kitty graphics protocol requires retransmitting data for a specific
+  image ID to delete the previous image and all of its placements.
+  
+  Ghostty instead preserved the placement count and map when replacing
+  image data. Repeated `a=T` commands therefore added one anonymous
+  placement per frame and retained its tracked pin.
+  
+  Spec:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#display-images-on-screen
+  ```
+- [`c285d3c`](https://github.com/ghostty-org/ghostty/commit/c285d3c2442f314b9b9221bc95d02108c61d8d0f) build(deps): bump dorny/paths-filter from 4.0.2 to 4.0.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 4.0.2 to 4.0.3.
+  - [Release notes](https://github.com/dorny/paths-filter/releases)
+  - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/dorny/paths-filter/compare/7b450fff21473bca461d4b92ce414b9d0420d706...ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: dorny/paths-filter
+    dependency-version: 4.0.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`bb876a0`](https://github.com/ghostty-org/ghostty/commit/bb876a0d286b661089b7f40dd3a6488d629beffe) build(deps): bump dorny/paths-filter from 4.0.2 to 4.0.3 ([#13718](https://github.com/ghostty-org/ghostty/issues/13718)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from
+  4.0.2 to 4.0.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/releases">dorny/paths-filter's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v4.0.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Update Outputs in readme to account for the 'every'
+  predicate-quantifier by <a
+  href="https://github.com/hintron"><code>@​hintron</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/247">dorny/paths-filter#247</a></li>
+  <li>fix: scope base-ignored warning to API path by <a
+  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
+  in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/319">dorny/paths-filter#319</a></li>
+  <li>docs: add contents permission to PR example by <a
+  href="https://github.com/134130"><code>@​134130</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/248">dorny/paths-filter#248</a></li>
+  <li>feat: add 'some-with-excludes' predicate quantifier by <a
+  href="https://github.com/arxeiss"><code>@​arxeiss</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/322">dorny/paths-filter#322</a></li>
+  <li>Document safe handling of file list outputs in workflows by <a
+  href="https://github.com/dorny"><code>@​dorny</code></a> in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/326">dorny/paths-filter#326</a></li>
+  </ul>
+  <h2>Security</h2>
+  <ul>
+  <li>Escape multi-line filenames in list-files shell and csv output] by
+  <a href="https://github.com/ken-matsui"><code>@​ken-matsui</code></a>
+  and <a href="https://github.com/tjswlsgg"><code>@​tjswlsgg</code></a> in
+  <a
+  href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">https://github.com/advisories/GHSA-7hc6-8hq5-9q2m</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a href="https://github.com/hintron"><code>@​hintron</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/247">dorny/paths-filter#247</a></li>
+  <li><a href="https://github.com/134130"><code>@​134130</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/248">dorny/paths-filter#248</a></li>
+  <li><a href="https://github.com/arxeiss"><code>@​arxeiss</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/dorny/paths-filter/pull/322">dorny/paths-filter#322</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/dorny/paths-filter/compare/v4...v4.0.3">https://github.com/dorny/paths-filter/compare/v4...v4.0.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md">dorny/paths-filter's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <h2>v4.0.3</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/326">Document
+  safe handling of file list outputs in workflows</a></li>
+  <li><a href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">Escape
+  multi-line filenames in list-files shell and csv output</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/322">Add
+  'some-with-excludes' predicate quantifier</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/248">Add
+  contents permission to PR example</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/319">Scope
+  base-ignored warning to API path</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/247">Update
+  outputs in readme to account for the 'every'
+  predicate-quantifier</a></li>
+  </ul>
+  <h2>v4.0.2</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/317">Work
+  around git dubious ownership errors in container jobs</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/303">Use
+  rev-parse instead of branch --show-current for older git compat</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/282">Fix
+  warning message</a></li>
+  </ul>
+  <h2>v4.0.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/255">Support
+  merge queue</a></li>
+  </ul>
+  <h2>v4.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/294">Update
+  action runtime to node24</a></li>
+  </ul>
+  <h2>v3.0.4</h2>
+  <ul>
+  <li><a href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">Escape
+  multi-line filenames in list-files shell and csv output</a></li>
+  </ul>
+  <h2>v3.0.3</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/279">Add
+  missing predicate-quantifier</a></li>
+  </ul>
+  <h2>v3.0.2</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/224">Add
+  config parameter for predicate quantifier</a></li>
+  </ul>
+  <h2>v3.0.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/133">Compare
+  base and ref when token is empty</a></li>
+  </ul>
+  <h2>v3.0.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/210">Update to
+  Node.js 20</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/215">Update
+  all dependencies</a></li>
+  </ul>
+  <h2>v2.11.1</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/167">Update
+  @​actions/core to v1.10.0 - Fixes warning about deprecated
+  set-output</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/168">Document
+  need for pull-requests: read permission</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/164">Updating
+  to actions/checkout@v3</a></li>
+  </ul>
+  <h2>v2.11.0</h2>
+  <ul>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/157">Set
+  list-files input parameter as not required</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/161">Update
+  Node.js</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/162">Fix
+  incorrect handling of Unicode characters in exec()</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/163">Use
+  Octokit pagination</a></li>
+  <li><a
+  href="https://redirect.github.com/dorny/paths-filter/pull/160">Updates
+  real world links</a></li>
+  </ul>
+  <h2>v2.10.2</h2>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d"><code>ceb8a2b</code></a>
+  Update CHANGELOG.md for v4.0.3 and v3.0.4 (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/327">#327</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/ef09b88f3eacdbec6ce135a7c9a193a6849545c1"><code>ef09b88</code></a>
+  Document safe handling of file list outputs in workflows (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/326">#326</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/44adc5b06dc135dba334efce9bf3cf0624512d2d"><code>44adc5b</code></a>
+  Merge commit from fork</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/4711b7a31b4aa89103d8c6ffab2e3b8e7b6381c7"><code>4711b7a</code></a>
+  feat: add 'some-with-excludes' predicate quantifier (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/322">#322</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/93c889f9e58fca66f35a0c83d8673ac7e88bb70a"><code>93c889f</code></a>
+  fix: escape multi-line filenames in list-files shell and csv output</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/b41dfa943b1939b9b646f67753bfe35cf6e4de03"><code>b41dfa9</code></a>
+  docs: add contents permission to PR example (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/248">#248</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/9af6e5a9d010d1ae8ec570390b3d793e2b70a402"><code>9af6e5a</code></a>
+  fix: scope base-ignored warning to API path (<a
+  href="https://redirect.github.com/dorny/paths-filter/issues/319">#319</a>)</li>
+  <li><a
+  href="https://github.com/dorny/paths-filter/commit/cae9006b65a1a53044b518c68e13e835c54948a7"><code>cae9006</code></a>
+  docs: update outputs in readme to account for the 'every'
+  predicate-quantifie...</li>
+  <li>See full diff in <a
+  href="https://github.com/dorny/paths-filter/compare/7b450fff21473bca461d4b92ce414b9d0420d706...ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=dorny/paths-filter&package-manager=github_actions&previous-version=4.0.2&new-version=4.0.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## August 9, 2026
 
