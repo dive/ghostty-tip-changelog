@@ -8,15 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 11, 2026 at 12:52 UTC.
+> Last updated: August 11, 2026 at 15:55 UTC.
 
 ## August 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [2](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
-Summary: 2 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [2](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [3](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [4](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
+Summary: 4 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`426386b`](https://github.com/ghostty-org/ghostty/commit/426386b8579d5e558aa5d4cfdfb003ad06bc4fc5) Update VOUCHED list ([#13747](https://github.com/ghostty-org/ghostty/issues/13747)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13746#discussioncomment-17977627)
+  from @jcollie.
+  
+  Vouch: @alex19EP
+  ```
+- [`d695fff`](https://github.com/ghostty-org/ghostty/commit/d695ffff3b268490a73fd241ea94ac8c26e99599) macos: defer OSC52 clipboard read confirmations until focused ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10077
+  
+  Clipboard read confirmations would immediately show a sheet which
+  grabbed focus. This could be used for a bunch of dumb reasons, including
+  DoS attacks. But, it also caused focus/sheet loops for programs that did
+  OSC52 on focus changes (which was seen via some Neovim configs!).
+  
+  Now, if a surface is unfocused, we bell the surface and show the confirmation
+  request on next focus. If the surface is not focused or another request
+  comes in, we cancel the prior one.
+  
+  This also fixes some memory management issues around clipboard requests
+  that were likely small leaks (didn't verify the old bug, but verified
+  the new code, and eyeballed the old).
+  ```
+- [`046b8fc`](https://github.com/ghostty-org/ghostty/commit/046b8fcc2a9afccd238577778752a5f86ef9968a) macos: defer OSC52 clipboard read confirmations until focused ([#13744](https://github.com/ghostty-org/ghostty/issues/13744)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #10077
+  
+  Clipboard read confirmations would immediately show a sheet which
+  grabbed focus. This could be used for a bunch of dumb reasons, including
+  DoS attacks. But, it also caused focus/sheet loops for programs that did
+  OSC52 on focus changes (which was seen via some Neovim configs!).
+  
+  Now, if a surface is unfocused, we bell the surface and show the
+  confirmation request on next focus. If the surface is not focused or
+  another request comes in, we cancel the prior one.
+  
+  This also fixes some memory management issues around clipboard requests
+  that were likely small leaks (didn't verify the old bug, but verified
+  the new code, and eyeballed the old).
+  
+  To implement this, I decided to reorient the whole clipboard
+  confirmation thing around state on SurfaceView (which simplifies memory
+  management) and using Combine on BaseTerminalController to get notified.
+  ```
 - [`94d775f`](https://github.com/ghostty-org/ghostty/commit/94d775fefc21f74d9cc85a46b34c4e1d85318fd0) Update VOUCHED list ([#13743](https://github.com/ghostty-org/ghostty/issues/13743)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
