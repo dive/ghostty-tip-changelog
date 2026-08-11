@@ -8,15 +8,86 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 11, 2026 at 15:55 UTC.
+> Last updated: August 11, 2026 at 18:55 UTC.
 
 ## August 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [2](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [3](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [4](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
-Summary: 4 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31523372788), [2](https://github.com/ghostty-org/ghostty/actions/runs/31513216985), [3](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [4](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [5](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [6](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
+Summary: 6 runs • 19 commits • 5 authors
 
 ### Changes
 
+- [`0c8ec22`](https://github.com/ghostty-org/ghostty/commit/0c8ec225b5a998792ddcbf626687cd3a28ec4523) macOS: remove unused menu validations ([@bo2themax](https://github.com/bo2themax))
+- [`f0e3be3`](https://github.com/ghostty-org/ghostty/commit/f0e3be3eefe104eeb119562499df45f4762995f9) macOS: support decoding the surrogate pair with UnicodeHexInput ([@bo2themax](https://github.com/bo2themax))
+- [`f719af0`](https://github.com/ghostty-org/ghostty/commit/f719af00c2f44ca7473219abb29dfd5fbb0fcc85) terminal/kitty: use fixed table for control keys ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Graphics commands prev. stored parsed control fields in a hash map
+  backed that used an arena.
+  This added hashing and allocation to every command even though protocol
+  keys are single ASCII letters.
+  
+  Store letter keys in a fixed array with a presence bitmap and remove the
+  now-unnecessary arena. Unknown non-letter keys remain ignored and are
+  covered by a regression test.
+  ```
+- [`5ce1fe1`](https://github.com/ghostty-org/ghostty/commit/5ce1fe1ff9d5a1069604e1cae599c2f283ec12aa) terminal/kitty: document the experiment variants that were considered ([@Uzaaft](https://github.com/Uzaaft))
+- [`04d1939`](https://github.com/ghostty-org/ghostty/commit/04d1939d5f3d0120ed9a4754146883f848e65d43) issue-triage: add a documentation search checkbox ([@trag1c](https://github.com/trag1c))
+- [`92cdfc7`](https://github.com/ghostty-org/ghostty/commit/92cdfc748ec42045bc23bff6c8d887de2872ccb3) issue-triage: add a documentation search checkbox ([#13752](https://github.com/ghostty-org/ghostty/issues/13752)) ([@mitchellh](https://github.com/mitchellh))
+- [`8e4715b`](https://github.com/ghostty-org/ghostty/commit/8e4715b6ea65c7f5b3e476c81d111a35053d8d4a) terminal/kitty: use fixed table for control keys ([#13729](https://github.com/ghostty-org/ghostty/issues/13729)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Swap out the hash map backed by an arena with a fixed array.
+  Measurements from poop:
+  CPU Cycles: 173M → 171M (−1.2%)
+  Instructions: 519M → 517M (−0.5%)
+  Peak RSS: 11.9 → 11.8 MB
+  Cache misses: 356K → 312K (−12.4%)
+  ```
+- [`d1937d6`](https://github.com/ghostty-org/ghostty/commit/d1937d63e45547515484e9820f9148988783ecfe) macOS: remove unused menu validations ([#13726](https://github.com/ghostty-org/ghostty/issues/13726)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  UpdateController isn't the target of any menu item, we don't need add
+  menu validation here.
+  ```
+- [`b0b9fbc`](https://github.com/ghostty-org/ghostty/commit/b0b9fbc8d5b0faecdd79da2303811b42bd0afc67) macOS: support decoding the surrogate pair with UnicodeHexInput ([#13737](https://github.com/ghostty-org/ghostty/issues/13737)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Not yet a perfect fix for
+  https://github.com/ghostty-org/ghostty/discussions/13730
+  ```
+- [`90154e2`](https://github.com/ghostty-org/ghostty/commit/90154e28957ae2257993a30284cce9337c3060e6) macos: ignore -e arguments as open files ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13319
+  
+  AppKit treats existing positional arguments as documents, causing paths
+  passed to a child command after -e to open an extra terminal surface.
+  
+  We now process args ourselves during openFile callbacks to ignore
+  file paths after `-e`. There isn't a way to avoid this I can find
+  because AppKit processes argc/argv from the main entrypoint and that
+  can't be overridden.
+  ```
+- [`a858bd4`](https://github.com/ghostty-org/ghostty/commit/a858bd4d35f4cbab142b0fd68d7179cc99de4f4a) macos: ignore -e arguments as open files ([#13748](https://github.com/ghostty-org/ghostty/issues/13748)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13319
+  
+  AppKit treats existing positional arguments as documents, causing paths
+  passed to a child command after -e to open an extra terminal surface.
+  
+  We now process args ourselves during openFile callbacks to ignore file
+  paths after `-e`. There isn't a way to avoid this I can find because
+  AppKit processes argc/argv from the main entrypoint and that can't be
+  overridden.
+  ```
+- [`8c9fd7a`](https://github.com/ghostty-org/ghostty/commit/8c9fd7aa79c4d6cc768293fa6e3726162d00c618) macos: normalize command paths as file URLs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #13319
+  #13748
+  
+  Normalize command-line file arguments as file URLs internally while
+  keeping the AppKit and FileManager string boundaries unchanged.
+  
+  This handles relative paths, URL-sensitive characters, and trailing
+  directory separators consistently when matching duplicate open-file
+  events.
+  ```
 - [`426386b`](https://github.com/ghostty-org/ghostty/commit/426386b8579d5e558aa5d4cfdfb003ad06bc4fc5) Update VOUCHED list ([#13747](https://github.com/ghostty-org/ghostty/issues/13747)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
