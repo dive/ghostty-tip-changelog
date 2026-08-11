@@ -8,15 +8,53 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 10, 2026 at 21:35 UTC.
+> Last updated: August 11, 2026 at 01:17 UTC.
 
 ## August 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31414618806), [2](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [3](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [4](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [5](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
-Summary: 5 runs • 23 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31439881201), [2](https://github.com/ghostty-org/ghostty/actions/runs/31436717873), [3](https://github.com/ghostty-org/ghostty/actions/runs/31414618806), [4](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [5](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [6](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [7](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
+Summary: 7 runs • 26 commits • 9 authors
 
 ### Changes
 
+- [`09557e9`](https://github.com/ghostty-org/ghostty/commit/09557e91dc33907fb151b2791414d2c6153fd2e0) Update VOUCHED list ([#13739](https://github.com/ghostty-org/ghostty/issues/13739)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13738#discussioncomment-17968662)
+  from @jcollie.
+  
+  Vouch: @PRIHLOP
+  ```
+- [`b68eb67`](https://github.com/ghostty-org/ghostty/commit/b68eb67e956b051372910cfe6b453e43121b76e3) config/edit: better handling of existing paths ([@vancluever](https://github.com/vancluever))
+  ```text
+  This adds some better handling of existing paths when editing
+  configuration files:
+  
+  * If we've found an existing file we just skip any attempts to create
+    files/dirs, and just return the path.
+  
+  * If the path (including file) does not exist, we check to see if the
+    directory exists first (possibly following symlinks). Directory
+    creation happens normally after this (note that any intermediary
+    symlinks in this process will still cause the process to fail, this is
+    to prevent infinite loops, as per the comments in
+    std.Io.Threaded.dirCreateDirPath).
+  ```
+- [`d929e6a`](https://github.com/ghostty-org/ghostty/commit/d929e6a34a091dcfd69d45011b96cc70b5575dac) config/edit: better handling of existing paths ([#13736](https://github.com/ghostty-org/ghostty/issues/13736)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  This adds some better handling of existing paths when editing
+  configuration files:
+  
+  * If we've found an existing file we just skip any attempts to create
+  files/dirs, and just return the path.
+  
+  * If the path (including file) does not exist, we check to see if the
+  directory exists first (possibly following symlinks). Directory creation
+  happens normally after this (note that any intermediary symlinks in this
+  process will still cause the process to fail, this is to prevent
+  infinite loops, as per the comments in
+  std.Io.Threaded.dirCreateDirPath).
+  ```
 - [`1dbc8ca`](https://github.com/ghostty-org/ghostty/commit/1dbc8ca30c8ce929019c8a4d971113fc79cd4d58) apprt/gtk: add WeakRef.deinit and use it at teardown sites ([@hakonhagland](https://github.com/hakonhagland))
   ```text
   A GWeakRef must be released before the memory holding it is freed: the
@@ -2366,277 +2404,4 @@ Summary: 13 runs • 84 commits • 11 authors
   localization.
   ```
 - [`d7f7a4e`](https://github.com/ghostty-org/ghostty/commit/d7f7a4e736d47bb3501d22cc9118b23dd398a764) macOS: rename UpdateState.isIdle to isHidden ([#13613](https://github.com/ghostty-org/ghostty/issues/13613)) ([@mitchellh](https://github.com/mitchellh))
-
-## August 4, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/30953205060), [2](https://github.com/ghostty-org/ghostty/actions/runs/30941010176), [3](https://github.com/ghostty-org/ghostty/actions/runs/30930443397), [4](https://github.com/ghostty-org/ghostty/actions/runs/30927144840), [5](https://github.com/ghostty-org/ghostty/actions/runs/30924765500), [6](https://github.com/ghostty-org/ghostty/actions/runs/30918428683), [7](https://github.com/ghostty-org/ghostty/actions/runs/30913840647), [8](https://github.com/ghostty-org/ghostty/actions/runs/30907032744), [9](https://github.com/ghostty-org/ghostty/actions/runs/30877679965)  
-Summary: 9 runs • 36 commits • 10 authors
-
-### Changes
-
-- [`63d08c0`](https://github.com/ghostty-org/ghostty/commit/63d08c0342ba4b5132de7b3098797a80eba8b757) macOS: show cancel update option when its actually cancellable ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  `extracting` and `installing` state aren't cancellable by us
-  ```
-- [`ccb08f3`](https://github.com/ghostty-org/ghostty/commit/ccb08f35f683d6087786dda8e793e911ef1a2f8a) macOS: show cancel update option when its actually cancellable ([#13612](https://github.com/ghostty-org/ghostty/issues/13612)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  `extracting` and `installing` state aren't cancellable by us.
-  
-  > Recommend reviewing with whitespace hidden
-  ```
-- [`02f3483`](https://github.com/ghostty-org/ghostty/commit/02f34835ea48b9daee0abdcc09fca02702def688) datastruct: remove unused LRU implementation ([@Uzaaft](https://github.com/Uzaaft))
-- [`8cfbaf5`](https://github.com/ghostty-org/ghostty/commit/8cfbaf545ab4215ccc9820ba905f502387d1de1f) config: formatted action should be parsable into the original ([@bo2themax](https://github.com/bo2themax))
-- [`b67f8ef`](https://github.com/ghostty-org/ghostty/commit/b67f8ef51d8092ff3aaf52574a89c98f9f46b0ca) config: don't escape Binding.Action.String ([@bo2themax](https://github.com/bo2themax))
-- [`066a0b7`](https://github.com/ghostty-org/ghostty/commit/066a0b7c45e50694df0c3c3892961523162a55ad) macOS: show description when subtitle missing in CommandPalette ([@bo2themax](https://github.com/bo2themax))
-- [`51cf099`](https://github.com/ghostty-org/ghostty/commit/51cf099678d90775b3c587e5e34427531396d75e) datastruct: remove unused LRU implementation ([#13607](https://github.com/ghostty-org/ghostty/issues/13607)) ([@jcollie](https://github.com/jcollie))
-- [`760a250`](https://github.com/ghostty-org/ghostty/commit/760a2500291df56c42cccd4d34efeeceaf8bd6ae) config: formatted action should be parsable into the original  ([#13609](https://github.com/ghostty-org/ghostty/issues/13609)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  This fixes the issue where an action with string as it's parameter is
-  not working correctly in CommandPalette, found in #9671. For example:
-  
-  ```
-  command-palette-entry = title:"Set Ghostty Title",description:test sending text.,action:set_tab_title:👻
-  keybind=cmd+r=set_tab_title:👻
-  ```
-  
-  Keybind works perfectly, but the title is escaped when triggering in
-  CommandPalette.
-  
-  > Introduced in
-  [#8873](https://github.com/ghostty-org/ghostty/pull/8873/changes#diff-9e7936787320bcf70e332c868125039d8c0a7f96c4a88f2af0af21d952c6830dR1216),
-  I tested the fixed issue as well, the following config still parses
-  correctly, mentioned in
-  https://github.com/ghostty-org/ghostty/issues/8849#issuecomment-3322018212.
-  
-  ```
-  command-palette-entry = title:Focus Split: Next,description:"Focus the next split, if any.",action:goto_split:next
-  ```
-  
-  Also `ghostty +show-config` now will also output the readable strings as
-  well.
-  <img width="1078" height="428" alt="image"
-  src="https://github.com/user-attachments/assets/f9dc1447-7b4e-44f4-8362-b54f4d805c7a"
-  />
-  ````
-- [`b8ab2ff`](https://github.com/ghostty-org/ghostty/commit/b8ab2ff16847b73afd2ea99498e44ab6694e930f) macOS: show/search description when subtitle missing in CommandPalette ([#13610](https://github.com/ghostty-org/ghostty/issues/13610)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  <img width="1125" height="552" alt="image"
-  src="https://github.com/user-attachments/assets/09866c9b-d5c4-422f-860b-de4de4cca055"
-  />
-  ```
-- [`48d85ea`](https://github.com/ghostty-org/ghostty/commit/48d85eaeb06ac9fc49073815bda5bac97de655ca) core: fix mouse reporting mutex lock ([@mitchellh](https://github.com/mitchellh))
-- [`488b710`](https://github.com/ghostty-org/ghostty/commit/488b7109bb4df41589846e1e872db114d3d6c9bb) gtk: forward middle click to TUIs with mouse reporting ([@ajr-khll](https://github.com/ajr-khll))
-- [`ca56412`](https://github.com/ghostty-org/ghostty/commit/ca56412bf28ae4de7e323d4b30b39844501be05b) gtk: forward middle click to TUIs with mouse reporting ([#13108](https://github.com/ghostty-org/ghostty/issues/13108)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fix for Issue #12940
-  I actually do not know if this has already been resolved and the issue
-  is just still open. Either way, here's a fix. Now we run a check to see
-  if the current program is accepting mouse events before discarding the
-  middle click.
-  ```
-- [`08342c9`](https://github.com/ghostty-org/ghostty/commit/08342c92446ceda22b49f42ce39e8c4714054a6e) Update VOUCHED list ([#13603](https://github.com/ghostty-org/ghostty/issues/13603)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13602#discussioncomment-17895866)
-  from @jcollie.
-  
-  Vouch: @UnsaltedScholar
-  ```
-- [`df23bef`](https://github.com/ghostty-org/ghostty/commit/df23bef0e91d602ab4b95e33ef9a4c213a1058da) i18n: translation support for command palete and Latvian translation for it ([@EriksRemess](https://github.com/EriksRemess))
-- [`1125fa2`](https://github.com/ghostty-org/ghostty/commit/1125fa26df6387131295fb4433ffcab411f0bcfc) i18n: note about i18n.N_ usage and @inComptime() return msgid for i18n._ ([@EriksRemess](https://github.com/EriksRemess))
-- [`e0744dd`](https://github.com/ghostty-org/ghostty/commit/e0744dde62c53555aa6b9457e2bb9fd8c74a1dc2) i18n - command palette - empty translations ([@EriksRemess](https://github.com/EriksRemess))
-- [`cfa0ca7`](https://github.com/ghostty-org/ghostty/commit/cfa0ca710659175d3ae21b2c136dcf1024fd5d91) macos: defer transparent titlebar KVO rebinding ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13386
-  
-  Defer transparent-titlebar KVO rebinding to the next main-queue turn.
-  Track the observed tab group so unchanged bindings are preserved.
-  
-  Previously, a tab-group callback could invalidate and recreate its own
-  observation before returning, leaving closed terminal windows registered
-  with AppKit after the undo timeout. These windows accumulated titlebar and
-  layer state, increasing memory use and WindowServer CPU with tab churn.
-  
-  Validated with an AppDelegate change that sat and created/closed tabs
-  in a loop, then counted weak controllers/windows/nsapp window.
-  ```
-- [`363e6e6`](https://github.com/ghostty-org/ghostty/commit/363e6e6b427c1f3a6647b14692f1953746d83045) i18n: translation support for command palete ([#11641](https://github.com/ghostty-org/ghostty/issues/11641)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Most obvious next step in translating Ghostty is the command palette.
-  Added support for i18n.N_ (https://docs.gtk.org/glib/i18n.html#macros).
-  Made a Latvian translation for the command palette to test. Codex did
-  bulk of the translations but I verified them.
-  ```
-- [`594ee21`](https://github.com/ghostty-org/ghostty/commit/594ee212bc3c048ffa06ba90623eaf207a4d145c) macos: defer transparent titlebar KVO rebinding ([#13601](https://github.com/ghostty-org/ghostty/issues/13601)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13386, based on
-  https://github.com/mustafa0x/ghostty/commit/a8c090
-  
-  Defer transparent-titlebar KVO rebinding to the next main-queue turn.
-  Track the observed tab group so unchanged bindings are preserved.
-  
-  Previously, a tab-group callback could invalidate and recreate its own
-  observation before returning, leaving closed terminal windows registered
-  with AppKit after the undo timeout. These windows accumulated titlebar
-  and layer state, increasing memory use and WindowServer CPU with tab
-  churn.
-  
-  Validated with an AppDelegate change that sat and created/closed tabs in
-  a loop, then counted weak controllers/windows/nsapp window.
-  ```
-- [`85083d2`](https://github.com/ghostty-org/ghostty/commit/85083d23cd12e2959f11dd247916c43a51f5f10e) config: clarify cursor-click-to-move's relation to shell-integration ([@lotheac](https://github.com/lotheac))
-  ```text
-  the original wording is a bit confusing; I thought cursor-click-to-move
-  required shell-integration to be enabled, and was confused when the
-  mouse was still moving my cursor in fish even with
-  shell-integration=none.
-  ```
-- [`1f6e266`](https://github.com/ghostty-org/ghostty/commit/1f6e26642e540ddf01803858772909c4fab33428) config: clarify cursor-click-to-move's relation to shell-integration ([#13589](https://github.com/ghostty-org/ghostty/issues/13589)) ([@jparise](https://github.com/jparise))
-- [`bdd849f`](https://github.com/ghostty-org/ghostty/commit/bdd849fc2feff762612c2d057db7e013c118e390) Update VOUCHED list ([#13596](https://github.com/ghostty-org/ghostty/issues/13596)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13589#issuecomment-5178660481)
-  from @jparise.
-  
-  Vouch: @lotheac
-  ```
-- [`9e6e2ea`](https://github.com/ghostty-org/ghostty/commit/9e6e2ea964587757b0e26178950c624c955ee6ed) renderer: reset terminal state cleanup counter ([@jparise](https://github.com/jparise))
-  ```text
-  Reset the frame counter whenever retained render state is cleared.
-  Otherwise, every subsequent frame will be deinitialized and rebuilt.
-  ```
-- [`04f1bc0`](https://github.com/ghostty-org/ghostty/commit/04f1bc0960908ede6976f4030408454481605fc0) winproto/wayland: disable custom blur on GTK >=4.23.3 ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  GTK 4.23.3 added its own (much smarter) implementation of background blur,
-  which means our implementation is not only redundant, it also crashes the
-  program because a surface cannot have multiple associated blur objects.
-  Ergo, don't do custom blur on newer GTK versions.
-  
-  See #13578
-  ```
-- [`3263fc6`](https://github.com/ghostty-org/ghostty/commit/3263fc6c4b6e3e85155797d85086480aba6b7375) gtk: use native blur on GTK 4.23.3+ ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Finally, what was previously thought impossible, is now possible.
-  The blur region itself is far more accurate than what we can conjure up
-  on our own, and in a much more finetuned and detailed way too.
-  Thank you, GTK devs!
-  ```
-- [`b11d608`](https://github.com/ghostty-org/ghostty/commit/b11d60818a8b311db39c3b8cb0a10f6d51bdec44) synthetic: styled output generator ([@mitchellh](https://github.com/mitchellh))
-- [`85b1dd0`](https://github.com/ghostty-org/ghostty/commit/85b1dd0dd9a3b3216eed939a5b8274209a1f4587) benchmark: formatter benchmark ([@mitchellh](https://github.com/mitchellh))
-- [`8838c37`](https://github.com/ghostty-org/ghostty/commit/8838c37f4c60f9fc0bcaf796ae43dd5ed958c040) terminal: fast print styles ([@mitchellh](https://github.com/mitchellh))
-- [`79aa256`](https://github.com/ghostty-org/ghostty/commit/79aa256fa26c06f4cf89a9962ab8faf40a210642) terminal: speed up formatter mostly by avoiding std.fmt ([@mitchellh](https://github.com/mitchellh))
-- [`d4391ff`](https://github.com/ghostty-org/ghostty/commit/d4391ff835fba87d3f6616b94299ab358c4cef1a) fastprint: fix compile errors ([@mitchellh](https://github.com/mitchellh))
-- [`2b6a1e4`](https://github.com/ghostty-org/ghostty/commit/2b6a1e41fcedd93d620e4462372606371bde8a56) macos: avoid leaking ports while awaiting accessibility ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  #11799
-  
-  Creating a CGEventTap without Accessibility permission leaks a Mach
-  port inside CoreGraphics on every failed attempt. The global keybind
-  listener retried this once per second while waiting for permission, so
-  Ghostty eventually exhausted the process port limit.
-  
-  Request Accessibility access once, poll AXIsProcessTrusted while
-  access is denied, and create the event tap only after access is
-  granted. Stop polling before creation so an unrelated tap failure
-  cannot restart the leaking retry loop.
-  ```
-- [`2ed67ca`](https://github.com/ghostty-org/ghostty/commit/2ed67cadd1c5f52d2eaedf2f99968eed0c6eac15) terminal: redesign pin map for formatter ([@mitchellh](https://github.com/mitchellh))
-- [`74b4264`](https://github.com/ghostty-org/ghostty/commit/74b426458b7b4a53c15a7e19a55c50e605ba7690) gtk: use native blur on GTK 4.23.3+ ([#13586](https://github.com/ghostty-org/ghostty/issues/13586)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Finally, what was previously thought impossible, is now possible.
-  The blur region itself is far more accurate than what we can conjure up
-  on our own, and in a much more finetuned and detailed way too.
-  Thank you, GTK devs!
-  
-  Closes #13581
-  ```
-- [`e69dc2b`](https://github.com/ghostty-org/ghostty/commit/e69dc2bee8ac57f853ee07590548590a35aab89b) renderer: reset terminal state cleanup counter ([#13585](https://github.com/ghostty-org/ghostty/issues/13585)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Reset the frame counter whenever retained render state is cleared.
-  Otherwise, every subsequent frame will be deinitialized and rebuilt.
-  ```
-- [`b9d8829`](https://github.com/ghostty-org/ghostty/commit/b9d88292be587388a336a2e59c08c4e993c04109) terminal: speed up formatting anywhere from ~1.5x to ~8x ([#13587](https://github.com/ghostty-org/ghostty/issues/13587)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This PR speeds up our formatting (plain text, html, and VT) by anywhere
-  from ~1.5x to ~8x.
-  
-  The formatter is the hot path behind multiple features in Ghostty GUI:
-  clipboard copy (plain/VT/HTML), `write_screen_file`, `selectionString`,
-  and terminal search sliding window. It's also the hot path for
-  libghostty users, namely people like
-  [zmx](https://github.com/neurosnap/zmx) which utilize the VT formatter
-  to restore a terminal.
-  
-  This PR also adds the benchmarking infrastructure for the formatter.
-  
-  ## How
-  
-  - **Fast cell-run optimization.** For simple cells (single codepoint, no
-  style/hyperlink) we encode them as a single run rather than one at a
-  time.
-  - **Make some arguments comptime.** Generates more code but benchmarks
-  show it improves things, specifically for per-format switches that we do
-  a LOT.
-  - **Interned style id fast path.** Styles are interned per page, so id
-  equality implies style equality. We track the id of the active style and
-  skip the per-cell `Style` copy + `eql` when it matches.
-  - **Fast printing.** Avoid `std.fmt` where possible and assemble
-  integers, RGB colors, codepoints in fixed-width buffers with a single
-  memcpy. This was extracted partially to `fastprint.zig` so we can reuse
-  it.
-  - **Avoid double-formatting for tracked pins.** Previously we formatted
-  twice (once through a `Discarding` writer to count bytes) for pin maps.
-  Now I'm smarter about it and do a single pass.
-  
-  ## Performance
-  
-  All on my machine, 80x24 terminal, 10K lines of scrollback.
-  
-  | workload              | main     | this PR  | speedup | throughput |
-  | --------------------- | -------- | -------- | ------- | ---------- |
-  | plain / plain         | 5.74 ms  | 1.67 ms  | 3.4x    | 364 MB/s   |
-  | plain / vt            | 6.46 ms  | 1.04 ms  | 6.2x    | 596 MB/s   |
-  | plain / html          | 7.39 ms  | 2.32 ms  | 3.2x    | 308 MB/s   |
-  | unicode / plain       | 9.74 ms  | 5.42 ms  | 1.8x    | 276 MB/s   |
-  | unicode / vt          | 10.42 ms | 5.53 ms  | 1.9x    | 275 MB/s   |
-  | unicode / html        | 12.53 ms | 7.35 ms  | 1.7x    | 509 MB/s   |
-  | styled / plain        | 5.65 ms  | 1.69 ms  | 3.4x    | 360 MB/s   |
-  | styled / vt           | 9.07 ms  | 4.20 ms  | 2.2x    | 409 MB/s   |
-  | styled / html         | 10.78 ms | 6.64 ms  | 1.6x    | 740 MB/s   |
-  | mixed / plain         | 8.59 ms  | 4.81 ms  | 1.8x    | 226 MB/s   |
-  | mixed / vt            | 11.25 ms | 6.65 ms  | 1.7x    | 250 MB/s   |
-  | mixed / html          | 14.47 ms | 10.52 ms | 1.4x    | 414 MB/s   |
-  | wrapped / plain       | 7.30 ms  | 1.11 ms  | 6.6x    | 733 MB/s   |
-  | wrapped / vt          | 8.14 ms  | 1.04 ms  | 7.8x    | 789 MB/s   |
-  | wrapped / html        | 9.00 ms  | 2.12 ms  | 4.2x    | 465 MB/s   |
-  | pin-map / plain       | 12.51 ms | 3.80 ms  | 3.3x    |            |
-  | pin-map / vt          | 13.12 ms | 2.99 ms  | 4.4x    |            |
-  | active screen / plain | 12.5 µs  | 2.7 µs   | 4.6x    |            |
-  | active screen / vt    | 18.4 µs  | 6.8 µs   | 2.7x    |            |
-  
-  Workloads:
-  - `plain` is ASCII lines
-  - `unicode` is 2/3/4-byte codepoints with 10% grapheme clusters
-  - `styled` is heavy SGR churn
-  - `mixed` is styles + Unicode + hyperlinks
-  -  `wrapped` is a continuous soft-wrapped stream
-  - `pin-map`/`active screen` are the selectionString/search-style and
-  visible-screen-only cases respectively.
-  ```
-- [`6687d60`](https://github.com/ghostty-org/ghostty/commit/6687d6089dc254b14b1cdb22ca310f8394c3290f) macos: avoid leaking ports while awaiting accessibility ([#13590](https://github.com/ghostty-org/ghostty/issues/13590)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  #11799
-  
-  Creating a CGEventTap without Accessibility permission leaks a Mach port
-  inside CoreGraphics on every failed attempt. The global keybind listener
-  retried this once per second while waiting for permission, so Ghostty
-  eventually exhausted the process port limit.
-  
-  Request Accessibility access once, poll AXIsProcessTrusted while access
-  is denied, and create the event tap only after access is granted. Stop
-  polling before creation so an unrelated tap failure cannot restart the
-  leaking retry loop.
-  
-  Tested this with various settings and global keys working fine.
-  ```
 
