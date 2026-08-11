@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 11, 2026 at 18:55 UTC.
+> Last updated: August 11, 2026 at 21:40 UTC.
 
 ## August 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31523372788), [2](https://github.com/ghostty-org/ghostty/actions/runs/31513216985), [3](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [4](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [5](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [6](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
-Summary: 6 runs • 19 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31535255635), [2](https://github.com/ghostty-org/ghostty/actions/runs/31523372788), [3](https://github.com/ghostty-org/ghostty/actions/runs/31513216985), [4](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [5](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [6](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [7](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
+Summary: 7 runs • 20 commits • 5 authors
 
 ### Changes
 
+- [`fad7f85`](https://github.com/ghostty-org/ghostty/commit/fad7f854e8f976968bf4d61d408de9699cf87666) Update VOUCHED list ([#13754](https://github.com/ghostty-org/ghostty/issues/13754)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13753#discussioncomment-17980814)
+  from @mitchellh.
+  
+  Vouch: @shorsher
+  ```
 - [`0c8ec22`](https://github.com/ghostty-org/ghostty/commit/0c8ec225b5a998792ddcbf626687cd3a28ec4523) macOS: remove unused menu validations ([@bo2themax](https://github.com/bo2themax))
 - [`f0e3be3`](https://github.com/ghostty-org/ghostty/commit/f0e3be3eefe104eeb119562499df45f4762995f9) macOS: support decoding the surrogate pair with UnicodeHexInput ([@bo2themax](https://github.com/bo2themax))
 - [`f719af0`](https://github.com/ghostty-org/ghostty/commit/f719af00c2f44ca7473219abb29dfd5fbb0fcc85) terminal/kitty: use fixed table for control keys ([@Uzaaft](https://github.com/Uzaaft))
