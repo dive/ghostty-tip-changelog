@@ -8,7 +8,53 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 11, 2026 at 01:17 UTC.
+> Last updated: August 11, 2026 at 04:14 UTC.
+
+## August 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [2](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
+Summary: 2 runs • 4 commits • 3 authors
+
+### Changes
+
+- [`94d775f`](https://github.com/ghostty-org/ghostty/commit/94d775fefc21f74d9cc85a46b34c4e1d85318fd0) Update VOUCHED list ([#13743](https://github.com/ghostty-org/ghostty/issues/13743)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13742#discussioncomment-17970277)
+  from @jcollie.
+  
+  Vouch: @dave92082
+  ```
+- [`49e4df7`](https://github.com/ghostty-org/ghostty/commit/49e4df78333ccdeb262e59d0f3c4de9d4b0bc7fd) macOS: rework for [#12712](https://github.com/ghostty-org/ghostty/issues/12712) and [#13645](https://github.com/ghostty-org/ghostty/issues/13645) ([@bo2themax](https://github.com/bo2themax))
+- [`4b9d589`](https://github.com/ghostty-org/ghostty/commit/4b9d589bcb234b3fdd2160a3abf02cf9b647f328) macOS: disable text selection on macOS 15 ([@bo2themax](https://github.com/bo2themax))
+- [`44f06d4`](https://github.com/ghostty-org/ghostty/commit/44f06d4e4fd098aa4b5627e0c2b2d6e704834117) macOS: rework for [#12712](https://github.com/ghostty-org/ghostty/issues/12712) and [#13645](https://github.com/ghostty-org/ghostty/issues/13645) ([#13717](https://github.com/ghostty-org/ghostty/issues/13717)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  `needleSelection` was introduced in #12712 to select all texts when
+  syncing pasteboard, the crash happens most on macOS 15 in
+  `readPasteboardNeedle`. It seems that `objectWillChange` fires
+  differently there, and it's hard to reproduce on macOS 26/27. I think
+  guaranteeing from ourside is enough, I believe SwiftUI already as its
+  own when updating the binding.
+  
+  **Confirmed with a simple example on macOS 15, it seems a SwiftUI
+  issue🫪. So I changed the minimal macOS version for text selection to
+  macOS 26. I don't see an elegant way to fix it.**
+  
+  <img width="1352" height="849" alt="image"
+  src="https://github.com/user-attachments/assets/1dfef3f5-ceaa-41dd-bb91-c23dbc5e4ad3"
+  />
+  
+  
+  ```swift
+  struct ContentView: View {
+      @State private var text = ""
+      @State private var selection: TextSelection?
+      var body: some View {
+          TextField("Search", text: $text, selection: $selection)
+      }
+  }
+  ```
+  ````
 
 ## August 10, 2026
 
