@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 12, 2026 at 18:54 UTC.
+> Last updated: August 12, 2026 at 21:39 UTC.
 
 ## August 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31626263992), [2](https://github.com/ghostty-org/ghostty/actions/runs/31613624802), [3](https://github.com/ghostty-org/ghostty/actions/runs/31602893706), [4](https://github.com/ghostty-org/ghostty/actions/runs/31553289786)  
-Summary: 4 runs • 19 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31633700350), [2](https://github.com/ghostty-org/ghostty/actions/runs/31626263992), [3](https://github.com/ghostty-org/ghostty/actions/runs/31613624802), [4](https://github.com/ghostty-org/ghostty/actions/runs/31602893706), [5](https://github.com/ghostty-org/ghostty/actions/runs/31553289786)  
+Summary: 5 runs • 21 commits • 6 authors
 
 ### Changes
 
+- [`4a516fa`](https://github.com/ghostty-org/ghostty/commit/4a516fa393932fe263bbca8d30740d17e40484f1) github: remove the issue templates ([@trag1c](https://github.com/trag1c))
+- [`d2eeb73`](https://github.com/ghostty-org/ghostty/commit/d2eeb734b0dbf80954d1b630986746a5e9e194fd) github: remove the issue templates ([#13765](https://github.com/ghostty-org/ghostty/issues/13765)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  They're not needed anymore since the "New issue" button is now
+  inaccessible to non-maintainers anyway.
+  ```
 - [`8b7c57c`](https://github.com/ghostty-org/ghostty/commit/8b7c57c756115e519516698206b54ed80b49d1e7) gtk: add window title renaming ([@jcollie](https://github.com/jcollie))
   ```text
   Fixes #10469 for GTK.
