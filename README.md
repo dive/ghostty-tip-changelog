@@ -8,15 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 12, 2026 at 15:54 UTC.
+> Last updated: August 12, 2026 at 18:54 UTC.
 
 ## August 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31613624802), [2](https://github.com/ghostty-org/ghostty/actions/runs/31602893706), [3](https://github.com/ghostty-org/ghostty/actions/runs/31553289786)  
-Summary: 3 runs • 15 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31626263992), [2](https://github.com/ghostty-org/ghostty/actions/runs/31613624802), [3](https://github.com/ghostty-org/ghostty/actions/runs/31602893706), [4](https://github.com/ghostty-org/ghostty/actions/runs/31553289786)  
+Summary: 4 runs • 19 commits • 5 authors
 
 ### Changes
 
+- [`8b7c57c`](https://github.com/ghostty-org/ghostty/commit/8b7c57c756115e519516698206b54ed80b49d1e7) gtk: add window title renaming ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #10469 for GTK.
+  ```
+- [`1eaf457`](https://github.com/ghostty-org/ghostty/commit/1eaf457b184c0fd34f5ff3fb2d0241d04d7515c4) gtk: add window title renaming ([#10999](https://github.com/ghostty-org/ghostty/issues/10999)) ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Fixes #10469 for GTK.
+  ```
+- [`e523cf8`](https://github.com/ghostty-org/ghostty/commit/e523cf81040626cf240723443d9106813709e49c) terminal: move cursor home after formatting tabstops ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Home the cursor after serializing custom tab stops, since formatting VT
+  expects it to be there for new lines.
+  ```
+- [`99b877a`](https://github.com/ghostty-org/ghostty/commit/99b877ad22a7c9e146d6e4c3ba118e66ea694fb7) terminal: move cursor home after formatting tabstops ([#13763](https://github.com/ghostty-org/ghostty/issues/13763)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Home the cursor after serializing custom tab stops, since formatting VT
+  expects it to be there for new lines.
+  ```
 - [`da8b171`](https://github.com/ghostty-org/ghostty/commit/da8b171265e0f9db09287e62e70e10afa0d44e9c) macOS: fix Sendable warning for UnsafeMutablePointer ([@bo2themax](https://github.com/bo2themax))
   ```text
   Swift explicitly [marked UnsafeMutablePointer as non sendable](https://github.com/swiftlang/swift/commit/0568dbf903bbd7c1278c029d7e4eaaad6a460002). Moving from `@unchecked @retroactive` to `nonisolated(unsafe)` is safe for us as per the previous comments
