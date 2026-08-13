@@ -8,15 +8,73 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 13, 2026 at 18:56 UTC.
+> Last updated: August 13, 2026 at 21:39 UTC.
 
 ## August 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31728903762), [2](https://github.com/ghostty-org/ghostty/actions/runs/31709515839), [3](https://github.com/ghostty-org/ghostty/actions/runs/31701849462), [4](https://github.com/ghostty-org/ghostty/actions/runs/31661233121), [5](https://github.com/ghostty-org/ghostty/actions/runs/31658437256)  
-Summary: 5 runs • 21 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31739372157), [2](https://github.com/ghostty-org/ghostty/actions/runs/31734701377), [3](https://github.com/ghostty-org/ghostty/actions/runs/31728903762), [4](https://github.com/ghostty-org/ghostty/actions/runs/31709515839), [5](https://github.com/ghostty-org/ghostty/actions/runs/31701849462), [6](https://github.com/ghostty-org/ghostty/actions/runs/31661233121), [7](https://github.com/ghostty-org/ghostty/actions/runs/31658437256)  
+Summary: 7 runs • 31 commits • 12 authors
 
 ### Changes
 
+- [`dd22396`](https://github.com/ghostty-org/ghostty/commit/dd22396bd798d90445e1b365a79da061f96e5dc9) i18n: update es_BO translations for 1.4 ([@MiguelElGallo](https://github.com/MiguelElGallo))
+- [`bedb6f2`](https://github.com/ghostty-org/ghostty/commit/bedb6f2ff9d2c65456a7b1e98a5a04a702b77f27) i18n: update es_BO translations for 1.4 ([#13782](https://github.com/ghostty-org/ghostty/issues/13782)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  issue #13766
+  ```
+- [`51992ab`](https://github.com/ghostty-org/ghostty/commit/51992ab01ad7e6dfeced16615080b68f620bb122) libghostty: make device and point headers self-contained ([@mitchellh](https://github.com/mitchellh))
+- [`e4ec4f0`](https://github.com/ghostty-org/ghostty/commit/e4ec4f0f95f44b131c256127d26c67258104be5a) libghostty: fix enum underlying type detection ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use fixed int enum types for C++11, C23, Clang's fixed-enum extension,
+  and GCC 13 or newer. Previously only finalized C23 mode selected an explicit
+  underlying type, leaving C++ and common older C modes with
+  implementation-defined enum types.
+  ```
+- [`309440e`](https://github.com/ghostty-org/ghostty/commit/309440e07f3ff097fb4b11ab8cc92b01e29625e8) libghostty: include all public structs in type JSON ([@mitchellh](https://github.com/mitchellh))
+- [`d930c74`](https://github.com/ghostty-org/ghostty/commit/d930c74c4d8211d551d0cb99054f13338113f4f9) libghostty: make sized initialization valid C++ ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use an immediately invoked lambda for GHOSTTY_INIT_SIZED in C++ so the
+  macro value-initializes every field before setting the ABI size. The
+  previous C compound literal and designated initializer required compiler
+  extensions in C++17 and C++20.
+  
+  Keep the existing standard compound literal for C callers.
+  ```
+- [`119f4fd`](https://github.com/ghostty-org/ghostty/commit/119f4fd6063cb695d1179c5ab1b362c4d71f23d0) libghostty: minor C/C++ compatibility fixes ([#13801](https://github.com/ghostty-org/ghostty/issues/13801)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Minor things as I was just auditing the state of our headers:
+  
+  * Make sure all subheaders like `point.h` can be included standalone
+  * Support Clang/GCC extensions for typed enums if we can detect it
+  * Add missing structs to the `ghostty_type_json` function
+  * Fix `GHOSTTY_INIT_SIZED` for C++ mode
+  ```
+- [`ac4dc12`](https://github.com/ghostty-org/ghostty/commit/ac4dc12056c137378da49152b806edc01ba730d6) terminal: size dynamic tabstops by bits ([@jparise](https://github.com/jparise))
+  ```text
+  Dynamic tabstop storage treated the number of columns above the inline
+  capacity as a byte count even though each byte stores eight stops. This
+  was wasteful, although in practice this is in the order of just bytes.
+  
+  Round the extra column count up to whole storage units and grow the existing
+  slice with realloc, preserve existing stops.
+  ```
+- [`908961f`](https://github.com/ghostty-org/ghostty/commit/908961f8a95573096ab231654cccc97170da8086) terminal: size dynamic tabstops by bits ([#13600](https://github.com/ghostty-org/ghostty/issues/13600)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Dynamic tabstop storage treated the number of columns above the inline
+  capacity as a byte count even though each byte stores eight stops. This
+  was wasteful, although in practice this is in the order of just bytes.
+  
+  Round the extra column count up to whole storage units and grow the
+  existing slice with realloc, preserve existing stops.
+  ```
+- [`43fe699`](https://github.com/ghostty-org/ghostty/commit/43fe699071c7dceb161dc3b0c04fce46ade36174) Update VOUCHED list ([#13797](https://github.com/ghostty-org/ghostty/issues/13797)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13796#discussioncomment-18006390)
+  from @jcollie.
+  
+  Vouch: @sghng
+  ```
 - [`30e5eab`](https://github.com/ghostty-org/ghostty/commit/30e5eabe9b1ec1245ffe930264dd0eb3a95c18e7) Add 'da' to `CODEOWNERS` and `src/os/i18n_locales.zig` ([@carlvillads](https://github.com/carlvillads))
 - [`af9ead6`](https://github.com/ghostty-org/ghostty/commit/af9ead68172ff4059930e32afc1b7d58a4234fe6) Add danish translation file ([@carlvillads](https://github.com/carlvillads))
 - [`bd381c4`](https://github.com/ghostty-org/ghostty/commit/bd381c4a524934f8ada8eae6accae16a484171e9) Update po/da.po ([@carlvillads](https://github.com/carlvillads))
