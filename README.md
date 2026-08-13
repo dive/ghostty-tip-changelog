@@ -8,15 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 13, 2026 at 15:54 UTC.
+> Last updated: August 13, 2026 at 18:56 UTC.
 
 ## August 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31709515839), [2](https://github.com/ghostty-org/ghostty/actions/runs/31701849462), [3](https://github.com/ghostty-org/ghostty/actions/runs/31661233121), [4](https://github.com/ghostty-org/ghostty/actions/runs/31658437256)  
-Summary: 4 runs • 12 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31728903762), [2](https://github.com/ghostty-org/ghostty/actions/runs/31709515839), [3](https://github.com/ghostty-org/ghostty/actions/runs/31701849462), [4](https://github.com/ghostty-org/ghostty/actions/runs/31661233121), [5](https://github.com/ghostty-org/ghostty/actions/runs/31658437256)  
+Summary: 5 runs • 21 commits • 9 authors
 
 ### Changes
 
+- [`30e5eab`](https://github.com/ghostty-org/ghostty/commit/30e5eabe9b1ec1245ffe930264dd0eb3a95c18e7) Add 'da' to `CODEOWNERS` and `src/os/i18n_locales.zig` ([@carlvillads](https://github.com/carlvillads))
+- [`af9ead6`](https://github.com/ghostty-org/ghostty/commit/af9ead68172ff4059930e32afc1b7d58a4234fe6) Add danish translation file ([@carlvillads](https://github.com/carlvillads))
+- [`bd381c4`](https://github.com/ghostty-org/ghostty/commit/bd381c4a524934f8ada8eae6accae16a484171e9) Update po/da.po ([@carlvillads](https://github.com/carlvillads))
+- [`ca5b3dc`](https://github.com/ghostty-org/ghostty/commit/ca5b3dc77bf4421f2d4784318d7431c7658468ef) Update po/da.po ([@carlvillads](https://github.com/carlvillads))
+- [`004f79e`](https://github.com/ghostty-org/ghostty/commit/004f79e2737a6b4c10bcff856680802061b00aa1) Merge branch 'ghostty-org:main' into localization-da ([@carlvillads](https://github.com/carlvillads))
+- [`4713668`](https://github.com/ghostty-org/ghostty/commit/47136687d725d611a5b9d7fd59a13b1c4e360617) add command palette translations ([@carlvillads](https://github.com/carlvillads))
+- [`9f8550b`](https://github.com/ghostty-org/ghostty/commit/9f8550b7f4e671a4305cb63541bbce9652bce38a) Add danish translations ([#13538](https://github.com/ghostty-org/ghostty/issues/13538)) ([@00-kat](https://github.com/00-kat))
+- [`4770375`](https://github.com/ghostty-org/ghostty/commit/47703753ad8f313601689d3eb6087469f5665d16) Update VOUCHED list ([#13793](https://github.com/ghostty-org/ghostty/issues/13793)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13791#discussioncomment-18005730)
+  from @jcollie.
+  
+  Vouch: @dolzenko
+  ```
+- [`bb019ca`](https://github.com/ghostty-org/ghostty/commit/bb019cac272a953c6338b2ab709d6ae26725c3a5) Update VOUCHED list ([#13794](https://github.com/ghostty-org/ghostty/issues/13794)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13792#discussioncomment-18005749)
+  from @jcollie.
+  
+  Vouch: @dmunozv04
+  ```
 - [`b104a3f`](https://github.com/ghostty-org/ghostty/commit/b104a3f0b3f7e021df5a773f68d5ff6130a8ce64) i18n - Latvian translation of command palette, typo fixes and more natural translations ([@EriksRemess](https://github.com/EriksRemess))
 - [`b3514d5`](https://github.com/ghostty-org/ghostty/commit/b3514d56210e8a57a480fb4d0c82121e86df28e4) i18n: Latvian translation. Additional strings. ([@EriksRemess](https://github.com/EriksRemess))
 - [`491806f`](https://github.com/ghostty-org/ghostty/commit/491806fbeb35b9153838085d6cf615cb977546e6) i18n(lv): last two missing translations ([@EriksRemess](https://github.com/EriksRemess))
