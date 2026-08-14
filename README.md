@@ -8,7 +8,30 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 14, 2026 at 01:26 UTC.
+> Last updated: August 14, 2026 at 04:44 UTC.
+
+## August 14, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [2](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
+Summary: 2 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`365e0bd`](https://github.com/ghostty-org/ghostty/commit/365e0bd0083f3d51a7b7242ad8c5a025c7848c75) i18n: Updating `es_AR` for 1.4 ([#13784](https://github.com/ghostty-org/ghostty/issues/13784)) ([@alanmoyano](https://github.com/alanmoyano))
+  ```text
+  This PR also updates old translations to keep better consistency.
+  
+  AI Disclaimer: I translated manually all strings and then used an agent
+  to review consistency and legibility and applied many suggestions.
+  ```
+- [`710b872`](https://github.com/ghostty-org/ghostty/commit/710b8723905533d623c5e64ba0c5e6662fe79713) Update VOUCHED list ([#13805](https://github.com/ghostty-org/ghostty/issues/13805)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13804#discussioncomment-18010199)
+  from @jcollie.
+  
+  Vouch: @pssalman
+  ```
 
 ## August 13, 2026
 
