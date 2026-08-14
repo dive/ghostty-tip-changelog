@@ -8,15 +8,52 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 14, 2026 at 12:54 UTC.
+> Last updated: August 14, 2026 at 15:45 UTC.
 
 ## August 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [2](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [3](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [4](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
-Summary: 4 runs • 5 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [2](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [3](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [4](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [5](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [6](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
+Summary: 6 runs • 14 commits • 10 authors
 
 ### Changes
 
+- [`250a36f`](https://github.com/ghostty-org/ghostty/commit/250a36fe6f55de3d2a910deb420f35b0cf6dc350) i18n: Update es_ES translations ([@alosarjos](https://github.com/alosarjos))
+  ```text
+  Update the translations for the next 1.4 release
+  ```
+- [`f2022fe`](https://github.com/ghostty-org/ghostty/commit/f2022fe88d57f1b93913de1087ec4f3e459ef3b7) macOS: avoid holding SurfaceView when sending notifications ([@bo2themax](https://github.com/bo2themax))
+- [`375ce78`](https://github.com/ghostty-org/ghostty/commit/375ce787466f7bd666f5d8b2e32182ade296dcf3) i18n: Update Norwegian translations ([@Uzaaft](https://github.com/Uzaaft))
+- [`6584450`](https://github.com/ghostty-org/ghostty/commit/6584450279ae3ccd20c889c091a73b3a52d5ce09) i18n: Update Norwegian translations ([#13781](https://github.com/ghostty-org/ghostty/issues/13781)) ([@trag1c](https://github.com/trag1c))
+- [`1ff3deb`](https://github.com/ghostty-org/ghostty/commit/1ff3deb1bbbf960e69edf49eb7b34fa227080b8d) i18n: Update es_ES translations ([#13800](https://github.com/ghostty-org/ghostty/issues/13800)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Update the translations for the next 1.4 release
+  ```
+- [`562f21a`](https://github.com/ghostty-org/ghostty/commit/562f21a6e72ce1710ca859b25b1562f7f7b0f76a) macOS: avoid holding SurfaceView when sending notifications ([#13810](https://github.com/ghostty-org/ghostty/issues/13810)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We shouldn't hold a closing surface view when sending notifications and
+  waiting to dismiss that notification. This happens rarely, but it's the
+  right thing to do.
+  
+  ### AI Disclosure
+  Found by Claude when judging other branches, I applied the changes
+  myself.
+  
+  > Forgot that after force pushing, you can't reopen #13787 🫪, linking it
+  here for the review history.
+  ```
+- [`f81dcad`](https://github.com/ghostty-org/ghostty/commit/f81dcadc82ea2afdcf2dc92929037701122f05b5) Update VOUCHED list ([#13814](https://github.com/ghostty-org/ghostty/issues/13814)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13812#discussioncomment-18018163)
+  from @mitchellh.
+  
+  Vouch: @elitex45
+  ```
+- [`987ee52`](https://github.com/ghostty-org/ghostty/commit/987ee52751a7d87a7bee996cd2e249a01be2571b) Update and (hopefully) complete Hungarian translations in hu.po ([@balazs-szucs](https://github.com/balazs-szucs))
+- [`fa392ba`](https://github.com/ghostty-org/ghostty/commit/fa392baf28c7343ea8f7b005fe2a3299116ee79b) i18n: add missing Hungarian translations ([#13799](https://github.com/ghostty-org/ghostty/issues/13799)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Part of: #13766
+  ```
 - [`93e7e7e`](https://github.com/ghostty-org/ghostty/commit/93e7e7e9933a339032a0499043e0f0c6d7218a7a) po/zh_CN: add missing translations ([@pluiedev](https://github.com/pluiedev))
   ```text
   Frankly the number of command palette entries is a bit ridiculous,
