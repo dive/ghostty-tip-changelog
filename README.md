@@ -8,15 +8,209 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 14, 2026 at 18:45 UTC.
+> Last updated: August 14, 2026 at 21:19 UTC.
 
 ## August 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31827610332), [2](https://github.com/ghostty-org/ghostty/actions/runs/31820574489), [3](https://github.com/ghostty-org/ghostty/actions/runs/31817549169), [4](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [5](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [6](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [7](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [8](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [9](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
-Summary: 9 runs • 22 commits • 11 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31839586303), [2](https://github.com/ghostty-org/ghostty/actions/runs/31833203809), [3](https://github.com/ghostty-org/ghostty/actions/runs/31827610332), [4](https://github.com/ghostty-org/ghostty/actions/runs/31820574489), [5](https://github.com/ghostty-org/ghostty/actions/runs/31817549169), [6](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [7](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [8](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [9](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [10](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [11](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
+Summary: 11 runs • 26 commits • 11 authors
 
 ### Changes
 
+- [`3d9b2b4`](https://github.com/ghostty-org/ghostty/commit/3d9b2b483cd807c05e72e2827559572c38bcbe66) libghostty: much faster grapheme-heavy IO throughput ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Processing grapheme-heavy input (ZWJ sequences, emoji modifiers, flags,
+  combining marks) through is now almost 3x faster.
+  
+  ### Primary Change: PageList Capacity Projection
+  
+  This workload was heavily bound by `PageList.increaseCapacity` because
+  pathological cases of single-dimensional growth cause repeated page
+  capacity doublings which get increasingly expensive because each time we
+  do a full allocation + clone.
+  
+  So the major change is that for grapheme bytes in particular, when we
+  reach a capacity limit, we take the current usage for the current set of
+  rows and project it out to the remaining capacity of rows. Basically, we
+  assume that a similar workload will continue. So rather than doubling,
+  we're _guessing_ how much you're going to need.
+  
+  In the real world, I'm not really sure if this matters at all. There are
+  no regressions on any regular corpus streams (asciinema, wikipedia dumps, etc.).
+  
+  ### Other Changes
+  
+  There are some other changes here, all found on the path to improving
+  grapheme IO throughput:
+  
+  * The bitmap allocator now maintains `search_start` hint we update on
+    every allocation so that future free-scans are much faster. This is
+    the lowest possible place we don't have a full bitmap.
+  
+  * For wasm32, we use an alternate hashing structure for small keys
+    since Wyhash's 64bit * 64bit multiplication is very very slow because
+    wasm has no widening instruction.
+  
+  * Terminal `printSlice` now checks the fast path compatibility once up front
+    rather than on every fast-path attempt.
+  
+  ### Benchmarks
+  
+  Data: ZWJ family/profession sequences, skin-tone modifiers,
+  flags, and combining marks streamed in 64 KiB chunks into an 80x24
+  terminal, default modes.
+  
+  | Benchmark | Before | After | Speedup |
+  |---|---|---|---|
+  | wasm, V8, 16 MiB stream | 52 MB/s | 151 MB/s | 2.9x |
+  | native, terminal-stream, 64 MiB | 894 ms | 305 ms | 2.9x |
+  
+  Sorry the native stuff is in ms, that's how our native `ghostty-bench`
+  does things versus the custom little V8 harness.
+  
+  **AI usage:** Developed alongside Fable: profiling, implementation, and
+  benchmarks. All human language messages written myself. Validated myself.
+  ```
+- [`6b22215`](https://github.com/ghostty-org/ghostty/commit/6b22215c5d46019f94b658f7665941f951d0de1e) libghostty: much faster grapheme-heavy IO throughput ([#13826](https://github.com/ghostty-org/ghostty/issues/13826)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Processing grapheme-heavy input (ZWJ sequences, emoji modifiers, flags,
+  combining marks) through is now almost 3x faster.
+  
+  ### Primary Change: PageList Capacity Projection
+  
+  This workload was heavily bound by `PageList.increaseCapacity` because
+  pathological cases of single-dimensional growth cause repeated page
+  capacity doublings which get increasingly expensive because each time we
+  do a full allocation + clone.
+  
+  So the major change is that for grapheme bytes in particular, when we
+  reach a capacity limit, we take the current usage for the current set of
+  rows and project it out to the remaining capacity of rows. Basically, we
+  assume that a similar workload will continue. So rather than doubling,
+  we're _guessing_ how much you're going to need.
+  
+  In the real world, I'm not really sure if this matters at all. There are
+  no regressions on any regular corpus streams (asciinema, wikipedia
+  dumps, etc.).
+  
+  ### Other Changes
+  
+  There are some other changes here, all found on the path to improving
+  grapheme IO throughput:
+  
+  * The bitmap allocator now maintains `search_start` hint we update on
+  every allocation so that future free-scans are much faster. This is the
+  lowest possible place we don't have a full bitmap.
+  
+  * For wasm32, we use an alternate hashing structure for small keys since
+  Wyhash's 64bit * 64bit multiplication is very very slow because wasm has
+  no widening instruction.
+  
+  * Terminal `printSlice` now checks the fast path compatibility once up
+  front rather than on every fast-path attempt.
+  
+  ### Benchmarks
+  
+  Data: ZWJ family/profession sequences, skin-tone modifiers, flags, and
+  combining marks streamed in 64 KiB chunks into an 80x24 terminal,
+  default modes.
+  
+  | Benchmark | Before | After | Speedup |
+  |---|---|---|---|
+  | wasm, V8, 16 MiB stream | 52 MB/s | 151 MB/s | 2.9x |
+  | native, terminal-stream, 64 MiB | 894 ms | 305 ms | 2.9x |
+  
+  Sorry the native stuff is in ms, that's how our native `ghostty-bench`
+  does things versus the custom little V8 harness.
+  
+  **AI usage:** Developed alongside Fable: profiling, implementation, and
+  benchmarks. All human language messages written myself. Validated
+  myself.
+  ```
+- [`74a233b`](https://github.com/ghostty-org/ghostty/commit/74a233b5439c6721cee8ae1f453c308e02ca9d74) libghostty: faster render state reads and updates on wasm targets ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes the `ghostty_render_state_*` C API significantly faster on
+  wasm32-freestanding, measured in V8 via Node for Chrome. Also verified
+  in `jsc` for Safari.
+  
+  The major change is a new bulk row read API that makes full-screen cell reads
+  roughly 10x faster for wasm embedders. This should help any embedder with
+  high FFI overhead, such as Go, Python, etc. too.
+  
+  Non-wasm performance is not impacted, all benchmarks were run on my mac
+  too w/ no regressions (two of the changes are native wins as well).
+  
+  ## Changes
+  
+  * color: the "vectorized" palette conversion loop was silently
+    scalarized by LLVM into per-byte ops because it loaded/stored through
+    array-typed pointers. Zig 0.16 disables the LLVM loop vectorizer, so
+    manually vectorized loops must go through vector-typed pointers.
+  * C styles: major optimizations to converting Zig styles to C styles.
+    This is a heavy operation for render state.
+  * render: `endUpdate`'s style-run fill (`@memset` with a struct value)
+    re-loaded its source every iteration and stored field by field. Now
+    manually vectorized.
+  * render: new `GHOSTTY_RENDER_STATE_ROW_DATA_CELLS_RAW` returns a
+    borrowed `GhosttyCellsView` of the current row's raw cell values, valid
+    until the next update. One call per row instead of 3-6 calls per cell.
+  
+  ## Benchmarks
+  
+  | Benchmark | Before | After | Speedup |
+  |---|---|---|---|
+  | colors_get | 114 ns | 35 ns | 3.3x |
+  | style get, per styled cell | 7.8 ns | 6.7 ns | 1.2x |
+  | raw+style read, per cell | 8.6 ns | 7.7 ns | 1.1x |
+  | full-screen text read, per cell | 7.5 ns | 0.7 ns | 10.7x |
+  | full-screen text+style read, per cell | 8.6 ns | 1.7 ns | 5.1x |
+  | render state update, styled full frame | 3.4 us | 2.6 us | 1.3x |
+  
+  **AI usage:** Fable did the implementation and benchmarking and drafted
+  this message. Comments were partially rewritten by me.
+  ```
+- [`16833f5`](https://github.com/ghostty-org/ghostty/commit/16833f5e5f58589c3d6ba876a73eb0c5f550231d) libghostty: faster render state reads and updates on wasm targets ([#13825](https://github.com/ghostty-org/ghostty/issues/13825)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This makes the `ghostty_render_state_*` C API significantly faster on
+  wasm32-freestanding, measured in V8 via Node for Chrome. Also verified
+  in `jsc` for Safari.
+  
+  The major change is a new bulk row read API that makes full-screen cell
+  reads roughly 10x faster for wasm embedders. This should help any
+  embedder with high FFI overhead, such as Go, Python, etc. too.
+  
+  Non-wasm performance is not impacted, all benchmarks were run on my mac
+  too w/ no regressions (two of the changes are native wins as well).
+  
+  ## Changes
+  
+  * color: the "vectorized" palette conversion loop was silently
+  scalarized by LLVM into per-byte ops because it loaded/stored through
+  array-typed pointers. Zig 0.16 disables the LLVM loop vectorizer, so
+  manually vectorized loops must go through vector-typed pointers.
+  * C styles: major optimizations to converting Zig styles to C styles.
+  This is a heavy operation for render state.
+  * render: `endUpdate`'s style-run fill (`@memset` with a struct value)
+  re-loaded its source every iteration and stored field by field. Now
+  manually vectorized.
+  * render: new `GHOSTTY_RENDER_STATE_ROW_DATA_CELLS_RAW` returns a
+  borrowed `GhosttyCellsView` of the current row's raw cell values, valid
+  until the next update. One call per row instead of 3-6 calls per cell.
+  
+  ## Benchmarks
+  
+  | Benchmark | Before | After | Speedup |
+  |---|---|---|---|
+  | colors_get | 114 ns | 35 ns | 3.3x |
+  | style get, per styled cell | 7.8 ns | 6.7 ns | 1.2x |
+  | raw+style read, per cell | 8.6 ns | 7.7 ns | 1.1x |
+   | full-screen text read, per cell | 7.5 ns | 0.7 ns | 10.7x |
+   | full-screen text+style read, per cell | 8.6 ns | 1.7 ns | 5.1x |
+  | render state update, styled full frame | 3.4 us | 2.6 us | 1.3x |
+  
+  **AI usage:** Fable did the implementation and benchmarking and drafted
+  this message. Comments were partially rewritten by me.
+  ```
 - [`87f69a1`](https://github.com/ghostty-org/ghostty/commit/87f69a12ee28445cd95e39060fd626ccfc27b5e0) libghostty: much faster vt_write on wasm targets ([@mitchellh](https://github.com/mitchellh))
   ```text
   This makes `ghostty_terminal_vt_write` on wasm32-freestanding anywhere
