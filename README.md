@@ -8,15 +8,25 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 14, 2026 at 09:54 UTC.
+> Last updated: August 14, 2026 at 12:54 UTC.
 
 ## August 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [2](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [3](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
-Summary: 3 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [2](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [3](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [4](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
+Summary: 4 runs • 5 commits • 4 authors
 
 ### Changes
 
+- [`93e7e7e`](https://github.com/ghostty-org/ghostty/commit/93e7e7e9933a339032a0499043e0f0c6d7218a7a) po/zh_CN: add missing translations ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Frankly the number of command palette entries is a bit ridiculous,
+  but such is life
+  ```
+- [`485864c`](https://github.com/ghostty-org/ghostty/commit/485864cd609ebc7c0350aacbf0ef8c8a0a767c86) po/zh_CN: add missing translations ([#13608](https://github.com/ghostty-org/ghostty/issues/13608)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Frankly the number of command palette entries is a bit ridiculous, but
+  such is life
+  ```
 - [`89a26a3`](https://github.com/ghostty-org/ghostty/commit/89a26a39eb01a7cf34a64f9329da8304bebd4d8e) Update VOUCHED list ([#13808](https://github.com/ghostty-org/ghostty/issues/13808)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
