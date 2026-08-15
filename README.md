@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 15, 2026 at 15:14 UTC.
+> Last updated: August 15, 2026 at 18:20 UTC.
 
 ## August 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31890031839), [2](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [3](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [4](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [5](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [6](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
-Summary: 6 runs • 12 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31894663124), [2](https://github.com/ghostty-org/ghostty/actions/runs/31890031839), [3](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [4](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [5](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [6](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [7](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
+Summary: 7 runs • 13 commits • 4 authors
 
 ### Changes
 
+- [`cecf816`](https://github.com/ghostty-org/ghostty/commit/cecf81678e47f967b0354acada67e69d229f436b) Update VOUCHED list ([#13843](https://github.com/ghostty-org/ghostty/issues/13843)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13841#discussioncomment-18031969)
+  from @jcollie.
+  
+  Vouch: @preiter93
+  ```
 - [`946422d`](https://github.com/ghostty-org/ghostty/commit/946422dbc5832bb1d8e3298e339c89577da86bca) terminal: replace std.fmt.parseFloat with custom fraction parsing ([@mitchellh](https://github.com/mitchellh))
   ```text
   We have exactly two callers of `parseFloat` and they both have very
