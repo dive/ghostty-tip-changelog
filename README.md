@@ -8,15 +8,29 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 15, 2026 at 12:26 UTC.
+> Last updated: August 15, 2026 at 15:14 UTC.
 
 ## August 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [2](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [3](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [4](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [5](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
-Summary: 5 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31890031839), [2](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [3](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [4](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [5](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [6](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
+Summary: 6 runs • 12 commits • 4 authors
 
 ### Changes
 
+- [`946422d`](https://github.com/ghostty-org/ghostty/commit/946422dbc5832bb1d8e3298e339c89577da86bca) terminal: replace std.fmt.parseFloat with custom fraction parsing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We have exactly two callers of `parseFloat` and they both have very
+  limited expect input shapes: values 0-1, simple decimals. parseFloat
+  brings in ~26KB of binary size, so replace it with a custom parser for
+  our exact shape.
+  ```
+- [`e3939d0`](https://github.com/ghostty-org/ghostty/commit/e3939d0f6224f2d9d16d030e7c1c04f082b0f39e) terminal: replace std.fmt.parseFloat with custom fraction parsing ([#13839](https://github.com/ghostty-org/ghostty/issues/13839)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We have exactly two callers of `parseFloat` and they both have very
+  limited expect input shapes: values 0-1, simple decimals. parseFloat
+  brings in ~26KB of binary size, so replace it with a custom parser for
+  our exact shape.
+  ```
 - [`1d9fcdc`](https://github.com/ghostty-org/ghostty/commit/1d9fcdc151aedc72db1678e6e1df3425ed94939b) i18n: complete Kazakh (kk) translation for v1.4 ([@AnmiTaliDev](https://github.com/AnmiTaliDev))
   ```text
   Translates the 180 remaining strings, mainly command palette entries
