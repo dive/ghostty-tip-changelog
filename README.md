@@ -8,15 +8,26 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 15, 2026 at 09:20 UTC.
+> Last updated: August 15, 2026 at 12:26 UTC.
 
 ## August 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [2](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [3](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [4](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
-Summary: 4 runs • 7 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [2](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [3](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [4](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [5](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
+Summary: 5 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`1d9fcdc`](https://github.com/ghostty-org/ghostty/commit/1d9fcdc151aedc72db1678e6e1df3425ed94939b) i18n: complete Kazakh (kk) translation for v1.4 ([@AnmiTaliDev](https://github.com/AnmiTaliDev))
+  ```text
+  Translates the 180 remaining strings, mainly command palette entries
+  introduced for v1.4 localization.
+  ```
+- [`034f584`](https://github.com/ghostty-org/ghostty/commit/034f5843f21b7a3c9924d5e42ee34ee784699763) fix: apply kk translation review feedback ([@AnmiTaliDev](https://github.com/AnmiTaliDev))
+- [`b5aa8e7`](https://github.com/ghostty-org/ghostty/commit/b5aa8e7a071f53dec2c203fc521e147ce6e8cce0) i18n: complete Kazakh (kk) translation for v1.4 ([#13778](https://github.com/ghostty-org/ghostty/issues/13778)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Translates the 180 remaining strings, mainly command palette entries
+  introduced for v1.4 localization.
+  ```
 - [`1fdbb8c`](https://github.com/ghostty-org/ghostty/commit/1fdbb8c912231bdbe039614a70f10772a3e50d23) libghostty: -Dvt-features to compile out unused features ([@mitchellh](https://github.com/mitchellh))
   ```text
   This introduces a `-Dvt-features` build option for libghostty-vt that
