@@ -8,15 +8,75 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 14, 2026 at 21:19 UTC.
+> Last updated: August 15, 2026 at 00:56 UTC.
 
 ## August 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31839586303), [2](https://github.com/ghostty-org/ghostty/actions/runs/31833203809), [3](https://github.com/ghostty-org/ghostty/actions/runs/31827610332), [4](https://github.com/ghostty-org/ghostty/actions/runs/31820574489), [5](https://github.com/ghostty-org/ghostty/actions/runs/31817549169), [6](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [7](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [8](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [9](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [10](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [11](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
-Summary: 11 runs • 26 commits • 11 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31844397329), [2](https://github.com/ghostty-org/ghostty/actions/runs/31839586303), [3](https://github.com/ghostty-org/ghostty/actions/runs/31833203809), [4](https://github.com/ghostty-org/ghostty/actions/runs/31827610332), [5](https://github.com/ghostty-org/ghostty/actions/runs/31820574489), [6](https://github.com/ghostty-org/ghostty/actions/runs/31817549169), [7](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [8](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [9](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [10](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [11](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [12](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
+Summary: 12 runs • 28 commits • 11 authors
 
 ### Changes
 
+- [`88ed6be`](https://github.com/ghostty-org/ghostty/commit/88ed6bebf4abfa8deb1b0cdd73dde4b07c7e0a3e) libghostty: much faster wide-character reflow on resize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Resizing a terminal whose buffer is heavy with wide characters (CJK,
+  emoji) is now 3-5x faster on the reflow path.
+  
+  This was relatively simple work. We already have a bulk fast path for
+  same-style cells. We previously omitted ANY wide characters from this.
+  We relaxed this by making it work with complete wide pairs (wide followed
+  by spacer tail).
+  
+  ### Benchmarks
+  
+  Resize dance (13 column resizes, 80 -> 40 -> 132 and back and forth again)
+  over a ~2,000-row scrollback buffer.
+  
+  | Workload | Before | After | Speedup |
+  |---|---|---|---|
+  | cjk | 0.938 | 0.296 | 3.2x |
+  | emoji | 0.875 | 0.191 | 4.6x |
+  | mixed build-log | 0.306 | 0.155 | 2.0x |
+  | grapheme | 2.449 | 1.831 | 1.3x |
+  | ascii-short | 0.115 | 0.117 | 1.0x |
+  | ascii-long | 0.109 | 0.112 | 1.0x |
+  | latin | 0.093 | 0.095 | 1.0x |
+  | sgr-truecolor | 0.939 | 0.965 | 1.0x |
+  
+  **AI usage:** Profiled, implemented, benchmarked, and written by Fable.
+  Plan validated by me before doing it, I wrote all the
+  comments/commits/blah.
+  ```
+- [`d760ee9`](https://github.com/ghostty-org/ghostty/commit/d760ee96e54657416eb427b793c7e839f003df7d) terminal: much faster wide-character reflow on resize ([#13827](https://github.com/ghostty-org/ghostty/issues/13827)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Resizing a terminal whose buffer is heavy with wide characters (CJK,
+  emoji) is now 3-5x faster on the reflow path.
+  
+  This was relatively simple work. We already have a bulk fast path for
+  same-style cells. We previously omitted ANY wide characters from this.
+  We relaxed this by making it work with complete wide pairs (wide
+  followed by spacer tail).
+  
+  ### Benchmarks
+  
+  Resize dance (13 column resizes, 80 -> 40 -> 132 and back and forth
+  again) over a ~2,000-row scrollback buffer.
+  
+  | Workload | Before | After | Speedup |
+  |---|---|---|---|
+  | cjk | 0.938 | 0.296 | 3.2x |
+  | emoji | 0.875 | 0.191 | 4.6x |
+  | mixed build-log | 0.306 | 0.155 | 2.0x |
+  | grapheme | 2.449 | 1.831 | 1.3x |
+  | ascii-short | 0.115 | 0.117 | 1.0x |
+  | ascii-long | 0.109 | 0.112 | 1.0x |
+  | latin | 0.093 | 0.095 | 1.0x |
+  | sgr-truecolor | 0.939 | 0.965 | 1.0x |
+  
+  **AI usage:** Profiled, implemented, benchmarked, and written by Fable.
+  Plan validated by me before doing it, I wrote all the
+  comments/commits/blah.
+  ```
 - [`3d9b2b4`](https://github.com/ghostty-org/ghostty/commit/3d9b2b483cd807c05e72e2827559572c38bcbe66) libghostty: much faster grapheme-heavy IO throughput ([@mitchellh](https://github.com/mitchellh))
   ```text
   Processing grapheme-heavy input (ZWJ sequences, emoji modifiers, flags,
@@ -1928,54 +1988,5 @@ Summary: 6 runs • 27 commits • 6 authors
   ```text
   Upstream release:
   https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260803-155300-875a82f
-  ```
-
-## August 8, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31271139905), [2](https://github.com/ghostty-org/ghostty/actions/runs/31267536850), [3](https://github.com/ghostty-org/ghostty/actions/runs/31240383705)  
-Summary: 3 runs • 4 commits • 3 authors
-
-### Changes
-
-- [`a6fc3e0`](https://github.com/ghostty-org/ghostty/commit/a6fc3e0e2e78aeb4219ce4ef6b866cc06b1b0e09) gtk/wayland: clean up blur regions ([@gotenksIN](https://github.com/gotenksIN))
-  ```text
-  Destroy temporary Wayland regions after each blur update and release
-  the previous cached blur region before replacing it. This prevents
-  resources from leaking while the blur region changes.
-  ```
-- [`136f436`](https://github.com/ghostty-org/ghostty/commit/136f436a3bbb14fd48d18e927a83fc6585d5a63c) gtk/wayland: clean up blur regions ([#13699](https://github.com/ghostty-org/ghostty/issues/13699)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Fix two resource leaks when the Wayland background blur region changes.
-  
-  Temporary `wl_region` objects were destroyed only after an error. They
-  are now always destroyed after the blur request. The previous cached
-  blur region is also released before its replacement.
-  
-  This change does not alter protocol selection or add new Wayland
-  protocols.
-  
-  Testing:
-  
-  - Verified blur on KDE Plasma 6.7.4 with GTK 4.22.4.
-  - Verified with `zig build -Doptimize=ReleaseFast`.
-  
-  This code was written with assistance from GPT 5.6 Sol and manually
-  reviewed.
-  ```
-- [`6e647a1`](https://github.com/ghostty-org/ghostty/commit/6e647a1cbd96175fee710a34c7116c06f0bf14b3) Update VOUCHED list ([#13697](https://github.com/ghostty-org/ghostty/issues/13697)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13693#issuecomment-5227046478)
-  from @tristan957.
-  
-  Vouch: @gotenksIN
-  ```
-- [`4714732`](https://github.com/ghostty-org/ghostty/commit/47147324cee9d12b537f0ea204bf16449d706b3a) Update VOUCHED list ([#13691](https://github.com/ghostty-org/ghostty/issues/13691)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13690#issuecomment-5224579870)
-  from @00-kat.
-  
-  Vouch: @a-lang
   ```
 
