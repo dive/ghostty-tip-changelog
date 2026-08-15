@@ -8,7 +8,111 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 15, 2026 at 03:33 UTC.
+> Last updated: August 15, 2026 at 06:28 UTC.
+
+## August 15, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [2](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [3](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [4](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
+Summary: 4 runs • 7 commits • 2 authors
+
+### Changes
+
+- [`1fdbb8c`](https://github.com/ghostty-org/ghostty/commit/1fdbb8c912231bdbe039614a70f10772a3e50d23) libghostty: -Dvt-features to compile out unused features ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This introduces a `-Dvt-features` build option for libghostty-vt that
+  compiles out optional feature areas, primarily so size-conscious
+  embedders (e.g. wasm) can significantly trim the binary.
+  
+  The flag is similar to `-Dcpu`, `+feature` or `feature` to enable it,
+  `-feature` to disable, magic word `all` to turn all features on or off.
+  Example: `-Dvt-features=-all,+render-state` builds only the render
+  state API.
+  
+  ### Sizes
+  
+  | Build | Bytes | Brotli |
+  |---|---|---|
+  | default (all features) | 876,500 | 218,309 |
+  | web interactive (`-all,+render-state,+input-encode,+selection,+color,+grid-introspection`) | 661,119 | 168,994 |
+  | read-only viewer (`-all,+render-state`) | 537,441 | 132,858 |
+  | bare VT core (`-all`) | 515,422 | 125,756 |
+  | xterm.js browser bundle (incl. renderers) | 488,663 | 99,311 |
+  | @xterm/headless | 182,672 | 39,651 |
+  
+  Note: xterm versions are stable as of this commit.
+  ```
+- [`794515b`](https://github.com/ghostty-org/ghostty/commit/794515ba60a8c6d537b5f3a427374b23b2673492) libghostty: -Dvt-features to compile out unused features ([#13834](https://github.com/ghostty-org/ghostty/issues/13834)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This introduces a `-Dvt-features` build option for libghostty-vt that
+  compiles out optional feature areas, primarily so size-conscious
+  embedders (e.g. wasm) can significantly trim the binary.
+  
+  The flag is similar to `-Dcpu`, `+feature` or `feature` to enable it,
+  `-feature` to disable, magic word `all` to turn all features on or off.
+  Example: `-Dvt-features=-all,+render-state` builds only the render state
+  API.
+  
+  Added CI to verify the lib and tests _compile_ (we don't run it) for
+  each individual feature.
+  
+  ### Sizes
+  
+  wasm32, ReleaseFast:
+  
+  | Build | Bytes | Brotli |
+  |---|---|---|
+  | default (all features) | 876,500 | 218,309 |
+  | web interactive
+  (`-all,+render-state,+input-encode,+selection,+color,+grid-introspection`)
+  | 661,119 | 168,994 |
+  | read-only viewer (`-all,+render-state`) | 537,441 | 132,858 |
+  | bare VT core (`-all`) | 515,422 | 125,756 |
+  | xterm.js browser bundle (incl. renderers) | 488,663 | 99,311 |
+  | @xterm/headless | 182,672 | 39,651 |
+  
+  Note: xterm versions are stable as of this commit.
+  
+  ### C Header Note
+  
+  I didn't do a `vt/features.h` style header that has macros to guard
+  symbols for the various features. This is something we should do in the
+  future. The way it is now, the C header always declares everything, and
+  its not a problem unless an unavailable function is referenced at link
+  time.
+  ```
+- [`348f714`](https://github.com/ghostty-org/ghostty/commit/348f714ff97a4b323ee2ce195bb16387ba6a1dbe) Update VOUCHED list ([#13833](https://github.com/ghostty-org/ghostty/issues/13833)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13831#discussioncomment-18025282)
+  from @jcollie.
+  
+  Vouch: @DiegoArmstrong
+  ```
+- [`d61920d`](https://github.com/ghostty-org/ghostty/commit/d61920d80e0e6d2c2a058c96d1b916c7300ddab5) lib-vt: disable logging in wasm release builds ([@mitchellh](https://github.com/mitchellh))
+- [`51a4311`](https://github.com/ghostty-org/ghostty/commit/51a4311ef18b0971c112967cf24a538a2c71ea36) terminal: clean up overzealous inlining ([@mitchellh](https://github.com/mitchellh))
+- [`0e0893a`](https://github.com/ghostty-org/ghostty/commit/0e0893adff219b80f8837f685bfd54f643036fc6) libghostty: attacking wasm binary size ([#13830](https://github.com/ghostty-org/ghostty/issues/13830)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This should release our ReleaseFast bundle from 1.1MB to ~800KB.
+  
+  The major win is disabling logging in ReleaseFast wasm builds (~200KB).
+  
+  The next is removing aggressive inlining in paths that don't make sense
+  for performance. Verified with benchmarks on native to not affect
+  anything really.
+  
+  The third was really dumb: `var buf: [4096]u32 = @splat(c)` in LLVM
+  releasefast for wasm was lowering to 4096 separate `i32.store`...
+  like... 30KB of code. Replacing this with a for loop reduced by 30KB and
+  made REP (a rare sequence) 11x faster lol.
+  ```
+- [`e84dd30`](https://github.com/ghostty-org/ghostty/commit/e84dd3015543d695e51993e02a01283cfdab2439) Update VOUCHED list ([#13829](https://github.com/ghostty-org/ghostty/issues/13829)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13828#discussioncomment-18024891)
+  from @jcollie.
+  
+  Vouch: @diego-moment
+  ```
 
 ## August 14, 2026
 
