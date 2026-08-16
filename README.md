@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 09:21 UTC.
+> Last updated: August 16, 2026 at 12:28 UTC.
 
 ## August 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [2](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
-Summary: 2 runs • 6 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [2](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [3](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 3 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`aa25679`](https://github.com/ghostty-org/ghostty/commit/aa25679da8c87b47e9b45410435bded87e283031) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
+- [`d7f782d`](https://github.com/ghostty-org/ghostty/commit/d7f782dbcc4471eb697cce0ce888c83787ca38f0) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
+- [`7c1d0d4`](https://github.com/ghostty-org/ghostty/commit/7c1d0d414c4bfd976c6ae422f170a4b6249716d5) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
+  ```text
+  Removed translation for opening config file with default editor.
+  ```
+- [`06b63c4`](https://github.com/ghostty-org/ghostty/commit/06b63c48594ea04d2a68dd8249250d1477722296) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
+- [`26df373`](https://github.com/ghostty-org/ghostty/commit/26df373ec83fb1cebb4fee0a8394144ae984a9b8) i18n: update Hebrew translations for v1.4 ([#13785](https://github.com/ghostty-org/ghostty/issues/13785)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Update the Hebrew translations in po/he.po with the 181 new strings for
+  v1.4, as requested in issue #13766 :)
+  ```
 - [`b4079f0`](https://github.com/ghostty-org/ghostty/commit/b4079f00c8946207e4db8571e3209f2de7ac4a27) libghostty: add render state structured cursor read ([@mitchellh](https://github.com/mitchellh))
   ```text
   A normal renderer would have to call `ghostty_render_state_get`
