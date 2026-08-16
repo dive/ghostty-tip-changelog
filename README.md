@@ -8,15 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 03:42 UTC.
+> Last updated: August 16, 2026 at 06:30 UTC.
 
 ## August 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [2](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 2 runs • 6 commits • 2 authors
 
 ### Changes
 
+- [`b4079f0`](https://github.com/ghostty-org/ghostty/commit/b4079f00c8946207e4db8571e3209f2de7ac4a27) libghostty: add render state structured cursor read ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A normal renderer would have to call `ghostty_render_state_get`
+  _eight times_ to reconstruct the cursor. In languages where FFI is
+  expensive (Go, wasm, etc.), this showed up in profiles of every frame.
+  
+  Add a sized cursor snapshot and expose it. Also expose the existing color
+  snapshot through ghostty_render_state_get and remove the older
+  dedicated color getter.
+  ```
+- [`0d37f2d`](https://github.com/ghostty-org/ghostty/commit/0d37f2d34dabd6bc6f7cf094e0d6466186b8c783) libghostty: add dedicated dirty row iteration + clear functions ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add render state C APIs for iterating only rows that require a redraw
+  and for marking a completed frame clean in one call.
+  
+  A one-row update in a 24-row viewport reduces dirty-row discovery from
+  50 calls to two, while cleanup becomes one call instead of O(N) of rows.
+  
+  This lower call count is massive for environments where FFI is expensive
+  (Go, wasm).
+  
+  The dirty next API outputs the viewport y because it jumps, unlike the
+  normal sequential next where its trivial for a caller to keep track.
+  ```
+- [`16c833c`](https://github.com/ghostty-org/ghostty/commit/16c833c5f1ffa9511909199ef1fab389493be1ef) libghostty: add render state structured cursor read ([#13851](https://github.com/ghostty-org/ghostty/issues/13851)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A normal renderer would have to call `ghostty_render_state_get` _eight
+  times_ to reconstruct the cursor. In languages where FFI is expensive
+  (Go, wasm, etc.), this showed up in profiles of every frame.
+  
+  Add a sized cursor snapshot and expose it. Also expose the existing
+  color snapshot through ghostty_render_state_get and remove the older
+  dedicated color getter.
+  
+  Found during my normal Go/wasm adventures.
+  ```
+- [`ad6e72d`](https://github.com/ghostty-org/ghostty/commit/ad6e72ddc4e9e259c9b70bff6e2b389e0ce91949) libghostty: add dedicated dirty row iteration + clear functions ([#13852](https://github.com/ghostty-org/ghostty/issues/13852)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add render state C APIs for iterating only rows that require a redraw
+  and for marking a completed frame clean in one call.
+  
+  A one-row update in a 24-row viewport reduces dirty-row discovery from
+  50 calls to two, while cleanup becomes one call instead of O(N) of rows.
+  
+  This lower call count is massive for environments where FFI is expensive
+  (Go, wasm).
+  
+  The dirty next API outputs the viewport y because it jumps, unlike the
+  normal sequential next where its trivial for a caller to keep track.
+  ```
 - [`f2897f3`](https://github.com/ghostty-org/ghostty/commit/f2897f31dec839352302369b3cb8009c4cec180b) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
 - [`02436fd`](https://github.com/ghostty-org/ghostty/commit/02436fd4eb0fca179f6d58717e9bc7a0ce106272) Update iTerm2 colorschemes ([#13850](https://github.com/ghostty-org/ghostty/issues/13850)) ([@jcollie](https://github.com/jcollie))
   ```text
