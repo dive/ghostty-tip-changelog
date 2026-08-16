@@ -8,7 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 00:59 UTC.
+> Last updated: August 16, 2026 at 03:42 UTC.
+
+## August 16, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`f2897f3`](https://github.com/ghostty-org/ghostty/commit/f2897f31dec839352302369b3cb8009c4cec180b) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`02436fd`](https://github.com/ghostty-org/ghostty/commit/02436fd4eb0fca179f6d58717e9bc7a0ce106272) Update iTerm2 colorschemes ([#13850](https://github.com/ghostty-org/ghostty/issues/13850)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260810-152212-0173c3c
+  ```
 
 ## August 15, 2026
 
