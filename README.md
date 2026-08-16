@@ -8,15 +8,154 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 12:28 UTC.
+> Last updated: August 16, 2026 at 15:15 UTC.
 
 ## August 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [2](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [3](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
-Summary: 3 runs • 11 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31952071871), [2](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [3](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [4](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 4 runs • 15 commits • 4 authors
 
 ### Changes
 
+- [`9673a22`](https://github.com/ghostty-org/ghostty/commit/9673a22b01317ac6493240694a2451c8287253d1) libghostty: expand ABI type metadata ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The type metadata export only described extern struct layouts, leaving embedders to mirror enum values and tagged union relationships.
+  
+  Describe every public C type in a versioned manifest with target and build metadata. Keep union field renames alongside their source tagged unions so the manifest uses public C names without changing Zig value layouts.
+  ```
+- [`c755595`](https://github.com/ghostty-org/ghostty/commit/c75559589e41721ab5a3de8e336d8476f4290535) libghostty: add ABI manifest schema ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The ABI manifest previously had no machine-readable grammar or test that
+  the public export conformed to it.
+  
+  Define a Draft 2020-12 schema and add a build check that executes
+  ghostty_type_json for native and wasm libraries before validation. Run
+  both forms in CI and publish the schema with the generated API docs.
+  ```
+- [`0e8b7be`](https://github.com/ghostty-org/ghostty/commit/0e8b7bea63ccf8b89d15a82bdaf6a9bb3fc8c43d) vt: expose packed cell layout ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  GhosttyCell was exposed as a raw integer while its manifest entry was only an alias, forcing bulk-read consumers to duplicate the internal cell bit layout.\n\nAdd reflection helpers for packed structs and tagged unions, and keep the C-facing layout metadata next to Cell itself. Extend the ABI manifest and schema with recursive bit descriptors so every content arm, including palette and RGB backgrounds, can be decoded without hardcoded masks.\n\nDocument manifest-driven cell decoding and test the metadata against Zig reflection and real cell values.
+  ```
+- [`0ba6250`](https://github.com/ghostty-org/ghostty/commit/0ba6250388641f52135414b38c4259aa682c489b) libghostty: `ghostty_type_json` expanded with more metadata, every enum member, packed layouts, etc. ([#13856](https://github.com/ghostty-org/ghostty/issues/13856)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This PR makes `ghostty_type_json` contain more metadata necessary for
+  FFI without access to the C header to produce safe, ABI compliant field
+  access.
+  
+  The existing `ghostty_type_json` didn't expose enough information:
+  embedders still had to hardcode enum values, tagged union values, and
+  packed bit layouts. For wasm this meant copying offsets and masks from
+  Zig internals and hoping they didn't drift. This isn't an ABI I want to
+  promise.
+  
+  This also includes a formal JSON schema included in Doxygen docs and
+  used in CI to continuously validate our output structure. I'd like to
+  expand in the future comparing to actual C headers too.
+  
+  ## Examples
+  
+  ### Named References, Arrays
+  
+  ```json
+  "GhosttyRenderStateColors": {
+    "kind": "struct",
+    "size": 792,
+    "align": 8,
+    "fields": {
+      "background": {
+        "offset": 8,
+        "size": 3,
+        "type": "GhosttyColorRgb"
+      },
+      "palette": {
+        "offset": 18,
+        "size": 768,
+        "type": "array",
+        "elem": "GhosttyColorRgb",
+        "count": 256
+      }
+    }
+  }
+  ```
+  
+  ### Pointers
+  
+  ```json
+  "GhosttyCellsView": {
+    "kind": "struct",
+    "size": 16,
+    "align": 8,
+    "fields": {
+      "ptr": {
+        "offset": 0,
+        "size": 8,
+        "type": "pointer",
+        "elem": "GhosttyCell",
+        "const": true,
+        "nullable": true
+      },
+      "len": {
+        "offset": 8,
+        "size": 8,
+        "type": "u64"
+      }
+    }
+  }
+  ```
+  
+  ### Enums
+  
+  ```json
+  "GhosttyStyleColorTag": {
+    "kind": "enum",
+    "size": 4,
+    "align": 4,
+    "underlying": "i32",
+    "prefix": "GHOSTTY_STYLE_COLOR_",
+    "values": {
+      "NONE": 0,
+      "PALETTE": 1,
+      "RGB": 2,
+      "TAG_MAX_VALUE": 2147483647
+    }
+  }
+  ```
+  
+  ### Packed Struct
+  
+  ```json
+  "GhosttyCell": {
+    "kind": "packed",
+    "size": 8,
+    "align": 8,
+    "underlying": "u64",
+    "bits": {
+      "content_tag": {
+        "lsb": 0,
+        "width": 2,
+        "type": "GhosttyCellContentTag"
+      },
+      "content": {
+        "lsb": 2,
+        "width": 24,
+        "kind": "union",
+        "tag": "content_tag",
+        "arms": {
+          "BG_COLOR_RGB": {
+            "kind": "packed",
+            "width": 24,
+            "bits": {
+              "r": {"lsb": 0, "width": 8, "type": "u8"},
+              "g": {"lsb": 8, "width": 8, "type": "u8"},
+              "b": {"lsb": 16, "width": 8, "type": "u8"}
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
+  ````
 - [`aa25679`](https://github.com/ghostty-org/ghostty/commit/aa25679da8c87b47e9b45410435bded87e283031) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
 - [`d7f782d`](https://github.com/ghostty-org/ghostty/commit/d7f782dbcc4471eb697cce0ce888c83787ca38f0) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
 - [`7c1d0d4`](https://github.com/ghostty-org/ghostty/commit/7c1d0d414c4bfd976c6ae422f170a4b6249716d5) i18n: update Hebrew translations for v1.4 ([@slsrepo](https://github.com/slsrepo))
