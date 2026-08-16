@@ -8,15 +8,479 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 15, 2026 at 21:15 UTC.
+> Last updated: August 16, 2026 at 00:59 UTC.
 
 ## August 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31894663124), [2](https://github.com/ghostty-org/ghostty/actions/runs/31890031839), [3](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [4](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [5](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [6](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [7](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
-Summary: 7 runs • 13 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31910656085), [2](https://github.com/ghostty-org/ghostty/actions/runs/31894663124), [3](https://github.com/ghostty-org/ghostty/actions/runs/31890031839), [4](https://github.com/ghostty-org/ghostty/actions/runs/31876969328), [5](https://github.com/ghostty-org/ghostty/actions/runs/31868500752), [6](https://github.com/ghostty-org/ghostty/actions/runs/31865684095), [7](https://github.com/ghostty-org/ghostty/actions/runs/31864664855), [8](https://github.com/ghostty-org/ghostty/actions/runs/31862777169)  
+Summary: 8 runs • 30 commits • 6 authors
 
 ### Changes
 
+- [`ecbeb60`](https://github.com/ghostty-org/ghostty/commit/ecbeb60ca5327186301900ccef208143ff46ef22) macos: send all insertText commits as key events ([@sghng](https://github.com/sghng))
+  ```text
+  Previously, insertText commits without marked text were delivered via
+  sendText, which applies paste semantics and wraps the text in bracketed
+  paste when the program enables it. macOS dictation and other input
+  methods often commit without marked text, so programs treated dictated
+  text as a paste and applied paste-specific handling.
+  
+  insertText is only invoked by input methods (IME, dictation, emoji
+  picker, character viewer); real paste operations use a separate path.
+  Send every non-empty commit through the key event path so programs
+  interpret input method text as typed input. Typing is unaffected (the
+  accumulator path returns earlier) and Cmd+V pastes are unaffected.
+  
+  The helper is renamed from committedPreeditTextAction to
+  committedTextAction since it no longer only handles preedit commits.
+  ```
+- [`fff9f62`](https://github.com/ghostty-org/ghostty/commit/fff9f62f38cfef56ada5239ea22555b35c1e063c) cli: always install embedded SSH terminfo ([@jparise](https://github.com/jparise))
+  ```text
+  Remove the remote infocmp short-circuit from +ssh setup. The command
+  already sends Ghostty's embedded terminfo source to tic, so accepting
+  any existing entry leaves the payload unused and can preserve stale
+  data.
+  ```
+- [`69b9abf`](https://github.com/ghostty-org/ghostty/commit/69b9abf09ebad2b11a6850a28271676f6bfeb108) cli: version SSH terminfo cache entries ([@jparise](https://github.com/jparise))
+  ```text
+  Derive a version from the encoded Ghostty terminfo and require callers
+  to pass it explicitly when reading or writing the SSH cache. Cache
+  entries created for older or different payloads no longer suppress a
+  required installation.
+  ```
+- [`36d8e3f`](https://github.com/ghostty-org/ghostty/commit/36d8e3f77779939a4413ddcd72c05ab08aeae57d) terminal/snapshot: slicing-by-16 software CRC32C ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The software CRC32C fallback (WebAssembly and any other target without a
+  dedicated instruction) was the std byte-at-a-time table walk, which
+  profiled at ~65% of snapshot encode and ~70% of decode self-time in V8.
+  Replace it with slicing-by-16: sixteen bytes fold per iteration through
+  comptime per-position tables, so the serial dependency advances one block
+  at a time instead of one byte.
+  
+  The hardware backends (aarch64 CRC, x86_64 SSE4.2) are unchanged, so
+  native is expected to be unaffected; its deltas below are run-to-run
+  noise.
+  
+  Benchmarks: wasm is V8 (node 25), ReleaseFast + wasm-opt -O3, 80x24
+  terminal, 2 MiB VT corpus per workload, complete snapshot including
+  scrollback, best-of-5. Native is aarch64 macOS, hyperfine mean,
+  ghostty-bench +terminal-snapshot --loops=20. "base" is the parent commit.
+  
+  | wasm      | encode base | encode   | decode base | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     7.07 ms |  3.43 ms |     6.45 ms |  2.81 ms |
+  | styled    |    10.54 ms |  3.14 ms |    14.37 ms |  7.12 ms |
+  | truecolor |    15.23 ms |  5.33 ms |    21.76 ms | 12.11 ms |
+  | cjk       |    25.41 ms |  5.95 ms |    30.83 ms | 12.04 ms |
+  | grapheme  |    27.67 ms | 14.18 ms |    27.00 ms | 13.16 ms |
+  
+  | native | mode   | base    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 40.6 ms | 41.7 ms |
+  | ascii  | decode | 51.2 ms | 53.2 ms |
+  | utf8   | encode | 45.2 ms | 47.2 ms |
+  | utf8   | decode | 59.8 ms | 61.6 ms |
+  ```
+- [`c1a61fd`](https://github.com/ghostty-org/ghostty/commit/c1a61fddda00e907c7e66bd3609d6c558cccd26d) terminal/snapshot: borrow fully buffered record payloads ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When the record source already has the complete payload buffered — always
+  the case for in-memory snapshots such as ghostty_snapshot_decoder_new_buf
+  — the record reader now borrows the payload straight out of the source
+  buffer instead of streaming it through the limited and hashing reader
+  adapters. Payload decoders parse a fixed reader over the borrowed bytes,
+  `finish` validates the CRC with a single bulk update, and the source
+  advances only after validation.
+  
+  The page decoder takes a matching fast path: a fully buffered payload is
+  parsed in place, skipping the staging allocation and copy it previously
+  made per PAGE record. Streaming sources are unchanged.
+  
+  This is a modest win on its own; it is also the foundation for later
+  commits whose buffered fast paths rely on the payload being contiguous.
+  
+  Benchmarks (see the first commit in this series for methodology; "prev"
+  is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     3.43 ms |  3.50 ms |     2.81 ms |  2.68 ms |
+  | styled    |     3.14 ms |  3.15 ms |     7.12 ms |  7.04 ms |
+  | truecolor |     5.33 ms |  5.27 ms |    12.11 ms | 12.04 ms |
+  | cjk       |     5.95 ms |  5.92 ms |    12.04 ms | 11.89 ms |
+  | grapheme  |    14.18 ms | 14.33 ms |    13.16 ms | 13.14 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 41.7 ms | 41.8 ms |
+  | ascii  | decode | 53.2 ms | 52.4 ms |
+  | utf8   | encode | 47.2 ms | 47.4 ms |
+  | utf8   | decode | 61.6 ms | 61.2 ms |
+  ```
+- [`973f619`](https://github.com/ghostty-org/ghostty/commit/973f619a2371c50fffb2062bd59a0c5134c783b1) terminal/snapshot: vectorize grid row encoding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Row encoding previously made two scalar passes over every row (a backward
+  scan for the encoded cell count and a validation pass accumulating the
+  width-selection OR), then wrote a 3-byte header and per-width chunked
+  cells through separate writer calls.
+  
+  Three changes, all bulk-codec only with the portable path unchanged:
+  
+    - scanRow computes the count and word-OR in @Vector(4, u64) strides.
+      Trailing default cells are all-zero words, so the OR over the whole
+      row equals the OR over the encoded prefix.
+    - The per-cell wide-pair validation loop is skipped entirely when the
+      OR carries no wide bits, which is every row of plain text.
+    - Rows are emitted with a single reservation in the destination's spare
+      buffer capacity (header plus cells, no writer calls), using explicit
+      i8x16.shuffle truncation for the 1/2/4-byte cell widths. Zig 0.16
+      disables loop auto-vectorization, so the previous "vectorizable"
+      truncating loop was actually scalar. Destinations without buffered
+      capacity (counting writers, a still-growing scratch) fall through to
+      the streaming path.
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     3.50 ms |  2.09 ms |     2.68 ms |  2.67 ms |
+  | styled    |     3.15 ms |  2.23 ms |     7.04 ms |  7.00 ms |
+  | truecolor |     5.27 ms |  4.95 ms |    12.04 ms | 11.85 ms |
+  | cjk       |     5.92 ms |  6.03 ms |    11.89 ms | 11.67 ms |
+  | grapheme  |    14.33 ms | 13.08 ms |    13.14 ms | 13.28 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 41.8 ms | 24.5 ms |
+  | ascii  | decode | 52.4 ms | 53.4 ms |
+  | utf8   | encode | 47.4 ms | 47.6 ms |
+  | utf8   | decode | 61.2 ms | 60.9 ms |
+  ```
+- [`593762c`](https://github.com/ghostty-org/ghostty/commit/593762cfa11afdd3eaefc9e0bdd9d979d85ab39f) terminal/snapshot: batch grapheme suffix codec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Grapheme suffix encoding made two full passes over the grid (a counting
+  pass, then an emit pass) and issued three writer calls per entry plus one
+  per codepoint. Every grapheme cell owns exactly one entry in the page's
+  grapheme map, so the section count now comes straight from
+  page.graphemeCount() with no counting pass, and entries are batched
+  through a 4 KB buffer with one writer call per flush. The per-entry size
+  check moved into the emit loop; an error still cancels the whole record
+  before any of it is emitted, so error behavior is unchanged.
+  
+  Decoding similarly parsed entry headers and codepoints with one reader
+  call per integer. Fully buffered payloads (the common case after the
+  borrowed-payload commit) now parse entry headers and codepoint runs
+  directly from the buffered bytes, and entries whose target cell cannot
+  carry a suffix discard their codepoints in bulk.
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.09 ms |  2.07 ms |     2.67 ms |  2.69 ms |
+  | styled    |     2.23 ms |  2.29 ms |     7.00 ms |  7.06 ms |
+  | truecolor |     4.95 ms |  4.91 ms |    11.85 ms | 11.99 ms |
+  | cjk       |     6.03 ms |  6.14 ms |    11.67 ms | 11.83 ms |
+  | grapheme  |    13.08 ms |  8.26 ms |    13.28 ms | 11.18 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 24.5 ms | 24.3 ms |
+  | ascii  | decode | 53.4 ms | 50.9 ms |
+  | utf8   | encode | 47.6 ms | 41.2 ms |
+  | utf8   | decode | 60.9 ms | 59.5 ms |
+  ```
+- [`2aaad3c`](https://github.com/ghostty-org/ghostty/commit/2aaad3ca99a27d36eff57d6e59e2044005ef2ba4) terminal/snapshot: vectorize grid cell decoding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Decoding one- and two-byte cells widened them to their 8-byte words one
+  scalar store at a time. The bulk codec now widens sixteen transported
+  bytes per step with byte shuffles against a zero vector, degrading
+  width-two surrogate lanes to U+FFFD with a vector select, exactly
+  matching the scalar path. Short row tails reprocess the final full
+  window with overlapping stores that rewrite identical bytes.
+  
+  This is a native win: the shuffles lower to NEON and take ascii decode
+  from 38.9 ms to 34.0 ms (measured by toggling this path at the tip of
+  this series). On wasm, V8 runs the scalar fallback at the same speed as
+  the shuffle version — the loop is store-bound either way — so the wasm
+  deltas below are flat.
+  
+  Row decoding also drops per-field packed-struct read-modify-writes in
+  favor of one load and one store per row header, and rows that are fully
+  default (zero header byte, zero encoded cells) skip all work: decoded
+  pages start zeroed, which is exactly the default row and cell state.
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.07 ms |  2.18 ms |     2.69 ms |  2.68 ms |
+  | styled    |     2.29 ms |  2.28 ms |     7.06 ms |  6.93 ms |
+  | truecolor |     4.91 ms |  4.93 ms |    11.99 ms | 11.91 ms |
+  | cjk       |     6.14 ms |  6.11 ms |    11.83 ms | 11.72 ms |
+  | grapheme  |     8.26 ms |  8.28 ms |    11.18 ms | 11.38 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 24.3 ms | 24.3 ms |
+  | ascii  | decode | 50.9 ms | 46.7 ms |
+  | utf8   | encode | 41.2 ms | 41.0 ms |
+  | utf8   | decode | 59.5 ms | 59.5 ms |
+  ```
+- [`7c1014e`](https://github.com/ghostty-org/ghostty/commit/7c1014ef662cd4e9b968b5bac6ca062fa17a3b56) terminal/snapshot: resolve wide pairs in a per-row pass ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Cell decoding ran wide-pair normalization inline for every decoded cell:
+  two neighbor loads and a switch per cell, even though the overwhelming
+  majority of rows contain no wide cells at all. Normalization is defined
+  against already-stored predecessors, so running it as an ordered pass
+  over the stored row afterward is exactly equivalent to interleaving it.
+  
+  The word-cell decoders now accumulate the bitwise OR of the row's wire
+  words as they apply cells, and the pass is gated on it: rows without
+  wide bits are already normalized (every cell narrow), and width-four and
+  narrower transports cannot encode wide bits at all, so their rows skip
+  the check at comptime. That removes the per-cell neighbor traffic from
+  all styled text, which decodes through the four-byte width.
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.18 ms |  2.06 ms |     2.68 ms |  2.70 ms |
+  | styled    |     2.28 ms |  2.41 ms |     6.93 ms |  6.56 ms |
+  | truecolor |     4.93 ms |  5.02 ms |    11.91 ms | 11.86 ms |
+  | cjk       |     6.11 ms |  6.03 ms |    11.72 ms | 11.60 ms |
+  | grapheme  |     8.28 ms |  8.36 ms |    11.38 ms | 11.39 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 24.3 ms | 25.6 ms |
+  | ascii  | decode | 46.7 ms | 48.1 ms |
+  | utf8   | encode | 41.0 ms | 41.7 ms |
+  | utf8   | decode | 59.5 ms | 58.5 ms |
+  ```
+- [`47a5182`](https://github.com/ghostty-org/ghostty/commit/47a5182621e324f3351683ca2cc422562b3ff792) terminal/snapshot: skip remap tables for pages without styles ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Decoding a page allocated and zeroed two full remap tables (a 128 KB
+  entries array plus an 8 KB seen bitmap each for styles and hyperlinks)
+  even when the page declared no table entries at all, which is every page
+  of plain scrollback. Empty tables now use a shared `.empty` remap that
+  allocates nothing; `get` reads it as all-unmapped through a length check.
+  Pages that do declare entries are unchanged.
+  
+  (Leaving the entries array unzeroed behind a seen-bitmap-gated `get` was
+  also tried and measured no better than the plain memset, so the table
+  keeps its simple zero-means-unmapped representation.)
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.06 ms |  2.13 ms |     2.70 ms |  2.54 ms |
+  | styled    |     2.41 ms |  2.29 ms |     6.56 ms |  6.75 ms |
+  | truecolor |     5.02 ms |  4.95 ms |    11.86 ms | 12.05 ms |
+  | cjk       |     6.03 ms |  6.23 ms |    11.60 ms | 11.39 ms |
+  | grapheme  |     8.36 ms |  8.72 ms |    11.39 ms | 11.27 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 25.6 ms | 24.4 ms |
+  | ascii  | decode | 48.1 ms | 45.1 ms |
+  | utf8   | encode | 41.7 ms | 41.9 ms |
+  | utf8   | decode | 58.5 ms | 58.6 ms |
+  ```
+- [`1359973`](https://github.com/ghostty-org/ghostty/commit/1359973aefb37a9beaa2ec3e8f79df78290ea6f5) terminal/snapshot: single-pass style entry codec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Style entries went through roughly five writer or reader vtable calls
+  each: encode wrote three 4-byte colors and two u16s separately, and
+  decode read 16 bytes into a stack buffer only to re-parse it through a
+  nested fixed reader, one small read per field. Style-heavy pages carry
+  hundreds of entries per page, so encode now assembles each entry in a
+  16-byte buffer with a single write, and decode parses the fixed-size
+  entry directly from a byte array. Entries additionally parse straight
+  from the buffered payload (ID and value together) when it is contiguous.
+  
+  Inserting a decoded style also hashed twice: an explicit `lookup` before
+  `add`, even though `add` already returns the existing entry for repeated
+  values. Insert with `add` alone, taking one reference per accepted table
+  entry, and surrender those references through the encoded-ID remap after
+  grid decoding, the same scheme hyperlink entries already use. Refcount
+  outcomes are identical: each distinct style nets its cell references.
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.13 ms |  2.12 ms |     2.54 ms |  2.59 ms |
+  | styled    |     2.29 ms |  2.23 ms |     6.75 ms |  6.43 ms |
+  | truecolor |     4.95 ms |  3.44 ms |    12.05 ms |  8.35 ms |
+  | cjk       |     6.23 ms |  5.99 ms |    11.39 ms | 11.39 ms |
+  | grapheme  |     8.72 ms |  8.33 ms |    11.27 ms | 10.89 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 24.4 ms | 24.7 ms |
+  | ascii  | decode | 45.1 ms | 47.5 ms |
+  | utf8   | encode | 41.9 ms | 41.9 ms |
+  | utf8   | decode | 58.6 ms | 58.8 ms |
+  ```
+- [`eb09bf8`](https://github.com/ghostty-org/ghostty/commit/eb09bf82918de51f22b805dc705ed67b2968b984) terminal/snapshot: interleave software CRC32C streams ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Slicing tables removed the byte-at-a-time dependency chain, but each
+  16-byte fold still depends serially on the previous one, leaving the
+  software CRC latency-bound at roughly 2.5-3 GB/s in V8 while snapshot
+  payloads run through it once per direction. wasm has no carry-less
+  multiply, so wider tables are the only classic escape — and measuring
+  slicing-by-32 against interleaving showed the extra 16 KB of tables buys
+  nothing once the chain is hidden.
+  
+  Instead, inputs of 4 KiB and up split into thirds processed as three
+  independent fold chains in one loop, then merge with the GF(2) zero-shift
+  operator: crc(A ++ B, s) = crc(B, 0) XOR zeroShift(crc(A, s), |B|). The
+  shift matrices are comptime, storing only even powers of two (an odd
+  power applies the preceding matrix twice), 4 KB total. Software CRC
+  throughput roughly doubles; hardware backends are untouched, so native
+  is unaffected (tables below are noise).
+  
+  Benchmarks ("prev" is the parent commit):
+  
+  | wasm      | encode prev | encode   | decode prev | decode   |
+  |-----------|------------:|---------:|------------:|---------:|
+  | ascii     |     2.12 ms |  1.73 ms |     2.59 ms |  2.17 ms |
+  | styled    |     2.23 ms |  1.47 ms |     6.43 ms |  5.38 ms |
+  | truecolor |     3.44 ms |  2.30 ms |     8.35 ms |  7.17 ms |
+  | cjk       |     5.99 ms |  3.89 ms |    11.39 ms |  9.50 ms |
+  | grapheme  |     8.33 ms |  6.94 ms |    10.89 ms |  9.24 ms |
+  
+  | native | mode   | prev    | this    |
+  |--------|--------|--------:|--------:|
+  | ascii  | encode | 24.7 ms | 24.8 ms |
+  | ascii  | decode | 47.5 ms | 49.2 ms |
+  | utf8   | encode | 41.9 ms | 42.4 ms |
+  | utf8   | decode | 58.8 ms | 59.5 ms |
+  ```
+- [`433b16b`](https://github.com/ghostty-org/ghostty/commit/433b16bcb1226a5d840318f88a1fb59e089b0649) terminal/apc: limit glyf decode allocations ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Limit individual allocations made while decoding registered glyf
+  outlines to 64 KB.
+  
+  Carefully crafted glyf outlines could expand into ~768KB of memory per
+  glossary entry, which adds up to hundreds of MB per terminal surface.
+  Across many terminals this could cause issues.
+  
+  The 64KB number was chosen by inspecting every glyph across Apple
+  symbols and Noto emoji and the largest single glyph found was 40KB. So,
+  64KB is generous while limiting each terminal to ~68MB of RAM for max
+  glyph glossaries.
+  ```
+- [`746a11c`](https://github.com/ghostty-org/ghostty/commit/746a11c721a1cf31d2691008340c719bb0a84b03) libghostty: much faster terminal snapshot encode and decode for wasm ([#13848](https://github.com/ghostty-org/ghostty/issues/13848)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Snapshot encode is now 4-7x faster, decode is 3x faster for wasm builds.
+  
+  Snapshot decode is particularly important for wasm builds because
+  libghostty is mainly used on web as a terminal _viewer_ and snapshots
+  are the best, most efficient way to ship down full terminal state.
+  
+  The biggest change here is a totally custom software CRC32
+  implementation, which accounted for ~70% of total decode time. Native
+  builds on aarch64/x86_64 use dedicated hardware instructions that wasm
+  doesn't have. We've written a custom CRC32 impl (verified against Zig
+  stdlib through randomized unit tests) that goes from 0.3 GB/s to 5 GB/s
+  throughput in V8.
+  
+  ## Benchmarks
+  
+  Wasm on V8:
+  
+  | Workload | Encode Before | Encode After | Speedup | Decode Before |
+  Decode After | Speedup |
+  |---|---|---|---|---|---|---|
+  | ascii | 290 MB/s | 1182 MB/s | 4.1x | 318 MB/s | 946 MB/s | 3.0x |
+  | styled (sgr16) | 387 MB/s | 2771 MB/s | 7.2x | 284 MB/s | 758 MB/s |
+  2.7x |
+  | sgr-truecolor | 361 MB/s | 2382 MB/s | 6.6x | 252 MB/s | 766 MB/s |
+  3.0x |
+  | cjk | 411 MB/s | 2686 MB/s | 6.5x | 339 MB/s | 1100 MB/s | 3.2x |
+  | grapheme | 280 MB/s | 1117 MB/s | 4.0x | 287 MB/s | 839 MB/s | 2.9x |
+  
+  Native on aarch64:
+  
+  | Corpus | Mode | Before | After |
+  |---|---|---|---|
+  | ascii | encode | 40.6 ms | 24.8 ms |
+  | ascii | decode | 51.2 ms | 49.2 ms |
+  | utf8 | encode | 45.2 ms | 42.4 ms |
+  | utf8 | decode | 59.8 ms | 59.5 ms |
+  
+  **AI usage:** Fable did everything here except write this PR and the
+  comments. It also wrote the commit messages in this case. I reviewed
+  everything.
+  ```
+- [`e524df6`](https://github.com/ghostty-org/ghostty/commit/e524df6c829ec11eccc88d1a01e1a7a0416d5454) terminal/apc: limit glyf decode allocations ([#13849](https://github.com/ghostty-org/ghostty/issues/13849)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Limit individual allocations made while decoding registered glyf
+  outlines to 64 KB.
+  
+  Carefully crafted glyf outlines could expand into ~768KB of memory per
+  glossary entry, which adds up to hundreds of MB per terminal surface.
+  Across many terminals this could cause issues.
+  
+  The 64KB number was chosen by inspecting every glyph across Apple
+  symbols and Noto emoji and the largest single glyph found was 40KB. So,
+  64KB is generous while limiting each terminal to ~68MB of RAM for max
+  glyph glossaries.
+  
+  AI was used only to write initial tests, I rewrote em.
+  ```
+- [`cbe8a0e`](https://github.com/ghostty-org/ghostty/commit/cbe8a0ed4eb27e1530bc8132e52a6c45c135332c) cli: keep cached SSH terminfo installs current ([#13844](https://github.com/ghostty-org/ghostty/issues/13844)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On a local cache miss, always send our embedded terminfo source to the
+  remote `tic` instead of accepting any existing entry reported by
+  `infocmp`.
+  
+  We also version cache entries using a content-derived hash of our
+  embedded terminfo. Non-matching entries produce a cache miss and trigger
+  (re)installation.
+  ```
+- [`9009122`](https://github.com/ghostty-org/ghostty/commit/9009122953f59d4900143aad587202a70c2136f4) macos: send all `insertText` commits as key events ([#13817](https://github.com/ghostty-org/ghostty/issues/13817)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Partially addresses #13796. Extends #13222.
+  
+  Previously, `insertText` commits without marked text were delivered via
+  `sendText`, which applies paste semantics and wraps the text in
+  bracketed
+  paste when the program enables it. macOS dictation and other input
+  methods often commit without marked text, so programs treated dictated
+  text as a paste: opencode collapsed it into a `"[Pasted ~N lines]"` chip
+  and Neovim applied paste-mode handling.
+  
+  `insertText` is only invoked by input methods (IME, dictation, emoji
+  picker, character viewer); real paste operations use a separate path.
+  Every non-empty commit is now sent as a key event — the same path
+  already used for preedit commits since #13222 — so input method text
+  always arrives as typed input.
+  
+  Typing is unaffected (the accumulator path returns earlier) and Cmd+V
+  pastes are unaffected. `committedPreeditTextAction` is renamed to
+  `committedTextAction` since it no longer only handles preedit commits.
+  
+  Testing:
+  
+  - 311 macOS unit tests pass.
+  - Manually verified on macOS 26: dictation into Opencode and Neovim
+    arrives inline with no paste handling; emoji picker inserts inline;
+    Chinese IME composition unchanged; dictation in Neovim normal mode now
+    behaves as keystrokes, matching Terminal.app.
+  
+  Notes:
+  
+  - Dictated "new line" now matches Terminal.app behavior (no newline
+    with typed-text semantics). The previous behavior came from the paste
+    path preserving the newline; a follow-up could deliver it as an
+    Enter keypress if desired.
+  
+  AI usage: drafted with OMO + OpenCode + DeepSeek V4 Pro assistance;
+  reviewed, edited, and manually tested by the author.
+  ```
 - [`cecf816`](https://github.com/ghostty-org/ghostty/commit/cecf81678e47f967b0354acada67e69d229f436b) Update VOUCHED list ([#13843](https://github.com/ghostty-org/ghostty/issues/13843)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1850,280 +2314,5 @@ Summary: 7 runs • 26 commits • 9 authors
   
   
   </details>
-  ```
-
-## August 9, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31337999494), [2](https://github.com/ghostty-org/ghostty/actions/runs/31325264351), [3](https://github.com/ghostty-org/ghostty/actions/runs/31320152152), [4](https://github.com/ghostty-org/ghostty/actions/runs/31313857575), [5](https://github.com/ghostty-org/ghostty/actions/runs/31293445585), [6](https://github.com/ghostty-org/ghostty/actions/runs/31292361837)  
-Summary: 6 runs • 27 commits • 6 authors
-
-### Changes
-
-- [`0aa71d0`](https://github.com/ghostty-org/ghostty/commit/0aa71d02ed068a3a036721ab9e480cbdf82ac329) terminal: reduce Parser.Action log formatting code size ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Shrinks libghostty-vt dylib by ~2%.
-  ```
-- [`f368543`](https://github.com/ghostty-org/ghostty/commit/f36854345e50fe382f37a6ef5859f9013787a23b) libghostty: skip stack traces in release panic handlers ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The default Zig panic handler unwinds the stack and symbolicates it,
-  which drags in ~160KB worth of helper machinery. For an embedded library
-  this isn't great because the embedder's environment should be providing
-  this as long as libghostty is compiled with symbols or has a way to
-  symbolize.
-  
-  Change ReleaseFast/ReleaseSmall libghostty-vt builds to use a custom
-  panic handler. Debug/ReleaseSafe keep the full Zig handlers.
-  
-  This shrinks libghostty-vt on macOS by ~160KB (~9%).
-  ```
-- [`579db41`](https://github.com/ghostty-org/ghostty/commit/579db418934a5990296b7fd65d1b6b586b46dfc6) libghostty: log to stderr with raw writes, not lockStderr ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  see the prior commit, but most importantly this makes it so we can
-  replace our IO impl from Threaded.
-  ```
-- [`82df79e`](https://github.com/ghostty-org/ghostty/commit/82df79ec8d2c61f3beb3ecfc543ed32cb4aba450) libghostty: replace Io.Threaded with custom Io impl (TinyIo) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Add a new Io implementation `TinyIo` that only supports the operations
-  we need and doesn't support concurrency. This shrinks the binary size
-  of libghostty by anywhere from ~100KB (macOS) to ~200KB (Linux) and
-  runtime memory requirements by over 256KB (the thread-local storage
-  `std.Io.Threaded` creates plus the 18KB threaded structure is gone).
-  
-  `TinyIo` is POSIX-only: Windows keeps std.Io.Threaded, and on
-  freestanding targets (wasm) TinyIo degrades to std.Io.failing
-  behavior just like before.
-  
-  It is also exported from the Zig module as `ghostty.TinyIo` so
-  Zig embedders can opt into the same size win when constructing
-  terminals.
-  ```
-- [`d524a0f`](https://github.com/ghostty-org/ghostty/commit/d524a0fe645cfd4d9ae27bd8451b934dcf2ebaef) libghostty: guard release builds against std debug Io ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Release libghostty-vt builds carefully avoid referencing
-  std.Options.debug_io because its default implementation is
-  std.Io.Threaded, and referencing that vtable keeps every operation
-  Threaded supports linked into the binary: roughly 110KB of unreachable
-  code. Nothing references it today, but any std.debug.print,
-  std.debug.lockStderr, or std.log default-handler call added to
-  release-reachable code would silently reintroduce all of it.
-  
-  Declare std_options_debug_io in the root module so std uses our value
-  instead of constructing the Threaded default. Development builds
-  (Debug, ReleaseSafe, tests) forward the std default so std.debug.print
-  and friends work normally. ReleaseFast and ReleaseSmall builds declare
-  it as a @compileError: since std only analyzes the declaration lazily,
-  at the moment something references a debug Io code path, the error
-  fires exactly at the offending reference, turning a silent size
-  regression into a build failure with a message explaining the
-  alternatives.
-  
-  Release binaries are byte-identical when the guard is not tripped.
-  ```
-- [`a15ddda`](https://github.com/ghostty-org/ghostty/commit/a15dddae2a497e6540feca5c6adc7e86edd59adb) TinyIo: fix failing tests in CI ([@mitchellh](https://github.com/mitchellh))
-- [`fea378e`](https://github.com/ghostty-org/ghostty/commit/fea378e565c8ddb7f49808c4f2e36a4a932e35ff) libghostty: reduce binary size ~16% (macOS), ~22% (Linux) ([#13715](https://github.com/ghostty-org/ghostty/issues/13715)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This shrinks the binary size of libghostty-vt by **16% on aarch64 macOS
-  and 22% on x86_64 Linux**. It also shrinks the in-memory footprint by
-  ~256KB per thread + ~20KB per app. All benchmarks remain the same, no
-  speedups or slowdowns.
-  
-  Each commit message explains an individual tactic used, but to
-  summarize:
-  
-  1. **No stack traces in release panic handlers (~160KB).** This requires
-  the Zig stack unwind and symbolication logic. I don't think this makes
-  sense in an embedded library because the embedder should handle this.
-  
-  2. **An alternate `std.Io` implementation called `TinyIo` (~100KB to
-  200KB).** See later... since this is the big one.
-  
-  3. **Disable recursive Parser.Action logging (~35KB).** We now only log
-  the top-level fields of a Parser.Action, which lowers the amount of
-  `std.fmt` codegen significantly.
-  
-  All sizes above are aarch64 macOS and x86_64 Linux ReleaseFast
-  libghostty builds.
-  
-  ## TinyIo
-  
-  I think the main complexity introduction here is our alternate `std.Io`
-  implementation `TinyIo`. This is an IO implementation that implements IO
-  operations we need through direct syscalls and does not support
-  concurrency or any other options like network, progress, etc.
-  
-  Why? Because of the way `std.Io` works through vtable dispatch, the
-  linker and dead code removal can't prune ANY of the function pointers.
-  So our binary has full implementations of all the networking,
-  concurrency, etc. related code even though we don't use it.
-  
-  This has a runtime effect too: even though we put `std.Io.Threaded` in
-  single-threaded mode, it still allocates ~256KB of TLS _per thread_, and
-  its raw struct state is ~18KB (versus 80 _bytes_ for `TinyIo`).
-  
-  For future maintenance: I exhaustively implemented the vtable rather
-  than use the failing vtable from Zig stdlib so any Zig changes to add
-  new fields to this error so we can determine if we want to support it or
-  not.
-  ```
-- [`034506f`](https://github.com/ghostty-org/ghostty/commit/034506f14562242c70618aaf5775366766653ffd) gtk: add +new-tab cli action ([@jcollie](https://github.com/jcollie))
-- [`9d8fbd1`](https://github.com/ghostty-org/ghostty/commit/9d8fbd15b3b4e385b82c1a9e31cdbb99a74dabd6) gtk: add +new-tab action ([#11762](https://github.com/ghostty-org/ghostty/issues/11762)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR adds a `+new-tab` CLI action, useful for automation on GTK. This
-  mainly re-uses machinery added for the `+new-window`, but adds in a
-  unique surface ID for identifying surfaces for IPC purposes (and
-  eliminates use of raw pointers for callbacks from notifications).
-  ```
-- [`16e13a5`](https://github.com/ghostty-org/ghostty/commit/16e13a59aeda57ccb1b9998ab989615960dbcafb) build: fix Linux Android SDK fallback path ([@fornwall](https://github.com/fornwall))
-  ```text
-  Use the standard ~/Android/Sdk capitalization for the Linux SDK fallback.
-  
-  This lets NDK discovery work when neither ANDROID_NDK_HOME nor an SDK
-  environment variable is set.
-  ```
-- [`74f91d1`](https://github.com/ghostty-org/ghostty/commit/74f91d1b439e7b906f003e60a65bd8994c3c77a5) macOS: support `drag-handle` config ([@bo2themax](https://github.com/bo2themax))
-- [`fde9e28`](https://github.com/ghostty-org/ghostty/commit/fde9e281c4a6bd9e62d87eedc66e3c3dc48e40cc) agents: remove double negative ([@jparise](https://github.com/jparise))
-- [`349664f`](https://github.com/ghostty-org/ghostty/commit/349664f031852bc6cca44c96dda7bf2b779d0402) agents: remove double negative ([#13710](https://github.com/ghostty-org/ghostty/issues/13710)) ([@mitchellh](https://github.com/mitchellh))
-- [`da59a2e`](https://github.com/ghostty-org/ghostty/commit/da59a2ec42744e81c4cdafbd2a3507f257c455be) macOS: support `drag-handle` config ([#13709](https://github.com/ghostty-org/ghostty/issues/13709)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Closes https://github.com/ghostty-org/ghostty/discussions/12332
-  
-  Also a tiny rephrasing for the documentation.
-  ```
-- [`2dc0883`](https://github.com/ghostty-org/ghostty/commit/2dc08839b1a1a331d9ba71ca097c5f8db2965182) build: fix Linux Android SDK fallback path ([#13705](https://github.com/ghostty-org/ghostty/issues/13705)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Use the standard `~/Android/Sdk` capitalization for the Linux SDK
-  fallback.
-  
-  This lets NDK discovery work when neither `ANDROID_NDK_HOME` nor an
-  `SDK` environment variable is set.
-  ```
-- [`c6e7e9e`](https://github.com/ghostty-org/ghostty/commit/c6e7e9e4e2fa27e1a5dea57e878eb1146faaf62b) config: add `drag-handle` ([@pluiedev](https://github.com/pluiedev))
-- [`65a3e66`](https://github.com/ghostty-org/ghostty/commit/65a3e666efdda5191051f94a5414eb2cf516245c) gtk: drag overlay toggle ([@pluiedev](https://github.com/pluiedev))
-- [`850ca8c`](https://github.com/ghostty-org/ghostty/commit/850ca8c7b1c69078621aea638bb6564d7b3d53b5) gtk: rebind is-split after moving split cross-tree ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  It turns out we never unbound the split from its original tree after
-  moving, which means `is-split` in particular is desynced and leads to
-  hilarious artifacts like how `unfocused-split-*` options just stop
-  working properly. I only realized this is a thing after the naïve
-  drag handle config option didn't work properly. Fun!
-  ```
-- [`05221c1`](https://github.com/ghostty-org/ghostty/commit/05221c11c9db0715666fc6e038915128fc6a563e) core,gtk: add `drag-handle` config ([#13706](https://github.com/ghostty-org/ghostty/issues/13706)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Fixes hundreds of complaints about the fact that drag handles cannot be
-  hidden, on GTK at least.
-  
-  I'm not sure if we ever made an issue for this? If you come across any
-  discussions asking for this, please link them here :)
-  ```
-- [`74efadb`](https://github.com/ghostty-org/ghostty/commit/74efadb446205eb052ce10d202300b2dc8970947) lib-vt: answer XTGETTCAP queries ([@fornwall](https://github.com/fornwall))
-  ```text
-  Ghostty's full termio path answers XTGETTCAP from the static terminfo
-  map, but terminal/stream_terminal.zig, which backs libghostty-vt,
-  parses the same DCS request and then discards it. There is no XTGETTCAP
-  effect either, so an embedder cannot restore the replies through the
-  C API.
-  
-  Programs query these over SSH instead of assuming the remote host has
-  the client's terminfo entry. This matters more for an embedder than for
-  the desktop app, which can install its entry on the remote through
-  shell integration.
-  
-  Answer the queries in stream_terminal the same way termio does: look
-  up each requested key in the static terminfo map and write the reply
-  to the pty, skipping the lookups entirely when no write_pty effect is
-  set. The map now stores null-terminated responses so they can be
-  handed straight to write_pty without copying. terminal/dcs.zig and the
-  termio path are unchanged.
-  
-  "TN" is handled separately. It names the terminfo entry the terminal
-  runs as, so it has to agree with TERM -- which is set in
-  termio/Exec.zig, a layer libghostty-vt does not contain. The library
-  never sees TERM and cannot answer on the embedder's behalf, and
-  answering with Ghostty's own entry from the static map would misreport
-  every embedder, so "TN" is intercepted before the map lookup. The name
-  is instead configured through a new option,
-  GHOSTTY_TERMINAL_OPT_TERMINFO_NAME: the string is copied into the
-  terminal, names longer than 128 bytes are rejected, and while unset
-  the query goes unanswered.
-  
-  This is the first dependency from src/terminal on src/terminfo, so
-  libghostty-vt now carries Ghostty's terminfo table: +16,023 bytes
-  (+1.9%) on a wasm32-freestanding ReleaseSmall build.
-  ```
-- [`f64f4ac`](https://github.com/ghostty-org/ghostty/commit/f64f4aca2c29b554d111b36c3d946a9bddd159ff) lib-vt: answer XTGETTCAP queries ([#13530](https://github.com/ghostty-org/ghostty/issues/13530)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Ghostty's full termio path answers XTGETTCAP from the static terminfo
-  map, but `terminal/stream_terminal.zig`, which backs libghostty-vt,
-  parses the same DCS request and then discards it. There is no XTGETTCAP
-  effect either, so an embedder cannot restore the replies through the C
-  API.
-  
-  Programs query these over SSH instead of assuming the remote host has
-  the client's terminfo entry. This matters more for an embedder than for
-  the desktop app, which can install its entry on the remote through shell
-  integration.
-  
-  Answer the queries in `stream_terminal` the same way termio does: look
-  up each requested key in the static terminfo map and write the reply to
-  the pty, skipping the lookups entirely when no `write_pty` effect is
-  set. The map now stores null-terminated responses so they can be handed
-  straight to `write_pty` without copying. `terminal/dcs.zig` and the
-  termio path are unchanged.
-  
-  `TN` is handled separately. It names the terminfo entry the terminal
-  runs as, so it has to agree with `TERM` — which is set in
-  `termio/Exec.zig`, a layer libghostty-vt does not contain. The library
-  never sees `TERM` and cannot answer on the embedder's behalf, and
-  answering with Ghostty's own entry from the static map would misreport
-  every embedder, so `TN` is intercepted before the map lookup. The name
-  is instead configured through a new option,
-  `GHOSTTY_TERMINAL_OPT_TERMINFO_NAME`: the string is copied into the
-  terminal, names longer than 128 bytes are rejected, and while unset the
-  query goes unanswered.
-  
-  This is the first dependency from `src/terminal` on `src/terminfo`, so
-  libghostty-vt now carries Ghostty's terminfo table: +16,023 bytes
-  (+1.9%) on a `wasm32-freestanding` `ReleaseSmall` build.
-  
-  ---
-  
-  AI usage: Created with claude code and opus 5. I have reviewed the code
-  and made modifications where it made sense. I have also tested this end
-  to end in an application.
-  ```
-- [`afb351f`](https://github.com/ghostty-org/ghostty/commit/afb351f8385d8b895671cb398d13fb39e06611f4) terminal/stream: fast-path APC termination ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  APC payload bytes are bulk consumed, but the terminating byte still passed
-  through the generic parser action loop. Handle ESC and C1 ST directly after
-  bulk consumption while leaving other transitions on the scalar path.
-  ```
-- [`b537282`](https://github.com/ghostty-org/ghostty/commit/b537282411ae731f3d49705be391320ff5f51e9e) terminal/apc: support reporting unknown APC sequences ([@mitchellh](https://github.com/mitchellh))
-- [`6b990de`](https://github.com/ghostty-org/ghostty/commit/6b990de5be7fcce9ffc7bed1a713f64c8503fbff) terminal: C API for unknown sequences ([@mitchellh](https://github.com/mitchellh))
-- [`7e8b4f3`](https://github.com/ghostty-org/ghostty/commit/7e8b4f360be6f9aea0bced4641e25dd564d60abc) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`94beef8`](https://github.com/ghostty-org/ghostty/commit/94beef81efad44514c328564d2e6c2fefc243712) libghostty: effect for unknown sequence (APC only this PR) ([#13702](https://github.com/ghostty-org/ghostty/issues/13702)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This introduces a new effect for Zig/C callers to detect unknown
-  sequences.
-  
-  This PR starts only with APC, but the API shape is such that we can add
-  other types (OSC next) in future PRs. The goal of this is to have zero
-  overhead in the disabled/undetected (both) case, and minimal overhead in
-  the detected case.
-  
-  This is important in particular for libghostty consumers because it
-  allows them to implement their own custom protocols and/or support
-  features libghostty doesn't support. It isn't possible to support them
-  at the same performance libghostty does but supporting them in general
-  is usually valuable.
-  
-  From a Zig API to enable this, users must set `unknown_max_bytes` for
-  the APC handler AND update their stream handler to recognize unknown
-  sequences. The built-in `stream_terminal` stream type has an exposed
-  callback for this, so both must be set.
-  ```
-- [`163e229`](https://github.com/ghostty-org/ghostty/commit/163e229756e632e39838a9f6e26402269dda213a) Update iTerm2 colorschemes ([#13704](https://github.com/ghostty-org/ghostty/issues/13704)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260803-155300-875a82f
   ```
 
