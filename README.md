@@ -8,15 +8,80 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 18:20 UTC.
+> Last updated: August 16, 2026 at 21:14 UTC.
 
 ## August 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31952071871), [2](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [3](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [4](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
-Summary: 4 runs • 15 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31971580699), [2](https://github.com/ghostty-org/ghostty/actions/runs/31969954615), [3](https://github.com/ghostty-org/ghostty/actions/runs/31967572084), [4](https://github.com/ghostty-org/ghostty/actions/runs/31952071871), [5](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [6](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [7](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 7 runs • 23 commits • 6 authors
 
 ### Changes
 
+- [`f748b17`](https://github.com/ghostty-org/ghostty/commit/f748b17e27f5ee089494044179dea1c493ce63cc) feat: expand tildes in config theme path to HOME ([@preiter93](https://github.com/preiter93))
+  ````text
+  When loading a theme from a path that includes a tilde:
+  ```
+  theme="~/.cache/wal/colors-ghostty"
+  ```
+  currently fails with the following error:
+  ```
+  cannot include path separators unless it is an absolute path
+  ```
+  
+  This PR tries to expand the ~ of the path. If there is no ~
+  or expansion fails, it falls back to the unexpanded value.
+  ````
+- [`c121734`](https://github.com/ghostty-org/ghostty/commit/c1217342958b90ed3a25413c1616dfd2dd8cd1bf) move shell expand of theme from theme.zig to config.zig ([@preiter93](https://github.com/preiter93))
+- [`37174c7`](https://github.com/ghostty-org/ghostty/commit/37174c73b0600cc3b2d8579fa7a210086ee3bbed) add helper and expand also if light/dark is specified ([@preiter93](https://github.com/preiter93))
+- [`68a2008`](https://github.com/ghostty-org/ghostty/commit/68a2008b340959b2a94f27f37ca98257109f6396) fix: format ([@preiter93](https://github.com/preiter93))
+- [`7557944`](https://github.com/ghostty-org/ghostty/commit/7557944b4f1fb9eebe451c636227a04e7a4a2704) feat: expand tildes in config theme path to HOME ([#13840](https://github.com/ghostty-org/ghostty/issues/13840)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  When loading a theme from a path that includes a tilde:
+  ```
+  theme="~/.cache/wal/colors-ghostty"
+  ```
+  ghostty currently fails with the following error:
+  ```
+  cannot include path separators unless it is an absolute path
+  ```
+  
+  This PR tries to expand the ~ of the path. If there is no ~ or expansion
+  fails, it falls back to the unexpanded value.
+  ````
+- [`a8e9b41`](https://github.com/ghostty-org/ghostty/commit/a8e9b413f13cfeec77efd95c3ba9b4750fcbfada) libghostty: simplify Wasm allocation API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace a bunch of type-specific Wasm allocation functions with a generic
+  byte allocator and reusable opaque out-parameters for pointers. This
+  makes it a lot more ergonomic (relatively) to use the Wasm interface
+  and removes a dozen or so exports.
+  
+  This also updates the `ghostty_type_json` `abi` field with a maximum
+  alignment value that host sides can use to keep every allocation aligned
+  properly, easily, without hardcoding numbers.
+  
+  This adds a test to verify this all works as intended and runs in CI.
+  ```
+- [`3790fb7`](https://github.com/ghostty-org/ghostty/commit/3790fb78fecb3577dee30c40efe1ced3e3f0d9a1) libghostty: simplify Wasm allocation API ([#13860](https://github.com/ghostty-org/ghostty/issues/13860)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace a bunch of type-specific Wasm allocation functions with a
+  generic byte allocator and reusable opaque out-parameters for pointers.
+  This makes it a lot more ergonomic (relatively) to use the Wasm
+  interface and removes a dozen or so exports.
+  
+  This also updates the `ghostty_type_json` `abi` field with a maximum
+  alignment value that host sides can use to keep every allocation aligned
+  properly, easily, without hardcoding numbers.
+  
+  This adds a test to verify this all works as intended and runs in CI.
+  ```
+- [`7b57c0a`](https://github.com/ghostty-org/ghostty/commit/7b57c0a02942beb3217a751e6d26955e3c3c1d72) Update VOUCHED list ([#13859](https://github.com/ghostty-org/ghostty/issues/13859)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13858#discussioncomment-18043290)
+  from @jcollie.
+  
+  Vouch: @tsacha
+  ```
 - [`9673a22`](https://github.com/ghostty-org/ghostty/commit/9673a22b01317ac6493240694a2451c8287253d1) libghostty: expand ABI type metadata ([@mitchellh](https://github.com/mitchellh))
   ```text
   The type metadata export only described extern struct layouts, leaving embedders to mirror enum values and tagged union relationships.
