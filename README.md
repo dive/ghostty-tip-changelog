@@ -8,15 +8,90 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 16, 2026 at 21:14 UTC.
+> Last updated: August 17, 2026 at 00:57 UTC.
 
 ## August 16, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31971580699), [2](https://github.com/ghostty-org/ghostty/actions/runs/31969954615), [3](https://github.com/ghostty-org/ghostty/actions/runs/31967572084), [4](https://github.com/ghostty-org/ghostty/actions/runs/31952071871), [5](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [6](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [7](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
-Summary: 7 runs • 23 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31974789508), [2](https://github.com/ghostty-org/ghostty/actions/runs/31971580699), [3](https://github.com/ghostty-org/ghostty/actions/runs/31969954615), [4](https://github.com/ghostty-org/ghostty/actions/runs/31967572084), [5](https://github.com/ghostty-org/ghostty/actions/runs/31952071871), [6](https://github.com/ghostty-org/ghostty/actions/runs/31940439160), [7](https://github.com/ghostty-org/ghostty/actions/runs/31927071035), [8](https://github.com/ghostty-org/ghostty/actions/runs/31921652723)  
+Summary: 8 runs • 27 commits • 7 authors
 
 ### Changes
 
+- [`bd64703`](https://github.com/ghostty-org/ghostty/commit/bd647035e97da4aadfe1003877ecf64a3a655059) input: don't emit fallback text on key release ([@tsacha](https://github.com/tsacha))
+  ```text
+  Key events without a kitty entry fall back to writing their UTF-8 text
+  directly. On GTK, keys whose unshifted keysym is a dead key or level 5
+  latch have no unshifted codepoint and take this path. With event type
+  reporting enabled, releases therefore emitted the same text as presses
+  and duplicated characters in applications such as Neovim.
+  
+  Skip the raw text fallback for release events while retaining it for
+  presses and repeats. Keep the guard in the shared encoder so release
+  events for identified keys still retain the UTF-8 data used to derive
+  alternate keys.
+  
+  Cover releases with and without report-all mode, and verify that repeat
+  events continue to emit fallback text.
+  ```
+- [`29b82dd`](https://github.com/ghostty-org/ghostty/commit/29b82dd80c46de16f5aaa405e51b2148831e2061) config: preserve bytes in hex escapes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13855
+  
+  Make the config string parser preserve hexadecimal escapes as bytes.
+  Previously all escaped values were encoded as Unicode codepoints.
+  ```
+- [`f8856a7`](https://github.com/ghostty-org/ghostty/commit/f8856a78a291193fbfab081a894d16fc21f4a42e) config: preserve bytes in hex escapes ([#13862](https://github.com/ghostty-org/ghostty/issues/13862)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13855
+  
+  Make the config string parser preserve hexadecimal escapes as bytes.
+  Previously all escaped values were encoded as Unicode codepoints.
+  ```
+- [`602497e`](https://github.com/ghostty-org/ghostty/commit/602497e9b96c62b05c4c6418538192ad974e4326) input: skip text fallback for kitty key releases ([#13861](https://github.com/ghostty-org/ghostty/issues/13861)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Key events without a kitty entry fall back to writing their UTF-8 text
+  directly. On GTK, keys whose unshifted keysym is a dead key or level 5
+  latch have no unshifted codepoint and take this path. With event type
+  reporting enabled, releases therefore emitted the same text as presses
+  and duplicated characters in applications such as Neovim.
+  
+  Skip the raw text fallback for release events while retaining it for
+  presses and repeats. Keep the guard in the shared encoder so release
+  events for identified keys still retain the UTF-8 data used to derive
+  alternate keys.
+  
+  Cover releases with and without report-all mode, and verify that repeat
+  events continue to emit fallback text.
+  
+    - https://github.com/ghostty-org/ghostty/discussions/12192
+    - https://github.com/ghostty-org/ghostty/discussions/12084
+    - https://github.com/ghostty-org/ghostty/discussions/12433
+    - https://github.com/ghostty-org/ghostty/discussions/13816
+  
+  ## Testing
+  
+    - `zig build test-lib-vt -Dtarget=x86_64-linux-gnu`
+    - `zig build -Demit-lib-vt -Dtarget=x86_64-linux-gnu`
+    - `zig build`
+    - Verified the regression test fails without the release guard
+  - Manually tested the GTK backend under Wayland/Sway and X11/XWayland,
+  with the GTK simple input context and ibus 1.5.34:
+      - Ergo-L `!` and `'`
+      - Spanish `[`, `{`, `]`, and `}`
+  - Presses, repeats, and both modifier-release orders in `nvim --clean`
+      - Dead-key composition and cancellation
+      - Unicode hexadecimal input
+  - Full kitty keyboard mode with `kitty +kitten show_key -m kitty`,
+  including composed text
+  
+  ## AI disclosure
+  
+  OpenAI Codex assisted with investigating the reports, reviewing the GTK
+  and kitty input paths, extending the regression tests, running
+  validation, and drafting this description. I reviewed the final code,
+  edited this description, manually performed the tests listed above, and
+  understand how the change interacts with the input encoder.
+  ```
 - [`f748b17`](https://github.com/ghostty-org/ghostty/commit/f748b17e27f5ee089494044179dea1c493ce63cc) feat: expand tildes in config theme path to HOME ([@preiter93](https://github.com/preiter93))
   ````text
   When loading a theme from a path that includes a tilde:
@@ -1951,648 +2026,4 @@ Summary: 7 runs • 20 commits • 5 authors
   }
   ```
   ````
-
-## August 10, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31439881201), [2](https://github.com/ghostty-org/ghostty/actions/runs/31436717873), [3](https://github.com/ghostty-org/ghostty/actions/runs/31414618806), [4](https://github.com/ghostty-org/ghostty/actions/runs/31400623896), [5](https://github.com/ghostty-org/ghostty/actions/runs/31367606708), [6](https://github.com/ghostty-org/ghostty/actions/runs/31354005195), [7](https://github.com/ghostty-org/ghostty/actions/runs/31347193596)  
-Summary: 7 runs • 26 commits • 9 authors
-
-### Changes
-
-- [`09557e9`](https://github.com/ghostty-org/ghostty/commit/09557e91dc33907fb151b2791414d2c6153fd2e0) Update VOUCHED list ([#13739](https://github.com/ghostty-org/ghostty/issues/13739)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13738#discussioncomment-17968662)
-  from @jcollie.
-  
-  Vouch: @PRIHLOP
-  ```
-- [`b68eb67`](https://github.com/ghostty-org/ghostty/commit/b68eb67e956b051372910cfe6b453e43121b76e3) config/edit: better handling of existing paths ([@vancluever](https://github.com/vancluever))
-  ```text
-  This adds some better handling of existing paths when editing
-  configuration files:
-  
-  * If we've found an existing file we just skip any attempts to create
-    files/dirs, and just return the path.
-  
-  * If the path (including file) does not exist, we check to see if the
-    directory exists first (possibly following symlinks). Directory
-    creation happens normally after this (note that any intermediary
-    symlinks in this process will still cause the process to fail, this is
-    to prevent infinite loops, as per the comments in
-    std.Io.Threaded.dirCreateDirPath).
-  ```
-- [`d929e6a`](https://github.com/ghostty-org/ghostty/commit/d929e6a34a091dcfd69d45011b96cc70b5575dac) config/edit: better handling of existing paths ([#13736](https://github.com/ghostty-org/ghostty/issues/13736)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This adds some better handling of existing paths when editing
-  configuration files:
-  
-  * If we've found an existing file we just skip any attempts to create
-  files/dirs, and just return the path.
-  
-  * If the path (including file) does not exist, we check to see if the
-  directory exists first (possibly following symlinks). Directory creation
-  happens normally after this (note that any intermediary symlinks in this
-  process will still cause the process to fail, this is to prevent
-  infinite loops, as per the comments in
-  std.Io.Threaded.dirCreateDirPath).
-  ```
-- [`1dbc8ca`](https://github.com/ghostty-org/ghostty/commit/1dbc8ca30c8ce929019c8a4d971113fc79cd4d58) apprt/gtk: add WeakRef.deinit and use it at teardown sites ([@hakonhagland](https://github.com/hakonhagland))
-  ```text
-  A GWeakRef must be released before the memory holding it is freed: the
-  target keeps a pointer to the GWeakRef so it can clear it at finalize,
-  and if that memory is gone by then the target walks into whatever now
-  occupies it. inspector_window.zig already carries this warning, and
-  every call site follows it — but the rule lives in a comment in one
-  file, while the type itself offers only set and get, so releasing one
-  looks like an ordinary assignment.
-  
-  Give it a name. deinit forwards to g_weak_ref_clear, which is the call
-  GLib documents for a GWeakRef that is going away, and the dispose-time
-  clears now use it. set(null) still works and is unchanged; the clear in
-  handleReloadConfig stays a set(null) because the object is still alive
-  there and the reference is reused.
-  
-  Zig has no destructors so this enforces nothing. It puts the
-  requirement on the type someone is already looking at.
-  ```
-- [`951a03b`](https://github.com/ghostty-org/ghostty/commit/951a03b58bf60e73d2d361ac8848cb9423c8be26) apprt/gtk: add WeakRef.deinit and use it at teardown sites ([#13732](https://github.com/ghostty-org/ghostty/issues/13732)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #13713.
-  
-  `WeakRef(T)` offers `set` and `get`, so releasing one is spelled
-  `set(null)` — indistinguishable from an ordinary assignment. The
-  requirement that it *must* happen before the owning memory is freed
-  lives in a comment in `class/inspector_window.zig`, which is not where
-  somebody using the type is looking.
-  
-  This adds `deinit`, forwarding to `g_weak_ref_clear` — the call GLib
-  documents for a `GWeakRef` that is going away — and switches the
-  dispose-time clears to it.
-  
-  ### What changed
-  
-  - `weak_ref.zig`: new `deinit`, with the reasoning in its doc comment.
-  - `window.zig`, `split_tree.zig`, `application.zig`,
-  `command_palette.zig`: the four dispose-time clears now call `deinit`.
-  
-  `set(null)` is unchanged and still valid. The clear in
-  `Application.handleReloadConfig` deliberately stays a `set(null)`: the
-  object is alive there and the reference is reused, so it is a logical
-  clear rather than teardown — which is the distinction the new name is
-  meant to make visible.
-  
-  ### Why it is worth a method
-  
-  Zig has no destructors, so this enforces nothing; it is documentation
-  that happens to be executable. The concrete case is in #13713: I added a
-  `WeakRef(Window)` in a downstream branch, did not clear it, and closing
-  a window that had shown that dialog deadlocked the GTK main loop inside
-  `weak_ref_data_clear_list` locking freed memory. Every upstream call
-  site already gets this right — the point is only to put the rule where
-  the next person will see it.
-  
-  ### Testing
-  
-  `zig build test` passes. `zig fmt --check` clean. Built and used on
-  Linux/GTK; the change is behaviourally identical to what was there,
-  since `g_weak_ref_clear` and `g_weak_ref_set(NULL)` both unregister.
-  
-  ---
-  
-  **AI disclosure per `AI_POLICY.md`:** I investigated the underlying
-  incident with Claude Code and it drafted this change; I reviewed it.
-  ```
-- [`fd47b15`](https://github.com/ghostty-org/ghostty/commit/fd47b15cd4dad1152e17d13b8f79a0f1183c61f2) gtk: free hotkeys memory on app teardown ([@dkinzler](https://github.com/dkinzler))
-  ```text
-  Free array list memory in Hotkeys.deinit to avoid DebugAllocator
-  throwing an error about leaked memory.
-  ```
-- [`0a183c9`](https://github.com/ghostty-org/ghostty/commit/0a183c923bfc6150e710121f481e3d03464f1b60) core/gtk: allow editing Ghostty config in a Ghostty window ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR extends the `open_config` keybind action to allow editing the
-  Ghostty config in a new Ghostty window using the editor configured in
-  `$EDITOR` or `$VISUAL`.
-  ```
-- [`e53b18a`](https://github.com/ghostty-org/ghostty/commit/e53b18a64726ad0ef0860d1dd77065defca8223f) gtk: free hotkeys memory on app teardown ([#13727](https://github.com/ghostty-org/ghostty/issues/13727)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  In debug builds the DebugAllocator throws an error about leaked memory
-  when you close Ghostty, if you have global keybinds in your config with
-  a Wayland compositor that supports the vicinae-hotkey protocol. The
-  cause is the `Hotkeys.entries` array list never actually being freed.
-  Not really a problem because the list should be kept around until app
-  teardown anyway, but not getting an error every time would be nice (even
-  if you need a somewhat specific setup for this to even happen right
-  now).
-  
-  To fix this free the array list memory in Hotkeys.deinit with
-  `ArrayList.clearAndFree`. As the existing comment on `deinit` already
-  mentions, we can't use `ArrayList.deinit` because it leaves the list in
-  an invalid state and `Hotkeys.clear` might still get called and use it.
-  ```
-- [`0914c5c`](https://github.com/ghostty-org/ghostty/commit/0914c5c2f1b96cefb2277a2cb871db181fd559da) core/gtk: allow editing Ghostty config in a Ghostty window ([#11905](https://github.com/ghostty-org/ghostty/issues/11905)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This PR extends the `open_config` keybind action to allow editing the
-  Ghostty config in a new Ghostty window using the editor configured in
-  `$EDITOR` or `$VISUAL`.
-  ```
-- [`d6248a3`](https://github.com/ghostty-org/ghostty/commit/d6248a32dd724e1cd9c7f9b68c9360f3ad630d47) ghostty.h: mark as internal ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Its moniker has been `libghostty-internal` for *quite* a while now among
-  maintainers but that has never really been clarified for the public aside
-  from a couple comments on discussions. Judging by how many people still
-  try to vibe their way into making this work for their purposes, I think
-  we should clear this up once and for all.
-  ```
-- [`7e463bc`](https://github.com/ghostty-org/ghostty/commit/7e463bc65d430e8a8f0aa786abf83601cf2b9598) ghostty.h: mark as internal ([#13724](https://github.com/ghostty-org/ghostty/issues/13724)) ([@bo2themax](https://github.com/bo2themax))
-- [`a82637b`](https://github.com/ghostty-org/ghostty/commit/a82637b53aa434fa5c8bc8360c58561d7d48a8e1) crash: resolve sentry directories on the init thread ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Sentry initialization already ran on a separate thread, but the cache
-  and state directory resolution happened on the main thread before
-  spawning it. On macOS the cache dir resolution calls NSFileManager
-  URLForDirectory:inDomain:appropriateForURL:create:error: which takes
-  multiple milliseconds and was the single largest cost in global.init.
-  
-  All directory resolution now happens on the init thread.
-  
-    before: 2967us-4018us
-    after:    30us-70us (env map snapshot + thread spawn)
-  
-  global.init total drops from ~3.4-5.0ms to ~0.4-1.0ms.
-  ```
-- [`3225e9e`](https://github.com/ghostty-org/ghostty/commit/3225e9ebb195b1cc237c7b8d9de3d51c6863cb5e) macos: cache unified logging loggers per scope ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The logFn for macOS unified logging created and released an os_log_t
-  logger on every single log call. Loggers are now cached per log scope for
-  the process lifetime via an atomic pointer (a creation race wastes at most
-  one create).
-  
-  Measured on macOS (Apple Silicon) with local timing instrumentation
-  during app launch, the version-info logging block in global.init:
-  
-    before: 1070us-2629us
-    after:   858us-1319us
-  ```
-- [`afc79b8`](https://github.com/ghostty-org/ghostty/commit/afc79b8ccf4098ba15659578d0fc666c74fb61bd) font: look up Apple Color Emoji by exact name on macOS ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Apple Color Emoji fallback font was discovered with the generic
-  discovery path, which builds a CTFontCollection and runs system-wide
-  font matching. Since we know the exact font we want, we can look it
-  up directly with CTFontCreateWithName instead.
-  ```
-- [`c454a3b`](https://github.com/ghostty-org/ghostty/commit/c454a3bf47cd72945b7f4db3b53f8af332e167c9) font: support warmup threads ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The first CoreText font query in a process initializes the system
-  font database, which takes multiple milliseconds (~7ms measured in an
-  isolated process; 2-4ms observed inside Ghostty startup). This cost
-  was previously paid during the first surface's font grid
-  initialization, on the critical path to the first window.
-  
-  App.create can now spawn a background thread that performs the warmup.
-  ```
-- [`131b293`](https://github.com/ghostty-org/ghostty/commit/131b293dbbf426acf57618bc43bef0a4fe260d12) renderer/metal: warm up the Metal device machinery at app creation ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The first Metal device query in a process (MTLCopyAllDevices) takes
-  multiple milliseconds; once the framework is warm, subsequent queries
-  are effectively free (measured ~15ms cold, ~1us warm in isolation).
-  This cost was paid during the first surface's renderer
-  initialization, on the critical path to the first window.
-  
-  Measured on macOS (Apple Silicon) with local timing instrumentation
-  during app launch, first surface renderer initialization:
-  
-    GraphicsAPI.init before: 4227us (device query ~3.5ms)
-    GraphicsAPI.init after:  ~900us (device query 20-25us)
-  ```
-- [`de1336f`](https://github.com/ghostty-org/ghostty/commit/de1336faddbdffc8fb4f58af3597d3f031e2b2d9) renderer/metal: warm up command queue and shader pipelines ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Extend the Metal portion of the startup warmup thread to also create
-  (and discard) a command queue and build (and discard) the shader
-  pipelines for both pixel formats we may use (which one is used
-  depends on the blending config). The first command queue for a device
-  and the first render pipeline state creations pay one-time driver
-  setup and shader compilation costs; once warm, the real creations
-  during surface initialization hit driver and OS caches.
-  
-  Measured on macOS (Apple Silicon) with local timing instrumentation
-  during app launch, first surface renderer initialization:
-  
-    queue creation:  717us -> 93us
-    pipeline builds: 1023us -> 347us
-    renderer init total: 2777us -> 1466us
-  ```
-- [`db6d20d`](https://github.com/ghostty-org/ghostty/commit/db6d20dce1df0614b4903a4c5c5489a384ab8eeb) apprt/embedded: initialize the TIS keymap lazily ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The embedded apprt App init created the keyboard layout keymap
-  eagerly, which requires talking to the text input system (TIS). The
-  first TIS call in a process is slow: 6.6ms measured inside
-  ghostty_app_new during app launch (up to ~30ms in a cold process).
-  
-  The keymap is only used for keyboard layout queries (option-as-alt
-  detection, layout change reload), which happen once keyboard events
-  are flowing. By then AppKit has already warmed TIS and the call is
-  effectively free (~0.2us measured warm). So initialize the keymap
-  lazily on first use. If the layout changes before the keymap was ever
-  created, reload is a no-op since lazy init picks up the current
-  layout.
-  
-  Measured on macOS (Apple Silicon) with local timing instrumentation
-  during app launch:
-  
-    embedded app init before: ~6.7ms (keymap 6614us)
-    embedded app init after:  ~60us (config clone only)
-  ```
-- [`4b1e02c`](https://github.com/ghostty-org/ghostty/commit/4b1e02c7c3cf6d6a3548a67d88d08d4962ff67ed) macos: do not load the config errors window when there are no errors ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Measured on macOS (Apple Silicon) during app launch, via a startup
-  timeline instrumented across the Swift app and libghostty:
-  
-    config apply, errors step:      35.5ms -> 0.1ms
-    main() -> first frame rendered: ~126ms -> ~93ms
-    main() -> window visible:       ~193ms -> ~173ms
-  ```
-- [`da74563`](https://github.com/ghostty-org/ghostty/commit/da745630bed8689365be0ec9a0cfe283a2ed965d) macos: only check for auto-tabbing when tabbing preference is always ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  windowDidLoad undoes macOS automatic window tabbing by inspecting
-  window.tabGroup. Accessing tabGroup on a fresh window materializes
-  AppKit's tab group machinery, which takes ~15-20ms and is on the
-  critical path of every window creation, including the first window at
-  app launch.
-  
-  AppKit only auto-tabs a fresh window when the system tabbing
-  preference is "always": the tab bar "+" button goes through
-  newWindowForTab which we intercept and route through our own tab
-  logic, so it never auto-tabs. Guard the check on
-  NSWindow.userTabbingPreference == .always so everyone else skips the
-  tab group materialization entirely.
-  
-  Measured on macOS (Apple Silicon) during app launch via the startup
-  timeline instrumentation:
-  
-    windowDidLoad tab group check: 17.8ms -> ~0ms
-    main() -> window visible: median ~173ms -> ~165ms (n=7)
-  ```
-- [`931a538`](https://github.com/ghostty-org/ghostty/commit/931a538a3992c0f33c6647360bd15ff54f0f7a87) comments ([@mitchellh](https://github.com/mitchellh))
-- [`ad08f3b`](https://github.com/ghostty-org/ghostty/commit/ad08f3b0378b119c584aa54980fc5f7fb18b45bb) macos: reduce app launch time ~15%, time to first frame ~27% ([#13722](https://github.com/ghostty-org/ghostty/issues/13722)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Startup optimizations for macOS! Highlights:
-  
-   * Process exec to visible window: **15% reduction, ~193ms to ~165ms.**
-   * Time to first rendered frame: **27% reduction, ~126ms to ~92ms.**
-  * Zig startup time goes from **20ms to ~5ms**, the remainder is
-  AppKit/Swift stuff.
-  
-  > [!NOTE]
-  >
-  > "Time to first rendered frame?" I measured the time between global
-  init start to the first Metal callback saying that a frame was
-  completed/drawn. This is faster than when it is _presented_ because we
-  can create an IOSurfaceLayer and draw to it before AppKit finishes its
-  startup and shows the window. But, the good news is this means that when
-  the window is shown, the frame is already drawn!
-  
-  See individual commits for speeds, but a summary below:
-  
-  1. **Resolve Sentry directories on the init thread, not startup thread
-  (~3-4ms).** Sentry init already ran on a thread, but directory
-  resolution happened on the main thread first, and on macOS that calls
-  `NSFileManager URLForDirectory:` which is slow as shit.
-  
-  2. **Initialize the TIS keymap lazily (~7ms).** The keymap is only
-  needed once keyboard events flow. If AppKit isn't warmed up, this is
-  SLOW. Defer setup until its needed.
-  
-  3. **Warm up the font registry and Metal on background threads (~7ms+
-  off the first surface).** The first CoreText query initializes the
-  system font database (~7ms) and the first Metal device/queue/pipeline
-  use pays framework init and shader compilation costs. `App.create` now
-  spawns a detached warmup thread per subsystem so this overlaps config
-  load, AppKit launch, and window creation. First font grid init went from
-  ~4.5ms to ~1.1ms, renderer init from ~6.8ms to ~1.5ms.
-  
-  4. **Look up Apple Color Emoji by exact name.** We know exactly which
-  font we want, so skip the system-wide `CTFontCollection` matching
-  (~312us to ~13us).
-  
-  5. **Cache unified logging loggers per scope.** We created and released
-  an `os_log_t` on every log call. I actually had a comment saying this is
-  slow but probably won't matter. Well, we log a lot on startup, and this
-  actually mattered.
-  
-  ## Warmup Threads
-  
-  As a note, some of the biggest speedups are by using "warmup" threads.
-  These are one-time launched threads on system start that basically just
-  "touch" the relevant frameworks (CoreText/Metal). The initial touching
-  of these frameworks has a ton of cost associated with them (and they're
-  thread-safe), so we can shave off a bunch of time by just touching them
-  in the background.
-  
-  This sets up a race between our own startup needing it and these warmup
-  threads, but in every case I measured, the warmup threads win.
-  
-  ## Linux
-  
-  All the optimizations here focused really on slow macOS APIs. I plan on
-  measuring on Linux, but nothing here should slow it down.
-  
-  **AI usage:** Fable was used for this one to find the issues, help
-  perform the measurements, and draft commit messages by splitting up my
-  work. I wrote the code, then edited the commit messages. This PR message
-  is fully hand-written.
-  ```
-- [`b8222f4`](https://github.com/ghostty-org/ghostty/commit/b8222f4a8403765050cca52c537ddd7638725457) terminal/kitty: clear placements on image retransmit ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13719
-  
-  The Kitty graphics protocol requires retransmitting data for a
-  specific image ID to delete the previous image and all of its
-  placements.
-  
-  Ghostty instead preserved the placement count and map when replacing image
-  data. Repeated `a=T` commands therefore added one anonymous placement per
-  frame and retained its tracked pin.
-  
-  Spec: https://sw.kovidgoyal.net/kitty/graphics-protocol/#display-images-on-screen
-  ```
-- [`156bc8c`](https://github.com/ghostty-org/ghostty/commit/156bc8c814292349981f3adbfb1120c3d4f02020) terminal/kitty: clear placements on image retransmit ([#13723](https://github.com/ghostty-org/ghostty/issues/13723)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13719
-  
-  The Kitty graphics protocol requires retransmitting data for a specific
-  image ID to delete the previous image and all of its placements.
-  
-  Ghostty instead preserved the placement count and map when replacing
-  image data. Repeated `a=T` commands therefore added one anonymous
-  placement per frame and retained its tracked pin.
-  
-  Spec:
-  https://sw.kovidgoyal.net/kitty/graphics-protocol/#display-images-on-screen
-  ```
-- [`c285d3c`](https://github.com/ghostty-org/ghostty/commit/c285d3c2442f314b9b9221bc95d02108c61d8d0f) build(deps): bump dorny/paths-filter from 4.0.2 to 4.0.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from 4.0.2 to 4.0.3.
-  - [Release notes](https://github.com/dorny/paths-filter/releases)
-  - [Changelog](https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md)
-  - [Commits](https://github.com/dorny/paths-filter/compare/7b450fff21473bca461d4b92ce414b9d0420d706...ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: dorny/paths-filter
-    dependency-version: 4.0.3
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`bb876a0`](https://github.com/ghostty-org/ghostty/commit/bb876a0d286b661089b7f40dd3a6488d629beffe) build(deps): bump dorny/paths-filter from 4.0.2 to 4.0.3 ([#13718](https://github.com/ghostty-org/ghostty/issues/13718)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps [dorny/paths-filter](https://github.com/dorny/paths-filter) from
-  4.0.2 to 4.0.3.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/dorny/paths-filter/releases">dorny/paths-filter's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v4.0.3</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>Update Outputs in readme to account for the 'every'
-  predicate-quantifier by <a
-  href="https://github.com/hintron"><code>@​hintron</code></a> in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/247">dorny/paths-filter#247</a></li>
-  <li>fix: scope base-ignored warning to API path by <a
-  href="https://github.com/saschabratton"><code>@​saschabratton</code></a>
-  in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/319">dorny/paths-filter#319</a></li>
-  <li>docs: add contents permission to PR example by <a
-  href="https://github.com/134130"><code>@​134130</code></a> in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/248">dorny/paths-filter#248</a></li>
-  <li>feat: add 'some-with-excludes' predicate quantifier by <a
-  href="https://github.com/arxeiss"><code>@​arxeiss</code></a> in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/322">dorny/paths-filter#322</a></li>
-  <li>Document safe handling of file list outputs in workflows by <a
-  href="https://github.com/dorny"><code>@​dorny</code></a> in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/326">dorny/paths-filter#326</a></li>
-  </ul>
-  <h2>Security</h2>
-  <ul>
-  <li>Escape multi-line filenames in list-files shell and csv output] by
-  <a href="https://github.com/ken-matsui"><code>@​ken-matsui</code></a>
-  and <a href="https://github.com/tjswlsgg"><code>@​tjswlsgg</code></a> in
-  <a
-  href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">https://github.com/advisories/GHSA-7hc6-8hq5-9q2m</a></li>
-  </ul>
-  <h2>New Contributors</h2>
-  <ul>
-  <li><a href="https://github.com/hintron"><code>@​hintron</code></a> made
-  their first contribution in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/247">dorny/paths-filter#247</a></li>
-  <li><a href="https://github.com/134130"><code>@​134130</code></a> made
-  their first contribution in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/248">dorny/paths-filter#248</a></li>
-  <li><a href="https://github.com/arxeiss"><code>@​arxeiss</code></a> made
-  their first contribution in <a
-  href="https://redirect.github.com/dorny/paths-filter/pull/322">dorny/paths-filter#322</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/dorny/paths-filter/compare/v4...v4.0.3">https://github.com/dorny/paths-filter/compare/v4...v4.0.3</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Changelog</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/dorny/paths-filter/blob/master/CHANGELOG.md">dorny/paths-filter's
-  changelog</a>.</em></p>
-  <blockquote>
-  <h1>Changelog</h1>
-  <h2>v4.0.3</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/326">Document
-  safe handling of file list outputs in workflows</a></li>
-  <li><a href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">Escape
-  multi-line filenames in list-files shell and csv output</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/322">Add
-  'some-with-excludes' predicate quantifier</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/248">Add
-  contents permission to PR example</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/319">Scope
-  base-ignored warning to API path</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/247">Update
-  outputs in readme to account for the 'every'
-  predicate-quantifier</a></li>
-  </ul>
-  <h2>v4.0.2</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/317">Work
-  around git dubious ownership errors in container jobs</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/303">Use
-  rev-parse instead of branch --show-current for older git compat</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/282">Fix
-  warning message</a></li>
-  </ul>
-  <h2>v4.0.1</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/255">Support
-  merge queue</a></li>
-  </ul>
-  <h2>v4.0.0</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/294">Update
-  action runtime to node24</a></li>
-  </ul>
-  <h2>v3.0.4</h2>
-  <ul>
-  <li><a href="https://github.com/advisories/GHSA-7hc6-8hq5-9q2m">Escape
-  multi-line filenames in list-files shell and csv output</a></li>
-  </ul>
-  <h2>v3.0.3</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/279">Add
-  missing predicate-quantifier</a></li>
-  </ul>
-  <h2>v3.0.2</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/224">Add
-  config parameter for predicate quantifier</a></li>
-  </ul>
-  <h2>v3.0.1</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/133">Compare
-  base and ref when token is empty</a></li>
-  </ul>
-  <h2>v3.0.0</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/210">Update to
-  Node.js 20</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/215">Update
-  all dependencies</a></li>
-  </ul>
-  <h2>v2.11.1</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/167">Update
-  @​actions/core to v1.10.0 - Fixes warning about deprecated
-  set-output</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/168">Document
-  need for pull-requests: read permission</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/164">Updating
-  to actions/checkout@v3</a></li>
-  </ul>
-  <h2>v2.11.0</h2>
-  <ul>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/157">Set
-  list-files input parameter as not required</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/161">Update
-  Node.js</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/162">Fix
-  incorrect handling of Unicode characters in exec()</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/163">Use
-  Octokit pagination</a></li>
-  <li><a
-  href="https://redirect.github.com/dorny/paths-filter/pull/160">Updates
-  real world links</a></li>
-  </ul>
-  <h2>v2.10.2</h2>
-  <!-- raw HTML omitted -->
-  </blockquote>
-  <p>... (truncated)</p>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d"><code>ceb8a2b</code></a>
-  Update CHANGELOG.md for v4.0.3 and v3.0.4 (<a
-  href="https://redirect.github.com/dorny/paths-filter/issues/327">#327</a>)</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/ef09b88f3eacdbec6ce135a7c9a193a6849545c1"><code>ef09b88</code></a>
-  Document safe handling of file list outputs in workflows (<a
-  href="https://redirect.github.com/dorny/paths-filter/issues/326">#326</a>)</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/44adc5b06dc135dba334efce9bf3cf0624512d2d"><code>44adc5b</code></a>
-  Merge commit from fork</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/4711b7a31b4aa89103d8c6ffab2e3b8e7b6381c7"><code>4711b7a</code></a>
-  feat: add 'some-with-excludes' predicate quantifier (<a
-  href="https://redirect.github.com/dorny/paths-filter/issues/322">#322</a>)</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/93c889f9e58fca66f35a0c83d8673ac7e88bb70a"><code>93c889f</code></a>
-  fix: escape multi-line filenames in list-files shell and csv output</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/b41dfa943b1939b9b646f67753bfe35cf6e4de03"><code>b41dfa9</code></a>
-  docs: add contents permission to PR example (<a
-  href="https://redirect.github.com/dorny/paths-filter/issues/248">#248</a>)</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/9af6e5a9d010d1ae8ec570390b3d793e2b70a402"><code>9af6e5a</code></a>
-  fix: scope base-ignored warning to API path (<a
-  href="https://redirect.github.com/dorny/paths-filter/issues/319">#319</a>)</li>
-  <li><a
-  href="https://github.com/dorny/paths-filter/commit/cae9006b65a1a53044b518c68e13e835c54948a7"><code>cae9006</code></a>
-  docs: update outputs in readme to account for the 'every'
-  predicate-quantifie...</li>
-  <li>See full diff in <a
-  href="https://github.com/dorny/paths-filter/compare/7b450fff21473bca461d4b92ce414b9d0420d706...ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=dorny/paths-filter&package-manager=github_actions&previous-version=4.0.2&new-version=4.0.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
 
