@@ -8,15 +8,76 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 17, 2026 at 12:33 UTC.
+> Last updated: August 17, 2026 at 18:30 UTC.
 
 ## August 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [2](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [3](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [4](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
-Summary: 4 runs • 9 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32047937055), [2](https://github.com/ghostty-org/ghostty/actions/runs/32034783819), [3](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [4](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [5](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [6](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
+Summary: 6 runs • 20 commits • 8 authors
 
 ### Changes
 
+- [`1eceea9`](https://github.com/ghostty-org/ghostty/commit/1eceea92dac457f95858706f946be7d6b21e5885) i18n: Update ko_KR translations ([@dobbylee](https://github.com/dobbylee))
+- [`f430905`](https://github.com/ghostty-org/ghostty/commit/f4309055fbb8cfd74bf0559a054e5eb7ddc361d8) macos: don't put 0x7F as text in key event ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13869
+  
+  We already checked `< 0x20` but missed `0x7F` which causes similar
+  problems.
+  ```
+- [`6c30dc1`](https://github.com/ghostty-org/ghostty/commit/6c30dc1bfff7e22a9198931411ae862a6bb6277b) i18n: Update ko_KR translations ([#13815](https://github.com/ghostty-org/ghostty/issues/13815)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Update all missing Korean translations for 1.4.
+  
+  Part of #13766
+  ```
+- [`2349e97`](https://github.com/ghostty-org/ghostty/commit/2349e974b866ae4d9a8c5193a885388ddd4f2b4b) inspector: remove obsolete detachable header helper ([@jparise](https://github.com/jparise))
+  ```text
+  Remove the unused, callback-based detachable header implementation. It
+  supported the previous terminal inspector, which has since been deleted
+  (fdbe4343c). The current inspector uses DetachableHeader directly.
+  ```
+- [`d19f8f7`](https://github.com/ghostty-org/ghostty/commit/d19f8f7f9d3204d37fd1c47f9b51f682238a8423) macos: remove unused hosting window helper ([@jparise](https://github.com/jparise))
+  ```text
+  Remove the unused SwiftUI environment key intended to expose a hosting
+  window. Nothing sets or reads the value.
+  ```
+- [`c8980b8`](https://github.com/ghostty-org/ghostty/commit/c8980b853b5e822509946c7c62188fe549731376) macos: don't put 0x7F as text in key event ([#13871](https://github.com/ghostty-org/ghostty/issues/13871)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13869
+  
+  We already checked `< 0x20` but missed `0x7F` which causes similar
+  problems.
+  ```
+- [`924c8a9`](https://github.com/ghostty-org/ghostty/commit/924c8a90ded98fb643def9d7b814efa55e590298) libghostty: C api to stream formatter output through a GhosttyWriter ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add `ghostty_formatter_format` which uses a streaming GhosttyWriter
+  type to write. Update the example to show this.
+  ```
+- [`0baa0fd`](https://github.com/ghostty-org/ghostty/commit/0baa0fd545365d388922d37370c4da2412aa4ace) inspector: remove obsolete detachable header helper ([#13874](https://github.com/ghostty-org/ghostty/issues/13874)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the unused, callback-based detachable header implementation. It
+  supported the previous terminal inspector, which has since been deleted
+  (fdbe4343c). The current inspector uses DetachableHeader directly.
+  ```
+- [`faaf07e`](https://github.com/ghostty-org/ghostty/commit/faaf07e7c001e24e0bd725cc1bb3cb899815d53b) macos: remove unused hosting window helper ([#13873](https://github.com/ghostty-org/ghostty/issues/13873)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Remove the unused SwiftUI environment key intended to expose a hosting
+  window. Nothing sets or reads the value.
+  ```
+- [`ee57b94`](https://github.com/ghostty-org/ghostty/commit/ee57b94170ab5261315cb9345eb67663e8d1908c) libghostty: C api to stream formatter output through a GhosttyWriter ([#13875](https://github.com/ghostty-org/ghostty/issues/13875)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add `ghostty_formatter_format` which uses a streaming GhosttyWriter type
+  to write. Update the example to show this.
+  ```
+- [`3924a32`](https://github.com/ghostty-org/ghostty/commit/3924a3255686b2b646d2ee8730ad5528f4542a26) Update VOUCHED list ([#13870](https://github.com/ghostty-org/ghostty/issues/13870)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13838#discussioncomment-18052745)
+  from @mitchellh.
+  
+  Vouch: @basteez
+  ```
 - [`e2662d7`](https://github.com/ghostty-org/ghostty/commit/e2662d7b63d4aee02f31164c96c180ebed8ddf0b) i18n: translate v1.4 command palette and remaining strings (be) (Ilia Kravchenko)
 - [`820ed68`](https://github.com/ghostty-org/ghostty/commit/820ed688efa5b914c2779449f260d369caca0b2c) i18n(be): fix translation issues per review (Ilia Kravchenko)
   ```text
