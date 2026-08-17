@@ -8,15 +8,34 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 17, 2026 at 06:42 UTC.
+> Last updated: August 17, 2026 at 09:34 UTC.
 
 ## August 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [2](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [3](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
-Summary: 3 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [2](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [3](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [4](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
+Summary: 4 runs • 9 commits • 5 authors
 
 ### Changes
 
+- [`e2662d7`](https://github.com/ghostty-org/ghostty/commit/e2662d7b63d4aee02f31164c96c180ebed8ddf0b) i18n: translate v1.4 command palette and remaining strings (be) (Ilia Kravchenko)
+- [`820ed68`](https://github.com/ghostty-org/ghostty/commit/820ed688efa5b914c2779449f260d369caca0b2c) i18n(be): fix translation issues per review (Ilia Kravchenko)
+  ```text
+  - Drop redundant 'было' copula with short-form participles (lines 1767, 1769)
+  - Use short predicative form 'недаступна' (line 1780)
+  - 'у двух фарматах:' instead of dash-construction (line 156)
+  - 'Аднавіць' instead of 'Паўтарыць' for Redo (semantic pair with Undo)
+  - Fix 'у' → 'ў' after 'ANSI' (7 places)
+  - Align label/description wording for Split Zoom, Read-Only, Float on Top, Secure Input
+  - 'усе акны' instead of 'усе вокны' (consistent with 'акно')
+  - 'калі яна ёсць' instead of 'даступная' (if present ≠ available)
+  - Infinitive 'Дадаць' instead of imperative 'Дадайце'
+  ```
+- [`b97b17f`](https://github.com/ghostty-org/ghostty/commit/b97b17f06b1ffd694f80edd3df5dd2134a0bcb9e) i18n: translate v1.4 strings (be) ([#13771](https://github.com/ghostty-org/ghostty/issues/13771)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Continues the Belarusian (`be`) translation for v1.4 per #13766.
+  Translates the remaining 181 strings (mostly the newly-localized command
+  palette), bringing `be` to 253/253.
+  ```
 - [`492c260`](https://github.com/ghostty-org/ghostty/commit/492c26067c9f342f46507ade392cfad2e1400360) libghostty: use custom memory pool for Wasm ([@mitchellh](https://github.com/mitchellh))
   ```text
   A custom memory pool for Wasm that grows by exactly one item size per
