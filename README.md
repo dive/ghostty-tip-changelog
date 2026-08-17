@@ -8,15 +8,128 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 17, 2026 at 03:44 UTC.
+> Last updated: August 17, 2026 at 06:42 UTC.
 
 ## August 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [2](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [3](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
+Summary: 3 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`492c260`](https://github.com/ghostty-org/ghostty/commit/492c26067c9f342f46507ade392cfad2e1400360) libghostty: use custom memory pool for Wasm ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A custom memory pool for Wasm that grows by exactly one item size per
+  growth and shares the pool across the entire Wasm-module instead of
+  per-terminal.
+  
+  Some background on why `std.heap.MemoryPool` is considered harmful for
+  WebAssembly:
+  
+  First, the std.heap.MemoryPool grows 1.5x at each growth point. The backing
+  allocator for that is usually a GPA which is the BrkAllocator for wasm.
+  This grows by power-of-two big-allocation slots. If you pair these together
+  you get a massive permanent linear memory growth. On non-wasm targets,
+  this doesn't matter because these are virtual memory mappings that don't
+  cost physical memory, but wasm doesn't work that way.
+  
+  Second, we were using one pool per terminal. On wasm, this meant that
+  we paid for the free list N times. On non-wasm, this makes sense because
+  the synchronization overhead has so far been measurable enough under
+  load to be prohibitive (although, I'm still skeptical about this and want
+  to look into it). On wasm, we build single-threaded modules, so we can use
+  a global free list without any extra overhead.
+  
+  ## Benchmarks
+  
+  80x24 terminal with 1000-line scrollack processing 16MB of plain ASCII.
+  
+  | Scenario                        |    Before |     After |
+  | ------------------------------- | --------: | --------: |
+  | Fresh instance                  |  0.56 MiB |  0.56 MiB |
+  | First `terminal_new` (delta)    | +3.44 MiB | +0.88 MiB |
+  | One filled terminal (total)     |  4.00 MiB |  1.88 MiB |
+  | Each additional filled terminal | +3.00 MiB | +0.44 MiB |
+  | 5 filled terminals (total)      | 16.00 MiB |  4.06 MiB |
+  
+  Throughput numbers are unchanged on wasm and native (to be expected in
+  the latter because this is all gated on wasm).
+  ```
+- [`e9db8d2`](https://github.com/ghostty-org/ghostty/commit/e9db8d2b0b827be035ab75658ea9faf4f0f56d3f) libghostty: use custom memory pool for Wasm, reduce terminal memory by ~75% ([#13865](https://github.com/ghostty-org/ghostty/issues/13865)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A custom memory pool for Wasm that grows by exactly one item size per
+  growth and shares the pool across the entire Wasm-module instead of
+  per-terminal.
+  
+  Some background on why `std.heap.MemoryPool` is considered harmful for
+  WebAssembly:
+  
+  First, the std.heap.MemoryPool grows 1.5x at each growth point. The
+  backing allocator for that is usually a GPA which is the BrkAllocator
+  for wasm. This grows by power-of-two big-allocation slots. If you pair
+  these together you get a massive permanent linear memory growth.
+  
+  On non-wasm targets, the memory growth doesn't matter because these are
+  virtual memory mappings that don't cost physical memory, but wasm
+  doesn't work that way. Also on native targets, the syscalls to allocate
+  memory are very expensive (relatively), so it makes sense to allocate
+  large virtual memory chunks and avoid them. Again, wasm doesn't work
+  this way.
+  
+  Second, we were using one pool per terminal. On wasm, this meant that we
+  paid for the free list N times. On non-wasm, this makes sense because
+  the synchronization overhead has so far been measurable enough under
+  load to be prohibitive (although, I'm still skeptical about this and
+  want to look into it). On wasm, we build single-threaded modules, so we
+  can use a global free list without any extra overhead.
+  
+  ## Benchmarks
+  
+  80x24 terminal with 1000-line scrollack processing 16MB of plain ASCII.
+  
+  | Scenario                        |    Before |     After |
+  | ------------------------------- | --------: | --------: |
+  | Fresh instance                  |  0.56 MiB |  0.56 MiB |
+  | First `terminal_new` (delta)    | +3.44 MiB | +0.88 MiB |
+  | One filled terminal (total)     |  4.00 MiB |  1.88 MiB |
+  | Each additional filled terminal | +3.00 MiB | +0.44 MiB |
+  | 5 filled terminals (total)      | 16.00 MiB |  4.06 MiB |
+  
+  Throughput numbers are unchanged on wasm and native (to be expected in
+  the latter because this is all gated on
+  wasm).
+  
+  Note I'm still very much optimizing the above numbers! This is just my
+  first big win.
+  
+  **AI usage:** None used except to validate and judge.
+  ```
+- [`5364e51`](https://github.com/ghostty-org/ghostty/commit/5364e5158f171e4d87fdfa43d0fffebc0c3775fa) libghostty: reduce Wasm stack reservation ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig default's Wasm stacks to 1MB. Change it to 128 KB instead.
+  
+  This removes 896 KiB from every Wasm instance's initial linear memory
+  reservation. That means that simply _loading_ `ghostty-vt.wasm` is down
+  this much.
+  
+  Through various workload benchmarks of real terminal snapshots,
+  artificial worst case full ascii, full styled, full emoji, full mixed,
+  etc. workloads, I wasn't able to get a stack to go above 17 KB, so 128 KB
+  is VERY generous. Lets start here.
+  ```
+- [`8d70c5d`](https://github.com/ghostty-org/ghostty/commit/8d70c5dca0346dcba94f8812547ff325e62bc340) libghostty: reduce Wasm stack reservation ([#13864](https://github.com/ghostty-org/ghostty/issues/13864)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig default's Wasm stacks to 1MB. Change it to 128 KB instead.
+  
+  This removes 896 KiB from every Wasm instance's initial linear memory
+  reservation. That means that simply _loading_ `ghostty-vt.wasm` is down
+  this much.
+  
+  Through various workload benchmarks of real terminal snapshots,
+  artificial worst case full ascii, full styled, full emoji, full mixed,
+  etc. workloads, I wasn't able to get a stack to go above 17 KB, so 128
+  KB is VERY generous. Lets start here.
+  ```
 - [`7a96643`](https://github.com/ghostty-org/ghostty/commit/7a966438fcf5b3b209bb754b67155d34ae93b217) build(deps): bump cachix/install-nix-action from 31.11.0 to 31.11.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.0 to 31.11.1.
