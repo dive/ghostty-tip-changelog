@@ -8,15 +8,129 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 17, 2026 at 18:30 UTC.
+> Last updated: August 17, 2026 at 21:20 UTC.
 
 ## August 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32047937055), [2](https://github.com/ghostty-org/ghostty/actions/runs/32034783819), [3](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [4](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [5](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [6](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
-Summary: 6 runs • 20 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32065823102), [2](https://github.com/ghostty-org/ghostty/actions/runs/32056946273), [3](https://github.com/ghostty-org/ghostty/actions/runs/32047937055), [4](https://github.com/ghostty-org/ghostty/actions/runs/32034783819), [5](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [6](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [7](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [8](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
+Summary: 8 runs • 32 commits • 9 authors
 
 ### Changes
 
+- [`846d24e`](https://github.com/ghostty-org/ghostty/commit/846d24e12b3bc12c5623cabf311f3e8c13621ea4) libghostty: buffer the writer adapter used by streaming C APIs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GhosttyWriter adapter was unbuffered, so for streaming writers that
+  make small writes like the formatter, it produces a crazy amount of callbacks:
+  one styled HTML page invoked the callback ~50,000 times in a benchmark lol.
+  
+  Change WriterAdapter to have an optional buffer (initBuffered) and use
+  a 4 KB buffer for all current callers. Also optimize single byte splats
+  to use memset.
+  
+  Results: that same styled HTML example goes from ~50K callbacks to 124.
+  And throughput through the C API also improved across every workload
+  I tested (styled and unstyled text in every format).
+  ```
+- [`56e1f3a`](https://github.com/ghostty-org/ghostty/commit/56e1f3a62e26407e8c020ef5881df3e8584be20f) libghostty: buffer the writer adapter used by streaming C APIs ([#13877](https://github.com/ghostty-org/ghostty/issues/13877)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The GhosttyWriter adapter was unbuffered, so for streaming writers that
+  make small writes like the formatter, it produces a crazy amount of
+  callbacks: one styled HTML page invoked the callback ~50,000 times in a
+  benchmark lol. This has a particularly large impact on callers who are
+  supplying callbacks through an expensive FFI interface, like Go.
+  
+  Change WriterAdapter to have an optional buffer (initBuffered) and use a
+  4 KB buffer for all current callers. Also optimize single byte splats to
+  use memset.
+  
+  Results: that same styled HTML example goes from ~50K callbacks to 124.
+  And throughput through the C API also improved across every workload I
+  tested (styled and unstyled text in every format).
+  ```
+- [`7c4c7ad`](https://github.com/ghostty-org/ghostty/commit/7c4c7adadc8b080ab168ed0af48319185dcbd2ba) pkg/wuffs: use C-only mirror of wuffs ([@jcollie](https://github.com/jcollie))
+  ```text
+  This prevents us from pulling in test images that trigger some anti-virus
+  scanners. It's also smaller since it only has the necessary bits that we need.
+  
+  This also updates to the latest release: 0.4.0-alpha.10.
+  ```
+- [`6cadad0`](https://github.com/ghostty-org/ghostty/commit/6cadad06f468745651a6bb53e64d31cc8fae9e24) termio: preserve UTF-8 in desktop notification truncation ([@dolzenko](https://github.com/dolzenko))
+- [`ae6d97e`](https://github.com/ghostty-org/ghostty/commit/ae6d97ea71b8ad4bb0d3837cc807d6ae097d4145) termio: avoid rescanning UTF-8 prefixes ([@dolzenko](https://github.com/dolzenko))
+- [`53c6fdb`](https://github.com/ghostty-org/ghostty/commit/53c6fdbe7d53eb8c61f7af5e311d04956c4fe283) apprt: own desktop notification truncation ([@dolzenko](https://github.com/dolzenko))
+  ```text
+  Make the fixed-size desktop notification payload a named Message type and initialize it through a constructor.
+  
+  Keeping UTF-8 boundary truncation with the payload owns the buffer capacities and sentinel termination at the message boundary, while stream_handler only forwards the title and body.
+  ```
+- [`5c952ac`](https://github.com/ghostty-org/ghostty/commit/5c952ac977b30f3e4e01417827d4d7745015f50c) macos: simplify command palette sort keys ([@jparise](https://github.com/jparise))
+  ```text
+  Store the Comparable ObjectIdentifier directly instead of wrapping the
+  only sort key type in AnySortKey.
+  
+  The expected deterministic ordering of equal terminal command titles is
+  also now verified by a unit test.
+  ```
+- [`997a2af`](https://github.com/ghostty-org/ghostty/commit/997a2aff2afce88cdf5fa7a3d5dca047c0d65254) terminal: preserve pending wrap in VT formatter ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, formatting a cursor at the right edge emitted CUP, which
+  cleared pending wrap. Replayed output then overwrote the edge cell
+  instead of wrapping before the next printable character.
+  
+  When pending wrap is set, move to and reformat the final cell to restore
+  the flag through normal VT behavior. Emit cursor pen state afterward and
+  cover replay plus pin-map behavior with a regression test.
+  ```
+- [`0073976`](https://github.com/ghostty-org/ghostty/commit/00739762316a0ad05c7d412705b5f6111bae3288) terminal: preserve pending wrap in VT formatter ([#13876](https://github.com/ghostty-org/ghostty/issues/13876)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, formatting a cursor at the right edge emitted CUP, which
+  cleared pending wrap. Replayed output then overwrote the edge cell
+  instead of wrapping before the next printable character.
+  
+  When pending wrap is set, move to and reformat the final cell to restore
+  the flag through normal VT behavior. Emit cursor pen state afterward and
+  cover replay plus pin-map behavior with a regression test.
+  ```
+- [`4816afc`](https://github.com/ghostty-org/ghostty/commit/4816afc74201c4a8170223fb43e7e6fdbaa34a0a) macos: simplify command palette sort keys ([#13872](https://github.com/ghostty-org/ghostty/issues/13872)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Store the Comparable ObjectIdentifier directly instead of wrapping the
+  only sort key type in AnySortKey.
+  
+  The expected deterministic ordering of equal terminal command titles is
+  also now verified by a unit test.
+  ```
+- [`385a378`](https://github.com/ghostty-org/ghostty/commit/385a378fe58425482eb1df8ed614433e06b891de) termio: preserve UTF-8 in desktop notification truncation ([#13811](https://github.com/ghostty-org/ghostty/issues/13811)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  - Prevent desktop notification title and body truncation from producing
+  invalid UTF-8.
+  - Truncate fixed-size buffers to the longest valid UTF-8 prefix.
+  - Add regression tests for multibyte characters at the buffer boundary.
+  
+  Fixes #13795
+  
+  ## Testing
+  
+  - Confirmed the original reproducer produces `[Invalid UTF-8]` with the
+  installed Ghostty.
+  - Confirmed the patched Ghostty displays a valid, truncated
+  notification.
+  - Added tests covering both notification title and body truncation.
+  
+  ## AI Usage Disclosure
+  
+  I used OpenAI Codex to investigate the root cause, implement the fix and
+  regression tests, run validation, and help prepare the issue and PR
+  descriptions. I reviewed and understand the submitted change.
+  ```
+- [`159cf6d`](https://github.com/ghostty-org/ghostty/commit/159cf6d7e7fef0f477d400c3f801b9f02dbcfd19) pkg/wuffs: use C-only mirror of wuffs ([#13789](https://github.com/ghostty-org/ghostty/issues/13789)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This prevents us from pulling in test images that trigger some
+  anti-virus scanners. It's also smaller since it only has the necessary
+  bits that we need.
+  
+  This also updates to the latest release: 0.4.0-alpha.10.
+  ```
 - [`1eceea9`](https://github.com/ghostty-org/ghostty/commit/1eceea92dac457f95858706f946be7d6b21e5885) i18n: Update ko_KR translations ([@dobbylee](https://github.com/dobbylee))
 - [`f430905`](https://github.com/ghostty-org/ghostty/commit/f4309055fbb8cfd74bf0559a054e5eb7ddc361d8) macos: don't put 0x7F as text in key event ([@mitchellh](https://github.com/mitchellh))
   ```text
