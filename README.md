@@ -8,15 +8,37 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 17, 2026 at 21:20 UTC.
+> Last updated: August 18, 2026 at 00:55 UTC.
 
 ## August 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32065823102), [2](https://github.com/ghostty-org/ghostty/actions/runs/32056946273), [3](https://github.com/ghostty-org/ghostty/actions/runs/32047937055), [4](https://github.com/ghostty-org/ghostty/actions/runs/32034783819), [5](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [6](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [7](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [8](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
-Summary: 8 runs • 32 commits • 9 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32070024528), [2](https://github.com/ghostty-org/ghostty/actions/runs/32065823102), [3](https://github.com/ghostty-org/ghostty/actions/runs/32056946273), [4](https://github.com/ghostty-org/ghostty/actions/runs/32047937055), [5](https://github.com/ghostty-org/ghostty/actions/runs/32034783819), [6](https://github.com/ghostty-org/ghostty/actions/runs/32007079296), [7](https://github.com/ghostty-org/ghostty/actions/runs/31995485081), [8](https://github.com/ghostty-org/ghostty/actions/runs/31992629892), [9](https://github.com/ghostty-org/ghostty/actions/runs/31984667378)  
+Summary: 9 runs • 34 commits • 9 authors
 
 ### Changes
 
+- [`9be6c2e`](https://github.com/ghostty-org/ghostty/commit/9be6c2ea2870f409f3e73337f3f5ac74db806ba3) libghostty: option to retain continuations on snapshot decode ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a snapshot decoder option that leaves continuation tracking
+  enabled on decoded terminals. This lets caller access the continuation
+  bytes (if any) that were applied to the terminal.
+  
+  This lets replay callers export an unfinished parser or UTF-8 sequence
+  from the returned terminal.
+  
+  This defaults to off.
+  ```
+- [`12967b6`](https://github.com/ghostty-org/ghostty/commit/12967b68f7d46bdbfb2cfffb6768332fb9db68c0) libghostty: option to retain continuations on snapshot decode ([#13878](https://github.com/ghostty-org/ghostty/issues/13878)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a snapshot decoder option that leaves continuation tracking enabled
+  on decoded terminals. This lets caller access the continuation bytes (if
+  any) that were applied to the terminal.
+  
+  This lets replay callers export an unfinished parser or UTF-8 sequence
+  from the returned terminal.
+  
+  This defaults to off.
+  ```
 - [`846d24e`](https://github.com/ghostty-org/ghostty/commit/846d24e12b3bc12c5623cabf311f3e8c13621ea4) libghostty: buffer the writer adapter used by streaming C APIs ([@mitchellh](https://github.com/mitchellh))
   ```text
   The GhosttyWriter adapter was unbuffered, so for streaming writers that
@@ -2268,175 +2290,4 @@ Summary: 5 runs • 21 commits • 6 authors
   
   Vouch: @figelwump
   ```
-
-## August 11, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31535255635), [2](https://github.com/ghostty-org/ghostty/actions/runs/31523372788), [3](https://github.com/ghostty-org/ghostty/actions/runs/31513216985), [4](https://github.com/ghostty-org/ghostty/actions/runs/31505930846), [5](https://github.com/ghostty-org/ghostty/actions/runs/31501623712), [6](https://github.com/ghostty-org/ghostty/actions/runs/31453674000), [7](https://github.com/ghostty-org/ghostty/actions/runs/31450087990)  
-Summary: 7 runs • 20 commits • 5 authors
-
-### Changes
-
-- [`fad7f85`](https://github.com/ghostty-org/ghostty/commit/fad7f854e8f976968bf4d61d408de9699cf87666) Update VOUCHED list ([#13754](https://github.com/ghostty-org/ghostty/issues/13754)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13753#discussioncomment-17980814)
-  from @mitchellh.
-  
-  Vouch: @shorsher
-  ```
-- [`0c8ec22`](https://github.com/ghostty-org/ghostty/commit/0c8ec225b5a998792ddcbf626687cd3a28ec4523) macOS: remove unused menu validations ([@bo2themax](https://github.com/bo2themax))
-- [`f0e3be3`](https://github.com/ghostty-org/ghostty/commit/f0e3be3eefe104eeb119562499df45f4762995f9) macOS: support decoding the surrogate pair with UnicodeHexInput ([@bo2themax](https://github.com/bo2themax))
-- [`f719af0`](https://github.com/ghostty-org/ghostty/commit/f719af00c2f44ca7473219abb29dfd5fbb0fcc85) terminal/kitty: use fixed table for control keys ([@Uzaaft](https://github.com/Uzaaft))
-  ```text
-  Graphics commands prev. stored parsed control fields in a hash map
-  backed that used an arena.
-  This added hashing and allocation to every command even though protocol
-  keys are single ASCII letters.
-  
-  Store letter keys in a fixed array with a presence bitmap and remove the
-  now-unnecessary arena. Unknown non-letter keys remain ignored and are
-  covered by a regression test.
-  ```
-- [`5ce1fe1`](https://github.com/ghostty-org/ghostty/commit/5ce1fe1ff9d5a1069604e1cae599c2f283ec12aa) terminal/kitty: document the experiment variants that were considered ([@Uzaaft](https://github.com/Uzaaft))
-- [`04d1939`](https://github.com/ghostty-org/ghostty/commit/04d1939d5f3d0120ed9a4754146883f848e65d43) issue-triage: add a documentation search checkbox ([@trag1c](https://github.com/trag1c))
-- [`92cdfc7`](https://github.com/ghostty-org/ghostty/commit/92cdfc748ec42045bc23bff6c8d887de2872ccb3) issue-triage: add a documentation search checkbox ([#13752](https://github.com/ghostty-org/ghostty/issues/13752)) ([@mitchellh](https://github.com/mitchellh))
-- [`8e4715b`](https://github.com/ghostty-org/ghostty/commit/8e4715b6ea65c7f5b3e476c81d111a35053d8d4a) terminal/kitty: use fixed table for control keys ([#13729](https://github.com/ghostty-org/ghostty/issues/13729)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Swap out the hash map backed by an arena with a fixed array.
-  Measurements from poop:
-  CPU Cycles: 173M → 171M (−1.2%)
-  Instructions: 519M → 517M (−0.5%)
-  Peak RSS: 11.9 → 11.8 MB
-  Cache misses: 356K → 312K (−12.4%)
-  ```
-- [`d1937d6`](https://github.com/ghostty-org/ghostty/commit/d1937d63e45547515484e9820f9148988783ecfe) macOS: remove unused menu validations ([#13726](https://github.com/ghostty-org/ghostty/issues/13726)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  UpdateController isn't the target of any menu item, we don't need add
-  menu validation here.
-  ```
-- [`b0b9fbc`](https://github.com/ghostty-org/ghostty/commit/b0b9fbc8d5b0faecdd79da2303811b42bd0afc67) macOS: support decoding the surrogate pair with UnicodeHexInput ([#13737](https://github.com/ghostty-org/ghostty/issues/13737)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Not yet a perfect fix for
-  https://github.com/ghostty-org/ghostty/discussions/13730
-  ```
-- [`90154e2`](https://github.com/ghostty-org/ghostty/commit/90154e28957ae2257993a30284cce9337c3060e6) macos: ignore -e arguments as open files ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13319
-  
-  AppKit treats existing positional arguments as documents, causing paths
-  passed to a child command after -e to open an extra terminal surface.
-  
-  We now process args ourselves during openFile callbacks to ignore
-  file paths after `-e`. There isn't a way to avoid this I can find
-  because AppKit processes argc/argv from the main entrypoint and that
-  can't be overridden.
-  ```
-- [`a858bd4`](https://github.com/ghostty-org/ghostty/commit/a858bd4d35f4cbab142b0fd68d7179cc99de4f4a) macos: ignore -e arguments as open files ([#13748](https://github.com/ghostty-org/ghostty/issues/13748)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13319
-  
-  AppKit treats existing positional arguments as documents, causing paths
-  passed to a child command after -e to open an extra terminal surface.
-  
-  We now process args ourselves during openFile callbacks to ignore file
-  paths after `-e`. There isn't a way to avoid this I can find because
-  AppKit processes argc/argv from the main entrypoint and that can't be
-  overridden.
-  ```
-- [`8c9fd7a`](https://github.com/ghostty-org/ghostty/commit/8c9fd7aa79c4d6cc768293fa6e3726162d00c618) macos: normalize command paths as file URLs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  #13319
-  #13748
-  
-  Normalize command-line file arguments as file URLs internally while
-  keeping the AppKit and FileManager string boundaries unchanged.
-  
-  This handles relative paths, URL-sensitive characters, and trailing
-  directory separators consistently when matching duplicate open-file
-  events.
-  ```
-- [`426386b`](https://github.com/ghostty-org/ghostty/commit/426386b8579d5e558aa5d4cfdfb003ad06bc4fc5) Update VOUCHED list ([#13747](https://github.com/ghostty-org/ghostty/issues/13747)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13746#discussioncomment-17977627)
-  from @jcollie.
-  
-  Vouch: @alex19EP
-  ```
-- [`d695fff`](https://github.com/ghostty-org/ghostty/commit/d695ffff3b268490a73fd241ea94ac8c26e99599) macos: defer OSC52 clipboard read confirmations until focused ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10077
-  
-  Clipboard read confirmations would immediately show a sheet which
-  grabbed focus. This could be used for a bunch of dumb reasons, including
-  DoS attacks. But, it also caused focus/sheet loops for programs that did
-  OSC52 on focus changes (which was seen via some Neovim configs!).
-  
-  Now, if a surface is unfocused, we bell the surface and show the confirmation
-  request on next focus. If the surface is not focused or another request
-  comes in, we cancel the prior one.
-  
-  This also fixes some memory management issues around clipboard requests
-  that were likely small leaks (didn't verify the old bug, but verified
-  the new code, and eyeballed the old).
-  ```
-- [`046b8fc`](https://github.com/ghostty-org/ghostty/commit/046b8fcc2a9afccd238577778752a5f86ef9968a) macos: defer OSC52 clipboard read confirmations until focused ([#13744](https://github.com/ghostty-org/ghostty/issues/13744)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #10077
-  
-  Clipboard read confirmations would immediately show a sheet which
-  grabbed focus. This could be used for a bunch of dumb reasons, including
-  DoS attacks. But, it also caused focus/sheet loops for programs that did
-  OSC52 on focus changes (which was seen via some Neovim configs!).
-  
-  Now, if a surface is unfocused, we bell the surface and show the
-  confirmation request on next focus. If the surface is not focused or
-  another request comes in, we cancel the prior one.
-  
-  This also fixes some memory management issues around clipboard requests
-  that were likely small leaks (didn't verify the old bug, but verified
-  the new code, and eyeballed the old).
-  
-  To implement this, I decided to reorient the whole clipboard
-  confirmation thing around state on SurfaceView (which simplifies memory
-  management) and using Combine on BaseTerminalController to get notified.
-  ```
-- [`94d775f`](https://github.com/ghostty-org/ghostty/commit/94d775fefc21f74d9cc85a46b34c4e1d85318fd0) Update VOUCHED list ([#13743](https://github.com/ghostty-org/ghostty/issues/13743)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13742#discussioncomment-17970277)
-  from @jcollie.
-  
-  Vouch: @dave92082
-  ```
-- [`49e4df7`](https://github.com/ghostty-org/ghostty/commit/49e4df78333ccdeb262e59d0f3c4de9d4b0bc7fd) macOS: rework for [#12712](https://github.com/ghostty-org/ghostty/issues/12712) and [#13645](https://github.com/ghostty-org/ghostty/issues/13645) ([@bo2themax](https://github.com/bo2themax))
-- [`4b9d589`](https://github.com/ghostty-org/ghostty/commit/4b9d589bcb234b3fdd2160a3abf02cf9b647f328) macOS: disable text selection on macOS 15 ([@bo2themax](https://github.com/bo2themax))
-- [`44f06d4`](https://github.com/ghostty-org/ghostty/commit/44f06d4e4fd098aa4b5627e0c2b2d6e704834117) macOS: rework for [#12712](https://github.com/ghostty-org/ghostty/issues/12712) and [#13645](https://github.com/ghostty-org/ghostty/issues/13645) ([#13717](https://github.com/ghostty-org/ghostty/issues/13717)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  `needleSelection` was introduced in #12712 to select all texts when
-  syncing pasteboard, the crash happens most on macOS 15 in
-  `readPasteboardNeedle`. It seems that `objectWillChange` fires
-  differently there, and it's hard to reproduce on macOS 26/27. I think
-  guaranteeing from ourside is enough, I believe SwiftUI already as its
-  own when updating the binding.
-  
-  **Confirmed with a simple example on macOS 15, it seems a SwiftUI
-  issue🫪. So I changed the minimal macOS version for text selection to
-  macOS 26. I don't see an elegant way to fix it.**
-  
-  <img width="1352" height="849" alt="image"
-  src="https://github.com/user-attachments/assets/1dfef3f5-ceaa-41dd-bb91-c23dbc5e4ad3"
-  />
-  
-  
-  ```swift
-  struct ContentView: View {
-      @State private var text = ""
-      @State private var selection: TextSelection?
-      var body: some View {
-          TextField("Search", text: $text, selection: $selection)
-      }
-  }
-  ```
-  ````
 
