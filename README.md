@@ -8,15 +8,116 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 18, 2026 at 18:30 UTC.
+> Last updated: August 18, 2026 at 21:18 UTC.
 
 ## August 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32169188975), [2](https://github.com/ghostty-org/ghostty/actions/runs/32168669864), [3](https://github.com/ghostty-org/ghostty/actions/runs/32160637749), [4](https://github.com/ghostty-org/ghostty/actions/runs/32145015115)  
-Summary: 4 runs • 15 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32176127114), [2](https://github.com/ghostty-org/ghostty/actions/runs/32172263374), [3](https://github.com/ghostty-org/ghostty/actions/runs/32169188975), [4](https://github.com/ghostty-org/ghostty/actions/runs/32168669864), [5](https://github.com/ghostty-org/ghostty/actions/runs/32160637749), [6](https://github.com/ghostty-org/ghostty/actions/runs/32145015115)  
+Summary: 6 runs • 23 commits • 2 authors
 
 ### Changes
 
+- [`cfc5a96`](https://github.com/ghostty-org/ghostty/commit/cfc5a96501d72d0c43a73a9ed2f74c6381ba046c) terminal/kitty: validate graphics query image data ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Graphics query commands previously initialized their loading state but
+  returned success before completing the image load.
+  
+  This allowed truncated, malformed, or otherwise invalid image data to
+  return OK, giving capability probes a false positive.
+  
+  Complete and validate queried images through the normal load path, then
+  discard the result without modifying image storage. Add coverage for
+  invalid data and preserving an existing image with the queried ID.
+  ```
+- [`86d94f1`](https://github.com/ghostty-org/ghostty/commit/86d94f150a2c3a8e83c4dcab004e1a89af07b1c6) terminal/kitty: preserve chunked response identifiers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Chunked image responses used the final command even though only the
+  initial chunk carries the image and placement identifiers. Successful
+  replies lost image numbers and placement IDs. Final validation errors
+  could also be suppressed entirely.
+  
+  Save the initial response identifiers with the in-progress image and use
+  them when the final chunk completes. Continue replacing the response ID
+  with the generated image ID after a successful load. Cover successful
+  image-number replies and invalid final payloads with unit tests.
+  ```
+- [`306a169`](https://github.com/ghostty-org/ghostty/commit/306a169033cd945a5bcd8b5c31fdeae218006648) terminal/kitty: preserve data on unmatched delete ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Make uppercase Kitty graphics deletes with a nonzero placement ID
+  leave the image intact when the named placement does not exist.
+  
+  Previously, d=I,i=...,p=... could free unreferenced image data after
+  matching no placement. A later put then failed with ENOENT, diverging
+  from the protocol and Kitty.
+  ```
+- [`72b6cd7`](https://github.com/ghostty-org/ghostty/commit/72b6cd71247086eaa8f93edcc49d6d689045b715) terminal/kitty: validate graphics query image data ([#13896](https://github.com/ghostty-org/ghostty/issues/13896)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Graphics query commands previously initialized their loading state but
+  returned success before completing the image load.
+  
+  This allowed truncated, malformed, or otherwise invalid image data to
+  return OK, giving capability probes a false positive.
+  
+  Complete and validate queried images through the normal load path, then
+  discard the result without modifying image storage. Add coverage for
+  invalid data and preserving an existing image with the queried ID.
+  ```
+- [`fe12e30`](https://github.com/ghostty-org/ghostty/commit/fe12e30b3468b7afb92744f96af33f4ce484f4a9) terminal/kitty: preserve chunked response identifiers ([#13897](https://github.com/ghostty-org/ghostty/issues/13897)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Chunked image responses used the final command even though only the
+  initial chunk carries the image and placement identifiers. Successful
+  replies lost image numbers and placement IDs. Final validation errors
+  could also be suppressed entirely.
+  
+  Save the initial response identifiers with the in-progress image and use
+  them when the final chunk completes. Continue replacing the response ID
+  with the generated image ID after a successful load. Cover successful
+  image-number replies and invalid final payloads with unit tests.
+  ```
+- [`7f62fe7`](https://github.com/ghostty-org/ghostty/commit/7f62fe70a288c5d35ebd3097e75c46017950bcc7) terminal/kitty: preserve data on unmatched delete ([#13898](https://github.com/ghostty-org/ghostty/issues/13898)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Make uppercase Kitty graphics deletes with a nonzero placement ID leave
+  the image intact when the named placement does not exist.
+  
+  Previously, d=I,i=...,p=... could free unreferenced image data after
+  matching no placement. A later put then failed with ENOENT, diverging
+  from the protocol and Kitty.
+  ```
+- [`f8b40a0`](https://github.com/ghostty-org/ghostty/commit/f8b40a02356f5ed945d4c2fa981394776186228b) terminal/kitty: fix various graphics deletion mismatches with spec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Limit d=a/A to non-virtual placements that intersect the active screen.
+  - Keep unrelated unplaced image data when processing d=A.
+  - Make d=R delete matching unused images even when they have no
+    placements, and default an omitted x bound to zero.
+  - Give ED2 a separate clear path that preserves scrollback references
+    while reclaiming every unreferenced image.
+  
+  References:
+  - Spec:
+    https://sw.kovidgoyal.net/kitty/graphics-protocol/#deleting-images
+  - Delete reference implementation:
+    https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L2114-L2363
+  - ED2 reference implementation:
+    https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/screen.c#L2919-L2958
+  ```
+- [`2ced1e5`](https://github.com/ghostty-org/ghostty/commit/2ced1e5c8e55bdc1cd77c7ecada4d0ef1cb28226) terminal/kitty: fix various graphics deletion mismatches with spec ([#13895](https://github.com/ghostty-org/ghostty/issues/13895)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - Limit d=a/A to non-virtual placements that intersect the active
+  screen.
+  - Keep unrelated unplaced image data when processing d=A.
+  - Make d=R delete matching unused images even when they have no
+  placements, and default an omitted x bound to zero.
+  - Give ED2 a separate clear path that preserves scrollback references
+  while reclaiming every unreferenced image.
+  
+  References:
+  - Spec:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#deleting-images
+  - Delete reference implementation:
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L2114-L2363
+  - ED2 reference implementation:
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/screen.c#L2919-L2958
+  ```
 - [`e5747cf`](https://github.com/ghostty-org/ghostty/commit/e5747cf0b603e4cad0ab6642c44738c9cfb50fa5) terminal/kitty: abort incomplete graphics loads ([@mitchellh](https://github.com/mitchellh))
   ```text
   Previously, delete left partial bytes alive for the next upload, while
