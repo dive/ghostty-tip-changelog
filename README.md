@@ -8,7 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 18, 2026 at 12:34 UTC.
+> Last updated: August 18, 2026 at 15:25 UTC.
+
+## August 18, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32145015115)  
+Summary: 1 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`07af461`](https://github.com/ghostty-org/ghostty/commit/07af4612ba17afe13fcba1de8d8a1258bc666a10) terminal: report size when mode 2048 is enabled ([@elias8](https://github.com/elias8))
+- [`5b9a77f`](https://github.com/ghostty-org/ghostty/commit/5b9a77f203865e73de885df743afc73af96fba50) terminal: document mode 2048 size reports ([@elias8](https://github.com/elias8))
+- [`0a16db3`](https://github.com/ghostty-org/ghostty/commit/0a16db3c686045fe5ac8a58d3c91dc53d108e662) fix(lib-vt): report size when mode 2048 is enabled ([#13885](https://github.com/ghostty-org/ghostty/issues/13885)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Mode 2048 requires terminals to report the current rows, columns, and
+  pixel dimensions [when the mode is
+  enabled](https://gist.github.com/rockorager/e695fb2924d36b2bcf1fff4a3704bd83#:~:text=When%20first%20enabled%2C%20the%20terminal%20MUST%20send%20a%20report%20of%20the%20current%20size.),
+  then report updated geometry after later resizes. The native termio
+  stream already queues the initial report, but the terminal stream only
+  reported from `resize`, so libghostty consumers that enabled the mode
+  after committing geometry received nothing until another resize.
+  
+  This makes the generic handler match termio by requesting current
+  geometry through the existing size callback and writing the encoded
+  report through `write_pty` on every enable.
+  ```
 
 ## August 17, 2026
 
