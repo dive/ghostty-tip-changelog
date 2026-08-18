@@ -8,15 +8,212 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 18, 2026 at 15:25 UTC.
+> Last updated: August 18, 2026 at 18:30 UTC.
 
 ## August 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32145015115)  
-Summary: 1 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32169188975), [2](https://github.com/ghostty-org/ghostty/actions/runs/32168669864), [3](https://github.com/ghostty-org/ghostty/actions/runs/32160637749), [4](https://github.com/ghostty-org/ghostty/actions/runs/32145015115)  
+Summary: 4 runs • 15 commits • 2 authors
 
 ### Changes
 
+- [`e5747cf`](https://github.com/ghostty-org/ghostty/commit/e5747cf0b603e4cad0ab6642c44738c9cfb50fa5) terminal/kitty: abort incomplete graphics loads ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, delete left partial bytes alive for the next upload, while
+  failed or incomplete retransmissions kept stale placements visible.
+  
+  Abort incomplete chunked image uploads on delete commands and remove an
+  existing image and its placements when retransmission of an explicit ID
+  begins.
+  ```
+- [`55dac8f`](https://github.com/ghostty-org/ghostty/commit/55dac8fc47c239c54540fa30f3bea882d359d07f) terminal/kitty: abort incomplete graphics loads ([#13893](https://github.com/ghostty-org/ghostty/issues/13893)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, delete left partial bytes alive for the next upload, while
+  failed or incomplete retransmissions kept stale placements visible.
+  
+  Abort incomplete chunked image uploads on delete commands and remove an
+  existing image and its placements when retransmission of an explicit ID
+  begins.
+  ```
+- [`83145c0`](https://github.com/ghostty-org/ghostty/commit/83145c0a374852b6c1c2b6e7eab94b4db63c10f7) terminal/kitty: reject conflicting image identifiers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reject Kitty graphics commands that specify both an image ID and an
+  image number across every protocol action.
+  
+  These commands previously produced no wire response for transmissions,
+  while put and delete actions could proceed using one identifier and
+  mutate terminal state.
+  
+  Retain the original command identifiers, validate them before action
+  dispatch, and preserve them in the EINVAL response. Add regression
+  coverage for every action, response encoding, quiet suppression, and
+  pre-mutation rejection.
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#requesting-image-ids-from-the-terminal
+  ```
+- [`52190a5`](https://github.com/ghostty-org/ghostty/commit/52190a5d8da4e21e628bb01f12f32da7b06b3a54) terminal/kitty: intersect source rectangles before sizing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Kitty graphics placements previously calculated pixel and grid geometry
+  from requested source dimensions before intersecting them with the image.
+  The renderer clamped explicit dimensions later but treated omitted
+  source dimensions as the full image.
+  
+  This stretched clipped crops into incorrectly sized destinations and
+  exposed inconsistent geometry through storage, rendering, and
+  libghostty.
+  
+  Resolve the source rectangle once against the image bounds and reuse it
+  for placement sizing, renderer preparation, and the C API. Add
+  regression tests for omitted and explicit dimensions and renderer
+  geometry.
+  
+  Spec: https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  Reference: https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L1225-L1240
+  ```
+- [`409e682`](https://github.com/ghostty-org/ghostty/commit/409e682c832198be782071c7b6c182c29227d3aa) terminal/kitty: reject conflicting image identifiers ([#13889](https://github.com/ghostty-org/ghostty/issues/13889)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reject Kitty graphics commands that specify both an image ID and an
+  image number across every protocol action.
+  
+  These commands previously produced no wire response for transmissions,
+  while put and delete actions could proceed using one identifier and
+  mutate terminal state.
+  
+  Retain the original command identifiers, validate them before action
+  dispatch, and preserve them in the EINVAL response. Add regression
+  coverage for every action, response encoding, quiet suppression, and
+  pre-mutation rejection.
+  
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#requesting-image-ids-from-the-terminal
+  ```
+- [`9848cb1`](https://github.com/ghostty-org/ghostty/commit/9848cb15fae7eb6abfc74d563ff98b24c830900f) terminal/kitty: intersect source rectangles before sizing ([#13890](https://github.com/ghostty-org/ghostty/issues/13890)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Kitty graphics placements previously calculated pixel and grid geometry
+  from requested source dimensions before intersecting them with the
+  image. The renderer clamped explicit dimensions later but treated
+  omitted source dimensions as the full image.
+  
+  This stretched clipped crops into incorrectly sized destinations and
+  exposed inconsistent geometry through storage, rendering, and
+  libghostty.
+  
+  Resolve the source rectangle once against the image bounds and reuse it
+  for placement sizing, renderer preparation, and the C API. Add
+  regression tests for omitted and explicit dimensions and renderer
+  geometry.
+  
+  Spec:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  Reference:
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L1225-L1240
+  ```
+- [`c5a3c7e`](https://github.com/ghostty-org/ghostty/commit/c5a3c7e2e5b4e39ce59c14cb35c55be971058575) terminal/kitty: constrain placement offsets to cell bounds ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clamp X and Y offsets when a placement is created and normalize them
+  again against current cell geometry when sizing and rendering. The
+  protocol requires offsets to remain within the first cell and not
+  enlarge explicit c/r rectangles:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  
+  Previously, explicit placements were sized to the full c/r rectangle
+  before the offset was applied. This extended their far edge into
+  neighboring cells and let unbounded offsets reach renderer geometry.
+  ```
+- [`7e5dfa0`](https://github.com/ghostty-org/ghostty/commit/7e5dfa09eb601fedb9bdf5816d02890108ac1f04) terminal/kitty: constrain placement offsets to cell bounds ([#13891](https://github.com/ghostty-org/ghostty/issues/13891)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clamp X and Y offsets when a placement is created and normalize them
+  again against current cell geometry when sizing and rendering. The
+  protocol requires offsets to remain within the first cell and not
+  enlarge explicit c/r rectangles:
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  
+  Previously, explicit placements were sized to the full c/r rectangle
+  before the offset was applied. This extended their far edge into
+  neighboring cells and let unbounded offsets reach renderer geometry.
+  ```
+- [`abd7706`](https://github.com/ghostty-org/ghostty/commit/abd77067def1653692987588913b83c975ab4893) terminal/kitty: graphics `S` value is exact byte, not max ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  File transmissions with exactly S bytes or trailing file data previously
+  failed because appendRemaining reports StreamTooLong when it reaches its
+  limit. This broke the protocol's partial-file transmission path.
+  
+  Use an exact-length allocation and read when S is nonzero, rejecting
+  premature EOF and values above the image limit. Preserve the existing
+  bounded read-to-EOF behavior for S=0.
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#local-client
+  ```
+- [`364f8e9`](https://github.com/ghostty-org/ghostty/commit/364f8e9ac1e6dd79233e59fd46435c54e2117caf) terminal/kitty: graphics `S` value is exact byte, not max ([#13892](https://github.com/ghostty-org/ghostty/issues/13892)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  File transmissions with exactly S bytes or trailing file data previously
+  failed because appendRemaining reports StreamTooLong when it reaches its
+  limit. This broke the protocol's partial-file transmission path.
+  
+  Use an exact-length allocation and read when S is nonzero, rejecting
+  premature EOF and values above the image limit. Preserve the existing
+  bounded read-to-EOF behavior for S=0.
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#local-client
+  ```
+- [`afb61e1`](https://github.com/ghostty-org/ghostty/commit/afb61e1b6292f56b863ad0fe61bcdbad47392a5e) terminal/kitty: place cursor after tall images properly ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Supersedes #13886
+  
+  This fixes an incompatibility between Ghostty and Kitty 0.47.1+.
+  
+  Previously, Ghostty handled `C=0` by moving down at most one terminal
+  height and then clamping the horizontal destination to the screen. The
+  limit protected against an image command requesting billions of rows,
+  but it counted ordinary movement to the bottom as well as scrolling.
+  
+  Kitty defines `C=0` as leaving the cursor after the image and implements
+  the movement as rows minus one, plus one row when the image reaches the
+  right edge:
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L1256-L1260
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/screen.c#L1903-L1915
+  
+  (Had to view Kitty source to verify what the spec meant)
+  
+  For example, an eight-row, full-width image in a five-row terminal needs
+  four moves to reach the bottom and four more to scroll. The old limit
+  allowed only five moves in total, so the next image started four rows
+  inside the first one. Clamping the horizontal destination also left the
+  cursor at the final column instead of wrapping to column one of the next
+  row. Consecutive images could therefore overlap in both directions.
+  ```
+- [`d4d72f3`](https://github.com/ghostty-org/ghostty/commit/d4d72f3205f7a995fa4578f4b5369937f0b17a18) terminal/kitty: place cursor after tall images properly ([#13887](https://github.com/ghostty-org/ghostty/issues/13887)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Supersedes #13886
+  
+  This fixes an incompatibility between Ghostty and Kitty 0.47.1+.
+  
+  Previously, Ghostty handled `C=0` by moving down at most one terminal
+  height and then clamping the horizontal destination to the screen. The
+  limit protected against an image command requesting billions of rows,
+  but it counted ordinary movement to the bottom as well as scrolling.
+  
+  Kitty defines `C=0` as leaving the cursor after the image and implements
+  the movement as rows minus one, plus one row when the image reaches the
+  right edge:
+  
+  
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#controlling-displayed-image-layout
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/graphics.c#L1256-L1260
+  https://github.com/kovidgoyal/kitty/blob/0ecb10d158943e971e5254c554c2a58f1fcc79fe/kitty/screen.c#L1903-L1915
+  
+  (Had to view Kitty source to verify what the spec meant)
+  
+  For example, an eight-row, full-width image in a five-row terminal needs
+  four moves to reach the bottom and four more to scroll. The old limit
+  allowed only five moves in total, so the next image started four rows
+  inside the first one. Clamping the horizontal destination also left the
+  cursor at the final column instead of wrapping to column one of the next
+  row. Consecutive images could therefore overlap in both directions.
+  ```
 - [`07af461`](https://github.com/ghostty-org/ghostty/commit/07af4612ba17afe13fcba1de8d8a1258bc666a10) terminal: report size when mode 2048 is enabled ([@elias8](https://github.com/elias8))
 - [`5b9a77f`](https://github.com/ghostty-org/ghostty/commit/5b9a77f203865e73de885df743afc73af96fba50) terminal: document mode 2048 size reports ([@elias8](https://github.com/elias8))
 - [`0a16db3`](https://github.com/ghostty-org/ghostty/commit/0a16db3c686045fe5ac8a58d3c91dc53d108e662) fix(lib-vt): report size when mode 2048 is enabled ([#13885](https://github.com/ghostty-org/ghostty/issues/13885)) ([@mitchellh](https://github.com/mitchellh))
