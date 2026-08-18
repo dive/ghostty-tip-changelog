@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 18, 2026 at 09:26 UTC.
+> Last updated: August 18, 2026 at 12:34 UTC.
 
 ## August 17, 2026
 
@@ -214,8 +214,8 @@ Summary: 9 runs • 34 commits • 9 authors
   
   Vouch: @basteez
   ```
-- [`e2662d7`](https://github.com/ghostty-org/ghostty/commit/e2662d7b63d4aee02f31164c96c180ebed8ddf0b) i18n: translate v1.4 command palette and remaining strings (be) (Ilia Kravchenko)
-- [`820ed68`](https://github.com/ghostty-org/ghostty/commit/820ed688efa5b914c2779449f260d369caca0b2c) i18n(be): fix translation issues per review (Ilia Kravchenko)
+- [`e2662d7`](https://github.com/ghostty-org/ghostty/commit/e2662d7b63d4aee02f31164c96c180ebed8ddf0b) i18n: translate v1.4 command palette and remaining strings (be) ([@iweuhi2kjrnkw](https://github.com/iweuhi2kjrnkw))
+- [`820ed68`](https://github.com/ghostty-org/ghostty/commit/820ed688efa5b914c2779449f260d369caca0b2c) i18n(be): fix translation issues per review ([@iweuhi2kjrnkw](https://github.com/iweuhi2kjrnkw))
   ```text
   - Drop redundant 'было' copula with short-form participles (lines 1767, 1769)
   - Use short predicative form 'недаступна' (line 1780)
