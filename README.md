@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 18, 2026 at 21:18 UTC.
+> Last updated: August 19, 2026 at 00:56 UTC.
 
 ## August 18, 2026
 
@@ -2499,117 +2499,5 @@ Summary: 9 runs • 35 commits • 13 authors
   trace the GTK command path, and draft parts of the implementation and
   test. I manually reviewed and edited the changes, validated the behavior
   and test results, and understand the affected code paths.
-  ```
-
-## August 12, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31633700350), [2](https://github.com/ghostty-org/ghostty/actions/runs/31626263992), [3](https://github.com/ghostty-org/ghostty/actions/runs/31613624802), [4](https://github.com/ghostty-org/ghostty/actions/runs/31602893706), [5](https://github.com/ghostty-org/ghostty/actions/runs/31553289786)  
-Summary: 5 runs • 21 commits • 6 authors
-
-### Changes
-
-- [`4a516fa`](https://github.com/ghostty-org/ghostty/commit/4a516fa393932fe263bbca8d30740d17e40484f1) github: remove the issue templates ([@trag1c](https://github.com/trag1c))
-- [`d2eeb73`](https://github.com/ghostty-org/ghostty/commit/d2eeb734b0dbf80954d1b630986746a5e9e194fd) github: remove the issue templates ([#13765](https://github.com/ghostty-org/ghostty/issues/13765)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  They're not needed anymore since the "New issue" button is now
-  inaccessible to non-maintainers anyway.
-  ```
-- [`8b7c57c`](https://github.com/ghostty-org/ghostty/commit/8b7c57c756115e519516698206b54ed80b49d1e7) gtk: add window title renaming ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #10469 for GTK.
-  ```
-- [`1eaf457`](https://github.com/ghostty-org/ghostty/commit/1eaf457b184c0fd34f5ff3fb2d0241d04d7515c4) gtk: add window title renaming ([#10999](https://github.com/ghostty-org/ghostty/issues/10999)) ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Fixes #10469 for GTK.
-  ```
-- [`e523cf8`](https://github.com/ghostty-org/ghostty/commit/e523cf81040626cf240723443d9106813709e49c) terminal: move cursor home after formatting tabstops ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Home the cursor after serializing custom tab stops, since formatting VT
-  expects it to be there for new lines.
-  ```
-- [`99b877a`](https://github.com/ghostty-org/ghostty/commit/99b877ad22a7c9e146d6e4c3ba118e66ea694fb7) terminal: move cursor home after formatting tabstops ([#13763](https://github.com/ghostty-org/ghostty/issues/13763)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Home the cursor after serializing custom tab stops, since formatting VT
-  expects it to be there for new lines.
-  ```
-- [`da8b171`](https://github.com/ghostty-org/ghostty/commit/da8b171265e0f9db09287e62e70e10afa0d44e9c) macOS: fix Sendable warning for UnsafeMutablePointer ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Swift explicitly [marked UnsafeMutablePointer as non sendable](https://github.com/swiftlang/swift/commit/0568dbf903bbd7c1278c029d7e4eaaad6a460002). Moving from `@unchecked @retroactive` to `nonisolated(unsafe)` is safe for us as per the previous comments
-  ```
-- [`97ae257`](https://github.com/ghostty-org/ghostty/commit/97ae257497ae687bca7f9c711e46c6937386480e) macOS: fix warnings in showUserNotification ([@bo2themax](https://github.com/bo2themax))
-- [`c78226b`](https://github.com/ghostty-org/ghostty/commit/c78226bfaea1e03107d91c4e27c836f9d8143a7b) macOS:  fix Main actor-isolated static property 'find' warnings ([@bo2themax](https://github.com/bo2themax))
-- [`cb7eaa0`](https://github.com/ghostty-org/ghostty/commit/cb7eaa059dbc4be7318a6071efc14b4891c628e6) macOS: silent weak ownership difference warnings ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  UpdateViewModel doesn't own the Task, we don't actually need it here.
-  ```
-- [`7e3ddc2`](https://github.com/ghostty-org/ghostty/commit/7e3ddc2c891b1076caa235de9681a9b598bc3546) macOS: fix swift warnings ([#13762](https://github.com/ghostty-org/ghostty/issues/13762)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Rework for #12764
-  ```
-- [`3901168`](https://github.com/ghostty-org/ghostty/commit/3901168b161783cd10b8211c08635bcf756a0751) macOS: remove iOS target ([@bo2themax](https://github.com/bo2themax))
-- [`400be4c`](https://github.com/ghostty-org/ghostty/commit/400be4cc1d6c1fbec2222c02aedcef7ada4d796f) macOS: adjust file tree ([@bo2themax](https://github.com/bo2themax))
-- [`daab08e`](https://github.com/ghostty-org/ghostty/commit/daab08ec0158934e646d37613f805584277a586f) macOS: drop the cross-platform check and abstraction ([@bo2themax](https://github.com/bo2themax))
-- [`b112f39`](https://github.com/ghostty-org/ghostty/commit/b112f3954ce703ceb90afe5bb391b9d33321db2b) build: stop building Ghostty for iOS ([@bo2themax](https://github.com/bo2themax))
-- [`4f39c50`](https://github.com/ghostty-org/ghostty/commit/4f39c506ef666887eb0ea68ee125fe1036ace31b) macOS: remove iOS target and clean up cross platform checks ([#13759](https://github.com/ghostty-org/ghostty/issues/13759)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  As discussed in Discord: Ghostty internal support for iOS is not
-  important and we verify iOS compatibility for `libghostty-vt` through
-  compilation.
-  
-  Diff is **BIG**, but it contains mostly cleanup and didn't touch macOS's
-  implementation (except for some renaming).
-  
-  ### AI Disclosure
-  
-  Claude did batch removal for me, I manually reviewed them and ran
-  locally for macOS.
-  ```
-- [`7a17189`](https://github.com/ghostty-org/ghostty/commit/7a171895ddf7088b6f24b137c394e080d967d25e) build: stop building Ghostty.xcframework for iOS ([@bo2themax](https://github.com/bo2themax))
-- [`396166e`](https://github.com/ghostty-org/ghostty/commit/396166ecbeca91cb9623e993e6049053cead68bc) build: stop building Ghostty.xcframework for iOS ([#13760](https://github.com/ghostty-org/ghostty/issues/13760)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Depends on https://github.com/ghostty-org/ghostty/pull/13759.
-  
-  **Removing iOS for `Ghostty.xcframework` will affect other
-  [awesome-libghostty](https://github.com/Uzaaft/awesome-libghostty)
-  projects**, so I separated it.
-  
-  
-  ### AI Disclosure
-  
-  Claude ran the check and did the changes, I reviewed it.
-  ```
-- [`a69a591`](https://github.com/ghostty-org/ghostty/commit/a69a591af11370453d707aa9c0b2ec6ff17ce3c3) libghostty: functions to detect and write until stream ground state ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds new functions to both C and Zig to write VT data until the
-  VT parser reaches a "ground" state. The ground state is when the
-  parser/stream is stateless: between all partial UTF-8, OSC, CSI, etc.
-  
-  This lets embedders safely interleave custom VT sequences from multiple
-  sources. A practical example is a standard terminal reading from a pty
-  that is then doing custom APC or something mid-stream for their emulator
-  client.
-  ```
-- [`51ed437`](https://github.com/ghostty-org/ghostty/commit/51ed437cd1a202e625feb7fd0577354d81bcc54b) libghostty: functions to detect and write until stream ground state ([#13761](https://github.com/ghostty-org/ghostty/issues/13761)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds new functions to both C and Zig to write VT data until the VT
-  parser reaches a "ground" state. The ground state is when the
-  parser/stream is stateless: between all partial UTF-8, OSC, CSI, etc.
-  
-  This lets embedders safely interleave custom VT sequences from multiple
-  sources. A practical example is a standard terminal reading from a pty
-  that is then doing custom APC or something mid-stream for their emulator
-  client.
-  
-  The new function is anywhere from 1% to 5% slower than normal VT write,
-  but that should be acceptable due to its special case. Normal VT writes
-  are unchanged.
-  ```
-- [`9f9b8d1`](https://github.com/ghostty-org/ghostty/commit/9f9b8d1d0525e63106cfc0ea19775056b205ffb5) Update VOUCHED list ([#13756](https://github.com/ghostty-org/ghostty/issues/13756)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13755#discussioncomment-17982722)
-  from @jcollie.
-  
-  Vouch: @figelwump
   ```
 
