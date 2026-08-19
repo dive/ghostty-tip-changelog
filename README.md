@@ -8,7 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 19, 2026 at 00:56 UTC.
+> Last updated: August 19, 2026 at 03:40 UTC.
+
+## August 19, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32205120526)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`bed20eb`](https://github.com/ghostty-org/ghostty/commit/bed20eb36453c61c6aff76bdfda0c15235b8e513) terminal: clear tabstop bit on unset instead of toggling ([@fornwall](https://github.com/fornwall))
+  ```text
+  Tabstops.unset used XOR, so unsetting a column without a tabstop set
+  one instead. This made TBC (CSI 0 g) and CTC (CSI 2 W) create a
+  tabstop at the cursor column when none existed.
+  ```
+- [`4c6215b`](https://github.com/ghostty-org/ghostty/commit/4c6215bb8ee186b5c829457a9a9a9c936f2337bf) terminal: clear tabstop bit on unset instead of toggling ([#13900](https://github.com/ghostty-org/ghostty/issues/13900)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Make `Tabstops.unset` (backing [Tab Clear
+  (TBC)](https://ghostty.org/docs/vt/csi/tbc) with `n=0`) not set a tab
+  stop when clearing a column that has no tab stop.
+  ```
 
 ## August 18, 2026
 
