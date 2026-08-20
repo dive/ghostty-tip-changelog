@@ -8,15 +8,104 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 20, 2026 at 15:27 UTC.
+> Last updated: August 20, 2026 at 18:30 UTC.
 
 ## August 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [2](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [3](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [4](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
-Summary: 4 runs • 11 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32399782294), [2](https://github.com/ghostty-org/ghostty/actions/runs/32393437956), [3](https://github.com/ghostty-org/ghostty/actions/runs/32387594013), [4](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [5](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [6](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [7](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
+Summary: 7 runs • 21 commits • 5 authors
 
 ### Changes
 
+- [`6b23c58`](https://github.com/ghostty-org/ghostty/commit/6b23c584cab57c8ac9714775dd0975eb7db32dd4) terminal/kitty: prevent auto-assigned image ID collisions ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #2197
+  
+  Image transmissions without an explicit ID (i=) were assigned IDs from
+  a wrapping counter starting with no collision check. The protocol allows
+  clients to choose IDs anywhere in the u32 range, so an auto-assigned ID could
+  collide.
+  
+  Number-based transmissions (I= without i=) now receive the smallest ID
+  not currently in use. This probes the image map in an `O(N)` fashion but
+  performance issues here require a pathological client and this implementation
+  matches Kitty's performance as well.
+  ```
+- [`e660500`](https://github.com/ghostty-org/ghostty/commit/e6605009bb956eb7a24d5fd3fd5a40b99d1c1892) terminal/kitty: prevent auto-assigned image ID collisions ([#13934](https://github.com/ghostty-org/ghostty/issues/13934)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #2197
+  
+  Image transmissions without an explicit ID (i=) were assigned IDs from a
+  wrapping counter starting with no collision check. The protocol allows
+  clients to choose IDs anywhere in the u32 range, so an auto-assigned ID
+  could collide.
+  
+  Number-based transmissions (I= without i=) now receive the smallest ID
+  not currently in use. This probes the image map in an `O(N)` fashion but
+  performance issues here require a pathological client and this
+  implementation matches Kitty's performance as well.
+  ```
+- [`f7d29b1`](https://github.com/ghostty-org/ghostty/commit/f7d29b19e801f184f7526359c034644ace8e9615) terminal/kitty: accept empty graphics delete ranges ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `d=r`/`d=R` delete parser required a `y` key and enforced `x <= y`,
+  rejecting the entire command with `error.InvalidFormat` otherwise. Both
+  bounds now default to zero and neither is validated.
+  
+  This matches upstream reference implementation.
+  ```
+- [`48c7006`](https://github.com/ghostty-org/ghostty/commit/48c7006b9a0a4eff2f561acb8614796e839f41f4) terminal/kitty: accept empty graphics delete ranges ([#13932](https://github.com/ghostty-org/ghostty/issues/13932)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `d=r`/`d=R` delete parser required a `y` key and enforced `x <= y`,
+  rejecting the entire command with `error.InvalidFormat` otherwise. Both
+  bounds now default to zero and neither is validated.
+  
+  This matches upstream reference implementation.
+  ```
+- [`2427232`](https://github.com/ghostty-org/ghostty/commit/242723223f3e261dab9bfdb3e5e43fa247069cd7) terminal/kitty: fix various validation behaviors to match Kitty ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  There are various validation behaviors we did that matched the spec but
+  didn't match Kitty, because Kitty is written in C (these parts) and does
+  a lot of C-ish things (like bool is any non-zero value, despite the spec
+  saying 1/0).
+  
+  This also fixes a more major issue where invalid formats should be
+  deferred until transmission finishes so we send a proper response. Right
+  now we send no response which can cause a client to hang!
+  ```
+- [`b6cbaf5`](https://github.com/ghostty-org/ghostty/commit/b6cbaf54efe5dc5c0872e7b0c4e28e7cad771eb5) terminal/kitty: fix various validation behaviors to match Kitty ([#13933](https://github.com/ghostty-org/ghostty/issues/13933)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  There are various validation behaviors we did that matched the spec but
+  didn't match Kitty, because Kitty is written in C (these parts) and does
+  a lot of C-ish things (like bool is any non-zero value, despite the spec
+  saying 1/0).
+  
+  This also fixes a more major issue where invalid formats should be
+  deferred until transmission finishes so we send a proper response. Right
+  now we send no response which can cause a client to hang!
+  ```
+- [`eeab85b`](https://github.com/ghostty-org/ghostty/commit/eeab85b9679920e4f23459171db8405157a589d7) terminal: clear progress bar on full reset ([@fornwall](https://github.com/fornwall))
+  ```text
+  Emit a progress_report remove effect from the full_reset arm, matching
+  kitty and WezTerm which both clear progress on reset.
+  
+  Previously, only the termio StreamHandler removed the progress bar on
+  RIS (ghostty#10178); the terminal stream handler used by libghostty-vt
+  did not, so an embedder's progress bar would outlive the reset.
+  ```
+- [`b56c6d8`](https://github.com/ghostty-org/ghostty/commit/b56c6d88f81bd68d36a9dcb84fa43c1455df53b0) terminal: only clear the progress bar on full reset if there is one ([@fornwall](https://github.com/fornwall))
+- [`b7ee3ab`](https://github.com/ghostty-org/ghostty/commit/b7ee3ab6b321470e0638d02aabb5043efdbe797b) Revert "terminal: only clear the progress bar on full reset if there is one" ([@fornwall](https://github.com/fornwall))
+  ```text
+  This reverts commit b56c6d88f81bd68d36a9dcb84fa43c1455df53b0.
+  ```
+- [`af15014`](https://github.com/ghostty-org/ghostty/commit/af150144e24c77beee400b353eeb5d8fc202137f) terminal: clear progress bar on full reset ([#13901](https://github.com/ghostty-org/ghostty/issues/13901)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Emit a `progress_report` remove effect from the `full_reset` arm,
+  matching kitty and WezTerm which both clear progress on reset.
+  
+  Previously, only the termio `StreamHandler` removed the progress bar on
+  RIS (#10178) - but the terminal stream handler used by `libghostty-vt`
+  did not, so an embedder's progress bar would outlive the reset.
+  ```
 - [`fd17869`](https://github.com/ghostty-org/ghostty/commit/fd17869d15764a5a1f0f94e3b986e0a15eef0c43) macOS: rework for [#10943](https://github.com/ghostty-org/ghostty/issues/10943) ([@bo2themax](https://github.com/bo2themax))
   ```text
   Keep the background color as it is and apply glass effect on top of it
