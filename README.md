@@ -8,15 +8,99 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 19, 2026 at 21:19 UTC.
+> Last updated: August 20, 2026 at 00:56 UTC.
 
-## August 19, 2026
+## August 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32298968455), [2](https://github.com/ghostty-org/ghostty/actions/runs/32273834618), [3](https://github.com/ghostty-org/ghostty/actions/runs/32205120526)  
-Summary: 3 runs • 36 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
+Summary: 1 runs • 2 commits • 2 authors
 
 ### Changes
 
+- [`a436a9e`](https://github.com/ghostty-org/ghostty/commit/a436a9edccee8688ec916f4e7ba223532a5183c4) macos: avoid temporary path component allocation ([@jparise](https://github.com/jparise))
+  ```text
+  The common directory helper previously allocated a temporary slice to
+  prepend the base directory before joining path components. Pass the
+  three known components directly to std.fs.path.join, leaving only the
+  allocation for the returned path.
+  ```
+- [`9154efc`](https://github.com/ghostty-org/ghostty/commit/9154efcbd3c03bab3f1407c2ece38694fdbcb7ba) macos: avoid temporary path component allocation ([#13921](https://github.com/ghostty-org/ghostty/issues/13921)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The common directory helper previously allocated a temporary slice to
+  prepend the base directory before joining path components. Pass the
+  three known components directly to std.fs.path.join, leaving only the
+  allocation for the returned path.
+  ```
+
+## August 19, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32310030415), [2](https://github.com/ghostty-org/ghostty/actions/runs/32305536881), [3](https://github.com/ghostty-org/ghostty/actions/runs/32298968455), [4](https://github.com/ghostty-org/ghostty/actions/runs/32273834618), [5](https://github.com/ghostty-org/ghostty/actions/runs/32205120526)  
+Summary: 5 runs • 45 commits • 7 authors
+
+### Changes
+
+- [`a9f7f6d`](https://github.com/ghostty-org/ghostty/commit/a9f7f6d212a0af39a9597a3ea815140358d1975e) surface: parse text bindings with stack fallback ([@jparise](https://github.com/jparise))
+  ```text
+  Text binding actions previously allocated a temporary buffer for every
+  escaped string. Use a 256-byte stack fallback allocator so typical
+  bindings avoid the transient heap allocation while larger values
+  continue to use the existing heap-backed behavior.
+  ```
+- [`8e8d76b`](https://github.com/ghostty-org/ghostty/commit/8e8d76b634f1b791fd693715fc56d728b4967dab) shell-integration: avoid owning temporary commands ([@jparise](https://github.com/jparise))
+  ```text
+  Some shell setup functions previously converted their stack-backed
+  command builders to owned sentinel slices before duplicating them into
+  the result arena. Duplicate the builders' written bytes directly
+  instead, avoiding unnecessary ownership transfer and sentinel handling.
+  ```
+- [`49e503f`](https://github.com/ghostty-org/ghostty/commit/49e503fd40401baf3c13903b5941f67dfdcd07db) surface: parse text bindings with stack fallback ([#13918](https://github.com/ghostty-org/ghostty/issues/13918)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Text binding actions previously allocated a temporary buffer for every
+  escaped string. Use a 256-byte stack fallback allocator so typical
+  bindings avoid the transient heap allocation while larger values
+  continue to use the existing heap-backed behavior.
+  ```
+- [`50d3ac8`](https://github.com/ghostty-org/ghostty/commit/50d3ac8ed6ad1cbca498f7a4388ab14054a5c3e1) shell-integration: avoid owning temporary commands ([#13919](https://github.com/ghostty-org/ghostty/issues/13919)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Some shell setup functions previously converted their stack-backed
+  command builders to owned sentinel slices before duplicating them into
+  the result arena. Duplicate the builders' written bytes directly
+  instead, avoiding unnecessary ownership transfer and sentinel handling.
+  ```
+- [`f699069`](https://github.com/ghostty-org/ghostty/commit/f6990690f07fdb0a71e46cd809531ca0f5b86f40) Revert "macOS: hide settings menu icon on macOS 27 ([#13664](https://github.com/ghostty-org/ghostty/issues/13664))" ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  This reverts commit 99c483f477dcf3d6523a976772dcac71ab9466d3, reversing
+  changes made to 33bdeed1cbc69196c10466d0c9d881c0a7a7ac9c.
+  ```
+- [`043abc7`](https://github.com/ghostty-org/ghostty/commit/043abc7b6045fa11c08660337a7a2b7a9533205e) macOS: group settings menu in a separate group ([@bo2themax](https://github.com/bo2themax))
+- [`5a8921e`](https://github.com/ghostty-org/ghostty/commit/5a8921ecb5bcb0411825722b2b7010db8eb3f56a) surface: keep clipboard content list on stack ([@jparise](https://github.com/jparise))
+  ```text
+  Use a two element stack-based buffer for the one or two ClipboardContent
+  entries rather than the (arena-based) heap allocator.
+  ```
+- [`4d646ba`](https://github.com/ghostty-org/ghostty/commit/4d646bae0c6dd28c1e49db1b3e04464417f94b41) macOS: group settings menu in a separate group ([#13906](https://github.com/ghostty-org/ghostty/issues/13906)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Reverted https://github.com/ghostty-org/ghostty/pull/13664 with a
+  second thought.**
+  
+  This keeps the consistency with other first-party apps like Terminal,
+  Finder, and Music. It seems that most of the first-party apps show the
+  standard icons on macOS 27 for "Settings...", "Find", "AutoFill" and
+  etc., but in a separate group.
+  
+  <img width="1060" height="375" alt="image"
+  src="https://github.com/user-attachments/assets/d3017865-a443-4c14-ace9-1c6b5acb3f56"
+  />
+  
+  
+  I believe this still follows
+  [HIG](https://developer.apple.com/design/human-interface-guidelines/menus#Icons).
+  ```
+- [`a4edca2`](https://github.com/ghostty-org/ghostty/commit/a4edca2a90d6cf89900bb058e71cb6860cec78c5) surface: keep clipboard content list on stack ([#13916](https://github.com/ghostty-org/ghostty/issues/13916)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use a two element stack-based buffer for the one or two ClipboardContent
+  entries rather than the (arena-based) heap allocator.
+  ```
 - [`ece96a1`](https://github.com/ghostty-org/ghostty/commit/ece96a14cf4ff3497505067ec4821a201d2f2b70) i18n: update pt_BR translations ([@guilhermetk](https://github.com/guilhermetk))
 - [`8a0a9fa`](https://github.com/ghostty-org/ghostty/commit/8a0a9faf8577c72fa8a287fb72694018a9c80f23) i18n: use "Redefinir" for reset actions in pt_BR ([@guilhermetk](https://github.com/guilhermetk))
   ```text
@@ -2356,219 +2440,5 @@ Summary: 12 runs • 28 commits • 11 authors
   from @jcollie.
   
   Vouch: @pssalman
-  ```
-
-## August 13, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31753370466), [2](https://github.com/ghostty-org/ghostty/actions/runs/31747907657), [3](https://github.com/ghostty-org/ghostty/actions/runs/31739372157), [4](https://github.com/ghostty-org/ghostty/actions/runs/31734701377), [5](https://github.com/ghostty-org/ghostty/actions/runs/31728903762), [6](https://github.com/ghostty-org/ghostty/actions/runs/31709515839), [7](https://github.com/ghostty-org/ghostty/actions/runs/31701849462), [8](https://github.com/ghostty-org/ghostty/actions/runs/31661233121), [9](https://github.com/ghostty-org/ghostty/actions/runs/31658437256)  
-Summary: 9 runs • 35 commits • 13 authors
-
-### Changes
-
-- [`8fd2013`](https://github.com/ghostty-org/ghostty/commit/8fd2013a09c9105507a98360318ec7f5e802d50b) i18n: add missing Polish translations + minor fixes ([@trag1c](https://github.com/trag1c))
-- [`0ee8a72`](https://github.com/ghostty-org/ghostty/commit/0ee8a72970734717394c1e9e988e365b650ea415) i18n: add missing Polish translations + minor fixes ([#13798](https://github.com/ghostty-org/ghostty/issues/13798)) ([@00-kat](https://github.com/00-kat))
-- [`27d1642`](https://github.com/ghostty-org/ghostty/commit/27d1642879adb0da7a363cbfca67c11a102cbc48) Update Turkish translations ([@bitigchi](https://github.com/bitigchi))
-- [`226a916`](https://github.com/ghostty-org/ghostty/commit/226a91658da6400140a7da3f38b825ba0395bd5d) Update Turkish translations ([#13770](https://github.com/ghostty-org/ghostty/issues/13770)) ([@00-kat](https://github.com/00-kat))
-- [`dd22396`](https://github.com/ghostty-org/ghostty/commit/dd22396bd798d90445e1b365a79da061f96e5dc9) i18n: update es_BO translations for 1.4 ([@MiguelElGallo](https://github.com/MiguelElGallo))
-- [`bedb6f2`](https://github.com/ghostty-org/ghostty/commit/bedb6f2ff9d2c65456a7b1e98a5a04a702b77f27) i18n: update es_BO translations for 1.4 ([#13782](https://github.com/ghostty-org/ghostty/issues/13782)) ([@trag1c](https://github.com/trag1c))
-  ```text
-  issue #13766
-  ```
-- [`51992ab`](https://github.com/ghostty-org/ghostty/commit/51992ab01ad7e6dfeced16615080b68f620bb122) libghostty: make device and point headers self-contained ([@mitchellh](https://github.com/mitchellh))
-- [`e4ec4f0`](https://github.com/ghostty-org/ghostty/commit/e4ec4f0f95f44b131c256127d26c67258104be5a) libghostty: fix enum underlying type detection ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Use fixed int enum types for C++11, C23, Clang's fixed-enum extension,
-  and GCC 13 or newer. Previously only finalized C23 mode selected an explicit
-  underlying type, leaving C++ and common older C modes with
-  implementation-defined enum types.
-  ```
-- [`309440e`](https://github.com/ghostty-org/ghostty/commit/309440e07f3ff097fb4b11ab8cc92b01e29625e8) libghostty: include all public structs in type JSON ([@mitchellh](https://github.com/mitchellh))
-- [`d930c74`](https://github.com/ghostty-org/ghostty/commit/d930c74c4d8211d551d0cb99054f13338113f4f9) libghostty: make sized initialization valid C++ ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Use an immediately invoked lambda for GHOSTTY_INIT_SIZED in C++ so the
-  macro value-initializes every field before setting the ABI size. The
-  previous C compound literal and designated initializer required compiler
-  extensions in C++17 and C++20.
-  
-  Keep the existing standard compound literal for C callers.
-  ```
-- [`119f4fd`](https://github.com/ghostty-org/ghostty/commit/119f4fd6063cb695d1179c5ab1b362c4d71f23d0) libghostty: minor C/C++ compatibility fixes ([#13801](https://github.com/ghostty-org/ghostty/issues/13801)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Minor things as I was just auditing the state of our headers:
-  
-  * Make sure all subheaders like `point.h` can be included standalone
-  * Support Clang/GCC extensions for typed enums if we can detect it
-  * Add missing structs to the `ghostty_type_json` function
-  * Fix `GHOSTTY_INIT_SIZED` for C++ mode
-  ```
-- [`ac4dc12`](https://github.com/ghostty-org/ghostty/commit/ac4dc12056c137378da49152b806edc01ba730d6) terminal: size dynamic tabstops by bits ([@jparise](https://github.com/jparise))
-  ```text
-  Dynamic tabstop storage treated the number of columns above the inline
-  capacity as a byte count even though each byte stores eight stops. This
-  was wasteful, although in practice this is in the order of just bytes.
-  
-  Round the extra column count up to whole storage units and grow the existing
-  slice with realloc, preserve existing stops.
-  ```
-- [`908961f`](https://github.com/ghostty-org/ghostty/commit/908961f8a95573096ab231654cccc97170da8086) terminal: size dynamic tabstops by bits ([#13600](https://github.com/ghostty-org/ghostty/issues/13600)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Dynamic tabstop storage treated the number of columns above the inline
-  capacity as a byte count even though each byte stores eight stops. This
-  was wasteful, although in practice this is in the order of just bytes.
-  
-  Round the extra column count up to whole storage units and grow the
-  existing slice with realloc, preserve existing stops.
-  ```
-- [`43fe699`](https://github.com/ghostty-org/ghostty/commit/43fe699071c7dceb161dc3b0c04fce46ade36174) Update VOUCHED list ([#13797](https://github.com/ghostty-org/ghostty/issues/13797)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13796#discussioncomment-18006390)
-  from @jcollie.
-  
-  Vouch: @sghng
-  ```
-- [`30e5eab`](https://github.com/ghostty-org/ghostty/commit/30e5eabe9b1ec1245ffe930264dd0eb3a95c18e7) Add 'da' to `CODEOWNERS` and `src/os/i18n_locales.zig` ([@carlvillads](https://github.com/carlvillads))
-- [`af9ead6`](https://github.com/ghostty-org/ghostty/commit/af9ead68172ff4059930e32afc1b7d58a4234fe6) Add danish translation file ([@carlvillads](https://github.com/carlvillads))
-- [`bd381c4`](https://github.com/ghostty-org/ghostty/commit/bd381c4a524934f8ada8eae6accae16a484171e9) Update po/da.po ([@carlvillads](https://github.com/carlvillads))
-- [`ca5b3dc`](https://github.com/ghostty-org/ghostty/commit/ca5b3dc77bf4421f2d4784318d7431c7658468ef) Update po/da.po ([@carlvillads](https://github.com/carlvillads))
-- [`004f79e`](https://github.com/ghostty-org/ghostty/commit/004f79e2737a6b4c10bcff856680802061b00aa1) Merge branch 'ghostty-org:main' into localization-da ([@carlvillads](https://github.com/carlvillads))
-- [`4713668`](https://github.com/ghostty-org/ghostty/commit/47136687d725d611a5b9d7fd59a13b1c4e360617) add command palette translations ([@carlvillads](https://github.com/carlvillads))
-- [`9f8550b`](https://github.com/ghostty-org/ghostty/commit/9f8550b7f4e671a4305cb63541bbce9652bce38a) Add danish translations ([#13538](https://github.com/ghostty-org/ghostty/issues/13538)) ([@00-kat](https://github.com/00-kat))
-- [`4770375`](https://github.com/ghostty-org/ghostty/commit/47703753ad8f313601689d3eb6087469f5665d16) Update VOUCHED list ([#13793](https://github.com/ghostty-org/ghostty/issues/13793)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13791#discussioncomment-18005730)
-  from @jcollie.
-  
-  Vouch: @dolzenko
-  ```
-- [`bb019ca`](https://github.com/ghostty-org/ghostty/commit/bb019cac272a953c6338b2ab709d6ae26725c3a5) Update VOUCHED list ([#13794](https://github.com/ghostty-org/ghostty/issues/13794)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13792#discussioncomment-18005749)
-  from @jcollie.
-  
-  Vouch: @dmunozv04
-  ```
-- [`b104a3f`](https://github.com/ghostty-org/ghostty/commit/b104a3f0b3f7e021df5a773f68d5ff6130a8ce64) i18n - Latvian translation of command palette, typo fixes and more natural translations ([@EriksRemess](https://github.com/EriksRemess))
-- [`b3514d5`](https://github.com/ghostty-org/ghostty/commit/b3514d56210e8a57a480fb4d0c82121e86df28e4) i18n: Latvian translation. Additional strings. ([@EriksRemess](https://github.com/EriksRemess))
-- [`491806f`](https://github.com/ghostty-org/ghostty/commit/491806fbeb35b9153838085d6cf615cb977546e6) i18n(lv): last two missing translations ([@EriksRemess](https://github.com/EriksRemess))
-- [`613050d`](https://github.com/ghostty-org/ghostty/commit/613050ddffbe9e15e538a355e2c6934407113793) i18n - Latvian translation of command palette, typo fixes and more natural translations ([#11663](https://github.com/ghostty-org/ghostty/issues/11663)) ([@00-kat](https://github.com/00-kat))
-- [`98b828a`](https://github.com/ghostty-org/ghostty/commit/98b828a0232e411eb1e39b83de22fa3869faa51a) config: flush autogenerated config template ([@steven-tk](https://github.com/steven-tk))
-  ```text
-  #13774
-  
-  Flush the buffered writer after writing the template so newly created
-  configuration files contain the expected guidance instead of being empty.
-  ```
-- [`dab1b10`](https://github.com/ghostty-org/ghostty/commit/dab1b105b932fecf155d2b6a66c79d8311f826ea) config: flush autogenerated config template ([#13780](https://github.com/ghostty-org/ghostty/issues/13780)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes #13774
-  
-  Simple one-line fix: added the missing flush to the function.
-  
-  - `zig build` passed
-  - `zig build test` passed
-  - Confirmed template appears after fix in `~/Library/Application
-  Support/com.mitchellh.ghostty/config.ghostty`
-  
-  ---
-  **AI Disclosure**
-  
-  As mentioned before - I used OpenAI Codex (Sol 5.6 high):
-  a) to see if the template still exists & a function exists that tries to
-  use the template
-  b) find the moment in history this behavior changed.
-  Additionally:
-  c) reviewing my work and draft a commit message matching your preferred
-  style
-  
-  I implemented the change, ran the build/test, manually verified the
-  behavior, and understand the fix.
-  ```
-- [`d2c70a8`](https://github.com/ghostty-org/ghostty/commit/d2c70a8c7b9b6893c13640c02d7b6f9a1624f3f0) Update VOUCHED list ([#13775](https://github.com/ghostty-org/ghostty/issues/13775)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13773#discussioncomment-17996184)
-  from @jcollie.
-  
-  Vouch: @steven-tk
-  ```
-- [`bdb5660`](https://github.com/ghostty-org/ghostty/commit/bdb566068ead29409eb5d410249f02f51d274d3d) Expose semantic prompt state through C APIs ([@figelwump](https://github.com/figelwump))
-- [`c80c373`](https://github.com/ghostty-org/ghostty/commit/c80c3736275412a0cf75588fb6b7e73fd9395fcd) Remove internal surface prompt query ([@figelwump](https://github.com/figelwump))
-- [`b2fa293`](https://github.com/ghostty-org/ghostty/commit/b2fa2931b6599f7e32a7c547b3f5520ac3333881) Expose semantic prompt state through libghostty-vt ([#13767](https://github.com/ghostty-org/ghostty/issues/13767)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ## Summary
-  
-  - Add `GHOSTTY_TERMINAL_DATA_CURSOR_AT_PROMPT` to expose semantic prompt
-  state through `libghostty-vt`.
-  - Reuse `Terminal.cursorIsAtPrompt()` rather than introducing separate
-  prompt tracking.
-  
-  ## Motivation
-  
-  Ghostty already tracks whether the cursor is at a semantic prompt
-  through `Terminal.cursorIsAtPrompt()`. Exposing this query through
-  `libghostty-vt` lets downstream terminal consumers use Ghostty's
-  existing semantic prompt state without introducing separate tracking.
-  
-  The query returns false when semantic prompt information is unavailable
-  or the alternate screen is active.
-  
-  Discussed in https://github.com/ghostty-org/ghostty/discussions/13755.
-  
-  ## Testing
-  
-  - `zig build test-lib-vt`
-  - `zig build test-lib-vt -Dtest-filter="get cursor_at_prompt"`
-  - `zig build -Demit-lib-vt`
-  
-  ## AI disclosure
-  
-  Codex assisted with adding the `libghostty-vt` query and test,
-  addressing review feedback, running validation, and drafting this
-  description. I reviewed and edited the final code and description,
-  reviewed the validation results, and understand how the change interacts
-  with Ghostty's semantic prompt state.
-  ```
-- [`3650bef`](https://github.com/ghostty-org/ghostty/commit/3650bef4ec28512c1402be8ed838b2929f3aa794) Fix +new-window -e <command> inheriting forced shell integration from the running GTK application. ([@PRIHLOP](https://github.com/PRIHLOP))
-  ```text
-  Arguments after -e are now marked as an explicit command that requires shell detection. That marker is propagated with the existing command override to the new surface for both the current +new-window and +new-tab GTK paths. When the override is applied, forced shell integration becomes detect; an explicit none remains disabled.
-  
-  This is scoped to the GTK -e path. It does not change the generic forced shell-integration behavior, so configured integration continues to support shell executables with non-standard names.
-  
-  Fixes #12378.
-  ```
-- [`c54ec80`](https://github.com/ghostty-org/ghostty/commit/c54ec80c55a045312f7c97d66b32c8043526f03c) gtk: Fix +new-window -e <command> inheriting forced shell integration from the running GTK application. Fixes [#12378](https://github.com/ghostty-org/ghostty/issues/12378). ([#13741](https://github.com/ghostty-org/ghostty/issues/13741)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  ## Summary
-  Fix `+new-window -e <command>` inheriting forced shell integration from
-  the running GTK application.
-  
-  Arguments after `-e` are now marked as an explicit command that requires
-  shell detection. That marker is propagated with the existing command
-  override to the new surface for both the current `+new-window` and
-  `+new-tab` GTK paths. When the override is applied, forced shell
-  integration becomes `detect`; an explicit `none` remains disabled.
-  
-  This is scoped to the GTK `-e` path. It does not change the generic
-  forced shell-integration behavior, so configured integration continues
-  to support shell executables with non-standard names.
-  
-  Fixes #12378.
-  
-  ## Root cause
-  
-  The GTK IPC path replaced `config.command` for the new surface but
-  retained the running application's `shell-integration` value. `termio`
-  therefore treated an arbitrary explicit command such as Vim as the
-  forced shell and appended shell-specific arguments.
-  
-  ## AI usage
-  
-  I used Hermes Agent (with ChatGPT 5.6) to help inspect the codebase,
-  trace the GTK command path, and draft parts of the implementation and
-  test. I manually reviewed and edited the changes, validated the behavior
-  and test results, and understand the affected code paths.
   ```
 
