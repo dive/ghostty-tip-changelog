@@ -8,15 +8,74 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 20, 2026 at 00:56 UTC.
+> Last updated: August 20, 2026 at 03:41 UTC.
 
 ## August 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [2](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [3](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
+Summary: 3 runs • 5 commits • 3 authors
 
 ### Changes
 
+- [`f1948d5`](https://github.com/ghostty-org/ghostty/commit/f1948d50544c36857047c12e46f10a3a1d41160d) terminal: transfer selection text into string maps ([@jparise](https://github.com/jparise))
+  ```text
+  Selection strings previously duplicated formatted text when callers
+  requested a StringMap, even though the regex-link caller immediately
+  freed the returned copy.
+  
+  Add a dedicated selectionStringMap path that transfers the formatter
+  output and pin map directly into the returned map. This removes the
+  extra allocation and copy while making ownership explicit.
+  ```
+- [`9ae02a3`](https://github.com/ghostty-org/ghostty/commit/9ae02a326f62bd88f7f5508cf1807c67e7775cb5) terminal: transfer selection text into string maps ([#13923](https://github.com/ghostty-org/ghostty/issues/13923)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Selection strings previously duplicated formatted text when callers
+  requested a `StringMap`, even though the regex-link caller immediately
+  freed the returned copy.
+  
+  Add a dedicated `selectionStringMap` path that transfers the formatter
+  output and pin map directly into the returned map. This removes the
+  extra allocation and copy while making ownership explicit.
+  
+  **AI Usage:** GTP 5.6 Sol identified and implemented this opportunity. I
+  reviewed and understand it all.
+  ```
+- [`fc5ac17`](https://github.com/ghostty-org/ghostty/commit/fc5ac17a6886c69de93d645d2a7d8e16cb6ebbeb) i18n: complete Dutch (nl) translation for v1.4 ([#13853](https://github.com/ghostty-org/ghostty/issues/13853)) ([@kjvdven](https://github.com/kjvdven))
+  ```text
+  Fills the 181 untranslated strings in `po/nl.po`, bringing it to
+  252/252. Most of them are the command palette actions from
+  `src/input/command.zig`; the rest are the new context menu items, global
+  keybind notifications, and config editing strings.
+  
+  **Style.** Ten of the new command palette strings had already been
+  translated by previous translators, and those settle the verb form, so
+  the rest follows them: imperative for verb+object action titles (`Split
+  Left` → `Splits naar links`, `Close Tab` → `Sluit tabblad`), noun
+  phrases left as noun phrases (`New Window` → `Nieuw venster`), no title
+  case, informal "je". Descriptions are full imperative sentences. Dialog
+  headings keep the noun-first infinitive form of the existing `Change
+  Terminal Title` → `Titel van de terminal wijzigen`.
+  
+  A few translation notes:
+  
+  - `ANSI Sequences` → `ANSI-reeksen` in titles, `ANSI escape sequences` →
+  `ANSI-escapereeksen` in descriptions, mirroring the distinction the
+  source makes.
+  - `Toggle X` titles use the idiomatic `X aan/uit`; their descriptions
+  stay imperative (`Schakel … in of uit.`).
+  - `surface` is rendered as `terminal` - the Dutch UI has no equivalent
+  concept.
+  - `scrollback` → `scrollbuffer`.
+  
+  **No existing translation was modified.** The diff only touches empty
+  `msgstr` lines plus `PO-Revision-Date` and `Last-Translator`.
+  
+  Checked with `msgfmt -c --statistics` (252 translated, no warnings, no
+  fuzzy) and `msgcat` (formatting is idempotent, so no rewrap noise for
+  the next translator). No `X-Generator` field added.
+  
+  ---------
+  ```
 - [`a436a9e`](https://github.com/ghostty-org/ghostty/commit/a436a9edccee8688ec916f4e7ba223532a5183c4) macos: avoid temporary path component allocation ([@jparise](https://github.com/jparise))
   ```text
   The common directory helper previously allocated a temporary slice to
