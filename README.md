@@ -8,15 +8,60 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 20, 2026 at 18:30 UTC.
+> Last updated: August 20, 2026 at 21:21 UTC.
 
 ## August 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32399782294), [2](https://github.com/ghostty-org/ghostty/actions/runs/32393437956), [3](https://github.com/ghostty-org/ghostty/actions/runs/32387594013), [4](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [5](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [6](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [7](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
-Summary: 7 runs • 21 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32413190698), [2](https://github.com/ghostty-org/ghostty/actions/runs/32399782294), [3](https://github.com/ghostty-org/ghostty/actions/runs/32393437956), [4](https://github.com/ghostty-org/ghostty/actions/runs/32387594013), [5](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [6](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [7](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [8](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
+Summary: 8 runs • 23 commits • 5 authors
 
 ### Changes
 
+- [`90bce0d`](https://github.com/ghostty-org/ghostty/commit/90bce0d2dd3bd8eaf5487ff0e7475f0a03d05e94) terminal/kitty: scroll and clip image placements within margins ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #4323
+  
+  The Kitty graphics protocol requires that when margins are defined
+  and index commands are used, only images entirely within the scroll
+  region are scrolled, and that they are clipped when scrolling would
+  cause them to extend outside the region [1].
+  
+  This implements that part of the spec.
+  
+  Benchmarked pure `\n` terminal streams to ensure that the no-image case
+  is not regressed. Our branch hints plus checks on placements keep that
+  true. When images are present, things get a lot slower but thats
+  acceptable for now.
+  
+  [1]: https://sw.kovidgoyal.net/kitty/graphics-protocol/#interaction-with-other-terminal-actions
+  ```
+- [`1ffa77c`](https://github.com/ghostty-org/ghostty/commit/1ffa77c90bc47e8200e2c2c88b34ef6745ffd834) terminal/kitty: scroll and clip image placements within margins ([#13935](https://github.com/ghostty-org/ghostty/issues/13935)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #4323
+  
+  The Kitty graphics protocol requires that when margins are defined and
+  index commands are used, only images entirely within the scroll region
+  are scrolled, and that they are clipped when scrolling would cause them
+  to extend outside the region [1].
+  
+  This implements that part of the spec.
+  
+  Benchmarked pure `\n` terminal streams to ensure that the no-image case
+  is not regressed. Our branch hints plus checks on placements keep that
+  true. When images are present, things get a lot slower but thats
+  acceptable for now.
+  
+  ## Demo
+  
+  
+  
+  https://github.com/user-attachments/assets/22e23c8b-ffd4-48fb-9e86-31e810d36ea0
+  
+  
+  
+  [1]:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#interaction-with-other-terminal-actions
+  ```
 - [`6b23c58`](https://github.com/ghostty-org/ghostty/commit/6b23c584cab57c8ac9714775dd0975eb7db32dd4) terminal/kitty: prevent auto-assigned image ID collisions ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #2197
