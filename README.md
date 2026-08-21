@@ -8,15 +8,101 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 20, 2026 at 21:21 UTC.
+> Last updated: August 21, 2026 at 01:00 UTC.
 
 ## August 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32413190698), [2](https://github.com/ghostty-org/ghostty/actions/runs/32399782294), [3](https://github.com/ghostty-org/ghostty/actions/runs/32393437956), [4](https://github.com/ghostty-org/ghostty/actions/runs/32387594013), [5](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [6](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [7](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [8](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
-Summary: 8 runs • 23 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32428404813), [2](https://github.com/ghostty-org/ghostty/actions/runs/32421386810), [3](https://github.com/ghostty-org/ghostty/actions/runs/32413190698), [4](https://github.com/ghostty-org/ghostty/actions/runs/32399782294), [5](https://github.com/ghostty-org/ghostty/actions/runs/32393437956), [6](https://github.com/ghostty-org/ghostty/actions/runs/32387594013), [7](https://github.com/ghostty-org/ghostty/actions/runs/32380496303), [8](https://github.com/ghostty-org/ghostty/actions/runs/32327389360), [9](https://github.com/ghostty-org/ghostty/actions/runs/32324155930), [10](https://github.com/ghostty-org/ghostty/actions/runs/32318148403)  
+Summary: 10 runs • 34 commits • 5 authors
 
 ### Changes
 
+- [`d30a9c4`](https://github.com/ghostty-org/ghostty/commit/d30a9c424d3e4afd8eada988e154c77937a3c59c) terminal: clear cursor pin garbage flag on screen reset ([@mitchellh](https://github.com/mitchellh))
+- [`a32a100`](https://github.com/ghostty-org/ghostty/commit/a32a100d4bcef7fe5ee639ea4075545c1eb2eeba) terminal/kitty: centralize placeholder placement lookup ([@mitchellh](https://github.com/mitchellh))
+- [`cd5f9ee`](https://github.com/ghostty-org/ghostty/commit/cd5f9eef0a1ac100b022acdfb565d64579c03225) terminal/kitty: add relative placement storage ([@mitchellh](https://github.com/mitchellh))
+- [`f5b3efe`](https://github.com/ghostty-org/ghostty/commit/f5b3efe45299437aa8416be9e2a4ebcde47690e3) terminal/c: resolve relative placement viewport positions ([@mitchellh](https://github.com/mitchellh))
+- [`33ca9e5`](https://github.com/ghostty-org/ghostty/commit/33ca9e5ddc6db3be63717306735ffcf8e725401a) terminal/kitty: create relative placements from put commands ([@mitchellh](https://github.com/mitchellh))
+- [`9490f71`](https://github.com/ghostty-org/ghostty/commit/9490f71342151bea3523d388430328210dde6f96) renderer: position relative kitty image placements ([@mitchellh](https://github.com/mitchellh))
+- [`08450e2`](https://github.com/ghostty-org/ghostty/commit/08450e21e5a3ad94b62d1e67f9eda554dfa1c971) kitty graphics: support relative placements ([#13939](https://github.com/ghostty-org/ghostty/issues/13939)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds full support for relative placements:
+  https://sw.kovidgoyal.net/kitty/graphics-protocol/#relative-placements
+  (`R=` and `Q=`). The high-level description is that this allows images
+  to be placed relative to other images. For more details, the spec
+  explains it better than I can, or the demo video below.
+  
+  The implementation here was pretty straightforward. It mainly revolved
+  around adding parent resolution logic to puts (and validation), and
+  proper unparented placement reaping in the right points, and then the
+  various tests around that. The renderer logic itself was also
+  straigthforward, I had to add some offset resolution to the core
+  graphics storage but we can reuse that. The main complexity -- as always
+  -- (MY OWN EMDASHES) is Unicode placeholders. But... also not too hard.
+  
+  After this, the only feature we don't support from the protocol is
+  animation.
+  
+  **AI usage:** Test writing, validation against spec/reference, judging,
+  and some "fill in the function/block". I setup the overall shape of the
+  implementation.
+  
+  ## Demo
+  
+  Ghostty on the left, Kitty on the right
+  
+  
+  
+  https://github.com/user-attachments/assets/dc2ec3ac-480a-4587-94e4-06a842f9b3f4
+  ```
+- [`1ffdd74`](https://github.com/ghostty-org/ghostty/commit/1ffdd7415a9fd852091d97f1de68fd8bf5a16cfd) os: remove flaky TempDir handle checks ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The TempDir tests saved directory descriptors before close and expected
+  `fcntl(F_GETFD)` to return `EBADF` afterward. A descriptor number
+  becomes available for reuse as soon as it is closed.
+  
+  Unrelated I/O could reuse either number before the assertion, causing
+  the Valgrind job to report a leak even though TempDir closed both
+  handles correctly [1].
+  
+  Remove the raw descriptor assertions and keep coverage of observable
+  delete and retain behavior. Explain at both close sites why descriptor
+  numbers cannot identify the original handles after close.
+  
+  [1]: https://github.com/ghostty-org/ghostty/actions/runs/32410237002/job/96561246487
+  ```
+- [`c5f4f00`](https://github.com/ghostty-org/ghostty/commit/c5f4f00ed3e7c43528461968b8d1611f15f2bb39) fix up recent Valgrind errors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  - ci: valgrind runs now fail when Memcheck finds an unsuppressed error.
+  - fix real memory issues in unit tests
+  - add a suppression for Zig's flate compression which documents as
+    purposely using undefined memory
+  ```
+- [`04d6954`](https://github.com/ghostty-org/ghostty/commit/04d6954ebf7cffef4c551d77761b4f4820a7e070) os: remove flaky TempDir handle checks ([#13937](https://github.com/ghostty-org/ghostty/issues/13937)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The TempDir tests saved directory descriptors before close and expected
+  `fcntl(F_GETFD)` to return `EBADF` afterward. A descriptor number
+  becomes available for reuse as soon as it is closed.
+  
+  Unrelated I/O could reuse either number before the assertion, causing
+  the Valgrind job to report a leak even though TempDir closed both
+  handles correctly [1].
+  
+  Remove the raw descriptor assertions and keep coverage of observable
+  delete and retain behavior. Explain at both close sites why descriptor
+  numbers cannot identify the original handles after close.
+  
+  [1]:
+  https://github.com/ghostty-org/ghostty/actions/runs/32410237002/job/96561246487
+  ```
+- [`16b39f4`](https://github.com/ghostty-org/ghostty/commit/16b39f45a8d0ad9d2d19ea1fe9cf94c44c0e740b) fix up recent Valgrind errors ([#13938](https://github.com/ghostty-org/ghostty/issues/13938)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  No issues in actual shipped code found.
+  
+  - ci: valgrind runs now fail when Memcheck finds an unsuppressed error.
+  - fix real memory issues in unit tests
+  - add a suppression for Zig's flate compression which documents as
+  purposely using undefined memory
+  ```
 - [`90bce0d`](https://github.com/ghostty-org/ghostty/commit/90bce0d2dd3bd8eaf5487ff0e7475f0a03d05e94) terminal/kitty: scroll and clip image placements within margins ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #4323
@@ -2131,569 +2217,5 @@ Summary: 8 runs • 30 commits • 6 authors
   from @jcollie.
   
   Vouch: @diego-moment
-  ```
-
-## August 14, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/31844397329), [2](https://github.com/ghostty-org/ghostty/actions/runs/31839586303), [3](https://github.com/ghostty-org/ghostty/actions/runs/31833203809), [4](https://github.com/ghostty-org/ghostty/actions/runs/31827610332), [5](https://github.com/ghostty-org/ghostty/actions/runs/31820574489), [6](https://github.com/ghostty-org/ghostty/actions/runs/31817549169), [7](https://github.com/ghostty-org/ghostty/actions/runs/31807124981), [8](https://github.com/ghostty-org/ghostty/actions/runs/31806196926), [9](https://github.com/ghostty-org/ghostty/actions/runs/31799751847), [10](https://github.com/ghostty-org/ghostty/actions/runs/31775512293), [11](https://github.com/ghostty-org/ghostty/actions/runs/31768389423), [12](https://github.com/ghostty-org/ghostty/actions/runs/31764190608)  
-Summary: 12 runs • 28 commits • 11 authors
-
-### Changes
-
-- [`88ed6be`](https://github.com/ghostty-org/ghostty/commit/88ed6bebf4abfa8deb1b0cdd73dde4b07c7e0a3e) libghostty: much faster wide-character reflow on resize ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Resizing a terminal whose buffer is heavy with wide characters (CJK,
-  emoji) is now 3-5x faster on the reflow path.
-  
-  This was relatively simple work. We already have a bulk fast path for
-  same-style cells. We previously omitted ANY wide characters from this.
-  We relaxed this by making it work with complete wide pairs (wide followed
-  by spacer tail).
-  
-  ### Benchmarks
-  
-  Resize dance (13 column resizes, 80 -> 40 -> 132 and back and forth again)
-  over a ~2,000-row scrollback buffer.
-  
-  | Workload | Before | After | Speedup |
-  |---|---|---|---|
-  | cjk | 0.938 | 0.296 | 3.2x |
-  | emoji | 0.875 | 0.191 | 4.6x |
-  | mixed build-log | 0.306 | 0.155 | 2.0x |
-  | grapheme | 2.449 | 1.831 | 1.3x |
-  | ascii-short | 0.115 | 0.117 | 1.0x |
-  | ascii-long | 0.109 | 0.112 | 1.0x |
-  | latin | 0.093 | 0.095 | 1.0x |
-  | sgr-truecolor | 0.939 | 0.965 | 1.0x |
-  
-  **AI usage:** Profiled, implemented, benchmarked, and written by Fable.
-  Plan validated by me before doing it, I wrote all the
-  comments/commits/blah.
-  ```
-- [`d760ee9`](https://github.com/ghostty-org/ghostty/commit/d760ee96e54657416eb427b793c7e839f003df7d) terminal: much faster wide-character reflow on resize ([#13827](https://github.com/ghostty-org/ghostty/issues/13827)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Resizing a terminal whose buffer is heavy with wide characters (CJK,
-  emoji) is now 3-5x faster on the reflow path.
-  
-  This was relatively simple work. We already have a bulk fast path for
-  same-style cells. We previously omitted ANY wide characters from this.
-  We relaxed this by making it work with complete wide pairs (wide
-  followed by spacer tail).
-  
-  ### Benchmarks
-  
-  Resize dance (13 column resizes, 80 -> 40 -> 132 and back and forth
-  again) over a ~2,000-row scrollback buffer.
-  
-  | Workload | Before | After | Speedup |
-  |---|---|---|---|
-  | cjk | 0.938 | 0.296 | 3.2x |
-  | emoji | 0.875 | 0.191 | 4.6x |
-  | mixed build-log | 0.306 | 0.155 | 2.0x |
-  | grapheme | 2.449 | 1.831 | 1.3x |
-  | ascii-short | 0.115 | 0.117 | 1.0x |
-  | ascii-long | 0.109 | 0.112 | 1.0x |
-  | latin | 0.093 | 0.095 | 1.0x |
-  | sgr-truecolor | 0.939 | 0.965 | 1.0x |
-  
-  **AI usage:** Profiled, implemented, benchmarked, and written by Fable.
-  Plan validated by me before doing it, I wrote all the
-  comments/commits/blah.
-  ```
-- [`3d9b2b4`](https://github.com/ghostty-org/ghostty/commit/3d9b2b483cd807c05e72e2827559572c38bcbe66) libghostty: much faster grapheme-heavy IO throughput ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Processing grapheme-heavy input (ZWJ sequences, emoji modifiers, flags,
-  combining marks) through is now almost 3x faster.
-  
-  ### Primary Change: PageList Capacity Projection
-  
-  This workload was heavily bound by `PageList.increaseCapacity` because
-  pathological cases of single-dimensional growth cause repeated page
-  capacity doublings which get increasingly expensive because each time we
-  do a full allocation + clone.
-  
-  So the major change is that for grapheme bytes in particular, when we
-  reach a capacity limit, we take the current usage for the current set of
-  rows and project it out to the remaining capacity of rows. Basically, we
-  assume that a similar workload will continue. So rather than doubling,
-  we're _guessing_ how much you're going to need.
-  
-  In the real world, I'm not really sure if this matters at all. There are
-  no regressions on any regular corpus streams (asciinema, wikipedia dumps, etc.).
-  
-  ### Other Changes
-  
-  There are some other changes here, all found on the path to improving
-  grapheme IO throughput:
-  
-  * The bitmap allocator now maintains `search_start` hint we update on
-    every allocation so that future free-scans are much faster. This is
-    the lowest possible place we don't have a full bitmap.
-  
-  * For wasm32, we use an alternate hashing structure for small keys
-    since Wyhash's 64bit * 64bit multiplication is very very slow because
-    wasm has no widening instruction.
-  
-  * Terminal `printSlice` now checks the fast path compatibility once up front
-    rather than on every fast-path attempt.
-  
-  ### Benchmarks
-  
-  Data: ZWJ family/profession sequences, skin-tone modifiers,
-  flags, and combining marks streamed in 64 KiB chunks into an 80x24
-  terminal, default modes.
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | wasm, V8, 16 MiB stream | 52 MB/s | 151 MB/s | 2.9x |
-  | native, terminal-stream, 64 MiB | 894 ms | 305 ms | 2.9x |
-  
-  Sorry the native stuff is in ms, that's how our native `ghostty-bench`
-  does things versus the custom little V8 harness.
-  
-  **AI usage:** Developed alongside Fable: profiling, implementation, and
-  benchmarks. All human language messages written myself. Validated myself.
-  ```
-- [`6b22215`](https://github.com/ghostty-org/ghostty/commit/6b22215c5d46019f94b658f7665941f951d0de1e) libghostty: much faster grapheme-heavy IO throughput ([#13826](https://github.com/ghostty-org/ghostty/issues/13826)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Processing grapheme-heavy input (ZWJ sequences, emoji modifiers, flags,
-  combining marks) through is now almost 3x faster.
-  
-  ### Primary Change: PageList Capacity Projection
-  
-  This workload was heavily bound by `PageList.increaseCapacity` because
-  pathological cases of single-dimensional growth cause repeated page
-  capacity doublings which get increasingly expensive because each time we
-  do a full allocation + clone.
-  
-  So the major change is that for grapheme bytes in particular, when we
-  reach a capacity limit, we take the current usage for the current set of
-  rows and project it out to the remaining capacity of rows. Basically, we
-  assume that a similar workload will continue. So rather than doubling,
-  we're _guessing_ how much you're going to need.
-  
-  In the real world, I'm not really sure if this matters at all. There are
-  no regressions on any regular corpus streams (asciinema, wikipedia
-  dumps, etc.).
-  
-  ### Other Changes
-  
-  There are some other changes here, all found on the path to improving
-  grapheme IO throughput:
-  
-  * The bitmap allocator now maintains `search_start` hint we update on
-  every allocation so that future free-scans are much faster. This is the
-  lowest possible place we don't have a full bitmap.
-  
-  * For wasm32, we use an alternate hashing structure for small keys since
-  Wyhash's 64bit * 64bit multiplication is very very slow because wasm has
-  no widening instruction.
-  
-  * Terminal `printSlice` now checks the fast path compatibility once up
-  front rather than on every fast-path attempt.
-  
-  ### Benchmarks
-  
-  Data: ZWJ family/profession sequences, skin-tone modifiers, flags, and
-  combining marks streamed in 64 KiB chunks into an 80x24 terminal,
-  default modes.
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | wasm, V8, 16 MiB stream | 52 MB/s | 151 MB/s | 2.9x |
-  | native, terminal-stream, 64 MiB | 894 ms | 305 ms | 2.9x |
-  
-  Sorry the native stuff is in ms, that's how our native `ghostty-bench`
-  does things versus the custom little V8 harness.
-  
-  **AI usage:** Developed alongside Fable: profiling, implementation, and
-  benchmarks. All human language messages written myself. Validated
-  myself.
-  ```
-- [`74a233b`](https://github.com/ghostty-org/ghostty/commit/74a233b5439c6721cee8ae1f453c308e02ca9d74) libghostty: faster render state reads and updates on wasm targets ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This makes the `ghostty_render_state_*` C API significantly faster on
-  wasm32-freestanding, measured in V8 via Node for Chrome. Also verified
-  in `jsc` for Safari.
-  
-  The major change is a new bulk row read API that makes full-screen cell reads
-  roughly 10x faster for wasm embedders. This should help any embedder with
-  high FFI overhead, such as Go, Python, etc. too.
-  
-  Non-wasm performance is not impacted, all benchmarks were run on my mac
-  too w/ no regressions (two of the changes are native wins as well).
-  
-  ## Changes
-  
-  * color: the "vectorized" palette conversion loop was silently
-    scalarized by LLVM into per-byte ops because it loaded/stored through
-    array-typed pointers. Zig 0.16 disables the LLVM loop vectorizer, so
-    manually vectorized loops must go through vector-typed pointers.
-  * C styles: major optimizations to converting Zig styles to C styles.
-    This is a heavy operation for render state.
-  * render: `endUpdate`'s style-run fill (`@memset` with a struct value)
-    re-loaded its source every iteration and stored field by field. Now
-    manually vectorized.
-  * render: new `GHOSTTY_RENDER_STATE_ROW_DATA_CELLS_RAW` returns a
-    borrowed `GhosttyCellsView` of the current row's raw cell values, valid
-    until the next update. One call per row instead of 3-6 calls per cell.
-  
-  ## Benchmarks
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | colors_get | 114 ns | 35 ns | 3.3x |
-  | style get, per styled cell | 7.8 ns | 6.7 ns | 1.2x |
-  | raw+style read, per cell | 8.6 ns | 7.7 ns | 1.1x |
-  | full-screen text read, per cell | 7.5 ns | 0.7 ns | 10.7x |
-  | full-screen text+style read, per cell | 8.6 ns | 1.7 ns | 5.1x |
-  | render state update, styled full frame | 3.4 us | 2.6 us | 1.3x |
-  
-  **AI usage:** Fable did the implementation and benchmarking and drafted
-  this message. Comments were partially rewritten by me.
-  ```
-- [`16833f5`](https://github.com/ghostty-org/ghostty/commit/16833f5e5f58589c3d6ba876a73eb0c5f550231d) libghostty: faster render state reads and updates on wasm targets ([#13825](https://github.com/ghostty-org/ghostty/issues/13825)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This makes the `ghostty_render_state_*` C API significantly faster on
-  wasm32-freestanding, measured in V8 via Node for Chrome. Also verified
-  in `jsc` for Safari.
-  
-  The major change is a new bulk row read API that makes full-screen cell
-  reads roughly 10x faster for wasm embedders. This should help any
-  embedder with high FFI overhead, such as Go, Python, etc. too.
-  
-  Non-wasm performance is not impacted, all benchmarks were run on my mac
-  too w/ no regressions (two of the changes are native wins as well).
-  
-  ## Changes
-  
-  * color: the "vectorized" palette conversion loop was silently
-  scalarized by LLVM into per-byte ops because it loaded/stored through
-  array-typed pointers. Zig 0.16 disables the LLVM loop vectorizer, so
-  manually vectorized loops must go through vector-typed pointers.
-  * C styles: major optimizations to converting Zig styles to C styles.
-  This is a heavy operation for render state.
-  * render: `endUpdate`'s style-run fill (`@memset` with a struct value)
-  re-loaded its source every iteration and stored field by field. Now
-  manually vectorized.
-  * render: new `GHOSTTY_RENDER_STATE_ROW_DATA_CELLS_RAW` returns a
-  borrowed `GhosttyCellsView` of the current row's raw cell values, valid
-  until the next update. One call per row instead of 3-6 calls per cell.
-  
-  ## Benchmarks
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | colors_get | 114 ns | 35 ns | 3.3x |
-  | style get, per styled cell | 7.8 ns | 6.7 ns | 1.2x |
-  | raw+style read, per cell | 8.6 ns | 7.7 ns | 1.1x |
-   | full-screen text read, per cell | 7.5 ns | 0.7 ns | 10.7x |
-   | full-screen text+style read, per cell | 8.6 ns | 1.7 ns | 5.1x |
-  | render state update, styled full frame | 3.4 us | 2.6 us | 1.3x |
-  
-  **AI usage:** Fable did the implementation and benchmarking and drafted
-  this message. Comments were partially rewritten by me.
-  ```
-- [`87f69a1`](https://github.com/ghostty-org/ghostty/commit/87f69a12ee28445cd95e39060fd626ccfc27b5e0) libghostty: much faster vt_write on wasm targets ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This makes `ghostty_terminal_vt_write` on wasm32-freestanding anywhere
-  from 1.4x to 13x faster depending on the input, measured in V8 via Node
-  for Chrome as well as `jsc` for Safari.
-  
-  ## Changes
-  
-  * stream: the batched parse path (bulk UTF-8 decode, print_slice runs)
-    is used even when `build_options.simd` is false. The per-byte loop
-    is now debug-only.
-  * simd/vt: the scalar `utf8DecodeUntilControlSeq` gets a vectorized
-    ASCII bulk path that is compatible with wasm simd128.
-  * style: on wasm, `Style.eql` compares canonical `PackedStyle` forms
-    which is faster by like 11%. On native its slower so we only do this
-    for wasm.
-  * build: wasm targets now default to the `simd128` CPU feature since
-    every browser engine has supported it for years. Opt out with
-    `-Dcpu=generic`.
-  * PACKAGING.md documents the wasm build, including `wasm-opt` notes.
-  
-  ## Benchmarks
-  
-  | Workload | Before | After | Speedup |
-  |---|---|---|---|
-  | ascii | 85 MB/s | 1070 MB/s | 12.5x |
-  | ascii-wrap | 84 MB/s | 1103 MB/s | 13.1x |
-  | clear-redraw | 85 MB/s | 913 MB/s | 10.7x |
-  | scroll | 79 MB/s | 304 MB/s | 3.8x |
-  | cursor | 120 MB/s | 255 MB/s | 2.1x |
-  | utf8 | 99 MB/s | 169 MB/s | 1.7x |
-  | sgr16 | 81 MB/s | 133 MB/s | 1.6x |
-  | sgr-truecolor | 62 MB/s | 88 MB/s | 1.4x |
-  
-  End result: wasm at roughly 50-85% of the native ReleaseFast+SIMD build
-  on the same workloads. Plain ASCII was at 6% of native before.
-  
-  **AI usage:** Lots of Fable help. As always, the human language stuff
-  like this commit and comments were rewritten by me.
-  ```
-- [`2f72b04`](https://github.com/ghostty-org/ghostty/commit/2f72b041f65932867baef177e8f3be9c92b0f2ed) libghostty: much faster vt_write on wasm targets ([#13821](https://github.com/ghostty-org/ghostty/issues/13821)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This makes `ghostty_terminal_vt_write` on wasm32-freestanding anywhere
-  from 1.4x to 13x faster depending on the input, measured in V8 via Node
-  for Chrome as well as `jsc` for Safari.
-  
-  This changes the default Wasm build to default to enabling the `simd128`
-  CPU feature because baseline doesn't have that and every major browser
-  has supported it for years. This results in massive performance
-  improvements (like, 50%+ on all streams).
-  
-  Non-wasm performance is not impacted, all benchmarks were run on my mac
-  too w/ no regressions.
-  
-  ## Changes
-  
-  * stream: the batched parse path (bulk UTF-8 decode, print_slice runs)
-  is used even when `build_options.simd` is false. The per-byte loop is
-  now debug-only.
-  * simd/vt: the scalar `utf8DecodeUntilControlSeq` gets a vectorized
-  ASCII bulk path that is compatible with wasm simd128.
-  * style: on wasm, `Style.eql` compares canonical `PackedStyle` forms
-  which is faster by like 11%. On native its slower so we only do this for
-  wasm.
-  * build: wasm targets now default to the `simd128` CPU feature since
-  every browser engine has supported it for years. Opt out with
-  `-Dcpu=generic`.
-  * PACKAGING.md documents the wasm build, including `wasm-opt` notes.
-  
-  ## Benchmarks
-  
-  | Workload | Before | After | Speedup |
-  |---|---|---|---|
-  | ascii | 85 MB/s | 1070 MB/s | 12.5x |
-  | ascii-wrap | 84 MB/s | 1103 MB/s | 13.1x |
-  | clear-redraw | 85 MB/s | 913 MB/s | 10.7x |
-  | scroll | 79 MB/s | 304 MB/s | 3.8x |
-  | cursor | 120 MB/s | 255 MB/s | 2.1x |
-  | utf8 | 99 MB/s | 169 MB/s | 1.7x |
-  | sgr16 | 81 MB/s | 133 MB/s | 1.6x |
-  | sgr-truecolor | 62 MB/s | 88 MB/s | 1.4x |
-  
-  End result: wasm at roughly 50-85% of the native ReleaseFast+SIMD build
-  on the same workloads. Plain ASCII was at 6% of native before.
-  
-  **AI usage:** Lots of Fable help. As always, the human language stuff
-  like this commit and comments were rewritten by me.
-  ```
-- [`29a70bc`](https://github.com/ghostty-org/ghostty/commit/29a70bc3674e7a95c47a54f9660833a86c87f3b5) ci: publish wasm tip artifacts ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This builds and publishes `ghostty-vt.wasm` binaries into our tip
-  GitHub releases. These are built with the proper optimization, `simd128`
-  CPU feature set, and run through `wasm-opt`.
-  
-  This allows wasm consumers to use libghostty without a Zig toolkit.
-  
-  Published two: `ghostty-vt.wasm` and `ghostty-vt-small.wasm`. The latter
-  is ReleaseSmall, but is 10 to 20% slower. Users choice.
-  ```
-- [`8f485a7`](https://github.com/ghostty-org/ghostty/commit/8f485a7f478fc497ec02d60f274a33af542f1819) ci: publish wasm tip artifacts ([#13822](https://github.com/ghostty-org/ghostty/issues/13822)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This builds and publishes `ghostty-vt.wasm` binaries into our tip GitHub
-  releases. These are built with the proper optimization, `simd128` CPU
-  feature set, and run through `wasm-opt`.
-  
-  This allows wasm consumers to use libghostty without a Zig toolkit.
-  
-  Published two: `ghostty-vt.wasm` and `ghostty-vt-small.wasm`. The latter
-  is ReleaseSmall, but is 10 to 20% slower. Users choice.
-  ```
-- [`e305665`](https://github.com/ghostty-org/ghostty/commit/e3056658d05bdd54db9fd37a02c196bfe81cfe39) libghostty: faster render state updates and C API reads ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This improves the performance of render state plus C API reads. I
-  specifically benchmarked the C API call and found a lot of overhead in
-  the C API layer which this cleans up. The impact of these changes will be
-  less visible to Zig consumers but moderately improve there.
-  
-  All benchmark numbers below are via the C API.
-  
-  Highlights:
-  
-  - full rebuilds are **1.71x faster (11.4µs to 6.6µs per 120x80 frame)**
-  - single-dirty-row updates (e.g. the TUI/prompt steady state) are *1.44x
-    faster**
-  - full-frame reads through the C API are **1.2x to 1.8x faster**
-  
-  ## Changes
-  
-  * endUpdate skips unchanged style runs.
-  * `GRAPHEMES_UTF8` getter gets a fast path for single ASCII codepoints (the
-    overwhelming majority of cells).
-  * The bg/fg color getters no longer copy the full 28-byte style. Instead,
-     they switch directly on the one color field they need.
-  * The `get_multi` variants validate the handle and position once per batch
-    instead of per key.
-  * Iterator positions are sentinel values instead of Zig optionals. The
-    optional tagging overhead was showing up in benchmarks.
-  * `colors_get` reads through a pointer instead of copying the ~1KB colors
-    struct to the stack per call.
-  * The palette conversion is vectorized. The 4-byte padded RGB to 3-byte
-    was not being auto-vectorized. Explicitly vectorize it. Something like
-    a 4x speedup on NEON.
-  
-  ## Benchmarks
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | update (forced full rebuild) | 11.4 µs/frame | 6.6 µs/frame | 1.71x |
-  | update (single dirty row) | 143 ns | 99 ns | 1.44x |
-  | read cell style/bg/fg/selected | 10.3 ns/cell | 8.8 ns/cell | 1.17x |
-  | read cell via get_multi | 9.6 ns/cell | 6.9 ns/cell | 1.40x |
-  | read cell UTF-8 text | 4.9 ns/cell | 2.7 ns/cell | 1.78x |
-  | colors_get + palette | 213 ns/call | 45 ns/call | 4.58x |
-  
-  Clean updates (no terminal changes) and the raw cell read paths
-  are unchanged.
-  
-  **AI usage:** Driven by Fable primarily, reviewed everything and rewrote
-  all human-language (comments) since Fable in particular does really bad
-  at that. This commit message too.
-  ```
-- [`53be7d0`](https://github.com/ghostty-org/ghostty/commit/53be7d0353640351e2d6a06725779f21a3ebe481) libghostty: faster render state updates and C API reads ([#13818](https://github.com/ghostty-org/ghostty/issues/13818)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This improves the performance of render state plus C API reads. I
-  specifically benchmarked the C API call and found a lot of overhead in
-  the C API layer which this cleans up. The impact of these changes will
-  be less visible to Zig consumers but moderately improve there.
-  
-  All benchmark numbers below are via the C API.
-  
-  Highlights:
-  
-  - full rebuilds are **1.71x faster (11.4µs to 6.6µs per 120x80 frame)**
-  - single-dirty-row updates (e.g. the TUI/prompt steady state) are
-  **1.44x faster**
-  - full-frame reads through the C API are **1.2x to 1.8x faster**
-  
-  ## Changes
-  
-  * endUpdate skips unchanged style runs.
-  * `GRAPHEMES_UTF8` getter gets a fast path for single ASCII codepoints
-  (the overwhelming majority of cells).
-  * The bg/fg color getters no longer copy the full 28-byte style.
-  Instead, they switch directly on the one color field they need.
-  * The `get_multi` variants validate the handle and position once per
-  batch instead of per key.
-  * Iterator positions are sentinel values instead of Zig optionals. The
-  optional tagging overhead was showing up in benchmarks.
-  * `colors_get` reads through a pointer instead of copying the ~1KB
-  colors struct to the stack per call.
-  * The palette conversion is vectorized. The 4-byte padded RGB to 3-byte
-  was not being auto-vectorized. Explicitly vectorize it. Something like a
-  4x speedup on NEON.
-  
-  ## Benchmarks
-  
-  | Benchmark | Before | After | Speedup |
-  |---|---|---|---|
-  | update (forced full rebuild) | 11.4 µs/frame | 6.6 µs/frame | 1.71x |
-  | update (single dirty row) | 143 ns | 99 ns | 1.44x |
-  | read cell style/bg/fg/selected | 10.3 ns/cell | 8.8 ns/cell | 1.17x |
-  | read cell via get_multi | 9.6 ns/cell | 6.9 ns/cell | 1.40x |
-  |read cell UTF-8 text | 4.9 ns/cell | 2.7 ns/cell | 1.78x |
-  | colors_get + palette | 213 ns/call | 45 ns/call | 4.58x |
-  
-  Clean updates (no terminal changes) and the raw cell read paths are
-  unchanged.
-  
-  **AI usage:** Driven by Fable primarily, reviewed everything and rewrote
-  all human-language (comments) since Fable in particular does really bad
-  at that. This commit message too.
-  ```
-- [`cde7f93`](https://github.com/ghostty-org/ghostty/commit/cde7f93435eb40dfbc306e338c43418e8322220e) renderer: simplify cell row storage ([@jparise](https://github.com/jparise))
-  ```text
-  Cell contents used our ArrayListCollection container to manage per-row
-  foreground lists. This was the only place ArrayListCollection was used.
-  
-  We now own the row list slice directly, initialize cursor capacity to
-  exactly one cell, and reallocate the contiguous background buffer in
-  place when possible. Foreground rows still use exact sizes so resizes
-  (which are infrequent) do not retain the high-water mark.
-  ```
-- [`4a174e1`](https://github.com/ghostty-org/ghostty/commit/4a174e1c89a93853d18e47fd7553801633ba8746) renderer: simplify cell row storage ([#13599](https://github.com/ghostty-org/ghostty/issues/13599)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Cell contents used our ArrayListCollection container to manage per-row
-  foreground lists. This was the only place ArrayListCollection was used.
-  
-  We now own the row list slice directly, initialize cursor capacity to
-  exactly one cell, and reallocate the contiguous background buffer in
-  place when possible. Foreground rows still use exact sizes so resizes
-  (which are infrequent) do not retain the high-water mark.
-  ```
-- [`250a36f`](https://github.com/ghostty-org/ghostty/commit/250a36fe6f55de3d2a910deb420f35b0cf6dc350) i18n: Update es_ES translations ([@alosarjos](https://github.com/alosarjos))
-  ```text
-  Update the translations for the next 1.4 release
-  ```
-- [`f2022fe`](https://github.com/ghostty-org/ghostty/commit/f2022fe88d57f1b93913de1087ec4f3e459ef3b7) macOS: avoid holding SurfaceView when sending notifications ([@bo2themax](https://github.com/bo2themax))
-- [`375ce78`](https://github.com/ghostty-org/ghostty/commit/375ce787466f7bd666f5d8b2e32182ade296dcf3) i18n: Update Norwegian translations ([@Uzaaft](https://github.com/Uzaaft))
-- [`6584450`](https://github.com/ghostty-org/ghostty/commit/6584450279ae3ccd20c889c091a73b3a52d5ce09) i18n: Update Norwegian translations ([#13781](https://github.com/ghostty-org/ghostty/issues/13781)) ([@trag1c](https://github.com/trag1c))
-- [`1ff3deb`](https://github.com/ghostty-org/ghostty/commit/1ff3deb1bbbf960e69edf49eb7b34fa227080b8d) i18n: Update es_ES translations ([#13800](https://github.com/ghostty-org/ghostty/issues/13800)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Update the translations for the next 1.4 release
-  ```
-- [`562f21a`](https://github.com/ghostty-org/ghostty/commit/562f21a6e72ce1710ca859b25b1562f7f7b0f76a) macOS: avoid holding SurfaceView when sending notifications ([#13810](https://github.com/ghostty-org/ghostty/issues/13810)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We shouldn't hold a closing surface view when sending notifications and
-  waiting to dismiss that notification. This happens rarely, but it's the
-  right thing to do.
-  
-  ### AI Disclosure
-  Found by Claude when judging other branches, I applied the changes
-  myself.
-  
-  > Forgot that after force pushing, you can't reopen #13787 🫪, linking it
-  here for the review history.
-  ```
-- [`f81dcad`](https://github.com/ghostty-org/ghostty/commit/f81dcadc82ea2afdcf2dc92929037701122f05b5) Update VOUCHED list ([#13814](https://github.com/ghostty-org/ghostty/issues/13814)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13812#discussioncomment-18018163)
-  from @mitchellh.
-  
-  Vouch: @elitex45
-  ```
-- [`987ee52`](https://github.com/ghostty-org/ghostty/commit/987ee52751a7d87a7bee996cd2e249a01be2571b) Update and (hopefully) complete Hungarian translations in hu.po ([@balazs-szucs](https://github.com/balazs-szucs))
-- [`fa392ba`](https://github.com/ghostty-org/ghostty/commit/fa392baf28c7343ea8f7b005fe2a3299116ee79b) i18n: add missing Hungarian translations ([#13799](https://github.com/ghostty-org/ghostty/issues/13799)) ([@00-kat](https://github.com/00-kat))
-  ```text
-  Part of: #13766
-  ```
-- [`93e7e7e`](https://github.com/ghostty-org/ghostty/commit/93e7e7e9933a339032a0499043e0f0c6d7218a7a) po/zh_CN: add missing translations ([@pluiedev](https://github.com/pluiedev))
-  ```text
-  Frankly the number of command palette entries is a bit ridiculous,
-  but such is life
-  ```
-- [`485864c`](https://github.com/ghostty-org/ghostty/commit/485864cd609ebc7c0350aacbf0ef8c8a0a767c86) po/zh_CN: add missing translations ([#13608](https://github.com/ghostty-org/ghostty/issues/13608)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  Frankly the number of command palette entries is a bit ridiculous, but
-  such is life
-  ```
-- [`89a26a3`](https://github.com/ghostty-org/ghostty/commit/89a26a39eb01a7cf34a64f9329da8304bebd4d8e) Update VOUCHED list ([#13808](https://github.com/ghostty-org/ghostty/issues/13808)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/12664#discussioncomment-18012616)
-  from @pluiedev.
-  
-  Vouch: @Zlitus
-  ```
-- [`365e0bd`](https://github.com/ghostty-org/ghostty/commit/365e0bd0083f3d51a7b7242ad8c5a025c7848c75) i18n: Updating `es_AR` for 1.4 ([#13784](https://github.com/ghostty-org/ghostty/issues/13784)) ([@alanmoyano](https://github.com/alanmoyano))
-  ```text
-  This PR also updates old translations to keep better consistency.
-  
-  AI Disclaimer: I translated manually all strings and then used an agent
-  to review consistency and legibility and applied many suggestions.
-  ```
-- [`710b872`](https://github.com/ghostty-org/ghostty/commit/710b8723905533d623c5e64ba0c5e6662fe79713) Update VOUCHED list ([#13805](https://github.com/ghostty-org/ghostty/issues/13805)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13804#discussioncomment-18010199)
-  from @jcollie.
-  
-  Vouch: @pssalman
   ```
 
