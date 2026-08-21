@@ -8,15 +8,86 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 21, 2026 at 15:26 UTC.
+> Last updated: August 21, 2026 at 18:28 UTC.
 
 ## August 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [2](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [3](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [4](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
-Summary: 4 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32510792341), [2](https://github.com/ghostty-org/ghostty/actions/runs/32504827151), [3](https://github.com/ghostty-org/ghostty/actions/runs/32499136892), [4](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [5](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [6](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [7](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
+Summary: 7 runs • 27 commits • 5 authors
 
 ### Changes
 
+- [`4b915e3`](https://github.com/ghostty-org/ghostty/commit/4b915e3bc460ec8c6765e3f4637dbfb74f7083fa) terminal/kitty: complete animation command parsing ([@mitchellh](https://github.com/mitchellh))
+- [`d8b920e`](https://github.com/ghostty-org/ghostty/commit/d8b920e504670a7603c912e9219668e2b358b909) terminal/kitty: animation frame storage, composition, and playback ([@mitchellh](https://github.com/mitchellh))
+- [`d2ffeb5`](https://github.com/ghostty-org/ghostty/commit/d2ffeb5ba5009427babfec730f55e3084b56eda3) terminal/kitty: execute animation commands ([@mitchellh](https://github.com/mitchellh))
+- [`73903f7`](https://github.com/ghostty-org/ghostty/commit/73903f76aa39f1c8ae67e42b61d9712b7b78be2e) terminal/c: image data returns the current animation frame ([@mitchellh](https://github.com/mitchellh))
+- [`aee7bf3`](https://github.com/ghostty-org/ghostty/commit/aee7bf347564f1db02f4788186464d4c51ea9770) renderer: drive kitty graphics animation ([@mitchellh](https://github.com/mitchellh))
+- [`f3e98fb`](https://github.com/ghostty-org/ghostty/commit/f3e98fb72b6bf12f0c7029993fd37ee1137edcec) terminal/kitty: X handling properly since 0.45 fix ([@mitchellh](https://github.com/mitchellh))
+- [`322d7ae`](https://github.com/ghostty-org/ghostty/commit/322d7ae789b06e4b3987b8cdd33c864b5bdb0412) terminal/kitty: switch to wuffs for pixel work ([@mitchellh](https://github.com/mitchellh))
+- [`dff13b4`](https://github.com/ghostty-org/ghostty/commit/dff13b41c9932ee871f4d1e700c0e1ab8e27edff) pkg/{afl++,wuffs}: fix builds for CI ([@mitchellh](https://github.com/mitchellh))
+- [`4be9d78`](https://github.com/ghostty-org/ghostty/commit/4be9d782e3cc7c96f2f020b7d04aed5ec83b9d8a) terminal: avoid Kitty image reset test if no kitty images ([@mitchellh](https://github.com/mitchellh))
+- [`a88ad03`](https://github.com/ghostty-org/ghostty/commit/a88ad03e692c2831f7375f4ac00d54653d2b21af) kitty graphics: animation support ([#13943](https://github.com/ghostty-org/ghostty/issues/13943)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #5255
+  
+  This adds support for the Kitty graphics animation frames
+  (https://sw.kovidgoyal.net/kitty/graphics-protocol/#animation),
+  completely (transmission, control, composition, rendering, etc.).
+  
+  This does it in a somewhat naive way: we pre-compose all frames and
+  store the full RGBA in-memory. Animation is already rare enough, and I
+  wanted to focus on things working first, so I didn't optimize this very
+  well. I also wanted this PR to be relatively understandable up front. We
+  can add complexity later.
+  
+  But, this adds very little overhead to a non-animation using Kitty
+  graphics user. The animation state is heap-allocated only when its
+  needed. So, it just costs a pointer sized field on every image. Plus a
+  little bit of overhead in the loading state (which itself is heap
+  allocated during image load only).
+  
+  On the renderer side, this **unifies Kitty graphics animations and
+  custom shader animations into a single animation abstraction.** This
+  simplified our renderer thread and made the generic renderer more
+  complicated (slightly, its not much!).
+  
+  **AI usage:** Test writing, validation against the spec/reference
+  implementation. I drove the main architecture and shaped out the
+  functions and params, animation storage, etc. I had AI fill in some of
+  the blanks that I spaced out. Commit messages, comments, and this PR
+  message are written by me.
+  
+  ## Demo
+  
+  
+  
+  https://github.com/user-attachments/assets/91be3d66-a5ff-4cab-b3e9-e672f39861c9
+  ```
+- [`08c80d2`](https://github.com/ghostty-org/ghostty/commit/08c80d253aefef517a010f16cc026aa4cccaa957) po/zh_TW: add missing translations ([@a-lang](https://github.com/a-lang))
+- [`08df9f6`](https://github.com/ghostty-org/ghostty/commit/08df9f6e29a93e16d64c3c70cf7200dab4526a15) po/zh_TW: remove trailing blank line at EOF ([@a-lang](https://github.com/a-lang))
+- [`79e78e6`](https://github.com/ghostty-org/ghostty/commit/79e78e6c0325b37539b1b9383f6e361462655395) Merge branch 'ghostty-org:main' into l10n-tw ([@a-lang](https://github.com/a-lang))
+- [`b5716a8`](https://github.com/ghostty-org/ghostty/commit/b5716a87103961bad7d2a51f2b0daa0266de8fa2) po/zh_TW: refine two translations per review feedback ([@a-lang](https://github.com/a-lang))
+- [`f0eaaea`](https://github.com/ghostty-org/ghostty/commit/f0eaaea6fe14dd52225806fb13c5812dee24bbc4) po/zh_TW: refine translations for reset, copy, and placeholder strings ([@a-lang](https://github.com/a-lang))
+- [`fa7fe3b`](https://github.com/ghostty-org/ghostty/commit/fa7fe3b3afd04f11281358ee3704f40b628f6e35) po/zh_TW: add missing translations ([#13690](https://github.com/ghostty-org/ghostty/issues/13690)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Translate the remaining 181 untranslated strings in po/zh_TW.po,
+  bringing it to 100% coverage (252/252), including the strings added by
+  the recent template update.
+  
+  All 72 existing translations are preserved unchanged.
+  ```
+- [`ffad4c6`](https://github.com/ghostty-org/ghostty/commit/ffad4c6ec480647769f1b9b4be6263c4e0d0796c) update mirror, support git+https dependencies ([@mitchellh](https://github.com/mitchellh))
+- [`d617133`](https://github.com/ghostty-org/ghostty/commit/d6171332cd301eabdb04219a2220fce7f9be4057) update mirror, support git+https dependencies ([#13957](https://github.com/ghostty-org/ghostty/issues/13957)) ([@mitchellh](https://github.com/mitchellh))
+- [`bcbc93a`](https://github.com/ghostty-org/ghostty/commit/bcbc93a6b9ccb5eb96e7de4739af369243f78629) terminal/kitty: preserve image limits across full reset ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  RIS previously cleared configured storage limits and allowed mediums.
+  We now retain this properly.
+  ```
+- [`442046f`](https://github.com/ghostty-org/ghostty/commit/442046f8eecfb879d30a18ae1563a43fc0260a8d) terminal/kitty: preserve image limits across full reset ([#13951](https://github.com/ghostty-org/ghostty/issues/13951)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  RIS previously cleared configured storage limits and allowed mediums. We
+  now retain this properly.
+  ```
 - [`10d7326`](https://github.com/ghostty-org/ghostty/commit/10d73268897fc17412855f022fffc846ad98fe1b) macOS: clean up GlassViewModel ([@bo2themax](https://github.com/bo2themax))
 - [`99d7b5f`](https://github.com/ghostty-org/ghostty/commit/99d7b5fd508eededf2de08ca641f2d83027631f8) macOS: clean up GlassViewModel ([#13944](https://github.com/ghostty-org/ghostty/issues/13944)) ([@mitchellh](https://github.com/mitchellh))
   ```text
