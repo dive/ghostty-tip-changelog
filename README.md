@@ -8,15 +8,34 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 21, 2026 at 12:35 UTC.
+> Last updated: August 21, 2026 at 15:26 UTC.
 
 ## August 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [2](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [2](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [3](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [4](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
+Summary: 4 runs • 7 commits • 3 authors
 
 ### Changes
 
+- [`10d7326`](https://github.com/ghostty-org/ghostty/commit/10d73268897fc17412855f022fffc846ad98fe1b) macOS: clean up GlassViewModel ([@bo2themax](https://github.com/bo2themax))
+- [`99d7b5f`](https://github.com/ghostty-org/ghostty/commit/99d7b5fd508eededf2de08ca641f2d83027631f8) macOS: clean up GlassViewModel ([#13944](https://github.com/ghostty-org/ghostty/issues/13944)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Forgot to delete the autocomplete template in the previous pr...
+  ```
+- [`619555d`](https://github.com/ghostty-org/ghostty/commit/619555d1ccd8ac583b3aa53ac2d335c28663aeb4) pkg/wuffs: build without libc ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This modifies our wuffs dependency so that it no longer requires libc.
+  
+  This unblocks using wuffs from libghostty-vt on freestanding targets,
+  which we'll eventually want for some Kitty graphics stuff.
+  ```
+- [`ac9a2c4`](https://github.com/ghostty-org/ghostty/commit/ac9a2c4cd5772cd0d33aa7d3433a574e2e3a3c41) pkg/wuffs: build without libc ([#13942](https://github.com/ghostty-org/ghostty/issues/13942)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This modifies our wuffs dependency so that it no longer requires libc.
+  
+  This unblocks using wuffs from libghostty-vt on freestanding targets,
+  which we'll eventually want for some Kitty graphics stuff.
+  ```
 - [`311d383`](https://github.com/ghostty-org/ghostty/commit/311d38376634f90869b97877254c3e8c4d8ab918) Update VOUCHED list ([#13948](https://github.com/ghostty-org/ghostty/issues/13948)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
