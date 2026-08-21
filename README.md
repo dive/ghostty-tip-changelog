@@ -8,7 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 21, 2026 at 03:45 UTC.
+> Last updated: August 21, 2026 at 06:36 UTC.
+
+## August 21, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`86db307`](https://github.com/ghostty-org/ghostty/commit/86db30785c9310ba5e7f3c7634ea70d0c61df37c) pkg/wuffs: fix gray+alpha to RGBA swizzle failing for all inputs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The gaToRgba swizzle requested a YA_PREMUL source pixel format from
+  the wuffs pixel swizzler, but wuffs does not support YA_PREMUL as a
+  swizzle source. As a result, gaToRgba returned error.WuffsError for every input.
+  
+  The path can't happen in Ghostty GUI today since our PNG decoding always
+  produces RGBA, but it is possible via libghostty that submit grey+alpha
+  directly.
+  ```
+- [`42a161a`](https://github.com/ghostty-org/ghostty/commit/42a161aadad94d593b87db12d59c93f8915d3921) pkg/wuffs: fix gray+alpha to RGBA swizzle failing for all inputs ([#13941](https://github.com/ghostty-org/ghostty/issues/13941)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The gaToRgba swizzle requested a YA_PREMUL source pixel format from the
+  wuffs pixel swizzler, but wuffs does not support YA_PREMUL as a swizzle
+  source. As a result, gaToRgba returned error.WuffsError for every input.
+  
+  The path can't happen in Ghostty GUI today since our PNG decoding always
+  produces RGBA, but it is possible via libghostty that submit grey+alpha
+  directly.
+  ```
 
 ## August 20, 2026
 
