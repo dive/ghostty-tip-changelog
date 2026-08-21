@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 21, 2026 at 09:30 UTC.
+> Last updated: August 21, 2026 at 12:35 UTC.
 
 ## August 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [2](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
+Summary: 2 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`311d383`](https://github.com/ghostty-org/ghostty/commit/311d38376634f90869b97877254c3e8c4d8ab918) Update VOUCHED list ([#13948](https://github.com/ghostty-org/ghostty/issues/13948)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13947#discussioncomment-18105162)
+  from @trag1c.
+  
+  Denounce: @DIDOUOUGHA
+  ```
 - [`86db307`](https://github.com/ghostty-org/ghostty/commit/86db30785c9310ba5e7f3c7634ea70d0c61df37c) pkg/wuffs: fix gray+alpha to RGBA swizzle failing for all inputs ([@mitchellh](https://github.com/mitchellh))
   ```text
   The gaToRgba swizzle requested a YA_PREMUL source pixel format from
