@@ -8,15 +8,109 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 21, 2026 at 18:28 UTC.
+> Last updated: August 21, 2026 at 21:18 UTC.
 
 ## August 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32510792341), [2](https://github.com/ghostty-org/ghostty/actions/runs/32504827151), [3](https://github.com/ghostty-org/ghostty/actions/runs/32499136892), [4](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [5](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [6](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [7](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
-Summary: 7 runs • 27 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32523564540), [2](https://github.com/ghostty-org/ghostty/actions/runs/32518446429), [3](https://github.com/ghostty-org/ghostty/actions/runs/32510792341), [4](https://github.com/ghostty-org/ghostty/actions/runs/32504827151), [5](https://github.com/ghostty-org/ghostty/actions/runs/32499136892), [6](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [7](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [8](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [9](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
+Summary: 9 runs • 41 commits • 6 authors
 
 ### Changes
 
+- [`5984d6f`](https://github.com/ghostty-org/ghostty/commit/5984d6f7326845312bf5c00f4d4ae181cd733c41) terminal: add isTextMime helper for plain text MIME type names ([@mitchellh](https://github.com/mitchellh))
+- [`25b1170`](https://github.com/ghostty-org/ghostty/commit/25b1170d422f06146661eb1531c1b574d20f1771) terminal: add kitty clipboard protocol (OSC 5522) command parsing ([@mitchellh](https://github.com/mitchellh))
+- [`e28acd9`](https://github.com/ghostty-org/ghostty/commit/e28acd928c4c02e8a7d8999e55b4d118098ec423) terminal: add kitty clipboard protocol (OSC 5522) response encoding ([@mitchellh](https://github.com/mitchellh))
+- [`33cda4d`](https://github.com/ghostty-org/ghostty/commit/33cda4dc5dbfd0478f6891fb4b53844a4fbee17c) terminal: reload cell pointers when print grows a page ([@ArneshBanerjee](https://github.com/ArneshBanerjee))
+  ```text
+  Terminal.print's grapheme path holds a raw pointer to the previous cell
+  while it writes other cells. Writing the wide spacer tail can grow the
+  page to fit the cursor hyperlink, and growing replaces the page, so the
+  pointer is left dangling and the following appendGrapheme writes into
+  freed memory.
+  
+  Record the cursor page identity (node pointer plus serial, since pooled
+  nodes can reuse an address) before the spacer write and reload the cell
+  only when the page actually changed, so the common path costs nothing.
+  
+  The same function had three more pointers held across an operation that
+  can replace a page: the grapheme move after a wrap, the grapheme append
+  loop, and printCell's assert on a failed hyperlink write. Those now read
+  through the cursor or a freshly resolved pin.
+  
+  Fixes #11261
+  ```
+- [`7a940ec`](https://github.com/ghostty-org/ghostty/commit/7a940ec02830fcd39f94ea9a28974c2a82d96486) terminal: add kitty clipboard protocol (OSC 5522) write transactions ([@mitchellh](https://github.com/mitchellh))
+- [`6f007e7`](https://github.com/ghostty-org/ghostty/commit/6f007e7678a4d893a5c73df2f0305b1e00609b5a) terminal: add kitty clipboard protocol (OSC 5522) session password grants ([@mitchellh](https://github.com/mitchellh))
+- [`f2d4b32`](https://github.com/ghostty-org/ghostty/commit/f2d4b32be3eb8c17f1ca943dda82a6506e7260b3) terminal: expose kitty clipboard protocol (OSC 5522) for stream dispatch ([@mitchellh](https://github.com/mitchellh))
+- [`07c6fc2`](https://github.com/ghostty-org/ghostty/commit/07c6fc21ba79f2d3d320f3300029269ebf84030b) terminal: add kitty clipboard paste events mode (5522), disabled for now ([@mitchellh](https://github.com/mitchellh))
+- [`bcf44b4`](https://github.com/ghostty-org/ghostty/commit/bcf44b40e69ffc4f32216016bb8e6ee68560cae2) terminal: dispatch OSC 5522 as a kitty_clipboard stream action, unhandled ([@mitchellh](https://github.com/mitchellh))
+- [`128ec7c`](https://github.com/ghostty-org/ghostty/commit/128ec7cd047ab0d9ceb4f0b5c2c449984702266d) terminal: rename paste_events mode to kitty_paste_events ([@mitchellh](https://github.com/mitchellh))
+- [`a8c3ab1`](https://github.com/ghostty-org/ghostty/commit/a8c3ab1915c9dc9cecf4ae93b5337d65f1bfffbf) simd: fix scalar base64 empty input handling causing a crash ([@mitchellh](https://github.com/mitchellh))
+- [`c8634f3`](https://github.com/ghostty-org/ghostty/commit/c8634f3fce12f8189ed058e018195eb693f8562b) terminal: reload cell pointers when print grows a page ([#13960](https://github.com/ghostty-org/ghostty/issues/13960)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #11261.
+  
+  `Terminal.print`'s grapheme path caches a `*Cell` for the previous cell
+  and keeps using it after writing other cells. Writing the wide spacer
+  tail calls `printCell`, which can grow the page to make room for the
+  cursor hyperlink. Growing clones the page and frees the old one, so the
+  cached pointer dangles and the following `appendGrapheme` writes into
+  freed memory. The second test case in the issue reproduces it.
+  
+  Rather than recomputing `prev` on every use, which is too expensive for
+  this path, the fix records the cursor page identity before the spacer
+  write and reloads the cell only if the page actually changed. Node
+  pointer plus serial is used because nodes are pooled and a replacement
+  can land on the same address. Nothing changes when the page does not
+  grow.
+  
+  Three other pointers in the same function were held across an operation
+  that can replace a page, so they are now read through the cursor or a
+  freshly resolved pin: the grapheme move after a wrap, the grapheme
+  append loop, and `printCell`'s assert on a failed hyperlink write.
+  
+  Tests:
+  
+  - `Terminal: VS16 widening when the spacer tail grows the page` fills
+  the page hyperlink map so the spacer tail is what forces growth. It
+  crashes without the fix.
+  - `Terminal: grapheme transfer when widening wraps to the next line`
+  covers the wrap path where the previous cell already holds grapheme
+  data, which had no test before.
+  
+  `zig build test` passes.
+  ```
+- [`819b241`](https://github.com/ghostty-org/ghostty/commit/819b241dec1a3a6a4c1c87f0b01152c99197c02a) terminal: Kitty Clipboard core logic (no apprt hookups yet) ([#13962](https://github.com/ghostty-org/ghostty/issues/13962)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds all the core logic and tests for the full Kitty Clipboard
+  protocol in the `src/terminal` package.
+  
+  This is purposefully shaped similarly to the way we organize Kitty
+  graphics. There is an umbrella `clipboard.zig` and then a bunch of leaf
+  zig files that cover: request parsing, response encoding, state
+  management, etc. I think that worked really well for Kitty graphics so
+  we're doing it here too.
+  
+  The core logic covers every part of the protocol: read and write.
+  
+  The only thing hooked up to the end user is a DECRQM for mode 5522 will
+  return unset. And it can't be set currently (since it never works yet).
+  Outside of that, nothing in this diff is actually used in the real
+  binary.
+  
+  **AI usage:** Validation against the spec and Kitty impl, test writing
+  and coverage validation, of course some code writing but within the
+  broad organizational shape I defined. I went through and either rewrote
+  or wrote all the comments myself plus this PR message.
+  ```
+- [`74a133e`](https://github.com/ghostty-org/ghostty/commit/74a133ea17f197482aea5880be5a7c575458104a) Update VOUCHED list ([#13961](https://github.com/ghostty-org/ghostty/issues/13961)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/13960#issuecomment-5374295208)
+  from @jcollie.
+  
+  Vouch: @ArneshBanerjee
+  ```
 - [`4b915e3`](https://github.com/ghostty-org/ghostty/commit/4b915e3bc460ec8c6765e3f4637dbfb74f7083fa) terminal/kitty: complete animation command parsing ([@mitchellh](https://github.com/mitchellh))
 - [`d8b920e`](https://github.com/ghostty-org/ghostty/commit/d8b920e504670a7603c912e9219668e2b358b909) terminal/kitty: animation frame storage, composition, and playback ([@mitchellh](https://github.com/mitchellh))
 - [`d2ffeb5`](https://github.com/ghostty-org/ghostty/commit/d2ffeb5ba5009427babfec730f55e3084b56eda3) terminal/kitty: execute animation commands ([@mitchellh](https://github.com/mitchellh))
