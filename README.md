@@ -8,15 +8,36 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 22, 2026 at 09:21 UTC.
+> Last updated: August 22, 2026 at 12:28 UTC.
 
 ## August 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32563532476), [2](https://github.com/ghostty-org/ghostty/actions/runs/32561819941), [3](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
-Summary: 3 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32564900757), [2](https://github.com/ghostty-org/ghostty/actions/runs/32563532476), [3](https://github.com/ghostty-org/ghostty/actions/runs/32561819941), [4](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
+Summary: 4 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`ef01d5f`](https://github.com/ghostty-org/ghostty/commit/ef01d5fda746398f8ad269f6589e53ba47362657) gtk: avoid physical fallback for XKB modifiers ([@tothedarktowercame](https://github.com/tothedarktowercame))
+- [`5851d98`](https://github.com/ghostty-org/ghostty/commit/5851d98615187d85052e41042bcf66e0ccec11d4) gtk: avoid physical fallback for XKB modifiers ([#13967](https://github.com/ghostty-org/ghostty/issues/13967)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  Hi, I noticed that this XKB config line was causing problems for
+  Ghosttty:
+  
+  ```
+      key <DELE> {   [ ISO_Level3_Shift ] };
+  ```
+  
+  That's a valid reconfiguration of the "delete key" as a modifier, and
+  the same worked find in other terminal emulators (like Alacritty). With
+  Ghosttty, I was getting actual `<delete>` behaviour whenever I pressed
+  the modifier key (although the modifier engaged after that).
+  
+  This patch fixes it. In line with your AI disclose policy: I made the
+  patch with Codex Sol. The logical fix is very succinct, and the bulk of
+  the patch works around an underlying issue to do with GDK not
+  recognising some modifiers as modifiers. I've tested the implementation
+  and the patch definitely resolves it!
+  ````
 - [`d03cd1f`](https://github.com/ghostty-org/ghostty/commit/d03cd1f5340ff2841bbe88a3fb9c70bdd2e69e76) Update VOUCHED list ([#13970](https://github.com/ghostty-org/ghostty/issues/13970)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
