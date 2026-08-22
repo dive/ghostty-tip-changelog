@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 22, 2026 at 06:30 UTC.
+> Last updated: August 22, 2026 at 09:21 UTC.
 
 ## August 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32563532476), [2](https://github.com/ghostty-org/ghostty/actions/runs/32561819941), [3](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
+Summary: 3 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`d03cd1f`](https://github.com/ghostty-org/ghostty/commit/d03cd1f5340ff2841bbe88a3fb9c70bdd2e69e76) Update VOUCHED list ([#13970](https://github.com/ghostty-org/ghostty/issues/13970)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13966#discussioncomment-18114178)
+  from @jcollie.
+  
+  Vouch: @by-nelson
+  ```
+- [`2021d2a`](https://github.com/ghostty-org/ghostty/commit/2021d2addb8c193675531ade4cb838b27089e883) Update VOUCHED list ([#13969](https://github.com/ghostty-org/ghostty/issues/13969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/13968#discussioncomment-18113956)
+  from @pluiedev.
+  
+  Vouch: @tothedarktowercame
+  ```
 - [`e03475c`](https://github.com/ghostty-org/ghostty/commit/e03475c0cc52b9a6b01930380c61cd354e60a36a) libghostty: clipboard_read effect, enables OSC52 reads ([@mitchellh](https://github.com/mitchellh))
   ```text
   This adds a `clipboard_read` effect to the stream terminal handler and a
