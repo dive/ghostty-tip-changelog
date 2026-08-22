@@ -8,7 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 22, 2026 at 03:36 UTC.
+> Last updated: August 22, 2026 at 06:30 UTC.
+
+## August 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`e03475c`](https://github.com/ghostty-org/ghostty/commit/e03475c0cc52b9a6b01930380c61cd354e60a36a) libghostty: clipboard_read effect, enables OSC52 reads ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a `clipboard_read` effect to the stream terminal handler and a
+  matching `GHOSTTY_TERMINAL_OPT_CLIPBOARD_READ` callback to the
+  libghostty-vt C API so that embedders can answer OSC 52 read requests
+  (the `?` payload).
+  
+  This is a _blocking_ effect: if the embedder needs to ask the user for
+  permission, the entire VT processing pipeline is _blocked_ during the
+  callback. This is a purposeful simplification choice compared to how
+  Ghostty GUI works with async requests. I think its reasonable, it
+  eliminates a TON of complexity.
+  
+  If the effect isn't set, then any clipboard reads are denied.
+  
+  This can be expanded easily to support Kitty clipboard protocol later.
+  ```
+- [`36676c5`](https://github.com/ghostty-org/ghostty/commit/36676c5728b626738ed73d288145c50a5494971e) libghostty: clipboard_read effect, enables OSC52 reads ([#13965](https://github.com/ghostty-org/ghostty/issues/13965)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a `clipboard_read` effect to the stream terminal handler and a
+  matching `GHOSTTY_TERMINAL_OPT_CLIPBOARD_READ` callback to the
+  libghostty-vt C API so that embedders can answer OSC 52 read requests
+  (the `?` payload).
+  
+  This is a _blocking_ effect: if the embedder needs to ask the user for
+  permission, the entire VT processing pipeline is _blocked_ during the
+  callback. This is a purposeful simplification choice compared to how
+  Ghostty GUI works with async requests. I think its reasonable, it
+  eliminates a TON of complexity.
+  
+  If the effect isn't set, then any clipboard reads are denied.
+  
+  This can be expanded easily to support Kitty clipboard protocol later.
+  ```
 
 ## August 21, 2026
 
