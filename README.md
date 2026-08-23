@@ -8,15 +8,56 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 23, 2026 at 12:28 UTC.
+> Last updated: August 23, 2026 at 15:16 UTC.
 
 ## August 23, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32619936178), [2](https://github.com/ghostty-org/ghostty/actions/runs/32614384859)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32646964497), [2](https://github.com/ghostty-org/ghostty/actions/runs/32619936178), [3](https://github.com/ghostty-org/ghostty/actions/runs/32614384859)  
+Summary: 3 runs • 7 commits • 2 authors
 
 ### Changes
 
+- [`a5bb22e`](https://github.com/ghostty-org/ghostty/commit/a5bb22e235e6297b05f07b08ef1fecff7f2a8c5d) terminal: add shared paste core with Kitty clipboard paste events ([@mitchellh](https://github.com/mitchellh))
+- [`8760323`](https://github.com/ghostty-org/ghostty/commit/87603231658a0e0c6a8b4be0be684b7f08778255) terminal: add stream handler paste operation and enable mode 5522 in libghostty ([@mitchellh](https://github.com/mitchellh))
+- [`dda8e6f`](https://github.com/ghostty-org/ghostty/commit/dda8e6f3146fc3cd2bcff0049cfc8867b3e7b58a) sys: add secure random override option with a platform default ([@mitchellh](https://github.com/mitchellh))
+- [`60a1ae2`](https://github.com/ghostty-org/ghostty/commit/60a1ae2df755629dc7aa7d7aac38569ca46d43a5) libghostty: add ghostty_terminal_paste C API with paste events example ([@mitchellh](https://github.com/mitchellh))
+- [`e424060`](https://github.com/ghostty-org/ghostty/commit/e4240606752e5e4eb480b69104d75db0054f71c8) libghostty: centralize pasting to `ghostty_terminal_paste`, enable mode 5522 ([#13978](https://github.com/ghostty-org/ghostty/issues/13978)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Note: this has no changes for Ghostty GUI yet.** This only impacts
+  libghostty-vt.
+  
+  This introduces a new `ghostty_terminal_paste` C API along with a
+  central `terminal.paste.paste` function that handles (1) mode 5522
+  (Kitty clipboard) (2) bracketed paste (3) normal paste all in one place,
+  combined with unsafe value detection and proper xterm-style newline
+  handling.
+  
+  Terminal pasting is now stateful because for the Kitty clipboard
+  protocol in particular, it must mint "grants" that stay with the
+  terminal. Previously, paste encoding was stateless.
+  
+  To start, this is only exposed/used by libghostty to enable Kitty
+  clipboard handling.
+  
+  Other changes:
+  
+  - **IO: randomSecure.** This also adds the `io.randomSecure`
+  implementation to `TinyIo` and a global sys override for it because
+  Kitty clipboard requires the ability to create one-time passwords and
+  the implementation (following Kitty) requires a crypto random source.
+  The sys model is for libghostty embedders.
+  
+  - **New C result value: rejected.** This introduces a new C result enum
+  value "rejected" for values that are valid but rejected for some reason.
+  Its very possible that prior "invalid value" users will have to update
+  to this, and I recognize that its close to both but it fills an
+  important semantic difference.
+  
+  Also note this still _eagerly_ requires all clipboard contents. I want
+  to move to a callback based model but it made the PR much more
+  complicated. I plan on playing with that before converting apprt's to
+  this.
+  ```
 - [`5834a0e`](https://github.com/ghostty-org/ghostty/commit/5834a0e3df621802e9578e4562d88b0c2ad4ada8) Update VOUCHED list ([#13977](https://github.com/ghostty-org/ghostty/issues/13977)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
