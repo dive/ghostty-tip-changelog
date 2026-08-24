@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 24, 2026 at 06:45 UTC.
+> Last updated: August 24, 2026 at 09:40 UTC.
 
 ## August 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [2](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
-Summary: 2 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [2](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [3](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
+Summary: 3 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`569ff33`](https://github.com/ghostty-org/ghostty/commit/569ff3307c793a10380e1de4770ba21bc4ff58c5) macos: translate physical menu shortcuts ([@jparise](https://github.com/jparise))
+  ```text
+  Translate printable physical keybindings through the current macOS
+  keyboard layout before assigning menu key equivalents. Previously these
+  bindings could not be represented because SwiftUI shortcuts are
+  character-based, so actions such as super+backquote had no native menu
+  shortcut.
+  
+  Keep native keycodes as dispatch identity so translated display characters
+  do not change physical semantics or precedence over Unicode bindings.
+  Refresh shortcuts when the input source changes, and prevent AppKit from
+  transforming equivalents that are already localized.
+  ```
+- [`761696c`](https://github.com/ghostty-org/ghostty/commit/761696c349c61b38e3b474a48a76f2dfc6f1af28) macos: simplify menu shortcut identity ([@jparise](https://github.com/jparise))
+  ```text
+  Separate menu shortcut presentation from lookup identity. Store either a
+  normalized key equivalent or a physical keycode in a private hashable enum,
+  allowing Swift to synthesize equality and hashing instead of maintaining
+  parallel optional-key logic.
+  
+  Assign display characters directly from KeyboardShortcut and remove unused
+  NSMenuItem and SwiftUI conversion helpers.
+  ```
+- [`9886f48`](https://github.com/ghostty-org/ghostty/commit/9886f4817cbc83319d69391f505fd6b611d0a621) macos: enforce keyboard layout actor isolation ([@jparise](https://github.com/jparise))
+  ```text
+  Text Input Sources APIs are not thread-safe, but shortcut translation could
+  be called outside a declared main-actor context.
+  
+  Mark keyboard layout and shortcut conversion as main-actor isolated, update
+  their tests, and dispatch key-sequence UI notifications to the main queue
+  before translating their shortcuts.
+  ```
+- [`f5ad3a0`](https://github.com/ghostty-org/ghostty/commit/f5ad3a0a4a1e56b71e7710660f247899a6f19c5d) macos: use AppKit for shortcut translation ([@jparise](https://github.com/jparise))
+  ```text
+  Translate synthetic physical-key events with characters(byApplyingModifiers:).
+  This preserves current-layout and Command-table behavior while avoiding a
+  duplicate direct UCKeyTranslate implementation in Swift.
+  ```
+- [`6a508fd`](https://github.com/ghostty-org/ghostty/commit/6a508fd5e34c7e222c052a6d00bb3891ff3feace) macos: translate physical menu shortcuts ([#13888](https://github.com/ghostty-org/ghostty/issues/13888)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Translate printable physical keybindings through the current macOS
+  keyboard layout before assigning menu key equivalents. Previously these
+  bindings could not be represented because SwiftUI shortcuts are
+  character-based, so actions such as `super+backquote` had no native menu
+  shortcut.
+  
+  Keep native keycodes as dispatch identity so translated display
+  characters do not change physical semantics or precedence over Unicode
+  bindings. Refresh shortcuts when the input source changes, and prevent
+  AppKit from transforming equivalents that are already localized.
+  
+  **AI Usage:** The approach was suggested by GPT 5.6 Sol, but I wrote
+  most of the code and understand it all.
+  ```
 - [`da27e6c`](https://github.com/ghostty-org/ghostty/commit/da27e6c9082705f62a9ebbeae1753e17d2a88088) libghostty: paste reads clipboard contents on demand, streams to pty ([@mitchellh](https://github.com/mitchellh))
   ```text
   Follow up to #13978
