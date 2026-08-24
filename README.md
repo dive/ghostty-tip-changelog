@@ -8,15 +8,55 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 24, 2026 at 03:49 UTC.
+> Last updated: August 24, 2026 at 06:45 UTC.
 
 ## August 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [2](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
+Summary: 2 runs • 3 commits • 2 authors
 
 ### Changes
 
+- [`da27e6c`](https://github.com/ghostty-org/ghostty/commit/da27e6c9082705f62a9ebbeae1753e17d2a88088) libghostty: paste reads clipboard contents on demand, streams to pty ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow up to #13978
+  
+  `ghostty_terminal_paste` no longer takes the clipboard's data up front.
+  The request now carries only the list of available MIME types plus a
+  a callback that writes one representation's bytes into a `GhosttyWriter`.
+  
+  Previously an embedder had to load every representation for every MIME
+  type into memory before pasting. For a clipboard holding a large image
+  or video next to some text that could be hundreds of megabytes that
+  were never used.
+  
+  I also took care to make sure that the data is only read once, to avoid
+  any time-of-check/time-of-use (TOCTOU) issues.
+  
+  There is only one case where data might be fully buffered in memory now:
+  unsafe text data that needs to be checked. This is true for how Ghostty
+  GUI works today too.
+  ```
+- [`e77b230`](https://github.com/ghostty-org/ghostty/commit/e77b2309fca3a27db1123a4f904b7fb432ee7162) libghostty: paste reads clipboard contents on demand, streams to pty ([#13983](https://github.com/ghostty-org/ghostty/issues/13983)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow up to #13978
+  
+  `ghostty_terminal_paste` no longer takes the clipboard's data up front.
+  The request now carries only the list of available MIME types plus a a
+  callback that writes one representation's bytes into a `GhosttyWriter`.
+  
+  Previously an embedder had to load every representation for every MIME
+  type into memory before pasting. For a clipboard holding a large image
+  or video next to some text that could be hundreds of megabytes that were
+  never used.
+  
+  I also took care to make sure that the data is only read once, to avoid
+  any time-of-check/time-of-use (TOCTOU) issues.
+  
+  There is only one case where data might be fully buffered in memory now:
+  unsafe text data that needs to be checked. This is true for how Ghostty
+  GUI works today too.
+  ```
 - [`a36dc24`](https://github.com/ghostty-org/ghostty/commit/a36dc245b0a8111b86b8cecdd0abf1c8d8c4dff9) Sync CODEOWNERS vouch list ([#13981](https://github.com/ghostty-org/ghostty/issues/13981)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
