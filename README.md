@@ -8,15 +8,140 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 24, 2026 at 15:33 UTC.
+> Last updated: August 24, 2026 at 18:32 UTC.
 
 ## August 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32739314488), [2](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [3](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [4](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
-Summary: 4 runs • 14 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32756605657), [2](https://github.com/ghostty-org/ghostty/actions/runs/32750192789), [3](https://github.com/ghostty-org/ghostty/actions/runs/32747596501), [4](https://github.com/ghostty-org/ghostty/actions/runs/32739314488), [5](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [6](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [7](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
+Summary: 7 runs • 32 commits • 5 authors
 
 ### Changes
 
+- [`169213c`](https://github.com/ghostty-org/ghostty/commit/169213cd292417ae25cb8df78d0a77243c134c81) renderer/image: Fuse copy to owned data and pixel format conversion in prepImage ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
+- [`b17abd9`](https://github.com/ghostty-org/ghostty/commit/b17abd96df2ef19a9df8e346d54a56db56f76221) refactor(image): Restrict prepForUpload to Image.Pending ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
+- [`c2c0db6`](https://github.com/ghostty-org/ghostty/commit/c2c0db68aa3b33f996a0426f00cd5972dc691ef3) macOS: enable mode 5522 paste events ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Advertise Kitty clipboard protocol mode 5522 on macOS and route
+  clipboard paste requests through the protocol when it is enabled.
+  ```
+- [`1dcf4eb`](https://github.com/ghostty-org/ghostty/commit/1dcf4eb2dff0e61cac22d2a6c0700fe2dade9011) renderer/image: Fuse copying data and converting pixel format ([#13987](https://github.com/ghostty-org/ghostty/issues/13987)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Profiling `mpv --vo=kitty --vo-kitty-use-shm <video>` shows up a copy
+  and then swizzle in `prepImage`
+  This comes from the renderer copying the raw image data for ownership,
+  then doing an rgb to rgba conversion to replace the copied data.
+  This change optimize this case by letting the format conversion read
+  from the data source instead of a copy of it.
+  
+  <img width="3825" height="1579" alt="image"
+  src="https://github.com/user-attachments/assets/25851c04-b582-4bad-8f8d-930448d89fa2"
+  />
+  <img width="3825" height="1579" alt="image"
+  src="https://github.com/user-attachments/assets/fbb1ca73-a86f-421b-992d-a764ce08c83e"
+  />
+  > Above-Before: prepImage profiles a memcpy + swizzle
+  > Below-After: prepImage profiles just a swizzle
+  
+  
+  The existing data path for kitty images is:
+  ```
+  
+  Read tty for Kitty image transmission (srgb, srgba, or PNG bytes)
+  -> copy into Kitty graphics ImageStorage (cpu-owned)
+  
+  Renderer updateFrame creates Image.Pending in renderer-owned CPU storage
+  -> sync Kitty ImageStorage with renderer-owned ImageMap
+  -> copy bytes into renderer.ImageMap (renderer-owned)
+  -> convert ImageMap bytes to preferred GPU upload format
+  
+  Renderer drawFrame uploads image data to the GPU
+  -> iterate through renderer.ImageMap
+    -> for Pending image uploads
+      -> convert the pixel format (no-op if already done), create the GPU-side texture and upload the data
+  ```
+  
+  # Note
+  Kitty graphics only supports RGB and RGBA data
+  The image file decode path uses a wuffs png and jpeg decode function
+  configured to return RGBA 8-bit, so I think in practice we only ever
+  upload RGB8 or RGBA8. And the gray-alpha and gray pixel formats aren't
+  ever used.
+  
+  
+  # AI Disclosure
+  I didn't use any LLM assistance for this.
+  ````
+- [`c8554f2`](https://github.com/ghostty-org/ghostty/commit/c8554f28e0efe2f5595f32020371c34b25ec628f) macOS: enable mode 5522 paste events ([#13995](https://github.com/ghostty-org/ghostty/issues/13995)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Advertise Kitty clipboard protocol mode 5522 on macOS and route
+  clipboard paste requests through the protocol when it is enabled.
+  ```
+- [`0ce9054`](https://github.com/ghostty-org/ghostty/commit/0ce9054bf9ff5c4107bbe8a460076012861f9a3a) macos: implement Kitty clipboard protocol reads (OSC 5522) ([@mitchellh](https://github.com/mitchellh))
+- [`8c7a34d`](https://github.com/ghostty-org/ghostty/commit/8c7a34d4c9c6a1afcb7a96dcc9aa4665e05d883e) macos: Kitty clipboard reads serve all clipboard content types ([@mitchellh](https://github.com/mitchellh))
+- [`af9470b`](https://github.com/ghostty-org/ghostty/commit/af9470b19b40b2829653130b6b491c9ecbe6bbee) macos: Kitty clipboard reads support pw/name session grants ([@mitchellh](https://github.com/mitchellh))
+- [`c1f0ef7`](https://github.com/ghostty-org/ghostty/commit/c1f0ef73a9f3a80673d8be3e9ced5e50afaf65ac) macos: serve copied files as text/uri-list in Kitty clipboard reads ([@mitchellh](https://github.com/mitchellh))
+- [`df14efa`](https://github.com/ghostty-org/ghostty/commit/df14efaf332ab66c2838bed6c3d15ff41f2fd31e) macos: preview images in the clipboard read confirmation dialog ([@mitchellh](https://github.com/mitchellh))
+- [`1bc1887`](https://github.com/ghostty-org/ghostty/commit/1bc188739d62f05df33a7bbc9c8db93a1b9f5a13) typos ([@mitchellh](https://github.com/mitchellh))
+- [`75d6577`](https://github.com/ghostty-org/ghostty/commit/75d657788a63d1593e5fff22c766bd7e162f255c) macOS: Kitty clipboard read support ([#13993](https://github.com/ghostty-org/ghostty/issues/13993)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds Kitty clipboard protocol _read_ support to macOS. In the
+  process, this also does most of the core termio, apprt, and Surface work
+  so GTK is likely very easy to do, I just didn't have the machine on hand
+  to test at the given moment. I will create an issue to follow up with
+  that.
+  
+  This fully supports:
+  
+  - Non-text data, like images! For this, we show an image preview.
+  - Per-program "remember"
+  - Showing the program name if given instead of generic "An application"
+  
+  <img width="1848" height="996" alt="CleanShot 2026-08-24 at 08 37 45@2x"
+  src="https://github.com/user-attachments/assets/549d9031-2e98-46bf-90d4-94171b255c42"
+  />
+  ```
+- [`88dc6f9`](https://github.com/ghostty-org/ghostty/commit/88dc6f9723e7a0371cffba0b32ecb945ad126770) docs: reformatting for help book support ([@bo2themax](https://github.com/bo2themax))
+- [`53d1b28`](https://github.com/ghostty-org/ghostty/commit/53d1b28ad32dcf2e10e01177ef97863c1ba69f0d) docs: reformatting for help book support ([#13994](https://github.com/ghostty-org/ghostty/issues/13994)) ([@mitchellh](https://github.com/mitchellh))
+- [`94b6dae`](https://github.com/ghostty-org/ghostty/commit/94b6dae423a29d965dbf613307634fcb2ec6b112) libghostty: gate mode 5522 reports on clipboard read callback ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Report Kitty paste event mode 5522 as unrecognized when the stream
+  handler has no clipboard_read effect.
+  
+  Previously libghostty-vt advertised Kitty paste events
+  unconditionally but Kitty clipboard reads can't work without a clipboard
+  read effect set.
+  ```
+- [`a53771a`](https://github.com/ghostty-org/ghostty/commit/a53771af0165c34a7bd753ddbcbc5dd7126ee87f) libghostty: gate mode 5522 reports on clipboard read callback ([#13990](https://github.com/ghostty-org/ghostty/issues/13990)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Report Kitty paste event mode 5522 as unrecognized when the stream
+  handler has no clipboard_read effect.
+  
+  Previously libghostty-vt advertised Kitty paste events unconditionally
+  but Kitty clipboard reads can't work without a clipboard read effect
+  set.
+  ```
+- [`7ae9b11`](https://github.com/ghostty-org/ghostty/commit/7ae9b11138e6c63888cc02ceefb92c6c1b3d4e9e) libghostty: Kitty clipboard write permission prompts and grants ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `clipboard_write` effect now is similar to read: it must response
+  to a "reply" callback synchronously. This lets the embedder ask for write
+  permission, too.
+  
+  We also now pass through program name and grant information from Kitty
+  clipboard protocol so that embedders can use that if they want.
+  
+  This is a breaking ABI change.
+  ```
+- [`9f2aa93`](https://github.com/ghostty-org/ghostty/commit/9f2aa93e825735220c44159a2f4856af3ea6e79c) libghostty: Kitty clipboard write permission prompts and grants ([#13992](https://github.com/ghostty-org/ghostty/issues/13992)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `clipboard_write` effect now is similar to read: it must response to
+  a "reply" callback synchronously. This lets the embedder ask for write
+  permission, too.
+  
+  We also now pass through program name and grant information from Kitty
+  clipboard protocol so that embedders can use that if they want.
+  
+  This is a breaking ABI change.
+  ```
 - [`6cf7e0c`](https://github.com/ghostty-org/ghostty/commit/6cf7e0cc544e7aa505713f40b58502bfc0ee8beb) macOS: fix swiftlint warnings ([@bo2themax](https://github.com/bo2themax))
   ```text
   swiftlint 0.63.3 introduced a new rule called [`legacy_swiftui_aspect_ratio`](https://github.com/realm/SwiftLint/blob/76363aa4d733934ece226f5bce8e27c43b986a63/CHANGELOG.md?plain=1#L314)
