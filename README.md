@@ -8,15 +8,188 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 24, 2026 at 18:32 UTC.
+> Last updated: August 24, 2026 at 21:23 UTC.
 
 ## August 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32756605657), [2](https://github.com/ghostty-org/ghostty/actions/runs/32750192789), [3](https://github.com/ghostty-org/ghostty/actions/runs/32747596501), [4](https://github.com/ghostty-org/ghostty/actions/runs/32739314488), [5](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [6](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [7](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
-Summary: 7 runs • 32 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32777108950), [2](https://github.com/ghostty-org/ghostty/actions/runs/32770438411), [3](https://github.com/ghostty-org/ghostty/actions/runs/32756605657), [4](https://github.com/ghostty-org/ghostty/actions/runs/32750192789), [5](https://github.com/ghostty-org/ghostty/actions/runs/32747596501), [6](https://github.com/ghostty-org/ghostty/actions/runs/32739314488), [7](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [8](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [9](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
+Summary: 9 runs • 44 commits • 5 authors
 
 ### Changes
 
+- [`5501518`](https://github.com/ghostty-org/ghostty/commit/550151882a93b9272d381df29ab10b2041981359) macos: restore paste semantics for dropped text ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discussion #13979
+  
+  Dropped paths and text once again honor bracketed paste mode.
+  IME, dictation, emoji picker, and character viewer commits remain typed input.
+  
+  sendText calls ghostty_surface_text, which applies the clipboard paste
+  pipeline and bracketed paste framing when enabled. Separating the
+  paths at the drag-and-drop caller preserves the input-method behavior
+  introduced by #13817.
+  ```
+- [`1334cc2`](https://github.com/ghostty-org/ghostty/commit/1334cc213e6db4be3f2fc695a06c13d49362a570) macos: answer ENOSYS for Kitty clipboard writes to primary ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A Kitty clipboard protocol (OSC 5522) write transaction targeting
+  `loc=primary` replied `type=write:status=DONE` in the macOS app even
+  though macOS has no primary selection and the data was silently
+  discarded.
+  
+  The spec requires ENOSYS when the requested location is not
+  available on the system, which the read path already answers correctly:
+  https://sw.kovidgoyal.net/kitty/clipboard/
+  ```
+- [`928c7f0`](https://github.com/ghostty-org/ghostty/commit/928c7f0e796a96bdee53de0ba4e3469c3e7d84a9) terminal: exempt Kitty clipboard listing reads from permission prompts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A Kitty clipboard protocol (OSC 5522) read that only requests the
+  targets type ('.') is now served without a permission prompt and never
+  consults (or consumes) session password grants.
+  
+  The spec requires this so that a client listing the available data types
+  before reading one doesn't present the user with a double permission prompt.
+  ```
+- [`4f4da76`](https://github.com/ghostty-org/ghostty/commit/4f4da7657ba9c551f6110d38b73e72d3c504fd54) macos: answer ENOSYS for Kitty clipboard writes to primary ([#14000](https://github.com/ghostty-org/ghostty/issues/14000)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A Kitty clipboard protocol (OSC 5522) write transaction targeting
+  `loc=primary` replied `type=write:status=DONE` in the macOS app even
+  though macOS has no primary selection and the data was silently
+  discarded.
+  
+  The spec requires ENOSYS when the requested location is not available on
+  the system, which the read path already answers correctly:
+  https://sw.kovidgoyal.net/kitty/clipboard/
+  ```
+- [`13b9857`](https://github.com/ghostty-org/ghostty/commit/13b9857a25e7befc9ae95ecaf8f3563a13757350) macos: restore paste semantics for dropped text ([#13999](https://github.com/ghostty-org/ghostty/issues/13999)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discussion #13979
+  
+  Dropped paths and text once again honor bracketed paste mode. IME,
+  dictation, emoji picker, and character viewer commits remain typed
+  input.
+  
+  sendText calls ghostty_surface_text, which applies the clipboard paste
+  pipeline and bracketed paste framing when enabled. Separating the paths
+  at the drag-and-drop caller preserves the input-method behavior
+  introduced by #13817.
+  ```
+- [`5350d4a`](https://github.com/ghostty-org/ghostty/commit/5350d4a5f5971da9ef4ea32566bd5d7b011dc29c) terminal: make Kitty clipboard write limit configurable ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new `clipboard-write-limit-bytes` option (similar to
+  `scrollback-limit-bytes`) to limit the maximum OSC 5522 write size.
+  Defaults to 32 MB.
+  
+  This also adds a new `GHOSTTY_TERMINAL_OPT_CLIPBOARD_WRITE_MAX_BYTES`
+  option for libghostty-vt embedders to control the same.
+  
+  Kitty has a limit too and it works by truncating all data. I decided on
+  purpose to diverge from this because I don't think truncated binary data
+  is useful. Instead, we reject it so the application knows the write
+  didn't work.
+  
+  We truncate text data, and we try to do it at the nearest complete UTF-8
+  sequence (if possible).
+  ```
+- [`75606a6`](https://github.com/ghostty-org/ghostty/commit/75606a6900124a1c9774d97968f69a5f7bb9c080) terminal: exempt Kitty clipboard listing reads from permission prompts ([#14001](https://github.com/ghostty-org/ghostty/issues/14001)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A Kitty clipboard protocol (OSC 5522) read that only requests the
+  targets type ('.') is now served without a permission prompt and never
+  consults (or consumes) session password grants.
+  
+  The spec requires this so that a client listing the available data types
+  before reading one doesn't present the user with a double permission
+  prompt.
+  ```
+- [`600a86d`](https://github.com/ghostty-org/ghostty/commit/600a86dcfd70ac6a16db199367ee6aad337b99cc) terminal: make Kitty clipboard write limit configurable ([#14002](https://github.com/ghostty-org/ghostty/issues/14002)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add a new `clipboard-write-limit-bytes` option (similar to
+  `scrollback-limit-bytes`) to limit the maximum OSC 5522 write size.
+  Defaults to 32 MB.
+  
+  This also adds a new `GHOSTTY_TERMINAL_OPT_CLIPBOARD_WRITE_MAX_BYTES`
+  option for libghostty-vt embedders to control the same.
+  
+  Kitty has a limit too and it works by truncating all data. I decided on
+  purpose to diverge from this because I don't think truncated binary data
+  is useful. Instead, we reject it so the application knows the write
+  didn't work.
+  
+  We truncate text data, and we try to do it at the nearest complete UTF-8
+  sequence (if possible).
+  
+  For the future: Kitty spools any write data more than some size (can't
+  remember) to a temp file on disk. We might want to consider doing
+  something similar since we're all in-memory at the moment. This PR
+  doesn't change that.
+  ```
+- [`9313d58`](https://github.com/ghostty-org/ghostty/commit/9313d580c6b0aff578160c79fc99fff341cf4aa3) terminal: fix stale cursor style/hyperlink state after scroll clear ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clearing the screen into scrollback and then printing could crash debug
+  builds with a page integrity violation, or silently corrupt style/hyperlink
+  reference counts in release builds. Found in #13991 via fuzzing.
+  
+  The cursor's style and hyperlink IDs are only valid on the page the
+  cursor is on. When the scroll clear moved the start of the fresh
+  screen onto a new page, the reset path in cursorReload updated the
+  cursor's position directly instead of going through cursorChangePin,
+  so the cursor kept IDs from its old page. On the new page those IDs
+  pointed at entries that were dead or belonged to something else, and
+  the next print used them.
+  
+  Fix this by making the reset path go through `cursorChangePin` like
+  every other cross-page cursor move, which releases the style and
+  hyperlink from the old page and recreates them on the new one.
+  ```
+- [`7c49e72`](https://github.com/ghostty-org/ghostty/commit/7c49e723a3f2448d3224624b054d74983c4143ca) terminal: fix stale cursor style/hyperlink state after scroll clear ([#13997](https://github.com/ghostty-org/ghostty/issues/13997)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Clearing the screen into scrollback and then printing could crash debug
+  builds with a page integrity violation, or silently corrupt
+  style/hyperlink reference counts in release builds. Found in #13991 via
+  fuzzing.
+  
+  The cursor's style and hyperlink IDs are only valid on the page the
+  cursor is on. When the scroll clear moved the start of the fresh screen
+  onto a new page, the reset path in cursorReload updated the cursor's
+  position directly instead of going through cursorChangePin, so the
+  cursor kept IDs from its old page. On the new page those IDs pointed at
+  entries that were dead or belonged to something else, and the next print
+  used them.
+  
+  Fix this by making the reset path go through `cursorChangePin` like
+  every other cross-page cursor move, which releases the style and
+  hyperlink from the old page and recreates them on the new one.
+  ```
+- [`25c61e8`](https://github.com/ghostty-org/ghostty/commit/25c61e852ff8de428a207a89a824bbba94a27da4) macos: implement Kitty clipboard protocol writes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Programs can now write the system clipboard through the Kitty
+  clipboard protocol in the macOS app. This also does all the hard work
+  plumbing through core termio/apprt so GTK should be an easy follow.
+  
+  This functionality lets clients copy arbitrary representations (images,
+  HTML, etc.) into the clipboard. Writes honor `clipboard-write`: allow
+  applies silently, deny answers EPERM up front before any data is used,
+  and ask shows the standard confirmation prompt.
+  ```
+- [`89d17b3`](https://github.com/ghostty-org/ghostty/commit/89d17b378ed9c9d68a82ab2359cfa8030f8ff4f9) macos: implement Kitty clipboard protocol writes ([#13998](https://github.com/ghostty-org/ghostty/issues/13998)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Programs can now write the system clipboard through the Kitty clipboard
+  protocol in the macOS app. This also does all the hard work plumbing
+  through core termio/apprt so GTK should be an easy follow.
+  
+  This functionality lets clients copy arbitrary representations (images,
+  HTML, etc.) into the clipboard. Writes honor `clipboard-write`: allow
+  applies silently, deny answers EPERM up front before any data is used,
+  and ask shows the standard confirmation prompt.
+  
+  After this, I believe the core and macOS have 100% Kitty clipboard
+  implementation but I'll double check after this.
+  
+  ## Demo
+  
+  
+  
+  https://github.com/user-attachments/assets/71234fa0-f539-48eb-a633-8dea3addddd5
+  ```
 - [`169213c`](https://github.com/ghostty-org/ghostty/commit/169213cd292417ae25cb8df78d0a77243c134c81) renderer/image: Fuse copy to owned data and pixel format conversion in prepImage ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
 - [`b17abd9`](https://github.com/ghostty-org/ghostty/commit/b17abd96df2ef19a9df8e346d54a56db56f76221) refactor(image): Restrict prepForUpload to Image.Pending ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
 - [`c2c0db6`](https://github.com/ghostty-org/ghostty/commit/c2c0db68aa3b33f996a0426f00cd5972dc691ef3) macOS: enable mode 5522 paste events ([@mitchellh](https://github.com/mitchellh))
