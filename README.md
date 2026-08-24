@@ -8,15 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 24, 2026 at 12:38 UTC.
+> Last updated: August 24, 2026 at 15:33 UTC.
 
 ## August 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [2](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [3](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
-Summary: 3 runs • 8 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32739314488), [2](https://github.com/ghostty-org/ghostty/actions/runs/32707654358), [3](https://github.com/ghostty-org/ghostty/actions/runs/32690367805), [4](https://github.com/ghostty-org/ghostty/actions/runs/32676729390)  
+Summary: 4 runs • 14 commits • 4 authors
 
 ### Changes
 
+- [`6cf7e0c`](https://github.com/ghostty-org/ghostty/commit/6cf7e0cc544e7aa505713f40b58502bfc0ee8beb) macOS: fix swiftlint warnings ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  swiftlint 0.63.3 introduced a new rule called [`legacy_swiftui_aspect_ratio`](https://github.com/realm/SwiftLint/blob/76363aa4d733934ece226f5bce8e27c43b986a63/CHANGELOG.md?plain=1#L314)
+  ```
+- [`1d24eec`](https://github.com/ghostty-org/ghostty/commit/1d24eecb207e8d9188d84b607b1de0e38eb999f6) macOS: fix responsiveness for repeated new tab action ([@bo2themax](https://github.com/bo2themax))
+- [`2303bcf`](https://github.com/ghostty-org/ghostty/commit/2303bcf08df639a27ff949fb172a2b1e3feea0cd) ci: update actions/upload-artifact pinned tag comment ([@jparise](https://github.com/jparise))
+- [`874735a`](https://github.com/ghostty-org/ghostty/commit/874735a9af41ec6aea0017b56836a3d3746f44b7) ci: update actions/upload-artifact pinned tag comment ([#13989](https://github.com/ghostty-org/ghostty/issues/13989)) ([@mitchellh](https://github.com/mitchellh))
+- [`f9206be`](https://github.com/ghostty-org/ghostty/commit/f9206be827271b6765c966f85f6a68a1e44176b6) macOS: fix swiftlint warnings ([#13986](https://github.com/ghostty-org/ghostty/issues/13986)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  swiftlint 0.63.3 introduced a new rule called
+  [`legacy_swiftui_aspect_ratio`](https://github.com/realm/SwiftLint/blob/76363aa4d733934ece226f5bce8e27c43b986a63/CHANGELOG.md?plain=1#L314)
+  
+  <img width="509" height="451" alt="image"
+  src="https://github.com/user-attachments/assets/1ff6f593-ce8a-493e-a241-e9ae418746ee"
+  />
+  ```
+- [`7a9bca6`](https://github.com/ghostty-org/ghostty/commit/7a9bca6a6e675ab71d6a2228237fd27b8f9f6345) macOS: fix responsiveness for repeated new tab action ([#13985](https://github.com/ghostty-org/ghostty/issues/13985)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #13725
+  ```
 - [`569ff33`](https://github.com/ghostty-org/ghostty/commit/569ff3307c793a10380e1de4770ba21bc4ff58c5) macos: translate physical menu shortcuts ([@jparise](https://github.com/jparise))
   ```text
   Translate printable physical keybindings through the current macOS
