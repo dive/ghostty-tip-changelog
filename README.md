@@ -8,15 +8,195 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 25, 2026 at 15:36 UTC.
+> Last updated: August 25, 2026 at 18:32 UTC.
 
 ## August 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32863067913), [2](https://github.com/ghostty-org/ghostty/actions/runs/32861518453), [3](https://github.com/ghostty-org/ghostty/actions/runs/32852280188), [4](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
-Summary: 4 runs • 15 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32868574536), [2](https://github.com/ghostty-org/ghostty/actions/runs/32863067913), [3](https://github.com/ghostty-org/ghostty/actions/runs/32861518453), [4](https://github.com/ghostty-org/ghostty/actions/runs/32852280188), [5](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
+Summary: 5 runs • 23 commits • 5 authors
 
 ### Changes
 
+- [`48a9e29`](https://github.com/ghostty-org/ghostty/commit/48a9e29f79e918d4f73a13c1ce27646d029811e4) nix: update nixpkgs-unstable ([@jcollie](https://github.com/jcollie))
+  ```text
+  Update nixpkgs-unstable to pick up fontconfig 2.18. Currently we are linking against 2.17 and you get errors
+  like this on standard error when using config files meant for fontconfig 2.18:
+  
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 20: invalid constant used :
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 23: invalid constant used : monospace
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 42: invalid attribute 'xsi:nil'
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 43: invalid constant used :
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 46: invalid constant used : sans-serif
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 68: invalid attribute 'xsi:nil'
+    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 69: invalid constant used :
+  
+  This also removes an override for libfyaml on Darwin that was merged upstream into nixpkgs.
+  ```
+- [`d9857ea`](https://github.com/ghostty-org/ghostty/commit/d9857eabae06baebc9685121bfe78c49090643af) cli: update list-themes preview sample to valid Zig 0.16 syntax ([@tacheraSasi](https://github.com/tacheraSasi))
+- [`bc2f7d7`](https://github.com/ghostty-org/ghostty/commit/bc2f7d7d2fa589a3abf9e4f6696e0a7f7c204e4f) terminal: update Kitty clipboard base64 handling to spec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Kitty clipboard protocol now specifies base64 handling:
+  All OSC 5522 payloads and the base64 metadata values (mime, name, pw)
+  use strict RFC 4648 with the standard alphabet. Characters outside
+  the alphabet (including whitespace) and incorrect padding must be
+  rejected, never silently skipped.
+  
+  For wdata payloads for one MIME type, the base64 stream can be split
+  at arbitrary packet boundaries and only the concatenation must be
+  correctly padded.
+  
+  Simdutf has a strict mode for base64 so we got this for free.
+  Benchmarks to be safe:
+  
+  | Decoder                       | Time  | Throughput |
+  |-------------------------------|-------|------------|
+  | permissive (previous)         | 99ms  | 10.8 GB/s  |
+  | strict                        | 97ms  | 11.1 GB/s  |
+  | strict, streaming 4KiB chunks | 102ms | 10.5 GB/s  |
+  | strict w/ separate scan pass  | 143ms | 7.5 GB/s   |
+  | std.base64 scalar             | 234ms | 4.6 GB/s   |
+  
+  Spec changes upstream:
+  https://github.com/kovidgoyal/kitty/commit/479872838f7536ab87b8133471eb49d06804951b
+  https://sw.kovidgoyal.net/kitty/clipboard/#encoding-of-payloads
+  ```
+- [`82ccf12`](https://github.com/ghostty-org/ghostty/commit/82ccf12ca22131d2c845387806b6a924f86abe5f) nix: update nixpkgs-unstable ([#13678](https://github.com/ghostty-org/ghostty/issues/13678)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update nixpkgs-unstable to pick up fontconfig 2.18. Currently we are
+  linking against 2.17 and you get errors like this on standard error when
+  using config files meant for fontconfig 2.18:
+  
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 20:
+  invalid constant used :
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 23:
+  invalid constant used : monospace
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 42:
+  invalid attribute 'xsi:nil'
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 43:
+  invalid constant used :
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 46:
+  invalid constant used : sans-serif
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 68:
+  invalid attribute 'xsi:nil'
+  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 69:
+  invalid constant used :
+  ```
+- [`557253d`](https://github.com/ghostty-org/ghostty/commit/557253d8f64f8b08da33f5a7f3cb33a75960b09d) terminal: update Kitty clipboard base64 handling to spec ([#14015](https://github.com/ghostty-org/ghostty/issues/14015)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Kitty clipboard protocol now specifies base64 handling: All OSC 5522
+  payloads and the base64 metadata values (mime, name, pw) use strict RFC
+  4648 with the standard alphabet. Characters outside the alphabet
+  (including whitespace) and incorrect padding must be rejected, never
+  silently skipped.
+  
+  For wdata payloads for one MIME type, the base64 stream can be split at
+  arbitrary packet boundaries and only the concatenation must be correctly
+  padded.
+  
+  Simdutf has a strict mode for base64 so we got this for free. Benchmarks
+  to be safe:
+  
+  | Decoder                       | Time  | Throughput |
+  |-------------------------------|-------|------------|
+  | permissive (previous)         | 99ms  | 10.8 GB/s  |
+  | strict                        | 97ms  | 11.1 GB/s  |
+  | strict, streaming 4KiB chunks | 102ms | 10.5 GB/s  |
+  | strict w/ separate scan pass  | 143ms | 7.5 GB/s   |
+  | std.base64 scalar             | 234ms | 4.6 GB/s   |
+  
+  Spec changes upstream:
+  
+  https://github.com/kovidgoyal/kitty/commit/479872838f7536ab87b8133471eb49d06804951b
+  https://sw.kovidgoyal.net/kitty/clipboard/#encoding-of-payloads
+  ```
+- [`4e817e7`](https://github.com/ghostty-org/ghostty/commit/4e817e79a1d7e3fe7393297e3c8f1269abb6523a) terminal: treat high bytes in DCS strings as payload data ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Refs #11216
+  
+  The dcs_passthrough state only forwarded bytes 0x00-0x7E to the DCS
+  handler. Bytes 0x80-0x9F hit the "anywhere" C1 transitions and exited
+  the string, while 0xA0-0xFF fell through to the default transition and
+  were silently dropped. **This breaks any DCS payload carrying UTF-8. **
+  
+  A continuation byte in the C1 range terminates or corrupts the string:
+  "Ü" is 0xC3 0x9C, so the 0xC3 is dropped and the 0x9C acts as 8-bit ST,
+  ending the DCS mid-character.
+  
+  Also, a payload byte such as 0x9B (second byte of "Û") transitions to
+  csi_entry, so the remainder of the payload executes as a live control sequence.
+  This is a prerequisite for tmux control mode (#1935), whose %output
+  notifications carry raw UTF-8 pane content.
+  
+  Fix this in the parse table only: override 0x80-0xFF in
+  dcs_passthrough to put and in dcs_ignore to ignore, exactly how
+  osc_string already claims 0x20-0xFF (including 0x9C) as data. This
+  deviates from the vt100.net state machine
+  (https://vt100.net/emu/dec_ansi_parser) deliberately and includes
+  0x9C: a raw 0x9C is indistinguishable from a UTF-8 continuation byte,
+  and we don't honor 8-bit C1 controls in the ground state either.
+  ```
+- [`b260da2`](https://github.com/ghostty-org/ghostty/commit/b260da24f8f10bebc92539eef640dbfd26c5a854) cli: update list-themes preview sample to valid Zig 0.16 syntax ([#14012](https://github.com/ghostty-org/ghostty/issues/14012)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  The demo code shown in the `+list-themes` theme preview was stale from
+  before the Zig 0.16 migration (context: #12228). It referenced
+  `std.Io.getStdOut().writer()`, which never existed in any Zig release,
+  and `pub fn main() !void`. This rewrites the rendered sample to valid
+  Zig 0.16 idioms:
+  
+  ```zig
+  const std = @import("std");
+  
+  pub fn main(init: std.process.Init) !void {
+      var buf: [1024]u8 = undefined;
+      var stdout = std.Io.File.stdout().writer(init.io, &buf);
+      const w = &stdout.interface;
+  
+      var i: usize = 1;
+      while (i <= 16) : (i += 1) {
+          if (i % 15 == 0) {
+              try w.writeAll("ZiggZagg\n");
+          } else if (i % 3 == 0) {
+              try w.writeAll("Zigg\n");
+          } else if (i % 5 == 0) {
+              try w.writeAll("Zagg\n");
+          } else {
+              try w.print("{d}\n", .{i});
+          }
+      }
+      try w.flush();
+  }
+  ```
+  
+  The gutter line numbers, row offsets, and child window height were
+  renumbered to match, and the zig version shown in the demo prompt line
+  was updated from v0.13.0 to v0.16.0.
+  ````
+- [`9c3ec93`](https://github.com/ghostty-org/ghostty/commit/9c3ec931d64561a8407dde7ac984ce156ae91539) terminal: treat high bytes in DCS strings as payload data ([#14016](https://github.com/ghostty-org/ghostty/issues/14016)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Refs #11216
+  
+  The dcs_passthrough state only forwarded bytes 0x00-0x7E to the DCS
+  handler. Bytes 0x80-0x9F hit the "anywhere" C1 transitions and exited
+  the string, while 0xA0-0xFF fell through to the default transition and
+  were silently dropped. **This breaks any DCS payload carrying UTF-8. **
+  
+  A continuation byte in the C1 range terminates or corrupts the string:
+  "Ü" is 0xC3 0x9C, so the 0xC3 is dropped and the 0x9C acts as 8-bit ST,
+  ending the DCS mid-character.
+  
+  Also, a payload byte such as 0x9B (second byte of "Û") transitions to
+  csi_entry, so the remainder of the payload executes as a live control
+  sequence. This is a prerequisite for tmux control mode (#1935), whose
+  %output notifications carry raw UTF-8 pane content.
+  
+  Fix this in the parse table only: override 0x80-0xFF in dcs_passthrough
+  to put and in dcs_ignore to ignore, exactly how osc_string already
+  claims 0x20-0xFF (including 0x9C) as data. This deviates from the
+  vt100.net state machine
+  (https://vt100.net/emu/dec_ansi_parser) deliberately and includes 0x9C:
+  a raw 0x9C is indistinguishable from a UTF-8 continuation byte, and we
+  don't honor 8-bit C1 controls in the ground state either.
+  ```
 - [`bb00a5c`](https://github.com/ghostty-org/ghostty/commit/bb00a5c988245a10f7d96dfdadcbfbd03f977dc4) Update VOUCHED list ([#14013](https://github.com/ghostty-org/ghostty/issues/14013)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
