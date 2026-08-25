@@ -8,15 +8,78 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 25, 2026 at 18:32 UTC.
+> Last updated: August 25, 2026 at 21:21 UTC.
 
 ## August 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32868574536), [2](https://github.com/ghostty-org/ghostty/actions/runs/32863067913), [3](https://github.com/ghostty-org/ghostty/actions/runs/32861518453), [4](https://github.com/ghostty-org/ghostty/actions/runs/32852280188), [5](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
-Summary: 5 runs • 23 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32885561859), [2](https://github.com/ghostty-org/ghostty/actions/runs/32868574536), [3](https://github.com/ghostty-org/ghostty/actions/runs/32863067913), [4](https://github.com/ghostty-org/ghostty/actions/runs/32861518453), [5](https://github.com/ghostty-org/ghostty/actions/runs/32852280188), [6](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
+Summary: 6 runs • 25 commits • 5 authors
 
 ### Changes
 
+- [`c4e1697`](https://github.com/ghostty-org/ghostty/commit/c4e16970a803b170e352432424f44192cb59f3ac) renderer: release GPU resources for hidden surfaces (macOS) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Ref #12034
+  
+  This commit releases many GPU resources when a surface becomes invisible and
+  rebuilds it on the next draw. I don't say "all" because there are still
+  some things we can improve on (Kitty images).
+  
+  We previously held onto all GPU resources for the lifetime of the surface
+  regardless of its visibility state. This is 3x (for triple-buffering):
+  screen render targets, uniform/cell/custom shader buffers, font textures,
+  and more.
+  
+  Measured on macOS (Metal):
+  
+  | Measurement (1 visible + 20 hidden tabs)    | Before    | After   |
+  |---------------------------------------------|-----------|---------|
+  | Tracked GPU allocations (steady state)      | 384.6 MiB | 18.3 MiB |
+  | `MTLDevice.currentAllocatedSize`            | 393.3 MiB | 19.7 MiB |
+  | `footprint` IOSurface (dirty)               | 309 MB    | 15 MB   |
+  | Swap chain rebuild on unhide (42 switches)  | n/a       | avg 0.43 ms, max 0.55 ms |
+  
+  As you can see, importantly, swap chain rebuild is fast: 0.43ms average.
+  That means that the rebuild is imperceptible and happens well within
+  a frame draw time.
+  
+  This is macOS only, but most of the work was in the generic renderer.
+  GTK only needs to call `releaseGpuResources` when it becomes invisible
+  to get the same benefits. I didn't have my VM handy to test this yet so
+  I didn't include it.
+  ```
+- [`683d8db`](https://github.com/ghostty-org/ghostty/commit/683d8db643b95cf229bfb5fe9fab9ae677920343) renderer: release GPU resources for hidden surfaces (macOS) ([#14017](https://github.com/ghostty-org/ghostty/issues/14017)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Ref #12034
+  
+  This commit releases many GPU resources when a surface becomes invisible
+  and rebuilds it on the next draw. I don't say "all" because there are
+  still some things we can improve on (Kitty images).
+  
+  We previously held onto all GPU resources for the lifetime of the
+  surface regardless of its visibility state. This is 3x (for
+  triple-buffering): screen render targets, uniform/cell/custom shader
+  buffers, font textures, and more.
+  
+  Measured on macOS (Metal):
+  
+  | Measurement (1 visible + 20 hidden tabs)    | Before    | After   |
+  |---------------------------------------------|-----------|---------|
+  | Tracked GPU allocations (steady state)      | 384.6 MiB | 18.3 MiB |
+  | `MTLDevice.currentAllocatedSize`            | 393.3 MiB | 19.7 MiB |
+  | `footprint` IOSurface (dirty)               | 309 MB    | 15 MB   |
+  | Swap chain rebuild on unhide (42 tab switches) | n/a | avg 0.43 ms,
+  max 0.55 ms |
+  
+  As you can see, importantly, swap chain rebuild is fast: 0.43ms average.
+  That means that the rebuild is imperceptible and happens well within a
+  frame draw time.
+  
+  This is macOS only, but most of the work was in the generic renderer.
+  GTK only needs to call `releaseGpuResources` when it becomes invisible
+  to get the same benefits. I didn't have my VM handy to test this yet so
+  I didn't include it.
+  ```
 - [`48a9e29`](https://github.com/ghostty-org/ghostty/commit/48a9e29f79e918d4f73a13c1ce27646d029811e4) nix: update nixpkgs-unstable ([@jcollie](https://github.com/jcollie))
   ```text
   Update nixpkgs-unstable to pick up fontconfig 2.18. Currently we are linking against 2.17 and you get errors
