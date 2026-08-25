@@ -8,7 +8,71 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 25, 2026 at 03:42 UTC.
+> Last updated: August 25, 2026 at 06:37 UTC.
+
+## August 25, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
+Summary: 1 runs • 4 commits • 1 authors
+
+### Changes
+
+- [`70f0065`](https://github.com/ghostty-org/ghostty/commit/70f0065759428c0594c7c5befcb20104ff7ab615) terminal: reject oversized Kitty clipboard writes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update OSC 5522 writes to reject every transaction that exceeds the
+  configured decoded-data limit. The previous behavior truncated text
+  while rejecting only non-text data.
+  
+  Programs now receive EFBIG as soon as a write crosses the limit. The
+  clipboard remains untouched, and remaining write packets are ignored
+  until a new transaction begins. Raise the default to the protocol
+  minimum of 64 MiB.
+  
+  This applies the latest spec change:
+  https://github.com/kovidgoyal/kitty/commit/32ea1041921607836e37815e0ab3692264a6cc81
+  ```
+- [`e8d8945`](https://github.com/ghostty-org/ghostty/commit/e8d8945b536189366e227b157aa0b8202b94890a) terminal: update Kitty clipboard text input validation to spec ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Validate decoded OSC 5522 metadata, read MIME lists, and alias
+  lists as UTF-8. Treat an alias without a target MIME type as an
+  invalid write packet.
+  
+  Malformed write packets now return EINVAL and terminate the in-flight
+  transaction instead of leaving it active. Malformed reads are dropped
+  without disturbing an active write.
+  
+  Latest changes upstream to spec:
+  https://github.com/kovidgoyal/kitty/commit/458421af4656a8f90beca7d95e4c1ff7093cf269
+  ```
+- [`4888c0a`](https://github.com/ghostty-org/ghostty/commit/4888c0a02c2e36b5146900195e344a8ac307660f) terminal: reject oversized Kitty clipboard writes ([#14004](https://github.com/ghostty-org/ghostty/issues/14004)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update OSC 5522 writes to reject every transaction that exceeds the
+  configured decoded-data limit. The previous behavior truncated text
+  while rejecting only non-text data.
+  
+  Programs now receive EFBIG as soon as a write crosses the limit. The
+  clipboard remains untouched, and remaining write packets are ignored
+  until a new transaction begins. Raise the default to the protocol
+  minimum of 64 MiB.
+  
+  This applies the latest spec change:
+  
+  https://github.com/kovidgoyal/kitty/commit/32ea1041921607836e37815e0ab3692264a6cc81
+  ```
+- [`8867c37`](https://github.com/ghostty-org/ghostty/commit/8867c37c55b578b9eb4cfaba41cb9023e557176d) terminal: update Kitty clipboard text input validation to spec ([#14005](https://github.com/ghostty-org/ghostty/issues/14005)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Validate decoded OSC 5522 metadata, read MIME lists, and alias lists as
+  UTF-8. Treat an alias without a target MIME type as an invalid write
+  packet.
+  
+  Malformed write packets now return EINVAL and terminate the in-flight
+  transaction instead of leaving it active. Malformed reads are dropped
+  without disturbing an active write.
+  
+  Latest changes upstream to spec:
+  
+  https://github.com/kovidgoyal/kitty/commit/458421af4656a8f90beca7d95e4c1ff7093cf269
+  ```
 
 ## August 24, 2026
 
