@@ -8,7 +8,66 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 26, 2026 at 03:49 UTC.
+> Last updated: August 26, 2026 at 06:38 UTC.
+
+## August 26, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [2](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
+Summary: 2 runs • 4 commits • 1 authors
+
+### Changes
+
+- [`40a40f8`](https://github.com/ghostty-org/ghostty/commit/40a40f848dfca8c5edbc0098dd828aec03ae8e64) terminal: ignore UTF-8-decoded C1 controls in the ground state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Drop UTF-8 decoded C1 controls entirely. This matches xterm's default
+  behavior which is our standard policy (but note it diverges from libvte
+  which executes them). There isn't really any standard I could find
+  around this.
+  
+  The ground state UTF-8 fast paths (both the scalar decoder and the
+  batched SIMD path) previously treated decoded codepoints C1 control
+  codepoints as normal UTF-8 text and routed them to print.
+  ```
+- [`88f57ee`](https://github.com/ghostty-org/ghostty/commit/88f57ee66eeaad4da77b414b245f7b6693348985) terminal: ignore UTF-8-decoded C1 controls in the ground state ([#14023](https://github.com/ghostty-org/ghostty/issues/14023)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Drop UTF-8 decoded C1 controls entirely. This matches xterm's default
+  behavior which is our standard policy (but note it diverges from libvte
+  which executes them). There isn't really any standard I could find
+  around this.
+  
+  The ground state UTF-8 fast paths (both the scalar decoder and the
+  batched SIMD path) previously treated decoded codepoints C1 control
+  codepoints as normal UTF-8 text and routed them to print.
+  ```
+- [`0f35043`](https://github.com/ghostty-org/ghostty/commit/0f35043c9ac588811f22c732ac5392850f22381e) terminal: execute C0 controls 0x10-0x1F in the ground state ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14021
+  
+  The ground state UTF-8 fast paths only classified 0x00-0x0F plus 0x1B (escape)
+  as C0 controls. The remaining C0 bytes (0x10-0x1A, 0x1C-0x1F) were decoded
+  as ordinary codepoints and routed to print as if they were text.
+  
+  This resulted in incorrect grids but also very weird font fallback, e.g.
+  U+0014 would find CJK fonts.
+  
+  This commit fixes this by routing every ground state C0 byte except ESC to
+  execute as it should be.
+  ```
+- [`6dcf68f`](https://github.com/ghostty-org/ghostty/commit/6dcf68fc0b12e8caebbfc43770d66edac124b4f8) terminal: execute C0 controls 0x10-0x1F in the ground state ([#14022](https://github.com/ghostty-org/ghostty/issues/14022)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14021
+  
+  The ground state UTF-8 fast paths only classified 0x00-0x0F plus 0x1B
+  (escape) as C0 controls. The remaining C0 bytes (0x10-0x1A, 0x1C-0x1F)
+  were decoded as ordinary codepoints and routed to print as if they were
+  text.
+  
+  This resulted in incorrect grids but also very weird font fallback, e.g.
+  U+0014 would find CJK fonts.
+  
+  This commit fixes this by routing every ground state C0 byte except ESC
+  to execute as it should be.
+  ```
 
 ## August 25, 2026
 
