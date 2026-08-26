@@ -8,15 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 26, 2026 at 09:34 UTC.
+> Last updated: August 26, 2026 at 12:40 UTC.
 
 ## August 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [2](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
-Summary: 2 runs • 4 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [2](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [3](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
+Summary: 3 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`73e53ce`](https://github.com/ghostty-org/ghostty/commit/73e53ceeac4d81b59d228db32de933d8114d42cd) i18n: update fr_FR translations ([@flou](https://github.com/flou))
+- [`5f5b988`](https://github.com/ghostty-org/ghostty/commit/5f5b988c5236facfe8d2439203d9ee9d5b636cf8) i18n: update fr_FR translations ([#13971](https://github.com/ghostty-org/ghostty/issues/13971)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Update missing french translations for Ghostty 1.4
+  (https://github.com/ghostty-org/ghostty/issues/13766)
+  ```
 - [`40a40f8`](https://github.com/ghostty-org/ghostty/commit/40a40f848dfca8c5edbc0098dd828aec03ae8e64) terminal: ignore UTF-8-decoded C1 controls in the ground state ([@mitchellh](https://github.com/mitchellh))
   ```text
   Drop UTF-8 decoded C1 controls entirely. This matches xterm's default
