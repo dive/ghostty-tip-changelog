@@ -8,15 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 26, 2026 at 16:13 UTC.
+> Last updated: August 26, 2026 at 19:40 UTC.
 
 ## August 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32980266736), [2](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [3](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [4](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
-Summary: 4 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33003643945), [2](https://github.com/ghostty-org/ghostty/actions/runs/32980266736), [3](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [4](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [5](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
+Summary: 5 runs • 12 commits • 4 authors
 
 ### Changes
 
+- [`6688aa0`](https://github.com/ghostty-org/ghostty/commit/6688aa072f87dcb169fa1a49dcf5eadc9ed87956) renderer: park DisplayLink while idle ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #14033
+  
+  Pause the CVDisplayLink when there isn't any real work to do.
+  
+  Start the link after updateFrame rebuilds cells, keep it running while
+  cell changes or animations remain pending, and resync it from the
+  no-redraw path to sleep it again.
+  
+  I also did some benchmark to measure the cost of starting/stopping the
+  display link since this includes a lot more of that and I found that
+  a continuously running link used 29 to 35 us of CPU per callback, while
+  starting and stopping it for every frame used 103 to 121 us. So, in some
+  pathological case this can be worse, but its still microseconds, and in
+  the normal case this helps Ghostty sleep a lot more.
+  ```
+- [`d9840f3`](https://github.com/ghostty-org/ghostty/commit/d9840f3c8fc230c7768ae760c412974e9fc923bb) renderer: park DisplayLink while idle ([#14035](https://github.com/ghostty-org/ghostty/issues/14035)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #14033
+  
+  Pause the CVDisplayLink when there isn't any real work to do.
+  
+  Start the link after updateFrame rebuilds cells, keep it running while
+  cell changes or animations remain pending, and resync it from the
+  no-redraw path to sleep it again.
+  
+  I also did some benchmark to measure the cost of starting/stopping the
+  display link since this includes a lot more of that and I found that a
+  continuously running link used 29 to 35 us of CPU per callback, while
+  starting and stopping it for every frame used 103 to 121 us. So, in some
+  pathological case this can be worse, but its still microseconds, and in
+  the normal case this helps Ghostty sleep a lot more.
+  ```
 - [`851751a`](https://github.com/ghostty-org/ghostty/commit/851751a1167a05d83f08c010a7b1e92f435f783f) macOS: clean up deprecated toolbar button ([@bo2themax](https://github.com/bo2themax))
 - [`7a15898`](https://github.com/ghostty-org/ghostty/commit/7a15898bc813558a25c4beffd7391dad14cbb20c) macOS: use same ResetZoomAccessoryView ([@bo2themax](https://github.com/bo2themax))
 - [`1abd53e`](https://github.com/ghostty-org/ghostty/commit/1abd53ee537a93bb33107a415fe4f4131bcf0f5b) macOS: clean up deprecated toolbar button ([#14027](https://github.com/ghostty-org/ghostty/issues/14027)) ([@mitchellh](https://github.com/mitchellh))
