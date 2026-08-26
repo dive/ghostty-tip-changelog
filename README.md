@@ -8,15 +8,24 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 26, 2026 at 12:40 UTC.
+> Last updated: August 26, 2026 at 16:13 UTC.
 
 ## August 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [2](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [3](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
-Summary: 3 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32980266736), [2](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [3](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [4](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
+Summary: 4 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`851751a`](https://github.com/ghostty-org/ghostty/commit/851751a1167a05d83f08c010a7b1e92f435f783f) macOS: clean up deprecated toolbar button ([@bo2themax](https://github.com/bo2themax))
+- [`7a15898`](https://github.com/ghostty-org/ghostty/commit/7a15898bc813558a25c4beffd7391dad14cbb20c) macOS: use same ResetZoomAccessoryView ([@bo2themax](https://github.com/bo2themax))
+- [`1abd53e`](https://github.com/ghostty-org/ghostty/commit/1abd53ee537a93bb33107a415fe4f4131bcf0f5b) macOS: clean up deprecated toolbar button ([#14027](https://github.com/ghostty-org/ghostty/issues/14027)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This button is a leftover from cf6017e777cda0e0c131b616f408c9a81644b5d7,
+  we're now using tab's and titlebar's accessory view to display unzoom
+  buttons, no need to keep them.
+  ```
+- [`15ff186`](https://github.com/ghostty-org/ghostty/commit/15ff186f65ca0bdbd1fa397ab03908d59de16463) macOS: use same ResetZoomAccessoryView ([#14028](https://github.com/ghostty-org/ghostty/issues/14028)) ([@mitchellh](https://github.com/mitchellh))
 - [`73e53ce`](https://github.com/ghostty-org/ghostty/commit/73e53ceeac4d81b59d228db32de933d8114d42cd) i18n: update fr_FR translations ([@flou](https://github.com/flou))
 - [`5f5b988`](https://github.com/ghostty-org/ghostty/commit/5f5b988c5236facfe8d2439203d9ee9d5b636cf8) i18n: update fr_FR translations ([#13971](https://github.com/ghostty-org/ghostty/issues/13971)) ([@trag1c](https://github.com/trag1c))
   ```text
