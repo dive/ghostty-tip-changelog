@@ -8,7 +8,242 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 27, 2026 at 00:23 UTC.
+> Last updated: August 27, 2026 at 13:38 UTC.
+
+## August 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33036403965), [2](https://github.com/ghostty-org/ghostty/actions/runs/33034019716)  
+Summary: 2 runs • 4 commits • 4 authors
+
+### Changes
+
+- [`ee8095d`](https://github.com/ghostty-org/ghostty/commit/ee8095d37d9813669688cf2f666756e607b84713) terminal/snapshot: use stack fallback for record scratch ([@jparise](https://github.com/jparise))
+  ```text
+  Use a bounded 512-byte stack fallback for complete-snapshot record
+  scratch. Small records avoid heap growth while larger records continue
+  through the heap allocator.
+  ```
+- [`f2d5758`](https://github.com/ghostty-org/ghostty/commit/f2d5758f6305867dc36b36293c6165d8152b853e) terminal/snapshot: use stack fallback for record scratch ([#14018](https://github.com/ghostty-org/ghostty/issues/14018)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Use a bounded 512-byte stack fallback for complete-snapshot record
+  scratch. Small records avoid heap growth while larger records continue
+  through the heap allocator.
+  
+  This usually means 2 fewer allocations per encode, resulting in a small
+  performance improvement in a local benchmark:
+  
+  | Workload | `main` median | Branch median | Change |
+  |---|---:|---:|---:|
+  | Empty, 50k encodes | 135.06 ms | 130.76 ms | **3.2% faster** |
+  | 1 MiB ASCII, 500 encodes | 280.75 ms | 281.25 ms | **0.2% slower**,
+  within noise |
+  | 1 MiB styled, 200 encodes | 1,023.02 ms | 996.32 ms | **2.6% faster**
+  |
+  ```
+- [`522ebdd`](https://github.com/ghostty-org/ghostty/commit/522ebdd0a313ef366d3567694e3588b780fae8ee) build(deps): bump hustcer/milestone-action from 3.1 to 3.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [hustcer/milestone-action](https://github.com/hustcer/milestone-action) from 3.1 to 3.2.
+  - [Release notes](https://github.com/hustcer/milestone-action/releases)
+  - [Changelog](https://github.com/hustcer/milestone-action/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/hustcer/milestone-action/compare/ebed8d5daafd855a600d7e665c1b130f06d24130...2f38355153344ccaaa44b5b5fcff9f604dff1b45)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: hustcer/milestone-action
+    dependency-version: '3.2'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`f349d10`](https://github.com/ghostty-org/ghostty/commit/f349d108431007dac0d908af33301e3cc460b2f3) build(deps): bump hustcer/milestone-action from 3.1 to 3.2 ([#14040](https://github.com/ghostty-org/ghostty/issues/14040)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [hustcer/milestone-action](https://github.com/hustcer/milestone-action)
+  from 3.1 to 3.2.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/hustcer/milestone-action/releases">hustcer/milestone-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.2</h2>
+  <h2>[3.2] - 2026-08-25</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>Harden action inputs and make GraphQL file lookup path-independent
+  (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/168">#168</a>)</li>
+  <li>Look up milestones by title across all states with pagination (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/170">#170</a>)</li>
+  <li>Guard GITHUB_OUTPUT, surface GraphQL errors and tighten is-int (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/172">#172</a>)</li>
+  <li>Require title for create action and sync stale docs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/174">#174</a>)</li>
+  <li>Send milestone fields as raw strings and harden action inputs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/176">#176</a>)</li>
+  </ul>
+  <h3>Deps</h3>
+  <ul>
+  <li>Upgrade hustcer/setup-nu to v3.25 &amp; Nu to 0.113.1</li>
+  <li>Upgrade hustcer/setup-nu to v3.27 and Nu to 0.115</li>
+  <li>Upgrade Nu to 0.115.1</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/hustcer/milestone-action/blob/main/CHANGELOG.md">hustcer/milestone-action's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <p>All notable changes to this project will be documented in this
+  file.</p>
+  <h2>[3.2] - 2026-08-25</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>Harden action inputs and make GraphQL file lookup path-independent
+  (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/168">#168</a>)</li>
+  <li>Look up milestones by title across all states with pagination (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/170">#170</a>)</li>
+  <li>Guard GITHUB_OUTPUT, surface GraphQL errors and tighten is-int (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/172">#172</a>)</li>
+  <li>Require title for create action and sync stale docs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/174">#174</a>)</li>
+  <li>Send milestone fields as raw strings and harden action inputs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/176">#176</a>)</li>
+  </ul>
+  <h3>Deps</h3>
+  <ul>
+  <li>Upgrade hustcer/setup-nu to v3.25 &amp; Nu to 0.113.1</li>
+  <li>Upgrade hustcer/setup-nu to v3.27 and Nu to 0.115</li>
+  <li>Upgrade Nu to 0.115.1</li>
+  </ul>
+  <h2>[3.1] - 2026-01-23</h2>
+  <h3>Documentation</h3>
+  <ul>
+  <li>Update milestone-action version in README (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/162">#162</a>)</li>
+  </ul>
+  <h3>Features</h3>
+  <ul>
+  <li>Break before sleep when milestone found</li>
+  </ul>
+  <h3>Miscellaneous Tasks</h3>
+  <ul>
+  <li>Update README.md (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/166">#166</a>)</li>
+  </ul>
+  <h3>Deps</h3>
+  <ul>
+  <li>Update Nu to 0.109.1</li>
+  <li>Update Nushell to 0.110.0 (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/167">#167</a>)</li>
+  <li>Upgrade hustcer/setup-nu to v3.22</li>
+  </ul>
+  <h1>Changelog</h1>
+  <p>All notable changes to this project will be documented in this
+  file.</p>
+  <h2>[3.0] - 2025-10-26</h2>
+  <p>This release introduces changes that may impact some users. If the
+  action fails due to insufficient permissions, please add the
+  <code>issues: write</code> and <code>pull-requests: write</code>
+  permissions to your workflow. Additionally, the API for binding
+  milestones has been modified. Due to these changes, the major version
+  has been incremented to 3.</p>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>Try to fix GitHub Projects (classic) deprecation warning by using
+  REST API instead of GraphQL (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/157">#157</a>)</li>
+  <li>Fix &quot;Resource not accessible by integration&quot; error for
+  issue milestone binding by adding <code>issues: write</code>
+  permission</li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/2f38355153344ccaaa44b5b5fcff9f604dff1b45"><code>2f38355</code></a>
+  Bump to v3.2</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/90d61222172fcab928f4097d7ac0f9b777f8c6a6"><code>90d6122</code></a>
+  deps: Upgrade Nu to 0.115.1</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/e587063f374a27424be13284709902ef21d0e7e2"><code>e587063</code></a>
+  fix: Send milestone fields as raw strings and harden action inputs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/176">#176</a>)</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/cc2b756fd4aa0c6296b7268f41108dc88bfb8228"><code>cc2b756</code></a>
+  fix: Require title for create action and sync stale docs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/174">#174</a>)</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/f8cedae0c15efb735341ecea49835c86190dee13"><code>f8cedae</code></a>
+  fix: Guard GITHUB_OUTPUT, surface GraphQL errors and tighten is-int (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/172">#172</a>)</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/b57a2e26d7ae416cd8f283c8ddcf0022639b0a99"><code>b57a2e2</code></a>
+  fix: Look up milestones by title across all states with pagination (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/170">#170</a>)</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/3ba8f40c9539a0d3b5ac92732bd3a26f3a9e80df"><code>3ba8f40</code></a>
+  fix: Harden action inputs and make GraphQL file lookup path-independent
+  (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/168">#168</a>)</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/1e6a3fcc554f6c07ada4feabb0b1935aa60243d3"><code>1e6a3fc</code></a>
+  deps: Upgrade hustcer/setup-nu to v3.27 and Nu to 0.115</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/913159549289b377b4d0c9c830101da8d4c82387"><code>9131595</code></a>
+  deps: Upgrade hustcer/setup-nu to v3.25 &amp; Nu to 0.113.1</li>
+  <li>See full diff in <a
+  href="https://github.com/hustcer/milestone-action/compare/ebed8d5daafd855a600d7e665c1b130f06d24130...2f38355153344ccaaa44b5b5fcff9f604dff1b45">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=hustcer/milestone-action&package-manager=github_actions&previous-version=3.1&new-version=3.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## August 26, 2026
 
