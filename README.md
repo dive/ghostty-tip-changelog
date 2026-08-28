@@ -8,7 +8,51 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 28, 2026 at 00:12 UTC.
+> Last updated: August 28, 2026 at 14:49 UTC.
+
+## August 28, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33140987507)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`eb722cb`](https://github.com/ghostty-org/ghostty/commit/eb722cb26dfe3fb5dc481181ae463940492cd742) terminal: mark the previous row dirty when clearing its spacer head ([@fornwall](https://github.com/fornwall))
+  ```text
+  Erasing a wrapped wide character at the start of a row (ECH or DCH)
+  also clears the spacer head it left at the end of the previous row,
+  but that row was never marked dirty. With both rows visible, an
+  incremental render kept the stale spacer head on screen until
+  something unrelated redrew that row.
+  
+  The clearing happens in the row-start branch of splitCellBoundary.
+  clearCells doesn't do dirty tracking, and both callers only mark
+  the cursor row, so mark the previous row at the point it's mutated.
+  
+  The added dirty assertions fail without the fix.
+  ```
+- [`76e568b`](https://github.com/ghostty-org/ghostty/commit/76e568b475fe88f5506be33ad1a684f3c1eae85e) terminal: mark the previous row dirty when clearing its spacer head ([#14054](https://github.com/ghostty-org/ghostty/issues/14054)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Erasing a wrapped wide character at the start of a row (`ECH` or `DCH`)
+  also clears the spacer head it left at the end of the previous row, but
+  that row was never marked dirty. With both rows visible, an incremental
+  render kept the stale spacer head on screen until something unrelated
+  redrew that row.
+  
+  The clearing happens in the row-start branch of `splitCellBoundary`.
+  `clearCells` doesn't do dirty tracking, and both callers only mark the
+  cursor row, so mark the previous row at the point it's mutated.
+  
+  The added dirty assertions fail without the fix.
+  
+  ## AI Disclaimer
+  Claude did the heavy lifting - identifying the root cause, generating
+  code and description. I reviewed and iterated on it to move around and
+  tweak tests, comments and reduce verboseness. Verified the end user
+  visible behaviour improvement with a script that coloured the wide
+  character, which made the stale rendering visible until a switch to the
+  alt screen and back cleared it it.
+  ```
 
 ## August 27, 2026
 
