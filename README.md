@@ -8,15 +8,25 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 28, 2026 at 14:49 UTC.
+> Last updated: August 28, 2026 at 23:49 UTC.
 
 ## August 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33140987507)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33201228282), [2](https://github.com/ghostty-org/ghostty/actions/runs/33140987507)  
+Summary: 2 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`777929a`](https://github.com/ghostty-org/ghostty/commit/777929a8fe603574474f6e1c9c0a35c08af1a2d9) macOS: review windows when closing multiple tabs ([@bo2themax](https://github.com/bo2themax))
+- [`4540d49`](https://github.com/ghostty-org/ghostty/commit/4540d499ae463ad7b90f28f6f852f64f844c160f) macOS: review windows when closing multiple tabs ([#14062](https://github.com/ghostty-org/ghostty/issues/14062)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We can also make close undoable when quitting, i'll add it as a follow
+  up pr.
+  
+  <img width="573" height="450" alt="Xnip2026-08-28_19-25-02"
+  src="https://github.com/user-attachments/assets/3b4f34f4-9ee6-4180-beb7-f90e98c8aa40"
+  />
+  ```
 - [`eb722cb`](https://github.com/ghostty-org/ghostty/commit/eb722cb26dfe3fb5dc481181ae463940492cd742) terminal: mark the previous row dirty when clearing its spacer head ([@fornwall](https://github.com/fornwall))
   ```text
   Erasing a wrapped wide character at the start of a row (ECH or DCH)
