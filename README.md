@@ -8,15 +8,175 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 27, 2026 at 13:38 UTC.
+> Last updated: August 28, 2026 at 00:12 UTC.
 
 ## August 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33036403965), [2](https://github.com/ghostty-org/ghostty/actions/runs/33034019716)  
-Summary: 2 runs • 4 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33124382421), [2](https://github.com/ghostty-org/ghostty/actions/runs/33121250277), [3](https://github.com/ghostty-org/ghostty/actions/runs/33114064367), [4](https://github.com/ghostty-org/ghostty/actions/runs/33096957391), [5](https://github.com/ghostty-org/ghostty/actions/runs/33036403965), [6](https://github.com/ghostty-org/ghostty/actions/runs/33034019716)  
+Summary: 6 runs • 25 commits • 7 authors
 
 ### Changes
 
+- [`4bb135e`](https://github.com/ghostty-org/ghostty/commit/4bb135e2de19b2ce8bddec77ba964ddaebbadc1e) i18n(ru): start updating Russian translation ([@derVedro](https://github.com/derVedro))
+- [`1dd31f9`](https://github.com/ghostty-org/ghostty/commit/1dd31f9e9458ac1bf44860d55021f9d54e53c646) i18n(ru): work in progress on Russian translation ([@derVedro](https://github.com/derVedro))
+- [`3f87b2e`](https://github.com/ghostty-org/ghostty/commit/3f87b2e5817429fd123af2c980cf6798017b75a1) i18n(ru): second part of Russian translation ([@derVedro](https://github.com/derVedro))
+- [`32159b6`](https://github.com/ghostty-org/ghostty/commit/32159b6fe6714a8401d5ad21ce8487ac0266afd8) i18n(ru): small fix in Russian translation ([@derVedro](https://github.com/derVedro))
+- [`0a396b4`](https://github.com/ghostty-org/ghostty/commit/0a396b43dccee62e61e2f17643262b800fd7699b) i18n(ru): context menu fix in Russian translation ([@derVedro](https://github.com/derVedro))
+- [`ba35746`](https://github.com/ghostty-org/ghostty/commit/ba35746377788b8953a895559a91c6e1733c18da) i18n(ru): improve Russian translation ([@derVedro](https://github.com/derVedro))
+- [`6244458`](https://github.com/ghostty-org/ghostty/commit/6244458a11f7c83c9c8774d2f5d27aba027c00fc) Update po/ru.po ([@derVedro](https://github.com/derVedro))
+- [`84dff76`](https://github.com/ghostty-org/ghostty/commit/84dff76b1383f0535657902b64cb614a34bd48e8) Update po/ru.po ([@derVedro](https://github.com/derVedro))
+- [`915977a`](https://github.com/ghostty-org/ghostty/commit/915977a484da9d9b93b3a30ac80ff068c5c3c6a8) i18n(ru): equalize splits ([@derVedro](https://github.com/derVedro))
+- [`278b4e2`](https://github.com/ghostty-org/ghostty/commit/278b4e2fc7aab0c5073afdfe2570f27a5a4b9142) i18n(ru): refine Russian translation ([@derVedro](https://github.com/derVedro))
+- [`2de1596`](https://github.com/ghostty-org/ghostty/commit/2de15961157343ff7dbeacc1281df97a3af6c624) macos: normalize action working directory paths ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discussion #14048
+  
+  Directory URLs no longer export a trailing slash through PWD, which
+  keeps zsh's %1~ prompt expansion from resolving to an empty string.
+  
+  A shared URL helper removes trailing separators while preserving the
+  filesystem root and percent-decoding behavior. Tests cover normal,
+  repeated, encoded, and root paths.
+  ```
+- [`07abbd1`](https://github.com/ghostty-org/ghostty/commit/07abbd1e7ee1f98d40cffacf537577e0bcb3522b) Update macos/Sources/Helpers/Extensions/URL+Extension.swift ([@mitchellh](https://github.com/mitchellh))
+- [`1c3a4a8`](https://github.com/ghostty-org/ghostty/commit/1c3a4a8314669a97177e4b39cd5d6451f4c257f3) Update macos/Sources/Helpers/Extensions/URL+Extension.swift ([@mitchellh](https://github.com/mitchellh))
+- [`fac595c`](https://github.com/ghostty-org/ghostty/commit/fac595c741aaec126d1cf0085dacfa63019a02c4) macos: normalize action working directory paths ([#14051](https://github.com/ghostty-org/ghostty/issues/14051)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Discussion #14048
+  
+  Directory URLs no longer export a trailing slash through PWD, which
+  keeps zsh's %1~ prompt expansion from resolving to an empty string.
+  
+  A shared URL helper removes trailing separators while preserving the
+  filesystem root and percent-decoding behavior. Tests cover normal,
+  repeated, encoded, and root paths.
+  ```
+- [`5aeb693`](https://github.com/ghostty-org/ghostty/commit/5aeb693b7727b0dc6fcc9193bc1d2453af3bcb9a) i18n: Russian translation for 1.4 ([#13809](https://github.com/ghostty-org/ghostty/issues/13809)) ([@trag1c](https://github.com/trag1c))
+- [`572fd58`](https://github.com/ghostty-org/ghostty/commit/572fd5837728da2363168f035743597767b5b237) macOS: use the same default BellFeatures as config ([@bo2themax](https://github.com/bo2themax))
+- [`4f4589f`](https://github.com/ghostty-org/ghostty/commit/4f4589f31f2ca196fc88731dfcdc77e1cbde9852) macOS: use the same default BellFeatures as config ([#14049](https://github.com/ghostty-org/ghostty/issues/14049)) ([@mitchellh](https://github.com/mitchellh))
+- [`28b5bf9`](https://github.com/ghostty-org/ghostty/commit/28b5bf905986f9e795466b7995640d80c44c16bc) font: update embedded Noto emoji fonts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14046
+  
+  Update Noto Color Emoji from v2.034 to v2.051 and Noto Emoji
+  Regular from v1.002 to v3.005.
+  
+  The old assets predate Unicode 15.0 and decompose newer ZWJ sequences
+  into separate glyphs. This causes sequences such as the Emoji 15.1
+  head-shaking faces to overlap neighboring terminal cells. The new
+  assets provide the missing sequence glyphs through Unicode 17.0.
+  
+  New supported glyphs too:
+  
+  | Codepoint | Glyph | Name |
+  |-----------|-------|------|
+  | U+1F6D8 | 🛘 | LANDSLIDE |
+  | U+1F6DC | 🛜 | WIRELESS |
+  | U+1FA75 | 🩵 | LIGHT BLUE HEART |
+  | U+1FA76 | 🩶 | GREY HEART |
+  | U+1FA77 | 🩷 | PINK HEART |
+  | U+1FA87 | 🪇 | MARACAS |
+  | U+1FA88 | 🪈 | FLUTE |
+  | U+1FA89 | 🪉 | HARP |
+  | U+1FA8A | 🪊 | TROMBONE |
+  | U+1FA8E | 🪎 | TREASURE CHEST |
+  | U+1FA8F | 🪏 | SHOVEL |
+  | U+1FAAD | 🪭 | FOLDING HAND FAN |
+  | U+1FAAE | 🪮 | HAIR PICK |
+  | U+1FAAF | 🪯 | KHANDA |
+  | U+1FABB | 🪻 | HYACINTH |
+  | U+1FABC | 🪼 | JELLYFISH |
+  | U+1FABD | 🪽 | WING |
+  | U+1FABE | 🪾 | LEAFLESS TREE |
+  | U+1FABF | 🪿 | GOOSE |
+  | U+1FAC6 | 🫆 | FINGERPRINT |
+  | U+1FAC8 | 🫈 | HAIRY CREATURE |
+  | U+1FACD | 🫍 | ORCA |
+  | U+1FACE | 🫎 | MOOSE |
+  | U+1FACF | 🫏 | DONKEY |
+  | U+1FADA | 🫚 | GINGER ROOT |
+  | U+1FADB | 🫛 | PEA POD |
+  | U+1FADC | 🫜 | ROOT VEGETABLE |
+  | U+1FADF | 🫟 | SPLATTER |
+  | U+1FAE8 | 🫨 | SHAKING FACE |
+  | U+1FAE9 | 🫩 | FACE WITH BAGS UNDER EYES |
+  | U+1FAEA | 🫪 | DISTORTED FACE |
+  | U+1FAEF | 🫯 | FIGHT CLOUD |
+  | U+1FAF7 | 🫷 | LEFTWARDS PUSHING HAND |
+  | U+1FAF8 | 🫸 | RIGHTWARDS PUSHING HAND |
+  ```
+- [`890aa63`](https://github.com/ghostty-org/ghostty/commit/890aa63dbbd586c6687a60b3736109203649d8dc) font: update embedded Noto emoji fonts ([#14047](https://github.com/ghostty-org/ghostty/issues/14047)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14046
+  
+  Update Noto Color Emoji from v2.034 to v2.051 and Noto Emoji Regular
+  from v1.002 to v3.005.
+  
+  The old assets predate Unicode 15.0 and decompose newer ZWJ sequences
+  into separate glyphs. This causes sequences such as the Emoji 15.1
+  head-shaking faces to overlap neighboring terminal cells. The new assets
+  provide the missing sequence glyphs through Unicode 17.0.
+  
+  New supported glyphs too:
+  
+  | Codepoint | Glyph | Name |
+  |-----------|-------|------|
+  | U+1F6D8 | 🛘 | LANDSLIDE |
+  | U+1F6DC | 🛜 | WIRELESS |
+  | U+1FA75 | 🩵 | LIGHT BLUE HEART |
+  | U+1FA76 | 🩶 | GREY HEART |
+  | U+1FA77 | 🩷 | PINK HEART |
+  | U+1FA87 | 🪇 | MARACAS |
+  | U+1FA88 | 🪈 | FLUTE |
+  | U+1FA89 | 🪉 | HARP |
+  | U+1FA8A | 🪊 | TROMBONE |
+  | U+1FA8E | 🪎 | TREASURE CHEST |
+  | U+1FA8F | 🪏 | SHOVEL |
+  | U+1FAAD | 🪭 | FOLDING HAND FAN |
+  | U+1FAAE | 🪮 | HAIR PICK |
+  | U+1FAAF | 🪯 | KHANDA |
+  | U+1FABB | 🪻 | HYACINTH |
+  | U+1FABC | 🪼 | JELLYFISH |
+  | U+1FABD | 🪽 | WING |
+  | U+1FABE | 🪾 | LEAFLESS TREE |
+  | U+1FABF | 🪿 | GOOSE |
+  | U+1FAC6 | 🫆 | FINGERPRINT |
+  | U+1FAC8 | 🫈 | HAIRY CREATURE |
+  | U+1FACD | 🫍 | ORCA |
+  | U+1FACE | 🫎 | MOOSE |
+  | U+1FACF | 🫏 | DONKEY |
+  | U+1FADA | 🫚 | GINGER ROOT |
+  | U+1FADB | 🫛 | PEA POD |
+  | U+1FADC | 🫜 | ROOT VEGETABLE |
+  | U+1FADF | 🫟 | SPLATTER |
+  | U+1FAE8 | 🫨 | SHAKING FACE |
+  | U+1FAE9 | 🫩 | FACE WITH BAGS UNDER EYES |
+  | U+1FAEA | 🫪 | DISTORTED FACE |
+  | U+1FAEF | 🫯 | FIGHT CLOUD |
+  | U+1FAF7 | 🫷 | LEFTWARDS PUSHING HAND |
+  | U+1FAF8 | 🫸 | RIGHTWARDS PUSHING HAND |
+  ```
+- [`6229d4e`](https://github.com/ghostty-org/ghostty/commit/6229d4eb62f9e2483b3ea00c11fcde70590d2d84) macOS: fix AppleScript send key for non-control keys ([@bo2themax](https://github.com/bo2themax))
+- [`e9ad4b1`](https://github.com/ghostty-org/ghostty/commit/e9ad4b1d631ec91c8cad401700fee1754612ef33) macOS: fix non control keys are not working for AppleScript ([#13205](https://github.com/ghostty-org/ghostty/issues/13205)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `send key` only works for control keys like `enter` currently; this adds
+  (fixes) the support for other keys listed as available. Found by
+  @paaloeye in #13180
+  
+  The core of this fix is relying on `UCKeyTranslate` to get the
+  corresponding character and code point from a key code using
+  `KeyboardLayout.character(for:modifiers:)`.
+  
+  ScriptKeyEventCommand now respects `macos-option-as-alt`, and attach
+  `text`, `unshifted_codepoint` and `consumed_mods` under the same
+  condition as a manual input events like in `performKeyEquivalent` and
+  `localEventKeyDown`.
+  
+  ## AI Disclosure
+  
+  Claude did the heavy lifting, I reviewed and rephrased some of the
+  comments it generated. And ofc reviewed and tested myself.
+  ```
 - [`ee8095d`](https://github.com/ghostty-org/ghostty/commit/ee8095d37d9813669688cf2f666756e607b84713) terminal/snapshot: use stack fallback for record scratch ([@jparise](https://github.com/jparise))
   ```text
   Use a bounded 512-byte stack fallback for complete-snapshot record
@@ -1405,255 +1565,5 @@ Summary: 6 runs • 15 commits • 4 authors
   If the effect isn't set, then any clipboard reads are denied.
   
   This can be expanded easily to support Kitty clipboard protocol later.
-  ```
-
-## August 21, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32529091580), [2](https://github.com/ghostty-org/ghostty/actions/runs/32523564540), [3](https://github.com/ghostty-org/ghostty/actions/runs/32518446429), [4](https://github.com/ghostty-org/ghostty/actions/runs/32510792341), [5](https://github.com/ghostty-org/ghostty/actions/runs/32504827151), [6](https://github.com/ghostty-org/ghostty/actions/runs/32499136892), [7](https://github.com/ghostty-org/ghostty/actions/runs/32489342394), [8](https://github.com/ghostty-org/ghostty/actions/runs/32486497354), [9](https://github.com/ghostty-org/ghostty/actions/runs/32478620777), [10](https://github.com/ghostty-org/ghostty/actions/runs/32448926918)  
-Summary: 10 runs • 50 commits • 7 authors
-
-### Changes
-
-- [`c67a1db`](https://github.com/ghostty-org/ghostty/commit/c67a1db991842f0c0962291581c947011eaa0334) osc: parse the Kitty desktop notification protocol (OSC 99) ([@jcollie](https://github.com/jcollie))
-  ```text
-  This includes only parsing of the OSC. You cannot use OSC 99 to send
-  notifications. Uses lazy parsing of the metadata modelled on the new OSC
-  133 behavior.
-  ```
-- [`93bf7d8`](https://github.com/ghostty-org/ghostty/commit/93bf7d8104a033a643e78a747ca06500f51539e7) osc: address review comments on OSC 99 (Kitty desktop notifications) ([@jcollie](https://github.com/jcollie))
-  ```text
-  * Add comments to Option keys to clarify their usage without having
-    to refer to the spec online.
-  * Use `indexOfNone` to simplify code.
-  ```
-- [`202e639`](https://github.com/ghostty-org/ghostty/commit/202e639d97bada1220d542821b2063e41f46d29f) osc: clean up comments in OSC 99 ([@jcollie](https://github.com/jcollie))
-- [`301b69d`](https://github.com/ghostty-org/ghostty/commit/301b69df43484b8709da6c073454fab388850af7) osc: save terminator from OSC 99 in case we need to send a response ([@jcollie](https://github.com/jcollie))
-- [`9a8e7ae`](https://github.com/ghostty-org/ghostty/commit/9a8e7ae1869dd75a312b2cc009a1294c52361e34) core: add alias for Kitty desktop notification OSC struct ([@jcollie](https://github.com/jcollie))
-- [`aa4ec35`](https://github.com/ghostty-org/ghostty/commit/aa4ec3508ecb789c69585dd073ca474e2297f6be) osc 99: address review feedback ([@jcollie](https://github.com/jcollie))
-  ```text
-  * Fix typos.
-  * Eliminate metadata parsing code duplication.
-  * Improve documentation.
-  * Ensure assert is comptime only.
-  * Derive valid metadata characters from valid identifier characters.
-  ```
-- [`07f33ad`](https://github.com/ghostty-org/ghostty/commit/07f33ad91453ebf9bbfdc24a26d935bcb949d08a) osc 99 & 5522: share metadata parsing code ([@jcollie](https://github.com/jcollie))
-  ```text
-  Reduce redundant code by sharing the metadata parsing code
-  between the OSC 99 & OSC 5522 parsers.
-  ```
-- [`073bffc`](https://github.com/ghostty-org/ghostty/commit/073bffcff4aeb1f748edda397b4f2d367296c9f2) osc 99: eliminate unnecessary inline switch branches ([@jcollie](https://github.com/jcollie))
-- [`ca9e5b1`](https://github.com/ghostty-org/ghostty/commit/ca9e5b1301354018f92152c1282a922baacfa0e1) terminal/osc: kitty notification parsing feedback ([@mitchellh](https://github.com/mitchellh))
-- [`5984d6f`](https://github.com/ghostty-org/ghostty/commit/5984d6f7326845312bf5c00f4d4ae181cd733c41) terminal: add isTextMime helper for plain text MIME type names ([@mitchellh](https://github.com/mitchellh))
-- [`25b1170`](https://github.com/ghostty-org/ghostty/commit/25b1170d422f06146661eb1531c1b574d20f1771) terminal: add kitty clipboard protocol (OSC 5522) command parsing ([@mitchellh](https://github.com/mitchellh))
-- [`e28acd9`](https://github.com/ghostty-org/ghostty/commit/e28acd928c4c02e8a7d8999e55b4d118098ec423) terminal: add kitty clipboard protocol (OSC 5522) response encoding ([@mitchellh](https://github.com/mitchellh))
-- [`33cda4d`](https://github.com/ghostty-org/ghostty/commit/33cda4dc5dbfd0478f6891fb4b53844a4fbee17c) terminal: reload cell pointers when print grows a page ([@ArneshBanerjee](https://github.com/ArneshBanerjee))
-  ```text
-  Terminal.print's grapheme path holds a raw pointer to the previous cell
-  while it writes other cells. Writing the wide spacer tail can grow the
-  page to fit the cursor hyperlink, and growing replaces the page, so the
-  pointer is left dangling and the following appendGrapheme writes into
-  freed memory.
-  
-  Record the cursor page identity (node pointer plus serial, since pooled
-  nodes can reuse an address) before the spacer write and reload the cell
-  only when the page actually changed, so the common path costs nothing.
-  
-  The same function had three more pointers held across an operation that
-  can replace a page: the grapheme move after a wrap, the grapheme append
-  loop, and printCell's assert on a failed hyperlink write. Those now read
-  through the cursor or a freshly resolved pin.
-  
-  Fixes #11261
-  ```
-- [`7a940ec`](https://github.com/ghostty-org/ghostty/commit/7a940ec02830fcd39f94ea9a28974c2a82d96486) terminal: add kitty clipboard protocol (OSC 5522) write transactions ([@mitchellh](https://github.com/mitchellh))
-- [`6f007e7`](https://github.com/ghostty-org/ghostty/commit/6f007e7678a4d893a5c73df2f0305b1e00609b5a) terminal: add kitty clipboard protocol (OSC 5522) session password grants ([@mitchellh](https://github.com/mitchellh))
-- [`f2d4b32`](https://github.com/ghostty-org/ghostty/commit/f2d4b32be3eb8c17f1ca943dda82a6506e7260b3) terminal: expose kitty clipboard protocol (OSC 5522) for stream dispatch ([@mitchellh](https://github.com/mitchellh))
-- [`07c6fc2`](https://github.com/ghostty-org/ghostty/commit/07c6fc21ba79f2d3d320f3300029269ebf84030b) terminal: add kitty clipboard paste events mode (5522), disabled for now ([@mitchellh](https://github.com/mitchellh))
-- [`bcf44b4`](https://github.com/ghostty-org/ghostty/commit/bcf44b40e69ffc4f32216016bb8e6ee68560cae2) terminal: dispatch OSC 5522 as a kitty_clipboard stream action, unhandled ([@mitchellh](https://github.com/mitchellh))
-- [`128ec7c`](https://github.com/ghostty-org/ghostty/commit/128ec7cd047ab0d9ceb4f0b5c2c449984702266d) terminal: rename paste_events mode to kitty_paste_events ([@mitchellh](https://github.com/mitchellh))
-- [`a8c3ab1`](https://github.com/ghostty-org/ghostty/commit/a8c3ab1915c9dc9cecf4ae93b5337d65f1bfffbf) simd: fix scalar base64 empty input handling causing a crash ([@mitchellh](https://github.com/mitchellh))
-- [`c8634f3`](https://github.com/ghostty-org/ghostty/commit/c8634f3fce12f8189ed058e018195eb693f8562b) terminal: reload cell pointers when print grows a page ([#13960](https://github.com/ghostty-org/ghostty/issues/13960)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #11261.
-  
-  `Terminal.print`'s grapheme path caches a `*Cell` for the previous cell
-  and keeps using it after writing other cells. Writing the wide spacer
-  tail calls `printCell`, which can grow the page to make room for the
-  cursor hyperlink. Growing clones the page and frees the old one, so the
-  cached pointer dangles and the following `appendGrapheme` writes into
-  freed memory. The second test case in the issue reproduces it.
-  
-  Rather than recomputing `prev` on every use, which is too expensive for
-  this path, the fix records the cursor page identity before the spacer
-  write and reloads the cell only if the page actually changed. Node
-  pointer plus serial is used because nodes are pooled and a replacement
-  can land on the same address. Nothing changes when the page does not
-  grow.
-  
-  Three other pointers in the same function were held across an operation
-  that can replace a page, so they are now read through the cursor or a
-  freshly resolved pin: the grapheme move after a wrap, the grapheme
-  append loop, and `printCell`'s assert on a failed hyperlink write.
-  
-  Tests:
-  
-  - `Terminal: VS16 widening when the spacer tail grows the page` fills
-  the page hyperlink map so the spacer tail is what forces growth. It
-  crashes without the fix.
-  - `Terminal: grapheme transfer when widening wraps to the next line`
-  covers the wrap path where the previous cell already holds grapheme
-  data, which had no test before.
-  
-  `zig build test` passes.
-  ```
-- [`819b241`](https://github.com/ghostty-org/ghostty/commit/819b241dec1a3a6a4c1c87f0b01152c99197c02a) terminal: Kitty Clipboard core logic (no apprt hookups yet) ([#13962](https://github.com/ghostty-org/ghostty/issues/13962)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds all the core logic and tests for the full Kitty Clipboard
-  protocol in the `src/terminal` package.
-  
-  This is purposefully shaped similarly to the way we organize Kitty
-  graphics. There is an umbrella `clipboard.zig` and then a bunch of leaf
-  zig files that cover: request parsing, response encoding, state
-  management, etc. I think that worked really well for Kitty graphics so
-  we're doing it here too.
-  
-  The core logic covers every part of the protocol: read and write.
-  
-  The only thing hooked up to the end user is a DECRQM for mode 5522 will
-  return unset. And it can't be set currently (since it never works yet).
-  Outside of that, nothing in this diff is actually used in the real
-  binary.
-  
-  **AI usage:** Validation against the spec and Kitty impl, test writing
-  and coverage validation, of course some code writing but within the
-  broad organizational shape I defined. I went through and either rewrote
-  or wrote all the comments myself plus this PR message.
-  ```
-- [`74a133e`](https://github.com/ghostty-org/ghostty/commit/74a133ea17f197482aea5880be5a7c575458104a) Update VOUCHED list ([#13961](https://github.com/ghostty-org/ghostty/issues/13961)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/13960#issuecomment-5374295208)
-  from @jcollie.
-  
-  Vouch: @ArneshBanerjee
-  ```
-- [`4b915e3`](https://github.com/ghostty-org/ghostty/commit/4b915e3bc460ec8c6765e3f4637dbfb74f7083fa) terminal/kitty: complete animation command parsing ([@mitchellh](https://github.com/mitchellh))
-- [`d8b920e`](https://github.com/ghostty-org/ghostty/commit/d8b920e504670a7603c912e9219668e2b358b909) terminal/kitty: animation frame storage, composition, and playback ([@mitchellh](https://github.com/mitchellh))
-- [`d2ffeb5`](https://github.com/ghostty-org/ghostty/commit/d2ffeb5ba5009427babfec730f55e3084b56eda3) terminal/kitty: execute animation commands ([@mitchellh](https://github.com/mitchellh))
-- [`73903f7`](https://github.com/ghostty-org/ghostty/commit/73903f76aa39f1c8ae67e42b61d9712b7b78be2e) terminal/c: image data returns the current animation frame ([@mitchellh](https://github.com/mitchellh))
-- [`aee7bf3`](https://github.com/ghostty-org/ghostty/commit/aee7bf347564f1db02f4788186464d4c51ea9770) renderer: drive kitty graphics animation ([@mitchellh](https://github.com/mitchellh))
-- [`f3e98fb`](https://github.com/ghostty-org/ghostty/commit/f3e98fb72b6bf12f0c7029993fd37ee1137edcec) terminal/kitty: X handling properly since 0.45 fix ([@mitchellh](https://github.com/mitchellh))
-- [`322d7ae`](https://github.com/ghostty-org/ghostty/commit/322d7ae789b06e4b3987b8cdd33c864b5bdb0412) terminal/kitty: switch to wuffs for pixel work ([@mitchellh](https://github.com/mitchellh))
-- [`dff13b4`](https://github.com/ghostty-org/ghostty/commit/dff13b41c9932ee871f4d1e700c0e1ab8e27edff) pkg/{afl++,wuffs}: fix builds for CI ([@mitchellh](https://github.com/mitchellh))
-- [`4be9d78`](https://github.com/ghostty-org/ghostty/commit/4be9d782e3cc7c96f2f020b7d04aed5ec83b9d8a) terminal: avoid Kitty image reset test if no kitty images ([@mitchellh](https://github.com/mitchellh))
-- [`a88ad03`](https://github.com/ghostty-org/ghostty/commit/a88ad03e692c2831f7375f4ac00d54653d2b21af) kitty graphics: animation support ([#13943](https://github.com/ghostty-org/ghostty/issues/13943)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #5255
-  
-  This adds support for the Kitty graphics animation frames
-  (https://sw.kovidgoyal.net/kitty/graphics-protocol/#animation),
-  completely (transmission, control, composition, rendering, etc.).
-  
-  This does it in a somewhat naive way: we pre-compose all frames and
-  store the full RGBA in-memory. Animation is already rare enough, and I
-  wanted to focus on things working first, so I didn't optimize this very
-  well. I also wanted this PR to be relatively understandable up front. We
-  can add complexity later.
-  
-  But, this adds very little overhead to a non-animation using Kitty
-  graphics user. The animation state is heap-allocated only when its
-  needed. So, it just costs a pointer sized field on every image. Plus a
-  little bit of overhead in the loading state (which itself is heap
-  allocated during image load only).
-  
-  On the renderer side, this **unifies Kitty graphics animations and
-  custom shader animations into a single animation abstraction.** This
-  simplified our renderer thread and made the generic renderer more
-  complicated (slightly, its not much!).
-  
-  **AI usage:** Test writing, validation against the spec/reference
-  implementation. I drove the main architecture and shaped out the
-  functions and params, animation storage, etc. I had AI fill in some of
-  the blanks that I spaced out. Commit messages, comments, and this PR
-  message are written by me.
-  
-  ## Demo
-  
-  
-  
-  https://github.com/user-attachments/assets/91be3d66-a5ff-4cab-b3e9-e672f39861c9
-  ```
-- [`08c80d2`](https://github.com/ghostty-org/ghostty/commit/08c80d253aefef517a010f16cc026aa4cccaa957) po/zh_TW: add missing translations ([@a-lang](https://github.com/a-lang))
-- [`08df9f6`](https://github.com/ghostty-org/ghostty/commit/08df9f6e29a93e16d64c3c70cf7200dab4526a15) po/zh_TW: remove trailing blank line at EOF ([@a-lang](https://github.com/a-lang))
-- [`79e78e6`](https://github.com/ghostty-org/ghostty/commit/79e78e6c0325b37539b1b9383f6e361462655395) Merge branch 'ghostty-org:main' into l10n-tw ([@a-lang](https://github.com/a-lang))
-- [`b5716a8`](https://github.com/ghostty-org/ghostty/commit/b5716a87103961bad7d2a51f2b0daa0266de8fa2) po/zh_TW: refine two translations per review feedback ([@a-lang](https://github.com/a-lang))
-- [`f0eaaea`](https://github.com/ghostty-org/ghostty/commit/f0eaaea6fe14dd52225806fb13c5812dee24bbc4) po/zh_TW: refine translations for reset, copy, and placeholder strings ([@a-lang](https://github.com/a-lang))
-- [`fa7fe3b`](https://github.com/ghostty-org/ghostty/commit/fa7fe3b3afd04f11281358ee3704f40b628f6e35) po/zh_TW: add missing translations ([#13690](https://github.com/ghostty-org/ghostty/issues/13690)) ([@trag1c](https://github.com/trag1c))
-  ```text
-  Translate the remaining 181 untranslated strings in po/zh_TW.po,
-  bringing it to 100% coverage (252/252), including the strings added by
-  the recent template update.
-  
-  All 72 existing translations are preserved unchanged.
-  ```
-- [`ffad4c6`](https://github.com/ghostty-org/ghostty/commit/ffad4c6ec480647769f1b9b4be6263c4e0d0796c) update mirror, support git+https dependencies ([@mitchellh](https://github.com/mitchellh))
-- [`d617133`](https://github.com/ghostty-org/ghostty/commit/d6171332cd301eabdb04219a2220fce7f9be4057) update mirror, support git+https dependencies ([#13957](https://github.com/ghostty-org/ghostty/issues/13957)) ([@mitchellh](https://github.com/mitchellh))
-- [`bcbc93a`](https://github.com/ghostty-org/ghostty/commit/bcbc93a6b9ccb5eb96e7de4739af369243f78629) terminal/kitty: preserve image limits across full reset ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  RIS previously cleared configured storage limits and allowed mediums.
-  We now retain this properly.
-  ```
-- [`442046f`](https://github.com/ghostty-org/ghostty/commit/442046f8eecfb879d30a18ae1563a43fc0260a8d) terminal/kitty: preserve image limits across full reset ([#13951](https://github.com/ghostty-org/ghostty/issues/13951)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  RIS previously cleared configured storage limits and allowed mediums. We
-  now retain this properly.
-  ```
-- [`10d7326`](https://github.com/ghostty-org/ghostty/commit/10d73268897fc17412855f022fffc846ad98fe1b) macOS: clean up GlassViewModel ([@bo2themax](https://github.com/bo2themax))
-- [`99d7b5f`](https://github.com/ghostty-org/ghostty/commit/99d7b5fd508eededf2de08ca641f2d83027631f8) macOS: clean up GlassViewModel ([#13944](https://github.com/ghostty-org/ghostty/issues/13944)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Forgot to delete the autocomplete template in the previous pr...
-  ```
-- [`619555d`](https://github.com/ghostty-org/ghostty/commit/619555d1ccd8ac583b3aa53ac2d335c28663aeb4) pkg/wuffs: build without libc ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This modifies our wuffs dependency so that it no longer requires libc.
-  
-  This unblocks using wuffs from libghostty-vt on freestanding targets,
-  which we'll eventually want for some Kitty graphics stuff.
-  ```
-- [`ac9a2c4`](https://github.com/ghostty-org/ghostty/commit/ac9a2c4cd5772cd0d33aa7d3433a574e2e3a3c41) pkg/wuffs: build without libc ([#13942](https://github.com/ghostty-org/ghostty/issues/13942)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This modifies our wuffs dependency so that it no longer requires libc.
-  
-  This unblocks using wuffs from libghostty-vt on freestanding targets,
-  which we'll eventually want for some Kitty graphics stuff.
-  ```
-- [`311d383`](https://github.com/ghostty-org/ghostty/commit/311d38376634f90869b97877254c3e8c4d8ab918) Update VOUCHED list ([#13948](https://github.com/ghostty-org/ghostty/issues/13948)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13947#discussioncomment-18105162)
-  from @trag1c.
-  
-  Denounce: @DIDOUOUGHA
-  ```
-- [`86db307`](https://github.com/ghostty-org/ghostty/commit/86db30785c9310ba5e7f3c7634ea70d0c61df37c) pkg/wuffs: fix gray+alpha to RGBA swizzle failing for all inputs ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The gaToRgba swizzle requested a YA_PREMUL source pixel format from
-  the wuffs pixel swizzler, but wuffs does not support YA_PREMUL as a
-  swizzle source. As a result, gaToRgba returned error.WuffsError for every input.
-  
-  The path can't happen in Ghostty GUI today since our PNG decoding always
-  produces RGBA, but it is possible via libghostty that submit grey+alpha
-  directly.
-  ```
-- [`42a161a`](https://github.com/ghostty-org/ghostty/commit/42a161aadad94d593b87db12d59c93f8915d3921) pkg/wuffs: fix gray+alpha to RGBA swizzle failing for all inputs ([#13941](https://github.com/ghostty-org/ghostty/issues/13941)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The gaToRgba swizzle requested a YA_PREMUL source pixel format from the
-  wuffs pixel swizzler, but wuffs does not support YA_PREMUL as a swizzle
-  source. As a result, gaToRgba returned error.WuffsError for every input.
-  
-  The path can't happen in Ghostty GUI today since our PNG decoding always
-  produces RGBA, but it is possible via libghostty that submit grey+alpha
-  directly.
   ```
 
