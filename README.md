@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 28, 2026 at 23:49 UTC.
+> Last updated: August 29, 2026 at 05:19 UTC.
 
 ## August 28, 2026
 
@@ -1504,120 +1504,5 @@ Summary: 4 runs • 9 commits • 4 authors
   from @jcollie.
   
   Vouch: @j-c-m
-  ```
-
-## August 22, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32588364477), [2](https://github.com/ghostty-org/ghostty/actions/runs/32584512359), [3](https://github.com/ghostty-org/ghostty/actions/runs/32564900757), [4](https://github.com/ghostty-org/ghostty/actions/runs/32563532476), [5](https://github.com/ghostty-org/ghostty/actions/runs/32561819941), [6](https://github.com/ghostty-org/ghostty/actions/runs/32552331897)  
-Summary: 6 runs • 15 commits • 4 authors
-
-### Changes
-
-- [`7c845e8`](https://github.com/ghostty-org/ghostty/commit/7c845e8af5b2e0dc508f3f64c08383985bb536ed) terminal/kitty: drag and drop command decoding ([@mitchellh](https://github.com/mitchellh))
-- [`38746b8`](https://github.com/ghostty-org/ghostty/commit/38746b8c14321004edaed584c2bf3d61b1cfd676) terminal/kitty: drag and drop response encoding ([@mitchellh](https://github.com/mitchellh))
-- [`50f69b8`](https://github.com/ghostty-org/ghostty/commit/50f69b883cc75061441deadcbcbee9ecf6fc81b7) terminal/kitty: drag and drop drop state machine ([@mitchellh](https://github.com/mitchellh))
-- [`af8d28a`](https://github.com/ghostty-org/ghostty/commit/af8d28a940beb3dd41d16a885c1f92c729aede37) terminal/kitty: drag and drop stream handler ([@mitchellh](https://github.com/mitchellh))
-- [`db2f8be`](https://github.com/ghostty-org/ghostty/commit/db2f8be59011b09e4943cade3299e83686dc68d0) terminal/kitty: dnd docs ([@mitchellh](https://github.com/mitchellh))
-- [`da5ddcb`](https://github.com/ghostty-org/ghostty/commit/da5ddcb0857c0e4ddb32f7a089911e9038d040f3) terminal: Kitty drag and drop protocol drop-only core logic and state machine ([#13973](https://github.com/ghostty-org/ghostty/issues/13973)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This builds out the core logic and state machine for the Kitty drag and
-  drop protocol for _drops only_. This hooks it into libghostty-vt's Zig
-  API but it isn't available to the C API and it isn't hooked up to any
-  Ghostty GUI. It isn't really recommended that Zig consumers integrate
-  this yet because I'm sure the API will continue to change dramatically
-  as I address the missing features: drag source, remote drops, etc.
-  
-  The major thing this does it the core `src/terminal/kitty/dnd.zig` stuff
-  with e2e tests extracted from Kitty's own `kitty_tets/dnd.py`. So this
-  verifies that what we have so far is working properly.
-  ```
-- [`6959fd4`](https://github.com/ghostty-org/ghostty/commit/6959fd46c6ea7e6a2e5c2f9c680158db2f6f82f5) libghostty: implement Kitty clipboard protocol write only ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This implements only the clipboard _write_ side of the Kitty clipboard
-  protocol for libghostty-vt. libghostty users don't need to do anything,
-  this all automatically works since it just piggy-backs on the previous
-  clipboard write effect.
-  
-  Clipboard reading is far more complicated because we don't have anything
-  designed yet for libghostty-vt that does async requests (e.g. to ask the
-  user for permission). I need to think about that more.
-  ```
-- [`4f49dc2`](https://github.com/ghostty-org/ghostty/commit/4f49dc2b8bfcd8b1a33de8a95d3b1a1a7135496f) libghostty: implement Kitty clipboard protocol reads via clipboard_read effect ([@mitchellh](https://github.com/mitchellh))
-- [`3b9c4e0`](https://github.com/ghostty-org/ghostty/commit/3b9c4e0ddbe953540243af89cf11fad26f297088) libghostty: implement Kitty clipboard protocol read/write ([#13963](https://github.com/ghostty-org/ghostty/issues/13963)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This implements the full Kitty clipboard protocol for libghostty-vt.
-  libghostty users need to only have the clipboard read/write effect for
-  this to work. This doesn't yet do mode 5522.
-  ```
-- [`ef01d5f`](https://github.com/ghostty-org/ghostty/commit/ef01d5fda746398f8ad269f6589e53ba47362657) gtk: avoid physical fallback for XKB modifiers ([@tothedarktowercame](https://github.com/tothedarktowercame))
-- [`5851d98`](https://github.com/ghostty-org/ghostty/commit/5851d98615187d85052e41042bcf66e0ccec11d4) gtk: avoid physical fallback for XKB modifiers ([#13967](https://github.com/ghostty-org/ghostty/issues/13967)) ([@jcollie](https://github.com/jcollie))
-  ````text
-  Hi, I noticed that this XKB config line was causing problems for
-  Ghosttty:
-  
-  ```
-      key <DELE> {   [ ISO_Level3_Shift ] };
-  ```
-  
-  That's a valid reconfiguration of the "delete key" as a modifier, and
-  the same worked find in other terminal emulators (like Alacritty). With
-  Ghosttty, I was getting actual `<delete>` behaviour whenever I pressed
-  the modifier key (although the modifier engaged after that).
-  
-  This patch fixes it. In line with your AI disclose policy: I made the
-  patch with Codex Sol. The logical fix is very succinct, and the bulk of
-  the patch works around an underlying issue to do with GDK not
-  recognising some modifiers as modifiers. I've tested the implementation
-  and the patch definitely resolves it!
-  ````
-- [`d03cd1f`](https://github.com/ghostty-org/ghostty/commit/d03cd1f5340ff2841bbe88a3fb9c70bdd2e69e76) Update VOUCHED list ([#13970](https://github.com/ghostty-org/ghostty/issues/13970)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13966#discussioncomment-18114178)
-  from @jcollie.
-  
-  Vouch: @by-nelson
-  ```
-- [`2021d2a`](https://github.com/ghostty-org/ghostty/commit/2021d2addb8c193675531ade4cb838b27089e883) Update VOUCHED list ([#13969](https://github.com/ghostty-org/ghostty/issues/13969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13968#discussioncomment-18113956)
-  from @pluiedev.
-  
-  Vouch: @tothedarktowercame
-  ```
-- [`e03475c`](https://github.com/ghostty-org/ghostty/commit/e03475c0cc52b9a6b01930380c61cd354e60a36a) libghostty: clipboard_read effect, enables OSC52 reads ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a `clipboard_read` effect to the stream terminal handler and a
-  matching `GHOSTTY_TERMINAL_OPT_CLIPBOARD_READ` callback to the
-  libghostty-vt C API so that embedders can answer OSC 52 read requests
-  (the `?` payload).
-  
-  This is a _blocking_ effect: if the embedder needs to ask the user for
-  permission, the entire VT processing pipeline is _blocked_ during the
-  callback. This is a purposeful simplification choice compared to how
-  Ghostty GUI works with async requests. I think its reasonable, it
-  eliminates a TON of complexity.
-  
-  If the effect isn't set, then any clipboard reads are denied.
-  
-  This can be expanded easily to support Kitty clipboard protocol later.
-  ```
-- [`36676c5`](https://github.com/ghostty-org/ghostty/commit/36676c5728b626738ed73d288145c50a5494971e) libghostty: clipboard_read effect, enables OSC52 reads ([#13965](https://github.com/ghostty-org/ghostty/issues/13965)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds a `clipboard_read` effect to the stream terminal handler and a
-  matching `GHOSTTY_TERMINAL_OPT_CLIPBOARD_READ` callback to the
-  libghostty-vt C API so that embedders can answer OSC 52 read requests
-  (the `?` payload).
-  
-  This is a _blocking_ effect: if the embedder needs to ask the user for
-  permission, the entire VT processing pipeline is _blocked_ during the
-  callback. This is a purposeful simplification choice compared to how
-  Ghostty GUI works with async requests. I think its reasonable, it
-  eliminates a TON of complexity.
-  
-  If the effect isn't set, then any clipboard reads are denied.
-  
-  This can be expanded easily to support Kitty clipboard protocol later.
   ```
 
