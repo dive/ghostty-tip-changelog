@@ -8,7 +8,99 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 29, 2026 at 12:09 UTC.
+> Last updated: August 29, 2026 at 18:07 UTC.
+
+## August 29, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33261764252), [2](https://github.com/ghostty-org/ghostty/actions/runs/33259592247)  
+Summary: 2 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`7b47213`](https://github.com/ghostty-org/ghostty/commit/7b47213f94058c3715205ce8fa73f7ae581a652c) Update VOUCHED list ([#14074](https://github.com/ghostty-org/ghostty/issues/14074)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14072#issuecomment-5463405035)
+  from @bo2themax.
+  
+  Vouch: @Svector-anu
+  ```
+- [`6cd684d`](https://github.com/ghostty-org/ghostty/commit/6cd684d5d3b2a83c9966b6c5ba239d36fbd937a9) gtk: fix stale pointers to property bindings ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  Previously, the property binding created in `Surface.bindIsSplit` would
+  get freed automatically when the source object (the SplitTree widget)
+  got finalized. A subsequent call to `bindIsSplit` could then cause a
+  crash by using the stale pointer to the binding. This bug could e.g. be
+  triggered by dragging the surface from a single-surface tab to another
+  tab.
+  
+  We now create an extra reference to the binding object so that Surface
+  essentially owns the binding and is responsible for freeing it.
+  
+  Updated the binding in `SurfaceScrolledWindow` to use the same pattern.
+  That one was probably fine, because the binding is only created once,
+  but let's be safe.
+  ```
+- [`caf48a4`](https://github.com/ghostty-org/ghostty/commit/caf48a41ee5c3861c786270d64bac950f2513012) main: fix inverted allow_stack_tracing condition ([@jcollie](https://github.com/jcollie))
+  ```text
+  The Zig 0.16.0 update dropped the negation from the std default
+  (!strip_debug_info), disabling stack traces in every unstripped build.
+  
+  AI disclosure: Claude Fable was used to diagnose the problem and find the
+  fix. Commit message was written by me.
+  
+  Claude-Session: https://claude.ai/code/session_01QfzQME46DQXwMWa43bQaa3
+  ```
+- [`069497e`](https://github.com/ghostty-org/ghostty/commit/069497e0ca7d02c073d69e80003c1e0f0b067ee6) gtk: fix stale pointers to property bindings ([#14065](https://github.com/ghostty-org/ghostty/issues/14065)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #14037 where dragging the surface from a tab with just a single
+  surface to another tab causes a crash.
+  
+  The cause of the crash is a stale pointer to the property binding
+  created in `Surface.bindIsSplit`. When the surface is moved,
+  `SplitTree.moveSplit` first updates the two split tree data structures
+  of the source/target tab and then calls `bindIsSplit` to bind the
+  `is-split` property of the moved surface to the `SplitTree` widget in
+  the target tab. When `bindIsSplit` is called, the `SplitTree` widget in
+  the source tab has already been destroyed (because the source tab is now
+  empty) which causes the old binding to be freed automatically and the
+  pointer `Surface.is_split_binding` becomes stale. `bindIsSplit` then
+  tries to run `is_split_binding.unbind()` which causes the crash.
+  
+  When you create a binding with `bindProperty`, the binding itself owns
+  the initially created reference and it gets freed when the source or
+  target object of the binding is finalized. To prevent this, we now
+  create an extra reference to the binding object so that the Surface
+  widget owns it and is responsible for freeing it. The binding can still
+  get severed automatically, but the binding object itself will not be
+  destroyed. This is the solution mentioned in the [GObject
+  docs](https://docs.gtk.org/gobject/method.Object.bind_property.html).
+  Alternatively, using a WeakRef for the pointer would have also worked.
+  
+  Updated the binding in `SurfaceScrolledWindow` to use the same pattern.
+  That one was probably fine, because the binding should only be created
+  once, but it doesn't hurt to be safe.
+  
+  I reproduced the crash on KDE, on Hyprland I just got a glib critical
+  error message about the invalid pointer. That probably has to do with
+  what exactly happens to the freed memory, or maybe differing versions.
+  
+  #### AI Disclosure
+  
+  Code and comments were written by myself, used GPT5.6 in researching
+  gobject binding lifecycles.
+  ```
+- [`3baff3a`](https://github.com/ghostty-org/ghostty/commit/3baff3a069cb64a9d3739c2ff25423524b3b80ee) main: fix inverted allow_stack_tracing condition ([#14069](https://github.com/ghostty-org/ghostty/issues/14069)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The Zig 0.16.0 update dropped the negation from the std default
+  (!strip_debug_info), disabling stack traces in every unstripped build.
+  
+  AI disclosure: Claude Fable was used to diagnose the problem and find
+  the fix. Commit message was written by me.
+  
+  
+  Claude-Session: https://claude.ai/code/session_01QfzQME46DQXwMWa43bQaa3
+  ```
 
 ## August 28, 2026
 
