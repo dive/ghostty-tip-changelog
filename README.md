@@ -8,7 +8,29 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 29, 2026 at 22:57 UTC.
+> Last updated: August 30, 2026 at 03:13 UTC.
+
+## August 30, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33288542884), [2](https://github.com/ghostty-org/ghostty/actions/runs/33286306984)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`98cd670`](https://github.com/ghostty-org/ghostty/commit/98cd670c0c2ccdd3f22c40c65a3306e933643ada) Update VOUCHED list ([#14079](https://github.com/ghostty-org/ghostty/issues/14079)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14078#discussioncomment-18203195)
+  from @jcollie.
+  
+  Vouch: @and-rs
+  ```
+- [`094d175`](https://github.com/ghostty-org/ghostty/commit/094d175efa506f87c296fd8a51371c68eea191b9) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`0a76c31`](https://github.com/ghostty-org/ghostty/commit/0a76c311527a20727764e3281eb4efa8c350058a) Update iTerm2 colorschemes ([#14077](https://github.com/ghostty-org/ghostty/issues/14077)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260824-153547-75c93ee
+  ```
 
 ## August 29, 2026
 
@@ -1529,72 +1551,5 @@ Summary: 9 runs • 44 commits • 5 authors
   - @rkoten
   - @tuananh
   - @vasilmytsyk
-  ```
-
-## August 23, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32652255901), [2](https://github.com/ghostty-org/ghostty/actions/runs/32646964497), [3](https://github.com/ghostty-org/ghostty/actions/runs/32619936178), [4](https://github.com/ghostty-org/ghostty/actions/runs/32614384859)  
-Summary: 4 runs • 9 commits • 4 authors
-
-### Changes
-
-- [`bfc200c`](https://github.com/ghostty-org/ghostty/commit/bfc200c854d33954caf307ae459b659dd38f77c1) i18n: update bg_BG translations ([@reo101](https://github.com/reo101))
-- [`9f0e171`](https://github.com/ghostty-org/ghostty/commit/9f0e1719dc918368367d368bfe300f59bb68b5a4) i18n: update bg_BG translations ([#13802](https://github.com/ghostty-org/ghostty/issues/13802)) ([@trag1c](https://github.com/trag1c))
-- [`a5bb22e`](https://github.com/ghostty-org/ghostty/commit/a5bb22e235e6297b05f07b08ef1fecff7f2a8c5d) terminal: add shared paste core with Kitty clipboard paste events ([@mitchellh](https://github.com/mitchellh))
-- [`8760323`](https://github.com/ghostty-org/ghostty/commit/87603231658a0e0c6a8b4be0be684b7f08778255) terminal: add stream handler paste operation and enable mode 5522 in libghostty ([@mitchellh](https://github.com/mitchellh))
-- [`dda8e6f`](https://github.com/ghostty-org/ghostty/commit/dda8e6f3146fc3cd2bcff0049cfc8867b3e7b58a) sys: add secure random override option with a platform default ([@mitchellh](https://github.com/mitchellh))
-- [`60a1ae2`](https://github.com/ghostty-org/ghostty/commit/60a1ae2df755629dc7aa7d7aac38569ca46d43a5) libghostty: add ghostty_terminal_paste C API with paste events example ([@mitchellh](https://github.com/mitchellh))
-- [`e424060`](https://github.com/ghostty-org/ghostty/commit/e4240606752e5e4eb480b69104d75db0054f71c8) libghostty: centralize pasting to `ghostty_terminal_paste`, enable mode 5522 ([#13978](https://github.com/ghostty-org/ghostty/issues/13978)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  **Note: this has no changes for Ghostty GUI yet.** This only impacts
-  libghostty-vt.
-  
-  This introduces a new `ghostty_terminal_paste` C API along with a
-  central `terminal.paste.paste` function that handles (1) mode 5522
-  (Kitty clipboard) (2) bracketed paste (3) normal paste all in one place,
-  combined with unsafe value detection and proper xterm-style newline
-  handling.
-  
-  Terminal pasting is now stateful because for the Kitty clipboard
-  protocol in particular, it must mint "grants" that stay with the
-  terminal. Previously, paste encoding was stateless.
-  
-  To start, this is only exposed/used by libghostty to enable Kitty
-  clipboard handling.
-  
-  Other changes:
-  
-  - **IO: randomSecure.** This also adds the `io.randomSecure`
-  implementation to `TinyIo` and a global sys override for it because
-  Kitty clipboard requires the ability to create one-time passwords and
-  the implementation (following Kitty) requires a crypto random source.
-  The sys model is for libghostty embedders.
-  
-  - **New C result value: rejected.** This introduces a new C result enum
-  value "rejected" for values that are valid but rejected for some reason.
-  Its very possible that prior "invalid value" users will have to update
-  to this, and I recognize that its close to both but it fills an
-  important semantic difference.
-  
-  Also note this still _eagerly_ requires all clipboard contents. I want
-  to move to a callback based model but it made the PR much more
-  complicated. I plan on playing with that before converting apprt's to
-  this.
-  ```
-- [`5834a0e`](https://github.com/ghostty-org/ghostty/commit/5834a0e3df621802e9578e4562d88b0c2ad4ada8) Update VOUCHED list ([#13977](https://github.com/ghostty-org/ghostty/issues/13977)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13976#discussioncomment-18121426)
-  from @pluiedev.
-  
-  Denounce: @tangivis
-  ```
-- [`da00936`](https://github.com/ghostty-org/ghostty/commit/da0093671a12cdbdbe62b70099113cca454cd997) Update VOUCHED list ([#13975](https://github.com/ghostty-org/ghostty/issues/13975)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/13899#discussioncomment-18120807)
-  from @jcollie.
-  
-  Vouch: @j-c-m
   ```
 
