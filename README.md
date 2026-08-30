@@ -8,15 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 30, 2026 at 20:25 UTC.
+> Last updated: August 30, 2026 at 23:04 UTC.
 
 ## August 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33304806060), [2](https://github.com/ghostty-org/ghostty/actions/runs/33301014311), [3](https://github.com/ghostty-org/ghostty/actions/runs/33290237904), [4](https://github.com/ghostty-org/ghostty/actions/runs/33288542884), [5](https://github.com/ghostty-org/ghostty/actions/runs/33286306984)  
-Summary: 5 runs • 13 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33336500501), [2](https://github.com/ghostty-org/ghostty/actions/runs/33304806060), [3](https://github.com/ghostty-org/ghostty/actions/runs/33301014311), [4](https://github.com/ghostty-org/ghostty/actions/runs/33290237904), [5](https://github.com/ghostty-org/ghostty/actions/runs/33288542884), [6](https://github.com/ghostty-org/ghostty/actions/runs/33286306984)  
+Summary: 6 runs • 15 commits • 7 authors
 
 ### Changes
 
+- [`c181983`](https://github.com/ghostty-org/ghostty/commit/c181983253129f2803891a2d801951244ae5313c) build: update Sparkle to 2.9.6 and pin SPM ([@bo2themax](https://github.com/bo2themax))
+- [`7fd93e0`](https://github.com/ghostty-org/ghostty/commit/7fd93e09ca6cbca7c4c4c0dbf2817ca49a82a2a4) build: update Sparkle to 2.9.6 and pin SPM ([#14082](https://github.com/ghostty-org/ghostty/issues/14082)) ([@mitchellh](https://github.com/mitchellh))
 - [`3e2c0fa`](https://github.com/ghostty-org/ghostty/commit/3e2c0fa2db39215ee3b8098181baca7feb04ec27) gtk: do not warn when gtk-xft-dpi is -1 ([@mgsloan](https://github.com/mgsloan))
   ````text
   Before this change, ghostty frequently logs the following warning, even though a `gtk-xft-dpi` value of `-1` is valid and indicates default scaling.
