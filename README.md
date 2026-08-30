@@ -8,15 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 30, 2026 at 03:13 UTC.
+> Last updated: August 30, 2026 at 11:05 UTC.
 
 ## August 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33288542884), [2](https://github.com/ghostty-org/ghostty/actions/runs/33286306984)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33304806060), [2](https://github.com/ghostty-org/ghostty/actions/runs/33301014311), [3](https://github.com/ghostty-org/ghostty/actions/runs/33290237904), [4](https://github.com/ghostty-org/ghostty/actions/runs/33288542884), [5](https://github.com/ghostty-org/ghostty/actions/runs/33286306984)  
+Summary: 5 runs • 13 commits • 6 authors
 
 ### Changes
 
+- [`3e2c0fa`](https://github.com/ghostty-org/ghostty/commit/3e2c0fa2db39215ee3b8098181baca7feb04ec27) gtk: do not warn when gtk-xft-dpi is -1 ([@mgsloan](https://github.com/mgsloan))
+  ````text
+  Before this change, ghostty frequently logs the following warning, even though a `gtk-xft-dpi` value of `-1` is valid and indicates default scaling.
+  
+  ```
+  warning(gtk_ghostty_surface): gtk-xft-dpi has invalid value (-1), using default
+  ```
+  
+  From [the gtk docs](https://docs.gtk.org/gtk4/property.Settings.gtk-xft-dpi.html):
+  
+  > The font resolution, in 1024 * dots/inch.
+  >
+  > -1 to use the default value.
+  ````
+- [`860cfb1`](https://github.com/ghostty-org/ghostty/commit/860cfb1d7958d0c5af09ff23488cfa6ea6665b46) Address review feedback ([@mgsloan](https://github.com/mgsloan))
+- [`8af6897`](https://github.com/ghostty-org/ghostty/commit/8af6897c0afc63037a8a3efee4162a380e3a4572) gtk: do not warn when gtk-xft-dpi is -1 ([#14085](https://github.com/ghostty-org/ghostty/issues/14085)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  Before this change, ghostty frequently logs the following warning, even
+  though a `gtk-xft-dpi` value of `-1` is valid and indicates default
+  scaling.
+  
+  ```
+  warning(gtk_ghostty_surface): gtk-xft-dpi has invalid value (-1), using default
+  ```
+  
+  From [the gtk
+  docs](https://docs.gtk.org/gtk4/property.Settings.gtk-xft-dpi.html):
+  
+  > The font resolution, in 1024 * dots/inch.
+  >
+  > -1 to use the default value.
+  ````
+- [`6d850fe`](https://github.com/ghostty-org/ghostty/commit/6d850fef7780f3461ee526eba16077ea9d7df8a6) Update VOUCHED list ([#14084](https://github.com/ghostty-org/ghostty/issues/14084)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14083#discussioncomment-18204946)
+  from @jcollie.
+  
+  Vouch: @mgsloan
+  ```
+- [`97f57ed`](https://github.com/ghostty-org/ghostty/commit/97f57edccc10cb5ccef34d9d4c94276748bbd953) renderer: vsync unfocused surfaces while dirty ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  6ae1784f4
+  
+  Unfocused surfaces stopped the CVDisplayLink and encoded a GPU
+  frame on every PTY wakeup. A burst of close writes became that many
+  Metal submits instead of one vsync.
+  
+  Keep the link running while the surface is visible and dirty or
+  animating, whether or not it is focused. Idle surfaces still park.
+  Focus continues to gate cursor blink, custom-shader animation, and
+  QoS.
+  ```
+- [`166d2fe`](https://github.com/ghostty-org/ghostty/commit/166d2fe34d65bd1fa393fd8a213c57bc6119dfb9) build: update Sparkle to 2.9.4 ([@Svector-anu](https://github.com/Svector-anu))
+- [`090fca4`](https://github.com/ghostty-org/ghostty/commit/090fca451d2c63bc2a5ccec23ea54cedce62c6a6) terminal/kitty: validate POSIX shared memory names ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update shared memory name validation according to the new spec:
+  
+  https://github.com/kovidgoyal/kitty/commit/22042970cf3a4668d02a1a7bcccca778ec864c21
+  ```
+- [`7035647`](https://github.com/ghostty-org/ghostty/commit/70356472faa9768eb37577430602fa30495eca81) build: update Sparkle to 2.9.4 ([#14072](https://github.com/ghostty-org/ghostty/issues/14072)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update the macOS Sparkle dependency from 2.9.0 to 2.9.4.
+  
+  This keeps the Swift package resolution and all tag/tip release workflow
+  downloads aligned on the same version. Sparkle 2.9.2 included fixes for
+  GHSA-g3hp-f6mg-559v and GHSA-hg88-v3cw-3qrh; 2.9.4 is the current stable
+  release.
+  
+  Validation:
+  - verified the 2.9.4 release contains
+  `Sparkle-for-Swift-Package-Manager.zip`
+  - verified the lockfile revision matches the 2.9.4 tag
+  - `jq empty` on `Package.resolved`
+  - `git diff --check`
+  
+  I could not run Xcode package resolution locally because the active
+  developer directory is Command Line Tools rather than a full Xcode
+  installation.
+  ```
+- [`ec7929c`](https://github.com/ghostty-org/ghostty/commit/ec7929c9c2fffb1c46096f94cc9bdd6d57c85b72) terminal/kitty: validate POSIX shared memory names ([#14080](https://github.com/ghostty-org/ghostty/issues/14080)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update shared memory name validation according to the new spec:
+  
+  
+  https://github.com/kovidgoyal/kitty/commit/22042970cf3a4668d02a1a7bcccca778ec864c21
+  ```
+- [`83c5671`](https://github.com/ghostty-org/ghostty/commit/83c56715773d2b5f0e8b1d5bee68424514bb43e3) renderer: vsync unfocused surfaces while dirty ([#14068](https://github.com/ghostty-org/ghostty/issues/14068)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A follow on for #14035, we can now fix a long standing
+  effiency/performance bug now that we park the display link while idle.
+  This actually could cause "animated" un-focused windows to use more GPU
+  than their focused counterparts. (AI Agent interfaces seem to love
+  animation).
+  
+  6ae1784f4
+  
+  Unfocused surfaces stopped the CVDisplayLink and encoded a GPU frame on
+  every PTY wakeup. A burst of close writes became that many Metal submits
+  instead of one vsync.
+  
+  Keep the link running while the surface is visible and dirty or
+  animating, whether or not it is focused. Idle surfaces still park.
+  ```
 - [`98cd670`](https://github.com/ghostty-org/ghostty/commit/98cd670c0c2ccdd3f22c40c65a3306e933643ada) Update VOUCHED list ([#14079](https://github.com/ghostty-org/ghostty/issues/14079)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
