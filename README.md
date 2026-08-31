@@ -8,15 +8,153 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 31, 2026 at 12:30 UTC.
+> Last updated: August 31, 2026 at 20:35 UTC.
 
 ## August 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33352467854), [2](https://github.com/ghostty-org/ghostty/actions/runs/33343337803)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33421529945), [2](https://github.com/ghostty-org/ghostty/actions/runs/33398446520), [3](https://github.com/ghostty-org/ghostty/actions/runs/33352467854), [4](https://github.com/ghostty-org/ghostty/actions/runs/33343337803)  
+Summary: 4 runs • 30 commits • 5 authors
 
 ### Changes
 
+- [`d23af9e`](https://github.com/ghostty-org/ghostty/commit/d23af9e397dfe06760ce2ad8f54fb178e7d82e62) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`80b8e49`](https://github.com/ghostty-org/ghostty/commit/80b8e4957625195e85727a6c28200f3bf6c54941) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`5546750`](https://github.com/ghostty-org/ghostty/commit/5546750a75cf44f881c43f44204aa6a9012ab296) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`1510d2b`](https://github.com/ghostty-org/ghostty/commit/1510d2b42a284c183e1fd71749290c220e23ce3d) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`b5817a3`](https://github.com/ghostty-org/ghostty/commit/b5817a35a493eb68dbe3737802384792c561ef06) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`f6244f7`](https://github.com/ghostty-org/ghostty/commit/f6244f7d7f2d555382192e701cd6bc33859b64b6) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`320ba75`](https://github.com/ghostty-org/ghostty/commit/320ba75dc925096bc9b31d4de756b2779380dcd3) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`1054be4`](https://github.com/ghostty-org/ghostty/commit/1054be4b6ff66c63f4f703c38d06a547c12d79ba) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`6758251`](https://github.com/ghostty-org/ghostty/commit/675825163b3aa975fe66f577e99b75982b15d45b) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`768bc2e`](https://github.com/ghostty-org/ghostty/commit/768bc2ed475ede520dbe0695184a9e2c4aec9128) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`4c696b9`](https://github.com/ghostty-org/ghostty/commit/4c696b90c5c2db61fd0929f102e9701bbcdfb809) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`9af9348`](https://github.com/ghostty-org/ghostty/commit/9af934813a32262ab525673840ccd76ed7df2f52) Merge from upstream ([@mohshami](https://github.com/mohshami))
+- [`58f43d5`](https://github.com/ghostty-org/ghostty/commit/58f43d56289d234271e1e829712e2f043c88278f) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`c8c4526`](https://github.com/ghostty-org/ghostty/commit/c8c4526e43e6f832ab5d88759cde98a7b2129886) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`81d28be`](https://github.com/ghostty-org/ghostty/commit/81d28beaa2e3c507299d0c1a5271c2af718212e3) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`5f54958`](https://github.com/ghostty-org/ghostty/commit/5f5495826c7ad143c113c25f40cf2ef39d55e459) terminal: fix living item over-count in RefCountedSet.addWithId ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reported in https://github.com/ghostty-org/ghostty/discussions/14064
+  
+  I validated this myself manually. The zero-ref branch of `addWithIdContext`
+  incremented `living` unconditionally even if `upsert` resolved the value
+  to an item that was already alive under a different ID.
+  
+  This would cause `living` to be invalid for each time this happened and
+  the downstream effect was that `count()` drifted. I couldn't find any
+  crashing or invalid effect except that this caused requested style memory
+  to be over-provisioned.
+  ```
+- [`abac4c2`](https://github.com/ghostty-org/ghostty/commit/abac4c2cb8122540d99f30645581918022a31fc8) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`0dc2032`](https://github.com/ghostty-org/ghostty/commit/0dc2032e6ab5f197f1d93f8eb1f1735a2b5091e1) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`0254a7f`](https://github.com/ghostty-org/ghostty/commit/0254a7f06f8b955f9107090581b22ad14f010fe8) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
+- [`dfccdb2`](https://github.com/ghostty-org/ghostty/commit/dfccdb2d4dfdfa9da14664ae06f56f3db923d1e2) Implement needed modifications for issue [#12600](https://github.com/ghostty-org/ghostty/issues/12600) ([@mohshami](https://github.com/mohshami))
+  ```text
+  For middle-click-action
+  * Kept the option "primary-paste" instead of "paste-primary" to keep
+  backwards compatibility
+  * Added the option "clipboard-paste"
+  
+  For copy-on-select
+  * Added the both, none and primary options
+  
+  Updated config documentation
+  
+  Run zig fmt
+  
+  Move true/false options for copy-on-select to the compatibility handler
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/Surface.zig
+  
+  
+  Update src/Surface.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/config/Config.zig
+  
+  
+  Update src/Surface.zig
+  
+  
+  Update src/Surface.zig
+  
+  
+  Reorder switch items
+  
+  Apply comment from kat
+  
+  Remove redundent code
+  ```
+- [`e80ce2e`](https://github.com/ghostty-org/ghostty/commit/e80ce2ed4cc603c0b52f9cb344f39c64048478e0) Fix build error ([@mohshami](https://github.com/mohshami))
+- [`f6113ea`](https://github.com/ghostty-org/ghostty/commit/f6113ea2f5da697351ffe9dd91653427c4d27f90) Implement needed modifications for issue [#12600](https://github.com/ghostty-org/ghostty/issues/12600), more flexible copy-on-select and middle-click-action ([#12604](https://github.com/ghostty-org/ghostty/issues/12604)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  For middle-click-action
+  * Kept the option "primary-paste" instead of "paste-primary" to keep
+  backwards compatibility
+  * Added the option "clipboard-paste"
+  
+  For copy-on-select
+  * Added the both, none and primary options
+  
+  Updated config documentation
+  
+  Note: No AI was used, Even though I don't know Zig, I looked at the code
+  and the modifications seemed easy enough
+  
+  Closes #12600
+  ```
+- [`c290639`](https://github.com/ghostty-org/ghostty/commit/c2906398be63f7eed567eee294ec09f291844b95) terminal: fix living item over-count in RefCountedSet.addWithId ([#14081](https://github.com/ghostty-org/ghostty/issues/14081)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Reported in https://github.com/ghostty-org/ghostty/discussions/14064
+  
+  I validated this myself manually. The zero-ref branch of
+  `addWithIdContext` incremented `living` unconditionally even if `upsert`
+  resolved the value to an item that was already alive under a different
+  ID.
+  
+  This would cause `living` to be invalid for each time this happened and
+  the downstream effect was that `count()` drifted. I couldn't find any
+  crashing or invalid effect except that this caused requested style
+  memory to be over-provisioned.
+  
+  cc @qwerasd205 since its ref counted set, but I did this work manually
+  ❤️
+  ```
+- [`0525c18`](https://github.com/ghostty-org/ghostty/commit/0525c18f60ade456a484d9dc26e751d3c1b3993d) i18n: adjust and extend Ukrainian translation ([@chernetskyi](https://github.com/chernetskyi))
+- [`c50288c`](https://github.com/ghostty-org/ghostty/commit/c50288c35fd147482dbd7e30cfcc414c7612c7dd) i18n: address comments for Ukrainian translation ([@chernetskyi](https://github.com/chernetskyi))
+- [`2a51bdf`](https://github.com/ghostty-org/ghostty/commit/2a51bdf1266df638e9ba49ad5cfad6ee7c780ca3) i18n: return Ghostty to Ukrainian translation ([@chernetskyi](https://github.com/chernetskyi))
+- [`1026a00`](https://github.com/ghostty-org/ghostty/commit/1026a00c19b3cbf254c0b85dced92ab8e63d77bf) i18n: adjust Ukrainian translations ([@chernetskyi](https://github.com/chernetskyi))
+- [`d4d8f62`](https://github.com/ghostty-org/ghostty/commit/d4d8f62262cb1a974a7d2470d5f79f811fab15e4) i18n: adjust and extend Ukrainian translation ([#13854](https://github.com/ghostty-org/ghostty/issues/13854)) ([@trag1c](https://github.com/trag1c))
 - [`e8aa098`](https://github.com/ghostty-org/ghostty/commit/e8aa098674a42e2b4ed1b8c42f4224564ad9fc1e) Update VOUCHED list ([#14092](https://github.com/ghostty-org/ghostty/issues/14092)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
