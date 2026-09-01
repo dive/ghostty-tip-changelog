@@ -8,15 +8,103 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: August 31, 2026 at 20:35 UTC.
+> Last updated: September 1, 2026 at 00:19 UTC.
 
 ## August 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33421529945), [2](https://github.com/ghostty-org/ghostty/actions/runs/33398446520), [3](https://github.com/ghostty-org/ghostty/actions/runs/33352467854), [4](https://github.com/ghostty-org/ghostty/actions/runs/33343337803)  
-Summary: 4 runs • 30 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33443931836), [2](https://github.com/ghostty-org/ghostty/actions/runs/33421529945), [3](https://github.com/ghostty-org/ghostty/actions/runs/33398446520), [4](https://github.com/ghostty-org/ghostty/actions/runs/33352467854), [5](https://github.com/ghostty-org/ghostty/actions/runs/33343337803)  
+Summary: 5 runs • 60 commits • 8 authors
 
 ### Changes
 
+- [`300a0df`](https://github.com/ghostty-org/ghostty/commit/300a0dfcb6a6081ea2ead620445965d036f2ae74) Add the Serbian and Serbian Latin translations ([@kostich](https://github.com/kostich))
+- [`74e0bfd`](https://github.com/ghostty-org/ghostty/commit/74e0bfdf24dc02d9cc43d5e9356b7887467abe21) Register code ownership ([@kostich](https://github.com/kostich))
+- [`7aa4767`](https://github.com/ghostty-org/ghostty/commit/7aa47671482a29875664f112dd503235d8c421ff) Add new translations to locales file ([@kostich](https://github.com/kostich))
+- [`635abb7`](https://github.com/ghostty-org/ghostty/commit/635abb7ee81c8f3f4969255d24e0c24bb47f56cc) Update po/sr.po ([@kostich](https://github.com/kostich))
+- [`e8ba5d2`](https://github.com/ghostty-org/ghostty/commit/e8ba5d2c2749e3ac85a280a6f854d9cf3e1646cc) Standardize how config/setting/preference is translated ([@kostich](https://github.com/kostich))
+- [`1ae448c`](https://github.com/ghostty-org/ghostty/commit/1ae448c23b42a14b209f50e2b2de4415bfed37c9) Fix translation of sequences ([@kostich](https://github.com/kostich))
+- [`2a0371b`](https://github.com/ghostty-org/ghostty/commit/2a0371b28f2077b5553a72d8f1cb5ff878634855) Apply batched suggestions from code review ([@kostich](https://github.com/kostich))
+- [`17a2474`](https://github.com/ghostty-org/ghostty/commit/17a24746c4785c24bb3ff6f6758cdccf4bcb38c1) Use the correct accusative form for inanimata ([@kostich](https://github.com/kostich))
+- [`e3969ab`](https://github.com/ghostty-org/ghostty/commit/e3969ab494e62bf5a66270e6bae56665faf8fce3) Align translations for current and to left/right ([@kostich](https://github.com/kostich))
+- [`84c8e7d`](https://github.com/ghostty-org/ghostty/commit/84c8e7d829ce67f7c079e40cff646e0784986e9b) Align translation for Focus ([@kostich](https://github.com/kostich))
+- [`a542359`](https://github.com/ghostty-org/ghostty/commit/a5423592cde24222c0d1719f780c54434b5b5d34) libghostty: use caller allocation on native freestanding ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Native freestanding targets have neither an OS page allocator nor a usable default SMP allocator. Use the allocator supplied through libghostty for terminal page storage and make a missing C allocator fail with out-of-memory instead of instantiating hosted allocation machinery. Document that native freestanding C callers must supply an allocator for allocating operations.
+  ```
+- [`3376153`](https://github.com/ghostty-org/ghostty/commit/3376153a44e5269b9aee5e6d2524954c171e717b) build: support native freestanding libghostty-vt ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Native freestanding targets cannot emit shared libraries and do not provide an OS page size, stack unwinder, hosted SIMD dependencies, or filesystem-backed Kitty graphics. Build only the static artifact for those targets, define the minimum alignment used for terminal pages, disable hosted-only defaults, and install the public headers with the archive.
+  ```
+- [`10b7158`](https://github.com/ghostty-org/ghostty/commit/10b7158e8cd57f21f7327c73a6b2cdb2f498fdae) ci: cross-compile freestanding libghostty-vt ([@Uzaaft](https://github.com/Uzaaft))
+- [`fc7bfa6`](https://github.com/ghostty-org/ghostty/commit/fc7bfa60b4b5b40183387e52b782612f417812f3) ci: move freestanding build into test workflow ([@Uzaaft](https://github.com/Uzaaft))
+- [`028af92`](https://github.com/ghostty-org/ghostty/commit/028af92ce3876ce1627163ce777f516b8218b410) terminal: clarify page allocator fallback ([@Uzaaft](https://github.com/Uzaaft))
+- [`e8709b1`](https://github.com/ghostty-org/ghostty/commit/e8709b1f9ee1a1275c8ca2b3c22f40a4e4663137) Merge remote-tracking branch 'upstream/main' into add-serbian-translation ([@kostich](https://github.com/kostich))
+- [`90f7759`](https://github.com/ghostty-org/ghostty/commit/90f775976328cd90b8cf12637b776f0689f2f4f8) Fix HTML/URL acronyms as agreed ([@kostich](https://github.com/kostich))
+- [`8bf7e51`](https://github.com/ghostty-org/ghostty/commit/8bf7e517f0571c605a206aae00977c2e8e0cc7ce) Regenerate sr@latin.po from sr.po ([@kostich](https://github.com/kostich))
+- [`5e02d00`](https://github.com/ghostty-org/ghostty/commit/5e02d0014de36ab776ac947e60ae5641c9674ca4) ci: require freestanding libghostty-vt builds ([@Uzaaft](https://github.com/Uzaaft))
+- [`458f079`](https://github.com/ghostty-org/ghostty/commit/458f079f176632bf98d503bef1726472be505f07) Use the informal form ([@kostich](https://github.com/kostich))
+- [`2c854a1`](https://github.com/ghostty-org/ghostty/commit/2c854a1aa42c96ec484f136fdd38d060bd6a7683) freestanding support ([#14076](https://github.com/ghostty-org/ghostty/issues/14076)) ([@mitchellh](https://github.com/mitchellh))
+- [`149c9f5`](https://github.com/ghostty-org/ghostty/commit/149c9f562af3933493eb7dd275259eee9ce26f79) terminal: extract whole-terminal search orchestration from the search thread ([@mitchellh](https://github.com/mitchellh))
+- [`32601cd`](https://github.com/ghostty-org/ghostty/commit/32601cd79a23618d0e64fd0c73bfd47e713be1ef) terminal/c: add search wrapper implementing the whole-terminal search API ([@mitchellh](https://github.com/mitchellh))
+- [`cdef14a`](https://github.com/ghostty-org/ghostty/commit/cdef14a1fddd223b63fec60a8f59832a7e2a4db9) Remove X-Generator from the sr.po file ([@kostich](https://github.com/kostich))
+- [`f0c918f`](https://github.com/ghostty-org/ghostty/commit/f0c918fc4b72c6c7e746db68f753d102a02bb206) terminal/c: allow freeing a search and its terminal in any order ([@mitchellh](https://github.com/mitchellh))
+- [`f920291`](https://github.com/ghostty-org/ghostty/commit/f9202919f71951e7b5af2837afc30f181ad2168c) libghostty: add ghostty_search_* terminal search C API ([@mitchellh](https://github.com/mitchellh))
+- [`674abd8`](https://github.com/ghostty-org/ghostty/commit/674abd8a1940c928d3a0fb0ca27d6ed6dfc5e3c0) example: add c-vt-search demonstrating the terminal search C API ([@mitchellh](https://github.com/mitchellh))
+- [`76d9fce`](https://github.com/ghostty-org/ghostty/commit/76d9fcefef592617360577c9208490dc44d04a65) libghostty: set the search needle via ghostty_search_set, drop GhosttySearchOptions ([@mitchellh](https://github.com/mitchellh))
+- [`4b51f52`](https://github.com/ghostty-org/ghostty/commit/4b51f521d4080f1bbdb113180f1b109404b6ad7f) libghostty: add terminal search API ([#14097](https://github.com/ghostty-org/ghostty/issues/14097)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This exposes the terminal search API through libghostty C and Zig APIs.
+  
+  This was previously available through the Zig APIs but forced our
+  threading model. I've now extracted the full terminal search state to a
+  new `terminal.search.TerminalSearch` structure so threading isn't
+  forced. The C API is completely new.
+  
+  ## Example (C)
+  
+  ```c
+  GhosttySearch search;
+  ghostty_search_new(NULL, &search, terminal);
+  
+  GhosttyString needle = { (const uint8_t *)"error", 5 };
+  ghostty_search_set(search, GHOSTTY_SEARCH_OPT_NEEDLE, &needle);
+  ghostty_search_run(search);
+  
+  // Find bar chrome: "k of n"
+  size_t total, idx;
+  ghostty_search_get(search, GHOSTTY_SEARCH_DATA_TOTAL_MATCHES, &total);
+  
+  // Enter: select the next match (wraps, scrolls the viewport if needed)
+  ghostty_search_set(search, GHOSTTY_SEARCH_OPT_SELECT_NEXT, NULL);
+  ghostty_search_get(search, GHOSTTY_SEARCH_DATA_SELECTED_INDEX, &idx);
+  
+  ghostty_search_free(search);
+  ```
+  ````
+- [`8168115`](https://github.com/ghostty-org/ghostty/commit/81681158b1f04b9900c3e58ba6db790384f5b6f5) Add Serbian translation ([#13842](https://github.com/ghostty-org/ghostty/issues/13842)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  ## Summary
+  - Adds Serbian translations for both Cyrillic (`sr`) and Latin
+  (`sr@latin`) scripts, registered in `src/os/i18n_locales.zig` and
+  `CODEOWNERS`.
+  - `po/sr@latin.po` is generated from `po/sr.po` with `msgfilter
+  recode-sr-latin` and should not be translated by hand.
+  - Replaces the closed #13030; strings are rebased onto current `main`.
+  
+  Cc @slowdub for a review.
+  
+  EDIT: AI disclosure: I used Cursor (Grok 4.6) for mechanical repo work
+  only, not for writing the Serbian translations. The agent fetched
+  ghostty-org/ghostty, branched from current main, ran msgmerge on
+  po/sr.po against the template, generated po/sr@latin.po with msgfilter
+  recode-sr-latin, registered sr / sr@latin in src/os/i18n_locales.zig and
+  CODEOWNERS, rebased my three commits onto later main, pushed the branch,
+  and opened this PR (I had intended to open the PR myself, s***** thing
+  ignored my instructions). I translated and reviewed sr.po and the Latin
+  file is a recode of that catalog, not a separate translation since
+  Serbian Cyrillic can be perfectly transcoded to the Latin script via
+  [recode-sr-latin](https://linux.die.net/man/1/recode-sr-latin).
+  ```
 - [`d23af9e`](https://github.com/ghostty-org/ghostty/commit/d23af9e397dfe06760ce2ad8f54fb178e7d82e62) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
 - [`80b8e49`](https://github.com/ghostty-org/ghostty/commit/80b8e4957625195e85727a6c28200f3bf6c54941) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
 - [`5546750`](https://github.com/ghostty-org/ghostty/commit/5546750a75cf44f881c43f44204aa6a9012ab296) Merge branch 'ghostty-org:main' into main ([@mohshami](https://github.com/mohshami))
@@ -958,436 +1046,5 @@ Summary: 6 runs • 15 commits • 4 authors
   
   This commit fixes this by routing every ground state C0 byte except ESC
   to execute as it should be.
-  ```
-
-## August 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/32885561859), [2](https://github.com/ghostty-org/ghostty/actions/runs/32868574536), [3](https://github.com/ghostty-org/ghostty/actions/runs/32863067913), [4](https://github.com/ghostty-org/ghostty/actions/runs/32861518453), [5](https://github.com/ghostty-org/ghostty/actions/runs/32852280188), [6](https://github.com/ghostty-org/ghostty/actions/runs/32811372816)  
-Summary: 6 runs • 25 commits • 5 authors
-
-### Changes
-
-- [`c4e1697`](https://github.com/ghostty-org/ghostty/commit/c4e16970a803b170e352432424f44192cb59f3ac) renderer: release GPU resources for hidden surfaces (macOS) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Ref #12034
-  
-  This commit releases many GPU resources when a surface becomes invisible and
-  rebuilds it on the next draw. I don't say "all" because there are still
-  some things we can improve on (Kitty images).
-  
-  We previously held onto all GPU resources for the lifetime of the surface
-  regardless of its visibility state. This is 3x (for triple-buffering):
-  screen render targets, uniform/cell/custom shader buffers, font textures,
-  and more.
-  
-  Measured on macOS (Metal):
-  
-  | Measurement (1 visible + 20 hidden tabs)    | Before    | After   |
-  |---------------------------------------------|-----------|---------|
-  | Tracked GPU allocations (steady state)      | 384.6 MiB | 18.3 MiB |
-  | `MTLDevice.currentAllocatedSize`            | 393.3 MiB | 19.7 MiB |
-  | `footprint` IOSurface (dirty)               | 309 MB    | 15 MB   |
-  | Swap chain rebuild on unhide (42 switches)  | n/a       | avg 0.43 ms, max 0.55 ms |
-  
-  As you can see, importantly, swap chain rebuild is fast: 0.43ms average.
-  That means that the rebuild is imperceptible and happens well within
-  a frame draw time.
-  
-  This is macOS only, but most of the work was in the generic renderer.
-  GTK only needs to call `releaseGpuResources` when it becomes invisible
-  to get the same benefits. I didn't have my VM handy to test this yet so
-  I didn't include it.
-  ```
-- [`683d8db`](https://github.com/ghostty-org/ghostty/commit/683d8db643b95cf229bfb5fe9fab9ae677920343) renderer: release GPU resources for hidden surfaces (macOS) ([#14017](https://github.com/ghostty-org/ghostty/issues/14017)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Ref #12034
-  
-  This commit releases many GPU resources when a surface becomes invisible
-  and rebuilds it on the next draw. I don't say "all" because there are
-  still some things we can improve on (Kitty images).
-  
-  We previously held onto all GPU resources for the lifetime of the
-  surface regardless of its visibility state. This is 3x (for
-  triple-buffering): screen render targets, uniform/cell/custom shader
-  buffers, font textures, and more.
-  
-  Measured on macOS (Metal):
-  
-  | Measurement (1 visible + 20 hidden tabs)    | Before    | After   |
-  |---------------------------------------------|-----------|---------|
-  | Tracked GPU allocations (steady state)      | 384.6 MiB | 18.3 MiB |
-  | `MTLDevice.currentAllocatedSize`            | 393.3 MiB | 19.7 MiB |
-  | `footprint` IOSurface (dirty)               | 309 MB    | 15 MB   |
-  | Swap chain rebuild on unhide (42 tab switches) | n/a | avg 0.43 ms,
-  max 0.55 ms |
-  
-  As you can see, importantly, swap chain rebuild is fast: 0.43ms average.
-  That means that the rebuild is imperceptible and happens well within a
-  frame draw time.
-  
-  This is macOS only, but most of the work was in the generic renderer.
-  GTK only needs to call `releaseGpuResources` when it becomes invisible
-  to get the same benefits. I didn't have my VM handy to test this yet so
-  I didn't include it.
-  ```
-- [`48a9e29`](https://github.com/ghostty-org/ghostty/commit/48a9e29f79e918d4f73a13c1ce27646d029811e4) nix: update nixpkgs-unstable ([@jcollie](https://github.com/jcollie))
-  ```text
-  Update nixpkgs-unstable to pick up fontconfig 2.18. Currently we are linking against 2.17 and you get errors
-  like this on standard error when using config files meant for fontconfig 2.18:
-  
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 20: invalid constant used :
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 23: invalid constant used : monospace
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 42: invalid attribute 'xsi:nil'
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 43: invalid constant used :
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 46: invalid constant used : sans-serif
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 68: invalid attribute 'xsi:nil'
-    Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 69: invalid constant used :
-  
-  This also removes an override for libfyaml on Darwin that was merged upstream into nixpkgs.
-  ```
-- [`d9857ea`](https://github.com/ghostty-org/ghostty/commit/d9857eabae06baebc9685121bfe78c49090643af) cli: update list-themes preview sample to valid Zig 0.16 syntax ([@tacheraSasi](https://github.com/tacheraSasi))
-- [`bc2f7d7`](https://github.com/ghostty-org/ghostty/commit/bc2f7d7d2fa589a3abf9e4f6696e0a7f7c204e4f) terminal: update Kitty clipboard base64 handling to spec ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Kitty clipboard protocol now specifies base64 handling:
-  All OSC 5522 payloads and the base64 metadata values (mime, name, pw)
-  use strict RFC 4648 with the standard alphabet. Characters outside
-  the alphabet (including whitespace) and incorrect padding must be
-  rejected, never silently skipped.
-  
-  For wdata payloads for one MIME type, the base64 stream can be split
-  at arbitrary packet boundaries and only the concatenation must be
-  correctly padded.
-  
-  Simdutf has a strict mode for base64 so we got this for free.
-  Benchmarks to be safe:
-  
-  | Decoder                       | Time  | Throughput |
-  |-------------------------------|-------|------------|
-  | permissive (previous)         | 99ms  | 10.8 GB/s  |
-  | strict                        | 97ms  | 11.1 GB/s  |
-  | strict, streaming 4KiB chunks | 102ms | 10.5 GB/s  |
-  | strict w/ separate scan pass  | 143ms | 7.5 GB/s   |
-  | std.base64 scalar             | 234ms | 4.6 GB/s   |
-  
-  Spec changes upstream:
-  https://github.com/kovidgoyal/kitty/commit/479872838f7536ab87b8133471eb49d06804951b
-  https://sw.kovidgoyal.net/kitty/clipboard/#encoding-of-payloads
-  ```
-- [`82ccf12`](https://github.com/ghostty-org/ghostty/commit/82ccf12ca22131d2c845387806b6a924f86abe5f) nix: update nixpkgs-unstable ([#13678](https://github.com/ghostty-org/ghostty/issues/13678)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Update nixpkgs-unstable to pick up fontconfig 2.18. Currently we are
-  linking against 2.17 and you get errors like this on standard error when
-  using config files meant for fontconfig 2.18:
-  
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 20:
-  invalid constant used :
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 23:
-  invalid constant used : monospace
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 42:
-  invalid attribute 'xsi:nil'
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 43:
-  invalid constant used :
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 46:
-  invalid constant used : sans-serif
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 68:
-  invalid attribute 'xsi:nil'
-  Fontconfig warning: "/etc/fonts/conf.d/48-guessfamily.conf", line 69:
-  invalid constant used :
-  ```
-- [`557253d`](https://github.com/ghostty-org/ghostty/commit/557253d8f64f8b08da33f5a7f3cb33a75960b09d) terminal: update Kitty clipboard base64 handling to spec ([#14015](https://github.com/ghostty-org/ghostty/issues/14015)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Kitty clipboard protocol now specifies base64 handling: All OSC 5522
-  payloads and the base64 metadata values (mime, name, pw) use strict RFC
-  4648 with the standard alphabet. Characters outside the alphabet
-  (including whitespace) and incorrect padding must be rejected, never
-  silently skipped.
-  
-  For wdata payloads for one MIME type, the base64 stream can be split at
-  arbitrary packet boundaries and only the concatenation must be correctly
-  padded.
-  
-  Simdutf has a strict mode for base64 so we got this for free. Benchmarks
-  to be safe:
-  
-  | Decoder                       | Time  | Throughput |
-  |-------------------------------|-------|------------|
-  | permissive (previous)         | 99ms  | 10.8 GB/s  |
-  | strict                        | 97ms  | 11.1 GB/s  |
-  | strict, streaming 4KiB chunks | 102ms | 10.5 GB/s  |
-  | strict w/ separate scan pass  | 143ms | 7.5 GB/s   |
-  | std.base64 scalar             | 234ms | 4.6 GB/s   |
-  
-  Spec changes upstream:
-  
-  https://github.com/kovidgoyal/kitty/commit/479872838f7536ab87b8133471eb49d06804951b
-  https://sw.kovidgoyal.net/kitty/clipboard/#encoding-of-payloads
-  ```
-- [`4e817e7`](https://github.com/ghostty-org/ghostty/commit/4e817e79a1d7e3fe7393297e3c8f1269abb6523a) terminal: treat high bytes in DCS strings as payload data ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Refs #11216
-  
-  The dcs_passthrough state only forwarded bytes 0x00-0x7E to the DCS
-  handler. Bytes 0x80-0x9F hit the "anywhere" C1 transitions and exited
-  the string, while 0xA0-0xFF fell through to the default transition and
-  were silently dropped. **This breaks any DCS payload carrying UTF-8. **
-  
-  A continuation byte in the C1 range terminates or corrupts the string:
-  "Ü" is 0xC3 0x9C, so the 0xC3 is dropped and the 0x9C acts as 8-bit ST,
-  ending the DCS mid-character.
-  
-  Also, a payload byte such as 0x9B (second byte of "Û") transitions to
-  csi_entry, so the remainder of the payload executes as a live control sequence.
-  This is a prerequisite for tmux control mode (#1935), whose %output
-  notifications carry raw UTF-8 pane content.
-  
-  Fix this in the parse table only: override 0x80-0xFF in
-  dcs_passthrough to put and in dcs_ignore to ignore, exactly how
-  osc_string already claims 0x20-0xFF (including 0x9C) as data. This
-  deviates from the vt100.net state machine
-  (https://vt100.net/emu/dec_ansi_parser) deliberately and includes
-  0x9C: a raw 0x9C is indistinguishable from a UTF-8 continuation byte,
-  and we don't honor 8-bit C1 controls in the ground state either.
-  ```
-- [`b260da2`](https://github.com/ghostty-org/ghostty/commit/b260da24f8f10bebc92539eef640dbfd26c5a854) cli: update list-themes preview sample to valid Zig 0.16 syntax ([#14012](https://github.com/ghostty-org/ghostty/issues/14012)) ([@jcollie](https://github.com/jcollie))
-  ````text
-  The demo code shown in the `+list-themes` theme preview was stale from
-  before the Zig 0.16 migration (context: #12228). It referenced
-  `std.Io.getStdOut().writer()`, which never existed in any Zig release,
-  and `pub fn main() !void`. This rewrites the rendered sample to valid
-  Zig 0.16 idioms:
-  
-  ```zig
-  const std = @import("std");
-  
-  pub fn main(init: std.process.Init) !void {
-      var buf: [1024]u8 = undefined;
-      var stdout = std.Io.File.stdout().writer(init.io, &buf);
-      const w = &stdout.interface;
-  
-      var i: usize = 1;
-      while (i <= 16) : (i += 1) {
-          if (i % 15 == 0) {
-              try w.writeAll("ZiggZagg\n");
-          } else if (i % 3 == 0) {
-              try w.writeAll("Zigg\n");
-          } else if (i % 5 == 0) {
-              try w.writeAll("Zagg\n");
-          } else {
-              try w.print("{d}\n", .{i});
-          }
-      }
-      try w.flush();
-  }
-  ```
-  
-  The gutter line numbers, row offsets, and child window height were
-  renumbered to match, and the zig version shown in the demo prompt line
-  was updated from v0.13.0 to v0.16.0.
-  ````
-- [`9c3ec93`](https://github.com/ghostty-org/ghostty/commit/9c3ec931d64561a8407dde7ac984ce156ae91539) terminal: treat high bytes in DCS strings as payload data ([#14016](https://github.com/ghostty-org/ghostty/issues/14016)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Refs #11216
-  
-  The dcs_passthrough state only forwarded bytes 0x00-0x7E to the DCS
-  handler. Bytes 0x80-0x9F hit the "anywhere" C1 transitions and exited
-  the string, while 0xA0-0xFF fell through to the default transition and
-  were silently dropped. **This breaks any DCS payload carrying UTF-8. **
-  
-  A continuation byte in the C1 range terminates or corrupts the string:
-  "Ü" is 0xC3 0x9C, so the 0xC3 is dropped and the 0x9C acts as 8-bit ST,
-  ending the DCS mid-character.
-  
-  Also, a payload byte such as 0x9B (second byte of "Û") transitions to
-  csi_entry, so the remainder of the payload executes as a live control
-  sequence. This is a prerequisite for tmux control mode (#1935), whose
-  %output notifications carry raw UTF-8 pane content.
-  
-  Fix this in the parse table only: override 0x80-0xFF in dcs_passthrough
-  to put and in dcs_ignore to ignore, exactly how osc_string already
-  claims 0x20-0xFF (including 0x9C) as data. This deviates from the
-  vt100.net state machine
-  (https://vt100.net/emu/dec_ansi_parser) deliberately and includes 0x9C:
-  a raw 0x9C is indistinguishable from a UTF-8 continuation byte, and we
-  don't honor 8-bit C1 controls in the ground state either.
-  ```
-- [`bb00a5c`](https://github.com/ghostty-org/ghostty/commit/bb00a5c988245a10f7d96dfdadcbfbd03f977dc4) Update VOUCHED list ([#14013](https://github.com/ghostty-org/ghostty/issues/14013)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by
-  [comment](https://github.com/ghostty-org/ghostty/issues/14012#issuecomment-5412366760)
-  from @jcollie.
-  
-  Vouch: @tacheraSasi
-  ```
-- [`8c5bc3d`](https://github.com/ghostty-org/ghostty/commit/8c5bc3d29f17ebc42b81d4b61ec1fe86886332d4) terminal: optimize OSC string reading with SIMD ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We now have large OSCs (e.g. Kitty clipboard protocol) on the order
-  of megabytes. OSC was still byte-at-a-time. This adds a vector-optimized
-  plus bulk storing path to OSC, similar to APC.
-  
-  Throughput measured with the terminal-stream benchmark:
-  
-  | Corpus                   | Before | After | Speedup |
-  |--------------------------|--------|-------|---------|
-  | OSC 52, 1MiB payloads    | 446ms  | 14ms  | 32x     |
-  | OSC 5522, 1MiB payloads  | 446ms  | 15ms  | 30x     |
-  | OSC 5522, 64KiB payloads | 448ms  | 14ms  | 32x     |
-  | OSC 5522, 4KiB payloads  | 448ms  | 16ms  | 29x     |
-  | Tiny titles (~24B each)  | 450ms  | 73ms  | 6.2x    |
-  | Mixed OSCs (16MiB)       | 595ms  | 531ms | 1.13x   |
-  
-  Used Fable to help validate this with a barrage of differential tests.
-  The actual implementation was AI-written but was guided to basically
-  mimic the APC path and then I hand verified everything too.
-  ```
-- [`8144ef4`](https://github.com/ghostty-org/ghostty/commit/8144ef4e73e70a4e9942fceb319819005f07fd37) terminal: optimize OSC string reading with SIMD ([#14011](https://github.com/ghostty-org/ghostty/issues/14011)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  We now have large OSCs (e.g. Kitty clipboard protocol) on the order of
-  megabytes. OSC was still byte-at-a-time. This adds a vector-optimized
-  plus bulk storing path to OSC, similar to APC.
-  
-  Throughput measured with the terminal-stream benchmark:
-  
-  | Corpus                   | Before | After | Speedup |
-  |--------------------------|--------|-------|---------|
-  | OSC 52, 1MiB payloads    | 446ms  | 14ms  | 32x     |
-  | OSC 5522, 1MiB payloads  | 446ms  | 15ms  | 30x     |
-  | OSC 5522, 64KiB payloads | 448ms  | 14ms  | 32x     |
-  | OSC 5522, 4KiB payloads  | 448ms  | 16ms  | 29x     |
-  | Tiny titles (~24B each)  | 450ms  | 73ms  | 6.2x    |
-  | Mixed OSCs (16MiB)       | 595ms  | 531ms | 1.13x   |
-  
-  Used Fable to help validate this with a barrage of differential tests.
-  The actual implementation was AI-written but was guided to basically
-  mimic the APC path and then I hand verified everything too.
-  ```
-- [`a2212a5`](https://github.com/ghostty-org/ghostty/commit/a2212a5b1229d580ceb25d67cf3353b679eddf3b) macos: replace legacy aspectRatio with scaledToFit in clipboard preview ([@bo2themax](https://github.com/bo2themax))
-- [`d7f5ba3`](https://github.com/ghostty-org/ghostty/commit/d7f5ba3b4f4745660dbb5ada6fde6f841aba07af) macOS: add test cases for ScriptKeyEventCommand ([@bo2themax](https://github.com/bo2themax))
-- [`f1b9efe`](https://github.com/ghostty-org/ghostty/commit/f1b9efed802650ffaccc0b53da026314909bae53) macOS: update default behaviour of KeyboardLayout.character(for:modifiers:) ([@bo2themax](https://github.com/bo2themax))
-- [`719def7`](https://github.com/ghostty-org/ghostty/commit/719def70f3df246695881f571f0edde28b95f0a3) macOS: update default behaviour of KeyboardLayout.character(for:modifiers:) ([#14009](https://github.com/ghostty-org/ghostty/issues/14009)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Follow up for #13888, and prepare for #13205.
-  
-  The comments are copied from the history commit.
-  
-  ## AI Disclosure
-  
-  The tests are updated by Claude, I cherrypicked them.
-  ```
-- [`1c73935`](https://github.com/ghostty-org/ghostty/commit/1c739350c31a8340fdbf56cd7e703f860f69bed4) macOS: add test cases for ScriptKeyEventCommand ([#14008](https://github.com/ghostty-org/ghostty/issues/14008)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Partial changes for #13205, known issues are marked as warnings.
-  
-  ### AI Disclosure
-  
-  Claude generated these tests from linked pr, I cherrypicked and reviewed
-  myself.
-  ```
-- [`6d2b436`](https://github.com/ghostty-org/ghostty/commit/6d2b43652950b417431145147dd445d32e04119c) macos: replace legacy aspectRatio with scaledToFit in clipboard preview ([#14006](https://github.com/ghostty-org/ghostty/issues/14006)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes the swiftlint legacy_swiftui_aspect_ratio violation.
-  
-  ### AI Disclosure
-  
-  By Claude, but it's really simple.
-  ```
-- [`b31fbc8`](https://github.com/ghostty-org/ghostty/commit/b31fbc846474bf6082f1a3f13290e17f2d984a25) terminal: fully reset row metadata when recycling row storage ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13940
-  
-  Various operations like scroll, line insert, erase, etc. operations
-  would clear cells but remain row metadata such as wrap flags and
-  semantic prompt state.
-  
-  When we had fast paths in `grow` and other places like resize
-  we would adopt that without knowing it because we didn't properly clear.
-  
-  Fix this by properly clearing row metadata too at the points where we
-  erase a row that might be reused.
-  
-  Benchmarked with terminal-stream workloads for each affected path.
-  The added cost is 2-4 instructions per recycled row next to the existing
-  full-row cell clear. There was no measurable wall-clock change on any
-  workload.
-  
-  AI helped run the benchmarks for me and analyze for missing places (it found
-  some!) but otherwise this was hand-designed.
-  ```
-- [`046a45a`](https://github.com/ghostty-org/ghostty/commit/046a45a5fcacf427573b81de6e03de37fe01bb16) terminal: fully reset row metadata when recycling row storage ([#14010](https://github.com/ghostty-org/ghostty/issues/14010)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13940
-  
-  Various operations like scroll, line insert, erase, etc. operations
-  would clear cells but remain row metadata such as wrap flags and
-  semantic prompt state.
-  
-  When we had fast paths in `grow` and other places like resize we would
-  adopt that without knowing it because we didn't properly clear.
-  
-  Fix this by properly clearing row metadata too at the points where we
-  erase a row that might be reused.
-  
-  Benchmarked with terminal-stream workloads for each affected path. The
-  added cost is 2-4 instructions per recycled row next to the existing
-  full-row cell clear. There was no measurable wall-clock change on any
-  workload.
-  
-  AI helped run the benchmarks for me and analyze for missing places (it
-  found some!) but otherwise this was hand-designed.
-  ```
-- [`70f0065`](https://github.com/ghostty-org/ghostty/commit/70f0065759428c0594c7c5befcb20104ff7ab615) terminal: reject oversized Kitty clipboard writes ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Update OSC 5522 writes to reject every transaction that exceeds the
-  configured decoded-data limit. The previous behavior truncated text
-  while rejecting only non-text data.
-  
-  Programs now receive EFBIG as soon as a write crosses the limit. The
-  clipboard remains untouched, and remaining write packets are ignored
-  until a new transaction begins. Raise the default to the protocol
-  minimum of 64 MiB.
-  
-  This applies the latest spec change:
-  https://github.com/kovidgoyal/kitty/commit/32ea1041921607836e37815e0ab3692264a6cc81
-  ```
-- [`e8d8945`](https://github.com/ghostty-org/ghostty/commit/e8d8945b536189366e227b157aa0b8202b94890a) terminal: update Kitty clipboard text input validation to spec ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Validate decoded OSC 5522 metadata, read MIME lists, and alias
-  lists as UTF-8. Treat an alias without a target MIME type as an
-  invalid write packet.
-  
-  Malformed write packets now return EINVAL and terminate the in-flight
-  transaction instead of leaving it active. Malformed reads are dropped
-  without disturbing an active write.
-  
-  Latest changes upstream to spec:
-  https://github.com/kovidgoyal/kitty/commit/458421af4656a8f90beca7d95e4c1ff7093cf269
-  ```
-- [`4888c0a`](https://github.com/ghostty-org/ghostty/commit/4888c0a02c2e36b5146900195e344a8ac307660f) terminal: reject oversized Kitty clipboard writes ([#14004](https://github.com/ghostty-org/ghostty/issues/14004)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Update OSC 5522 writes to reject every transaction that exceeds the
-  configured decoded-data limit. The previous behavior truncated text
-  while rejecting only non-text data.
-  
-  Programs now receive EFBIG as soon as a write crosses the limit. The
-  clipboard remains untouched, and remaining write packets are ignored
-  until a new transaction begins. Raise the default to the protocol
-  minimum of 64 MiB.
-  
-  This applies the latest spec change:
-  
-  https://github.com/kovidgoyal/kitty/commit/32ea1041921607836e37815e0ab3692264a6cc81
-  ```
-- [`8867c37`](https://github.com/ghostty-org/ghostty/commit/8867c37c55b578b9eb4cfaba41cb9023e557176d) terminal: update Kitty clipboard text input validation to spec ([#14005](https://github.com/ghostty-org/ghostty/issues/14005)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Validate decoded OSC 5522 metadata, read MIME lists, and alias lists as
-  UTF-8. Treat an alias without a target MIME type as an invalid write
-  packet.
-  
-  Malformed write packets now return EINVAL and terminate the in-flight
-  transaction instead of leaving it active. Malformed reads are dropped
-  without disturbing an active write.
-  
-  Latest changes upstream to spec:
-  
-  https://github.com/kovidgoyal/kitty/commit/458421af4656a8f90beca7d95e4c1ff7093cf269
   ```
 
