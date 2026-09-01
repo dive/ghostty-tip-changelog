@@ -8,15 +8,244 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 1, 2026 at 13:52 UTC.
+> Last updated: September 1, 2026 at 18:06 UTC.
 
 ## September 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33479788466)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33539641645), [2](https://github.com/ghostty-org/ghostty/actions/runs/33479788466)  
+Summary: 2 runs • 7 commits • 4 authors
 
 ### Changes
 
+- [`38c984e`](https://github.com/ghostty-org/ghostty/commit/38c984e6760f59a634b6538f5e8669ec829019f1) build(deps): bump softprops/action-gh-release from 3.0.2 to 3.0.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 3.0.2 to 3.0.3.
+  - [Release notes](https://github.com/softprops/action-gh-release/releases)
+  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/softprops/action-gh-release/compare/3d0d9888cb7fd7b750713d6e236d1fcb99157228...efb35369e0ad2afab669f228072c1b0d510eae64)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: softprops/action-gh-release
+    dependency-version: 3.0.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`d4a5ff5`](https://github.com/ghostty-org/ghostty/commit/d4a5ff58b6bc4a1fcc79a69f5cff94a678d97f42) macOS: fix window cascading ([@bo2themax](https://github.com/bo2themax))
+- [`d2e2488`](https://github.com/ghostty-org/ghostty/commit/d2e2488ef7539124122d346399a5e5cca152f259) build(deps): bump softprops/action-gh-release from 3.0.2 to 3.0.3 ([#14098](https://github.com/ghostty-org/ghostty/issues/14098)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
+  from 3.0.2 to 3.0.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.0.3</h2>
+  <p><code>3.0.3</code> is a maintenance release with updated
+  dependencies. It also safely
+  classifies malformed GitHub API errors to avoid secondary failures (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/822">#822</a>).</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: safely classify GitHub API errors by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/822">softprops/action-gh-release#822</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>dependency updates</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h2>3.0.3</h2>
+  <p><code>3.0.3</code> is a maintenance release with updated
+  dependencies. It also safely
+  classifies malformed GitHub API errors to avoid secondary failures (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/822">#822</a>).</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: safely classify GitHub API errors by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/822">softprops/action-gh-release#822</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>dependency updates</li>
+  </ul>
+  <h2>3.0.2</h2>
+  <p><code>3.0.2</code> is a patch release focused on release reliability
+  and compatibility. It
+  reuses existing draft releases when publishing prereleases, supports
+  replacing
+  release assets on Gitea, hardens streamed asset uploads, and provides
+  clearer
+  release-creation diagnostics. It also includes TypeScript, coverage, and
+  tooling
+  maintenance merged since <code>3.0.1</code>.</p>
+  <p>This release fixes <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/795">#795</a>,
+  <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/438">#438</a>,
+  and <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/803">#803</a>.
+  The upload transport hardening covers the
+  historical failure reported in <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/790">#790</a>,
+  although current hosted Node 24 runners did
+  not reproduce it naturally. The diagnostics work is related to <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/786">#786</a>
+  and does not
+  claim a reproducible release-creation fix.</p>
+  <h2>What's Changed</h2>
+  <h3>Exciting New Features 🎉</h3>
+  <ul>
+  <li>feat: improve release error reporting and test coverage by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/813">softprops/action-gh-release#813</a></li>
+  </ul>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: publish existing draft releases as prereleases by <a
+  href="https://github.com/godfengliang"><code>@​godfengliang</code></a>
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/801">softprops/action-gh-release#801</a></li>
+  <li>fix: upload small checksum assets reliably by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/815">softprops/action-gh-release#815</a></li>
+  <li>fix: replace existing release assets on Gitea by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/816">softprops/action-gh-release#816</a></li>
+  <li>fix: clarify release creation 404 errors by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/817">softprops/action-gh-release#817</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>chore(deps): upgrade TypeScript to 7 by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/812">softprops/action-gh-release#812</a></li>
+  <li>chore(deps): remove unused TypeScript tooling by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/814">softprops/action-gh-release#814</a></li>
+  <li>dependency, Node 24 pin, and CI maintenance merged since
+  <code>3.0.1</code></li>
+  </ul>
+  <h2>3.0.1</h2>
+  <ul>
+  <li>maintenance release with updated dependencies</li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/efb35369e0ad2afab669f228072c1b0d510eae64"><code>efb3536</code></a>
+  release 3.0.3 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/840">#840</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/6441963a7597ab67f36fea0287a7ae58a9bfd8fe"><code>6441963</code></a>
+  chore(deps): bump the npm group with 2 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/839">#839</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/e5ee6bc58a36b838b92fc1217f2e4b414b5abcc8"><code>e5ee6bc</code></a>
+  chore(deps): bump esbuild from 0.28.1 to 0.28.2 in the npm group (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/837">#837</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/d1e66170d32c9ec7bbcb7fae044d3d686ce304d3"><code>d1e6617</code></a>
+  chore(deps): bump undici from 6.27.0 to 6.28.0 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/831">#831</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/64037519ba20f54c01bc1dc90342c929aac5a2fa"><code>6403751</code></a>
+  chore(deps): bump the npm group with 2 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/835">#835</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/7c7184b6876126a5df15adc5b679dc450a393725"><code>7c7184b</code></a>
+  chore(deps): bump postcss from 8.5.19 to 8.5.25 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/833">#833</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/0f3f0d2943676d58f9698b3ab590c2056023d77d"><code>0f3f0d2</code></a>
+  chore(deps): bump brace-expansion from 5.0.8 to 5.0.9 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/832">#832</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/77fb938f2f95e717ce6705d2909af527263360a0"><code>77fb938</code></a>
+  chore(deps): bump prettier from 3.9.5 to 3.9.6 in the npm group (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/830">#830</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/5a6f51711ce2ba103b78f5e9550f810679f11e0e"><code>5a6f517</code></a>
+  chore(deps): bump brace-expansion from 5.0.7 to 5.0.8 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/828">#828</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/a3c91c98f80000f5b06c7fc0327c54f51c6ab7d8"><code>a3c91c9</code></a>
+  chore(deps): bump the github-actions group with 2 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/825">#825</a>)</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/softprops/action-gh-release/compare/3d0d9888cb7fd7b750713d6e236d1fcb99157228...efb35369e0ad2afab669f228072c1b0d510eae64">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=3.0.2&new-version=3.0.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`b7a680b`](https://github.com/ghostty-org/ghostty/commit/b7a680bc40b76cf7ed6b21044ac3f291ea0056be) macOS: fix window cascading ([#14106](https://github.com/ghostty-org/ghostty/issues/14106)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Regression from https://github.com/ghostty-org/ghostty/pull/13722
+  ```
+- [`451e224`](https://github.com/ghostty-org/ghostty/commit/451e224c64ddd0a9d9e9df045cdfb27c38fa8ff2) macOS: clean up for [#14106](https://github.com/ghostty-org/ghostty/issues/14106) ([@bo2themax](https://github.com/bo2themax))
+- [`3c1ef5b`](https://github.com/ghostty-org/ghostty/commit/3c1ef5b32fc5ea6b93d28493fabf193f595139cf) macOS: clean up for [#14106](https://github.com/ghostty-org/ghostty/issues/14106) ([#14111](https://github.com/ghostty-org/ghostty/issues/14111)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  I don't know what happened to me, but I didn't notice that I should
+  delete this🫪
+  ```
 - [`20abdb5`](https://github.com/ghostty-org/ghostty/commit/20abdb50a6216c450d6d4d010c41c7edf5ab15b2) Update VOUCHED list ([#14101](https://github.com/ghostty-org/ghostty/issues/14101)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
