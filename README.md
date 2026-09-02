@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 1, 2026 at 22:56 UTC.
+> Last updated: September 2, 2026 at 02:31 UTC.
 
 ## September 1, 2026
 
@@ -1173,123 +1173,5 @@ Summary: 6 runs • 25 commits • 7 authors
   
   
   </details>
-  ```
-
-## August 26, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33015847463), [2](https://github.com/ghostty-org/ghostty/actions/runs/33003643945), [3](https://github.com/ghostty-org/ghostty/actions/runs/32980266736), [4](https://github.com/ghostty-org/ghostty/actions/runs/32953632696), [5](https://github.com/ghostty-org/ghostty/actions/runs/32932472332), [6](https://github.com/ghostty-org/ghostty/actions/runs/32929311994)  
-Summary: 6 runs • 15 commits • 4 authors
-
-### Changes
-
-- [`b6ac6e1`](https://github.com/ghostty-org/ghostty/commit/b6ac6e1d479f29fb8194f86ec24b72901aa94c21) Revert "macOS: use same ResetZoomAccessoryView ([#14028](https://github.com/ghostty-org/ghostty/issues/14028))" ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  This reverts commit 15ff186f65ca0bdbd1fa397ab03908d59de16463, reversing
-  changes made to 1abd53ee537a93bb33107a415fe4f4131bcf0f5b.
-  ```
-- [`0a9f47c`](https://github.com/ghostty-org/ghostty/commit/0a9f47cae0bc3cb653ea52fbd4e1d632b79dd91a) macOS: update note about tab accessory view ([@bo2themax](https://github.com/bo2themax))
-- [`b69f612`](https://github.com/ghostty-org/ghostty/commit/b69f612672f4e31e20dec2ee2684d295aec149f1) macOS: update note about tab accessory view ([#14038](https://github.com/ghostty-org/ghostty/issues/14038)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Reverts: #14028
-  ```
-- [`6688aa0`](https://github.com/ghostty-org/ghostty/commit/6688aa072f87dcb169fa1a49dcf5eadc9ed87956) renderer: park DisplayLink while idle ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  #14033
-  
-  Pause the CVDisplayLink when there isn't any real work to do.
-  
-  Start the link after updateFrame rebuilds cells, keep it running while
-  cell changes or animations remain pending, and resync it from the
-  no-redraw path to sleep it again.
-  
-  I also did some benchmark to measure the cost of starting/stopping the
-  display link since this includes a lot more of that and I found that
-  a continuously running link used 29 to 35 us of CPU per callback, while
-  starting and stopping it for every frame used 103 to 121 us. So, in some
-  pathological case this can be worse, but its still microseconds, and in
-  the normal case this helps Ghostty sleep a lot more.
-  ```
-- [`d9840f3`](https://github.com/ghostty-org/ghostty/commit/d9840f3c8fc230c7768ae760c412974e9fc923bb) renderer: park DisplayLink while idle ([#14035](https://github.com/ghostty-org/ghostty/issues/14035)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  #14033
-  
-  Pause the CVDisplayLink when there isn't any real work to do.
-  
-  Start the link after updateFrame rebuilds cells, keep it running while
-  cell changes or animations remain pending, and resync it from the
-  no-redraw path to sleep it again.
-  
-  I also did some benchmark to measure the cost of starting/stopping the
-  display link since this includes a lot more of that and I found that a
-  continuously running link used 29 to 35 us of CPU per callback, while
-  starting and stopping it for every frame used 103 to 121 us. So, in some
-  pathological case this can be worse, but its still microseconds, and in
-  the normal case this helps Ghostty sleep a lot more.
-  ```
-- [`851751a`](https://github.com/ghostty-org/ghostty/commit/851751a1167a05d83f08c010a7b1e92f435f783f) macOS: clean up deprecated toolbar button ([@bo2themax](https://github.com/bo2themax))
-- [`7a15898`](https://github.com/ghostty-org/ghostty/commit/7a15898bc813558a25c4beffd7391dad14cbb20c) macOS: use same ResetZoomAccessoryView ([@bo2themax](https://github.com/bo2themax))
-- [`1abd53e`](https://github.com/ghostty-org/ghostty/commit/1abd53ee537a93bb33107a415fe4f4131bcf0f5b) macOS: clean up deprecated toolbar button ([#14027](https://github.com/ghostty-org/ghostty/issues/14027)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This button is a leftover from cf6017e777cda0e0c131b616f408c9a81644b5d7,
-  we're now using tab's and titlebar's accessory view to display unzoom
-  buttons, no need to keep them.
-  ```
-- [`15ff186`](https://github.com/ghostty-org/ghostty/commit/15ff186f65ca0bdbd1fa397ab03908d59de16463) macOS: use same ResetZoomAccessoryView ([#14028](https://github.com/ghostty-org/ghostty/issues/14028)) ([@mitchellh](https://github.com/mitchellh))
-- [`73e53ce`](https://github.com/ghostty-org/ghostty/commit/73e53ceeac4d81b59d228db32de933d8114d42cd) i18n: update fr_FR translations ([@flou](https://github.com/flou))
-- [`5f5b988`](https://github.com/ghostty-org/ghostty/commit/5f5b988c5236facfe8d2439203d9ee9d5b636cf8) i18n: update fr_FR translations ([#13971](https://github.com/ghostty-org/ghostty/issues/13971)) ([@trag1c](https://github.com/trag1c))
-  ```text
-  Update missing french translations for Ghostty 1.4
-  (https://github.com/ghostty-org/ghostty/issues/13766)
-  ```
-- [`40a40f8`](https://github.com/ghostty-org/ghostty/commit/40a40f848dfca8c5edbc0098dd828aec03ae8e64) terminal: ignore UTF-8-decoded C1 controls in the ground state ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Drop UTF-8 decoded C1 controls entirely. This matches xterm's default
-  behavior which is our standard policy (but note it diverges from libvte
-  which executes them). There isn't really any standard I could find
-  around this.
-  
-  The ground state UTF-8 fast paths (both the scalar decoder and the
-  batched SIMD path) previously treated decoded codepoints C1 control
-  codepoints as normal UTF-8 text and routed them to print.
-  ```
-- [`88f57ee`](https://github.com/ghostty-org/ghostty/commit/88f57ee66eeaad4da77b414b245f7b6693348985) terminal: ignore UTF-8-decoded C1 controls in the ground state ([#14023](https://github.com/ghostty-org/ghostty/issues/14023)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Drop UTF-8 decoded C1 controls entirely. This matches xterm's default
-  behavior which is our standard policy (but note it diverges from libvte
-  which executes them). There isn't really any standard I could find
-  around this.
-  
-  The ground state UTF-8 fast paths (both the scalar decoder and the
-  batched SIMD path) previously treated decoded codepoints C1 control
-  codepoints as normal UTF-8 text and routed them to print.
-  ```
-- [`0f35043`](https://github.com/ghostty-org/ghostty/commit/0f35043c9ac588811f22c732ac5392850f22381e) terminal: execute C0 controls 0x10-0x1F in the ground state ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #14021
-  
-  The ground state UTF-8 fast paths only classified 0x00-0x0F plus 0x1B (escape)
-  as C0 controls. The remaining C0 bytes (0x10-0x1A, 0x1C-0x1F) were decoded
-  as ordinary codepoints and routed to print as if they were text.
-  
-  This resulted in incorrect grids but also very weird font fallback, e.g.
-  U+0014 would find CJK fonts.
-  
-  This commit fixes this by routing every ground state C0 byte except ESC to
-  execute as it should be.
-  ```
-- [`6dcf68f`](https://github.com/ghostty-org/ghostty/commit/6dcf68fc0b12e8caebbfc43770d66edac124b4f8) terminal: execute C0 controls 0x10-0x1F in the ground state ([#14022](https://github.com/ghostty-org/ghostty/issues/14022)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #14021
-  
-  The ground state UTF-8 fast paths only classified 0x00-0x0F plus 0x1B
-  (escape) as C0 controls. The remaining C0 bytes (0x10-0x1A, 0x1C-0x1F)
-  were decoded as ordinary codepoints and routed to print as if they were
-  text.
-  
-  This resulted in incorrect grids but also very weird font fallback, e.g.
-  U+0014 would find CJK fonts.
-  
-  This commit fixes this by routing every ground state C0 byte except ESC
-  to execute as it should be.
   ```
 
