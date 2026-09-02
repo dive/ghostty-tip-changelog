@@ -8,7 +8,407 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 2, 2026 at 13:10 UTC.
+> Last updated: September 2, 2026 at 18:22 UTC.
+
+## September 2, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33661468264), [2](https://github.com/ghostty-org/ghostty/actions/runs/33651663049)  
+Summary: 2 runs • 31 commits • 8 authors
+
+### Changes
+
+- [`807a51e`](https://github.com/ghostty-org/ghostty/commit/807a51e3e238b7ae81fdcb03f93e2e3e7d990716) updated localization file (andrejd-magix)
+- [`36015c9`](https://github.com/ghostty-org/ghostty/commit/36015c99d06d671ba961c83b74d01d7ef45dc8d3) updated revision date (andrejd-magix)
+- [`ee10453`](https://github.com/ghostty-org/ghostty/commit/ee10453a26dfc8ec5d7b612f5e4a5763da7cfa82) fix unclosed quote (andrejd-magix)
+- [`59141ad`](https://github.com/ghostty-org/ghostty/commit/59141ad21d7e86e48eec8ab8cbfe0095cb814303) add eu translation ([@erral](https://github.com/erral))
+- [`58aa59d`](https://github.com/ghostty-org/ghostty/commit/58aa59d0e176b57d27e685dee86d3e9b7e165ef9) Update po/eu.po ([@erral](https://github.com/erral))
+- [`6a51526`](https://github.com/ghostty-org/ghostty/commit/6a5152651c8744bf5058d49ee45fdb6aee63d570) Update po/eu.po ([@erral](https://github.com/erral))
+- [`4c731b5`](https://github.com/ghostty-org/ghostty/commit/4c731b5d89708ae742d4809ef1ce6a81c5c551da) Update po/eu.po ([@erral](https://github.com/erral))
+- [`4ffec4b`](https://github.com/ghostty-org/ghostty/commit/4ffec4bda7ed603be297564a7b23c1d21707106e) Update po/eu.po ([@erral](https://github.com/erral))
+- [`f407316`](https://github.com/ghostty-org/ghostty/commit/f407316c84a313a7f9694a2d6f3e1acabc19a416) Update po/eu.po ([@erral](https://github.com/erral))
+  ```text
+  applying but both eskuma and eskuina are OK.
+  ```
+- [`63039a6`](https://github.com/ghostty-org/ghostty/commit/63039a688e765c448ca7cc80b77d83d2177e6f51) update ([@erral](https://github.com/erral))
+- [`f184d3c`](https://github.com/ghostty-org/ghostty/commit/f184d3ceb5eaee08f92f6302ac2a499bcd7dc015) update ([@erral](https://github.com/erral))
+- [`4da902b`](https://github.com/ghostty-org/ghostty/commit/4da902b3c9929333f7cf78147ec714f34d5619c0) update ([@erral](https://github.com/erral))
+- [`9801423`](https://github.com/ghostty-org/ghostty/commit/9801423d01e0e883c32f95a210afd98919520562) update ([@erral](https://github.com/erral))
+- [`7520175`](https://github.com/ghostty-org/ghostty/commit/75201750213200fba1537cf724fac5ba3dec4318) more fixes ([@erral](https://github.com/erral))
+- [`3b8141f`](https://github.com/ghostty-org/ghostty/commit/3b8141fbd8e2f5770809d3df2fe0077849866dde) os/open: consume the newline when draining opener stderr ([@jzillmann](https://github.com/jzillmann))
+  ```text
+  takeDelimiterExclusive never consumes the delimiter: it tosses only the
+  exclusive length, so the '\n' stays buffered. Once the spawned opener
+  writes a single line to stderr, every subsequent call returns an empty
+  slice without advancing the stream, and openThread's loop spins forever
+  - one pinned core per affected open(), logging empty
+  "open stderr=" warnings at tens of thousands of messages per second for
+  the lifetime of the process. The thread also never reaches exe.wait(),
+  so the child is never reaped.
+  
+  Read inclusively instead (which does consume the delimiter) and trim
+  the '\n' for logging.
+  
+  Repro: open a link whose handler writes to stderr, e.g. an OSC 8 link
+  with an unknown scheme; watch a core disappear and the unified log
+  flood with "os-open: open stderr=".
+  
+  See discussion #14100.
+  ```
+- [`372d691`](https://github.com/ghostty-org/ghostty/commit/372d6914b8615610e290f8e8446d75cf4b53efeb) i18n: complete eu translation ([#14095](https://github.com/ghostty-org/ghostty/issues/14095)) ([@trag1c](https://github.com/trag1c))
+- [`e212b73`](https://github.com/ghostty-org/ghostty/commit/e212b73cdaf381f2d57edc11307b06c1f520df4b) Update mk localization for v1.4 ([#14088](https://github.com/ghostty-org/ghostty/issues/14088)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Addressing #13766 for mk.
+  ```
+- [`349f026`](https://github.com/ghostty-org/ghostty/commit/349f026087d948f8f898dca3231ff91438f83ab8) os/open: consume the newline when draining opener stderr ([#14125](https://github.com/ghostty-org/ghostty/issues/14125)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes the runaway-thread bug reported in #14100 (vouched there).
+  
+  `openThread` drains the spawned opener's stderr with
+  `takeDelimiterExclusive('\n')`. That function tosses only the exclusive
+  length, so the `'\n'` is never consumed. Once the child writes one line
+  to stderr, every subsequent call returns an empty slice without
+  advancing the stream: the `while (true)` loop spins forever — one pinned
+  core per affected `open()`, logging empty `os-open: open stderr=`
+  warnings at tens of thousands of messages per second for the lifetime of
+  the process — and `exe.wait()` is never reached, so the child is never
+  reaped.
+  
+  This change reads inclusively (`takeDelimiterInclusive`, which does
+  consume the delimiter) and trims the `'\n'` for logging.
+  
+  Observed in the wild embedding libghostty on macOS: several days of
+  uptime accumulated six leaked opener threads at ~70% of a core each
+  (~4.4 cores), from six link clicks whose `/usr/bin/open` wrote to
+  stderr. After the fix, the same workload shows zero `os-open` log
+  traffic and no leaked threads.
+  
+  Repro without the fix: open a link whose handler writes to stderr (e.g.
+  an OSC 8 link with an unknown scheme), then watch a core pin and `log
+  stream --predicate 'subsystem == "com.mitchellh.ghostty"'` flood.
+  
+  **AI disclosure** (per `AI_POLICY.md`): the bug was diagnosed and this
+  patch drafted with Claude Code (thread sampling, log analysis, and
+  reading the Zig 0.16 `std.Io.Reader` source to confirm
+  `takeDelimiterExclusive`/`takeDelimiterInclusive` toss semantics). I
+  reviewed the analysis and the change, understand both, and verified the
+  fix in a production build of the embedding app.
+  ```
+- [`2ba7576`](https://github.com/ghostty-org/ghostty/commit/2ba75764f6002baab9cb439dfff7ec37ac7704e8) build(deps): bump flatpak/flatpak-github-actions/flatpak-builder ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [flatpak/flatpak-github-actions/flatpak-builder](https://github.com/flatpak/flatpak-github-actions) from 6.7 to 6.8.
+  - [Release notes](https://github.com/flatpak/flatpak-github-actions/releases)
+  - [Commits](https://github.com/flatpak/flatpak-github-actions/compare/401fe28a8384095fc1531b9d320b292f0ee45adb...79327416609af08178ad73b352877e51450790b3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: flatpak/flatpak-github-actions/flatpak-builder
+    dependency-version: '6.8'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`7358067`](https://github.com/ghostty-org/ghostty/commit/7358067d1a014e0dc36545046f2df41255f2ea26) build(deps): bump cachix/cachix-action ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/cachix-action](https://github.com/cachix/cachix-action) from 5f2d7c5294214f71b873db4b969586b980625e71 to 38b082610b782e7e93e209c35fd730d399dee866.
+  - [Release notes](https://github.com/cachix/cachix-action/releases)
+  - [Changelog](https://github.com/cachix/cachix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/cachix-action/compare/5f2d7c5294214f71b873db4b969586b980625e71...38b082610b782e7e93e209c35fd730d399dee866)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/cachix-action
+    dependency-version: 38b082610b782e7e93e209c35fd730d399dee866
+    dependency-type: direct:production
+  ...
+  ```
+- [`310797d`](https://github.com/ghostty-org/ghostty/commit/310797df1d912bccd63ef624395a2458e99f6cf7) macOS: fix cascading without affecting other new-window behaviours ([@bo2themax](https://github.com/bo2themax))
+- [`a8b0855`](https://github.com/ghostty-org/ghostty/commit/a8b0855b630022db2933f402d9c964a111c8751c) macOS: fix cascading for HiddenTitlebarTerminalWindow ([@bo2themax](https://github.com/bo2themax))
+- [`5d6615f`](https://github.com/ghostty-org/ghostty/commit/5d6615fc43ce5bc7ba9981e0c925d4e3d9dfb0d7) bash: upgrade to bash-preexec 0.7.0 ([@jparise](https://github.com/jparise))
+  ```text
+  https://github.com/rcaloras/bash-preexec/releases/tag/0.7.0
+  
+  We only source bash-preexec for bash < 4.4, so most of this release is
+  inert for us: the PS0 function-substitution hook (bash >= 5.3) and the
+  array PROMPT_COMMAND handling (bash >= 5.1) are never reached. What we
+  do pick up is the simpler install string, per-prompt re-adjustment of
+  PROMPT_COMMAND when something else modifies it, preservation of $? and
+  $_ on early returns, and the first-command preexec fix.
+  
+  We continue to carry one local modification: __bp_adjust_histcontrol
+  stays disabled in the DEBUG trap hook so the user's HISTCONTROL is
+  respected (#2269). The original justification was that we didn't use
+  the preexec command argument, which is no longer true because we use it
+  for the window title. The comment now explains the current reasoning:
+  our bash >= 4.4 integration also uses `history 1` without adjusting
+  HISTCONTROL and accepts the same inaccuracy for space-prefixed commands,
+  so the legacy path is kept consistent with it.
+  ```
+- [`aafacb1`](https://github.com/ghostty-org/ghostty/commit/aafacb1cb940e3599cb4ec2c4f9cb975532a12a4) macOS: fix flickering when creating new tab with glass style ([@bo2themax](https://github.com/bo2themax))
+- [`fec89f2`](https://github.com/ghostty-org/ghostty/commit/fec89f2541e412b1a2556e56742c7612118f1b72) macOS: fix flickering when creating new tab with glass style ([#14121](https://github.com/ghostty-org/ghostty/issues/14121)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A regression from #13985.
+  
+  
+  https://github.com/user-attachments/assets/cc7d76d7-7d86-4566-921c-a6531ce4087d
+  
+  
+  
+  
+  ### AI Disclosure
+  
+  Used Claude to investigate, I reviewed and tested.
+  ```
+- [`0c1909d`](https://github.com/ghostty-org/ghostty/commit/0c1909d09a0db148913b79c684db1cef58e214ee) bash: upgrade to bash-preexec 0.7.0 ([#14120](https://github.com/ghostty-org/ghostty/issues/14120)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  https://github.com/rcaloras/bash-preexec/releases/tag/0.7.0
+  
+  We only source bash-preexec for bash < 4.4, so most of this release is
+  inert for us: the PS0 function-substitution hook (bash >= 5.3) and the
+  array PROMPT_COMMAND handling (bash >= 5.1) are never reached. What we
+  do pick up is the simpler install string, per-prompt re-adjustment of
+  PROMPT_COMMAND when something else modifies it, preservation of $? and
+  $_ on early returns, and the first-command preexec fix.
+  
+  We continue to carry one local modification: __bp_adjust_histcontrol
+  stays disabled in the DEBUG trap hook so the user's HISTCONTROL is
+  respected (#2269). The original justification was that we didn't use the
+  preexec command argument, which is no longer true because we use it for
+  the window title. The comment now explains the current reasoning: our
+  bash >= 4.4 integration also uses `history 1` without adjusting
+  HISTCONTROL and accepts the same inaccuracy for space-prefixed commands,
+  so the legacy path is kept consistent with it.
+  
+  *AI Usage:* I asked Fable 5.1 to run a verification pass after my manual
+  upgrade, and it confirmed the expected behavior.
+  ```
+- [`084316a`](https://github.com/ghostty-org/ghostty/commit/084316aa825a210dedc9c2fce07772cf36ade3cb) macOS: fix cascading without affecting other new-window behaviours ([#14118](https://github.com/ghostty-org/ghostty/issues/14118)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Found another regression when investigating #14107 after the last fix.
+  This regression appears on macOS 15 and 26 as well: **New window by
+  Shortcuts.app or service menu while a window is visible would create a
+  tab**.
+  
+  It appears that for `new-window` triggered by Shortcuts/Service, a small
+  delay is needed to avoid automatic tabbing. It's either removing
+  `NSWindow.userTabbingPreference == .always` completely or adding another
+  "delay" for cascading. The latter should be better.
+  
+  Also fixes another cascading for `macos-titlebar-style = hidden`
+  previously missed.
+  ```
+- [`41004c6`](https://github.com/ghostty-org/ghostty/commit/41004c6e2204494a2cbc0b4b78dd3b9c671d7488) build(deps): bump cachix/cachix-action from 5f2d7c5294214f71b873db4b969586b980625e71 to 38b082610b782e7e93e209c35fd730d399dee866 ([#14116](https://github.com/ghostty-org/ghostty/issues/14116)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps [cachix/cachix-action](https://github.com/cachix/cachix-action)
+  from 5f2d7c5294214f71b873db4b969586b980625e71 to
+  38b082610b782e7e93e209c35fd730d399dee866.
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/cachix-action/blob/master/RELEASE.md">cachix/cachix-action's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Release</h1>
+  <ol>
+  <li>
+  <p>Create and push a new tag:</p>
+  <pre lang="console"><code>git tag v17
+  git push origin v17
+  </code></pre>
+  </li>
+  <li>
+  <p>Wait for CI to pass.</p>
+  </li>
+  <li>
+  <p><a href="https://github.com/cachix/cachix-action/releases/new">Create
+  a release</a> for the new tag.</p>
+  </li>
+  <li>
+  <p>Move the major version tag to the latest release:</p>
+  <pre lang="console"><code>git tag -fa v17
+  git push origin v17 --force
+  </code></pre>
+  </li>
+  </ol>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/38b082610b782e7e93e209c35fd730d399dee866"><code>38b0826</code></a>
+  dev: cleanup tests and dev files</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/0fe030c2864be690428363af3bc7016b7b1925d8"><code>0fe030c</code></a>
+  dist</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/792dafcfd01b48d3df8424b641db396602252fc3"><code>792dafc</code></a>
+  deps: bump dependencies</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/b690244fb5c76a5486c33b0fbbc6fd55c857d1fe"><code>b690244</code></a>
+  ci: improve Nix compatibility test coverage</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/f495f3ffa2f3810a92e5cc0abc2c5d6a2a07ec82"><code>f495f3f</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/cachix-action/issues/217">#217</a>
+  from cachix/dependabot/github_actions/actions/checkout-7</li>
+  <li><a
+  href="https://github.com/cachix/cachix-action/commit/9ee3c77d45d24a8b7557d22cbba3454f2a4f8a7b"><code>9ee3c77</code></a>
+  chore(deps): bump actions/checkout from 6 to 7</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/cachix-action/compare/5f2d7c5294214f71b873db4b969586b980625e71...38b082610b782e7e93e209c35fd730d399dee866">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`dd167cc`](https://github.com/ghostty-org/ghostty/commit/dd167cc464f8f8b30cc561fb07e09e9fb2986c14) build(deps): bump flatpak/flatpak-github-actions/flatpak-builder from 6.7 to 6.8 ([#14115](https://github.com/ghostty-org/ghostty/issues/14115)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [flatpak/flatpak-github-actions/flatpak-builder](https://github.com/flatpak/flatpak-github-actions)
+  from 6.7 to 6.8.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/flatpak/flatpak-github-actions/releases">flatpak/flatpak-github-actions/flatpak-builder's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v6.8</h2>
+  <ul>
+  <li>Add saveCache flag</li>
+  <li>Add ability to override artifact name</li>
+  <li>Add buildDebugBundle flag</li>
+  <li>Update tests, documentation and dependencies</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/79327416609af08178ad73b352877e51450790b3"><code>7932741</code></a>
+  Update all dependencies and regenerate dist</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/09e3d61868ecd92a1c5b298a31bcc4bae17ae217"><code>09e3d61</code></a>
+  readme: Don't specify setting cache key to github.sha (<a
+  href="https://redirect.github.com/flatpak/flatpak-github-actions/issues/261">#261</a>)</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/23e622281a14ba5350ce2ab1ae700ac7d08cc841"><code>23e6222</code></a>
+  Update runtime versions and docker images to latest</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/a3ab43f58191aa8dc105e572c0a62eaac0a7555a"><code>a3ab43f</code></a>
+  flatpak-builder: Add saveCache flag</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/8e357b1556f526e3642244bdf1a6d585be36de54"><code>8e357b1</code></a>
+  ci: Remove unnecessary 'needs' from debug bundle job</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/26e19caa3a954b1d36898a0e239a67d8e856f99c"><code>26e19ca</code></a>
+  ci: Add test for artifact-name</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/06d246b4d5459d93c166243236f8a086d5578746"><code>06d246b</code></a>
+  flatpak-builder: Add ability to override artifact name</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/a2622647717d8185d0f8cf01bb1ea2341e357ae0"><code>a262264</code></a>
+  ci: Add job that uses build-debug-bundle</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/f7362292df659c06960a8c0dc309ab5990454a29"><code>f736229</code></a>
+  flatpak-builder: Add buildDebugBundle flag</li>
+  <li><a
+  href="https://github.com/flatpak/flatpak-github-actions/commit/3b10954431df173eb3b564bb9adfddf3842ff91c"><code>3b10954</code></a>
+  ci: Update actions to versions using Node 24</li>
+  <li>See full diff in <a
+  href="https://github.com/flatpak/flatpak-github-actions/compare/401fe28a8384095fc1531b9d320b292f0ee45adb...79327416609af08178ad73b352877e51450790b3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=flatpak/flatpak-github-actions/flatpak-builder&package-manager=github_actions&previous-version=6.7&new-version=6.8)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`06178ee`](https://github.com/ghostty-org/ghostty/commit/06178eeaad7648216a0da5eb73537e9dba2266cb) terminal/search: resume a complete search when history is prepended ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A search that had already exhausted a screen's PageList never picked up
+  history pages prepended afterwards by incremental snapshot restore.
+  
+  The lower level PageListSearch and so on could already handle this, we
+  just needed to let it know that more history existed to search. This
+  fixes that.
+  ```
+- [`b0481f5`](https://github.com/ghostty-org/ghostty/commit/b0481f5aa76a97e652bb842937ae4fa0eda68f3c) terminal/search: resume a complete search when history is prepended ([#14123](https://github.com/ghostty-org/ghostty/issues/14123)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A search that had already exhausted a screen's PageList never picked up
+  history pages prepended afterwards by incremental snapshot restore.
+  
+  The lower level PageListSearch and so on could already handle this, we
+  just needed to let it know that more history existed to search. This
+  fixes that.
+  ```
 
 ## September 1, 2026
 
