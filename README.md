@@ -8,7 +8,126 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 3, 2026 at 02:39 UTC.
+> Last updated: September 3, 2026 at 07:40 UTC.
+
+## September 3, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33716226971), [2](https://github.com/ghostty-org/ghostty/actions/runs/33712675217)  
+Summary: 2 runs • 7 commits • 3 authors
+
+### Changes
+
+- [`e01e75b`](https://github.com/ghostty-org/ghostty/commit/e01e75bbb228cfbb5fc08cdd53316928761c020b) terminal: don't touch me! keep the page pool free list unobtrusive ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This replaces the `std.heap.MemoryPool` used for page buffers with
+  a custom pool called `UntouchedPool`. This keeps its free list in a side
+  array and never reads/writes items until `create()`. This means that
+  demand-driven allocations (like mmaped pages) don't incur physical costs
+  until they're actually used.
+  
+  The standard `std.heap.MemoryPool` uses an intrusive linked list for
+  its items which causes every item to be touched, which forces a full
+  page-in of memory.
+  
+  It turns out we also had a lot of assertions and logic to work around
+  this in various ways (size of rows, asserting we overwrite the free
+  list entry, etc.) that we can now remove because of this.
+  
+  For an 80x24 terminal on macOS (16 KB pages):
+  
+  | Per terminal                 | Before   | After    |
+  |------------------------------|----------|----------|
+  | Page-list memory dirty       | 128 KiB  | 48 KiB   |
+  | Process phys_footprint delta | 143 KiB  | 62 KiB   |
+  | Page-list virtual size       | 2208 KiB | 1600 KiB |
+  
+  The remaining 48 KB is the active page, because we sprinkle metadata
+  around the page which forces every page to be paged in. I'm going to
+  follow this up with some work trying to move all our metadata to the
+  front of the page so we only page one in until the rest is needed,
+  but not sure if its achievable.
+  
+  Micro-benchmarks on the pool show that its twice the speed (slower) to
+  create/free due to the side list, but in an actual `+terminal-stream`
+  benchmark churning through pages, there is no measurable difference. I
+  think its a good trade.
+  ```
+- [`31bdcd5`](https://github.com/ghostty-org/ghostty/commit/31bdcd5a79639bbac97c1a94e0f41d0f5ff84ca2) terminal: don't touch me! keep the page pool free list unobtrusive ([#14130](https://github.com/ghostty-org/ghostty/issues/14130)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This replaces the `std.heap.MemoryPool` used for page buffers with a
+  custom pool called `UntouchedPool`. This keeps its free list in a side
+  array and never reads/writes items until `create()`. This means that
+  demand-driven allocations (like mmaped pages) don't incur physical costs
+  until they're actually used.
+  
+  The standard `std.heap.MemoryPool` uses an intrusive linked list for its
+  items which causes every item to be touched, which forces a full page-in
+  of memory.
+  
+  It turns out we also had a lot of assertions and logic to work around
+  this in various ways (size of rows, asserting we overwrite the free list
+  entry, etc.) that we can now remove because of this.
+  
+  For an 80x24 terminal on macOS (16 KB pages):
+  
+  | Per terminal                 | Before   | After    |
+  |------------------------------|----------|----------|
+  | Page-list memory dirty       | 128 KiB  | 48 KiB   |
+  | Process phys_footprint delta | 143 KiB  | 62 KiB   |
+  | Page-list virtual size       | 2208 KiB | 1600 KiB |
+  
+  The remaining 48 KB is the active page, because we sprinkle metadata
+  around the page which forces every page to be paged in. I'm going to
+  follow this up with some work trying to move all our metadata to the
+  front of the page so we only page one in until the rest is needed, but
+  not sure if its achievable.
+  
+  Micro-benchmarks on the pool show that its twice the speed (slower) to
+  create/free due to the side list, but in an actual `+terminal-stream`
+  benchmark churning through pages, there is no measurable difference. I
+  think its a good trade.
+  ```
+- [`5dfb672`](https://github.com/ghostty-org/ghostty/commit/5dfb672986b57b6246d0c5d2c3c9a8fd3d138543) surface: restore mouse_shape when modifier overrides end ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  hard-coded .default & .text overrode a previously set OSC22 pointer
+  shape, this was a regression introduced in 6e8ed4e8b.
+  ```
+- [`6674aa3`](https://github.com/ghostty-org/ghostty/commit/6674aa3ba88e4e316af4106746e4b2091868df79) surface: update keyToMouseShape tests to expect mouse_shape ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  Update the tests to expect the mouse_shape back, not the hardcoded
+  .default or .text
+  ```
+- [`3a766cc`](https://github.com/ghostty-org/ghostty/commit/3a766ccf501c669298e5b648a47d217e99bff618) surface: show .text (i-beam) while shift is held without mouse tracking ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  I think this is the expected behavoir when a custom OSC22 pointer is set. Once
+  shift is released it will return to mouse_shape (whatever the pointer
+  was before shit held).
+  ```
+- [`0fb6d29`](https://github.com/ghostty-org/ghostty/commit/0fb6d29404aab9c54c6fbce3cebd630960938117) SurfaceMouse: simplify keyToMouseShape ([@vancluever](https://github.com/vancluever))
+  ```text
+  keyToMouseShape was initially designed with more of a transition table
+  model in mind to handle key presses/overrides based on very specific
+  cursor states. This never materialized, so I think it's safe to just
+  simply the process of handling overrides and/or passing along the
+  current cursor state from the terminal in the event of key presses.
+  
+  Also removed a test that is essentially a duplicate of one before it now
+  (returning current surface shape in the event of no overrides).
+  ```
+- [`6000034`](https://github.com/ghostty-org/ghostty/commit/600003455a9b6e7cf06b3127a490d6ab3c1b05df) surface: restore application mouse shape after modifier overrides ([#14128](https://github.com/ghostty-org/ghostty/issues/14128)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This fixes a regression of 9a6469743 introduced in 6e8ed4e8b.
+  
+  With this fix the mouse pointer will be restored to the previous (which
+  could have be set to something else via OSC22), not a hardcoded .text or
+  .default.
+  
+  It also will change the cursor to a text selection if shift is held even
+  without mouse tracking, I think this is the expected behavior when a
+  cursor is set via OSC22. (Kitty additionaly, once you start selecting
+  changes to text (I-beam), this would be a follow-up if we desire to
+  behave like kitty with OSC22 pointers).
+  ```
 
 ## September 2, 2026
 
