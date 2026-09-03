@@ -8,15 +8,28 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 3, 2026 at 13:11 UTC.
+> Last updated: September 3, 2026 at 18:17 UTC.
 
 ## September 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33716226971), [2](https://github.com/ghostty-org/ghostty/actions/runs/33712675217)  
-Summary: 2 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33777214262), [2](https://github.com/ghostty-org/ghostty/actions/runs/33716226971), [3](https://github.com/ghostty-org/ghostty/actions/runs/33712675217)  
+Summary: 3 runs • 11 commits • 4 authors
 
 ### Changes
 
+- [`e347482`](https://github.com/ghostty-org/ghostty/commit/e347482fba62fd905fab2d4c8ec6a8c6f3664385) macOS: fix find previous action when search is focused ([@bo2themax](https://github.com/bo2themax))
+- [`e8936b8`](https://github.com/ghostty-org/ghostty/commit/e8936b8969e78e07d9a8bf2b6a22ce59a38f5dfb) macOS: follow up cascading fix for [#14118](https://github.com/ghostty-org/ghostty/issues/14118) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Didn't respect the comment above before when reverting and testing hidden title 🫪
+  ```
+- [`3cca3e0`](https://github.com/ghostty-org/ghostty/commit/3cca3e0b956f07e008a4c66bb5f1a8ce266259a3) macOS: follow up cascading fix for [#14118](https://github.com/ghostty-org/ghostty/issues/14118) ([#14132](https://github.com/ghostty-org/ghostty/issues/14132)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Didn't respect the comment above. Sorry for the back&forth changes 🫪
+  ```
+- [`09ff85b`](https://github.com/ghostty-org/ghostty/commit/09ff85b2ac7b4204bbc48b5c7010adf0bdfb36d8) macOS: fix find previous action when search is focused ([#14131](https://github.com/ghostty-org/ghostty/issues/14131)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Typo found by @lrytz.
+  ```
 - [`e01e75b`](https://github.com/ghostty-org/ghostty/commit/e01e75bbb228cfbb5fc08cdd53316928761c020b) terminal: don't touch me! keep the page pool free list unobtrusive ([@mitchellh](https://github.com/mitchellh))
   ```text
   This replaces the `std.heap.MemoryPool` used for page buffers with
