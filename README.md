@@ -8,15 +8,50 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 3, 2026 at 18:17 UTC.
+> Last updated: September 3, 2026 at 22:56 UTC.
 
 ## September 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33777214262), [2](https://github.com/ghostty-org/ghostty/actions/runs/33716226971), [3](https://github.com/ghostty-org/ghostty/actions/runs/33712675217)  
-Summary: 3 runs • 11 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33796979743), [2](https://github.com/ghostty-org/ghostty/actions/runs/33777214262), [3](https://github.com/ghostty-org/ghostty/actions/runs/33716226971), [4](https://github.com/ghostty-org/ghostty/actions/runs/33712675217)  
+Summary: 4 runs • 16 commits • 4 authors
 
 ### Changes
 
+- [`ffe015e`](https://github.com/ghostty-org/ghostty/commit/ffe015ee55d1ab39cbf1525823ff18092433eab9) terminal: bitmap allocator marks free chunks with zero bits ([@mitchellh](https://github.com/mitchellh))
+- [`c0a4f80`](https://github.com/ghostty-org/ghostty/commit/c0a4f80d80d75f7d3250d12554501fd7197e9bb0) terminal: hash map and ref counted set can initialize from zeroed memory ([@mitchellh](https://github.com/mitchellh))
+- [`6112935`](https://github.com/ghostty-org/ghostty/commit/6112935a2fe9b7f5fd6c7595225c53406bee3bb1) terminal: hash map keeps its capacity and entry pointers in the struct ([@mitchellh](https://github.com/mitchellh))
+- [`d2ff6d7`](https://github.com/ghostty-org/ghostty/commit/d2ff6d77a05d9e9b247684fad6bcb7979d0b2aca) terminal: pages initialize from zeroed memory and cache-line align their cells ([@mitchellh](https://github.com/mitchellh))
+- [`07bccf7`](https://github.com/ghostty-org/ghostty/commit/07bccf7a311acdfa6afc77f2016160d49b1f1982) terminal: make all page data structures treat zero as empty to avoid eagerly paging in mmap pages ([#14137](https://github.com/ghostty-org/ghostty/issues/14137)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates all our page data structures so that the `0` value
+  (literally `@memset(0)`) means empty. This way, when we initialize a new
+  page via mmap (OS-guaranteed zeroed), we don't need to write to it, and
+  don't trigger the kernel to physically map the memory.
+  
+  From Ghostty 1.3.1, our empty terminal physical memory usage goes from
+  128 KB to 48 KB (#14130) to 16 KB (this PR). And even with an empty
+  prompt written on my machine, it holds at 16KB, only increasing to two
+  pages (32 KB) with 24 rows written.
+  
+  Here are some measurements.
+  
+  | Per terminal | Before (macOS) | After (macOS) | Before (Linux) | After
+  (Linux) |
+  
+  |-------------------------------------------------------|----------------|---------------|----------------|---------------|
+  | Page-list memory dirty, fresh | 48 KiB | 16 KiB | 24 KiB | 8 KiB |
+  | Page-list memory dirty, 24 visible rows written | 64 KiB | 32 KiB | 36
+  KiB | 20 KiB |
+  
+  Note macOS uses 16KB pages and Linux generally uses 4 KB pages.
+  
+  I ran `ghostty-bench +terminal-stream` main vs this branch and with
+  every normal workload the results are within noise (sometimes faster
+  sometimes slower).
+  
+  **AI usage:** It was used as a judge/validator. The actual changes were
+  me, commit messages and PR messages all me.
+  ```
 - [`e347482`](https://github.com/ghostty-org/ghostty/commit/e347482fba62fd905fab2d4c8ec6a8c6f3664385) macOS: fix find previous action when search is focused ([@bo2themax](https://github.com/bo2themax))
 - [`e8936b8`](https://github.com/ghostty-org/ghostty/commit/e8936b8969e78e07d9a8bf2b6a22ce59a38f5dfb) macOS: follow up cascading fix for [#14118](https://github.com/ghostty-org/ghostty/issues/14118) ([@bo2themax](https://github.com/bo2themax))
   ```text
