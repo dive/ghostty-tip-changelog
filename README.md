@@ -8,15 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 4, 2026 at 18:00 UTC.
+> Last updated: September 4, 2026 at 22:44 UTC.
 
 ## September 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33895939538)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33902692149), [2](https://github.com/ghostty-org/ghostty/actions/runs/33895939538)  
+Summary: 2 runs • 9 commits • 1 authors
 
 ### Changes
 
+- [`636a2f3`](https://github.com/ghostty-org/ghostty/commit/636a2f35b4a37fbb1b58dd801ae14513d355e95e) input: preserve numeric keypad output with MOK2 ([@mitchellh](https://github.com/mitchellh))
+- [`e7bdda9`](https://github.com/ghostty-org/ghostty/commit/e7bdda9918a87f74178e15132c2894e29a8bf271) input: encode F13 through F25 ([@mitchellh](https://github.com/mitchellh))
+- [`37e3cdd`](https://github.com/ghostty-org/ghostty/commit/37e3cdd2d281feb2bb403600974289406f891461) input: encode alt+escape with MOK2 ([@mitchellh](https://github.com/mitchellh))
+- [`cc3fd8a`](https://github.com/ghostty-org/ghostty/commit/cc3fd8a773300371e2d1f41265128a7bf10adfa2) input: encode help and context menu keys ([@mitchellh](https://github.com/mitchellh))
+- [`b97654f`](https://github.com/ghostty-org/ghostty/commit/b97654fe76a8badbbb0c51c0c0e2156fd12f0731) input: improve xterm modifyOtherKeys 2 compatibility ([#14145](https://github.com/ghostty-org/ghostty/issues/14145)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow-up to #14144
+  
+  I wrote a harness that created all possible US-layout keyboard input
+  combinations with xterm patch 411 and Ghostty main and compared their
+  full encoding sequence. There are various miscompatibilities on purpose
+  but these were definitely bugs I wanted to address first.
+  
+  - Normal-mode numeric keypad keys now preserve their numeric output
+  instead of falling through to generic MOK2 encoding. Application keypad
+  behavior is unchanged.
+  - F13 through F25 now emit their xterm-compatible function-key
+  sequences, including modifier parameters.
+  - Help and Context Menu now emit editing-key codes 28 and 29.
+  - Alt+Escape now emits `CSI 27;3;27~` under MOK2 while retaining the
+  traditional `ESC ESC` encoding otherwise.
+  
+  After these changes, 2,081 of 2,096 cases match xterm exactly. The
+  remaining 15 differences are intentional.
+  ```
+- [`587e08f`](https://github.com/ghostty-org/ghostty/commit/587e08f3f70d29c7bc196e2cd919bd4b11f9b5bb) input: encode non-ASCII alt prefixes as UTF-8 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Legacy Alt-as-Escape now prefixes the complete UTF-8 sequence for
+  non-ASCII input. When text is unavailable, the encoder falls back to
+  the UTF-8 encoding of the unshifted codepoint.
+  
+  This fixes 16 xterm legacy cases and eight fixterms cases without changing
+  MOK2. The cases I'm talking about are in my comparison harness...
+  
+  The helper now writes Escape and the selected payload directly. It
+  preserves macOS Option-as-Alt translation and shifted ASCII behavior.
+  ```
+- [`492300c`](https://github.com/ghostty-org/ghostty/commit/492300cad104195411d12217dd22f1cd05f31376) input: encode non-ASCII alt prefixes as UTF-8 ([#14146](https://github.com/ghostty-org/ghostty/issues/14146)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Legacy Alt-as-Escape now prefixes the complete UTF-8 sequence for
+  non-ASCII input. When text is unavailable, the encoder falls back to the
+  UTF-8 encoding of the unshifted codepoint.
+  
+  This fixes 16 xterm legacy cases and eight fixterms cases without
+  changing MOK2. The cases I'm talking about are in my comparison
+  harness...
+  
+  The helper now writes Escape and the selected payload directly. It
+  preserves macOS Option-as-Alt translation and shifted ASCII behavior.
+  ```
 - [`4406cea`](https://github.com/ghostty-org/ghostty/commit/4406cea3e9fde88876551cedfef10d3b245b75b6) input: encode ctrl keys with modifyOtherKeys 2 ([@mitchellh](https://github.com/mitchellh))
   ```text
   #7425
