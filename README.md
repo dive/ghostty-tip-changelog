@@ -8,7 +8,42 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 4, 2026 at 13:05 UTC.
+> Last updated: September 4, 2026 at 18:00 UTC.
+
+## September 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/33895939538)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`4406cea`](https://github.com/ghostty-org/ghostty/commit/4406cea3e9fde88876551cedfef10d3b245b75b6) input: encode ctrl keys with modifyOtherKeys 2 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #7425
+  
+  Control-modified characters use xterm's MOK2 encoding.
+  
+  I incorrectly believed previously that MOK2 ctrl chars were still encoded
+  as C0 bytes. This is wrong. I'm going to do a more in depth audit if
+  possible with every possible key combination against xterm to see where
+  we diverge but this fixes this for now without regressing any tests.
+  
+  Background: https://invisible-island.net/xterm/modified-keys.html
+  ```
+- [`1f5bb57`](https://github.com/ghostty-org/ghostty/commit/1f5bb5769fbb5e717546073d33d3985604a315b2) input: encode ctrl keys with modifyOtherKeys 2 ([#14144](https://github.com/ghostty-org/ghostty/issues/14144)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #7425
+  
+  Control-modified characters use xterm's MOK2 encoding.
+  
+  I incorrectly believed previously that MOK2 ctrl chars were still
+  encoded as C0 bytes. This is wrong. I'm going to do a more in depth
+  audit if possible with every possible key combination against xterm to
+  see where we diverge but this fixes this for now without regressing any
+  tests.
+  
+  Background: https://invisible-island.net/xterm/modified-keys.html
+  ```
 
 ## September 3, 2026
 
