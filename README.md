@@ -8,7 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 8, 2026 at 02:44 UTC.
+> Last updated: September 8, 2026 at 07:44 UTC.
+
+## September 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34187628915)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`dd2edd7`](https://github.com/ghostty-org/ghostty/commit/dd2edd760da6b90b01ef88f75e1bea8a71b31e3f) libvt: return safe pointers for empty output ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Normalize empty buffers and borrowed strings at the libghostty-vt C
+  boundary to null pointers.
+  
+  Zig can use sentinel addresses such as 0x1 for empty slices. Returning
+  these pointers to Go can cause a fatal invalid-pointer error when the
+  runtime relocates a goroutine's stack, even though the length is zero.
+  ```
+- [`b0c421f`](https://github.com/ghostty-org/ghostty/commit/b0c421fcd2e290629d4285c181b52fe2f2095f06) libghostty: return safe pointers for empty output ([#14177](https://github.com/ghostty-org/ghostty/issues/14177)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Normalize empty buffers and borrowed strings at the libghostty-vt C
+  boundary to null pointers.
+  
+  Zig can use sentinel addresses such as 0x1 for empty slices. Returning
+  these pointers to Go can cause a fatal invalid-pointer error when the
+  runtime relocates a goroutine's stack, even though the length is zero.
+  ```
 
 ## September 7, 2026
 
