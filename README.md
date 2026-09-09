@@ -8,7 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 9, 2026 at 13:19 UTC.
+> Last updated: September 9, 2026 at 18:15 UTC.
+
+## September 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34375231118), [2](https://github.com/ghostty-org/ghostty/actions/runs/34370911324)  
+Summary: 2 runs • 7 commits • 2 authors
+
+### Changes
+
+- [`7adbb51`](https://github.com/ghostty-org/ghostty/commit/7adbb5160d24bde9a65b5999d1ccd6ea4ec053b5) build/libghostty-vt: export uucode so that it can be re-used ([@jcollie](https://github.com/jcollie))
+- [`60b4306`](https://github.com/ghostty-org/ghostty/commit/60b43068c5fc74c2117877b8ac4ecf9321bb8f24) terminal: reclaim pooled and compressed page memory on Windows ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds memory decommit/recommit support to Windows via
+  DiscardVirtualMemory. This allows unused page memory to be reclaimed
+  the same way it is already today on Linux and macOS.
+  
+  DiscardVirtualMemory releases the physical pages behind a committed
+  range but leaves it committed, so a later access finds a zero page or
+  the old contents rather than faulting, and nothing has to be committed
+  again before reuse. That keeps recommit a no-op and, more importantly,
+  keeps restoring a compressed page infallible.
+  
+  Windows has an alternative `VirtualFree(MEM_DECOMMIT)` followed by
+  `VirtualAlloc(MEM_COMMIT)` which releases the commit charge as well, but
+  Windows has no overcommit, so the commit can be refused on restore and our
+  restore path doesn't support OOM.
+  
+  https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-discardvirtualmemory
+  ```
+- [`7644e6d`](https://github.com/ghostty-org/ghostty/commit/7644e6d627ede8042db16d264ed3d118d8832923) build/linghostty-vt: fix libvaxis access to uucode tables ([@jcollie](https://github.com/jcollie))
+- [`95cfbbb`](https://github.com/ghostty-org/ghostty/commit/95cfbbb055c659f57da3650cfb733dbb5072f6a5) terminal: reclaim pooled and compressed page memory on Windows ([#14190](https://github.com/ghostty-org/ghostty/issues/14190)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds memory decommit/recommit support to Windows via
+  DiscardVirtualMemory. This allows unused page memory to be reclaimed the
+  same way it is already today on Linux and macOS.
+  
+  DiscardVirtualMemory releases the physical pages behind a committed
+  range but leaves it committed, so a later access finds a zero page or
+  the old contents rather than faulting, and nothing has to be committed
+  again before reuse. That keeps recommit a no-op and, more importantly,
+  keeps restoring a compressed page infallible.
+  
+  Windows has an alternative `VirtualFree(MEM_DECOMMIT)` followed by
+  `VirtualAlloc(MEM_COMMIT)` which releases the commit charge as well, but
+  Windows has no overcommit, so the commit can be refused on restore and
+  our restore path doesn't support OOM.
+  
+  
+  https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-discardvirtualmemory
+  ```
+- [`4a70ee4`](https://github.com/ghostty-org/ghostty/commit/4a70ee4718ba0967bcfd72f43adb715bf65a860d) build/libghostty-vt: fixed to the build system for programs that embed libghostty-vt and libvaxis ([#14191](https://github.com/ghostty-org/ghostty/issues/14191)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Two small patches that don't directly affect Ghostty, but do affect
+  programs that embed `libghostty-vt` and `libvaxis`, or
+  any other combination that also uses `uucode`.
+  
+  AI disclosure: these bugs were discovered/fixed by Claude, but I've
+  rewritten parts of the patches and the comments.
+  
+  CC @rockorager
+  ```
+- [`0b54463`](https://github.com/ghostty-org/ghostty/commit/0b54463649eee14c0628cc7ab95065f8a299e73c) terminal/kitty: reject unsafe Windows paths for image file mediums ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Kitty graphics file and temporary file mediums open a
+  client-supplied path and the Kitty specification only specifies the
+  blocklist for Unix-style machines.
+  
+  Windows has various unsafe paths as well that we should very obviously
+  block. This diverges from the Kitty specification for now (I plan
+  on reporting this upstream and asking for feedback) but I think its the
+  right move for security.
+  
+  Windows dangerous namespaces:
+  
+    - A UNC path (`\\server\share\x`, also `//server/share/x`) makes the
+      process resolve the host and authenticate to it over SMB.
+    - The device namespaces (`\\.\`, `\\?\`, `\??\`) reach raw volumes and
+      named pipes, where the open connects to something or blocks.
+    - Reserved DOS device names (CON, NUL, COM1, ...) resolve to devices
+      from inside any directory.
+  
+  These are now blocked.
+  
+  This commit also heap allocates the path buffer because max path on
+  windows is around 100KB. :)
+  ```
+- [`cf4de79`](https://github.com/ghostty-org/ghostty/commit/cf4de795be50ec5bfe6675803a3371d4055f2beb) kitty: reject unsafe Windows paths for image file mediums ([#14189](https://github.com/ghostty-org/ghostty/issues/14189)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Kitty graphics file and temporary file mediums open a
+  client-supplied path and the Kitty specification only specifies the
+  blocklist for Unix-style machines.
+  
+  Windows has various unsafe paths as well that we should very obviously
+  block. This diverges from the Kitty specification for now (I plan on
+  reporting this upstream and asking for feedback) but I think its the
+  right move for security.
+  
+  Windows dangerous namespaces:
+  
+  - A UNC path (`\\server\share\x`, also `//server/share/x`) makes the
+  process resolve the host and authenticate to it over SMB.
+  - The device namespaces (`\\.\`, `\\?\`, `\??\`) reach raw volumes and
+  named pipes, where the open connects to something or blocks.
+  - Reserved DOS device names (CON, NUL, COM1, ...) resolve to devices
+  from inside any directory.
+  
+  These are now blocked.
+  
+  This commit also heap allocates the path buffer because max path on
+  windows is around 100KB. :)\
+  
+  **AI usage:** Fable and Astra both helped with validation, edge cases.
+  ```
 
 ## September 8, 2026
 
