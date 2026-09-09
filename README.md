@@ -8,15 +8,82 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 9, 2026 at 18:15 UTC.
+> Last updated: September 9, 2026 at 22:52 UTC.
 
 ## September 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34375231118), [2](https://github.com/ghostty-org/ghostty/actions/runs/34370911324)  
-Summary: 2 runs • 7 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34400808728), [2](https://github.com/ghostty-org/ghostty/actions/runs/34396884567), [3](https://github.com/ghostty-org/ghostty/actions/runs/34375231118), [4](https://github.com/ghostty-org/ghostty/actions/runs/34370911324)  
+Summary: 4 runs • 10 commits • 3 authors
 
 ### Changes
 
+- [`8c17235`](https://github.com/ghostty-org/ghostty/commit/8c17235f8d1447ae3b5109d1c3a7d1256a9b2de4) Update VOUCHED list ([#14195](https://github.com/ghostty-org/ghostty/issues/14195)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14194#issuecomment-5608205535)
+  from @trag1c.
+  
+  Vouch: @neoto
+  ```
+- [`f6cb831`](https://github.com/ghostty-org/ghostty/commit/f6cb8312b38088e4038296ecc5dde3f23c83fd94) tinyio: implement a Windows version and use it in the C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Implements TinyIO for Windows which is used to save binary and runtime
+  costs. As a reminder, binary costs are saved because `std.Io` uses a
+  vtable so compilers can't prune any unused functions, so you pay for the
+  full cost. We can noop unused functions to save. Runtime is saved
+  because there is less state to carry for unused functionality like
+  concurrency primitives.
+  
+  The impl itself is mostly taken from Zig directly. I ran tests on
+  Windows (arm64) and verified everything works as expected so far!
+  
+  Binary size measurements before/after:
+  
+    | Mode         | Io owner        | ghostty-vt.dll | vs. Threaded |
+    |--------------|-----------------|---------------:|-------------:|
+    | ReleaseFast  | std.Io.Threaded |      2,209,280 |              |
+    | ReleaseFast  | std.Io.failing  |      1,815,552 |     -393,728 |
+    | ReleaseFast  | TinyIo          |      1,826,816 |     -382,464 |
+    | ReleaseSmall | std.Io.Threaded |      1,541,632 |              |
+    | ReleaseSmall | std.Io.failing  |      1,190,912 |     -350,720 |
+    | ReleaseSmall | TinyIo          |      1,199,616 |     -342,016 |
+  
+  The runtime savings are relatively small, but 1KB per terminal ain't nothing:
+  
+    | Io owner        | Private, +100 terminals | Private, startup |
+    |-----------------|------------------------:|-----------------:|
+    | std.Io.Threaded |            +161,845,248 |          782,336 |
+    | TinyIo          |            +161,742,848 |          729,088 |
+  ```
+- [`fde3449`](https://github.com/ghostty-org/ghostty/commit/fde3449b348d8e36c0d52fd39bb33ea66744b958) tinyio: implement a Windows version and use it in the C API ([#14193](https://github.com/ghostty-org/ghostty/issues/14193)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Implements TinyIO for Windows which is used to save binary and runtime
+  costs. As a reminder, binary costs are saved because `std.Io` uses a
+  vtable so compilers can't prune any unused functions, so you pay for the
+  full cost. We can noop unused functions to save. Runtime is saved
+  because there is less state to carry for unused functionality like
+  concurrency primitives.
+  
+  The impl itself is mostly taken from Zig directly. I ran tests on
+  Windows (arm64) and verified everything works as expected so far!
+  
+  Binary size measurements before/after:
+  
+    | Mode         | Io owner        | ghostty-vt.dll | vs. Threaded |
+    |--------------|-----------------|---------------:|-------------:|
+    | ReleaseFast  | std.Io.Threaded |      2,209,280 |              |
+    | ReleaseFast  | TinyIo          |      1,826,816 |     -382,464 |
+    | ReleaseSmall | std.Io.Threaded |      1,541,632 |              |
+    | ReleaseSmall | TinyIo          |      1,199,616 |     -342,016 |
+  
+  The runtime savings are relatively small, but 1KB per terminal ain't
+  nothing:
+  
+    | Io owner        | Private, +100 terminals | Private, startup |
+    |-----------------|------------------------:|-----------------:|
+    | std.Io.Threaded |            +161,845,248 |          782,336 |
+    | TinyIo          |            +161,742,848 |          729,088 |
+  ```
 - [`7adbb51`](https://github.com/ghostty-org/ghostty/commit/7adbb5160d24bde9a65b5999d1ccd6ea4ec053b5) build/libghostty-vt: export uucode so that it can be re-used ([@jcollie](https://github.com/jcollie))
 - [`60b4306`](https://github.com/ghostty-org/ghostty/commit/60b43068c5fc74c2117877b8ac4ecf9321bb8f24) terminal: reclaim pooled and compressed page memory on Windows ([@mitchellh](https://github.com/mitchellh))
   ```text
