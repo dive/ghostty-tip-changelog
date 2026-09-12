@@ -8,7 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 12, 2026 at 02:49 UTC.
+> Last updated: September 12, 2026 at 07:37 UTC.
+
+## September 12, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34674371812)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`c0c5473`](https://github.com/ghostty-org/ghostty/commit/c0c5473daf5b0ebc78ce0c8d1854f6221574ab3c) build: refactoring our use of translate-c ([@vancluever](https://github.com/vancluever))
+  ```text
+  This commit refactors our use of translate-c, in preparation for larger
+  removal of cImport and better co-ordination between building of C
+  dependencies and translation of headers.
+  
+  The major update is the creation of an internal helper package that
+  wraps our use of the external translate-c library. This allows us to not
+  only have better shorthand and a data-driven, declarative approach to C
+  translation (versus the otherwise more imperative approach), it also
+  funnels the external dependency into a single package instead of
+  spreading it out among what will be an increasingly larger amount of
+  places as dependencies in "pkg/" get updated.
+  
+  It also includes some refactors, namely to the harfbuzz package, which
+  has had its individual settings refactored into helpers to allow for the
+  settings to be better shared between translation and the build of the
+  c-based static library.
+  
+  Wuffs has also had a bit of a refactor too so that we don't generate a
+  file with all of the macro defines in it - we just send these in as "-D"
+  flags now.
+  ```
+- [`e2e53f8`](https://github.com/ghostty-org/ghostty/commit/e2e53f861482e080bf45054ba49ef471f9849937) build: refactoring our use of translate-c ([#14203](https://github.com/ghostty-org/ghostty/issues/14203)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This commit refactors our use of translate-c, in preparation for larger
+  removal of `cImport` and better co-ordination between building of C
+  dependencies and translation of headers.
+  
+  The major update is the creation of an internal helper package that
+  wraps our use of the external translate-c library. This allows us to not
+  only have better shorthand and a data-driven, declarative approach to C
+  translation (versus the otherwise more imperative approach), it also
+  funnels the external dependency into a single package instead of
+  spreading it out among what will be an increasingly larger amount of
+  places as dependencies in `pkg/` get updated.
+  
+  It also includes some refactors, namely to the harfbuzz package, which
+  has had its individual settings refactored into helpers to allow for the
+  settings to be better shared between translation and the build of the
+  c-based static library.
+  
+  Wuffs has also had a bit of a refactor too so that we don't generate a
+  file with all of the macro defines in it - we just send these in as `-D`
+  flags now.
+  ```
 
 ## September 10, 2026
 
