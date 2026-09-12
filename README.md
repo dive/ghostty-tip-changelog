@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 12, 2026 at 12:34 UTC.
+> Last updated: September 12, 2026 at 17:39 UTC.
 
 ## September 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34674371812)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34701118130), [2](https://github.com/ghostty-org/ghostty/actions/runs/34674371812)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`9bbb9b2`](https://github.com/ghostty-org/ghostty/commit/9bbb9b24680358c939846b79a519ce10f7638d1f) Update VOUCHED list ([#14215](https://github.com/ghostty-org/ghostty/issues/14215)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14166#discussioncomment-18413557)
+  from @jcollie.
+  
+  Vouch: @pedronaugusto
+  ```
 - [`c0c5473`](https://github.com/ghostty-org/ghostty/commit/c0c5473daf5b0ebc78ce0c8d1854f6221574ab3c) build: refactoring our use of translate-c ([@vancluever](https://github.com/vancluever))
   ```text
   This commit refactors our use of translate-c, in preparation for larger
