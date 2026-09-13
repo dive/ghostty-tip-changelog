@@ -8,7 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 13, 2026 at 02:47 UTC.
+> Last updated: September 13, 2026 at 07:55 UTC.
+
+## September 13, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34737770142)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`6a64b1c`](https://github.com/ghostty-org/ghostty/commit/6a64b1c86a969bfd6e3a51f1a5c757f980657a3b) po/zh_CN: add missing translations ([@bo2themax](https://github.com/bo2themax))
+- [`5252b19`](https://github.com/ghostty-org/ghostty/commit/5252b193cfd52b4bcd868135e21e4563f2f326ec) po/zh_CN: add missing translations ([#14218](https://github.com/ghostty-org/ghostty/issues/14218)) ([@pluiedev](https://github.com/pluiedev))
 
 ## September 12, 2026
 
