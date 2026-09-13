@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 12, 2026 at 22:47 UTC.
+> Last updated: September 13, 2026 at 02:47 UTC.
 
 ## September 12, 2026
 
@@ -944,54 +944,5 @@ Summary: 4 runs • 11 commits • 5 authors
   ## Added Users
   
   - @slowdub
-  ```
-
-## September 6, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34063395508)  
-Summary: 1 runs • 4 commits • 3 authors
-
-### Changes
-
-- [`501e7b5`](https://github.com/ghostty-org/ghostty/commit/501e7b5c1cf04162305c56e85204d2b1ac9427fb) pkg/fontconfig: update to 2.18.3 ([@vancluever](https://github.com/vancluever))
-  ```text
-  This updates our own bundled fontconfig (for static builds) to 2.18.3.
-  
-  Note that fontconfig has changed their build process a bit since this
-  has been updated last; they are leaning on the Autoconf (and Meson as
-  they are now deprecating use of Autoconf) toolchain(s) to now generate a
-  number of headers that are a part of the build process.
-  
-  Since servicing this dependency in an effort to keep the build pure Zig
-  is starting to get more complex, I've added some documentation on how to
-  actually get a snapshot of the fontconfig repository in a state where
-  files can be looked for and copied over as needed. Otherwise, we might
-  want to in the future consider removing this altogether and just rely on
-  system integrations.
-  ```
-- [`11d1cc4`](https://github.com/ghostty-org/ghostty/commit/11d1cc4fc8decc84048bde1b746f3a013493e36f) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`955d902`](https://github.com/ghostty-org/ghostty/commit/955d902fa6abb3aaf71cac60d6b81bd83fa7fc69) pkg/fontconfig: update to 2.18.3 ([#14113](https://github.com/ghostty-org/ghostty/issues/14113)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Supersedes #14071 (just additional review and local re-generation/re-org
-  of needed headers).
-  
-  This updates our own bundled fontconfig (for static builds) to 2.18.3.
-  
-  Note that fontconfig has changed their build process a bit since this
-  has been updated last; they are leaning on the Autoconf (and Meson as
-  they are now deprecating use of Autoconf) toolchain(s) to now generate a
-  number of headers that are a part of the build process.
-  
-  Since servicing this dependency in an effort to keep the build pure Zig
-  is starting to get more complex, I've added some documentation on how to
-  actually get a snapshot of the fontconfig repository in a state where
-  files can be looked for and copied over as needed. Otherwise, we might
-  want to in the future consider removing this altogether and just rely on
-  system integrations.
-  ```
-- [`f426f6f`](https://github.com/ghostty-org/ghostty/commit/f426f6f181ba95f45d33f683fb754b6359d9e04f) Update iTerm2 colorschemes ([#14159](https://github.com/ghostty-org/ghostty/issues/14159)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260831-151010-752a9c0
   ```
 
