@@ -8,15 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 13, 2026 at 13:35 UTC.
+> Last updated: September 13, 2026 at 17:52 UTC.
 
 ## September 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34754840764), [2](https://github.com/ghostty-org/ghostty/actions/runs/34737770142)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34768241847), [2](https://github.com/ghostty-org/ghostty/actions/runs/34754840764), [3](https://github.com/ghostty-org/ghostty/actions/runs/34737770142)  
+Summary: 3 runs • 5 commits • 4 authors
 
 ### Changes
 
+- [`1a8f331`](https://github.com/ghostty-org/ghostty/commit/1a8f331f16b36717f457306753352f260c2ccdb5) macOS: implement move_tab_to_new_window ([@pedronaugusto](https://github.com/pedronaugusto))
+  ```text
+  The action and its keybind exist, and GTK implements them, but macOS had no
+  handler so the binding did nothing there. AppKit already has the command for
+  window tabs, so this forwards to it.
+  
+  A window that isn't in a tab group, or is alone in one, is already a window of
+  its own, so there is nothing to move and the action reports it did nothing.
+  
+  Implements the remaining macOS half of #2630.
+  ```
+- [`7aab0a0`](https://github.com/ghostty-org/ghostty/commit/7aab0a0392369613472bd5dcfd66bef58e78c3ec) macOS: implement move_tab_to_new_window ([#14216](https://github.com/ghostty-org/ghostty/issues/14216)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  Closes #2630 for macOS. #13621 added the `move_tab_to_new_window` action
+  and the GTK side; this does the same on macOS with AppKit.
+  
+  With native tabs a tab is already a window, so the action forwards to
+  AppKit's own `moveTabToNewWindow:`. It's a no-op when the window is
+  alone in its tab group, same as the Window menu item. The "only
+  implemented on Linux" note comes off the doc comment in `Binding.zig`.
+  Tested on macOS 26, from a keybind and from the command palette. I have
+  no macOS 13-15 machine.
+  
+  Full disclosure, written with Claude Code, I directed it, read every
+  line, and tested the result.
+  ```
 - [`09a2724`](https://github.com/ghostty-org/ghostty/commit/09a2724c23fd13f7cd24c093c568a4b6792a66a2) Update VOUCHED list ([#14223](https://github.com/ghostty-org/ghostty/issues/14223)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
