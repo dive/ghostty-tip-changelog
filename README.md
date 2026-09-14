@@ -8,15 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 14, 2026 at 11:34 UTC.
+> Last updated: September 14, 2026 at 17:29 UTC.
 
 ## September 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34791379020)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34849215429), [2](https://github.com/ghostty-org/ghostty/actions/runs/34791379020)  
+Summary: 2 runs • 16 commits • 4 authors
 
 ### Changes
 
+- [`ba8690c`](https://github.com/ghostty-org/ghostty/commit/ba8690c42088c4dbaaf51e983a31f424a1610b01) i18n(de): Typo fix ([@derVedro](https://github.com/derVedro))
+- [`8b5678b`](https://github.com/ghostty-org/ghostty/commit/8b5678bd16df3f3ff0b58d533812c2e04e9dfb5a) i18n(de): German translation improvements ([@derVedro](https://github.com/derVedro))
+- [`1266c0a`](https://github.com/ghostty-org/ghostty/commit/1266c0a32aca8faff43881f30176f56dd498c0d0) i18n: update `de_DE` translations ([@rpfaeffle](https://github.com/rpfaeffle))
+- [`b32b2f8`](https://github.com/ghostty-org/ghostty/commit/b32b2f87ae478fa195a1e44737648f46ba95d51f) i18n(de): Typo fix ([@derVedro](https://github.com/derVedro))
+- [`fee8cb5`](https://github.com/ghostty-org/ghostty/commit/fee8cb523709d89c986421cee844ee53137c2793) i18n(de): Wording plain text ([@derVedro](https://github.com/derVedro))
+- [`4cc8fa3`](https://github.com/ghostty-org/ghostty/commit/4cc8fa3359fe3368859b7e226cc28ba93d78d3d1) i18n(de): Fix accidental deletion ([@derVedro](https://github.com/derVedro))
+- [`9c4a5a8`](https://github.com/ghostty-org/ghostty/commit/9c4a5a8998bd5fb5f139dce35b7da84b287ca0ae) i18n(de): German translation improvements ([@derVedro](https://github.com/derVedro))
+- [`3879bff`](https://github.com/ghostty-org/ghostty/commit/3879bff33d279990539e563d5e40e0368f515665) i18n(de): Wording plain text ([@derVedro](https://github.com/derVedro))
+- [`1aaca23`](https://github.com/ghostty-org/ghostty/commit/1aaca23e35f0fac52120d9c4be7a8300b7b5734d) i18n(de): Fix accidental deletion ([@derVedro](https://github.com/derVedro))
+- [`5e61670`](https://github.com/ghostty-org/ghostty/commit/5e6167072624f672ac21c3cfc0eef83bb95bec88) i18n(de): update German translation ([@derVedro](https://github.com/derVedro))
+- [`e3849b7`](https://github.com/ghostty-org/ghostty/commit/e3849b7a674f5c681ec7d22050f5c4aa26bf83a7) i18n(de): update German translation ([@derVedro](https://github.com/derVedro))
+- [`05fcdcc`](https://github.com/ghostty-org/ghostty/commit/05fcdccfedae9d7d3fd5c640ac448fa72f58e696) Merge branch 'i18n/de_DE' into german-supplements ([@derVedro](https://github.com/derVedro))
+- [`5833977`](https://github.com/ghostty-org/ghostty/commit/583397756d56b0e2bf8050cd67371389c695a53b) i18n(de): additional improvements ([@rpfaeffle](https://github.com/rpfaeffle))
+- [`50f757d`](https://github.com/ghostty-org/ghostty/commit/50f757dc84c1179fe55ee396fb00268ae8dab0b9) i18n(de): adjust floating state description ([@rpfaeffle](https://github.com/rpfaeffle))
+- [`d5eba8d`](https://github.com/ghostty-org/ghostty/commit/d5eba8d169545cc29d5ee9796ba37ff29759f4db) i18n: update `de_DE` translations ([#13846](https://github.com/ghostty-org/ghostty/issues/13846)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  Part of #13766.
+  ```
 - [`0c2a290`](https://github.com/ghostty-org/ghostty/commit/0c2a290d3a3e2a599be3a43435d778a5896667ee) Sync CODEOWNERS vouch list ([#14229](https://github.com/ghostty-org/ghostty/issues/14229)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
