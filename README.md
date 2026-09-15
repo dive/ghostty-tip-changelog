@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 14, 2026 at 21:20 UTC.
+> Last updated: September 15, 2026 at 03:03 UTC.
 
 ## September 14, 2026
 
@@ -795,53 +795,5 @@ Summary: 4 runs • 10 commits • 3 authors
   windows is around 100KB. :)\
   
   **AI usage:** Fable and Astra both helped with validation, edge cases.
-  ```
-
-## September 8, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34254983862), [2](https://github.com/ghostty-org/ghostty/actions/runs/34187628915)  
-Summary: 2 runs • 9 commits • 4 authors
-
-### Changes
-
-- [`1ff027c`](https://github.com/ghostty-org/ghostty/commit/1ff027c3322864c3c28e701496c8e9d5c14cd4ee) i18n(hr): started updating hr translation ([@Filip7](https://github.com/Filip7))
-  ```text
-  Related issue #13766
-  ```
-- [`437dce2`](https://github.com/ghostty-org/ghostty/commit/437dce21bc4853b89af56daa88a5fd5af2911d75) Update hr.po ([@kristina8888](https://github.com/kristina8888))
-  ```text
-  added new translations for croatian language
-  ```
-- [`edf3aa0`](https://github.com/ghostty-org/ghostty/commit/edf3aa01bb4d4ce2544f58213eb98c0b90c99911) i18n(hr): added more translations and fixes ([@Filip7](https://github.com/Filip7))
-- [`c01c683`](https://github.com/ghostty-org/ghostty/commit/c01c683eb0564b741de6f535e95c3ffc43aff59b) i18n(hr): "toggle" string translations ([@Filip7](https://github.com/Filip7))
-  ```text
-  i18n(hr): add missing translations and correct some others
-  ```
-- [`d1ed60d`](https://github.com/ghostty-org/ghostty/commit/d1ed60d569292c249ddfba42a91d452865c34762) Update hr.po ([@kristina8888](https://github.com/kristina8888))
-- [`68852fc`](https://github.com/ghostty-org/ghostty/commit/68852fc008e0d14391fb284d3bbfb2276efd4033) i18n(hr): unify translation ([@Filip7](https://github.com/Filip7))
-  ```text
-  Use "zaslon" instead of "ekran"
-  ```
-- [`4480625`](https://github.com/ghostty-org/ghostty/commit/448062571c5edf010b7490d06869b88b5ebf8f80) i18n: Started updating hr translation ([#14019](https://github.com/ghostty-org/ghostty/issues/14019)) ([@trag1c](https://github.com/trag1c))
-  ```text
-  Related issue #13766
-  ```
-- [`dd2edd7`](https://github.com/ghostty-org/ghostty/commit/dd2edd760da6b90b01ef88f75e1bea8a71b31e3f) libvt: return safe pointers for empty output ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Normalize empty buffers and borrowed strings at the libghostty-vt C
-  boundary to null pointers.
-  
-  Zig can use sentinel addresses such as 0x1 for empty slices. Returning
-  these pointers to Go can cause a fatal invalid-pointer error when the
-  runtime relocates a goroutine's stack, even though the length is zero.
-  ```
-- [`b0c421f`](https://github.com/ghostty-org/ghostty/commit/b0c421fcd2e290629d4285c181b52fe2f2095f06) libghostty: return safe pointers for empty output ([#14177](https://github.com/ghostty-org/ghostty/issues/14177)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Normalize empty buffers and borrowed strings at the libghostty-vt C
-  boundary to null pointers.
-  
-  Zig can use sentinel addresses such as 0x1 for empty slices. Returning
-  these pointers to Go can cause a fatal invalid-pointer error when the
-  runtime relocates a goroutine's stack, even though the length is zero.
   ```
 
