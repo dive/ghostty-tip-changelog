@@ -8,7 +8,64 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 18, 2026 at 07:54 UTC.
+> Last updated: September 18, 2026 at 13:19 UTC.
+
+## September 18, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35346319697), [2](https://github.com/ghostty-org/ghostty/actions/runs/35340649466), [3](https://github.com/ghostty-org/ghostty/actions/runs/35332773941)  
+Summary: 3 runs • 7 commits • 5 authors
+
+### Changes
+
+- [`86f4490`](https://github.com/ghostty-org/ghostty/commit/86f449013ed4ca4096395de5b9798a962cce0944) Update VOUCHED list ([#14292](https://github.com/ghostty-org/ghostty/issues/14292)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14291#discussioncomment-18500537)
+  from @pluiedev.
+  
+  Vouch: @KonstantinHudyakov
+  ```
+- [`87b6065`](https://github.com/ghostty-org/ghostty/commit/87b60655bffa8632bf06740291d68fb87440dfa7) Update the Norwegian translation ([@cristeahub](https://github.com/cristeahub))
+  ```text
+  These are mostly nitpicky changes that focuses on the following:
+  
+  - Consistent langauge (marker, last inn, tøm)
+  - Grammatical fixes
+  - Language flow improvements
+  
+  There are still a few things that could be changed, but I felt these
+  changes are the most impactful and makes the language better.
+  ```
+- [`cb7db24`](https://github.com/ghostty-org/ghostty/commit/cb7db2490bb7ff3bad14a1a375c8dfb34d902e62) Update the Norwegian translation ([#14289](https://github.com/ghostty-org/ghostty/issues/14289)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  These are mostly nitpicky changes that focuses on the following:
+  
+  - Consistent langauge (marker, last inn, tøm)
+  - Grammatical fixes
+  - Language flow improvements
+  
+  There are still a few things that could be changed, but I felt these
+  changes are the most impactful and makes the language better.
+  ```
+- [`494e413`](https://github.com/ghostty-org/ghostty/commit/494e41374e536f80fafa9cb30c6d1d8cb1e77110) i18n(ru): refine Russian translation ([@derVedro](https://github.com/derVedro))
+- [`57bdb8c`](https://github.com/ghostty-org/ghostty/commit/57bdb8c443e39c523d543f6c3f50a9370c35c314) i18n(ru): small fixes ([@derVedro](https://github.com/derVedro))
+  ```text
+  хорошо!
+  ```
+- [`5de703a`](https://github.com/ghostty-org/ghostty/commit/5de703a1b6ca0b91fcebe932b44be1df2de0a683) i18n: refine Russian translation ([#14257](https://github.com/ghostty-org/ghostty/issues/14257)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  We had a small conversation in the last Russian translation PR #13809,
+  and @korikhin made a good point about how the translation could be
+  improved, something everyone had overlooked until then.
+  ```
+- [`e842d76`](https://github.com/ghostty-org/ghostty/commit/e842d763ce2f4d7739a9b405d302dafb3ce96a25) Update VOUCHED list ([#14290](https://github.com/ghostty-org/ghostty/issues/14290)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14289#issuecomment-5728440286)
+  from @trag1c.
+  
+  Vouch: @cristeahub
+  ```
 
 ## September 16, 2026
 
