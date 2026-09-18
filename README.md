@@ -8,15 +8,437 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 18, 2026 at 13:19 UTC.
+> Last updated: September 18, 2026 at 18:00 UTC.
 
 ## September 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35346319697), [2](https://github.com/ghostty-org/ghostty/actions/runs/35340649466), [3](https://github.com/ghostty-org/ghostty/actions/runs/35332773941)  
-Summary: 3 runs • 7 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35375414566), [2](https://github.com/ghostty-org/ghostty/actions/runs/35354192495), [3](https://github.com/ghostty-org/ghostty/actions/runs/35346319697), [4](https://github.com/ghostty-org/ghostty/actions/runs/35340649466), [5](https://github.com/ghostty-org/ghostty/actions/runs/35332773941)  
+Summary: 5 runs • 25 commits • 11 authors
 
 ### Changes
 
+- [`c55f213`](https://github.com/ghostty-org/ghostty/commit/c55f213aa2a3aa1d852f9f91cb4bd95d55982f48) terminal: add option to disable scrollback pull on resize ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #14294
+  
+  This adds a boolean flag throughout the Zig API and C API to control
+  whether resizing can pull scrollback back into the active area. The
+  default is true, which is the existing behavior.
+  
+  Ptys that keep their own screen buffer without scrollback (namely
+  Windows ConPTY) can't pull rows back, so after a resize that pulls we
+  disagree with the pty about what is on screen and subsequent output
+  lands in the wrong place.
+  
+  Row growth always appends blank rows at the bottom when pulling is
+  disabled.
+  
+  Refs:
+  https://github.com/microsoft/terminal/blob/7c92ecd037476f957809d0813b14d8bc44bb071a/src/cascadia/TerminalCore/Terminal.cpp#L380-L406
+  https://github.com/xtermjs/xterm.js/blob/c58ea3637f3968e0e6e79cd92cf9aace7ef89ee2/src/common/buffer/Buffer.ts#L194-L197
+  https://github.com/wezterm/wezterm/blob/b09b56c29c1e367e598b60ca266e2cc9038751e0/term/src/screen.rs#L268-L288
+  ```
+- [`b32f20f`](https://github.com/ghostty-org/ghostty/commit/b32f20f3e8d25bb925ec545c54498e93518e7ced) terminal: add option to disable scrollback pull on resize ([#14296](https://github.com/ghostty-org/ghostty/issues/14296)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  #14294
+  
+  This adds a boolean flag throughout the Zig API and C API to control
+  whether resizing can pull scrollback back into the active area. The
+  default is true, which is the existing behavior.
+  
+  Ptys that keep their own screen buffer without scrollback (namely
+  Windows ConPTY) can't pull rows back, so after a resize that pulls we
+  disagree with the pty about what is on screen and subsequent output
+  lands in the wrong place.
+  
+  Row growth always appends blank rows at the bottom when pulling is
+  disabled.
+  
+  Refs:
+  
+  https://github.com/microsoft/terminal/blob/7c92ecd037476f957809d0813b14d8bc44bb071a/src/cascadia/TerminalCore/Terminal.cpp#L380-L406
+  https://github.com/xtermjs/xterm.js/blob/c58ea3637f3968e0e6e79cd92cf9aace7ef89ee2/src/common/buffer/Buffer.ts#L194-L197
+  https://github.com/wezterm/wezterm/blob/b09b56c29c1e367e598b60ca266e2cc9038751e0/term/src/screen.rs#L268-L288
+  ```
+- [`a4031c8`](https://github.com/ghostty-org/ghostty/commit/a4031c8e3f94f40df712de7cdf6fd4f6c17980c6) bash: detect hooks in prompt command arrays ([@jparise](https://github.com/jparise))
+  ```text
+  The delimiter-based guard treats PROMPT_COMMAND as a semicolon-separated
+  command list. Indexed array expansion joins elements with spaces instead,
+  so a hook appended after an existing element is not detected when the
+  integration is sourced again.
+  
+  Match the full internal hook command as a substring so the guard works
+  for both scalar and array values. This intentionally gives up command
+  boundary matching; the private function name and redirection keep an
+  incidental match unlikely.
+  ```
+- [`a1bf5b5`](https://github.com/ghostty-org/ghostty/commit/a1bf5b5e113b1b0c4e30c87ecbe746bd07eda3e4) embedded: route split and close C APIs through performBindingAction ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  macOS menus call ghostty_surface_split, split_focus, and request_close
+  directly, while keybinds go through Surface.performBindingAction. GTK
+  already uses that path for splits and close. Route the embedded C APIs
+  the same way so menus and keybinds share one hook.
+  ```
+- [`ab34b8b`](https://github.com/ghostty-org/ghostty/commit/ab34b8b131eb2d60e7d22838dd6d77b98fec04b3) opengl: explicitly set EGL_SURFACE_TYPE ([@pluiedev](https://github.com/pluiedev))
+- [`c15e2f7`](https://github.com/ghostty-org/ghostty/commit/c15e2f79922620f8651b92bb55662b19ce9505bb) opengl: EGLattrib arrays need no explicit sentinel ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Array literals automagically gain the sentinel when assigned the correct
+  type. Neat, huh?
+  
+  See https://ziglang.org/documentation/0.16.0/#Sentinel-Terminated-Arrays
+  ```
+- [`851cd4d`](https://github.com/ghostty-org/ghostty/commit/851cd4dc13adbd17886ab1baf46280d27a6c9fa6) gtk: disable Vulkan again, remove old version gates ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Vulkan is causing problems again...
+  
+  Also our minimum GTK version requirement is 4.18 now, so we can nuke all
+  the old checks
+  ```
+- [`0fca3d3`](https://github.com/ghostty-org/ghostty/commit/0fca3d34a56a420da92a7cb20109e71d523f7bf6) gtk/imgui_widget: remove direct call to glClearColor ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Since the refactor to move our OpenGL context off-thread there is no more
+  GLAD context loaded on the main thread for this widget, so calling ANY
+  OpenGL function will crash the entire app.
+  
+  I don't think the call even worked as intended? I at least can't seem to
+  tell any difference when the clear commands are simply removed.
+  Maybe they were useful before.
+  ```
+- [`590ab15`](https://github.com/ghostty-org/ghostty/commit/590ab157f4f05286888f5838f4167fe4fcc07be2) opengl/Sampler: handle enum parameters correctly ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  I'm so dumb like honestly, always double check if your unreachables
+  are *comptime*. Whether the value being switched on is comptime or not
+  does not matter
+  ```
+- [`f5c056d`](https://github.com/ghostty-org/ghostty/commit/f5c056d3045b4b9baf86400a95e598044a0573b5) font: import Constraint from Glyph.zig in nerd-font codegen ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  1c0aac54b moved RenderOptions.Constraint from face.zig to Glyph.zig
+  and updated nerd_font_attributes.zig. This does the matching change to
+  the generator.
+  ```
+- [`cd8daf9`](https://github.com/ghostty-org/ghostty/commit/cd8daf9eb6fe85ed6ec1c4450b34fff84abf9bea) build(deps): bump docker/build-push-action from 7.3.0 to 7.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [docker/build-push-action](https://github.com/docker/build-push-action) from 7.3.0 to 7.4.0.
+  - [Release notes](https://github.com/docker/build-push-action/releases)
+  - [Commits](https://github.com/docker/build-push-action/compare/53b7df96c91f9c12dcc8a07bcb9ccacbed38856a...c3c9e263c25d99ce0380d002d59b67737d91b0dc)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: docker/build-push-action
+    dependency-version: 7.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`98f2e3e`](https://github.com/ghostty-org/ghostty/commit/98f2e3e6dce6f4198254c9d8ccf5de50c94b17ca) build(deps): bump namespacelabs/nscloud-cache-action from 1.6.1 to 1.7.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action) from 1.6.1 to 1.7.0.
+  - [Release notes](https://github.com/namespacelabs/nscloud-cache-action/releases)
+  - [Commits](https://github.com/namespacelabs/nscloud-cache-action/compare/c5f8dab7560444c4bf8dbc64f1b203431873c547...1124a6f3ce44e5cf84cc22111530961f4d2a15f9)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: namespacelabs/nscloud-cache-action
+    dependency-version: 1.7.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`1bd494c`](https://github.com/ghostty-org/ghostty/commit/1bd494cf956e1c57267b7836eceb77e872b17f6e) build(deps): bump namespacelabs/nscloud-cache-action from 1.6.1 to 1.7.0 ([#14285](https://github.com/ghostty-org/ghostty/issues/14285)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [namespacelabs/nscloud-cache-action](https://github.com/namespacelabs/nscloud-cache-action)
+  from 1.6.1 to 1.7.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/releases">namespacelabs/nscloud-cache-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v1.7.0</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>fix: Stabilize Brew and Maven cache mode tests by <a
+  href="https://github.com/sebawita"><code>@​sebawita</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/170">namespacelabs/nscloud-cache-action#170</a></li>
+  <li>fix: update actions toolkit to 0.5.0 by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/175">namespacelabs/nscloud-cache-action#175</a></li>
+  <li>Add cache miss documentation hint by <a
+  href="https://github.com/sebawita"><code>@​sebawita</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/169">namespacelabs/nscloud-cache-action#169</a></li>
+  <li>fix: update vulnerable transitive dependencies by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/176">namespacelabs/nscloud-cache-action#176</a></li>
+  <li>test: move Vitest mocks to module scope by <a
+  href="https://github.com/rcrowe"><code>@​rcrowe</code></a> in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/177">namespacelabs/nscloud-cache-action#177</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a href="https://github.com/sebawita"><code>@​sebawita</code></a>
+  made their first contribution in <a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/pull/170">namespacelabs/nscloud-cache-action#170</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/v1.6.1...v1.7.0">https://github.com/namespacelabs/nscloud-cache-action/compare/v1.6.1...v1.7.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/1124a6f3ce44e5cf84cc22111530961f4d2a15f9"><code>1124a6f</code></a>
+  test: move Vitest mocks to module scope (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/177">#177</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/e40c60c47e26a5b911d6a0683a7294401e5f2dbe"><code>e40c60c</code></a>
+  fix: update vulnerable transitive dependencies (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/176">#176</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/7db012f73e34bd0e002c17e6ada243fc8b89008f"><code>7db012f</code></a>
+  Add cache miss documentation hint (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/169">#169</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/3199dcd520c302741adae1d82317e99e3db7bf94"><code>3199dcd</code></a>
+  fix: update actions toolkit to 0.5.0 (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/175">#175</a>)</li>
+  <li><a
+  href="https://github.com/namespacelabs/nscloud-cache-action/commit/ac29750009f671e320b31cb40043262d8679ed61"><code>ac29750</code></a>
+  Stabilize Brew and Maven cache mode tests (<a
+  href="https://redirect.github.com/namespacelabs/nscloud-cache-action/issues/170">#170</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/namespacelabs/nscloud-cache-action/compare/c5f8dab7560444c4bf8dbc64f1b203431873c547...1124a6f3ce44e5cf84cc22111530961f4d2a15f9">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=namespacelabs/nscloud-cache-action&package-manager=github_actions&previous-version=1.6.1&new-version=1.7.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`89efb12`](https://github.com/ghostty-org/ghostty/commit/89efb129b8cc5ed6249a7afaa4ea3900396f87c0) build(deps): bump docker/build-push-action from 7.3.0 to 7.4.0 ([#14284](https://github.com/ghostty-org/ghostty/issues/14284)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [docker/build-push-action](https://github.com/docker/build-push-action)
+  from 7.3.0 to 7.4.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/docker/build-push-action/releases">docker/build-push-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v7.4.0</h2>
+  <ul>
+  <li>Use the shared error helper for Buildx commands by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1620">docker/build-push-action#1620</a></li>
+  <li>Prevent workflow command injection in metadata logs by <a
+  href="https://github.com/crazy-max"><code>@​crazy-max</code></a> in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1617">docker/build-push-action#1617</a></li>
+  <li>Bump <code>@​docker/actions-toolkit</code> from 0.92.0 to 0.100.0 in
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1614">docker/build-push-action#1614</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1618">docker/build-push-action#1618</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1621">docker/build-push-action#1621</a></li>
+  <li>Bump <code>@​humanfs/node</code> from 0.16.7 to 0.16.8 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1609">docker/build-push-action#1609</a></li>
+  <li>Bump brace-expansion from 1.1.13 to 1.1.18 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1592">docker/build-push-action#1592</a></li>
+  <li>Bump csv-parse from 7.0.0 to 7.0.2 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1613">docker/build-push-action#1613</a></li>
+  <li>Bump js-yaml from 4.3.0 to 4.3.2 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1605">docker/build-push-action#1605</a>
+  <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1615">docker/build-push-action#1615</a></li>
+  <li>Bump nanoid from 3.3.16 to 3.3.18 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1611">docker/build-push-action#1611</a></li>
+  <li>Bump postcss from 8.5.10 to 8.5.25 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1590">docker/build-push-action#1590</a></li>
+  <li>Bump postcss-selector-parser from 7.1.1 to 7.1.5 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1606">docker/build-push-action#1606</a></li>
+  <li>Bump sigstore from 4.1.0 to 4.1.1 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1577">docker/build-push-action#1577</a></li>
+  <li>Bump undici from 6.27.0 to 6.28.0 in <a
+  href="https://redirect.github.com/docker/build-push-action/pull/1594">docker/build-push-action#1594</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/docker/build-push-action/compare/v7.3.0...v7.4.0">https://github.com/docker/build-push-action/compare/v7.3.0...v7.4.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/c3c9e263c25d99ce0380d002d59b67737d91b0dc"><code>c3c9e26</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1621">#1621</a>
+  from docker/dependabot/npm_and_yarn/docker/actions-t...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/459b6741834dcd35f946352017e7675bd2089d42"><code>459b674</code></a>
+  [dependabot skip] chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/4dedcb23c91d79c1629bf53ec2c3bcfffef5b34e"><code>4dedcb2</code></a>
+  chore(deps): Bump <code>@​docker/actions-toolkit</code> from 0.99.0 to
+  0.100.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/379bf63a979bd70751945601fa04c50674509952"><code>379bf63</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1620">#1620</a>
+  from crazy-max/buildx-error-message</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/9877975c9e0b0b661592ff61049069507f9bc2f6"><code>9877975</code></a>
+  chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/7ed0556ffafb8eb312463411ef0a84a1dfe24d94"><code>7ed0556</code></a>
+  use the shared Buildx error summary helper</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/91670ba5a4df99a24efff8637a78c83fd1b0f6b1"><code>91670ba</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1618">#1618</a>
+  from docker/dependabot/npm_and_yarn/docker/actions-t...</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/80dbc8614a5c0ce4356740f69179cf829ecdc79a"><code>80dbc86</code></a>
+  [dependabot skip] chore: update generated content</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/50cac3a3b6f55e6015d6483d1dd72a3ecb90d20d"><code>50cac3a</code></a>
+  chore(deps): Bump <code>@​docker/actions-toolkit</code> from 0.98.0 to
+  0.99.0</li>
+  <li><a
+  href="https://github.com/docker/build-push-action/commit/03b4d6cac0163b44733e1fa60adfd6da560ee4d1"><code>03b4d6c</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/docker/build-push-action/issues/1617">#1617</a>
+  from crazy-max/fix-metadata-workflow-commands</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/docker/build-push-action/compare/53b7df96c91f9c12dcc8a07bcb9ccacbed38856a...c3c9e263c25d99ce0380d002d59b67737d91b0dc">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=docker/build-push-action&package-manager=github_actions&previous-version=7.3.0&new-version=7.4.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`d3f5910`](https://github.com/ghostty-org/ghostty/commit/d3f5910cc45e53c5341b3e2dacde839b30434a6e) font: import Constraint from Glyph.zig in nerd-font codegen ([#14282](https://github.com/ghostty-org/ghostty/issues/14282)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  1c0aac54b moved RenderOptions.Constraint from face.zig to Glyph.zig and
+  updated nerd_font_attributes.zig. This does the matching change to the
+  generator.
+  ```
+- [`85bfc98`](https://github.com/ghostty-org/ghostty/commit/85bfc983a519890cf5bf2ee7f5b9542817043a1f) gtk,opengl: cleanup & fixes for [#14052](https://github.com/ghostty-org/ghostty/issues/14052) ([#14279](https://github.com/ghostty-org/ghostty/issues/14279)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes most issues mentioned in #14243, #14254 and elsewhere e.g. on
+  Discord. Will add more fixes if they can be solidly reproduced.
+  
+  Please review each commit individually.
+  ```
+- [`0a08614`](https://github.com/ghostty-org/ghostty/commit/0a08614aaafe8aafd1891750b1644c631896c703) bash: detect hooks in prompt command arrays ([#14266](https://github.com/ghostty-org/ghostty/issues/14266)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The delimiter-based guard treats PROMPT_COMMAND as a semicolon-separated
+  command list. Indexed array expansion joins elements with spaces
+  instead, so a hook appended after an existing element is not detected
+  when the integration is sourced again.
+  
+  Match the full internal hook command as a substring so the guard works
+  for both scalar and array values. This intentionally gives up command
+  boundary matching; the private function name and redirection keep an
+  incidental match unlikely.
+  ```
+- [`1e3cd1a`](https://github.com/ghostty-org/ghostty/commit/1e3cd1a24673be7e352c1d1f716d262798d37f7f) embedded: route split and close C APIs through performBindingAction ([#14261](https://github.com/ghostty-org/ghostty/issues/14261)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  macOS menus call `ghostty_surface_split`, `split_focus`, and
+  `request_close` directly, while keybinds go through
+  `Surface.performBindingAction`. GTK already uses that path for splits
+  and close. Route the embedded C APIs the same way so menus and keybinds
+  share one hook.
+  
+  Behavior without any extra Surface hook is unchanged:
+  `performBindingAction` still forwards splits to the app and
+  `close_surface` still closes.
+  
+  ## Test plan
+  
+  - [x] `zig build test -Demit-macos-app=false` (compiles; these C exports
+  have no unit test)
+  
+  ## AI disclosure
+  
+  This change was prepared with Cursor. I reviewed the C API routing and
+  how it compares to GTK's existing `performBindingAction` path.
+  
+  
+  Made with [Cursor](https://cursor.com)
+  ```
 - [`86f4490`](https://github.com/ghostty-org/ghostty/commit/86f449013ed4ca4096395de5b9798a962cce0944) Update VOUCHED list ([#14292](https://github.com/ghostty-org/ghostty/issues/14292)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
