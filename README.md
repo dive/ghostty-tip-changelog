@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 18, 2026 at 22:57 UTC.
+> Last updated: September 19, 2026 at 02:49 UTC.
 
 ## September 18, 2026
 
@@ -1121,66 +1121,4 @@ Summary: 3 runs • 5 commits • 4 authors
   ```
 - [`6a64b1c`](https://github.com/ghostty-org/ghostty/commit/6a64b1c86a969bfd6e3a51f1a5c757f980657a3b) po/zh_CN: add missing translations ([@bo2themax](https://github.com/bo2themax))
 - [`5252b19`](https://github.com/ghostty-org/ghostty/commit/5252b193cfd52b4bcd868135e21e4563f2f326ec) po/zh_CN: add missing translations ([#14218](https://github.com/ghostty-org/ghostty/issues/14218)) ([@pluiedev](https://github.com/pluiedev))
-
-## September 12, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/34701118130), [2](https://github.com/ghostty-org/ghostty/actions/runs/34674371812)  
-Summary: 2 runs • 3 commits • 3 authors
-
-### Changes
-
-- [`9bbb9b2`](https://github.com/ghostty-org/ghostty/commit/9bbb9b24680358c939846b79a519ce10f7638d1f) Update VOUCHED list ([#14215](https://github.com/ghostty-org/ghostty/issues/14215)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14166#discussioncomment-18413557)
-  from @jcollie.
-  
-  Vouch: @pedronaugusto
-  ```
-- [`c0c5473`](https://github.com/ghostty-org/ghostty/commit/c0c5473daf5b0ebc78ce0c8d1854f6221574ab3c) build: refactoring our use of translate-c ([@vancluever](https://github.com/vancluever))
-  ```text
-  This commit refactors our use of translate-c, in preparation for larger
-  removal of cImport and better co-ordination between building of C
-  dependencies and translation of headers.
-  
-  The major update is the creation of an internal helper package that
-  wraps our use of the external translate-c library. This allows us to not
-  only have better shorthand and a data-driven, declarative approach to C
-  translation (versus the otherwise more imperative approach), it also
-  funnels the external dependency into a single package instead of
-  spreading it out among what will be an increasingly larger amount of
-  places as dependencies in "pkg/" get updated.
-  
-  It also includes some refactors, namely to the harfbuzz package, which
-  has had its individual settings refactored into helpers to allow for the
-  settings to be better shared between translation and the build of the
-  c-based static library.
-  
-  Wuffs has also had a bit of a refactor too so that we don't generate a
-  file with all of the macro defines in it - we just send these in as "-D"
-  flags now.
-  ```
-- [`e2e53f8`](https://github.com/ghostty-org/ghostty/commit/e2e53f861482e080bf45054ba49ef471f9849937) build: refactoring our use of translate-c ([#14203](https://github.com/ghostty-org/ghostty/issues/14203)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This commit refactors our use of translate-c, in preparation for larger
-  removal of `cImport` and better co-ordination between building of C
-  dependencies and translation of headers.
-  
-  The major update is the creation of an internal helper package that
-  wraps our use of the external translate-c library. This allows us to not
-  only have better shorthand and a data-driven, declarative approach to C
-  translation (versus the otherwise more imperative approach), it also
-  funnels the external dependency into a single package instead of
-  spreading it out among what will be an increasingly larger amount of
-  places as dependencies in `pkg/` get updated.
-  
-  It also includes some refactors, namely to the harfbuzz package, which
-  has had its individual settings refactored into helpers to allow for the
-  settings to be better shared between translation and the build of the
-  c-based static library.
-  
-  Wuffs has also had a bit of a refactor too so that we don't generate a
-  file with all of the macro defines in it - we just send these in as `-D`
-  flags now.
-  ```
 
