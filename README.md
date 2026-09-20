@@ -8,7 +8,149 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 20, 2026 at 03:01 UTC.
+> Last updated: September 20, 2026 at 10:30 UTC.
+
+## September 20, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35492892512), [2](https://github.com/ghostty-org/ghostty/actions/runs/35490141243), [3](https://github.com/ghostty-org/ghostty/actions/runs/35487007432)  
+Summary: 3 runs • 8 commits • 3 authors
+
+### Changes
+
+- [`27e8b3f`](https://github.com/ghostty-org/ghostty/commit/27e8b3fa85d9cf8c7cd5ae2ced348bcb0a4fba9c) Update VOUCHED list ([#14320](https://github.com/ghostty-org/ghostty/issues/14320)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14319#issuecomment-5747979152)
+  from @pluiedev.
+  
+  Vouch: @RadicalTray
+  ```
+- [`e507794`](https://github.com/ghostty-org/ghostty/commit/e5077949834c3291a9434f88b38a381d8f5fedfc) libghostty-vt: add render hold effect for synchronized output (mode 2026) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new callback `render_hold` to the libghostty-vt API (Zig and
+  C). This callback is called whenever the embedder should snapshot the
+  last rendered frame at the current terminal state (currently only for mode
+  2026). The name is generic so other sources in the future might reuse it.
+  
+  Before this, libghostty-vt did nothing for mode 2026 beyond setting
+  the mode bit, so an embedder could only check the mode before each
+  draw and skip the render state update when it was set.
+  
+  That has two problems:
+  
+    1. The frame left on screen is whatever was drawn last, which
+       can be older than what the program intended or even a half-drawn
+       frame.
+    2. If the program resets and sets the mode again between two
+       draws (or within a single write), the mode never appears to turn off
+       and the finished frame in between is lost, so a program that draws
+       continuously can appear frozen.
+  
+  With the callback, an embedder updates its render state when a hold begins,
+  which captures exactly the frame the program wants left on screen,
+  and then skips updates until the hold ends.
+  
+  This actually is a more robust implementation than Ghostty GUI has so I
+  plan to follow up to fix that!
+  ```
+- [`56a3437`](https://github.com/ghostty-org/ghostty/commit/56a3437a7f51796d7946584043229c2f15c70583) libghostty-vt: add render hold effect for synchronized output ([#14317](https://github.com/ghostty-org/ghostty/issues/14317)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new callback `render_hold` to the libghostty-vt API (Zig and
+  C). This callback is called whenever the embedder should snapshot the
+  last rendered frame at the current terminal state (currently only for
+  mode 2026). The name is generic so other sources in the future might
+  reuse it.
+  
+  Before this, libghostty-vt did nothing for mode 2026 beyond setting the
+  mode bit, so an embedder could only check the mode before each draw and
+  skip the render state update when it was set.
+  
+  That has two problems:
+  
+  1. The frame left on screen is whatever was drawn last, which can be
+  older than what the program intended or even a half-drawn frame.
+  2. If the program resets and sets the mode again between two draws (or
+  within a single write), the mode never appears to turn off and the
+  finished frame in between is lost, so a program that draws continuously
+  can appear frozen.
+  
+  With the callback, an embedder updates its render state when a hold
+  begins, which captures exactly the frame the program wants left on
+  screen, and then skips updates until the hold ends.
+  
+  This actually is a more robust implementation than Ghostty GUI has so I
+  plan to follow up to fix that!
+  ```
+- [`12542b3`](https://github.com/ghostty-org/ghostty/commit/12542b3923106fd13e4f5d0f9b7c8b65843a1836) deps: Update uucode for Unicode 18 ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`aef7aae`](https://github.com/ghostty-org/ghostty/commit/aef7aaeb88423d7b483e857042a4135d8d5143f1) check-zig-hash --update ([@jacobsandlund](https://github.com/jacobsandlund))
+- [`9cdbf79`](https://github.com/ghostty-org/ghostty/commit/9cdbf798d904769d0b3514658f3684b24850487d) deps: Update uucode for Unicode 18 ([#14293](https://github.com/ghostty-org/ghostty/issues/14293)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This updates `uucode` for the new (as of 9/16) Unicode 18 release. See
+  the [PR on uucode](https://github.com/jacobsandlund/uucode/pull/58) for
+  details.
+  
+  In short, mostly Unicode 18 is the typical Emoji, Scripts, Blocks
+  additions, but it also simplifies Grapheme Breaking for Indic Conjunct
+  Break, somewhat. Also in the `uucode` PR is the results of the
+  `+grapheme-break` benchmark showing this has no performance impact.
+  
+  Note a new `.table_len` and `.fromTableIndex` help us precompute the
+  lookup table, though the slightly more complicated index calculation
+  needs a bump in @setEvalBranchQuota.
+  
+  Testing note, I've been running this on my mac, but my linux machine has
+  been collecting dust :(
+  
+  **AI disclaimer**: I used Astra and Fable to develop this, but closely
+  reviewed and steered the code such that there is a cleaner split with
+  `indic_conjunct_break_linker_extend` and
+  `indic_conjunct_break_linker_other`, and arranged the new `BreakState`
+  for easier manipulation while still keeping the same precomputed table
+  size (the naive switch from 5 enum values to 3 enum values plus a
+  boolean was going to raise the size a bit).
+  ```
+- [`079502e`](https://github.com/ghostty-org/ghostty/commit/079502e23e2c296d200776e03058aab81703c93d) terminal: look up modes by number with a comptime sorted set ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds `datastruct.ComptimeIntSet`, a set of comptime-known integer
+  keys with a fast runtime lookup, and uses it in `modes.modeFromInt` to
+  map a mode number to its mode.
+  
+  Previously `modesFromInt` did an inline for comparing every entry.
+  In disassembly this showed up as hundreds of branches and instructions.
+  
+  This is admittedly a micro-optimization but it has a really practical
+  reason: checking some of these modes is critical on the render path
+  (e.g. synchronized rendering) and every nanosecond is something we want
+  to save. Plus, the complexity of this change is pretty low.
+  
+    C API get mode 2026:          10.5 ns ->  3.2 ns
+    C API get unknown mode:       10.5 ns ->  1.8 ns
+    C API get KAM (first entry):   3.8 ns ->  3.2 ns
+    stream CSI ? 2026 h/l:        20.6 ns -> 12.7 ns per sequence
+    stream set/reset 3 modes:     46.0 ns -> 28.0 ns per sequence
+    stream DECRQM:                57.0 ns -> 41.0 ns per sequence
+  ```
+- [`01a8d3a`](https://github.com/ghostty-org/ghostty/commit/01a8d3af223dbb5ba3ddbf0a8f3d7820e304880a) terminal: look up modes by number with a comptime sorted set ([#14316](https://github.com/ghostty-org/ghostty/issues/14316)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds `datastruct.ComptimeIntSet`, a set of comptime-known integer
+  keys with a fast runtime lookup, and uses it in `modes.modeFromInt` to
+  map a mode number to its mode.
+  
+  Previously `modesFromInt` did an inline for comparing every entry. In
+  disassembly this showed up as hundreds of branches and instructions.
+  
+  This is admittedly a micro-optimization but it has a really practical
+  reason: checking some of these modes is critical on the render path
+  (e.g. synchronized rendering) and every nanosecond is something we want
+  to save. Plus, the complexity of this change is pretty low.
+  
+  >   C API get mode 2026:          10.5 ns ->  3.2 ns
+  >   C API get unknown mode:       10.5 ns ->  1.8 ns
+  >   C API get KAM (first entry):   3.8 ns ->  3.2 ns
+  >   stream CSI ? 2026 h/l:        20.6 ns -> 12.7 ns per sequence
+  >   stream set/reset 3 modes:     46.0 ns -> 28.0 ns per sequence
+  >   stream DECRQM:                57.0 ns -> 41.0 ns per sequence
+  ```
 
 ## September 19, 2026
 
