@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 21, 2026 at 15:35 UTC.
+> Last updated: September 21, 2026 at 21:36 UTC.
 
 ## September 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35614571074), [2](https://github.com/ghostty-org/ghostty/actions/runs/35546322398)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35621789148), [2](https://github.com/ghostty-org/ghostty/actions/runs/35614571074), [3](https://github.com/ghostty-org/ghostty/actions/runs/35546322398)  
+Summary: 3 runs • 5 commits • 5 authors
 
 ### Changes
 
+- [`a925a97`](https://github.com/ghostty-org/ghostty/commit/a925a97e37c4d3598d263ec55682ef4f20b2009a) renderer/opengl: fix missing gl.finish() between present request and sharing presented frame ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
+- [`4ff6993`](https://github.com/ghostty-org/ghostty/commit/4ff699343ad039bc73f970ae104cbcec42cc070c) gtk,opengl: fix misplaced gl.finish() when exporting frames ([#14304](https://github.com/ghostty-org/ghostty/issues/14304)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We must call `gl.finish()` after the present GL calls and before adding
+  the exported frame handle to the readable LatestFrame slot that the
+  app-thread reads.
+  After the fixes in #14279 I could reliably reproduce fcitx5 with mozc
+  japanese triggering out of order frame states. I tracked this down to
+  the unsynchronised present logic. I believe the bug was just triggered
+  by rapid redraws allowing the app to read data from unsynchronised DMA
+  buffers.
+  Now rendering *should* be smooth
+  
+  Fixes
+  https://github.com/ghostty-org/ghostty/discussions/14243#discussioncomment-18459289
+  ```
 - [`9fc8d9e`](https://github.com/ghostty-org/ghostty/commit/9fc8d9ebdf29305fe6782a81969440d9a523ae60) gtk: streamline surface overrides ([@neoto](https://github.com/neoto))
   ```text
   Moves code related to surface overrides to its own file to help
