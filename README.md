@@ -8,15 +8,34 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 21, 2026 at 08:45 UTC.
+> Last updated: September 21, 2026 at 15:35 UTC.
 
 ## September 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35546322398)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35614571074), [2](https://github.com/ghostty-org/ghostty/actions/runs/35546322398)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`9fc8d9e`](https://github.com/ghostty-org/ghostty/commit/9fc8d9ebdf29305fe6782a81969440d9a523ae60) gtk: streamline surface overrides ([@neoto](https://github.com/neoto))
+  ```text
+  Moves code related to surface overrides to its own file to help
+  with argument type redefinition in a bunch of places.
+  ```
+- [`a79d958`](https://github.com/ghostty-org/ghostty/commit/a79d95825229a81008c518ef10a8529e6d6efebd) gtk: streamline surface overrides ([#14332](https://github.com/ghostty-org/ghostty/issues/14332)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  While investigating the EGL context being created twice (is this known
+  and/or expected?), I noticed that the `overrides` argument was being
+  repeated in a bunch of places. I couldn't help but do something about it
+  so here I am.
+  
+  This essentially just moves things around, placing related logic in a
+  nicer box. I haven't changed anything when it comes to functionality.
+  
+  Feel free to close if this isn't something worthwhile.
+  
+  CC @jcollie
+  ```
 - [`3c47ca1`](https://github.com/ghostty-org/ghostty/commit/3c47ca159368eb4a860ffe5333abdf4a85b2767b) Sync CODEOWNERS vouch list ([#14327](https://github.com/ghostty-org/ghostty/issues/14327)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
