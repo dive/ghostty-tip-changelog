@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 22, 2026 at 08:23 UTC.
+> Last updated: September 22, 2026 at 13:50 UTC.
 
 ## September 22, 2026
 
@@ -771,10 +771,18 @@ Summary: 5 runs • 25 commits • 11 authors
 ## September 16, 2026
 
 Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35115987294)  
-Summary: 1 runs • 7 commits • 4 authors
+Summary: 1 runs • 8 commits • 4 authors
 
 ### Changes
 
+- [`d4c88d8`](https://github.com/ghostty-org/ghostty/commit/d4c88d8069912b653d707191388ca98e24751f12) Update VOUCHED list ([#14241](https://github.com/ghostty-org/ghostty/issues/14241)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14240#discussioncomment-18444371)
+  from @jcollie.
+  
+  Vouch: @JuaniRaggio
+  ```
 - [`fe9cf6a`](https://github.com/ghostty-org/ghostty/commit/fe9cf6a26691fb7dbfc260eb169a801ca4b9790f) build: fully transition away from cImport/addTranslateC ([@vancluever](https://github.com/vancluever))
   ```text
   This migrates all remaining uses of cImport (and addTranslateC for good
