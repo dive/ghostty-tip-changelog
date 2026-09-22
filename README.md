@@ -8,15 +8,22 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 22, 2026 at 13:50 UTC.
+> Last updated: September 22, 2026 at 18:27 UTC.
 
 ## September 22, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35702865383), [2](https://github.com/ghostty-org/ghostty/actions/runs/35684211276)  
-Summary: 2 runs • 5 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35755595241), [2](https://github.com/ghostty-org/ghostty/actions/runs/35702865383), [3](https://github.com/ghostty-org/ghostty/actions/runs/35684211276)  
+Summary: 3 runs • 7 commits • 5 authors
 
 ### Changes
 
+- [`9d2d9ac`](https://github.com/ghostty-org/ghostty/commit/9d2d9acac740dda166cc41c77f5886eb8773809d) agents: drop CLAUDE.md ([@trag1c](https://github.com/trag1c))
+- [`4ae9f1a`](https://github.com/ghostty-org/ghostty/commit/4ae9f1a2de5484de3d6a13fe03676b8853b9c41c) agents: drop CLAUDE.md ([#14348](https://github.com/ghostty-org/ghostty/issues/14348)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Claude Code finally supports AGENTS.md since
+  [v2.1.277](https://code.claude.com/docs/en/changelog#2-1-277), so the
+  symlink can be yeeted.
+  ```
 - [`bd1c82b`](https://github.com/ghostty-org/ghostty/commit/bd1c82bc5306da32b16b5055ceff023d7ebc9edc) Update VOUCHED list ([#14341](https://github.com/ghostty-org/ghostty/issues/14341)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
