@@ -8,7 +8,65 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 22, 2026 at 02:59 UTC.
+> Last updated: September 22, 2026 at 08:23 UTC.
+
+## September 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35702865383), [2](https://github.com/ghostty-org/ghostty/actions/runs/35684211276)  
+Summary: 2 runs • 5 commits • 4 authors
+
+### Changes
+
+- [`bd1c82b`](https://github.com/ghostty-org/ghostty/commit/bd1c82bc5306da32b16b5055ceff023d7ebc9edc) Update VOUCHED list ([#14341](https://github.com/ghostty-org/ghostty/issues/14341)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14337#discussioncomment-18549787)
+  from @pluiedev.
+  
+  Denounce: @zorzysty
+  ```
+- [`8619bec`](https://github.com/ghostty-org/ghostty/commit/8619becb23a8f577694cd50321bdf7adb8473364) opengl: validate exported DMA-BUF planes ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Maximizing the window could crash the app when EGL returned an invalid DMA-BUF plane descriptor.
+  GDK later hit a fatal assertion while downloading the texture.
+  ```
+- [`a93a8b0`](https://github.com/ghostty-org/ghostty/commit/a93a8b03b65dce30f6bd5df6a2250bd1247e5089) gtk,imgui: Fix broken widget by allowing a GLES context to be used ([@AnthonyZhOon](https://github.com/AnthonyZhOon))
+- [`de53b33`](https://github.com/ghostty-org/ghostty/commit/de53b335d0a5f0650ca7c7b10cddf4aa34e4d49c) gtk,imgui: Fix broken widget by allowing a GLES context to be used ([#14336](https://github.com/ghostty-org/ghostty/issues/14336)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  ```
+  info(opengl): loaded OpenGL 4.3
+  warning(gtk_ghostty_imgui_widget): GLArea for Dear ImGui widget failed to realize: Unable to create a GL context
+  warning(gtk_ghostty_imgui_widget): Dear ImGui context not initialized
+  ```
+  Despite logs showing loaded OpenGL, api tracing ghostty showed OpenGL ES
+  being used, the imgui widget was failing to initialize a context because
+  we did not support GLES for the imgui widget.
+  
+  Still not sure what's going on with our OpenGL api selection but this
+  gets the inspector working in this scenario for me.
+  
+  # AI Disclosure
+  GPT Astra-Light in the desktop ChatGPT wrote the intial code, I deleted
+  unnecessary changes and looked up the imgui function being called to
+  understand the change, and tested the result.
+  ````
+- [`22391ed`](https://github.com/ghostty-org/ghostty/commit/22391ed6491f2924361dcad1f9a9176a390fd20f) opengl: validate exported DMA-BUF planes ([#14322](https://github.com/ghostty-org/ghostty/issues/14322)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Maximizing the window could crash the app when EGL returned an invalid
+  DMA-BUF plane descriptor. GDK later hit a fatal assertion while
+  downloading the texture.
+  
+  `
+  Gdk:ERROR:../../../gdk/gdkdmabuf.c:154:gdk_dmabuf_do_download_mmap:
+  assertion failed: (i > 0)
+  Bail out!
+  Gdk:ERROR:../../../gdk/gdkdmabuf.c:154:gdk_dmabuf_do_download_mmap:
+  assertion failed: (i > 0)
+  `
+  
+  Validate exported descriptors before passing them to GTK.
+  Invalid exports now use the existing CPU-memory fallback.
+  ```
 
 ## September 21, 2026
 
