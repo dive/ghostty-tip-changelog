@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 22, 2026 at 23:25 UTC.
+> Last updated: September 23, 2026 at 02:59 UTC.
 
 ## September 22, 2026
 
@@ -773,123 +773,5 @@ Summary: 5 runs • 25 commits • 11 authors
   from @trag1c.
   
   Vouch: @cristeahub
-  ```
-
-## September 16, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35115987294)  
-Summary: 1 runs • 8 commits • 4 authors
-
-### Changes
-
-- [`d4c88d8`](https://github.com/ghostty-org/ghostty/commit/d4c88d8069912b653d707191388ca98e24751f12) Update VOUCHED list ([#14241](https://github.com/ghostty-org/ghostty/issues/14241)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14240#discussioncomment-18444371)
-  from @jcollie.
-  
-  Vouch: @JuaniRaggio
-  ```
-- [`fe9cf6a`](https://github.com/ghostty-org/ghostty/commit/fe9cf6a26691fb7dbfc260eb169a801ca4b9790f) build: fully transition away from cImport/addTranslateC ([@vancluever](https://github.com/vancluever))
-  ```text
-  This migrates all remaining uses of cImport (and addTranslateC for good
-  measure) to using translate-c for C translation, ensuring that we are
-  ready for when cImport is removed from the language, and also that all
-  sources of C translation are using the same snapshot of the external
-  package (when can then be updated when we need to fix something).
-  
-  A couple of notes:
-  
-  * A few options have been added to support the new translations, namely
-    the ability to link libraries (passed through to linkLibrary on the
-    Translator side) and whether or not to initialize default values
-    (looks like cImport did this without a way to control it, but
-    translate-c does not do it by default).
-  
-  * Using the new library linking option actually simplifies the process
-    of translating a number of the C packages as we have been shipping the
-    necessary headers for these packages already with the applicable
-    libraries. For some of the more complex translation processes though,
-    we still include the appropriate directories directly.
-  ```
-- [`4dfa44e`](https://github.com/ghostty-org/ghostty/commit/4dfa44ecd95a9e6c72188484c2a2871298800e8a) bash: use passed exit status in precmd ([@jparise](https://github.com/jparise))
-  ```text
-  The Bash 4.4+ prompt hook saves the command status before doing its own
-  work and passes it to __ghostty_precmd. The function ignored that
-  argument and instead read the hook invocation status, causing command
-  end markers to report zero.
-  
-  Use the explicit argument when present while retaining the current
-  status fallback required by the older bash-preexec path.
-  
-  See #14247
-  ```
-- [`ed7f046`](https://github.com/ghostty-org/ghostty/commit/ed7f046ee4dee89e5e8bbbecbc67ee14ac1f10d1) bash: recognize attributed prompt command arrays ([@jparise](https://github.com/jparise))
-  ```text
-  Bash includes additional variable attributes in declare output, so an
-  exported indexed array is reported with an -ax prefix instead of -a.
-  Match the indexed-array prefix without requiring a following space so
-  these values continue through the array-preserving path.
-  ```
-- [`591ccac`](https://github.com/ghostty-org/ghostty/commit/591ccacbdfa59945cb4f5b015390d0b8d416a7f0) bash: preserve exit status across prompt commands ([@jparise](https://github.com/jparise))
-  ```text
-  Existing scalar PROMPT_COMMAND entries can overwrite the last command's
-  status before Ghostty's appended hook runs. Capture and restore the
-  status before those commands, then consume the saved value in the final
-  hook.
-  
-  Keep array hooks as independent entries because Bash 5.1 and newer
-  restore the original status for each entry. Preserve the existing
-  PROMPT_COMMAND type and safely handle inherited prompt commands where
-  Ghostty's function definitions are absent.
-  
-  This retains the fast Bash 4.4+ PS0 integration rather than using
-  bash-preexec's DEBUG trap.
-  
-  See #14247
-  ```
-- [`8482d54`](https://github.com/ghostty-org/ghostty/commit/8482d5454e0eee8329cadf2711be78c40298b6ec) bash: fix OSC 133;D status always zero ([#14250](https://github.com/ghostty-org/ghostty/issues/14250)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Bash 4.4+ prompt hook saves the command status before doing its own
-  work and passes it to __ghostty_precmd. The function ignored that
-  argument and instead read the hook invocation status, causing command
-  end markers to report zero.
-  
-  Also, existing scalar PROMPT_COMMAND entries can overwrite the last
-  command's status before Ghostty's appended hook runs. Capture and
-  restore the status before those commands, then consume the saved value
-  in the final hook.
-  
-  Fixes #14247
-  ```
-- [`8fff9d6`](https://github.com/ghostty-org/ghostty/commit/8fff9d6e98ccb37930629429dafdb02ff97faaea) build: fully transition away from cImport/addTranslateC ([#14246](https://github.com/ghostty-org/ghostty/issues/14246)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This migrates all remaining uses of `cImport` (and `addTranslateC` for
-  good measure) to using translate-c for C translation, ensuring that we
-  are ready for when `cImport` is removed from the language, and also that
-  all sources of C translation are using the same snapshot of the external
-  package (when can then be updated when we need to fix something).
-  
-  A couple of notes:
-  
-  * A few options have been added to support the new translations, namely
-  the ability to link libraries (passed through to `linkLibrary` on the
-  Translator side) and whether or not to initialize default values (looks
-  like `cImport` did this without a way to control it, but translate-c
-  does not do it by default).
-  
-  * Using the new library linking option actually simplifies the process
-  of translating a number of the C packages as we have been shipping the
-  necessary headers for these packages already with the applicable
-  libraries. For some of the more complex translation processes though, we
-  still include the appropriate directories directly.
-  ```
-- [`f9a3f24`](https://github.com/ghostty-org/ghostty/commit/f9a3f24a56bf05f70894e1a084809d4fffadf420) Update VOUCHED list ([#14256](https://github.com/ghostty-org/ghostty/issues/14256)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14249#discussioncomment-18467661)
-  from @mitchellh.
-  
-  Vouch: @MisterTea
   ```
 
