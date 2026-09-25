@@ -8,7 +8,199 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 25, 2026 at 03:06 UTC.
+> Last updated: September 25, 2026 at 10:59 UTC.
+
+## September 25, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36090632632)  
+Summary: 1 runs • 13 commits • 5 authors
+
+### Changes
+
+- [`a412480`](https://github.com/ghostty-org/ghostty/commit/a412480131945f19ce0d7e37b74047526419fd63) tmux: fix list-windows action use-after-free ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  receivedListWindows stored Action.windows as a slice into a temporary
+  ArrayList that is freed on return. Logging that action (or otherwise
+  touching the slice) use-after-freed arena state and crashed Ghostty
+  immediately after list-windows.
+  
+  Sync layouts into self.windows first, then point the action at the
+  stable self.windows.items slice. Print window counts instead of
+  dumping Window with {any}, which walks ArenaAllocator nodes.
+  
+  #1935
+  ```
+- [`f327613`](https://github.com/ghostty-org/ghostty/commit/f3276131f10dae0e53cc64dc52f0930ac7bd347a) font: store glyph cache keys as packed u64 ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  This is a long time follow-up to 93dcb195 and something I originally
+  missed in 8824256, as I am making another performance pass through the
+  render pipeline.
+  
+  93dcb195 stopped using the full RenderOptions as identity but left them
+  in the key, but packed them for a temporary identity and hashes. This commit
+  uses the true identity as the key and stops any temporary packing, making eql
+  very cheap allowing us to use a simple fast hash that (mostly) relies on
+  glyph ids to distribute accross the hash table.
+  
+  I don't have a big headline doom-fire-zig fps number maybe 1% 766->774 FPS
+  120x40 window on my hardware but it does seem limited somewhere else. However,
+  when profiling doom-fire-zig runs the renderGlyph leaf drops from 22% to 1.8%.
+  ```
+- [`b15fe2e`](https://github.com/ghostty-org/ghostty/commit/b15fe2eea0079a867e947fdf38e281fa76cbe258) font: store CodepointKey as a packed u64 ([@j-c-m](https://github.com/j-c-m))
+  ```text
+  This is the same treatment to CodepointKey as #14300
+  
+  vs main this increases doom-fire-zig fps by 3% (749->772).
+  
+  In my tests these do stack, and in profiling this change moves a ~17%
+  getIndex to a ~3% HashMap.
+  ```
+- [`cc140d4`](https://github.com/ghostty-org/ghostty/commit/cc140d478a1cf42df45ac6e31d1a584b6e601adb) opengl: explicitly initialize surfaceless display ([@RadicalTray](https://github.com/RadicalTray))
+- [`9a4ba7d`](https://github.com/ghostty-org/ghostty/commit/9a4ba7d5480ff3bfa1e1b7a6586007fe13ec05c4) tmux: test list-windows action lifetime ([@MisterTea](https://github.com/MisterTea))
+- [`c4f15c8`](https://github.com/ghostty-org/ghostty/commit/c4f15c884a71387c837c9d6ae027f9f8ea8a8970) terminal: stop word selection at hard line breaks ([@fornwall](https://github.com/fornwall))
+  ```text
+  Selecting from the last column could include the next row across a hard
+  line break. Check the wrap flag of the row being left before extending
+  the selection. Soft-wrapped words still span rows.
+  ```
+- [`a4f0d9f`](https://github.com/ghostty-org/ghostty/commit/a4f0d9f4a4cdbfbeb2fd86d59dfaad3bd60676ff) terminal: batch special graphics character writes ([@fornwall](https://github.com/fornwall))
+  ```text
+  Map DEC Special Graphics and British charset bytes during batched cell
+  writes instead of calling print() for each character. Keep Unicode and
+  single shifts on the scalar path.
+  ```
+- [`21773fd`](https://github.com/ghostty-org/ghostty/commit/21773fd67137aba39a23a313bceef1ed501bdc8c) opengl: fix nvidia needing `EGL_PLATFORM=surfaceless` to launch correctly ([#14319](https://github.com/ghostty-org/ghostty/issues/14319)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  After the `EGL_SURFACE_TYPE` fix in #14279, I still need to use
+  `EGL_PLATFORM=surfaceless` to successfully launch with the Nvidia driver
+  and not the fallback Mesa.
+  
+  To drop `EGL_PLATFORM=surfaceless`, just explicitly initialize a
+  surfaceless display.
+  
+  Related
+  https://github.com/ghostty-org/ghostty/discussions/14243#discussioncomment-18455741
+  ```
+- [`b5dbe15`](https://github.com/ghostty-org/ghostty/commit/b5dbe15813c069bedee43afef04a9bec23353a6d) font: store glyph cache keys as packed u64 ([#14300](https://github.com/ghostty-org/ghostty/issues/14300)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a long time follow-up to 93dcb195 and something I originally
+  missed in 8824256, as I am making another performance pass through the
+  render pipeline.
+  
+  93dcb195 stopped using the full RenderOptions as identity but left them
+  in the key, but packed them for a temporary identity and hashes. This
+  commit uses the true identity as the key and stops any temporary
+  packing, making eql very cheap allowing us to use a simple fast hash
+  that (mostly) relies on glyph ids to distribute accross the hash table.
+  
+  I don't have a big headline doom-fire-zig fps number maybe 1% 766->774
+  FPS 120x40 window on my hardware but it does seem limited somewhere
+  else. However, when profiling doom-fire-zig runs the renderGlyph leaf
+  drops from 22% to 1.8%.
+  
+  AI: I used Grok 4.6 to build harnesses for automated testing & profiling
+  utilizing ghostty-bench, `cmatrix-b`, and doom-fire-zig (120x40) (not in
+  this PR). Initial profiling research and actual code produced by a dumb
+  little human (so says the AI).
+  ```
+- [`8215dd9`](https://github.com/ghostty-org/ghostty/commit/8215dd9ee3af89665532736824afc24889b94cab) terminal: batch special graphics character writes ([#14356](https://github.com/ghostty-org/ghostty/issues/14356)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Batch DEC Special Graphics and British charset bytes in `printSlice()`
+  using the existing lookup tables. Single shifts and Unicode input in
+  these charsets still use `print()`.
+  
+  Synthetic benchmark: Repainting an 80×24 box 20,000 times: **296.6 ms →
+  42.8 ms (6.9× faster)** in the local ReleaseFast benchmark (median of 10
+  runs, 3 warmups).
+  
+  <details>
+  <summary>Reproduce the benchmark</summary>
+  
+  ```python
+  from pathlib import Path
+  
+  rows = [b"l" + b"q" * 78 + b"k"]
+  rows += [b"x" + b" " * 78 + b"x"] * 22
+  rows += [b"m" + b"q" * 78 + b"j"]
+  frame = b"\x1b[H\x1b(0" + b"\r\n".join(rows) + b"\x1b(B"
+  Path("/tmp/box-repaints.bin").write_bytes(frame * 20000)
+  ```
+  
+  Run on the base and this branch:
+  
+  ```sh
+  zig build -Demit-bench -Doptimize=ReleaseFast -Dapp-runtime=none -Demit-exe=false
+  hyperfine --warmup 3 --runs 10 'zig-out/bin/ghostty-bench +terminal-stream --terminal-cols=80 --terminal-rows=24 --data=/tmp/box-repaints.bin'
+  ```
+  
+  </details>
+  
+  AI disclaimer: Created with codex and gpt-6 astra. Iterated on, reviewed
+  and manually tested by me.
+  ````
+- [`aa9ed7d`](https://github.com/ghostty-org/ghostty/commit/aa9ed7d51ca07bd6d6727abe3c3efa138484fceb) terminal: stop word selection at hard line breaks ([#14354](https://github.com/ghostty-org/ghostty/issues/14354)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Double-clicking the last column could select text across a hard newline.
+  Check the wrap flag of the row being left so selection stops there.
+  Soft-wrapped words still span rows.
+  
+  To reproduce, run this without resizing afterward, then double-click the
+  rightmost `a`. Only the first row should be selected.
+  
+  ```sh
+  python3 - <<EOF
+  import os, sys
+  cols = os.get_terminal_size().columns
+  sys.stdout.write("\r" + "a" * cols + "\r\n" + "b" * cols + "\r\n")
+  sys.stdout.flush()
+  EOF
+  ```
+  
+  AI disclaimer: Created with codex and gpt-6 astra. Iterated on, reviewed
+  and manually tested by me.
+  ````
+- [`4c1099c`](https://github.com/ghostty-org/ghostty/commit/4c1099ce9654f8d2cb20ac9792978d3979c1ce53) font: store CodepointKey as a packed u64 ([#14301](https://github.com/ghostty-org/ghostty/issues/14301)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is the same treatment to CodepointKey as #14300
+  
+  vs main this increases doom-fire-zig fps by 3% (749->772).
+  
+  In my tests these will stack, and in profiling this change moves a ~17%
+  getIndex to a ~3% HashMap.
+  ```
+- [`982fe90`](https://github.com/ghostty-org/ghostty/commit/982fe90d941e4b4aab4905ffcbcfdea60bd83343) tmux: fix list-windows action use-after-free ([#14262](https://github.com/ghostty-org/ghostty/issues/14262)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ## Summary
+  
+  `receivedListWindows` stored `Action.windows` as a slice into a
+  temporary ArrayList that is freed on return. Logging that action (or
+  otherwise touching the slice) use-after-freed arena state and crashed
+  Ghostty immediately after `list-windows`.
+  
+  Sync layouts into `self.windows` first, then point the action at the
+  stable `self.windows.items` slice. Print window counts instead of
+  dumping `Window` with `{any}`, which walks `ArenaAllocator` nodes.
+  
+  This is independently useful today: control mode already logs viewer
+  actions.
+  
+  Related: #1935
+  
+  ## Test plan
+  
+  - [x] Regression test fails without the fix due to mismatched
+  temporary/viewer window pointers
+  - [x] `zig build test -Dtest-filter='session changed resets state'`
+  - [x] `zig build test -Dtest-filter=tmux`
+  
+  ## AI disclosure
+  
+  This change was prepared with Cursor. I reviewed the slice lifetime and
+  the `Action.format` change.
+  
+  
+  Made with [Cursor](https://cursor.com)
+  ```
 
 ## September 24, 2026
 
