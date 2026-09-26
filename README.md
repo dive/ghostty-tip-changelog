@@ -8,15 +8,128 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 25, 2026 at 21:00 UTC.
+> Last updated: September 26, 2026 at 03:10 UTC.
 
 ## September 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36168450666), [2](https://github.com/ghostty-org/ghostty/actions/runs/36163015294), [3](https://github.com/ghostty-org/ghostty/actions/runs/36155263131), [4](https://github.com/ghostty-org/ghostty/actions/runs/36090632632)  
-Summary: 4 runs • 33 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36202102188), [2](https://github.com/ghostty-org/ghostty/actions/runs/36190238862), [3](https://github.com/ghostty-org/ghostty/actions/runs/36168450666), [4](https://github.com/ghostty-org/ghostty/actions/runs/36163015294), [5](https://github.com/ghostty-org/ghostty/actions/runs/36155263131), [6](https://github.com/ghostty-org/ghostty/actions/runs/36090632632)  
+Summary: 6 runs • 41 commits • 10 authors
 
 ### Changes
 
+- [`6301810`](https://github.com/ghostty-org/ghostty/commit/6301810a48aaa3426887a4316668f18833a40138) Update VOUCHED list ([#14409](https://github.com/ghostty-org/ghostty/issues/14409)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/11214#discussioncomment-18606662)
+  from @jcollie.
+  
+  Vouch: @xandris
+  ```
+- [`4eb3088`](https://github.com/ghostty-org/ghostty/commit/4eb3088316b7a95af7a505aeb9a39dc8b93fcb8d) gtk: don't tell systemd we're ready before we can handle SIGUSR2 ([@jcollie](https://github.com/jcollie))
+  ```text
+  On a dark desktop, syncing the color scheme during startup triggers a
+  config reload, which sent RELOADING=1 and READY=1 before the SIGUSR2
+  handler was installed. systemd 262 refuses to start a Type=notify-reload
+  service whose reload signal has no handler, so D-Bus activation fails
+  intermittently and no window opens.
+  
+  Fixes #14398
+  Discussions: #11724, #14394
+  
+  Claude-Session: https://claude.ai/code/session_01PQKfAq9x9wJG5Vfy31Um65
+  ```
+- [`47693cc`](https://github.com/ghostty-org/ghostty/commit/47693cc4bcddddae7e91b9121f6cb736d02472c8) gtk,renderer: don't export DMABUFs when apprts can't accept them ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Rather annoyingly there's no way to avoid DMABUF format conflicts with
+  OpenGL, so we bail if GTK won't take our DMABUFs
+  ```
+- [`b9e07f9`](https://github.com/ghostty-org/ghostty/commit/b9e07f98f4d66c254010d5825905f8e837b88000) gtk,opengl: flip CPU rendered textures correctly ([@pluiedev](https://github.com/pluiedev))
+- [`2ea1eea`](https://github.com/ghostty-org/ghostty/commit/2ea1eeae2a040c6f057d03ede3b907c73f99c272) libghostty-vt: expose RenderState overscan in the C API ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This exposes the `RenderState` overscan and row identity from #14400
+  through the libghostty-vt C API. Example:
+  
+  ```c
+  GhosttyRenderStateOverscan request = { .above = 0, .below = 1 };
+  ghostty_render_state_set(state, GHOSTTY_RENDER_STATE_OPTION_OVERSCAN,
+                           &request);
+  ghostty_render_state_update(state, terminal);
+  
+  ghostty_render_state_get(state, GHOSTTY_RENDER_STATE_DATA_ROW_ITERATOR,
+                           &rows);
+  while (ghostty_render_state_row_iterator_next(rows)) {
+    int32_t y;
+    GhosttyRenderStateRowId id;
+    ghostty_render_state_row_get(
+        rows, GHOSTTY_RENDER_STATE_ROW_DATA_VIEWPORT_Y, &y);
+    ghostty_render_state_row_get(
+        rows, GHOSTTY_RENDER_STATE_ROW_DATA_ID, &id);
+    draw_row(rows, id, y * cell_height - offset_px);
+  }
+  ```
+  
+  A change: the row iterator is now sliced to `rowDataRange()`, the rows the last
+  update captured. Every existing bounds check compares against the slice
+  length, so iteration, `row_get`, and `row_set` needed no other changes.
+  `GHOSTTY_RENDER_STATE_ROW_DATA_VIEWPORT_Y` adds the negated overscan
+  above to the iterator position.
+  
+  The row id is opaque to C, and only equality is documented. Internally
+  the first word is the page serial and the second is the row within the
+  page plus one, so an all-zero id is never valid.
+  ````
+- [`d0c5ba6`](https://github.com/ghostty-org/ghostty/commit/d0c5ba6cd9db9aa6e47da4526668891989e95fb9) libghostty-vt: expose RenderState overscan in the C API ([#14404](https://github.com/ghostty-org/ghostty/issues/14404)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This exposes the `RenderState` overscan and row identity from #14400
+  through the libghostty-vt C API. Example:
+  
+  ```c
+  GhosttyRenderStateOverscan request = { .above = 0, .below = 1 };
+  ghostty_render_state_set(state, GHOSTTY_RENDER_STATE_OPTION_OVERSCAN,
+                           &request);
+  ghostty_render_state_update(state, terminal);
+  
+  ghostty_render_state_get(state, GHOSTTY_RENDER_STATE_DATA_ROW_ITERATOR,
+                           &rows);
+  while (ghostty_render_state_row_iterator_next(rows)) {
+    int32_t y;
+    GhosttyRenderStateRowId id;
+    ghostty_render_state_row_get(
+        rows, GHOSTTY_RENDER_STATE_ROW_DATA_VIEWPORT_Y, &y);
+    ghostty_render_state_row_get(
+        rows, GHOSTTY_RENDER_STATE_ROW_DATA_ID, &id);
+    draw_row(rows, id, y * cell_height - offset_px);
+  }
+  ```
+  
+  A change: the row iterator is now sliced to `rowDataRange()`, the rows
+  the last update captured. Every existing bounds check compares against
+  the slice length, so iteration, `row_get`, and `row_set` needed no other
+  changes. `GHOSTTY_RENDER_STATE_ROW_DATA_VIEWPORT_Y` adds the negated
+  overscan above to the iterator position.
+  
+  The row id is opaque to C, and only equality is documented. Internally
+  the first word is the page serial and the second is the row within the
+  page plus one, so an all-zero id is never valid.
+  ````
+- [`02e51d5`](https://github.com/ghostty-org/ghostty/commit/02e51d57195bcd03f7525cdbdfb8015d934bf0b6) gtk,opengl: even more post-rendersurface fixes ([#14403](https://github.com/ghostty-org/ghostty/issues/14403)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Should work around #14395...
+  ```
+- [`1a9edb0`](https://github.com/ghostty-org/ghostty/commit/1a9edb0009a7e4fd87d2eca5d61386ce0c2b7e9d) gtk: don't tell systemd we're ready before we can handle SIGUSR2 ([#14399](https://github.com/ghostty-org/ghostty/issues/14399)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On a dark desktop, syncing the color scheme during startup triggers a
+  config reload, which sent RELOADING=1 and READY=1 before the SIGUSR2
+  handler was installed. systemd 262 refuses to start a Type=notify-reload
+  service whose reload signal has no handler, so D-Bus activation fails
+  intermittently and no window opens.
+  
+  Fixes #14398
+  Discussions: #11724, #14394, #14393
+  
+  AI disclosure: Claude Code was used to investigate and develop the
+  patch, but the author has thoroughly reviewed the patch.
+  ```
 - [`ca4f719`](https://github.com/ghostty-org/ghostty/commit/ca4f719f7730a302a93230add6944a8c233060ef) terminal: add overscan support to RenderState for smooth scrolling ([@mitchellh](https://github.com/mitchellh))
   ````text
   This adds overscan to `RenderState`: an optional number of rows to
@@ -869,33 +982,5 @@ Summary: 3 runs • 8 commits • 3 authors
   >   stream CSI ? 2026 h/l:        20.6 ns -> 12.7 ns per sequence
   >   stream set/reset 3 modes:     46.0 ns -> 28.0 ns per sequence
   >   stream DECRQM:                57.0 ns -> 41.0 ns per sequence
-  ```
-
-## September 19, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/35468004060), [2](https://github.com/ghostty-org/ghostty/actions/runs/35466266073)  
-Summary: 2 runs • 3 commits • 3 authors
-
-### Changes
-
-- [`790c6b6`](https://github.com/ghostty-org/ghostty/commit/790c6b60f730a17fef267ffde0817c55fa7d62d3) Update VOUCHED list ([@github-actions[bot]](https://github.com/apps/github-actions))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/14305#discussioncomment-DC_kwDOHFhdAs4BGpVY
-  ```
-- [`a301054`](https://github.com/ghostty-org/ghostty/commit/a3010543b0c39b98a81ace9f50b1910ae641c8c1) Update VOUCHED list ([#14307](https://github.com/ghostty-org/ghostty/issues/14307)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14305#discussioncomment-18519384)
-  from @jcollie.
-  
-  Vouch: @thomasfedb
-  ```
-- [`ca9b038`](https://github.com/ghostty-org/ghostty/commit/ca9b0384f22fc018d81b9f69cada01677f565126) Update VOUCHED list ([#14308](https://github.com/ghostty-org/ghostty/issues/14308)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14305#discussioncomment-18519384)
-  from @jcollie.
-  
-  Vouch: @thomasfedb
   ```
 
