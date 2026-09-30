@@ -8,15 +8,246 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: September 30, 2026 at 09:14 UTC.
+> Last updated: September 30, 2026 at 17:28 UTC.
 
 ## September 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36670952998), [2](https://github.com/ghostty-org/ghostty/actions/runs/36665025906), [3](https://github.com/ghostty-org/ghostty/actions/runs/36660177665), [4](https://github.com/ghostty-org/ghostty/actions/runs/36659330138), [5](https://github.com/ghostty-org/ghostty/actions/runs/36655721423), [6](https://github.com/ghostty-org/ghostty/actions/runs/36654852811)  
-Summary: 6 runs • 13 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36730069010), [2](https://github.com/ghostty-org/ghostty/actions/runs/36722471142), [3](https://github.com/ghostty-org/ghostty/actions/runs/36710304157), [4](https://github.com/ghostty-org/ghostty/actions/runs/36670952998), [5](https://github.com/ghostty-org/ghostty/actions/runs/36665025906), [6](https://github.com/ghostty-org/ghostty/actions/runs/36660177665), [7](https://github.com/ghostty-org/ghostty/actions/runs/36659330138), [8](https://github.com/ghostty-org/ghostty/actions/runs/36655721423), [9](https://github.com/ghostty-org/ghostty/actions/runs/36654852811)  
+Summary: 9 runs • 29 commits • 9 authors
 
 ### Changes
 
+- [`02c51de`](https://github.com/ghostty-org/ghostty/commit/02c51decf54a40513189a07c0d96b7d170c902e0) terminal/c: test osc command data with a NULL command ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  ghostty_osc_end returns NULL for an invalid or cancelled sequence, and
+  ghostty_osc_command_data is documented to accept a NULL command. It
+  unwraps the command instead, so this test currently crashes.
+  ```
+- [`51d3ca1`](https://github.com/ghostty-org/ghostty/commit/51d3ca1689d6ab9cc64ed394825a8417353473eb) terminal/c: return false from osc command data on NULL ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  ghostty_osc_command_data panicked on a NULL command in safe builds,
+  and was undefined behavior in release builds, even though the header
+  says NULL is accepted. Return false instead, like
+  ghostty_osc_command_type reports NULL as an invalid command.
+  ```
+- [`9a4787d`](https://github.com/ghostty-org/ghostty/commit/9a4787d90c03db611d26f811aa8a794e20b44b8f) vt: don't call a same-size terminal resize a no-op ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  A resize to the current dimensions still updates pixel geometry,
+  synchronized output and size reports. Only the grid is left as is.
+  ```
+- [`daff2d8`](https://github.com/ghostty-org/ghostty/commit/daff2d8e11f6946c499302758705aa061658ecfc) vt: test osc command data with a NULL command ([#14481](https://github.com/ghostty-org/ghostty/issues/14481)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `ghostty_osc_command_data` is documented in `osc.h` to accept a NULL
+  command, but in the code it unwraps it (`command_.?` in
+  `commandDataTyped`).
+  A NULL command panics in safe builds and is UB in release builds.
+  
+  It' easy to hit this: `ghostty_osc_end` returns `NULL` for any invalid
+  or cancelled sequence.
+  
+  This makes the function follow the docs and return false for a `NULL`
+  command, just like `ghostty_osc_command_type`.
+  
+  AI disclosure: Claude Code was used to find the bug and write the test
+  while working on libghostty-rs . The one-liner is mine.
+  ```
+- [`76895d9`](https://github.com/ghostty-org/ghostty/commit/76895d97b74ff6b24c2b1543bcd69ccc18048a4d) vt: don't call a same-size terminal resize a no-op ([#14482](https://github.com/ghostty-org/ghostty/issues/14482)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A resize to the current dimensions still updates pixel geometry,
+  synchronized output and size reports. Only the grid is left as is.
+  
+  For reference:
+  
+  https://github.com/ghostty-org/ghostty/blob/acf1209ee9e12ddf7bafb18044979d266106ed68/src/terminal/Terminal.zig#L4056-L4057
+  ```
+- [`bb20f8e`](https://github.com/ghostty-org/ghostty/commit/bb20f8e45cd4035d00375358d5acd6b3c68c2e1d) terminal: reset the palette on RIS ([@korikhin](https://github.com/korikhin))
+- [`2b1edde`](https://github.com/ghostty-org/ghostty/commit/2b1edded2842a405da9266dc9e0085e1849d918f) terminal: cosmetic changes in `fullReset` ([@korikhin](https://github.com/korikhin))
+- [`acf1209`](https://github.com/ghostty-org/ghostty/commit/acf1209ee9e12ddf7bafb18044979d266106ed68) terminal: reset the palette on RIS ([#14480](https://github.com/ghostty-org/ghostty/issues/14480)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This happens on RIS and DECSTR in xterm
+  ([charproc.c#L14402-L14407](https://github.com/ThomasDickey/xterm-snapshots/blob/9489b2056ee51fa9dd6a7087483b9b8f85d6a0c4/charproc.c#L14402-L14407)).
+  
+  - The first commit is the change and the typo fix.
+  - The second commit is purely cosmetic. Drop it if it's meh. Flags are
+  okay (checked with an assertion just in case).
+  
+  Now this comment tells the truth. But for what it is worth, when the
+  mailbox is drained, the modes are already reset.
+  
+  
+  https://github.com/ghostty-org/ghostty/blob/6467b1dab0be087fa8f0a7ccc7b3c5b88b9be7a5/src/termio/stream_handler.zig#L893-L894
+  
+  #### Reproduction
+  
+  Launch xterm and Ghostty with a user setting (green replaced with
+  purple):
+  
+  ```sh
+  xterm -xrm 'XTerm*color2: #ff00ff'
+  ```
+  
+  ```sh
+  ghostty --palette=2=#ff00ff
+  ```
+  
+  Print some "green" text:
+  
+  ```sh
+  printf '\e[32mSOME TEXT\e[0m\n'    # Shows purple as intended
+  ```
+  
+  Change green to yellow via OSC:
+  
+  ```sh
+  printf '\e]4;2;#ffff00\e\\'        # Text shows yellow now
+  ```
+  
+  Reset the terminal and print some "green" text:
+  
+  ```sh
+  printf '\ec'
+  printf '\e[32mSOME TEXT\e[0m\n'    # Shows purple as intended (back to the user setting)
+  ```
+  
+  #### AI Disclosure
+  
+  Claude wrote the reproduction for me.
+  ````
+- [`e2721d0`](https://github.com/ghostty-org/ghostty/commit/e2721d0932bffc883d39e979cd632eb721b7c2fb) macos: don't show Kitty clipboard program name in prompts ([@ajr-khll](https://github.com/ajr-khll))
+  ```text
+  The Kitty clipboard protocol lets a program send a "human friendly
+  name" with clipboard read and write requests. The name is
+  attacker-controlled and unverifiable, and showing it in the clipboard
+  confirmation prompt lets a program put arbitrary text in a trusted
+  dialog, which could be used for social engineering.
+  
+  Always show "An application" instead, matching the GTK implementation.
+  ```
+- [`be595d8`](https://github.com/ghostty-org/ghostty/commit/be595d8f01b58bc3dc9125fb53b825df76b6d0f5) macOS: remove compiler check for Shortcut and Tab bar fix ([@bo2themax](https://github.com/bo2themax))
+- [`afded91`](https://github.com/ghostty-org/ghostty/commit/afded91dfaed30031deb033f74c444fb38204c09) terminal: preserve saved cursor position during repeated widening ([@fornwall](https://github.com/fornwall))
+  ````text
+  Fix saved cursors moving backward during repeated widening. Reflow now accounts for deferred line breaks and pending wrap when clamping tracked positions in trailing blanks.
+  
+  Starting with a 4-column terminal:
+  
+  1. Output `abc`, then start a new line and output `AAA|`.
+  2. Save the cursor while in pending wrap (`ESC 7`).
+  3. Widen to 5 columns, then to 6 columns.
+  4. Restore the cursor (`ESC 8`) and output `X`.
+  
+  Current buggy behaviour:
+  ```
+  abc
+  AAX|
+  ```
+  
+  Fixed expected behaviour:
+  ```
+  abc
+  AAA|X
+  ```
+  ````
+- [`6467b1d`](https://github.com/ghostty-org/ghostty/commit/6467b1dab0be087fa8f0a7ccc7b3c5b88b9be7a5) macOS: remove compiler check for Shortcut and Tab bar fix ([#14473](https://github.com/ghostty-org/ghostty/issues/14473)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow up for #14413 and #14414
+  ```
+- [`7bb45ba`](https://github.com/ghostty-org/ghostty/commit/7bb45ba34eed168dae5de24b088aa4602fbee75c) libghostty: add semantic prompt and reset effects ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds two new effects to libghostty-vt. The semantic prompt effect
+  reports shell integration events: a prompt starts, input starts, output
+  starts, or a command ends. The reset effect reports a full reset (RIS,
+  `ESC c`).
+  
+  Embedders previously had no way to observe either of these. The
+  terminal applied OSC 133 to the grid and a full reset to its state, but
+  nothing was reported outside the library. This lets an embedder track
+  per-command state such as the running command line and its exit code,
+  and throw that state away when a new prompt starts or the terminal is
+  reset.
+  
+  ```c
+  static void on_semantic_prompt(
+      GhosttyTerminal terminal,
+      void* userdata,
+      const GhosttyTerminalSemanticPrompt* event) {
+    if (event->kind != GHOSTTY_SEMANTIC_PROMPT_COMMAND_END) return;
+    if (event->has_exit_code) {
+      printf("exited with %d\n", event->exit_code);
+    }
+  }
+  
+  ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_SEMANTIC_PROMPT,
+                       (const void*)on_semantic_prompt);
+  ```
+  ````
+- [`36ec90a`](https://github.com/ghostty-org/ghostty/commit/36ec90a07fcb58e3033296c06c82438bf30d2e42) libghostty: add semantic prompt and reset effects ([#14479](https://github.com/ghostty-org/ghostty/issues/14479)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds two new effects to libghostty-vt. The semantic prompt effect
+  reports shell integration events: a prompt starts, input starts, output
+  starts, or a command ends. The reset effect reports a full reset (RIS,
+  `ESC c`).
+  
+  Embedders previously had no way to observe either of these. The terminal
+  applied OSC 133 to the grid and a full reset to its state, but nothing
+  was reported outside the library. This lets an embedder track
+  per-command state such as the running command line and its exit code,
+  and throw that state away when a new prompt starts or the terminal is
+  reset.
+  
+  ```c
+  static void on_semantic_prompt(
+      GhosttyTerminal terminal,
+      void* userdata,
+      const GhosttyTerminalSemanticPrompt* event) {
+    if (event->kind != GHOSTTY_SEMANTIC_PROMPT_COMMAND_END) return;
+    if (event->has_exit_code) {
+      printf("exited with %d\n", event->exit_code);
+    }
+  }
+  
+  ghostty_terminal_set(terminal, GHOSTTY_TERMINAL_OPT_SEMANTIC_PROMPT,
+                       (const void*)on_semantic_prompt);
+  ```
+  ````
+- [`dc3f73a`](https://github.com/ghostty-org/ghostty/commit/dc3f73a69e18e895a8217ec50eb3ad32a03be3ee) terminal: preserve saved cursor position during repeated widening ([#14478](https://github.com/ghostty-org/ghostty/issues/14478)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Fix saved cursors moving backward during repeated widening. Reflow now
+  accounts for deferred line breaks and pending wrap when clamping tracked
+  positions in trailing blanks.
+  
+  Starting with a 4-column terminal:
+  
+  1. Output `abc`, then start a new line and output `AAA|`.
+  2. Save the cursor while in pending wrap (`ESC 7`).
+  3. Widen to 5 columns, then to 6 columns.
+  4. Restore the cursor (`ESC 8`) and output `X`.
+  
+  Current buggy behaviour:
+  ```
+  abc
+  AAX|
+  ```
+  
+  Fixed expected behaviour:
+  ```
+  abc
+  AAA|X
+  ```
+  
+  AI disclosure: Created with codex using gpt-6 astra. Iterated on,
+  reviewed and tested by me.
+  ````
+- [`62fa23b`](https://github.com/ghostty-org/ghostty/commit/62fa23bfa9c1c8f908792ba3281253d776b953c7) macos: don't show Kitty clipboard program name in prompts [#14326](https://github.com/ghostty-org/ghostty/issues/14326) ([#14470](https://github.com/ghostty-org/ghostty/issues/14470)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Following up on #14325
+  This simply removes the "human friendly name" field from the Kitty
+  clipboard protocol from reaching the User, due to the social engineering
+  concerns raised in the issue. Now, the message will always show "An
+  application", which matches the GTK implementation.
+  
+  Used Opus 5.5 with Claude Code to find all the relevant files to change
+  and check my work.
+  ```
 - [`4da7523`](https://github.com/ghostty-org/ghostty/commit/4da7523faba68ccb4042ea20585817098a51c015) Update VOUCHED list ([#14471](https://github.com/ghostty-org/ghostty/issues/14471)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
