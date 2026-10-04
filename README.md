@@ -8,7 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 3, 2026 at 23:28 UTC.
+> Last updated: October 4, 2026 at 03:57 UTC.
+
+## October 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37167192678)  
+Summary: 1 runs • 1 commits • 1 authors
+
+### Changes
+
+- [`f96c971`](https://github.com/ghostty-org/ghostty/commit/f96c9711b9f72ecf75e0fd50f3434529b4dea5b6) Update VOUCHED list ([#14528](https://github.com/ghostty-org/ghostty/issues/14528)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/12713#discussioncomment-18737824)
+  from @jcollie.
+  
+  Vouch: @maddythewisp
+  ```
 
 ## October 3, 2026
 
@@ -1352,19 +1368,5 @@ Summary: 3 runs • 29 commits • 10 authors
   as one unichar, and surrogate conversion runs only for pairs.
   
   This is a 50% profiled speedup in addCodepoint for the common BMP case.
-  ```
-
-## September 27, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/36289889834)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`75166e9`](https://github.com/ghostty-org/ghostty/commit/75166e9eb0f6812b492b875bda0b49000843fe9f) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`b40acce`](https://github.com/ghostty-org/ghostty/commit/b40acce58dcf77df52231c3798ea58e924647c89) Update iTerm2 colorschemes ([#14424](https://github.com/ghostty-org/ghostty/issues/14424)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20260921-150923-0b55a9e
   ```
 
