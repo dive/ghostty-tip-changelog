@@ -8,15 +8,121 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 6, 2026 at 12:38 UTC.
+> Last updated: October 6, 2026 at 19:56 UTC.
 
 ## October 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37392894640)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37515317220), [2](https://github.com/ghostty-org/ghostty/actions/runs/37510349661), [3](https://github.com/ghostty-org/ghostty/actions/runs/37392894640)  
+Summary: 3 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`13b5ab2`](https://github.com/ghostty-org/ghostty/commit/13b5ab2041fe866e9b448697cd8485b115c32ba2) terminal: stop line selection at prompt boundaries across blank cells ([@fornwall](https://github.com/fornwall))
+  ```text
+  Selecting a span of blank cells or whitespace between OSC 133 semantic
+  boundaries could pull in neighboring prompt text and reverse the
+  selection endpoints.
+  
+  The whitespace trims iterate with a `CellIterator` bounded by the end
+  pin, but the iterator bounds only the row, so the trim ran past the end
+  column into the next prompt.
+  ```
+- [`6220a36`](https://github.com/ghostty-org/ghostty/commit/6220a36172ec4558b308b317ac9a7b1e0960cb50) terminal: print codepoints above 0xFF unmapped in a charset, as xterm ([@robmorgan](https://github.com/robmorgan))
+  ```text
+  With a charset other than UTF-8 or ASCII designated (the DEC
+  line-drawing set, say), printCell mapped every codepoint above 0xFF to
+  a space. An emoji printed in that state became a blank, and since its
+  width still came from the original codepoint, a two-column one, so the
+  rest of the row shifted too.
+  
+  A designated set only applies to the range it is invoked into: G0 is
+  invoked into GL (0x21-0x7E), so codepoints outside it pass through
+  unchanged (DEC STD 070, following ISO 2022; xterm does the same). The
+  charset tables already only remap codepoints in GL, so printCell now
+  prints anything above 0xFF as is instead of replacing it with a space.
+  ```
+- [`4611e04`](https://github.com/ghostty-org/ghostty/commit/4611e04ff63c50f71b3e951c4015cfae416cb40d) terminal: print codepoints above 0xFF unmapped in a charset, as xterm ([#14554](https://github.com/ghostty-org/ghostty/issues/14554)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  With a charset other than UTF-8 or ASCII designated (e.g. the DEC
+  line-drawing set), `printCell` mapped every codepoint above `0xFF` to a
+  space. An emoji printed in that state became a blank, and since its
+  width still came from the original codepoint (a two-column one), so the
+  rest of the row shifted too.
+  
+  A designated set only applies to the range it is invoked into: G0 is
+  invoked into GL (`0x21`–`0x7E`), so codepoints outside it should pass
+  through unchanged (DEC STD 070, following ISO 2022 - I checked and xterm
+  behaves the same way). Ghostty's charset tables already only remap
+  codepoints in GL, so `printCell` now prints anything above `0xFF` as is
+  instead of replacing it with a space.
+  
+  To reproduce, run this inside a current build:
+  ```sh
+  printf '\e(0`\U0001F600a\e(B\n'
+  ```
+  
+  **Old**
+  <img width="585" height="82" alt="image"
+  src="https://github.com/user-attachments/assets/4df6c46f-eaf1-459a-b7c2-2e175bbca6ed"
+  />
+  
+  **New**
+  <img width="323" height="58" alt="image"
+  src="https://github.com/user-attachments/assets/d618502b-e44f-4243-b4b4-8c76e079b88d"
+  />
+  
+  AI disclosure: Created with help from Claude Code using Opus 5.5.
+  Iterated on, manually tested, and reviewed by me.
+  ````
+- [`ca2356f`](https://github.com/ghostty-org/ghostty/commit/ca2356fa05bedefacfc30a71d93ee899aaedb998) terminal: stop line selection at prompt boundaries across blank cells ([#14553](https://github.com/ghostty-org/ghostty/issues/14553)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Selecting a span of blank cells or whitespace between [OSC 133 semantic
+  boundaries](https://gitlab.freedesktop.org/Per_Bothner/specifications/-/blob/master/proposals/semantic-prompts.md)
+  could pull in neighboring prompt text and reverse the selection
+  endpoints. The whitespace trims iterate with a `CellIterator` bounded by
+  the end pin, but the iterator bounds only the row, so the trim ran past
+  the end column into the next prompt.
+  
+  To reproduce: Run this script and triple-click either blank cell between
+  `x` and `m` on the first row. Before the fix, the selection reaches into
+  the neighboring prompt text; after the fix, nothing is selected (like
+  triple-clicking a blank row).
+  
+  ```sh
+  #!/bin/sh
+  # On exit:
+  # \033]133;C\007  Switch back to command-output mode (OSC 133;C).
+  # \033[?1049l     Leave the alternate screen and restore the original screen.
+  trap 'printf "\033]133;C\007\033[?1049l"' 0
+  
+  # \033[?1049h     Enter the alternate screen, preserving the original screen.
+  # \033]133;C\007  Mark subsequent text as command output (OSC 133;C).
+  # \033[2J        Clear the visible screen, leaving unwritten output cells.
+  # \033[H         Move the cursor to the top-left corner.
+  printf '\033[?1049h\033]133;C\007\033[2J\033[H'
+  
+  # \033]133;A\007  Mark the start of a prompt (OSC 133;A).
+  # x              Print a prompt cell in column 1.
+  # \033[2C        Move right two columns, leaving two unwritten output cells.
+  # m              Print another prompt cell in column 4.
+  # \033]133;C\007  Switch back to command-output mode (OSC 133;C).
+  printf '\033]133;A\007x\033[2Cm\033]133;C\007'
+  
+  # Wait for Enter while you test selection; the exit trap restores the screen.
+  read -r _
+  ```
+  
+  AI disclosure: Initially created with the help of gpt-6 astra in codex.
+  Iterated on, reviewed and tested by me.
+  ````
+- [`2febd01`](https://github.com/ghostty-org/ghostty/commit/2febd0116dab28df8beb00e4a3453022fe8f3c16) Update VOUCHED list ([#14566](https://github.com/ghostty-org/ghostty/issues/14566)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14563#discussioncomment-18782495)
+  from @jcollie.
+  
+  Vouch: @magnussp
+  ```
 - [`c3203ea`](https://github.com/ghostty-org/ghostty/commit/c3203ea4b169a18eb2ccfe92847e426d8afea858) Update VOUCHED list ([#14550](https://github.com/ghostty-org/ghostty/issues/14550)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
