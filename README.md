@@ -8,15 +8,108 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 8, 2026 at 09:51 UTC.
+> Last updated: October 8, 2026 at 18:19 UTC.
 
 ## October 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37742721150)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37805457756), [2](https://github.com/ghostty-org/ghostty/actions/runs/37794266921), [3](https://github.com/ghostty-org/ghostty/actions/runs/37790076764), [4](https://github.com/ghostty-org/ghostty/actions/runs/37789831587), [5](https://github.com/ghostty-org/ghostty/actions/runs/37742721150)  
+Summary: 5 runs • 7 commits • 5 authors
 
 ### Changes
 
+- [`23c7a3e`](https://github.com/ghostty-org/ghostty/commit/23c7a3e5a68aefee51b30a780e706771f80b5f97) formatter: write the cursor position relative to the margins in origin mode ([@robmorgan](https://github.com/robmorgan))
+  ```text
+  VT output from TerminalFormatter restores origin mode (DECOM) with the
+  other modes and the scrolling region after the contents, then writes
+  the cursor position with CUP. In origin mode CUP counts from the
+  top-left of the scrolling region, but the position was written from the
+  top-left of the screen, so replaying the output put the cursor that far
+  down and to the right whenever a program had set margins and origin
+  mode.
+  
+  When the output restores both origin mode and the scrolling region,
+  the cursor position (and the cell reprinted to restore a pending wrap)
+  is now written relative to the region's top-left. Without either, the
+  replaying terminal counts from the screen's top-left, as before.
+  ```
+- [`7ec9e26`](https://github.com/ghostty-org/ghostty/commit/7ec9e26a29399b30ef78f06985fc75045b3cecb6) formatter: write the cursor position relative to the margins in origin mode ([#14588](https://github.com/ghostty-org/ghostty/issues/14588)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  When a program sets a scrolling region and origin mode (DECOM), the VT
+  output from `TerminalFormatter` restores the cursor to the wrong place.
+  The formatter restores origin mode and the scrolling region (along with
+  the other modes) after the contents, then writes the cursor position
+  with CUP. In origin mode, CUP counts from the top-left of the screen, so
+  the replayed cursor lands too far down (and right with DECSLRM), by the
+  size of the margins.
+  
+  ### Reproduce
+  
+  Format a terminal with a scrolling region on rows 5-20, with origin mode
+  on and the cursor at row 7, column 7, then play the output back and
+  print an `X` at the cursor. I made an agent write a small C program with
+  `ghostty_formatter_terminal_new` (modes, scrolling region, and cursor
+  extras on) against libghostty-vt built from `main` and from this branch:
+  
+  <img width="764" height="602" alt="formatter-side-by-side"
+  src="https://github.com/user-attachments/assets/787943b4-3763-4bbc-8eb8-1924600063e1"
+  />
+  
+  
+  The only difference in the output is the cursor position:
+  
+  ```
+  main:  …row 24\e[5;20r\e[7;7H\e[0m   → row 11 in origin mode
+  fixed: …row 24\e[5;20r\e[3;7H\e[0m   → row 7
+  ```
+  
+  **The Fix:** When the output restores both origin mode and the scrolling
+  region, the cursor position is now rewritten relative to the region's
+  top-left. Without either, the replaying terminal counts from the
+  screen's top-left, as before. Setting origin mode moves the cursor home,
+  so you must write the position relative to the margins after it, and no
+  mode ordering avoids this.
+  
+  ### Performance
+  
+  The fix runs once per format, not per cell. I've used the benchmark I
+  contributed in https://github.com/ghostty-org/ghostty/pull/14581 to run
+  `ghostty-bench +terminal-formatter` with `TerminalFormatter` and every
+  extra, ReleaseFast on my MacBook Pro M1 Max, median of 60 hyperfine
+  runs:
+  
+  | **Input** | **main** | **this PR** |
+  | --- | --- | --- |
+  |  80×24 screen in origin mode, 100,000 formats | 1005.4 ms | 999.4 ms |
+  | ghostty-gen +styled --seed=42, 640 KB, 20 formats | 47.4 ms | 47.3 ms
+  |
+  
+  AI disclosure: Written with help from Claude Code using Opus 5.5. I
+  reviewed, tested and ran the benchmarks myself.
+  ````
+- [`bad5854`](https://github.com/ghostty-org/ghostty/commit/bad5854f358332f3168b35c5052f41b45a2671b3) Update VOUCHED list ([#14603](https://github.com/ghostty-org/ghostty/issues/14603)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14595#issuecomment-6062284415)
+  from @mitchellh.
+  
+  Vouch: @Huge
+  ```
+- [`0f171f6`](https://github.com/ghostty-org/ghostty/commit/0f171f650a1cbbd6df4a2573b6b0c7de57cc6d90) Update VOUCHED list ([#14600](https://github.com/ghostty-org/ghostty/issues/14600)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14597#issuecomment-6061673855)
+  from @pluiedev.
+  
+  Denounce: @riskirills66
+  ```
+- [`7551c5b`](https://github.com/ghostty-org/ghostty/commit/7551c5bad4211ebf3cf20647f5b735f2dc14b1f6) Update VOUCHED list ([#14599](https://github.com/ghostty-org/ghostty/issues/14599)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14598#issuecomment-6061636878)
+  from @trag1c.
+  
+  Vouch: @Rayzerrek
+  ```
 - [`7b60f9b`](https://github.com/ghostty-org/ghostty/commit/7b60f9bf5f057394038f81653eaa7cc5a55bb5df) i18n: improve Danish (da) translation ([@kgni](https://github.com/kgni))
 - [`8f0dd37`](https://github.com/ghostty-org/ghostty/commit/8f0dd3709050b1026f6324368805033197d8b4a5) i18n: improve Danish (da) translation ([#14586](https://github.com/ghostty-org/ghostty/issues/14586)) ([@trag1c](https://github.com/trag1c))
   ````text
