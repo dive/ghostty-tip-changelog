@@ -8,7 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 8, 2026 at 00:40 UTC.
+> Last updated: October 8, 2026 at 09:51 UTC.
+
+## October 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37742721150)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`7b60f9b`](https://github.com/ghostty-org/ghostty/commit/7b60f9bf5f057394038f81653eaa7cc5a55bb5df) i18n: improve Danish (da) translation ([@kgni](https://github.com/kgni))
+- [`8f0dd37`](https://github.com/ghostty-org/ghostty/commit/8f0dd3709050b1026f6324368805033197d8b4a5) i18n: improve Danish (da) translation ([#14586](https://github.com/ghostty-org/ghostty/issues/14586)) ([@trag1c](https://github.com/trag1c))
+  ````text
+  Hi!
+  
+  I'm a native Danish speaker and went through the Danish translation. I
+  hope it's okay that I open this.
+  
+  My background: Got 0 errors in all of my spelling tests from 4th to 6th
+  grade
+  
+  Happy to adjust or drop anything the da_DK maintainers disagree with.
+  
+  I followed the Danish GNOME translations for some of these - e.g.
+  "Afslut" instead of "Luk ned"
+  
+  ## Summary
+  
+  Review pass of `po/da.po` with grammar fixes and small consistency
+  changes. No new strings; still `252/252` translated.
+  
+  ```diff
+  - Åben i Ghostty / Åben et nyt vindue. / …og åben den.
+  + Åbn i Ghostty / Åbn et nyt vindue. / …og åbn den.        (imperative of "åbne", ~20 strings)
+  - Kopiér det valgte tekst …
+  + Kopiér den valgte tekst …                                 ("tekst" is common gender)
+  - Slå sikker input til/fra
+  + Slå sikkert input til/fra                                 ("input" is neuter / intetkøn)
+  - Hvis ingen terminaltitel er angivet, vil dette have ingen effekt.
+  + Hvis ingen terminaltitel er angivet, har dette ingen effekt.
+  - Luk ned / Luk ned for Ghostty?
+  + Afslut / Afslut Ghostty?                                  (matches GNOME)
+  - Eksekver en kommando… / …vil blive eksekveret.
+  + Kør en kommando… / …vil blive kørt.
+  - Venligst gennemse fejlene nedenfor, og derefter enten genindlæs …
+  + Gennemgå fejlene nedenfor, og genindlæs derefter …
+  - Tjek efter opdateringer
+  + Søg efter opdateringer
+  - Dialog for at skifte titlen på den nuværende terminal.
+  + Angiv en ny titel for den nuværende terminal.
+  - Kopiér valg som HTML …
+  + Kopiér markering som HTML …                               (matches "markering" elsewhere)
+  ```
+  
+  Smaller consistency fixes:
+  - `Dette medfører en nedsat ydeevne.` → `Ydeevnen vil være nedsat.`
+  - `Slå vis altid øverst til/fra` → `Slå 'altid øverst' til/fra`
+  - "Kopiér skærm/markering … til midlertidig fil" titles now use the same
+  wording
+  - Comma before "og" in all temp-file descriptions
+  
+  I used Claude Code to help review the initial translation; I went
+  through and chose every change myself.
+  ````
 
 ## October 7, 2026
 
