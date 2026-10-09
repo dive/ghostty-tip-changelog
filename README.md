@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 8, 2026 at 18:19 UTC.
+> Last updated: October 9, 2026 at 00:55 UTC.
 
 ## October 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37805457756), [2](https://github.com/ghostty-org/ghostty/actions/runs/37794266921), [3](https://github.com/ghostty-org/ghostty/actions/runs/37790076764), [4](https://github.com/ghostty-org/ghostty/actions/runs/37789831587), [5](https://github.com/ghostty-org/ghostty/actions/runs/37742721150)  
-Summary: 5 runs • 7 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37856874364), [2](https://github.com/ghostty-org/ghostty/actions/runs/37844704694), [3](https://github.com/ghostty-org/ghostty/actions/runs/37805457756), [4](https://github.com/ghostty-org/ghostty/actions/runs/37794266921), [5](https://github.com/ghostty-org/ghostty/actions/runs/37790076764), [6](https://github.com/ghostty-org/ghostty/actions/runs/37789831587), [7](https://github.com/ghostty-org/ghostty/actions/runs/37742721150)  
+Summary: 7 runs • 12 commits • 7 authors
 
 ### Changes
 
+- [`54ba7b1`](https://github.com/ghostty-org/ghostty/commit/54ba7b1dd98dfaf14ee82ae7cbf435e867986da9) cli/list-themes: fix keypad page down binding ([@davidsanchez222](https://github.com/davidsanchez222))
+  ```text
+  The move-down-by-20 binding listed kp_down instead of kp_page_down.
+  Pressing keypad down matched both this binding and the move-down-by-1
+  binding, so it moved 21 themes. The move-up-by-20 binding already uses
+  kp_page_up.
+  ```
+- [`c770410`](https://github.com/ghostty-org/ghostty/commit/c770410dbb57909ff4f6921a6497688a957f85db) cli/list-themes: fix keypad page down binding ([#14605](https://github.com/ghostty-org/ghostty/issues/14605)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  discussion #14604
+  
+  ## small bug fix
+  
+  In the "move down 20" binding, `vaxis.Key.kp_down` should be
+  `vaxis.Key.kp_page_down`. A `kp_down` press matches both `if` statements
+  and moves down 21 rows. I cannot test this because I use macOS and have
+  no keypad.
+  
+  ```zig
+  // move down
+  if (key.matchesAny(&.{ 'j', '+', vaxis.Key.down, vaxis.Key.kp_down, vaxis.Key.kp_add }, .{}))
+      self.down(1);
+  if (key.matchesAny(&.{ vaxis.Key.page_down, vaxis.Key.kp_down }, .{}))
+      self.down(20);
+  
+  // move up (no issue, it uses kp_page_up)
+  if (key.matchesAny(&.{ 'k', '-', vaxis.Key.up, vaxis.Key.kp_up, vaxis.Key.kp_subtract }, .{}))
+      self.up(1);
+  if (key.matchesAny(&.{ vaxis.Key.page_up, vaxis.Key.kp_page_up }, .{}))
+      self.up(20);
+  ```
+  ````
+- [`55424c1`](https://github.com/ghostty-org/ghostty/commit/55424c1ccb34bff8f5534b5bc918ea859b3a9278) i18n: use "konfiguration" consistently in Danish (da) translation ([@kgni](https://github.com/kgni))
+- [`e2ced6b`](https://github.com/ghostty-org/ghostty/commit/e2ced6b710427ea69dc6795bf00a787c81554452) i18n: update Danish (da) PO-Revision-Date ([@kgni](https://github.com/kgni))
+- [`ce63fcb`](https://github.com/ghostty-org/ghostty/commit/ce63fcba60abb7e11e6435fae32855c20ef3c9cf) I18n/da konfiguration ([#14594](https://github.com/ghostty-org/ghostty/issues/14594)) ([@trag1c](https://github.com/trag1c))
+  ````text
+  ## Summary
+  
+  Small follow up to #14586  based on a suggestion from @Fjodor42.
+  Two strings used "konfigurering" while the rest of the file uses
+  "konfiguration".
+  
+  ```diff
+   msgid "Open Configuration in OS Editor"
+  -msgstr "Åbn konfigurering i styresystemets redigeringsprogram"
+  +msgstr "Åbn konfiguration i styresystemets redigeringsprogram"
+  
+   msgid "Open Configuration in New Window"
+  -msgstr "Åbn konfigurering i nyt vindue"
+  +msgstr "Åbn konfiguration i nyt vindue"
+  ```
+  
+  Also bumped `PO-Revision-Date`.
+  ````
 - [`23c7a3e`](https://github.com/ghostty-org/ghostty/commit/23c7a3e5a68aefee51b30a780e706771f80b5f97) formatter: write the cursor position relative to the margins in origin mode ([@robmorgan](https://github.com/robmorgan))
   ```text
   VT output from TerminalFormatter restores origin mode (DECOM) with the
@@ -781,125 +835,5 @@ Summary: 1 runs • 3 commits • 2 authors
   Code (Claude Opus 5.5). Reviewed and tested by me.
   
   Discussed in #14465.
-  ```
-
-## October 2, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37078509089), [2](https://github.com/ghostty-org/ghostty/actions/runs/37067831678), [3](https://github.com/ghostty-org/ghostty/actions/runs/37023207104)  
-Summary: 3 runs • 6 commits • 3 authors
-
-### Changes
-
-- [`822e842`](https://github.com/ghostty-org/ghostty/commit/822e84272f60e320526e6c2c223ccdf786d334c9) Update VOUCHED list ([#14522](https://github.com/ghostty-org/ghostty/issues/14522)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14066#discussioncomment-18724022)
-  from @jcollie.
-  
-  Vouch: @moonward
-  ```
-- [`f5a7f70`](https://github.com/ghostty-org/ghostty/commit/f5a7f706f0ef8751b9f47397b1c12880572b2330) Update VOUCHED list ([#14520](https://github.com/ghostty-org/ghostty/issues/14520)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14517#discussioncomment-18722576)
-  from @pluiedev.
-  
-  Denounce: @davidpmclaughlin
-  ```
-- [`1360297`](https://github.com/ghostty-org/ghostty/commit/136029788c13c8bff81506571ab0009dcc095da2) macos: honor window-save-state=never for restorable windows ([@BarutSRB](https://github.com/BarutSRB))
-  ```text
-  Normal terminal windows remain eligible for native AppKit restoration
-  when window-save-state is never, allowing background window snapshots
-  to contend with window updates.
-  
-  Apply the setting when creating a terminal window and assign its
-  restoration class and identifier only when restoration is enabled.
-  ```
-- [`934ef81`](https://github.com/ghostty-org/ghostty/commit/934ef81401f0c0d27740c44810eede26011a18da) macos: update window restoration on config reload ([@BarutSRB](https://github.com/BarutSRB))
-  ```text
-  Existing terminal windows retained their creation-time restoration
-  policy after configuration changes.
-  
-  Refresh that policy on global config reload and share setup with window
-  creation, preserving the custom-command exclusion.
-  ```
-- [`0e75d01`](https://github.com/ghostty-org/ghostty/commit/0e75d015fe085772b8ecffdba672b60c04af73fe) macos: simplify window restoration setup ([@BarutSRB](https://github.com/BarutSRB))
-  ```text
-  Let isRestorable control preservation while assigning the restoration
-  class and identifier consistently for every terminal window.
-  
-  Remove the restoration test fixture that creates AppKit windows and
-  broadcasts configuration changes through the shared test host.
-  ```
-- [`f523504`](https://github.com/ghostty-org/ghostty/commit/f523504ea5c9f41d150d1eb93cc7a748b90f9361) macos: honor window-save-state=never for restorable windows ([#14506](https://github.com/ghostty-org/ghostty/issues/14506)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  With `window-save-state = never`, normal terminal windows are still
-  marked `isRestorable`. Ghostty disables saving through
-  `NSQuitAlwaysKeepsWindows`, but AppKit continued taking persistent-UI
-  window snapshots in my reproduction on macOS 27.2 (26B5091g).
-  
-  Make `TerminalController.windowDidLoad()` also honor `never` when
-  setting `window.isRestorable`, and only assign the restoration class and
-  identifier when that flag is enabled. This adds no work to move, resize,
-  or rendering callbacks.
-  
-  For newly created windows, `default` and `always` retain the existing
-  behavior, including the exclusion of windows launched with a custom
-  command. The follow-up commit also covers windows that are already open:
-  on config reload, each terminal window re-syncs its restoration state
-  through the same path used at window creation. Windows started with a
-  custom command stay excluded.
-  
-  ### Reproduction and measurements
-  
-  I reproduced intermittent roughly 500 ms stalls while repeatedly
-  focusing left/right between several Ghostty windows and other
-  applications in OmniWM's Niri layout. `window-save-state = never` was
-  set before restarting Ghostty.
-  
-  The issue reproduced on 1.3.1 and an unmodified build of `76895d97b`. In
-  the latter, paired process samples showed
-  `NSPersistentUIWindowSnapshotter` waiting through
-  `SLSConnectionSynchronizeSLSCATransaction`, alongside Ghostty's main
-  thread waiting on the connection lock under
-  `SLSConnectionSetLastSLSCATransaction`.
-  
-  Comparing unmodified and patched builds of the same commit over two
-  approximately 20-second navigation captures:
-  
-  | Measurement | Unmodified | Patched |
-  | --- | ---: | ---: |
-  | Focus presses | 113 | 129 |
-  | Successful Ghostty AX frame-write attempts | 2,155 | 2,995 |
-  | Ghostty AX frame-write attempts around 500 ms | 5 | 0 |
-  | Slowest Ghostty AX frame-write attempt | 539.8 ms | 22.5 ms |
-  | Ghostty main-thread samples in the CA/SkyLight connection-lock wait |
-  2,205 / 12,544 | 0 / 12,173 |
-  
-  The persistent-UI snapshot worker was absent from the patched sample,
-  and navigation feels noticeably smoother. These are aggregate samples
-  from one before/after pair with different input counts, not a controlled
-  end-to-end latency benchmark. Both Ghostty builds used ReleaseLocal with
-  the same ReleaseFast core, while OmniWM remained the same instrumented
-  Debug process.
-  
-  ### Validation
-  
-  - `macos/build.nu --action test`: 275 passed, 1 skipped, 0 failed.
-  - New `macos/Tests/Terminal/TerminalControllerRestorationTests.swift`:
-  reload flips restoration on an open window between `never`, `default`
-  and `always`; custom-command windows stay non-restorable across reloads;
-  surface-level config changes leave it alone.
-  - `macos/build.nu --configuration ReleaseLocal`: passed.
-  - Strict SwiftLint on both changed files: passed.
-  - Manual navigation reproduction with the patched build: noticeably
-  smoother, with the results above.
-  
-  ### AI disclosure
-  
-  I used OpenAI Codex to assist with diagnosis, implement the two-line
-  change, run verification, analyze the captures, and draft this
-  description. I reproduced the issue and tested the patched app
-  interactively.
   ```
 
