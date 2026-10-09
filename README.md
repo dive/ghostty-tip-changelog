@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 9, 2026 at 09:55 UTC.
+> Last updated: October 9, 2026 at 17:52 UTC.
 
 ## October 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37902855280), [2](https://github.com/ghostty-org/ghostty/actions/runs/37884767144)  
-Summary: 2 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37960020956), [2](https://github.com/ghostty-org/ghostty/actions/runs/37902855280), [3](https://github.com/ghostty-org/ghostty/actions/runs/37884767144)  
+Summary: 3 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`7f1219f`](https://github.com/ghostty-org/ghostty/commit/7f1219fd701449fa3e5de33b9ba9ce85f008ac33) cli/list-themes: add ctrl-d/u paging ([@davidsanchez222](https://github.com/davidsanchez222))
+  ```text
+  Ctrl-D and Ctrl-U move down and up 20 themes, like PgDn and PgUp.
+  This helps keyboards without page keys and matches the less/vi-style
+  keys that already exist (g/G).
+  ```
+- [`246f702`](https://github.com/ghostty-org/ghostty/commit/246f702876b924a1cb7cade1e99274d1470302fc) cli/list-themes: add ctrl-d/u paging ([#14607](https://github.com/ghostty-org/ghostty/issues/14607)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  discussion #14604
+  
+  ## Ctrl-D and Ctrl-U paging
+  
+  `Ctrl-D` and `Ctrl-U` move down and up 20 themes. `PgDn` and `PgUp`
+  already do this. `g` and `G` already exist (#13376), so vim-like paging
+  fits. It also helps users who have no `PgUp` or `PgDn` key.
+  ```
 - [`9d479dc`](https://github.com/ghostty-org/ghostty/commit/9d479dcb1664e8dc3c66c7302ce596dc56b36d6d) Update VOUCHED list ([#14614](https://github.com/ghostty-org/ghostty/issues/14614)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
