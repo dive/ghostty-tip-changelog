@@ -8,15 +8,209 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 10, 2026 at 16:50 UTC.
+> Last updated: October 10, 2026 at 21:02 UTC.
 
 ## October 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38050071133)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38083192720), [2](https://github.com/ghostty-org/ghostty/actions/runs/38081318922), [3](https://github.com/ghostty-org/ghostty/actions/runs/38080640871), [4](https://github.com/ghostty-org/ghostty/actions/runs/38050071133)  
+Summary: 4 runs • 14 commits • 6 authors
 
 ### Changes
 
+- [`4144f6d`](https://github.com/ghostty-org/ghostty/commit/4144f6dea4dbf9586c797e535a04f1cfd381d8a7) core: demote 'adjusting page capacity' log message to debug ([@jcollie](https://github.com/jcollie))
+- [`6161591`](https://github.com/ghostty-org/ghostty/commit/61615915c8f423b1497ac2a1ae68885cad353892) core: demote 'adjusting page capacity' log message to debug ([#14631](https://github.com/ghostty-org/ghostty/issues/14631)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This can really spam the logs, and isn't really useful outside of a
+  developer context anyway.
+  ```
+- [`b10ba7e`](https://github.com/ghostty-org/ghostty/commit/b10ba7ea26502f8e637e5f698d8d001a6256d9c4) terminal: preserve grapheme data when widening wraps ([@fornwall](https://github.com/fornwall))
+  ```text
+  With grapheme clustering (mode 2027) enabled, a cluster can widen
+  after it has been printed. Codepoints that join a cluster without
+  changing its width, such as a zero-width joiner, are stored on the
+  cluster's single narrow cell. A later joining codepoint can then make
+  the cluster two columns wide (for example a heart, a zero-width joiner,
+  then thumbs up).
+  
+  When that happens in the last column and auto-wrap is enabled, the
+  cluster wraps to the next line and its stored codepoints have to move
+  with it. Copy them before wrapping instead of looking them up on the
+  row above afterwards. That row isn't the original one when the wrap
+  scrolls a single-row screen or a margin region, or doesn't scroll at
+  all below the scroll region. So the codepoints were dropped, taken
+  from an unrelated cell, or the lookup panicked.
+  ```
+- [`6dae79d`](https://github.com/ghostty-org/ghostty/commit/6dae79db927110b29970a0fbe7979949c6a3ffd4) terminal: re-attach wrapped grapheme data in one allocation ([@fornwall](https://github.com/fornwall))
+  ```text
+  Re-attach the grapheme codepoints copied across a widening wrap with a
+  single setGraphemes call instead of appending them one at a time.
+  Appending probed the grapheme map and could reallocate the chunk once
+  per codepoint, which cost about 10% on input where every wrap carries
+  a maximal cluster.
+  
+  Screen.setGraphemes mirrors appendGrapheme: on a full grapheme map or
+  allocator it grows the page's grapheme capacity, reloads the cell and
+  retries. Add a test that wraps onto a compacted page with no grapheme
+  capacity so that path is covered.
+  ```
+- [`b7207b2`](https://github.com/ghostty-org/ghostty/commit/b7207b2ef6aa3e05af992a6febb9ee83ad69bb8c) libghostty-vt: update program status protocol to revision 0.4 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The only change in behavior is the reply to the support query. It
+  used to be a bare `?`. It now also lists the states and kinds the
+  terminal accepts, computed at comptime.
+  
+  The rest is documentation to match revisions 0.3 and 0.4.
+  
+  References:
+  
+  - Program Status Protocol (OSC 7501) specification:
+    https://www.superlogical.com/rex/docs/build/program-status
+  ```
+- [`9cd19b4`](https://github.com/ghostty-org/ghostty/commit/9cd19b40de63f5bd172d1fcf30b667c8186d8923) libghostty-vt: update program status protocol to revision 0.4 ([#14630](https://github.com/ghostty-org/ghostty/issues/14630)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The only change in behavior is the reply to the support query. It used
+  to be a bare `?`. It now also lists the states and kinds the terminal
+  accepts, computed at comptime.
+  
+  The rest is documentation to match revisions 0.3 and 0.4.
+  
+  References:
+  
+  - Program Status Protocol (OSC 7501) specification:
+  https://www.superlogical.com/rex/docs/build/program-status
+  ```
+- [`2551d93`](https://github.com/ghostty-org/ghostty/commit/2551d9323505043ee6f4fcd5fc6f116bbe06f1df) terminal: preserve grapheme data when widening wraps ([#14552](https://github.com/ghostty-org/ghostty/issues/14552)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  With [grapheme
+  clustering](https://mitchellh.com/writing/grapheme-clusters-in-terminals#grapheme-clustering-in-terminals)
+  enabled, a cluster can widen after it has been printed. Codepoints that
+  join a cluster without changing its width, such as a zero-width joiner,
+  are stored on the cluster's single narrow cell. A later joining
+  codepoint can then make the cluster two columns wide (for example a
+  heart, a zero-width joiner, then thumbs up).
+  
+  When that happens in the last column and auto-wrap is enabled, the
+  cluster wraps to the next line and its stored codepoints have to move
+  with it. Copy them before wrapping instead of looking them up on the row
+  above afterwards: that row isn't the original one when the wrap scrolls
+  a single-row screen or a margin region, or doesn't scroll at all below
+  the scroll region.
+  
+  To reproduce, open a window and run the below using a safe build:
+  
+  ```sh
+  # \033[?2027h    Enable grapheme-cluster handling (mode 2027).
+  # \033[2J        Clear the visible screen.
+  # \033[1;2r      Set the scrolling region to rows 1–2 and home the cursor.
+  # \033[999;999H  Move to the bottom-right corner (coordinates are clamped).
+  # \u2764         Print a heart, initially one cell wide.
+  # \u200d         Append a zero-width joiner to the heart.
+  # \U0001f44d     Append thumbs up, widening the cluster and triggering wrapping.
+  # \033[r         Restore full-screen scrolling and home the cursor.
+  # \033[999;1H    Move to the first column of the bottom row (below grapheme).
+  # \n             Print a newline.
+  printf '\033[?2027h\033[2J\033[1;2r\033[999;999H\u2764\u200d\U0001f44d\033[r\033[999;1H\n'
+  ```
+  
+  - Before: Panics in safe builds when the cluster widens at the
+  bottom-right corner below a scroll region. In release builds it unwraps
+  a missing grapheme lookup, which is undefined behavior (a ReleaseFast
+  test run segfaults).
+  - After: it wraps with its grapheme data intact.
+  
+  AI disclosure: Initially created with the help of gpt-6 astra in codex.
+  Iterated on, reviewed and tested by me.
+  ````
+- [`b804cb8`](https://github.com/ghostty-org/ghostty/commit/b804cb8fd7f48f471b741ffeaac240b61a31d694) benchmark: measure the terminal formatter with every extra ([@robmorgan](https://github.com/robmorgan))
+  ```text
+  The formatter benchmark only measured ScreenFormatter with no extras,
+  the path clipboard copy, write_screen_file and search use. The
+  libghostty-vt C API formats a whole terminal with
+  ghostty_formatter_terminal_new, a TerminalFormatter whose extras
+  (palette, modes, scrolling region, tabstops, cursor, style and so on)
+  describe the terminal's state as well as its contents, and nothing
+  measured it.
+  
+  --formatter=terminal formats with a TerminalFormatter and every extra,
+  for every mode and region. With --mode=roundtrip both formats use it,
+  so the round trip checks that the output reconstructs that state too,
+  not only the contents. The default, --formatter=screen, is unchanged.
+  ```
+- [`1de05f1`](https://github.com/ghostty-org/ghostty/commit/1de05f1a780b279dcbfc89d93b43b850bd50e517) core: use std.Io.Dir.max_path_bytes ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  Replace all `std.fs.max_path_bytes` with `std.Io.Dir.max_path_bytes`.
+  
+  `std.fs.max_path_bytes` is deprected starting from 0.16.0.
+  ```
+- [`10f6eb4`](https://github.com/ghostty-org/ghostty/commit/10f6eb4603a3f154f8493593da5cfeb895680cbf) cli/list-themes: don't crash when no themes match the search ([@jcollie](https://github.com/jcollie))
+  ```text
+  With a search that matches nothing, the filtered list is empty, and
+  three keys in normal mode assumed a selected theme existed:
+  
+  - Enter opened the save screen, which indexes the selected theme while
+    drawing.
+  - G and End set the selection to `len - 1`, which underflows.
+  - c and C indexed the selected theme to copy its name or path.
+  
+  Enter now only opens the save screen when there is a theme to save,
+  G and End saturate at zero, and c and C do nothing on an empty list.
+  ```
+- [`c986a09`](https://github.com/ghostty-org/ghostty/commit/c986a09dc4c04d641914995e4a8ee706d9ea4e4b) cli/list-themes: don't crash when no themes match the search ([#14612](https://github.com/ghostty-org/ghostty/issues/14612)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With a search that matches nothing, the filtered list is empty, and
+  three keys in normal mode assumed a selected theme existed:
+  
+  - Enter opened the save screen, which indexes the selected theme while
+  drawing.
+  - G and End set the selection to `len - 1`, which underflows.
+  - c and C indexed the selected theme to copy its name or path.
+  
+  Enter now only opens the save screen when there is a theme to save, G
+  and End saturate at zero, and c and C do nothing on an empty list.
+  
+  AI disclosure: Claude Code assisted in the development of this PR.
+  ```
+- [`747dd53`](https://github.com/ghostty-org/ghostty/commit/747dd538d5a71bc84e980177db3b23c082ed5781) core: use std.Io.Dir.max_path_bytes ([#14611](https://github.com/ghostty-org/ghostty/issues/14611)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Replace all `std.fs.max_path_bytes` with `std.Io.Dir.max_path_bytes`.
+  
+  `std.fs.max_path_bytes` is deprected starting from 0.16.0.
+  ```
+- [`65f2b48`](https://github.com/ghostty-org/ghostty/commit/65f2b4838f1d5946aa19080bfb84732871c7b695) benchmark: measure the terminal formatter with every extra ([#14581](https://github.com/ghostty-org/ghostty/issues/14581)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The formatter benchmark only measures `ScreenFormatter` with no extras,
+  the path clipboard copy, `write_screen_file` and search use. The
+  libghostty-vt C API formats a whole terminal with
+  `ghostty_formatter_terminal_new`, a lovely `TerminalFormatter` whose
+  extras(palette, modes, scrolling region, cursor, etc.) describe the
+  terminal's state as well as its contents. As far as I'm aware, nothing
+  measured that path.
+  
+  This PR adds `--formatter=terminal` to the benchmarks, which formats
+  with a `TerminalFormatter` and every extra. It works with every mode and
+  region. With `--mode=roundtrip`, both formats use it, so the round trip
+  also checks that the output reconstructs the terminal state, not just
+  the contents. The default, `--formatter=screen`, is unchanged.
+  
+  ### Numbers
+  
+  Here is the `ghostty-bench +terminal-formatter`, ReleaseFast on my
+  Macbook Pro M1 Max with a median of 60 hyperfine runs and the `noop`
+  baseline subtracted:
+  
+  | Input | main `screen` | this PR `screen` | this PR `terminal` |
+  | --- | --- | --- | --- |
+  | `ghostty-gen +styled --seed=42`, 640 KB, 80×24 | 1,687 µs | 1,688 µs |
+  1,718 µs |
+  | Claude Code session, 120×40, alternate screen | 7.67 µs | 7.62 µs |
+  16.27 µs |
+  
+  **Note:** The existing path is unchanged. The extras add a fixed ~8.6 µs
+  per format, mostly the 256-entry palette and modes.
+  
+  AI disclosure: Written with help from Claude Code using Opus 5.5. I
+  reviewed, tested and ran the benchmarks myself.
+  ```
 - [`1da3ac4`](https://github.com/ghostty-org/ghostty/commit/1da3ac43bef626ec1155c366c1960cb0f4f74d1f) Update VOUCHED list ([#14623](https://github.com/ghostty-org/ghostty/issues/14623)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
