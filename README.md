@@ -8,7 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 10, 2026 at 11:46 UTC.
+> Last updated: October 10, 2026 at 16:50 UTC.
+
+## October 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38050071133)  
+Summary: 1 runs • 1 commits • 1 authors
+
+### Changes
+
+- [`1da3ac4`](https://github.com/ghostty-org/ghostty/commit/1da3ac43bef626ec1155c366c1960cb0f4f74d1f) Update VOUCHED list ([#14623](https://github.com/ghostty-org/ghostty/issues/14623)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14486#issuecomment-6097215618)
+  from @trag1c.
+  
+  Denounce: @rebecca-bell-2001
+  ```
 
 ## October 9, 2026
 
@@ -582,7 +598,7 @@ Summary: 2 runs • 4 commits • 4 authors
 ## October 4, 2026
 
 Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37206958649), [2](https://github.com/ghostty-org/ghostty/actions/runs/37206425565), [3](https://github.com/ghostty-org/ghostty/actions/runs/37167192678)  
-Summary: 3 runs • 23 commits • 5 authors
+Summary: 3 runs • 33 commits • 9 authors
 
 ### Changes
 
@@ -818,6 +834,172 @@ Summary: 3 runs • 23 commits • 5 authors
   - cgo, "Passing pointers": C memory must be initialized before Go code
   stores a pointer into it.
   https://pkg.go.dev/cmd/cgo#hdr-Passing_pointers
+  ```
+- [`6fbb560`](https://github.com/ghostty-org/ghostty/commit/6fbb560cd3bff42fe06af60aef320526b62a8004) cli: include the port in the ssh-terminfo cache key ([@stepankandrushin](https://github.com/stepankandrushin))
+  ```text
+  The ssh-terminfo cache keyed destinations as user@hostname from `ssh -G`,
+  ignoring the port. Two machines behind one address on different ports
+  (e.g. user@host:2221 and user@host:2218) shared a key, so once the first
+  was cached the terminfo install was skipped for the second, which still
+  got TERM=xterm-ghostty without the terminfo installed.
+  
+  The key now carries the port when it isn't 22: user@host:port, or
+  user@[addr]:port for IPv6. Port 22 keeps the old user@host form, so
+  existing caches stay valid.
+  
+  `+ssh-cache` accepts the new form: a bare `host` query matches that host
+  on every port, a bare `host:port` query that port for any user, and
+  `user@host:port` one exact entry.
+  
+  AI disclosure: the cause was found and the patch written with Claude
+  Code (Claude Opus 5.5). Reviewed and tested by me.
+  ```
+- [`1360297`](https://github.com/ghostty-org/ghostty/commit/136029788c13c8bff81506571ab0009dcc095da2) macos: honor window-save-state=never for restorable windows ([@BarutSRB](https://github.com/BarutSRB))
+  ```text
+  Normal terminal windows remain eligible for native AppKit restoration
+  when window-save-state is never, allowing background window snapshots
+  to contend with window updates.
+  
+  Apply the setting when creating a terminal window and assign its
+  restoration class and identifier only when restoration is enabled.
+  ```
+- [`83edd49`](https://github.com/ghostty-org/ghostty/commit/83edd491e3024ae5e50393d62877b8897da1cccd) Update VOUCHED list ([#14510](https://github.com/ghostty-org/ghostty/issues/14510)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14507#discussioncomment-18705479)
+  from @jcollie.
+  
+  Vouch: @mlabbe
+  ```
+- [`934ef81`](https://github.com/ghostty-org/ghostty/commit/934ef81401f0c0d27740c44810eede26011a18da) macos: update window restoration on config reload ([@BarutSRB](https://github.com/BarutSRB))
+  ```text
+  Existing terminal windows retained their creation-time restoration
+  policy after configuration changes.
+  
+  Refresh that policy on global config reload and share setup with window
+  creation, preserving the custom-command exclusion.
+  ```
+- [`0e75d01`](https://github.com/ghostty-org/ghostty/commit/0e75d015fe085772b8ecffdba672b60c04af73fe) macos: simplify window restoration setup ([@BarutSRB](https://github.com/BarutSRB))
+  ```text
+  Let isRestorable control preservation while assigning the restoration
+  class and identifier consistently for every terminal window.
+  
+  Remove the restoration test fixture that creates AppKit windows and
+  broadcasts configuration changes through the shared test host.
+  ```
+- [`f523504`](https://github.com/ghostty-org/ghostty/commit/f523504ea5c9f41d150d1eb93cc7a748b90f9361) macos: honor window-save-state=never for restorable windows ([#14506](https://github.com/ghostty-org/ghostty/issues/14506)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  With `window-save-state = never`, normal terminal windows are still
+  marked `isRestorable`. Ghostty disables saving through
+  `NSQuitAlwaysKeepsWindows`, but AppKit continued taking persistent-UI
+  window snapshots in my reproduction on macOS 27.2 (26B5091g).
+  
+  Make `TerminalController.windowDidLoad()` also honor `never` when
+  setting `window.isRestorable`, and only assign the restoration class and
+  identifier when that flag is enabled. This adds no work to move, resize,
+  or rendering callbacks.
+  
+  For newly created windows, `default` and `always` retain the existing
+  behavior, including the exclusion of windows launched with a custom
+  command. The follow-up commit also covers windows that are already open:
+  on config reload, each terminal window re-syncs its restoration state
+  through the same path used at window creation. Windows started with a
+  custom command stay excluded.
+  
+  ### Reproduction and measurements
+  
+  I reproduced intermittent roughly 500 ms stalls while repeatedly
+  focusing left/right between several Ghostty windows and other
+  applications in OmniWM's Niri layout. `window-save-state = never` was
+  set before restarting Ghostty.
+  
+  The issue reproduced on 1.3.1 and an unmodified build of `76895d97b`. In
+  the latter, paired process samples showed
+  `NSPersistentUIWindowSnapshotter` waiting through
+  `SLSConnectionSynchronizeSLSCATransaction`, alongside Ghostty's main
+  thread waiting on the connection lock under
+  `SLSConnectionSetLastSLSCATransaction`.
+  
+  Comparing unmodified and patched builds of the same commit over two
+  approximately 20-second navigation captures:
+  
+  | Measurement | Unmodified | Patched |
+  | --- | ---: | ---: |
+  | Focus presses | 113 | 129 |
+  | Successful Ghostty AX frame-write attempts | 2,155 | 2,995 |
+  | Ghostty AX frame-write attempts around 500 ms | 5 | 0 |
+  | Slowest Ghostty AX frame-write attempt | 539.8 ms | 22.5 ms |
+  | Ghostty main-thread samples in the CA/SkyLight connection-lock wait |
+  2,205 / 12,544 | 0 / 12,173 |
+  
+  The persistent-UI snapshot worker was absent from the patched sample,
+  and navigation feels noticeably smoother. These are aggregate samples
+  from one before/after pair with different input counts, not a controlled
+  end-to-end latency benchmark. Both Ghostty builds used ReleaseLocal with
+  the same ReleaseFast core, while OmniWM remained the same instrumented
+  Debug process.
+  
+  ### Validation
+  
+  - `macos/build.nu --action test`: 275 passed, 1 skipped, 0 failed.
+  - New `macos/Tests/Terminal/TerminalControllerRestorationTests.swift`:
+  reload flips restoration on an open window between `never`, `default`
+  and `always`; custom-command windows stay non-restorable across reloads;
+  surface-level config changes leave it alone.
+  - `macos/build.nu --configuration ReleaseLocal`: passed.
+  - Strict SwiftLint on both changed files: passed.
+  - Manual navigation reproduction with the patched build: noticeably
+  smoother, with the results above.
+  
+  ### AI disclosure
+  
+  I used OpenAI Codex to assist with diagnosis, implement the two-line
+  change, run verification, analyze the captures, and draft this
+  description. I reproduced the issue and tested the patched app
+  interactively.
+  ```
+- [`dfd7baf`](https://github.com/ghostty-org/ghostty/commit/dfd7bafcd3a0c34a0557f68c383bb56486a62eab) cli: address review feedback on the ssh-cache port ([@stepankandrushin](https://github.com/stepankandrushin))
+  ```text
+  - matchesQuery treats a missing port as port 22.
+  - isValidPort uses std.ascii.isDigit and rejects leading zeros, so
+    host:22 and host:022 can't become distinct keys.
+  ```
+- [`f5a7f70`](https://github.com/ghostty-org/ghostty/commit/f5a7f706f0ef8751b9f47397b1c12880572b2330) Update VOUCHED list ([#14520](https://github.com/ghostty-org/ghostty/issues/14520)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14517#discussioncomment-18722576)
+  from @pluiedev.
+  
+  Denounce: @davidpmclaughlin
+  ```
+- [`822e842`](https://github.com/ghostty-org/ghostty/commit/822e84272f60e320526e6c2c223ccdf786d334c9) Update VOUCHED list ([#14522](https://github.com/ghostty-org/ghostty/issues/14522)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14066#discussioncomment-18724022)
+  from @jcollie.
+  
+  Vouch: @moonward
+  ```
+- [`befcdfd`](https://github.com/ghostty-org/ghostty/commit/befcdfd2c3a1cb24d9ec886e93c95b2b5daa7028) cli: include the port in the ssh-terminfo cache key ([#14472](https://github.com/ghostty-org/ghostty/issues/14472)) ([@jparise](https://github.com/jparise))
+  ```text
+  The ssh-terminfo cache keyed destinations as user@hostname from `ssh
+  -G`, ignoring the port. Two machines behind one address on different
+  ports (e.g. user@host:2221 and user@host:2218) shared a key, so once the
+  first was cached the terminfo install was skipped for the second, which
+  still got TERM=xterm-ghostty without the terminfo installed.
+  
+  The key now carries the port when it isn't 22: user@host:port, or
+  user@[addr]:port for IPv6. Port 22 keeps the old user@host form, so
+  existing caches stay valid.
+  
+  `+ssh-cache` accepts the new form: a bare `host` query matches that host
+  on every port, a bare `host:port` query that port for any user, and
+  `user@host:port` one exact entry.
+  
+  AI disclosure: the cause was found and the patch written with Claude
+  Code (Claude Opus 5.5). Reviewed and tested by me.
+  
+  Discussed in #14465.
   ```
 - [`f96c971`](https://github.com/ghostty-org/ghostty/commit/f96c9711b9f72ecf75e0fd50f3434529b4dea5b6) Update VOUCHED list ([#14528](https://github.com/ghostty-org/ghostty/issues/14528)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
