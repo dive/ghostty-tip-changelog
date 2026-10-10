@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 9, 2026 at 22:09 UTC.
+> Last updated: October 10, 2026 at 03:59 UTC.
 
 ## October 9, 2026
 
@@ -826,59 +826,5 @@ Summary: 3 runs • 23 commits • 5 authors
   from @jcollie.
   
   Vouch: @maddythewisp
-  ```
-
-## October 3, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37132099399)  
-Summary: 1 runs • 3 commits • 2 authors
-
-### Changes
-
-- [`6fbb560`](https://github.com/ghostty-org/ghostty/commit/6fbb560cd3bff42fe06af60aef320526b62a8004) cli: include the port in the ssh-terminfo cache key ([@stepankandrushin](https://github.com/stepankandrushin))
-  ```text
-  The ssh-terminfo cache keyed destinations as user@hostname from `ssh -G`,
-  ignoring the port. Two machines behind one address on different ports
-  (e.g. user@host:2221 and user@host:2218) shared a key, so once the first
-  was cached the terminfo install was skipped for the second, which still
-  got TERM=xterm-ghostty without the terminfo installed.
-  
-  The key now carries the port when it isn't 22: user@host:port, or
-  user@[addr]:port for IPv6. Port 22 keeps the old user@host form, so
-  existing caches stay valid.
-  
-  `+ssh-cache` accepts the new form: a bare `host` query matches that host
-  on every port, a bare `host:port` query that port for any user, and
-  `user@host:port` one exact entry.
-  
-  AI disclosure: the cause was found and the patch written with Claude
-  Code (Claude Opus 5.5). Reviewed and tested by me.
-  ```
-- [`dfd7baf`](https://github.com/ghostty-org/ghostty/commit/dfd7bafcd3a0c34a0557f68c383bb56486a62eab) cli: address review feedback on the ssh-cache port ([@stepankandrushin](https://github.com/stepankandrushin))
-  ```text
-  - matchesQuery treats a missing port as port 22.
-  - isValidPort uses std.ascii.isDigit and rejects leading zeros, so
-    host:22 and host:022 can't become distinct keys.
-  ```
-- [`befcdfd`](https://github.com/ghostty-org/ghostty/commit/befcdfd2c3a1cb24d9ec886e93c95b2b5daa7028) cli: include the port in the ssh-terminfo cache key ([#14472](https://github.com/ghostty-org/ghostty/issues/14472)) ([@jparise](https://github.com/jparise))
-  ```text
-  The ssh-terminfo cache keyed destinations as user@hostname from `ssh
-  -G`, ignoring the port. Two machines behind one address on different
-  ports (e.g. user@host:2221 and user@host:2218) shared a key, so once the
-  first was cached the terminfo install was skipped for the second, which
-  still got TERM=xterm-ghostty without the terminfo installed.
-  
-  The key now carries the port when it isn't 22: user@host:port, or
-  user@[addr]:port for IPv6. Port 22 keeps the old user@host form, so
-  existing caches stay valid.
-  
-  `+ssh-cache` accepts the new form: a bare `host` query matches that host
-  on every port, a bare `host:port` query that port for any user, and
-  `user@host:port` one exact entry.
-  
-  AI disclosure: the cause was found and the patch written with Claude
-  Code (Claude Opus 5.5). Reviewed and tested by me.
-  
-  Discussed in #14465.
   ```
 
