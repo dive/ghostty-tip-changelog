@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 11, 2026 at 17:36 UTC.
+> Last updated: October 11, 2026 at 21:23 UTC.
 
 ## October 11, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38145817228), [2](https://github.com/ghostty-org/ghostty/actions/runs/38145546635), [3](https://github.com/ghostty-org/ghostty/actions/runs/38104361585)  
-Summary: 3 runs • 11 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38175388089), [2](https://github.com/ghostty-org/ghostty/actions/runs/38165255491), [3](https://github.com/ghostty-org/ghostty/actions/runs/38145817228), [4](https://github.com/ghostty-org/ghostty/actions/runs/38145546635), [5](https://github.com/ghostty-org/ghostty/actions/runs/38104361585)  
+Summary: 5 runs • 13 commits • 5 authors
 
 ### Changes
 
+- [`1d8215c`](https://github.com/ghostty-org/ghostty/commit/1d8215c95057bade2c77ae4e0b1c22442d5a15cb) Update VOUCHED list ([#14650](https://github.com/ghostty-org/ghostty/issues/14650)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14649#discussioncomment-18869510)
+  from @jcollie.
+  
+  Vouch: @ollieatkinson
+  ```
+- [`1e5cdb8`](https://github.com/ghostty-org/ghostty/commit/1e5cdb865807abc990181efb8ebfa9122955cce2) Update VOUCHED list ([#14647](https://github.com/ghostty-org/ghostty/issues/14647)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14640#discussioncomment-18868231)
+  from @jcollie.
+  
+  Vouch: @gaborbernat
+  ```
 - [`8d8b1ce`](https://github.com/ghostty-org/ghostty/commit/8d8b1ce00c5f1a29d5989a2b0b89b6b88f3b8781) terminal: include wide char wrapped onto next page when copying selection ([@fornwall](https://github.com/fornwall))
   ```text
   Copying a selection whose end lands on the spacer head before a wrapped
