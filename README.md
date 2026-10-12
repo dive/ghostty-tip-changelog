@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 12, 2026 at 14:13 UTC.
+> Last updated: October 12, 2026 at 22:21 UTC.
 
 ## October 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38210273538), [2](https://github.com/ghostty-org/ghostty/actions/runs/38206984263), [3](https://github.com/ghostty-org/ghostty/actions/runs/38203368652), [4](https://github.com/ghostty-org/ghostty/actions/runs/38195601411)  
-Summary: 4 runs • 16 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38273686698), [2](https://github.com/ghostty-org/ghostty/actions/runs/38210273538), [3](https://github.com/ghostty-org/ghostty/actions/runs/38206984263), [4](https://github.com/ghostty-org/ghostty/actions/runs/38203368652), [5](https://github.com/ghostty-org/ghostty/actions/runs/38195601411)  
+Summary: 5 runs • 17 commits • 7 authors
 
 ### Changes
 
+- [`9f6a464`](https://github.com/ghostty-org/ghostty/commit/9f6a4640e6bca7a4d65f1b441f2666b151f4d402) Update VOUCHED list ([#14663](https://github.com/ghostty-org/ghostty/issues/14663)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14662#issuecomment-6127780468)
+  from @jcollie.
+  
+  Vouch: @HeitorAugustoLN
+  ```
 - [`78a89ce`](https://github.com/ghostty-org/ghostty/commit/78a89cebec38846f83c9723aa53b88d011a76afc) gtk: connect tab split tree signals to the window the tab is in ([@thomasfedb](https://github.com/thomasfedb))
 - [`1e9e14a`](https://github.com/ghostty-org/ghostty/commit/1e9e14af5df14211892f5fc15fd21a49c7d94868) gtk: connect tab split tree signals to the window the tab is in ([#14474](https://github.com/ghostty-org/ghostty/issues/14474)) ([@jcollie](https://github.com/jcollie))
   ```text
