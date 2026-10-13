@@ -8,15 +8,564 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 13, 2026 at 13:23 UTC.
+> Last updated: October 13, 2026 at 20:28 UTC.
 
 ## October 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38331089399)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38440102147), [2](https://github.com/ghostty-org/ghostty/actions/runs/38436006247), [3](https://github.com/ghostty-org/ghostty/actions/runs/38420934652), [4](https://github.com/ghostty-org/ghostty/actions/runs/38416363692), [5](https://github.com/ghostty-org/ghostty/actions/runs/38414684379), [6](https://github.com/ghostty-org/ghostty/actions/runs/38331089399)  
+Summary: 6 runs • 35 commits • 12 authors
 
 ### Changes
 
+- [`539689a`](https://github.com/ghostty-org/ghostty/commit/539689a33bfe045db9da45b336014960b27e7d0e) pkg/dcimgui: link a system freetype through the module ([@jcollie](https://github.com/jcollie))
+  ```text
+  With freetype from the system, the static dcimgui library was given
+  -lfreetype directly. Zig 0.16 then puts libfreetype.so into
+  libdcimgui.a, and the final link of ghostty fails on that archive
+  member, so any build with -fsys=freetype or --system failed from a
+  clean cache.
+  
+  The static library now gets only freetype's include paths from
+  pkg-config, and the shared library is linked through the dcimgui
+  module and its test instead.
+  ```
+- [`f659a86`](https://github.com/ghostty-org/ghostty/commit/f659a86e00260f51937d26190f6d1c8af26ba4b2) snap: use the system freetype, fontconfig, harfbuzz, libpng and zlib ([@jcollie](https://github.com/jcollie))
+  ```text
+  The snap built without --system, so it statically linked the vendored
+  copies of these libraries while GTK loaded Ubuntu's into the same
+  process. Build against the system libraries instead; GTK already
+  brings their runtime packages into the snap.
+  ```
+- [`5580df6`](https://github.com/ghostty-org/ghostty/commit/5580df6022d5597e3070370e4b5b2665703b849b) macos: apply paste protection to dragged text ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Dragging text into a macOS terminal surface sent it without any paste
+  protection. Text containing newlines went straight to the shell with
+  no "Potentially Unsafe Paste" prompt, even though pasting the same text
+  with Cmd-V would have asked first.
+  ```
+- [`1a93d53`](https://github.com/ghostty-org/ghostty/commit/1a93d5395071e7fb4a65447d02a7d591f2e8ccf5) terminal/tmux: ignore out of bounds scroll regions in pane state ([@mitchellh](https://github.com/mitchellh))
+- [`c440e5b`](https://github.com/ghostty-org/ghostty/commit/c440e5b9467b358e61687f54e86a9c1296b9286c) macos: apply paste protection to dragged text ([#14679](https://github.com/ghostty-org/ghostty/issues/14679)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Dragging text into a macOS terminal surface sent it without any paste
+  protection. Text containing newlines went straight to the shell with no
+  "Potentially Unsafe Paste" prompt, even though pasting the same text
+  with Cmd-V would have asked first.
+  ```
+- [`bc2cf6f`](https://github.com/ghostty-org/ghostty/commit/bc2cf6fd7946146e5c264332ea5dd825e51020a9) terminal/tmux: ignore out of bounds scroll regions in pane state ([#14680](https://github.com/ghostty-org/ghostty/issues/14680)) ([@mitchellh](https://github.com/mitchellh))
+- [`1f80eec`](https://github.com/ghostty-org/ghostty/commit/1f80eec05f24e1ba108d466fb59360729f15c9c2) snap/dcimgui: use system libraries rather than building static vendored libs ([#14682](https://github.com/ghostty-org/ghostty/issues/14682)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  snaps have been building the vendored freetype/fontconfig libraries and
+  linking them statically. As seen in non-snap builds, this is problematic
+  because GTK links to the system shared libraries. Having two copies
+  running at the same time causes crashes as the libraries fight each
+  other in memory that they share.
+  
+  Also fixes a related problem that `dcimgui` would get `libfreetype.so`
+  copied into it's static library when built against the system shared
+  libraries.
+  
+  Related to: #14392
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`8a7a91f`](https://github.com/ghostty-org/ghostty/commit/8a7a91fbd6c8220e978cc96bfeef1b8686ed1e3f) terminal/tmux: preserve parser state across output notifications ([@ekusiadadus](https://github.com/ekusiadadus))
+- [`f033764`](https://github.com/ghostty-org/ghostty/commit/f033764d7d9d13d31a3b99b725c479e081e0bc64) terminal/tmux: merge main and retain both test suites ([@ekusiadadus](https://github.com/ekusiadadus))
+- [`97a2ca6`](https://github.com/ghostty-org/ghostty/commit/97a2ca6ee2b553ea239eda4f89be40f652ed3188) terminal/tmux: preserve parser state across output notifications ([#14676](https://github.com/ghostty-org/ghostty/issues/14676)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The tmux viewer creates a new VT stream for each output notification.
+  An escape sequence split across notifications therefore loses its
+  partially parsed state. For example, `ESC[32` followed by `mX` should
+  produce a green `X`, just like receiving `ESC[32mX` in one notification.
+  
+  Related to #1935. This isolates the persistent parser-state work
+  discussed
+  in #11219:
+  
+  https://github.com/ghostty-org/ghostty/pull/11219#issuecomment-6116176355
+  
+  ## Related work
+  
+  #12076 handles octal decoding of control-mode output. This change
+  handles
+  VT parsing state across already-decoded output notifications.
+  
+  ## AI disclosure
+  
+  I used OpenAI Codex for code walkthroughs, implementation guidance,
+  review, cleanup, and validation.
+  ```
+- [`44c4c8f`](https://github.com/ghostty-org/ghostty/commit/44c4c8f55d49e124f19492402a993978949f1326) terminal/kitty: bound memory retained by repeated walias updates ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Every OSC 5522 `walias` packet copied its target MIME type into the
+  write transaction's arena. Overwriting an existing alias pointed it at
+  the new copy, but an arena can't free the old one, so it stayed
+  allocated until the transaction ended.
+  
+  A program could open a write transaction, never commit it, and send
+  `walias` packets for the same alias forever. Each packet retained up to
+  256 bytes, outside of `clipboard-write-limit-bytes`, which only counts
+  decoded clipboard data. Memory grew without bound for as long as the
+  transaction stayed open.
+  
+  Each alias now stores its target in an inline buffer of `max_mime_len`
+  bytes that is overwritten on update. Combined with the existing limit
+  of 64 aliases, this caps alias target storage at 16 KiB per
+  transaction, and it is all freed when the transaction ends.
+  ```
+- [`66a01d4`](https://github.com/ghostty-org/ghostty/commit/66a01d4f17bd13cdc44da0fbcf69b97fd4a49a27) terminal/kitty: bound memory retained by repeated walias updates ([#14678](https://github.com/ghostty-org/ghostty/issues/14678)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Every OSC 5522 `walias` packet copied its target MIME type into the
+  write transaction's arena. Overwriting an existing alias pointed it at
+  the new copy, but an arena can't free the old one, so it stayed
+  allocated until the transaction ended.
+  
+  A program could open a write transaction, never commit it, and send
+  `walias` packets for the same alias forever. Each packet retained up to
+  256 bytes, outside of `clipboard-write-limit-bytes`, which only counts
+  decoded clipboard data. Memory grew without bound for as long as the
+  transaction stayed open.
+  
+  Each alias now stores its target in an inline buffer of `max_mime_len`
+  bytes that is overwritten on update. Combined with the existing limit of
+  64 aliases, this caps alias target storage at 16 KiB per transaction,
+  and it is all freed when the transaction ends.
+  ```
+- [`d432b01`](https://github.com/ghostty-org/ghostty/commit/d432b01a3e10eb396a54d94ea42a95381d482915) terminal: report unsupported ANSI modes as permanently reset in DECRQM ([@deblasis](https://github.com/deblasis))
+  ```text
+  DECRQM on an ANSI mode Ghostty does not implement answered not_recognized (0), so the twelve permanently-reset esctest cases fail expecting 4. Fixed-reset behavior matches xterm: GATM, SRTM, VEM, HEM, PUM, FEAM, FETM, MATM, TTM, SATM, TSM and EBM now report permanently_reset, next to the existing DECECM 117 special case.
+  ```
+- [`b21f82c`](https://github.com/ghostty-org/ghostty/commit/b21f82c0eaebadc222ad112c192bd8e8bd927ec8) terminal: assert permanently-reset ANSI modes stay out of the mode table ([@deblasis](https://github.com/deblasis))
+- [`19a14dd`](https://github.com/ghostty-org/ghostty/commit/19a14dda360ff69eec184abe3655ef526cac898f) terminal: fix unsupp. ANSI modes as permanently reset in DECRQM ([#14672](https://github.com/ghostty-org/ghostty/issues/14672)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Twelve esctest DECRQM cases fail: ANSI modes Ghostty doesn't implement
+  answer not_recognized (0) where the tests expect permanently_reset (4).
+  
+  xterm reports these fixed-reset. This extends the existing DECECM 117
+  special case in getReport to GATM, SRTM, VEM, HEM, PUM, FEAM, FETM,
+  MATM, TTM, SATM, TSM and EBM. Settable ANSI modes and the DEC side are
+  untouched.
+  
+  Measured with esctest locally: all twelve pass, full tally 385 passed /
+  140 failed against 373 / 152 on current main, no new failures. zig fmt
+  --check clean; zig build test-lib-vt passes.
+  
+  Developed using a mix of agents: glm-5.3, muse 1.3, opus 5.5.
+  ```
+- [`cd432ba`](https://github.com/ghostty-org/ghostty/commit/cd432ba5cb820544fee1f1303b9d50e1f9a0edb6) terminal/kitty: accept /private/tmp for temporary files on macOS ([@magnussp](https://github.com/magnussp))
+  ```text
+  On macOS /tmp is a symlink to /private/tmp. Temporary file paths are
+  checked in canonical form, so a t=t file in /tmp resolves to
+  /private/tmp/... and never matched the /tmp root, and was rejected as
+  not in a temp dir. Accept /private/tmp as a platform specific temporary
+  directory on Darwin, as the protocol allows.
+  ```
+- [`46d6c3b`](https://github.com/ghostty-org/ghostty/commit/46d6c3b508fcc3ad2182a6b8c75490b6f91e5fe1) terminal: unescape metadata fields in context signal parser ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  Per the UAPI.15 OSC 3008 specification, metadata field values can
+  escape semicolons and backslashes using `\x3b` and `\x5c` respectively.
+  Previously, the parser returned raw string slices directly, which did
+  not unescape these byte sequences.
+  
+  Introduce `UnescapedString` representing a lazily unescaped string slice,
+  with an iterator to decode escape sequences on the fly, equality
+  comparison, and an allocating conversion helper.
+  
+  Unit test covering metadata fields with semicolons and backslashes.
+  
+  AI Disclosure: Initially drafted by 🤖 Antigravity CLI 1.3.3 🧠 Google Gemini 3.8 Flash (Medium).
+  Iterated, reviewed, and tested by me.
+  
+  Agent-Session: 97ccdb8b-15c3-4d9b-9324-59cbb7c6d335
+  ```
+- [`bae1c01`](https://github.com/ghostty-org/ghostty/commit/bae1c01fc919e0cef911322b3dfd4e0859236531) formatter: restore a pending wrap over a blank cell ([@robmorgan](https://github.com/robmorgan))
+  ```text
+  The VT formatter restores a pending wrap by moving to the right edge and
+  reprinting the cell under the cursor. A blank cell formats to nothing, so
+  the wrap was lost and the next character overwrote the last column instead
+  of wrapping. The cursor can be over a blank cell with a wrap pending when a
+  saved cursor is restored after the line was erased (ESC 7, CSI 2 K, ESC 8).
+  
+  For a blank cell, print a space to set the wrap, then save the cursor,
+  erase the space and restore the cursor, which leaves the wrap pending over
+  a blank cell again. This replaces the saved cursor, which the formatter
+  does not emit.
+  ```
+- [`58d23cc`](https://github.com/ghostty-org/ghostty/commit/58d23cc026286f714fbbb9d1c0db13f1005345d8) formatter: restore a pending wrap over a blank cell ([#14670](https://github.com/ghostty-org/ghostty/issues/14670)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  The VT formatter restores a pending wrap by moving to the right edge and
+  reprinting the cell under the cursor, since CUP would clear the wrap.
+  When that cell happens to be blank, it formats to nothing, so the wrap
+  is lost. After replaying the output, the next character overwrites the
+  last column instead of starting the next row.
+  
+  The cursor can sit over a blank cell with a wrap pending when a saved
+  cursor is restored after its line was erased (`ESC 7`, `CSI 2 K`, `ESC
+  8`).
+  
+  I've changed it to print a space in place of a blank cell, then save the
+  cursor (via `DECSC`), erase the space (`ECH`, which clears the wrap),
+  and finally restore the cursor (with `DECRC`). The latter leaves the
+  wrap pending over a blank cell. This means the cell stays empty, so
+  formatting the restored terminal gives the same output. This replaces
+  the saved cursor, which the formatter doesn't omit.
+  
+  Note: I've tried to match xterm, which saves and restores the pending
+  wrap with the cursor and clears it on ECH and EL.
+  
+  ### Reproduction
+  
+  Here's a small C program built on libghostty-vt. The bug only shows with
+  the cursor extra, which the Ghostty app never turns on.
+  
+  ```c
+  // libghostty-vt's VT formatter loses a pending wrap over a blank cell.
+  #include <stdio.h>
+  #include <ghostty/vt.h>
+  
+  int main(void) {
+    GhosttyTerminal source, target;
+    ghostty_terminal_new(NULL, &source, 4, 2);
+    ghostty_terminal_new(NULL, &target, 4, 2);
+  
+    // Wrap pending at the right edge, cursor saved (ESC 7), line erased,
+    // cursor restored (ESC 8): the wrap is pending over a blank cell.
+    const char in[] = "abcd\x1b" "7\x1b[2K\x1b" "8";
+    ghostty_terminal_vt_write(source, (const uint8_t *)in, sizeof(in) - 1);
+  
+    // Format it as VT with the cursor, then replay that into another terminal.
+    GhosttyFormatterTerminalOptions opts = {
+        .size = sizeof(opts),
+        .emit = GHOSTTY_FORMATTER_FORMAT_VT,
+        .extra = {.size = sizeof(opts.extra),
+                  .screen = {.size = sizeof(opts.extra.screen), .cursor = true}},
+    };
+    GhosttyFormatter f;
+    ghostty_formatter_terminal_new(NULL, &f, source, opts);
+    uint8_t buf[64];
+    size_t len;
+    ghostty_formatter_format_buf(f, buf, sizeof(buf), &len);
+    ghostty_terminal_vt_write(target, buf, len);
+  
+    bool before, after;
+    ghostty_terminal_get(source, GHOSTTY_TERMINAL_DATA_CURSOR_PENDING_WRAP, &before);
+    ghostty_terminal_get(target, GHOSTTY_TERMINAL_DATA_CURSOR_PENDING_WRAP, &after);
+    printf("pending wrap: source %d, restored %d\n", before, after);
+    return before != after;
+  }
+  ```
+  
+  Compile it with:
+  
+  ```sh
+  zig build -Demit-lib-vt -Demit-xcframework=false --prefix out
+  cc -o repro repro.c -Iout/include out/lib/libghostty-vt.a && ./repro
+  ```
+  
+  Before: `pending wrap: source 1, restored 0`
+  After: `pending wrap: source 1, restored 1`
+  
+  ### Benchmarks
+  
+  Since binary snapshot codecs skip the formatter, the only relevant
+  benchmark here is `terminal-formatter` with `--formatter=terminal` and
+  VT output with every extra. I've done ReleaseFast, hyperfine with 20
+  runs, on a 640 KB `ghostty-gen +styled` corpus ending in each cursor
+  state, plus the reproduction's input alone with 20,000 formats per run:
+  
+  | Input | main | this PR |
+  |---|---|---|
+  | No pending wrap | 50.5 ± 1.2 ms | 49.6 ± 1.1 ms |
+  | Pending wrap over text | 49.2 ± 0.6 ms | 50.2 ± 1.5 ms |
+  | Pending wrap over a blank cell | 50.4 ± 2.4 ms | 49.1 ± 1.1 ms |
+  | Reproduction input, 20,000 formats | 209.6 ± 1.5 ms | 211.4 ± 19.5 ms
+  |
+  
+  The change only runs when the cursor has a wrap pending over a blank
+  cell, once per format. `--mode=roundtrip` is `equal=true` for every
+  input.
+  
+  ### Tests
+  
+  I've added 2 new tests:
+  
+  - A pending wrap over a blank cell (fails without the fix). It also
+  checks that the restored cell stays empty, that formatting the restored
+  terminal gives the same output, and that the next character lands in the
+  same place.
+  - A pending wrap after a wide character, which already worked.
+  
+  AI disclosure: Created with help from Claude Code using Opus 5.5,
+  Iterated on, manually tested and reviewed by me.
+  ````
+- [`3fe938d`](https://github.com/ghostty-org/ghostty/commit/3fe938dbc899ea26de09f5f4b14fc3634c951372) terminal/kitty: accept /private/tmp for temporary files on macOS ([#14569](https://github.com/ghostty-org/ghostty/issues/14569)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14567
+  
+  On macOS `/tmp` is a symlink to `/private/tmp`. Temporary-file (`t=t`)
+  paths are checked in canonical form, so a file in `/tmp` resolves to
+  `/private/tmp/...`, never matches the `/tmp` root, and is rejected with
+  `EINVAL: temporary file not in temp dir`. Only files under `$TMPDIR`
+  worked.
+  
+  This accepts `/private/tmp` as a platform specific temporary directory
+  on Darwin, which the protocol allows ("... `/tmp`, `/dev/shm`, `TMPDIR`
+  env var if present and any platform specific temporary directories").
+  The `isPathInDir` component-boundary check (so `/private/tmp-evil` is
+  still rejected), the `tty-graphics-protocol` name check and the `/proc`,
+  `/sys`, `/dev` exclusions are unchanged. Other platforms are unaffected.
+  
+  Test: macOS only, a file in the real `/tmp` loads and is deleted. It
+  fails with `TemporaryFileNotInTempDir` without this change.
+  
+  Tested on macOS 15 (M1 Pro) with `zig build test-lib-vt
+  -Dtest-filter="image load"`.
+  
+  AI disclosure: written with Claude Code, which found the cause, wrote
+  the fix and test, and drafted this description; the approach was revised
+  after review. I reviewed and understand the change and verified it
+  locally.
+  ```
+- [`554ea65`](https://github.com/ghostty-org/ghostty/commit/554ea65867ffe34bb3e51e09bd016e154a1f9d7a) terminal: unescape metadata fields in context signal parser ([#14667](https://github.com/ghostty-org/ghostty/issues/14667)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Per the UAPI.15 OSC 3008 specification, metadata field values can escape
+  semicolons and backslashes using `\x3b` and `\x5c` respectively.
+  Previously, the parser returned raw string slices directly, which did
+  not unescape these byte sequences.
+  
+  Introduce `UnescapedString` representing a lazily unescaped string
+  slice, with an iterator to decode escape sequences on the fly, equality
+  comparison, and an allocating conversion helper.
+  
+  Unit test covering metadata fields with semicolons and backslashes.
+  
+  AI Disclosure: Initially drafted by 🤖 Antigravity CLI 1.3.3 🧠 Google
+  Gemini 3.8 Flash (Medium). Iterated, reviewed, and tested by me.
+  ```
+- [`6f3a4fa`](https://github.com/ghostty-org/ghostty/commit/6f3a4fade09d502f694e29fd352cf340d8c75543) terminal/snapshot: validate page capacity hints against max page size ([@Huge](https://github.com/Huge))
+  ```text
+  The PAGE record payload header contains dimensions and capacity hints
+  (columns, rows, styles, hyperlink bytes, grapheme bytes, string bytes).
+  Header.pageCapacity() validated non-zero columns and rows, but did not
+  verify whether the resulting TerminalPageCapacity exceeds max_page_size.
+  
+  When unvalidated values (such as grapheme_capacity_bytes = maxInt(u32)
+  or string_capacity_bytes = maxInt(u32)) are passed to TerminalPage.init(),
+  the page layout exceeds the maximum architectural page size and causes
+  an integer overflow panic in OffsetBuf.member during page initialization.
+  
+  Validate the requested capacity using TerminalPage.layout(cap) in
+  Header.pageCapacity(), returning error.PageTooLarge if total_size
+  exceeds max_page_size. Add a regression test covering oversized grapheme,
+  string, hyperlink, and grid dimensions.
+  
+  Reported-by: BS.ehlas.cz
+  ```
+- [`44bdcc6`](https://github.com/ghostty-org/ghostty/commit/44bdcc623f1afa1a6a3970d6a78352b82ef6cb26) macos: add "Close Split" to right-click context menu ([@cmwetherell](https://github.com/cmwetherell))
+  ```text
+  Add a "Close Split" option to the right-click context menu, allowing
+  users to close the focused split pane directly from the context menu.
+  ```
+- [`ff77956`](https://github.com/ghostty-org/ghostty/commit/ff779564c61de312d402c152c6842f73d3269898) terminal: ED2 at a prompt skips blank rows when finding the prompt ([@jcollie](https://github.com/jcollie))
+  ```text
+  `ESC [ 2 J` scrolls the screen into scrollback instead of erasing it
+  when the last non-empty row of the active area is a prompt, so that ^L
+  at a prompt keeps the prior output (#905). Since the row semantic
+  prompt state was reduced to none/prompt/prompt_continuation, blank rows
+  and command output rows are both `.none`, and the search stopped at the
+  first blank row below the prompt. The heuristic therefore only worked
+  when the prompt was on the last row of the screen.
+  
+  Skip rows without text while searching upward so that only a non-empty
+  row without prompt cells ends the search.
+  
+  Fixes: #14660
+  Discussion: #14659
+  ```
+- [`fbda61b`](https://github.com/ghostty-org/ghostty/commit/fbda61b873da5208475c183af160d131ac7a77a3) terminal: answer DECXCPR extended cursor position (CSI ? 6 n) ([@deblasis](https://github.com/deblasis))
+  ```text
+  CSI ? 6 n was ignored, so DECDSRTests.test_DECDSR_DECXCPR times out waiting for a reply. Answer CSI ? row ; col ; 1 R with the origin-mode-relative position. Ghostty has no page memory, so page is always 1.
+  
+  Both reply paths (C-API and app) share a small position helper, and the DSR table gains the question-form entry.
+  ```
+- [`2d2ceb0`](https://github.com/ghostty-org/ghostty/commit/2d2ceb0f8b957eec2d54b6c2808b9a344fc7327e) gtk,opengl: reuse GTK's EGL display when possible ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  This is to avoid situations where we pick a different GPU from what GTK
+  is using and incur massive performance penalties as a result of
+  incompatible DMABUF modifiers (you can't manually select the underlying
+  texture layout with only OpenGL APIs, either).
+  
+  See also #14568 which is a similar but arguably much hackier way to do
+  this.
+  ```
+- [`968b2bf`](https://github.com/ghostty-org/ghostty/commit/968b2bf195c73d9889c25faa8e9fbb55b6843625) feat: restore the active screen from pane state ([@ekusiadadus](https://github.com/ekusiadadus))
+- [`52f7969`](https://github.com/ghostty-org/ghostty/commit/52f7969ab954896f5798289134997e5271251488) terminal: ED2 at a prompt skips blank rows when finding the prompt ([#14668](https://github.com/ghostty-org/ghostty/issues/14668)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `ESC [ 2 J` scrolls the screen into scrollback instead of erasing it
+  when the last non-empty row of the active area is a prompt, so that ^L
+  at a prompt keeps the prior output (#905). Since the row semantic prompt
+  state was reduced to none/prompt/prompt_continuation, blank rows and
+  command output rows are both `.none`, and the search stopped at the
+  first blank row below the prompt. The heuristic therefore only worked
+  when the prompt was on the last row of the screen.
+  
+  Skip rows without text while searching upward so that only a non-empty
+  row without prompt cells ends the search.
+  
+  Fixes: #14660
+  Discussion: #14659
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`4cd0eb5`](https://github.com/ghostty-org/ghostty/commit/4cd0eb5c18eaf6fdf92b316dc15ada25c167ae59) gtk,opengl: reuse GTK's EGL display when possible ([#14636](https://github.com/ghostty-org/ghostty/issues/14636)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is to avoid situations where we pick a different GPU from what GTK
+  is using and incur massive performance penalties as a result of
+  incompatible DMABUF modifiers (you can't manually select the underlying
+  texture layout with only OpenGL APIs, either).
+  
+  See also #14568 which is a similar but arguably much hackier way to do
+  this.
+  ```
+- [`32d7741`](https://github.com/ghostty-org/ghostty/commit/32d77414a9cf87e2fb4e79bed27a022097c2e1c5) terminal/snapshot: validate page capacity hints against maximum page size ([#14595](https://github.com/ghostty-org/ghostty/issues/14595)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ### Summary
+  
+  The `PAGE` record payload header includes cell dimensions and
+  preallocation hints for the decoded page:
+  - `columns` (`u16`)
+  - `rows` (`u16`)
+  - `style_capacity` (`u16`)
+  - `hyperlink_capacity_bytes` (`u16`)
+  - `grapheme_capacity_bytes` (`u32`)
+  - `string_capacity_bytes` (`u32`)
+  
+  While `Header.pageCapacity()` previously checked that `columns != 0` and
+  `rows != 0`, it did not validate whether the resulting
+  `TerminalPageCapacity` fits within the architectural page limit
+  `max_page_size`.
+  
+  ### Root Cause & Impact
+  
+  When an unvalidated or untrusted payload declares oversized hints (such
+  as `grapheme_capacity_bytes = maxInt(u32)` or `string_capacity_bytes =
+  maxInt(u32)` or large dimensions), passing this capacity to
+  `TerminalPage.init(capacity)` causes
+  `TerminalPage.layout(capacity).total_size` to exceed `max_page_size`.
+  
+  During page initialization in `initBuf`, calculating member offsets
+  (`buf.member`) attempts to cast the offset to `OffsetInt` (`u32`).
+  Because the offset exceeds `max_page_size`, this triggers an integer
+  overflow panic (`integer does not fit in destination type`), terminating
+  the process with `SIGABRT`. Similarly, when restoring pages in
+  `history.zig` or `screen.zig`, `allocatePage` triggers
+  `assert(layout.total_size <= size.max_page_size)`.
+  
+  ### Fix
+  
+  1. Add `error.PageTooLarge` to `Header.CapacityError`.
+  2. In `Header.pageCapacity()`, compute `TerminalPage.layout(cap)` and
+  return `error.PageTooLarge` if `page_layout.total_size > max_page_size`.
+  3. Add a regression test in `page.zig` verifying that oversized grapheme
+  capacity, string capacity, hyperlink capacity, and dimension hints are
+  rejected with `error.PageTooLarge`.
+  
+  ### Testing
+  
+  - Verified regression test reproduced the integer overflow panic on the
+  unpatched codebase and passes with the fix applied.
+  - Added specific test case isolating `hyperlink_capacity_bytes` where
+  the grid dimensions fit on their own but exceed `max_page_size` once
+  hyperlink capacity is included.
+  - Full `test-lib-vt` suite passes (`zig build test-lib-vt`).
+  - Formatted and verified with `zig fmt --check
+  src/terminal/snapshot/page.zig`.
+  
+  AI disclosure: written with assistance of Antigravity, which helped
+  draft the regression test and fix. Reviewed, verified, and tested on
+  Linux (AMD Zen 4) and macOS.
+  ```
+- [`94ec54a`](https://github.com/ghostty-org/ghostty/commit/94ec54af914021184c6d4c61f4f636d723b29936) macOS: Improve Split Close Behavior ([#11174](https://github.com/ghostty-org/ghostty/issues/11174)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  ## Summary
+  - Adds a "Close Split" option to the right-click context menu
+  - Adds a `closeSurface` action that triggers `close_surface` via the
+  binding action system
+  
+  Reference discussion:
+  https://github.com/ghostty-org/ghostty/discussions/10982
+  ```
+- [`0550d04`](https://github.com/ghostty-org/ghostty/commit/0550d04894198f4bb922fa2958d7d47e7fdaab42) terminal: answer DECXCPR extended cursor position (CSI ? 6 n) ([#14673](https://github.com/ghostty-org/ghostty/issues/14673)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Thomas Dickey's esctest run in CI has DECDSRTests.test_DECDSR_DECXCPR
+  failing: CSI ? 6 n gets no reply, so the test times out waiting.
+  
+  This answers CSI ? row ; col ; 1 R with the origin-mode-relative cursor
+  position. Terminals without page memory report page 1, matching xterm.
+  The DSR table gains the question-form entry, and both reply paths share
+  a position helper with CPR.
+  
+  Measured with esctest locally: the test passes, full tally 374 passed /
+  151 failed against 373 / 152 on current main, no new failures. zig fmt
+  --check clean; zig build test-lib-vt passes.
+  
+  Developed using a mix of agents: glm-5.3, muse 1.3, opus 5.5.
+  ```
+- [`adbcb3d`](https://github.com/ghostty-org/ghostty/commit/adbcb3da673407ab79254620536c909b23e32419) terminal/tmux: restore the active screen from pane state ([#14671](https://github.com/ghostty-org/ghostty/issues/14671)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  During tmux viewer startup, capturing the primary and alternate screens
+  changes the terminal's active screen. After the final capture, the
+  alternate screen remains active.
+  
+  `receivedPaneState` uses `alternate_on` to choose which screen receives
+  cursor state, but did not activate that screen. When tmux reported the
+  primary screen as active, subsequent `%output` notifications were
+  therefore written to the alternate screen.
+  
+  Restore the reported active screen with `Terminal.switchScreen` before
+  applying cursor state.
+  
+  The new tests feed raw control-mode responses through the parser and
+  viewer for both values of `alternate_on`. They verify that the reported
+  screen becomes active, receives subsequent output, and leaves the other
+  screen unchanged.
+  
+  Related to #1935.
+  
+  ## Validation
+  
+  Tested on macOS arm64 with Zig 0.16.0, based on main
+  `05dcf887ef51ea27821f20979493306ec3a19149`.
+  
+  ```sh
+  zig fmt --check src/terminal/tmux/viewer.zig
+  git diff --check
+  zig build test \
+    -Dtest-filter="tmux raw startup selects" \
+    -Dtest-filter="initial flow" \
+    -Dtest-filter="two pane flow with pane state" \
+    -Demit-macos-app=false \
+    --summary all --color off
+  ```
+  
+  All checks passed: 81/81 tests, including unnamed tests.
+  
+  Validation used synthetic control-mode input. Live tmux, GUI, and SSH
+  sessions were not exercised.
+  
+  ## Related work
+  
+  - #14273 handles tmux window notifications and active-window state.
+    This change restores the active terminal screen within a pane.
+  - #14200 synchronizes alternate-screen mode bits in
+  `Terminal.switchScreen`.
+    This change makes the tmux viewer call that method using the reported
+    pane state.
+  
+  ## AI disclosure
+  
+  I used OpenAI Codex for code walkthroughs, implementation guidance,
+  review, cleanup, and validation.
+  ````
 - [`0900c8e`](https://github.com/ghostty-org/ghostty/commit/0900c8ee9aa631259d2d5d1d02fef8ac5f3edd36) apprt/gtk: fix command palette colors when `window-theme=ghostty` ([@HeitorAugustoLN](https://github.com/HeitorAugustoLN))
 - [`05dcf88`](https://github.com/ghostty-org/ghostty/commit/05dcf887ef51ea27821f20979493306ec3a19149) apprt/gtk: fix command palette colors when `window-theme=ghostty` ([#14662](https://github.com/ghostty-org/ghostty/issues/14662)) ([@jcollie](https://github.com/jcollie))
   ```text
