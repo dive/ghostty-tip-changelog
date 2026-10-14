@@ -8,7 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 14, 2026 at 00:04 UTC.
+> Last updated: October 14, 2026 at 08:18 UTC.
+
+## October 14, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38515836993)  
+Summary: 1 runs • 9 commits • 2 authors
+
+### Changes
+
+- [`8b7a2d6`](https://github.com/ghostty-org/ghostty/commit/8b7a2d6fb49d79badcf0557d38c6af9e5520b775) gtk: clear surface notifications on focus and close ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  GTK notifications previously used their body as the GApplication ID and
+  weren't tracked after delivery. As a result, they could remain visible
+  after the originating surface was focused or closed.
+  
+  Derive stable IDs from the surface ID and notification content, and keep
+  a bounded per-surface tracker so notifications can be withdrawn. Clear
+  them on focus and disposal, and expire notifications delivered to an
+  already-focused surface after three seconds to match macOS behavior.
+  
+  Keep the existing surface activation target and add unit coverage for
+  replacement, eviction, removal, and independent surface tracking.
+  ```
+- [`44ebe02`](https://github.com/ghostty-org/ghostty/commit/44ebe02ed60589098d3bbf6299e50006228eade2) gtk: clean up notification tracking ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Moved notification tracking out of surface.zig and it now uses an array hash map to keep the implementation simpler.
+  ```
+- [`051e4ba`](https://github.com/ghostty-org/ghostty/commit/051e4bacfd3a2c0178cc98ea2b8d8129352e434c) gtk: move notification handling out of surface.zig ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Keep sending, tracking, timers, and cleanup together in desktop_notifications.zig. Simplify the map helpers and IDformatting, and include the module's tests in the GTK test suite.
+  ```
+- [`1da6610`](https://github.com/ghostty-org/ghostty/commit/1da6610ebde4c935f2fad4c1530f7e7e18a061f6) gtk: clear surface notifications on focus and close ([@EriksRemess](https://github.com/EriksRemess))
+- [`ec353ec`](https://github.com/ghostty-org/ghostty/commit/ec353ec7f8debae031fced89c48679140c8f6066) gtk: send notifications even when tracking fails ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Continue sending notifications if tracking fails, logging the error instead of dropping the notification. Only schedule a timeout when tracking succeeds.
+  ```
+- [`dfac443`](https://github.com/ghostty-org/ghostty/commit/dfac44398a6a5203f4358cc3ea54fb44222d49e4) gtk: simplify desktop notification tracking ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Store notification hashes and optional timers in an ArrayList instead of copying titles and bodies into a deque.
+  ```
+- [`ce63844`](https://github.com/ghostty-org/ghostty/commit/ce638447a2efbf3a753d1f489d13e85fd7642a7a) gtk: simplify notification hashing and cleanup ([@EriksRemess](https://github.com/EriksRemess))
+- [`5415ed5`](https://github.com/ghostty-org/ghostty/commit/5415ed541d55583bc6d905e536c4de3a4afe173a) gtk: fix desktop notification test expectations ([@EriksRemess](https://github.com/EriksRemess))
+- [`9f13eb7`](https://github.com/ghostty-org/ghostty/commit/9f13eb7526cc070a2b829f2aae41a44d5cce12bf) gtk: clear surface notifications on focus and close ([#14108](https://github.com/ghostty-org/ghostty/issues/14108)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  GTK notifications could remain visible after their originating surface
+  was focused or closed. macOS already clears them in these cases.
+  This tracks notifications per surface and withdraws them on focus or
+  close. Notifications sent while the surface is already focused are
+  removed after three seconds, just like on macOS.
+  Repeated notifications with the same text replace each other, while
+  notifications from different surfaces remain independent. Clicking a
+  notification still focuses the originating surface.
+  
+  AI disclosure: Codex 5.6 Sol helped with most of the implementation.
+  ```
 
 ## October 13, 2026
 
