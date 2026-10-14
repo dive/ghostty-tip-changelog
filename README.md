@@ -8,15 +8,300 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 13, 2026 at 20:28 UTC.
+> Last updated: October 14, 2026 at 00:04 UTC.
 
 ## October 13, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38440102147), [2](https://github.com/ghostty-org/ghostty/actions/runs/38436006247), [3](https://github.com/ghostty-org/ghostty/actions/runs/38420934652), [4](https://github.com/ghostty-org/ghostty/actions/runs/38416363692), [5](https://github.com/ghostty-org/ghostty/actions/runs/38414684379), [6](https://github.com/ghostty-org/ghostty/actions/runs/38331089399)  
-Summary: 6 runs • 35 commits • 12 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38485309003), [2](https://github.com/ghostty-org/ghostty/actions/runs/38469057359), [3](https://github.com/ghostty-org/ghostty/actions/runs/38466036257), [4](https://github.com/ghostty-org/ghostty/actions/runs/38440102147), [5](https://github.com/ghostty-org/ghostty/actions/runs/38436006247), [6](https://github.com/ghostty-org/ghostty/actions/runs/38420934652), [7](https://github.com/ghostty-org/ghostty/actions/runs/38416363692), [8](https://github.com/ghostty-org/ghostty/actions/runs/38414684379), [9](https://github.com/ghostty-org/ghostty/actions/runs/38331089399)  
+Summary: 9 runs • 53 commits • 12 authors
 
 ### Changes
 
+- [`ffaaf5d`](https://github.com/ghostty-org/ghostty/commit/ffaaf5d7a9951886d72f2c0dd8ba7380c1aea92c) renderer: only start and stop the CVDisplayLink on the main thread ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14150
+  
+  The render thread started and stopped its CVDisplayLink directly.
+  Turns out this is NOT SAFE TO DO!
+  
+  I actually couldn't find any docs or anything to point this out to me
+  and I had to rely on Fable-assistance disassembling CoreVideo frameworks
+  to confirm the behavior. I read the disassembly myself and can confirm
+  the reading matches what I'd see.
+  
+  CoreVideo performs the very same stop and start on the main thread
+  inside its display reconfiguration callback, which fires on display sleep
+  and wake, resolution changes, etc.
+  
+  CVDisplayLinkStop clears the link's running flag and then waits, once
+  and unconditionally, for the IO thread to notice and exit. The link's
+  mutex is released during that wait. If CVDisplayLinkStart lands in
+  that window, the flag is set again and a second IO thread is created.
+  The first IO thread wakes, sees the flag set, and keeps looping, so
+  the waiting stop is never signaled. Whichever side lost was stuck in
+  CVDisplayLinkStop forever.
+  
+  In the reports that was sometimes our render thread and sometimes
+  CoreVideo's own call on the main thread. Either way the main thread
+  eventually waited on the renderer (focus change, tab close, quit) and the
+  whole app froze with no "Not Responding" indication. The spindumps all show
+  one CVDisplayLink object with two live IO threads, which is exactly this
+  problem.
+  ```
+- [`8159838`](https://github.com/ghostty-org/ghostty/commit/81598385d608dda4946093d6d6a234d204a2f225) renderer: only start and stop the CVDisplayLink on the main thread ([#14691](https://github.com/ghostty-org/ghostty/issues/14691)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14150
+  
+  The render thread started and stopped its CVDisplayLink directly. Turns
+  out this is NOT SAFE TO DO!
+  
+  I actually couldn't find any docs or anything to point this out to me
+  and I had to rely on Fable-assistance disassembling CoreVideo frameworks
+  to confirm the behavior. I read the disassembly myself and can confirm
+  the reading matches what I'd see.
+  
+  CoreVideo performs the very same stop and start on the main thread
+  inside its display reconfiguration callback, which fires on display
+  sleep and wake, resolution changes, etc.
+  
+  CVDisplayLinkStop clears the link's running flag and then waits, once
+  and unconditionally, for the IO thread to notice and exit. The link's
+  mutex is released during that wait. If CVDisplayLinkStart lands in that
+  window, the flag is set again and a second IO thread is created. The
+  first IO thread wakes, sees the flag set, and keeps looping, so the
+  waiting stop is never signaled. Whichever side lost was stuck in
+  CVDisplayLinkStop forever.
+  
+  In the reports that was sometimes our render thread and sometimes
+  CoreVideo's own call on the main thread. Either way the main thread
+  eventually waited on the renderer (focus change, tab close, quit) and
+  the whole app froze with no "Not Responding" indication. The spindumps
+  all show one CVDisplayLink object with two live IO threads, which is
+  exactly this problem.
+  ```
+- [`0c234a0`](https://github.com/ghostty-org/ghostty/commit/0c234a04d86fddc252dab727eb550ec3c304155e) macos: refuse to execute files with control characters in the path ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Opening a file with Ghostty, such as with `open -a Ghostty <file>`,
+  runs it by typing its shell-quoted path into a new terminal as
+  `initialInput`.
+  
+  This meant a file named `/tmp/Foo<Ctrl-U>ls<CR>` showed up as
+  `/tmp/Fools` in the confirmation dialog, but clicking Allow erased the
+  quoted path with Ctrl-U and ran `ls` with CR instead. Anything that can
+  get Ghostty to open a crafted filename could run an arbitrary command
+  behind a misleading confirmation.
+  
+  Files whose path contains a Unicode control character (U+0000 to
+  U+001F, U+007F, and U+0080 to U+009F) are now rejected with an alert
+  before the confirmation is shown. No legitimate file needs these, and
+  there's no shell-agnostic way to escape them for typed input.
+  ```
+- [`827d5c8`](https://github.com/ghostty-org/ghostty/commit/827d5c82944a5ec7cf3f5b7594a223f9648c94f3) macos: refuse to execute files with control characters in the path ([#14688](https://github.com/ghostty-org/ghostty/issues/14688)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Opening a file with Ghostty, such as with `open -a Ghostty <file>`, runs
+  it by typing its shell-quoted path into a new terminal as
+  `initialInput`.
+  
+  This meant a file named `/tmp/Foo<Ctrl-U>ls<CR>` showed up as
+  `/tmp/Fools` in the confirmation dialog, but clicking Allow erased the
+  quoted path with Ctrl-U and ran `ls` with CR instead. Anything that can
+  get Ghostty to open a crafted filename could run an arbitrary command
+  behind a misleading confirmation.
+  
+  Files whose path contains a Unicode control character (U+0000 to U+001F,
+  U+007F, and U+0080 to U+009F) are now rejected with an alert before the
+  confirmation is shown. No legitimate file needs these, and there's no
+  shell-agnostic way to escape them for typed input.
+  ```
+- [`f3b16bd`](https://github.com/ghostty-org/ghostty/commit/f3b16bd57761ca390c8199146b749e340fa82572) chore: ensure afl-out exists on build and update build configs ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  Create the afl-out directory during build initialization so that AFL++
+  has an existing destination directory ready for fuzzing session outputs.
+  
+  Bump minimum_zig_version to 0.16.0 in build.zig.zon (s) to stay in sync with
+  the root repository requirement, and update the Homebrew installation
+  command in the README to reference the current afl++ formula name.
+  ```
+- [`f9e8ef0`](https://github.com/ghostty-org/ghostty/commit/f9e8ef02d7d20b79a4a27966e08ed3ddf0f3c57b) macos: treat links from unknown sources as untrusted ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Links found by the `link` config (including the default URL regex) were
+  sent to the apprt as `unknown` and opened directly with NSWorkspace.
+  
+  This meant a program could print
+  `file:///System/Applications/Calculator.app` and a Cmd+click on it would
+  launch Calculator, while the same target as an OSC 8 hyperlink was
+  blocked.
+  
+  The `unknown` kind is now untrusted.
+  ```
+- [`b612e5b`](https://github.com/ghostty-org/ghostty/commit/b612e5be664e0bdb77375a588e0622236671cfce) build: capture blueprint-compiler's stderr ([@jcollie](https://github.com/jcollie))
+  ```text
+  Zig 0.16 records anything a run step writes to an uncaptured stderr as
+  a diagnostic and fails the step, even when the command exits zero.
+  blueprint-compiler 0.20 warns about unused imports and about
+  Gtk.ShortcutLabel being deprecated, so every build from a clean cache
+  failed in the blueprint step; a warm cache hid it.
+  
+  Capture the stderr instead. It is still reported when the compiler
+  exits nonzero, so a real error in a blueprint shows its message.
+  ```
+- [`3485823`](https://github.com/ghostty-org/ghostty/commit/34858233fbfa114ac108e7ab41e4cc06efb589ba) pkg/dcimgui: build the test from the public module ([@jcollie](https://github.com/jcollie))
+  ```text
+  The test made a module of its own from main.zig and never gave it the
+  dcimgui_c import, so `zig build test` in pkg/dcimgui failed with "no
+  module named 'dcimgui_c'". Use the public module, which already has
+  that import, the build options and the library.
+  ```
+- [`d3906ef`](https://github.com/ghostty-org/ghostty/commit/d3906efe4b62c7bafec570d8271a4d07d7291d48) ci: test pkg/dcimgui alongside pkg/wuffs ([@jcollie](https://github.com/jcollie))
+  ```text
+  Its test never compiled, and nothing ran it to notice.
+  ```
+- [`5b41979`](https://github.com/ghostty-org/ghostty/commit/5b4197989bbf1101f6c88a293f03be695522b4f9) ci: also test pkg/dcimgui with -Dfreetype=true ([@jcollie](https://github.com/jcollie))
+  ```text
+  That is how Ghostty builds it, and it compiles and links code the
+  default build leaves out. The matrix moves to include entries so that a
+  package can carry build arguments.
+  ```
+- [`7597e85`](https://github.com/ghostty-org/ghostty/commit/7597e85fd0c9c46716632c1a744f13690c1a3572) build: capture blueprint-compiler's stderr ([#14684](https://github.com/ghostty-org/ghostty/issues/14684)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Zig 0.16 records anything a run step writes to an uncaptured stderr as a
+  diagnostic and fails the step, even when the command exits zero.
+  blueprint-compiler 0.20 warns about unused imports and about
+  Gtk.ShortcutLabel being deprecated, so every build from a clean cache
+  failed in the blueprint step; a warm cache hid it.
+  
+  Capture the stderr instead. It is still reported when the compiler exits
+  nonzero, so a real error in a blueprint shows its message.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`0125483`](https://github.com/ghostty-org/ghostty/commit/0125483678f4d08c4fc87c454665cb4500620f26) macos: treat links from unknown sources as untrusted ([#14683](https://github.com/ghostty-org/ghostty/issues/14683)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Links found by the `link` config (including the default URL regex) were
+  sent to the apprt as `unknown` and opened directly with NSWorkspace.
+  
+  This meant a program could print
+  `file:///System/Applications/Calculator.app` and a Cmd+click on it would
+  launch Calculator, while the same target as an OSC 8 hyperlink was
+  blocked.
+  
+  The `unknown` kind is now untrusted.
+  ```
+- [`cdb19b2`](https://github.com/ghostty-org/ghostty/commit/cdb19b2775097e5180c935374ffae3f31f0bb196) dcimgui: run pkg tests in CI ([#14685](https://github.com/ghostty-org/ghostty/issues/14685)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The `dcimgui`'s tests were never run in CI, so they bitrotted.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`a939f77`](https://github.com/ghostty-org/ghostty/commit/a939f771d92d89d16ad7376187e3ec7dda61d191) chore: ensure afl-out exists on build and update build configs ([#14677](https://github.com/ghostty-org/ghostty/issues/14677)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Create the afl-out directory during build initialization so that AFL++
+  has an existing destination directory ready for fuzzing session outputs.
+  
+  Bump minimum_zig_version to 0.16.0 in build.zig.zon (s) to stay in sync
+  with the root repository requirement, and update the Homebrew
+  installation command in the README to reference the current afl++
+  formula name.
+  ```
+- [`65ff54c`](https://github.com/ghostty-org/ghostty/commit/65ff54c67df3d55e3ebf4dd31c7afa93c4cfb922) terminal: fix use-after-free when scrollback prunes the cursor page ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On a one row screen, a line feed at the bottom could free the page the
+  cursor was on while the cursor still pointed into it. `PageList.grow`
+  enforces the scrollback line limit right after adding the new row, and
+  with only one row the old cursor row is already history at that point,
+  so its page can be pruned before `cursorDownScroll` moves the cursor.
+  The tracked cursor pin moved to the new page, but `cursorDownScroll`
+  then took its same-page fast path and marked the cached `page_row`
+  dirty, writing into freed memory. The cursor style and hyperlink IDs
+  also still referred to the pruned page.
+  
+  Terminal output alone can trigger this when a scrollback line limit is
+  set. For example, reflowing a long hyperlinked line wider can produce a
+  page that holds more rows than the limit allows, and filling it with
+  line feeds frees it.
+  
+  Debug builds segfault in `cursorMarkDirty` and release builds write to
+  freed memory.
+  
+  Even without the crash, the next print would use style and hyperlink IDs
+  that don't exist on the new page. Larger screens aren't affected because
+  the old cursor row is still in the active area after growing, and pruning
+  stops at the page containing the active top. Ghostty itself would need
+  `scrollback-limit-lines` set and a surface that is one row tall.
+  
+  Fix this by rebuilding the cursor state on the new page when its page is
+  pruned, without touching the old page. `Screen.increaseCapacity` already
+  does this when it replaces the cursor page, so its logic moves into a
+  shared `cursorPageReplaced` helper. This also clears the garbage flag
+  that pruning sets on the cursor pin, since the pin now points exactly
+  where the cursor belongs.
+  
+  Found by a reporter fuzzing libghostty-vt.
+  ```
+- [`5c9a3d8`](https://github.com/ghostty-org/ghostty/commit/5c9a3d8a90592e85069213489e203fbcdbdc5d67) input: paste protection treats carriage returns like newlines ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A user who pastes attacker-controlled text ending in a carriage return
+  into a shell without bracketed paste mode executes it without the
+  expected confirmation. B
+  
+  `isSafe` now rejects `\r` as well as `\n` when unbracketed. Inside a
+  bracketed paste a carriage return remains fine, the same as a newline.
+  This matches the other terminals that warn on multi-line pastes: iTerm2
+  and Windows Terminal both search for `\r` or `\n`, and kitty's
+  `confirm` paste action flags `\r` as a dangerous C0 code.
+  
+  Found by a reporter.
+  ```
+- [`7db25f9`](https://github.com/ghostty-org/ghostty/commit/7db25f9f3df8032b72f80a2aec76046933ed7199) terminal: fix use-after-free when scrollback prunes the cursor page ([#14686](https://github.com/ghostty-org/ghostty/issues/14686)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  On a one row screen, a line feed at the bottom could free the page the
+  cursor was on while the cursor still pointed into it. `PageList.grow`
+  enforces the scrollback line limit right after adding the new row, and
+  with only one row the old cursor row is already history at that point,
+  so its page can be pruned before `cursorDownScroll` moves the cursor.
+  The tracked cursor pin moved to the new page, but `cursorDownScroll`
+  then took its same-page fast path and marked the cached `page_row`
+  dirty, writing into freed memory. The cursor style and hyperlink IDs
+  also still referred to the pruned page.
+  
+  Terminal output alone can trigger this when a scrollback line limit is
+  set. For example, reflowing a long hyperlinked line wider can produce a
+  page that holds more rows than the limit allows, and filling it with
+  line feeds frees it.
+  
+  Debug builds segfault in `cursorMarkDirty` and release builds write to
+  freed memory.
+  
+  Even without the crash, the next print would use style and hyperlink IDs
+  that don't exist on the new page. Larger screens aren't affected because
+  the old cursor row is still in the active area after growing, and
+  pruning stops at the page containing the active top. Ghostty itself
+  would need `scrollback-limit-lines` set and a surface that is one row
+  tall.
+  
+  Fix this by rebuilding the cursor state on the new page when its page is
+  pruned, without touching the old page. `Screen.increaseCapacity` already
+  does this when it replaces the cursor page, so its logic moves into a
+  shared `cursorPageReplaced` helper. This also clears the garbage flag
+  that pruning sets on the cursor pin, since the pin now points exactly
+  where the cursor belongs.
+  
+  Found by a reporter fuzzing libghostty-vt.
+  ```
+- [`cc53940`](https://github.com/ghostty-org/ghostty/commit/cc53940b4cf97876e48826e5d825833a77471c89) input: paste protection treats carriage returns like newlines ([#14687](https://github.com/ghostty-org/ghostty/issues/14687)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A user who pastes attacker-controlled text ending in a carriage return
+  into a shell without bracketed paste mode executes it without the
+  expected confirmation. B
+  
+  `isSafe` now rejects `\r` as well as `\n` when unbracketed. Inside a
+  bracketed paste a carriage return remains fine, the same as a newline.
+  This matches the other terminals that warn on multi-line pastes: iTerm2
+  and Windows Terminal both search for `\r` or `\n`, and kitty's `confirm`
+  paste action flags `\r` as a dangerous C0 code.
+  
+  Found by a reporter.
+  ```
 - [`539689a`](https://github.com/ghostty-org/ghostty/commit/539689a33bfe045db9da45b336014960b27e7d0e) pkg/dcimgui: link a system freetype through the module ([@jcollie](https://github.com/jcollie))
   ```text
   With freetype from the system, the static dcimgui library was given
@@ -1596,103 +1881,4 @@ Summary: 7 runs • 12 commits • 7 authors
   I used Claude Code to help review the initial translation; I went
   through and chose every change myself.
   ````
-
-## October 7, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37630750011), [2](https://github.com/ghostty-org/ghostty/actions/runs/37569761740), [3](https://github.com/ghostty-org/ghostty/actions/runs/37551559977)  
-Summary: 3 runs • 4 commits • 3 authors
-
-### Changes
-
-- [`a60e9e2`](https://github.com/ghostty-org/ghostty/commit/a60e9e2a57f73e1eef2bd1cf2995a467f69e7fb0) Update VOUCHED list ([#14585](https://github.com/ghostty-org/ghostty/issues/14585)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14584#discussioncomment-18795569)
-  from @jcollie.
-  
-  Vouch: @kgni
-  ```
-- [`c706451`](https://github.com/ghostty-org/ghostty/commit/c706451fe8bf1a55750c3262ed323df99d717a24) terminal: apply a single shift to exactly one printed character ([@robmorgan](https://github.com/robmorgan))
-  ```text
-  A single shift (SS2/SS3) applies to the next character received. Only
-  printCell used it up, so a combining mark or VS16, which attaches to
-  the previous cell without going through printCell, left the shift in
-  place for the character after it.
-  
-  DEC STD 070 (3.8.3.2) says that if the character after a single shift
-  is not a graphic character in its range, the shift is ignored and the
-  character is processed as if the shift had not been received. ISO 2022
-  (8.4) likewise applies it to the immediately following character
-  only. print now takes the charset, and clears the single shift, once
-  for each codepoint, so a combining mark or VS16 cancels the shift and
-  prints unmapped. xterm does the same (WriteNow in charproc.c).
-  
-  printCell maps its character with that charset and writes it with the
-  new writeCell, which writes a cell as it is. Spacers and blanks use
-  writeCell, and so does the grapheme path that moves a character VS16
-  widened to the next row. That path printed the stored, already mapped
-  character through the charset again, so a '#' became a '£' if the
-  British set was selected in between.
-  ```
-- [`b699ea7`](https://github.com/ghostty-org/ghostty/commit/b699ea79f4b881421b4b3055abc16a0957d76beb) terminal: apply a single shift to exactly one printed character ([#14576](https://github.com/ghostty-org/ghostty/issues/14576)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  With a single shift (SS2/SS3) pending, a combining mark or VS16 did not
-  use it up because only `printCell` cleared the shift and those
-  characters attach to the previous cell without going through it. The
-  shift then applied to the next character instead. So in `x` + SS2 + VS16
-  + `#` with the British set in G2, the `#` became a `£`.
-  
-  ### Reproduce
-  
-  Run these in a current build:
-  ```sh
-  printf 'x\e*0\eN\u0301a\e*B\n'              # combining mark: prints x́▒, should be x́a
-  printf 'x\e*A\eN\uFE0F#\e*B\n'              # VS16: prints x£, should be x#
-  printf '\e[%dG#\e(A\uFE0F\e(B\n' $COLUMNS   # expect a wide # at the start of the next line
-  ```
-  
-  **Old**
-  <img width="656" height="297" alt="image"
-  src="https://github.com/user-attachments/assets/7a20c734-71fd-422f-8394-106e6234d538"
-  />
-  
-  **Fixed**
-  <img width="434" height="295" alt="image"
-  src="https://github.com/user-attachments/assets/1401e986-3fde-479c-aa5c-e7546861ed97"
-  />
-  
-  DEC STD 070 (3.8.3.2) says that if the character after a single shift is
-  not a graphic character in its range, the shift is ignored and the
-  character is processed as if the shift had not been received. ISO 2022
-  (8.4) likewise applies it to the immediately following character only.
-  `print` now takes the charset, and clears the single shift, once for
-  each codepoint, so a combining mark or VS16 cancels the shift and prints
-  unmapped. xterm does the same (WriteNow in `charproc.c`).
-  
-  `printCell` maps its character with that charset and writes it with the
-  new `writeCell`, which writes a cell as it is. Spacers and blanks use
-  `writeCell`, and so does the grapheme path that moves a character VS16
-  widened to the next row. That path printed the stored, already mapped
-  character through the charset again, so a '#' became a '£' if the
-  British set was selected in between (e.g: before VS16).
-  
-  ### Performance
-  I ran `ghostty-bench +terminal-stream` with hyperfine against `main`
-  (ReleaseFast, M1 Max, the same 100 MB inputs for both). ASCII, styled
-  and DEC line-drawing input show no change, since they go through
-  `printSlice` and never reach this code. Random UTF-8, which falls back
-  to `print` for most codepoints, is about 1% slower, within this
-  machine's run-to-run noise.
-  
-  AI disclosure: Created with help from Claude Code using Opus 5.5,
-  Iterated on, manually tested and reviewed by me.
-  ````
-- [`34f3900`](https://github.com/ghostty-org/ghostty/commit/34f39002c6e3974b54e6a6d400bd83777c5ea558) Update VOUCHED list ([#14573](https://github.com/ghostty-org/ghostty/issues/14573)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14323#discussioncomment-18786373)
-  from @jcollie.
-  
-  Vouch: @ekusiadadus
-  ```
 
