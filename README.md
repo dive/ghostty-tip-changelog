@@ -8,15 +8,42 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 14, 2026 at 08:18 UTC.
+> Last updated: October 14, 2026 at 14:16 UTC.
 
 ## October 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38515836993)  
-Summary: 1 runs • 9 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38542450833), [2](https://github.com/ghostty-org/ghostty/actions/runs/38515836993)  
+Summary: 2 runs • 16 commits • 3 authors
 
 ### Changes
 
+- [`b9bc79d`](https://github.com/ghostty-org/ghostty/commit/b9bc79de252c4ee0920454ce607790eccbf5e261) Add config option to move the close button position ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`b327d8d`](https://github.com/ghostty-org/ghostty/commit/b327d8d8eb689f43fe0b9684088478985dec4083) feedback, move to window, add to overview ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`1eccd66`](https://github.com/ghostty-org/ghostty/commit/1eccd66c3c42404e8f781811f8cf26606d51d1a1) formatting... ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`f781b42`](https://github.com/ghostty-org/ghostty/commit/f781b42db0f02c76e1f6d1ecb236392c6b69054d) improve doc comment and add availbility ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`3474a57`](https://github.com/ghostty-org/ghostty/commit/3474a576fda2a2f7b11ecde6e4c560f9c2d7e0e6) zig fmt ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`9ba928a`](https://github.com/ghostty-org/ghostty/commit/9ba928a3df1985e05a081f8d2418a6a77ed322a5) trailing comma ([@ollieatkinson](https://github.com/ollieatkinson))
+- [`291fd05`](https://github.com/ghostty-org/ghostty/commit/291fd050b9e9c293c8adb6a140742649b7e42d3a) gtk: Add config option to move the position of the close button ([#14657](https://github.com/ghostty-org/ghostty/issues/14657)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  https://github.com/ghostty-org/ghostty/discussions/14649
+  
+  | | `inverted: false` | `inverted: true` |
+  | - | - | - |
+  | **overview** | <img width="824" height="472"
+  alt="01-inverted-false-overview"
+  src="https://github.com/user-attachments/assets/9cf58ed6-7864-4006-9e4b-ec7865df367b"
+  /> | <img width="824" height="472" alt="03-inverted-true-overview"
+  src="https://github.com/user-attachments/assets/2ba3d9d1-2777-4618-b4e6-9bfce9a3af94"
+  /> |
+  | **tab** | <img width="824" height="472" alt="02-inverted-false-tabs"
+  src="https://github.com/user-attachments/assets/d7d0aea4-16cf-4b61-a983-c127017f9875"
+  /> | <img width="824" height="472" alt="04-inverted-true-tabs"
+  src="https://github.com/user-attachments/assets/342a6cc2-9f8a-44d5-9ebb-e29b8d36eb01"
+  /> |
+  
+  I used codex to help me figure out where the changes needed to be made,
+  I added the code and comments myself
+  ```
 - [`8b7a2d6`](https://github.com/ghostty-org/ghostty/commit/8b7a2d6fb49d79badcf0557d38c6af9e5520b775) gtk: clear surface notifications on focus and close ([@EriksRemess](https://github.com/EriksRemess))
   ```text
   GTK notifications previously used their body as the GApplication ID and
