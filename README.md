@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 15, 2026 at 07:56 UTC.
+> Last updated: October 15, 2026 at 13:51 UTC.
 
 ## October 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38683778451), [2](https://github.com/ghostty-org/ghostty/actions/runs/38680434974)  
-Summary: 2 runs • 6 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38705285984), [2](https://github.com/ghostty-org/ghostty/actions/runs/38683778451), [3](https://github.com/ghostty-org/ghostty/actions/runs/38680434974)  
+Summary: 3 runs • 7 commits • 5 authors
 
 ### Changes
 
+- [`22fa134`](https://github.com/ghostty-org/ghostty/commit/22fa134a07f5749edd9e92c6bc17d8aaf61843be) Update VOUCHED list ([#14722](https://github.com/ghostty-org/ghostty/issues/14722)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14721#discussioncomment-18944491)
+  from @trag1c.
+  
+  Denounce: @KooshaPari
+  ```
 - [`510b253`](https://github.com/ghostty-org/ghostty/commit/510b253dbc52d77b9f842ab6b8cba9ef046cea11) formatter: emit the hyperlinks of cells in VT output ([@robmorgan](https://github.com/robmorgan))
   ```text
   VT output only emitted the cursor's hyperlink (with the hyperlink extra),
