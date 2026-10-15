@@ -8,15 +8,29 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 15, 2026 at 18:50 UTC.
+> Last updated: October 15, 2026 at 23:30 UTC.
 
 ## October 15, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38705285984), [2](https://github.com/ghostty-org/ghostty/actions/runs/38683778451), [3](https://github.com/ghostty-org/ghostty/actions/runs/38680434974)  
-Summary: 3 runs • 7 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38812465411), [2](https://github.com/ghostty-org/ghostty/actions/runs/38705285984), [3](https://github.com/ghostty-org/ghostty/actions/runs/38683778451), [4](https://github.com/ghostty-org/ghostty/actions/runs/38680434974)  
+Summary: 4 runs • 9 commits • 6 authors
 
 ### Changes
 
+- [`508cfad`](https://github.com/ghostty-org/ghostty/commit/508cfade5e5f62a3ee35b65938c7080de19f4441) benchmark: convert prints to log ([@jcollie](https://github.com/jcollie))
+  ```text
+  Zig really doesn't like tests to print anything to stderr while
+  running tests. Convert some stray std.debug.print statements into log
+  statements. Log statements below `warn` will be suppressed when running
+  tests, keeping Zig happy.
+  ```
+- [`b3dc3d7`](https://github.com/ghostty-org/ghostty/commit/b3dc3d794513c11633e7c3347935693957744e83) benchmark: convert prints to log ([#14718](https://github.com/ghostty-org/ghostty/issues/14718)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig really doesn't like tests to print anything to stderr while running
+  tests. Convert some stray std.debug.print statements into log
+  statements. Log statements below `warn` will be suppressed when running
+  tests, keeping Zig happy.
+  ```
 - [`22fa134`](https://github.com/ghostty-org/ghostty/commit/22fa134a07f5749edd9e92c6bc17d8aaf61843be) Update VOUCHED list ([#14722](https://github.com/ghostty-org/ghostty/issues/14722)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
