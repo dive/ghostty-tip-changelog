@@ -8,7 +8,21 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 16, 2026 at 13:41 UTC.
+> Last updated: October 16, 2026 at 18:34 UTC.
+
+## October 16, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38943108606), [2](https://github.com/ghostty-org/ghostty/actions/runs/38936269574)  
+Summary: 2 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`22d623f`](https://github.com/ghostty-org/ghostty/commit/22d623f38aeea55deb6191ca64c7b9d02922980e) I18n: update `id_ID` translations for v1.4 ([#13905](https://github.com/ghostty-org/ghostty/issues/13905)) ([@halosatrio](https://github.com/halosatrio))
+- [`949149d`](https://github.com/ghostty-org/ghostty/commit/949149d5791a0eb08412ad05cd8fd484ad134481) i18n: complete missing Japanese translations ([#14575](https://github.com/ghostty-org/ghostty/issues/14575)) ([@ekusiadadus](https://github.com/ekusiadadus))
+  ```text
+  Fill 181 untranslated entries while preserving existing translations.
+  Validate the catalog against the current template with gettext.
+  ```
 
 ## October 15, 2026
 
