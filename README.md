@@ -8,7 +8,7 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 15, 2026 at 23:30 UTC.
+> Last updated: October 16, 2026 at 02:50 UTC.
 
 ## October 15, 2026
 
@@ -2193,50 +2193,5 @@ Summary: 5 runs • 16 commits • 8 authors
   from @trag1c.
   
   Denounce: @rebecca-bell-2001
-  ```
-
-## October 9, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/37960020956), [2](https://github.com/ghostty-org/ghostty/actions/runs/37902855280), [3](https://github.com/ghostty-org/ghostty/actions/runs/37884767144)  
-Summary: 3 runs • 6 commits • 4 authors
-
-### Changes
-
-- [`7f1219f`](https://github.com/ghostty-org/ghostty/commit/7f1219fd701449fa3e5de33b9ba9ce85f008ac33) cli/list-themes: add ctrl-d/u paging ([@davidsanchez222](https://github.com/davidsanchez222))
-  ```text
-  Ctrl-D and Ctrl-U move down and up 20 themes, like PgDn and PgUp.
-  This helps keyboards without page keys and matches the less/vi-style
-  keys that already exist (g/G).
-  ```
-- [`246f702`](https://github.com/ghostty-org/ghostty/commit/246f702876b924a1cb7cade1e99274d1470302fc) cli/list-themes: add ctrl-d/u paging ([#14607](https://github.com/ghostty-org/ghostty/issues/14607)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  discussion #14604
-  
-  ## Ctrl-D and Ctrl-U paging
-  
-  `Ctrl-D` and `Ctrl-U` move down and up 20 themes. `PgDn` and `PgUp`
-  already do this. `g` and `G` already exist (#13376), so vim-like paging
-  fits. It also helps users who have no `PgUp` or `PgDn` key.
-  ```
-- [`9d479dc`](https://github.com/ghostty-org/ghostty/commit/9d479dcb1664e8dc3c66c7302ce596dc56b36d6d) Update VOUCHED list ([#14614](https://github.com/ghostty-org/ghostty/issues/14614)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14582#discussioncomment-18831499)
-  from @pluiedev.
-  
-  Denounce: @Martzcode
-  ```
-- [`f473f31`](https://github.com/ghostty-org/ghostty/commit/f473f310979da7002f3c2793f39cfbeef475bb88) terminal: support DECSTR ([@jcollie](https://github.com/jcollie))
-  ```text
-  Programs and test suites use DECSTR (CSI ! p) to undo the modes, margins,
-  and pen they may have left behind without clearing the screen. It was
-  ignored, so that state leaked into whatever ran next.
-  ```
-- [`5169c47`](https://github.com/ghostty-org/ghostty/commit/5169c473aa996a9eff29307daad6a01501c5c245) terminal: documentation for DECSTR ([@korikhin](https://github.com/korikhin))
-- [`b115e45`](https://github.com/ghostty-org/ghostty/commit/b115e456749e2820a14d3942a63159ff8d46d925) terminal: support DECSTR ([#14538](https://github.com/ghostty-org/ghostty/issues/14538)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Programs and test suites use DECSTR (CSI ! p) to undo the modes,
-  margins, and pen they may have left behind without clearing the screen.
-  It was ignored, so that state leaked into whatever ran next.
   ```
 
