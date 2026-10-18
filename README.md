@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 18, 2026 at 17:44 UTC.
+> Last updated: October 18, 2026 at 19:58 UTC.
 
 ## October 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39146825669), [2](https://github.com/ghostty-org/ghostty/actions/runs/39104821716), [3](https://github.com/ghostty-org/ghostty/actions/runs/39100383906), [4](https://github.com/ghostty-org/ghostty/actions/runs/39100309164), [5](https://github.com/ghostty-org/ghostty/actions/runs/39098494353), [6](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
-Summary: 6 runs • 11 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39155084891), [2](https://github.com/ghostty-org/ghostty/actions/runs/39146825669), [3](https://github.com/ghostty-org/ghostty/actions/runs/39104821716), [4](https://github.com/ghostty-org/ghostty/actions/runs/39100383906), [5](https://github.com/ghostty-org/ghostty/actions/runs/39100309164), [6](https://github.com/ghostty-org/ghostty/actions/runs/39098494353), [7](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
+Summary: 7 runs • 12 commits • 5 authors
 
 ### Changes
 
+- [`189af86`](https://github.com/ghostty-org/ghostty/commit/189af86eac5e91e1b282bdaf371f369c3863591f) Update VOUCHED list ([#14760](https://github.com/ghostty-org/ghostty/issues/14760)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14755#discussioncomment-19022050)
+  from @jcollie.
+  
+  Vouch: @aredmondd
+  ```
 - [`431126c`](https://github.com/ghostty-org/ghostty/commit/431126c215dc324a53ef6f054264e951a4b21604) Update VOUCHED list ([#14756](https://github.com/ghostty-org/ghostty/issues/14756)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
