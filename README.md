@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 18, 2026 at 12:56 UTC.
+> Last updated: October 18, 2026 at 17:44 UTC.
 
 ## October 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39104821716), [2](https://github.com/ghostty-org/ghostty/actions/runs/39100383906), [3](https://github.com/ghostty-org/ghostty/actions/runs/39100309164), [4](https://github.com/ghostty-org/ghostty/actions/runs/39098494353), [5](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
-Summary: 5 runs • 10 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39146825669), [2](https://github.com/ghostty-org/ghostty/actions/runs/39104821716), [3](https://github.com/ghostty-org/ghostty/actions/runs/39100383906), [4](https://github.com/ghostty-org/ghostty/actions/runs/39100309164), [5](https://github.com/ghostty-org/ghostty/actions/runs/39098494353), [6](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
+Summary: 6 runs • 11 commits • 5 authors
 
 ### Changes
 
+- [`431126c`](https://github.com/ghostty-org/ghostty/commit/431126c215dc324a53ef6f054264e951a4b21604) Update VOUCHED list ([#14756](https://github.com/ghostty-org/ghostty/issues/14756)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14723#discussioncomment-19020874)
+  from @pluiedev.
+  
+  Denounce: @gotar
+  ```
 - [`c8c481c`](https://github.com/ghostty-org/ghostty/commit/c8c481c1750033ad21f4f34718f5d0b1906ec251) fix(nix): prioritize pinned Zig in the macOS dev shell ([@ekusiadadus](https://github.com/ekusiadadus))
 - [`d2865b8`](https://github.com/ghostty-org/ghostty/commit/d2865b8f578fa4e85e2f2b85ef97f5ef69de951f) nix: prioritize pinned Zig in the macOS dev shell ([#14692](https://github.com/ghostty-org/ghostty/issues/14692)) ([@jcollie](https://github.com/jcollie))
   ```text
