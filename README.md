@@ -8,15 +8,68 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 18, 2026 at 02:43 UTC.
+> Last updated: October 18, 2026 at 07:42 UTC.
 
 ## October 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39104821716), [2](https://github.com/ghostty-org/ghostty/actions/runs/39100383906), [3](https://github.com/ghostty-org/ghostty/actions/runs/39100309164), [4](https://github.com/ghostty-org/ghostty/actions/runs/39098494353), [5](https://github.com/ghostty-org/ghostty/actions/runs/39084774558)  
+Summary: 5 runs • 10 commits • 5 authors
 
 ### Changes
 
+- [`c8c481c`](https://github.com/ghostty-org/ghostty/commit/c8c481c1750033ad21f4f34718f5d0b1906ec251) fix(nix): prioritize pinned Zig in the macOS dev shell ([@ekusiadadus](https://github.com/ekusiadadus))
+- [`d2865b8`](https://github.com/ghostty-org/ghostty/commit/d2865b8f578fa4e85e2f2b85ef97f5ef69de951f) nix: prioritize pinned Zig in the macOS dev shell ([#14692](https://github.com/ghostty-org/ghostty/issues/14692)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The macOS shell hook prepends Homebrew directories to PATH ahead of
+  the Nix-provided tools. When Zig is also installed through Homebrew,
+  the dev shell uses that version instead of the version pinned by the
+  flake, which can cause builds to fail.
+  
+  Prepend `${zig}/bin` to PATH so the dev shell uses the project's pinned
+  Zig while preserving the existing precedence for LLVM and Apple tools.
+  
+  Verified on macOS with Homebrew Zig 0.17.0 installed:
+  - Before: `direnv exec . zig version` returned `0.17.0`.
+  - After: the same command returned the pinned `0.16.0`.
+  ```
+- [`f44c678`](https://github.com/ghostty-org/ghostty/commit/f44c67817d1869cd1ff3cbd648552e4c7ac9ba23) Update VOUCHED list ([#14748](https://github.com/ghostty-org/ghostty/issues/14748)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14734#discussioncomment-19012178)
+  from @jcollie.
+  
+  Vouch: @locriani
+  ```
+- [`0e6afb2`](https://github.com/ghostty-org/ghostty/commit/0e6afb2600d4f8be736ec94b44a21ba8d608921e) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`5c93856`](https://github.com/ghostty-org/ghostty/commit/5c93856710d09f313aae515aaac207981f64a528) Update iTerm2 colorschemes ([#14740](https://github.com/ghostty-org/ghostty/issues/14740)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261012-151317-d3e95e4
+  ```
+- [`fb3373c`](https://github.com/ghostty-org/ghostty/commit/fb3373c8b52ffdd0669ae2d585ed0f9f7f1107fa) Update VOUCHED list ([#14747](https://github.com/ghostty-org/ghostty/issues/14747)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14690#discussioncomment-19012170)
+  from @jcollie.
+  
+  Vouch: @Davey-Hughes
+  ```
+- [`8f77be7`](https://github.com/ghostty-org/ghostty/commit/8f77be73d2b525dff30f1d1a50c3523a27a3d095) Update VOUCHED list ([#14745](https://github.com/ghostty-org/ghostty/issues/14745)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14743#discussioncomment-19011080)
+  from @jcollie.
+  
+  Vouch: @zzznu
+  ```
+- [`71970ee`](https://github.com/ghostty-org/ghostty/commit/71970eee87936dfe16ccc7cddceee07fcc7aa64b) Update VOUCHED list ([#14746](https://github.com/ghostty-org/ghostty/issues/14746)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14742#discussioncomment-19011082)
+  from @jcollie.
+  
+  Vouch: @davidhodge
+  ```
 - [`23dd1b7`](https://github.com/ghostty-org/ghostty/commit/23dd1b723e8314e34f56042e2af1e7653f47b2e5) gtk: stop progress bar pulse animation ([@dkinzler](https://github.com/dkinzler))
   ```text
   Fixes #14704.
