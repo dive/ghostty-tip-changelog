@@ -8,15 +8,394 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 20, 2026 at 16:13 UTC.
+> Last updated: October 20, 2026 at 21:09 UTC.
 
 ## October 20, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39352155221)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39489141420), [2](https://github.com/ghostty-org/ghostty/actions/runs/39488892378), [3](https://github.com/ghostty-org/ghostty/actions/runs/39477553764), [4](https://github.com/ghostty-org/ghostty/actions/runs/39352155221)  
+Summary: 4 runs • 64 commits • 5 authors
 
 ### Changes
 
+- [`96a5131`](https://github.com/ghostty-org/ghostty/commit/96a5131a15281765aff5835dbd9e1c714cddcd3f) Update VOUCHED list ([#14783](https://github.com/ghostty-org/ghostty/issues/14783)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14782#discussioncomment-19080745)
+  from @jcollie.
+  
+  Vouch: @dmkenney
+  ```
+- [`17bc3e9`](https://github.com/ghostty-org/ghostty/commit/17bc3e94a77edc650913d7627c92e3253e15d177) resolve Kitty graphics placeholders in the render state ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds image placements in `RenderState`, unifying all our image
+  placement logic into one location for both Ghostty GUI and libghostty-vt.
+  
+  Note this only does Kitty virtual placements right now but the plan is
+  to move ALL images into this so all renderers (Ghostty and libghostty)
+  have one source of truth for all possible rendered images.
+  
+  I purposely made all the APIs as generic as possible so we can support
+  other graphics protocols that might exist in the future. None planned,
+  just doing this now for ABI reasons since this touches the C ABI.
+  
+  Benchmark highlights:
+  
+  - Ghostty per frame with a screen full of placeholders and one dirty
+    row: 207us to 3.4us. Main rescanned the whole viewport every frame
+    while any virtual placement existed.
+  - Render state with a screen full of placeholders: full redraw 127us
+    to 172us (about 4.5ns per placeholder cell), one dirty row 2.2us to
+    3.1us.
+  - Render state without images: +3ns per clean update (noise) and
+    +6.5ns per update with one dirty row (noise).
+  
+  Example:
+  
+  ```c
+  ghostty_render_state_get(
+      state, GHOSTTY_RENDER_STATE_DATA_IMAGE_ITERATOR, &images);
+  while (ghostty_render_state_image_iterator_next(images)) {
+    GhosttyImageProtocol protocol;
+    uint32_t image_id;
+    uint64_t generation;
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_PROTOCOL, &protocol);
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_IMAGE_ID, &image_id);
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_IMAGE_GENERATION,
+        &generation);
+  
+    // Read the position, size, source rectangle, layer, and z the same
+    // way, then draw the texture for (protocol, image_id, generation).
+  }
+  ```
+  ````
+- [`0643224`](https://github.com/ghostty-org/ghostty/commit/0643224a73c2387ebc038f72ab535943cfbf5c6f) resolve Kitty graphics placeholders in the render state ([#14780](https://github.com/ghostty-org/ghostty/issues/14780)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds image placements in `RenderState`, unifying all our image
+  placement logic into one location for both Ghostty GUI and
+  libghostty-vt.
+  
+  Note this only does Kitty virtual placements right now but the plan is
+  to move ALL images into this so all renderers (Ghostty and libghostty)
+  have one source of truth for all possible rendered images.
+  
+  I purposely made all the APIs as generic as possible so we can support
+  other graphics protocols that might exist in the future. None planned,
+  just doing this now for ABI reasons since this touches the C ABI.
+  
+  Benchmark highlights:
+  
+  - Ghostty per frame with a screen full of placeholders and one dirty
+  row: 207us to 3.4us. Main rescanned the whole viewport every frame while
+  any virtual placement existed.
+  - Render state with a screen full of placeholders: full redraw 127us to
+  172us (about 4.5ns per placeholder cell), one dirty row 2.2us to 3.1us.
+  - Render state without images: +3ns per clean update (noise) and +6.5ns
+  per update with one dirty row (noise).
+  
+  Example:
+  
+  ```c
+  ghostty_render_state_get(
+      state, GHOSTTY_RENDER_STATE_DATA_IMAGE_ITERATOR, &images);
+  while (ghostty_render_state_image_iterator_next(images)) {
+    GhosttyImageProtocol protocol;
+    uint32_t image_id;
+    uint64_t generation;
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_PROTOCOL, &protocol);
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_IMAGE_ID, &image_id);
+    ghostty_render_state_image_get(
+        images, GHOSTTY_RENDER_STATE_IMAGE_DATA_IMAGE_GENERATION,
+        &generation);
+  
+    // Read the position, size, source rectangle, layer, and z the same
+    // way, then draw the texture for (protocol, image_id, generation).
+  }
+  ```
+  
+  **AI usage:** I designed the whole thing and wrote all the
+  docs/comments, had Fable/Opus come in to add validation and benchmarks.
+  ````
+- [`16956fb`](https://github.com/ghostty-org/ghostty/commit/16956fb43b2a4a42576d7e712e9725c0b4817810) Update VOUCHED list ([#14781](https://github.com/ghostty-org/ghostty/issues/14781)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14779#discussioncomment-19080718)
+  from @jcollie.
+  
+  Vouch: @thapakrish
+  ```
+- [`3110fb3`](https://github.com/ghostty-org/ghostty/commit/3110fb358948cfef6e4f03d6b270a882168d17cf) nix: update to Zig 0.17 ([@pluiedev](https://github.com/pluiedev))
+- [`8b94338`](https://github.com/ghostty-org/ghostty/commit/8b9433839c23bec54f5907c86ea089192ac0f0af) nix: update zon2nix ([@pluiedev](https://github.com/pluiedev))
+- [`a557f01`](https://github.com/ghostty-org/ghostty/commit/a557f010cb73cf73363963a0e37b24d14292e820) nix: patch pkg-config files to comply with Zig 0.17 ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Zig 0.17 has a really strict C flags parser for some reason, and the
+  entire build fails if one dependency has an unrecognized C flag. Why?
+  ```
+- [`160093d`](https://github.com/ghostty-org/ghostty/commit/160093daa68972e69bf1a0e636a91118b7dde31b) build: update Zig dependencies ([@pluiedev](https://github.com/pluiedev))
+- [`aa57f1f`](https://github.com/ghostty-org/ghostty/commit/aa57f1f41503139fd1cc388fb923de19977e7e91) build: port build script to Zig 0.17 ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#Build-System
+  
+  https://ziglang.org/download/0.17.0/release-notes.html#Run-Step-Passthru-Args
+  ```
+- [`f987028`](https://github.com/ghostty-org/ghostty/commit/f987028f3fe414324da1597a25757d4c21d10c2d) treewide: `@intFromEnum` -> `@backingInt`, `@enumFromInt` -> `@fromBackingInt` ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-Added-codebackingIntcode-and-codefromBackingIntcode
+  ```
+- [`578d119`](https://github.com/ghostty-org/ghostty/commit/578d11956247c1a7dc7e46ef2439096a024f7b5d) treewide: `std.fmt.bufPrint{,Z,Sentinel}` -> `std.mem.print{,Sentinel}` ([@pluiedev](https://github.com/pluiedev))
+- [`4f0d109`](https://github.com/ghostty-org/ghostty/commit/4f0d109f06ab373b00546a0b6b3953075ae2195e) treewide: nuke all uses of `**` ([@pluiedev](https://github.com/pluiedev))
+- [`42c92b6`](https://github.com/ghostty-org/ghostty/commit/42c92b620e6acec5bf6953c4e1c9aa489b5cb918) treewide: Debug -> debug, ReleaseFast -> fast, etc. ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-Rename-codelangOptimizeModecode-to-codelangOptimizecode
+  ```
+- [`99d2583`](https://github.com/ghostty-org/ghostty/commit/99d258323d4a7f675a46aa7a45593df9dcdc393c) treewide: std.builtin -> std.lang ([@pluiedev](https://github.com/pluiedev))
+- [`5158c4f`](https://github.com/ghostty-org/ghostty/commit/5158c4f6f2b2b24e5e99a5a0024abd4e3029ffba) treewide: .init(Empty|Full) -> .(empty|full) ([@pluiedev](https://github.com/pluiedev))
+- [`1147e51`](https://github.com/ghostty-org/ghostty/commit/1147e516588e19205afd260b2b97dddba1899174) treewide: std.meta.field(Types|Names|Info) -> `@typeInfo` ([@pluiedev](https://github.com/pluiedev))
+- [`95aad22`](https://github.com/ghostty-org/ghostty/commit/95aad22869ecd6c7329250b06e30e20476ac8dbb) treewide: migrate `@typeInfo` to Struct-Of-Arrays style ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-Struct-Of-Arrays-Style-for-codestdlangTypecode
+  ```
+- [`4892f50`](https://github.com/ghostty-org/ghostty/commit/4892f5013b374ef167ed06787c9fdae3b0febaf6) treewide: builtin.{cpu,os,abi} -> builtin.target.{cpu,os,abi} ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#importbuiltin-Deprecations
+  ```
+- [`50a2c21`](https://github.com/ghostty-org/ghostty/commit/50a2c21de59d4e22d39f4ce3925cbf73193a1b9d) treewide: `std.fmt.allocPrint{,Sentinel}` -> `Allocator.print{,Sentinel}` ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-codefmtallocPrintcode-moved-to-codememAllocatorcode
+  ```
+- [`30d30aa`](https://github.com/ghostty-org/ghostty/commit/30d30aab066b234db07d7a4ee930e0c079101b69) treewide: `std.heap.stackFallback` -> `BufferFirstAllocator` ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#StackFallbackAllocator-Reworked
+  ```
+- [`bb2a0fa`](https://github.com/ghostty-org/ghostty/commit/bb2a0fae2cb1b6755de12c9b615872a4b16cae90) treewide: std.{Static,Dynamic}BitSet -> std.bit_set.{Static,Dynamic} ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-Rename-codebit_setcode-Variants-and-Deprecate-the-Managed-One
+  ```
+- [`643898e`](https://github.com/ghostty-org/ghostty/commit/643898e687bd98b1358d0d7478ac00906fab577a) treewide: `DebugAllocator` -> `SafeAllocator` ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#SafeAllocator-Introduced
+  ```
+- [`7ad29db`](https://github.com/ghostty-org/ghostty/commit/7ad29db6b0213bfc797c3eaaa0e961b4cd60f5d0) lib/TinyIo: sync with Zig 0.17 IO VTable ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  A bunch of functions got removed. This is a good thing!
+  ```
+- [`57732c9`](https://github.com/ghostty-org/ghostty/commit/57732c93d219fa301de4b7860d1fd86997ffad60) treewide: `std.meta.Int` -> `@Int` ([@pluiedev](https://github.com/pluiedev))
+- [`bef1bfb`](https://github.com/ghostty-org/ghostty/commit/bef1bfbb32485edcc67f562ef255a43191cfaac0) treewide: `Allocator.dupeZ` -> `Allocator.dupeSentinel` ([@pluiedev](https://github.com/pluiedev))
+- [`e432c0a`](https://github.com/ghostty-org/ghostty/commit/e432c0a5bcfd45fbaf2bed3b02d310a6816809b4) renderer: SIMD vectors cannot appear in extern structs ([@pluiedev](https://github.com/pluiedev))
+- [`ef349f7`](https://github.com/ghostty-org/ghostty/commit/ef349f7f6b81b0143068bcef89b34f497a40770c) renderer: atomics cannot be `@bitCast` into raw value ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Part of https://ziglang.org/download/0.17.0/release-notes.html#codebitCastcode-changes
+  ```
+- [`db2760d`](https://github.com/ghostty-org/ghostty/commit/db2760db041306185eb8b2db70e01722d200f5f6) crc32c: update to Zig 0.17 ([@pluiedev](https://github.com/pluiedev))
+- [`bfbc895`](https://github.com/ghostty-org/ghostty/commit/bfbc8951cac853b61159c6d7cccfa4d7270691f3) treewide: miscellaneous Zig 0.17 changes ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  https://ziglang.org/download/0.17.0/release-notes.html#codehasDeclcode-Returns-codetruecode-Only-for-Public-Declarations
+  
+  https://ziglang.org/download/0.17.0/release-notes.html#toc-Decouple-codeUricode-and-codenetHostNamecode
+  ```
+- [`3313085`](https://github.com/ghostty-org/ghostty/commit/331308587f23f5dee81125a03066209a86ad24f2) terminal: FailingAllocator behavioral changes ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Analysis by GLM 5.3 Flash:
+  
+  "In Zig 0.17, ArrayList growth goes through Allocator.remap, and
+  FailingAllocator's remap/resize paths only honor resize_fail_index
+  (default maxInt), never fail_index. So the growth succeeds in-place
+  via remap, the induced alloc failure is never hit, and the code
+  returns success (void) instead of OutOfMemory. The fix is to also
+  arm resize_fail_index in these tests."
+  ```
+- [`8f78fe4`](https://github.com/ghostty-org/ghostty/commit/8f78fe4c179e3c5708b969e20a257f73487111da) snapshot/grid: fix corrupt metadata panic ([@pluiedev](https://github.com/pluiedev))
+  ````text
+  To be entirely honest I don't know how a human can debug this.
+  From GLM 5.3 Flash:
+  
+  > `encodeNarrowStep` stores a `@Vector(size*4, u8)` shuffle result
+  > through a pointer cast; Zig/LLVM compiled that 4-byte store as a full
+  > 16-byte `vmovdqu`, overrunning the writer buffer by up to 12 bytes
+  > whenever the last vector step landed at the buffer's end — clobbering
+  > the SafeAllocator's footer and panicking on the next remap. Fixed by
+  > materializing the shuffle result into a `[size*4]u8` array and copying
+  > with an explicit-length `@memcpy` (verified by watchpoint that the
+  > store is now exact). I also replaced the tail's overlapping vector
+  > step (`encodeNarrowStep(words, count - 4, ...)`) with scalar writes,
+  > which is simpler and avoids overlapping stores entirely.
+  ```
+  ````
+- [`58f5a03`](https://github.com/ghostty-org/ghostty/commit/58f5a031fde9f6d2ede2895b146cb6f3068ddd73) build/GhosttyResources: explicitly list substituted variables ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Zig 0.17 made `Step.ConfigHeader` much stricter, as in compilation will
+  fail when a variable gets unused.
+  ```
+- [`bdba842`](https://github.com/ghostty-org/ghostty/commit/bdba8422bc76c25d00c9fd5e5e542c0541609788) example: use addPassthruArgs ([@pluiedev](https://github.com/pluiedev))
+- [`bd5f421`](https://github.com/ghostty-org/ghostty/commit/bd5f4216eff22807b8d3660afc4e083ac3198278) apple-sdk: remove Zig 0.16-specific workaround ([@pluiedev](https://github.com/pluiedev))
+- [`bb440db`](https://github.com/ghostty-org/ghostty/commit/bb440db4c9d39df91e2aba2e42eea1df42d9cc3c) apple-sdk: fix header discovery in cross-compilation ([@pluiedev](https://github.com/pluiedev))
+- [`cddba9a`](https://github.com/ghostty-org/ghostty/commit/cddba9a68a19ad097b65819f466e1a3fea83ecdb) build/XCFramework: explicitly install in prefix or in source tree ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  The previous use of a simple string as the target path is bad for all
+  sorts of reasons incl. caching and the fact that the install prefix
+  is unknowable at configure time, so that has to go. This also has the
+  added benefit of not requiring a manual delete step for the source_tree
+  case since USF replaces the generated file.
+  ```
+- [`fab348f`](https://github.com/ghostty-org/ghostty/commit/fab348fd442484cb53a37fc9c3dc6d52a7c9d894) ci,flake: update names of Optimize modes ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Tests were failing because they can't find ReleaseFast anymore, which was
+  admittedly very amusing
+  ```
+- [`b68ed39`](https://github.com/ghostty-org/ghostty/commit/b68ed392bfa2d36c05cea84a6c8cd9f1b090b470) highway: disable Zig-side stack protection on MSVC ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  This somehow never triggered a CI failure with Zig 0.16. Odd!
+  ```
+- [`c0e8589`](https://github.com/ghostty-org/ghostty/commit/c0e8589c123e6af5f70645a9a7313909d6d6f12b) android-ndk: make libc.txt contain all fields ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Zig 0.17 is rather picky I see
+  ```
+- [`63153f7`](https://github.com/ghostty-org/ghostty/commit/63153f7ab5441b34ef22ac64a583e7b0700d7ba2) macos: replace extern struct bitcasts ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Zig 0.17 no longer permits `@bitCast` involving extern structs. Convert
+  CoreFoundation and CoreGraphics wrapper values by copying their fields
+  explicitly.
+  
+  Avoid pointer-cast type punning so these conversions do not silently
+  depend on wrapper and SDK types retaining identical padding, alignment,
+  and layout.
+  ```
+- [`89cb6b7`](https://github.com/ghostty-org/ghostty/commit/89cb6b725738bb710f43b3eba406eff4fbc5684d) renderer/metal: use ABI-safe projection matrix ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Zig 0.17 no longer permits vector fields in extern structs because
+  vectors have no guaranteed memory representation. Store the Metal
+  projection matrix as a scalar array, matching its MSL layout and the
+  existing OpenGL representation.
+  ```
+- [`e4d7422`](https://github.com/ghostty-org/ghostty/commit/e4d7422ad32b8382b581a828b6e866837342fd57) build: resolve relative libsystem archive paths ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Zig 0.17 supplies generated archive paths relative to the build root.
+  Resolve them before entering the temporary directory so the override
+  script continues to address the intended input and output archives.
+  ```
+- [`db5de6e`](https://github.com/ghostty-org/ghostty/commit/db5de6e5e86026ea03bec1cb53192a0809b1c6b0) build: update xcframework directory handling ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Zig 0.17 requires directory inputs and outputs to be declared as such.
+  Give the generated bundle its required extension, install it as a
+  directory, and explicitly replace source-tree bundle outputs.
+  ```
+- [`e4c4567`](https://github.com/ghostty-org/ghostty/commit/e4c4567eb906d7686a2172972089bd0c46da17cf) apple-sdk: update stdout writer creation ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  The Zig 0.17 writer constructor returns a value directly and requires a
+  mutable binding for writes. Remove the obsolete try and make the writer
+  mutable so SDK-less Apple cross-compilation works again.
+  ```
+- [`06d22d5`](https://github.com/ghostty-org/ghostty/commit/06d22d5672b50ec3ea920b75f0061638f0c6a5a7) build: keep retargeted modules private ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Retargeted modules are implementation details of universal library builds.
+  Create them as private modules instead of registering architecture-based
+  names that collide when multiple Apple platforms share an architecture.
+  ```
+- [`aa0e4c2`](https://github.com/ghostty-org/ghostty/commit/aa0e4c2f2ee4d7837c5922d9d55b116554bd21dc) build: fix pkg-config library selection ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Select the shared and static library arguments in the correct modes and
+  join argument lists with spaces. Shared consumers no longer attempt to
+  link the relocated static archive.
+  ```
+- [`84c100f`](https://github.com/ghostty-org/ghostty/commit/84c100fe15d96f22dd4278e9c1456421939c898d) nix: patch Zig process replacement for iOS ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Backport the upstream Zig fix that avoids instantiating unsupported Darwin
+  process spawning code for iOS targets. This allows XCFramework C and C++
+  sources to cross-compile with the pinned Zig 0.17 toolchain.
+  ```
+- [`f588912`](https://github.com/ghostty-org/ghostty/commit/f5889127938b2618a729fc575662f34447ce9f6e) ci: isolate LLVM-compatible AFL++ ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Build AFL++ against LLVM 22 so it can consume bitcode emitted by Zig
+  0.17. Keep this custom package in a dedicated fuzz development shell so
+  unrelated CI jobs do not build it and exhaust smaller runners.
+  ```
+- [`ee8d209`](https://github.com/ghostty-org/ghostty/commit/ee8d209596a26cdf2384da026f2b14cf22277327) ci: ignore truncated patch context typo ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  The imported Zig patch has a truncated hunk header ending in "proces".
+  Ignore that exact header so typos can continue checking the rest of the
+  patch.
+  ```
+- [`4f2af6b`](https://github.com/ghostty-org/ghostty/commit/4f2af6b7b7b96959899dc4ae83e6f0809673956a) nix: limit GTK dev dependencies to Linux ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  The development shell previously included GTK, libadwaita, and the
+  Blueprint compiler on macOS solely to support source tarball creation.
+  Those tarballs are produced by Linux CI jobs.
+  
+  Keep the tooling in the Linux shell while avoiding its large dependency
+  closure for macOS builds and tests.
+  
+  Amp-Thread-ID: T-01a10d3c-97d3-722f-a89c-71d962238f4d
+  ```
+- [`6dc48fc`](https://github.com/ghostty-org/ghostty/commit/6dc48fc18de8663ae0b02f4867173ebd799d15fb) nix: remove obsolete WABT dependency ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Commit 01a8ea721 (build: binary patching with Zig) replaced the
+  wasm2wat and wat2wasm pipeline with a native Zig binary patcher. No
+  callers remain, so remove WABT from the development shell.
+  ```
+- [`99d593d`](https://github.com/ghostty-org/ghostty/commit/99d593da2feb14e709326edb5dba2dfe8006692c) nix: remove unused Wasmtime CLI ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Commit 8bf5c4ed7 (the build.zig refactor) removed the broken WASM build
+  and its test-wasm step, the last caller of the standalone Wasmtime CLI.
+  ABI manifest verification uses the Python wasmtime module instead,
+  which remains in the development shell.
+  ```
+- [`bf94988`](https://github.com/ghostty-org/ghostty/commit/bf949882d291539c89c5fb726cc554818bf7a568) nix: remove unused scdoc dependency ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  scdoc was added with the initial Nix shell in commit f8b000044, but
+  that tree contained no scdoc input or invocation and no caller has been
+  added since. Ghostty now generates its documentation with Pandoc, so
+  remove the stale development dependency.
+  ```
+- [`923d863`](https://github.com/ghostty-org/ghostty/commit/923d8633b4ca6e425d1b07768c8c3768fac59d78) build: always delete and rebuild xcframework ([@bo2themax](https://github.com/bo2themax))
+- [`4280d32`](https://github.com/ghostty-org/ghostty/commit/4280d32d230ce2d0f844c6dc6bd96cc04dc43482) nix: remove obsolete LLVM dependency ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Commit 2d3126ffb added LLVM to provide llvm-lipo for combining the two
+  cross-compiled macOS binaries. Commit d0f82f96a switched releases to
+  native Xcode builds and removed that final caller, leaving the latest
+  LLVM package unused. The LLVM 22 package for Linux AFL++ remains.
+  ```
+- [`3a875d9`](https://github.com/ghostty-org/ghostty/commit/3a875d95e241f38c21649b0389a97795b5d25aa0) build: cache xcframework ([#14646](https://github.com/ghostty-org/ghostty/issues/14646)) ([@bo2themax](https://github.com/bo2themax))
+- [`0ecfea7`](https://github.com/ghostty-org/ghostty/commit/0ecfea767e789aee774b018d6cb31af4d4069232) simd: construct decoder test fixtures at comptime ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Runtime codegen for `std.simd.repeat` in the decoder tests hangs
+  LLVM's AArch64 Debug legalizer with Zig 0.17.
+  
+  Evaluate the repeated strings at comptime to avoid generating the
+  problematic vector shuffles. Production SIMD code, runtime safety,
+  and optimization settings remain unchanged.
+  ```
+- [`39b07b2`](https://github.com/ghostty-org/ghostty/commit/39b07b2b9319a322d81247dacc66ee447401c92b) mirror our deps ([@mitchellh](https://github.com/mitchellh))
+- [`8b8aa5d`](https://github.com/ghostty-org/ghostty/commit/8b8aa5d88e0a8d97a49058a0590d7204bb281adc) fix cache hashes ([@mitchellh](https://github.com/mitchellh))
+- [`f8d4724`](https://github.com/ghostty-org/ghostty/commit/f8d472466f76e728be7a24858a214ddfe970bf93) core: fix stray zig 0.17 syntax change ([@mitchellh](https://github.com/mitchellh))
+- [`3d07ef9`](https://github.com/ghostty-org/ghostty/commit/3d07ef9e28c4af05065b9e2e546b8ac8f9b62df0) Update to Zig 0.17 ([#14519](https://github.com/ghostty-org/ghostty/issues/14519)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Closes #14518
+  
+  Most of the diff is just extremely boring mechanical manipulation.
+  
+  **AI notice**: Some mechanical changes implemented by Deepseek v4.1
+  Flash
+  ```
+- [`8904e32`](https://github.com/ghostty-org/ghostty/commit/8904e328411082c3549fc263cf11d9a74a87ddee) libghostty-vt: add a Kitty graphics animation tick to the C API ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds `ghostty_kitty_graphics_animation_tick`, which advances every
+  playing Kitty graphics animation to the frame due at the given time and
+  returns the absolute time the next frame is due. It returns
+  `GHOSTTY_NO_VALUE` when nothing is playing, so embedders schedule a
+  single redraw for the returned time instead of polling.
+  ```
+- [`a84a070`](https://github.com/ghostty-org/ghostty/commit/a84a0703082dfc6dcef7b985266aa2f0827fdd67) libghostty-vt: add a Kitty graphics animation tick to the C API ([#14776](https://github.com/ghostty-org/ghostty/issues/14776)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds `ghostty_kitty_graphics_animation_tick`, which advances every
+  playing Kitty graphics animation to the frame due at the given time and
+  returns the absolute time the next frame is due. It returns
+  `GHOSTTY_NO_VALUE` when nothing is playing, so embedders schedule a
+  single redraw for the returned time instead of polling.
+  ```
 - [`b58ef1d`](https://github.com/ghostty-org/ghostty/commit/b58ef1d678be2747c830bc1b1e6c0a086afecf9a) Update VOUCHED list ([#14772](https://github.com/ghostty-org/ghostty/issues/14772)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
