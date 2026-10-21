@@ -8,15 +8,143 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 21, 2026 at 03:00 UTC.
+> Last updated: October 21, 2026 at 11:02 UTC.
 
 ## October 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
-Summary: 1 runs • 5 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39562349268), [2](https://github.com/ghostty-org/ghostty/actions/runs/39536529900), [3](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
+Summary: 3 runs • 24 commits • 6 authors
 
 ### Changes
 
+- [`9603143`](https://github.com/ghostty-org/ghostty/commit/9603143989e302937878c1b43f4083d2ca0f04fd) gtk: fix focus and drop result when moving a split between split trees ([@thomasfedb](https://github.com/thomasfedb))
+  ```text
+  Moving a split out of a split tree now moves focus in that tree to
+  another split, as closing it does. Previously the old window kept the
+  moved split's title and didn't receive keyboard input.
+  
+  The split drop handler now returns whether the split was moved, since
+  GTK expects a result from it.
+  ```
+- [`67edd20`](https://github.com/ghostty-org/ghostty/commit/67edd20a0292629da7e01b64973de19d356df487) gtk: fix focus and drop result when moving a split between split trees ([#14475](https://github.com/ghostty-org/ghostty/issues/14475)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  **Issue**
+  Dragging a split onto a split in another window removed it from its
+  split tree without moving focus to another split, as closing a split
+  does. The old window kept showing the moved split's title.
+  
+  To reproduce: split a window (A | B), open a second window, and drag B's
+  handle onto the second window's split. The first window's title still
+  reads B's title, and typing does nothing.
+  
+  **Fix**
+  This reuses the close path's "remove and focus a neighbour" logic for
+  moves.
+  Tested on Fedora 44 against current `main`, before and after the change.
+  
+  First pass written with Claude Code (Claude Opus 5.5), reviewed and
+  reprompted by me.
+  ```
+- [`1152bc9`](https://github.com/ghostty-org/ghostty/commit/1152bc991ce9ff95323c25566dc7fe6b3d2d4648) termio: free the exec env once when Surface.init fails ([@Pyre909](https://github.com/Pyre909))
+- [`d7ea628`](https://github.com/ghostty-org/ghostty/commit/d7ea6284a620e94ea8c2725d9ce967f806dfdea3) core: free the termio derived config when Termio.init fails ([@Pyre909](https://github.com/Pyre909))
+- [`05b4692`](https://github.com/ghostty-org/ghostty/commit/05b46924ea4de8bda3b14f60e1accea9b98e20b4) termio: fail every allocation in the exec env test ([@Pyre909](https://github.com/Pyre909))
+- [`1e9b06f`](https://github.com/ghostty-org/ghostty/commit/1e9b06f601d6956d3ea80a57bcde03370d51e48e) core: free the renderer config when Renderer.init fails ([@Pyre909](https://github.com/Pyre909))
+- [`0bda7c3`](https://github.com/ghostty-org/ghostty/commit/0bda7c34c54b5bee0e5d7d44ded5f94e873f00fd) core: release the font grid when Surface.init fails ([@Pyre909](https://github.com/Pyre909))
+- [`88fb0f8`](https://github.com/ghostty-org/ghostty/commit/88fb0f8f677676e8563f66db547eacbb72d9e438) terminal: make Kitty image storage dirty a change counter ([@mitchellh](https://github.com/mitchellh))
+- [`4501fe7`](https://github.com/ghostty-org/ghostty/commit/4501fe72ecf98f325d68a34815ff1a631de0a5f9) terminal: add a fixed Kitty placement kind to the render state ([@mitchellh](https://github.com/mitchellh))
+- [`b1260a0`](https://github.com/ghostty-org/ghostty/commit/b1260a050cc7ccae43dd503984cd98d6ee9996e1) terminal: report fixed Kitty placements from the render state ([@mitchellh](https://github.com/mitchellh))
+- [`59a68e1`](https://github.com/ghostty-org/ghostty/commit/59a68e16628485057303eff98ee9d91d844d666b) terminal: tell render state consumers when the image list changed ([@mitchellh](https://github.com/mitchellh))
+- [`d22c3aa`](https://github.com/ghostty-org/ghostty/commit/d22c3aa030b9e38fc6a0d60eccb2918d5aeda4df) terminal: expose the image placements generation to C embedders ([@mitchellh](https://github.com/mitchellh))
+- [`7bd9798`](https://github.com/ghostty-org/ghostty/commit/7bd979836f96976632e9bfa4534229d73cecf0eb) renderer: draw every Kitty placement from the render state ([@mitchellh](https://github.com/mitchellh))
+- [`9fc5ec6`](https://github.com/ghostty-org/ghostty/commit/9fc5ec6bbc1fdde5c0aa2b6853f057c37f144729) docs: describe drawing Kitty images from the render state ([@mitchellh](https://github.com/mitchellh))
+- [`606012e`](https://github.com/ghostty-org/ghostty/commit/606012ecb9686d8eb36c041bca69d648cdc87410) terminal: fix render state compile on 32-bit targets ([@mitchellh](https://github.com/mitchellh))
+- [`dcaf698`](https://github.com/ghostty-org/ghostty/commit/dcaf6984ed542ddb297be6acc9d757504dfa8e0b) terminal: reject OSC 7501 reports with malformed ids ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14790
+  
+  OSC 7501 validation iterated id values with a ValueIterator that
+  filtered by the value alphabet, which silently skips any value
+  containing a disallowed byte.
+  
+  Validation now iterates the raw values so invalid ids discard the
+  whole report as documented. The app, title, and msg length checks
+  had the same filtering, so an over-limit value with a disallowed
+  byte also escaped its limit. Those now check raw values too.
+  ```
+- [`8c425a7`](https://github.com/ghostty-org/ghostty/commit/8c425a7bd57de848aa83cb9b003b1ecd6037c56a) terminal: reject OSC 7501 reports with malformed ids ([#14793](https://github.com/ghostty-org/ghostty/issues/14793)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #14790
+  
+  OSC 7501 validation iterated id values with a ValueIterator that
+  filtered by the value alphabet, which silently skips any value
+  containing a disallowed byte.
+  
+  Validation now iterates the raw values so invalid ids discard the whole
+  report as documented. The app, title, and msg length checks had the same
+  filtering, so an over-limit value with a disallowed byte also escaped
+  its limit. Those now check raw values too.
+  ```
+- [`5799392`](https://github.com/ghostty-org/ghostty/commit/5799392844848cab33b2be217b0963e44fec5026) termio: free the exec env once when Surface.init fails ([#14715](https://github.com/ghostty-org/ghostty/issues/14715)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fix for the double free described in #14708.
+  
+  `Surface.init` passes the termio env map to `termio.Exec.init` by value,
+  and the subprocess frees it in `Exec.deinit`. Though the surface's
+  `errdefer env.deinit()` stays armed after that handoff, so if a later
+  step fails (the mailbox, `Termio.DerivedConfig.init`, or `Termio.init`),
+  the env is freed twice: once by `io_exec.deinit()` and again by
+  `env.deinit()`. If `Exec.init` itself fails after adding entries, the
+  surface frees its stale copy of the map instead.
+  
+  The fix:
+  - `Exec.init` owns the env from the call on and frees it if it fails.
+  Only its copy is current once it has modified the map, so the caller
+  can't free it safely.
+  - `Surface.init` builds the env in its own block, so its errdefer ends
+  before the handoff.
+  - A test fails an allocation inside `Exec.init` and relies on the
+  testing allocator to catch a leaked env. Without the fix it reports 317
+  bytes allocated and 0 freed.
+  - Fixes the term config leak, renderer config leak, and the font grid
+  reference. For which all are on the same failure path.
+  
+  **Testing**
+  - Was able to Reproduce on macOS(Upstream), Linux (GTK) (Upstream), and
+  Windows (ran under my forked build) by forcing an allocation failure
+  just before `Termio.init`. Each crashed in `Environ.Map.deinit` at
+  `0xaaaaaaaaaaaaaaaa` (freed memory) without the fix and reported a clean
+  `error.OutOfMemory` with it.
+  - `zig build test` on macOS: all tests pass.
+  
+  **AI disclosure:** I used Claude Code to help find the bug, write the
+  fix and test, and run the reproductions. I reviewed the changes and
+  understand all the code being submitted for implementation.
+  ```
+- [`48dde97`](https://github.com/ghostty-org/ghostty/commit/48dde97e0413a27064e4c6182db3df6ee999db7d) Move all Kitty placements to RenderState, update renderer ([#14789](https://github.com/ghostty-org/ghostty/issues/14789)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This finishes moving Kitty image placements into `RenderState`, which
+  #14780 started with virtual placements.
+  
+  The render state now reports every Kitty placement on screen: virtual,
+  fixed (placed at a cell), and relative placements, including ones
+  chained to a fixed placement. Ghostty's renderer now draws only from the
+  render state's image placement iterator, so Ghostty and libghostty-vt
+  embedders share one source of truth for what images are on screen and
+  where.
+  
+  Benchmark highlights (image work per frame, main => this PR):
+  
+  - Scrolling with images and 100k lines of scrollback: 3.3µs to 70ns.
+  Main's cost grew with scrollback because `pointFromPin` walks the page
+  list, but the new render state doesn't do that.
+  - New output lines with images on screen: 672–919ns to ~115ns.
+  - A dirty row with placeholder images elsewhere on screen: 281ns to
+  14ns. Main rebuilt every frame, but the render state is smarter.
+  
+  **AI usage:** I drove the overall Zig code changes and wrote most of it,
+  AI helped with the C API changes since they're mostly mechanical, plus
+  testing, validation. I wrote all the comment/docs and this PR message.
+  ```
 - [`57ad578`](https://github.com/ghostty-org/ghostty/commit/57ad5787a34f38c8bf505d3defa576c551c8620d) gtk: pass an activation token to the OpenURI portal (Dylan Kenney)
   ```text
   Opening a link through the portal sent no activation_token, so the app
