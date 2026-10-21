@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 21, 2026 at 11:02 UTC.
+> Last updated: October 21, 2026 at 16:29 UTC.
 
 ## October 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39562349268), [2](https://github.com/ghostty-org/ghostty/actions/runs/39536529900), [3](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
-Summary: 3 runs • 24 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39620313939), [2](https://github.com/ghostty-org/ghostty/actions/runs/39562349268), [3](https://github.com/ghostty-org/ghostty/actions/runs/39536529900), [4](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
+Summary: 4 runs • 25 commits • 6 authors
 
 ### Changes
 
+- [`521cf2c`](https://github.com/ghostty-org/ghostty/commit/521cf2c5d30bd48028ca61546c64e7913764073d) Update VOUCHED list ([#14798](https://github.com/ghostty-org/ghostty/issues/14798)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14774#discussioncomment-19100005)
+  from @jcollie.
+  
+  Vouch: @olrtg
+  ```
 - [`9603143`](https://github.com/ghostty-org/ghostty/commit/9603143989e302937878c1b43f4083d2ca0f04fd) gtk: fix focus and drop result when moving a split between split trees ([@thomasfedb](https://github.com/thomasfedb))
   ```text
   Moving a split out of a split tree now moves focus in that tree to
