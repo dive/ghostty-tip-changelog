@@ -8,7 +8,57 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 20, 2026 at 21:09 UTC.
+> Last updated: October 21, 2026 at 03:00 UTC.
+
+## October 21, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
+Summary: 1 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`57ad578`](https://github.com/ghostty-org/ghostty/commit/57ad5787a34f38c8bf505d3defa576c551c8620d) gtk: pass an activation token to the OpenURI portal (Dylan Kenney)
+  ```text
+  Opening a link through the portal sent no activation_token, so the app
+  the portal launched had no proof the user asked for it and couldn't
+  raise its window on compositors that check. Ask GDK for a token tied to
+  the input that opened the link, as GTK's own URI launcher does, and
+  pass it in the OpenURI options.
+  ```
+- [`ab77366`](https://github.com/ghostty-org/ghostty/commit/ab773665b99f35d0877f02c5438ff36423d82207) nix: update zon2nix ([@jcollie](https://github.com/jcollie))
+  ```text
+  Eliminates extraneous flake inputs.
+  Better caching behavior.
+  ```
+- [`df246d0`](https://github.com/ghostty-org/ghostty/commit/df246d0105e13dfd4a6a54754a9c6555325644ec) nix: update zon2nix ([#14788](https://github.com/ghostty-org/ghostty/issues/14788)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Eliminates extraneous flake inputs.
+  Better caching behavior.
+  ```
+- [`47bd203`](https://github.com/ghostty-org/ghostty/commit/47bd2033cd01a84fe45f1256606224a6891da5cb) gtk: pass an activation token to the OpenURI portal ([#14787](https://github.com/ghostty-org/ghostty/issues/14787)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes #14785
+  
+  Opening a link through the portal sent no activation_token, so the app
+  the portal launched had no proof the user asked for it and couldn't
+  raise its window on compositors that check. Ask GDK for a token tied to
+  the input that opened the link, as GTK's own URI launcher does, and pass
+  it in the OpenURI options.
+  
+  Rebased on main (Zig 0.17), 3994 tests passed, 0 failed, and a
+  Ctrl+click's token showed up in the OpenURI call and Brave used it.
+  
+  Claude Code wrote the change and ran the build and test suite. I
+  reviewed the code and did the real-click tests myself.
+  ```
+- [`90dcd00`](https://github.com/ghostty-org/ghostty/commit/90dcd00b508c86e79402e8d06a5afd16af6b6059) Update VOUCHED list ([#14794](https://github.com/ghostty-org/ghostty/issues/14794)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14792#discussioncomment-19086968)
+  from @jcollie.
+  
+  Vouch: @binaryfire
+  ```
 
 ## October 20, 2026
 
@@ -1427,184 +1477,5 @@ Summary: 4 runs • 9 commits • 6 authors
   
   AI disclosure: Created with opus 5.5 through claude code. Reviewed and
   tested by me.
-  ```
-
-## October 14, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38633740617), [2](https://github.com/ghostty-org/ghostty/actions/runs/38631379696), [3](https://github.com/ghostty-org/ghostty/actions/runs/38542450833), [4](https://github.com/ghostty-org/ghostty/actions/runs/38515836993)  
-Summary: 4 runs • 31 commits • 6 authors
-
-### Changes
-
-- [`f2571a3`](https://github.com/ghostty-org/ghostty/commit/f2571a3ec1ee8d77473a12f96c1a5eae63ba06d9) termio: synchronize pty and terminal resizing ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  #14701
-  
-  Hold the terminal state lock before resizing the pty. This prevents shell redraws triggered by SIGWINCH from being parsed before the terminal dimensions are updated.
-  ```
-- [`ad97d33`](https://github.com/ghostty-org/ghostty/commit/ad97d331459a0762f7aea5f56fe86748e03b860f) termio: synchronize pty and terminal resizing ([#14706](https://github.com/ghostty-org/ghostty/issues/14706)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Hold the terminal state lock before resizing the pty. This prevents
-  shell redraws triggered by SIGWINCH from being parsed before the
-  terminal dimensions are updated.
-  
-  Part of #14701
-  AI disclosure: GPT-6 Astra helped to debug the issue and fix it.
-  
-  Related discussion:
-  https://github.com/ghostty-org/ghostty/discussions/13629
-  ```
-- [`079f5d2`](https://github.com/ghostty-org/ghostty/commit/079f5d2025ef6d654989ddbadad1d72c49528bbd) osc: rename context signal to hierarchical context (HC) ([@paaloeye](https://github.com/paaloeye))
-  ```text
-  Rename context signal to hierarchical context (HC) across the OSC parser,
-  terminal stream, and C headers to align naming with the UAPI
-  spec. Update identifiers, parser namespaces, and tests accordingly.
-  
-  Per spec, _signal_ is a possible field in the _end_ sequence.
-  Besides that, _signal_ could be confused with POSIX signals.
-  
-  Ref: https://uapi-group.org/specifications/specs/osc_context/
-  
-  AI Disclosure: Initially drafted by 🤖 Antigravity CLI 1.3.3 🧠 Google Gemini 3.8 Flash (Medium).
-  Iterated, reviewed, and tested by me.
-  ```
-- [`049014d`](https://github.com/ghostty-org/ghostty/commit/049014df16c49d0e313f2bcb3fb62edd62fab8f2) gtkNg → gtk: eliminate the last vestiges of the great rewrite ([@jcollie](https://github.com/jcollie))
-- [`9573ecd`](https://github.com/ghostty-org/ghostty/commit/9573ecd0307327b4b79f859198c796c8fdec608a) gtk: bump the required blueprint compiler version to 0.20 ([@jcollie](https://github.com/jcollie))
-- [`97fb364`](https://github.com/ghostty-org/ghostty/commit/97fb3640294c0faa1ef2fd798eeaa63ef894ca34) gtk: enforce minimum versions of gtk and libadwaita. gobject bindings are required. ([@jcollie](https://github.com/jcollie))
-- [`9ae5fb0`](https://github.com/ghostty-org/ghostty/commit/9ae5fb04eb81db9b3905d558cd8482d5b8b68db8) gtk: drop the pre-1.5 Adwaita dialog fallbacks ([@jcollie](https://github.com/jcollie))
-  ```text
-  Ghostty 1.4 requires libadwaita 1.7, so the AdwMessageDialog shim and the
-  blueprint variants behind it were dead. They also cost a warning on every
-  build: blueprint-compiler counts an import as used only when a type name
-  mentions it, so the Adw import that the `responses` block needs to
-  typecheck against an extern parent was reported as unused.
-  ```
-- [`9b7a4d5`](https://github.com/ghostty-org/ghostty/commit/9b7a4d54075913017ae4a0fb9234b37ff13d2785) gtk: finish removing the pre-1.7 Adwaita branches ([@jcollie](https://github.com/jcollie))
-  ```text
-  The build only refused libadwaita older than the newest blueprint, so the
-  1.7 floor went unenforced and the branches below it stayed reachable on
-  paper: a GtkAboutDialog for pre-1.5, and an empty child-exited widget that
-  made libghostty fall back to the text message for pre-1.3.
-  ```
-- [`f6b89be`](https://github.com/ghostty-org/ghostty/commit/f6b89be89f2c2c100a4ea5f51f8c3616c24e764e) gtk: remove anything that was conditional on no-longer-supported versions ([@jcollie](https://github.com/jcollie))
-- [`1ae5da9`](https://github.com/ghostty-org/ghostty/commit/1ae5da994a3ef2da369cde70f9cd9dc1967ebb3e) gtk: file each blueprint under the libadwaita it actually needs ([@jcollie](https://github.com/jcollie))
-  ```text
-  The directory names the oldest libadwaita a blueprint compiles against,
-  but most were filed under the version that happened to be current when
-  they were written. Ten need nothing newer than 1.0, and the two using
-  AdwToolbarView need 1.4.
-  ```
-- [`128d4b3`](https://github.com/ghostty-org/ghostty/commit/128d4b3e1c41c01f5aa58497e19f90ca3e14b7d7) gtk: sort list of blueprints ([@jcollie](https://github.com/jcollie))
-- [`e7348d6`](https://github.com/ghostty-org/ghostty/commit/e7348d658092b9d54c195c565f445cae147f90cc) gtk: update translations ([@jcollie](https://github.com/jcollie))
-  ```text
-  Note: There are no new messages to be translated. The messages just
-  moved to different line numbers or were the original file was renamed.
-  ```
-- [`2fa57fc`](https://github.com/ghostty-org/ghostty/commit/2fa57fc45fc8f3f813347fa1c211278d920de4ac) osc: rename context signal to hierarchical context (HC) ([#14700](https://github.com/ghostty-org/ghostty/issues/14700)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Rename context signal to hierarchical context (HC) across the OSC
-  parser, terminal stream, and C headers to align naming with the UAPI
-  spec. Update identifiers, parser namespaces, and tests accordingly.
-  
-  Per spec, _signal_ is a possible field in the _end_ sequence. Besides
-  that, _signal_ could be confused with POSIX signals.
-  
-  Ref: https://uapi-group.org/specifications/specs/osc_context/
-  
-  AI Disclosure: Initially drafted by 🤖 Antigravity CLI 1.3.3 🧠 Google
-  Gemini 3.8 Flash (Medium). Iterated, reviewed, and tested by me.
-  ```
-- [`0711907`](https://github.com/ghostty-org/ghostty/commit/0711907b2026c1a0590c32aa5e606494ab5a46d8) Update VOUCHED list ([#14709](https://github.com/ghostty-org/ghostty/issues/14709)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14708#discussioncomment-18933493)
-  from @jcollie.
-  
-  Vouch: @Pyre909
-  ```
-- [`81c344b`](https://github.com/ghostty-org/ghostty/commit/81c344bf311ac643f17109d54b126d123665abba) Require GTK 4.18 and libadwaita 1.7 ([#14330](https://github.com/ghostty-org/ghostty/issues/14330)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Debian 13 has [GTK 4.18](https://packages.debian.org/source/stable/gtk4)
-  and [libadwaita
-  1.7](https://packages.debian.org/source/stable/libadwaita-1). This PR
-  remove any code or workarounds for any previous versions. There are
-  still places where we have code conditioned on GTK or libadwaita
-  versions, but only for newer versions.
-  
-  AI disclosure: Claude Code was used for some of the larger mechanical
-  edits.
-  ```
-- [`b9bc79d`](https://github.com/ghostty-org/ghostty/commit/b9bc79de252c4ee0920454ce607790eccbf5e261) Add config option to move the close button position ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`b327d8d`](https://github.com/ghostty-org/ghostty/commit/b327d8d8eb689f43fe0b9684088478985dec4083) feedback, move to window, add to overview ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`1eccd66`](https://github.com/ghostty-org/ghostty/commit/1eccd66c3c42404e8f781811f8cf26606d51d1a1) formatting... ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`f781b42`](https://github.com/ghostty-org/ghostty/commit/f781b42db0f02c76e1f6d1ecb236392c6b69054d) improve doc comment and add availbility ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`3474a57`](https://github.com/ghostty-org/ghostty/commit/3474a576fda2a2f7b11ecde6e4c560f9c2d7e0e6) zig fmt ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`9ba928a`](https://github.com/ghostty-org/ghostty/commit/9ba928a3df1985e05a081f8d2418a6a77ed322a5) trailing comma ([@ollieatkinson](https://github.com/ollieatkinson))
-- [`291fd05`](https://github.com/ghostty-org/ghostty/commit/291fd050b9e9c293c8adb6a140742649b7e42d3a) gtk: Add config option to move the position of the close button ([#14657](https://github.com/ghostty-org/ghostty/issues/14657)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  https://github.com/ghostty-org/ghostty/discussions/14649
-  
-  | | `inverted: false` | `inverted: true` |
-  | - | - | - |
-  | **overview** | <img width="824" height="472"
-  alt="01-inverted-false-overview"
-  src="https://github.com/user-attachments/assets/9cf58ed6-7864-4006-9e4b-ec7865df367b"
-  /> | <img width="824" height="472" alt="03-inverted-true-overview"
-  src="https://github.com/user-attachments/assets/2ba3d9d1-2777-4618-b4e6-9bfce9a3af94"
-  /> |
-  | **tab** | <img width="824" height="472" alt="02-inverted-false-tabs"
-  src="https://github.com/user-attachments/assets/d7d0aea4-16cf-4b61-a983-c127017f9875"
-  /> | <img width="824" height="472" alt="04-inverted-true-tabs"
-  src="https://github.com/user-attachments/assets/342a6cc2-9f8a-44d5-9ebb-e29b8d36eb01"
-  /> |
-  
-  I used codex to help me figure out where the changes needed to be made,
-  I added the code and comments myself
-  ```
-- [`8b7a2d6`](https://github.com/ghostty-org/ghostty/commit/8b7a2d6fb49d79badcf0557d38c6af9e5520b775) gtk: clear surface notifications on focus and close ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  GTK notifications previously used their body as the GApplication ID and
-  weren't tracked after delivery. As a result, they could remain visible
-  after the originating surface was focused or closed.
-  
-  Derive stable IDs from the surface ID and notification content, and keep
-  a bounded per-surface tracker so notifications can be withdrawn. Clear
-  them on focus and disposal, and expire notifications delivered to an
-  already-focused surface after three seconds to match macOS behavior.
-  
-  Keep the existing surface activation target and add unit coverage for
-  replacement, eviction, removal, and independent surface tracking.
-  ```
-- [`44ebe02`](https://github.com/ghostty-org/ghostty/commit/44ebe02ed60589098d3bbf6299e50006228eade2) gtk: clean up notification tracking ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  Moved notification tracking out of surface.zig and it now uses an array hash map to keep the implementation simpler.
-  ```
-- [`051e4ba`](https://github.com/ghostty-org/ghostty/commit/051e4bacfd3a2c0178cc98ea2b8d8129352e434c) gtk: move notification handling out of surface.zig ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  Keep sending, tracking, timers, and cleanup together in desktop_notifications.zig. Simplify the map helpers and IDformatting, and include the module's tests in the GTK test suite.
-  ```
-- [`1da6610`](https://github.com/ghostty-org/ghostty/commit/1da6610ebde4c935f2fad4c1530f7e7e18a061f6) gtk: clear surface notifications on focus and close ([@EriksRemess](https://github.com/EriksRemess))
-- [`ec353ec`](https://github.com/ghostty-org/ghostty/commit/ec353ec7f8debae031fced89c48679140c8f6066) gtk: send notifications even when tracking fails ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  Continue sending notifications if tracking fails, logging the error instead of dropping the notification. Only schedule a timeout when tracking succeeds.
-  ```
-- [`dfac443`](https://github.com/ghostty-org/ghostty/commit/dfac44398a6a5203f4358cc3ea54fb44222d49e4) gtk: simplify desktop notification tracking ([@EriksRemess](https://github.com/EriksRemess))
-  ```text
-  Store notification hashes and optional timers in an ArrayList instead of copying titles and bodies into a deque.
-  ```
-- [`ce63844`](https://github.com/ghostty-org/ghostty/commit/ce638447a2efbf3a753d1f489d13e85fd7642a7a) gtk: simplify notification hashing and cleanup ([@EriksRemess](https://github.com/EriksRemess))
-- [`5415ed5`](https://github.com/ghostty-org/ghostty/commit/5415ed541d55583bc6d905e536c4de3a4afe173a) gtk: fix desktop notification test expectations ([@EriksRemess](https://github.com/EriksRemess))
-- [`9f13eb7`](https://github.com/ghostty-org/ghostty/commit/9f13eb7526cc070a2b829f2aae41a44d5cce12bf) gtk: clear surface notifications on focus and close ([#14108](https://github.com/ghostty-org/ghostty/issues/14108)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  GTK notifications could remain visible after their originating surface
-  was focused or closed. macOS already clears them in these cases.
-  This tracks notifications per surface and withdraws them on focus or
-  close. Notifications sent while the surface is already focused are
-  removed after three seconds, just like on macOS.
-  Repeated notifications with the same text replace each other, while
-  notifications from different surfaces remain independent. Clicking a
-  notification still focuses the originating surface.
-  
-  AI disclosure: Codex 5.6 Sol helped with most of the implementation.
   ```
 
