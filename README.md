@@ -8,7 +8,143 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 22, 2026 at 19:00 UTC.
+> Last updated: October 22, 2026 at 23:49 UTC.
+
+## October 22, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39847564398)  
+Summary: 1 runs • 9 commits • 2 authors
+
+### Changes
+
+- [`432612c`](https://github.com/ghostty-org/ghostty/commit/432612cc3ffd76ef2ced5c6b966908a80eb71e7e) build: add -Dinstalled-exe-path for the Linux launcher files ([@jcollie](https://github.com/jcollie))
+  ```text
+  The Zig 0.17 port replaced the absolute path to the executable in the
+  desktop file, D-Bus services and systemd user service with a bare
+  `ghostty`, since the install prefix is no longer known while the build
+  is configured. systemd resolves a bare ExecStart= name against a fixed
+  search path rather than PATH: /usr/bin and /usr/local/bin on most
+  systems, and only systemd's own directory on NixOS. So the service
+  failed to start for any install outside those directories, including
+  every Nix one.
+  
+  -Dinstalled-exe-path gives the absolute path to write into those files.
+  Without it they still name the executable alone, which is right for
+  packages installing to /usr. The Nix package passes its output path, and
+  the Flatpak manifests pass /app/bin/ghostty, which is what they produced
+  before the port.
+  ```
+- [`390e607`](https://github.com/ghostty-org/ghostty/commit/390e607550c2cfef322c761c7e4a40424be53eec) nix: check that the launcher files name the installed executable ([@jcollie](https://github.com/jcollie))
+  ```text
+  Run `systemd-analyze verify` on the systemd user service, and check that
+  every Exec= and TryExec= in the D-Bus service and desktop file is an
+  absolute path to an executable, so a build that stops passing
+  -Dinstalled-exe-path fails instead of shipping a service systemd can't
+  start.
+  
+  The verifier starts a user manager, which needs a writable runtime
+  directory that the sandbox doesn't have, so it gets one under $TMPDIR.
+  ```
+- [`3079a43`](https://github.com/ghostty-org/ghostty/commit/3079a4396693c6cd76a3d5adc0e6d756a55bb290) kitty graphics: non-chunk continuations end the chunked transmission ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  While a chunked Kitty graphics load was in progress, every transmit
+  or animation frame command was treated as its next chunk, regardless
+  of its transmission medium. A file (`t=f`), temporary file (`t=t`), or
+  shared memory (`t=s`) command arriving mid-load had its encoded path
+  appended to the partial image as pixel data.
+  
+  This diverged from Kitty. The spec only defines chunking for direct
+  data, and continuation chunks must carry only the `m` and `q` keys, so
+  a command with another medium can never be a continuation. Kitty
+  abandons the in-progress load and handles the command as a new
+  transmission, for both image and animation frame loads. A client that
+  interrupts a load this way now gets the image or frame it asked for
+  instead of a corrupted or failed one.
+  
+  `execute` now destroys the in-progress load before dispatching any
+  non-direct transmit or frame command, so the command is handled as a
+  fresh transmission, including its own `q` setting.
+  ```
+- [`75a7606`](https://github.com/ghostty-org/ghostty/commit/75a7606c3f19d08eb00dfdbd0b919abb6545ee0e) terminal: discard cancelled or aborted APC commands ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ECMA-48 says a control string that is cancelled or aborted is thrown
+  away. xterm only dispatches a control string on ST, and Kitty only
+  ends an APC on ST or BEL, so neither runs the command.
+  
+  https://ecma-international.org/publications-and-standards/standards/ecma-48/
+  ```
+- [`bbbd749`](https://github.com/ghostty-org/ghostty/commit/bbbd749064737297dabb1d32e78da4f47e23001d) kitty graphics: non-chunk continuations end the chunked transmission ([#14811](https://github.com/ghostty-org/ghostty/issues/14811)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  While a chunked Kitty graphics load was in progress, every transmit or
+  animation frame command was treated as its next chunk, regardless of its
+  transmission medium. A file (`t=f`), temporary file (`t=t`), or shared
+  memory (`t=s`) command arriving mid-load had its encoded path appended
+  to the partial image as pixel data.
+  
+  This diverged from Kitty. The spec only defines chunking for direct
+  data, and continuation chunks must carry only the `m` and `q` keys, so a
+  command with another medium can never be a continuation. Kitty abandons
+  the in-progress load and handles the command as a new transmission, for
+  both image and animation frame loads. A client that interrupts a load
+  this way now gets the image or frame it asked for instead of a corrupted
+  or failed one.
+  
+  `execute` now destroys the in-progress load before dispatching any
+  non-direct transmit or frame command, so the command is handled as a
+  fresh transmission, including its own `q` setting.
+  ```
+- [`8026651`](https://github.com/ghostty-org/ghostty/commit/80266510281cd209361a7e8283b3de82bcd90f53) terminal: discard cancelled or aborted APC commands ([#14812](https://github.com/ghostty-org/ghostty/issues/14812)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  ECMA-48 says a control string that is cancelled or aborted is thrown
+  away. xterm only dispatches a control string on ST, and Kitty only ends
+  an APC on ST or BEL, so neither runs the command.
+  
+  
+  https://ecma-international.org/publications-and-standards/standards/ecma-48/
+  ```
+- [`e07a6f0`](https://github.com/ghostty-org/ghostty/commit/e07a6f0eba66a07b7f893e1d814018c57b0d1d6e) terminal: continuations must restart at C1 sequence introducers ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A stream continuation that ended after an 8-bit C1 introducer had
+  aborted an APC could not be exported. For example, `ESC _ data 0x9B`
+  ends the APC and starts a CSI, but the tracker only treats ESC as the
+  start of a new sequence, so it kept the aborted APC. Replaying that
+  would end the APC a second time, and validation rejected it.
+  
+  Export now starts at the last C1 introducer that moved the parser into
+  a new sequence and writes it in its 7-bit ESC form.
+  ```
+- [`d278256`](https://github.com/ghostty-org/ghostty/commit/d278256dbf0783340d64bc40b8523dd977b30c21) build: add -Dinstalled-exe-path for the Linux launcher files ([#14806](https://github.com/ghostty-org/ghostty/issues/14806)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Zig 0.17 port replaced the absolute path to the executable in the
+  desktop file, D-Bus services and systemd user service with a bare
+  `ghostty`, since the install prefix is no longer known while the build
+  is configured. systemd resolves a bare ExecStart= name against a fixed
+  search path rather than PATH: /usr/bin and /usr/local/bin on most
+  systems, and only systemd's own directory on NixOS. So the service
+  failed to start for any install outside those directories, including
+  every Nix one.
+  
+  -Dinstalled-exe-path gives the absolute path to write into those files.
+  Without it they still name the executable alone, which is right for
+  packages installing to /usr. The Nix package passes its output path, and
+  the Flatpak manifests pass /app/bin/ghostty, which is what they produced
+  before the port.
+  
+  Fixes #14805
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`08a9518`](https://github.com/ghostty-org/ghostty/commit/08a9518340e19487bd5fdf96963583fb32f0c41f) terminal: continuations must restart at C1 sequence introducers ([#14814](https://github.com/ghostty-org/ghostty/issues/14814)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A stream continuation that ended after an 8-bit C1 introducer had
+  aborted an APC could not be exported. For example, `ESC _ data 0x9B`
+  ends the APC and starts a CSI, but the tracker only treats ESC as the
+  start of a new sequence, so it kept the aborted APC. Replaying that
+  would end the APC a second time, and validation rejected it.
+  
+  Export now starts at the last C1 introducer that moved the parser into a
+  new sequence and writes it in its 7-bit ESC form.
+  ```
 
 ## October 21, 2026
 
