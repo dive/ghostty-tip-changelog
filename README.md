@@ -8,15 +8,131 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 21, 2026 at 21:08 UTC.
+> Last updated: October 22, 2026 at 03:00 UTC.
 
 ## October 21, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39620313939), [2](https://github.com/ghostty-org/ghostty/actions/runs/39562349268), [3](https://github.com/ghostty-org/ghostty/actions/runs/39536529900), [4](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
-Summary: 4 runs • 25 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39676795925), [2](https://github.com/ghostty-org/ghostty/actions/runs/39620313939), [3](https://github.com/ghostty-org/ghostty/actions/runs/39562349268), [4](https://github.com/ghostty-org/ghostty/actions/runs/39536529900), [5](https://github.com/ghostty-org/ghostty/actions/runs/39533979636)  
+Summary: 5 runs • 37 commits • 6 authors
 
 ### Changes
 
+- [`eea7bea`](https://github.com/ghostty-org/ghostty/commit/eea7beaf7857eb416f0934c9899cf68425104b26) terminal: pending Kitty animation frames and a stable image transmission ([@mitchellh](https://github.com/mitchellh))
+- [`781c58e`](https://github.com/ghostty-org/ghostty/commit/781c58e9665ae6409f98d29fe8372e9cad7fd078) terminal: skip snapshot records with unknown tags ([@mitchellh](https://github.com/mitchellh))
+- [`5a31f46`](https://github.com/ghostty-org/ghostty/commit/5a31f469b641d2b2107d5f147464417502134f54) terminal: decode snapshot records from a header the caller reads ([@mitchellh](https://github.com/mitchellh))
+- [`f48c260`](https://github.com/ghostty-org/ghostty/commit/f48c2606ce951c2d90af6c88bdf9853bd4d33efc) terminal: snapshot Kitty graphics images and placements ([@mitchellh](https://github.com/mitchellh))
+- [`04f20eb`](https://github.com/ghostty-org/ghostty/commit/04f20eb161288d3bb9980533a3acc7180b7ea0c0) terminal: snapshot Kitty graphics pixel payloads ([@mitchellh](https://github.com/mitchellh))
+- [`aa4e425`](https://github.com/ghostty-org/ghostty/commit/aa4e425f0eab71c0fd7c243872459d436bc81782) terminal: expose snapshot Kitty graphics through the C API ([@mitchellh](https://github.com/mitchellh))
+- [`9f0285f`](https://github.com/ghostty-org/ghostty/commit/9f0285f329c3e1a78e10ff735cde98b085eb39dd) terminal: replace nextSliceUntilGround with nextSliceUntil and Boundary stops ([@mitchellh](https://github.com/mitchellh))
+- [`4d3487e`](https://github.com/ghostty-org/ghostty/commit/4d3487ef579136c66fc629e7f1853a55a41b3914) libghostty-vt: replace vt_write_until_ground with vt_write_until ([@mitchellh](https://github.com/mitchellh))
+- [`7fdd2df`](https://github.com/ghostty-org/ghostty/commit/7fdd2df67ac61762912468d3fe9676fd766c20be) terminal: stage snapshot Kitty pixel payloads by need and store them raw ([@mitchellh](https://github.com/mitchellh))
+- [`2e28d3a`](https://github.com/ghostty-org/ghostty/commit/2e28d3ae28bffb6024e24a0510fa728351b09ada) terminal: add DCS and OSC boundaries to nextSliceUntil and vt_write_until ([@mitchellh](https://github.com/mitchellh))
+- [`1092370`](https://github.com/ghostty-org/ghostty/commit/109237025c09a2d899d7c2c6c594feece89d6b92) libghostty: add Kitty graphics images, placements, and pixels to binary snapshot format ([#14801](https://github.com/ghostty-org/ghostty/issues/14801)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds Kitty graphics to the terminal snapshot format. A restored
+  terminal now shows the same images in the same places, including
+  scrollback, animations, virtual placements, and a chunked transmission
+  that was still in progress when the snapshot was taken.
+  
+  The records are optional. A decoder without Kitty graphics support or by
+  choice can skip them.
+  
+  Images and placements are restored before READY, so the terminal handed
+  to the caller at READY already has its full layout. But the image _data_
+  (pixel data) is sent _after READY_. This is done to optimize a
+  time-to-render: a renderer can render the terminal and all cells in the
+  proper layout by READY, but lacks the image data still.
+  
+  Image pixels arrive after READY as their own records, one per image or
+  animation frame. The encoder orders payloads by need: images visible in
+  the shown viewport first, then each scrollback image right after the
+  history page that first shows it, then everything else.
+  
+  Pixels are stored raw. Snapshots are normally compressed in transit, and
+  on real images that compressor does at least as well on raw pixels as on
+  pre-compressed ones, so compressing here would only add encoder time.
+  Pointless.
+  
+  ## C Example
+  
+  The incremental decoder reports each image's pixels as a progress event
+  alongside history pages, and the C API exposes this, plus image counts
+  and pending bytes per screen for progress UI:
+  
+  ```c
+  uint64_t pending = 0;
+  ghostty_snapshot_decoder_get(
+      decoder, GHOSTTY_SNAPSHOT_DECODER_DATA_KITTY_PENDING_BYTES_PRIMARY,
+      &pending);
+  
+  while (ghostty_snapshot_decoder_next(decoder) == GHOSTTY_SUCCESS) {
+    GhosttySnapshotDecoderProgressKind kind;
+    ghostty_snapshot_decoder_get(
+        decoder, GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_KIND, &kind);
+    if (kind == GHOSTTY_SNAPSHOT_DECODER_PROGRESS_KIND_IMAGE) {
+      size_t bytes = 0;
+      ghostty_snapshot_decoder_get(
+          decoder, GHOSTTY_SNAPSHOT_DECODER_DATA_PROGRESS_IMAGE_BYTES, &bytes);
+      // Advance a progress bar, redraw the image, etc.
+    }
+  }
+  ```
+  
+  **AI usage:** I designed the binary layout and big decisions, I had
+  Fable+Opus do most of the implementation plus review (in addition to my
+  human review). I wrote the docs myself after it had done that. The
+  encoding implementation (kitty.zig) is _fine_, there's a bunch of places
+  I think I'd reorder or do things slightly differently but at this stage
+  I was far more interested in getting the binary layout, fixtures, etc.
+  right over the raw how it works.
+  ````
+- [`f54340a`](https://github.com/ghostty-org/ghostty/commit/f54340ad77814fe319d136e5e915d6a48de8dd23) libghostty-vt: add `vt_write_until` to process vt until user-specified boundaries ([#14802](https://github.com/ghostty-org/ghostty/issues/14802)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This adds `ghostty_terminal_vt_write_until`, which writes VT data like
+  `ghostty_terminal_vt_write` but stops right after the first byte that
+  reaches a caller-provided boundary: ground plus start and end of APC,
+  DCS and OSC strings.
+  
+  The use case for this is that it allows downstreams to create a
+  high-performance proxy that sits between the pty and the terminal
+  emulator in order to implement custom handlers, filter things out, etc.
+  
+  The main constraint I had was that plain `nextSlice` must not move.
+  Normal, mainline, unproxied IO must not have ANY impact from this API.
+  And this achieves that.
+  
+  **ABI breaking change:** I decided to remove the old
+  `ghostty_terminal_vt_write_until_ground` instead of having a shim
+  because its not a commonly used API and
+  `ghostty_terminal_vt_write_until` replaces it.
+  
+  ## C Example
+  
+  ```c
+  uint32_t want = GHOSTTY_TERMINAL_BOUNDARY_APC_START |
+                  GHOSTTY_TERMINAL_BOUNDARY_APC_END;
+  size_t off = 0;
+  while (off < len) {
+    GhosttyTerminalWriteStop stop = GHOSTTY_INIT_SIZED(GhosttyTerminalWriteStop);
+    if (ghostty_terminal_vt_write_until(terminal, data + off, len - off,
+                                        want, &stop) == GHOSTTY_NO_VALUE) {
+      break; // No boundary in the rest of the chunk.
+    }
+    off += stop.consumed;
+    if (stop.reached & GHOSTTY_TERMINAL_BOUNDARY_APC_START) {
+      // Content starts at data + off.
+    }
+    if (stop.reached & GHOSTTY_TERMINAL_BOUNDARY_APC_END) {
+      // The ending byte is at data + off - 1.
+    }
+  }
+  ```
+  
+  **AI usage:** I implemented most of the Zig, AI did most of the C
+  changes, the tests, and the benchmark tooling under my direction. I
+  reviewed the design, the parser state audit. I wrote the docs and this
+  PR message.
+  ````
 - [`521cf2c`](https://github.com/ghostty-org/ghostty/commit/521cf2c5d30bd48028ca61546c64e7913764073d) Update VOUCHED list ([#14798](https://github.com/ghostty-org/ghostty/issues/14798)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
@@ -1225,393 +1341,5 @@ Summary: 3 runs • 3 commits • 3 authors
   ```text
   Fill 181 untranslated entries while preserving existing translations.
   Validate the catalog against the current template with gettext.
-  ```
-
-## October 15, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/38812465411), [2](https://github.com/ghostty-org/ghostty/actions/runs/38705285984), [3](https://github.com/ghostty-org/ghostty/actions/runs/38683778451), [4](https://github.com/ghostty-org/ghostty/actions/runs/38680434974)  
-Summary: 4 runs • 9 commits • 6 authors
-
-### Changes
-
-- [`508cfad`](https://github.com/ghostty-org/ghostty/commit/508cfade5e5f62a3ee35b65938c7080de19f4441) benchmark: convert prints to log ([@jcollie](https://github.com/jcollie))
-  ```text
-  Zig really doesn't like tests to print anything to stderr while
-  running tests. Convert some stray std.debug.print statements into log
-  statements. Log statements below `warn` will be suppressed when running
-  tests, keeping Zig happy.
-  ```
-- [`b3dc3d7`](https://github.com/ghostty-org/ghostty/commit/b3dc3d794513c11633e7c3347935693957744e83) benchmark: convert prints to log ([#14718](https://github.com/ghostty-org/ghostty/issues/14718)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Zig really doesn't like tests to print anything to stderr while running
-  tests. Convert some stray std.debug.print statements into log
-  statements. Log statements below `warn` will be suppressed when running
-  tests, keeping Zig happy.
-  ```
-- [`22fa134`](https://github.com/ghostty-org/ghostty/commit/22fa134a07f5749edd9e92c6bc17d8aaf61843be) Update VOUCHED list ([#14722](https://github.com/ghostty-org/ghostty/issues/14722)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14721#discussioncomment-18944491)
-  from @trag1c.
-  
-  Denounce: @KooshaPari
-  ```
-- [`510b253`](https://github.com/ghostty-org/ghostty/commit/510b253dbc52d77b9f842ab6b8cba9ef046cea11) formatter: emit the hyperlinks of cells in VT output ([@robmorgan](https://github.com/robmorgan))
-  ```text
-  VT output only emitted the cursor's hyperlink (with the hyperlink extra),
-  not the hyperlinks of text on the screen, so replaying it lost them. HTML
-  output already wraps linked cells in anchors.
-  
-  Emit OSC 8 around linked cells in VT output, with the explicit id when
-  there is one, using the same transition tracking as HTML. Opening a
-  hyperlink replaces the open one, so the close is only written when no
-  hyperlink follows. Blank cells have no hyperlink, so an open hyperlink is
-  closed before the spaces written for them. Pages without hyperlinks, the
-  common case, take a copy of the cell run loop that never checks for them.
-  ```
-- [`a2e4403`](https://github.com/ghostty-org/ghostty/commit/a2e440396403385680008e456a741a7776091412) formatter: emit the hyperlinks of cells in VT output ([#14711](https://github.com/ghostty-org/ghostty/issues/14711)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  VT output drops the hyperlinks of text on the screen, so replaying it
-  loses them and the hyperlink extra only restores the cursor's open
-  hyperlink. The HTML output already wraps linked cells in anchors and
-  I've found a comment in the formatter notes that VT should do the same
-  with OSC 8.
-  
-  This PR emits OSC 8 around linked cells in VT output, using the same
-  transition tracking as HTML:
-  
-  - The explicit id is kept when there is one (`OSC 8 ; id=… ; URI ST`).
-  - A hyperlink stays open across line breaks, so a link that continues on
-  the next row is written once.
-  - Blank cells have no hyperlink, so an open one is closed before the
-  spaces written for them. Otherwise, the spaces would come back linked.
-  - Opening a hyperlink replaces the open one, so switching between two
-  links writes no close.
-  - Pages without hyperlinks use a copy of the cell run loop that never
-  checks for them.
-  
-  Cell hyperlinks are emitted like cell styles (always in VT, like HTML).
-  I've left it so the `hyperlink` extra still covers only the cursor's
-  hyperlink, the same way `style` only covers the cursor's style. This
-  means "copy as VT" and `write_screen_file` with VT now include links. If
-  you'd rather they be opt-in, then I can put them behind an option.
-  
-  ### Reproduction
-  
-  Small C program:
-  
-  ```c
-  // libghostty-vt's VT formatter drops the hyperlinks (OSC 8) of text.
-  #include <stdio.h>
-  #include <ghostty/vt.h>
-  
-  int main(void) {
-    GhosttyTerminal t;
-    ghostty_terminal_new(NULL, &t, 20, 2);
-  
-    const char in[] = "\x1b]8;;https://example.com\x1b\\link\x1b]8;;\x1b\\ text";
-    ghostty_terminal_vt_write(t, (const uint8_t *)in, sizeof(in) - 1);
-  
-    GhosttyFormatterTerminalOptions opts = {
-        .size = sizeof(opts),
-        .emit = GHOSTTY_FORMATTER_FORMAT_VT,
-        .trim = true,
-        .extra = {.size = sizeof(opts.extra),
-                  .screen = {.size = sizeof(opts.extra.screen)}},
-    };
-    GhosttyFormatter f;
-    ghostty_formatter_terminal_new(NULL, &f, t, opts);
-    uint8_t buf[256];
-    size_t len;
-    ghostty_formatter_format_buf(f, buf, sizeof(buf), &len);
-  
-    // Print the output with ESC visible.
-    for (size_t i = 0; i < len; i++) {
-      if (buf[i] == 0x1b) fputs("\\e", stdout);
-      else putchar(buf[i]);
-    }
-    putchar('\n');
-    return 0;
-  }
-  ```
-  
-  ```sh
-  zig build -Demit-lib-vt -Demit-xcframework=false --prefix out
-  cc -o repro repro.c -Iout/include out/lib/libghostty-vt.a && ./repro
-  ```
-  
-  Before: `link text`
-  After: `\e]8;;https://example.com\e\link\e]8;;\e\ text`
-  
-  ### Benchmarks
-  
-  Note: Things get slower, but the cost only applies to linked text. On
-  the `0.5` corpus, a third of it is one hyperlink lookup per linked cell,
-  a tenth is the OSC 8 output, and the rest is leaving the fast cell loop
-  at each link's start and end. Handling link changes inside the fast loop
-  is measured as slower. Removing the lookups would take a per-page array
-  of hyperlink ids, which seemed like too much for this PR.
-  `--mode=roundtrip` gives `equal=true` for every corpus.
-  
-  I ran `ghostty-bench +terminal-formatter --formatter=terminal`, on 640
-  KB `ghostty-gen +styled` corpora, with `--osc8-rate` setting how many
-  cells are linked. Time per format, from `hyperfine` (main run twice
-  agreed within 0.5%):
-  
-  | Corpus | VT output | main | this PR | Change |
-  |---|---|---|---|---|
-  | No hyperlinks | unchanged | 2.50 ms | 2.54 ms | +1.5% |
-  | `--osc8-rate=0.1` | +19% bytes | 2.06 ms | 3.17 ms | +54% |
-  | `--osc8-rate=0.5` | +69% bytes | 1.39 ms | 3.03 ms | +118% |
-  | `--osc8-rate=0.5`, `--pin-map=true` | +68% bytes | 2.12 ms | 4.02 ms |
-  +89% |
-  
-  One known limit: an implicit hyperlink that is closed and reopened,
-  around a gap or at a page boundary, comes back as two implicit
-  hyperlinks with the same URI.
-  
-  AI disclosure: Created with help from Claude Code using Opus 5.5,
-  Iterated on, manually tested and reviewed by me.
-  ````
-- [`9689532`](https://github.com/ghostty-org/ghostty/commit/9689532cfff16b486eeab69c2194c7b3e3797c3a) core: report the release of a tracked click on a prompt ([@fornwall](https://github.com/fornwall))
-  ```text
-  When the cursor is at a prompt that declared click_events=1 or cl=,
-  a left release ran the prompt click before the mouse report. Under
-  mouse tracking the press had already been reported, so the release
-  was replaced by a synthetic SGR press or arrow keys. Ghostty's own
-  shell integration hits this whenever a widget runs a mouse-tracking
-  program from the prompt, such as fzf's Ctrl-R binding.
-  
-  The selection gesture is reset when a press is reported, so a zero
-  click count on release means the press reached the program. Skip the
-  prompt click then and report the release too. Shift+click under
-  tracking still records a gesture and moves the cursor.
-  ```
-- [`5dd2ee1`](https://github.com/ghostty-org/ghostty/commit/5dd2ee119db9d65aefc65fce830bbc69f55b17b2) build(deps): bump actions/create-github-app-token from 3.2.0 to 3.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 3.2.0 to 3.3.0.
-  - [Release notes](https://github.com/actions/create-github-app-token/releases)
-  - [Changelog](https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md)
-  - [Commits](https://github.com/actions/create-github-app-token/compare/bcd2ba49218906704ab6c1aa796996da409d3eb1...64ab729a6294000f5aa4a4bc0b73d1f32bc45510)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: actions/create-github-app-token
-    dependency-version: 3.3.0
-    dependency-type: direct:production
-    update-type: version-update:semver-minor
-  ...
-  ```
-- [`9d1b234`](https://github.com/ghostty-org/ghostty/commit/9d1b234d97469b821dc6223bb9bcfdff7d625611) build(deps): bump actions/create-github-app-token from 3.2.0 to 3.3.0 ([#14713](https://github.com/ghostty-org/ghostty/issues/14713)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Bumps
-  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
-  from 3.2.0 to 3.3.0.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v3.3.0</h2>
-  <h2><a
-  href="https://github.com/actions/create-github-app-token/compare/v3.2.0...v3.3.0">3.3.0</a>
-  (2026-10-12)</h2>
-  <h3>Features</h3>
-  <ul>
-  <li>update permission inputs (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/399">#399</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/a47236f79f79fcbc3532af49fe3a5ded89529b6e">a47236f</a>)</li>
-  </ul>
-  <h3>Bug Fixes</h3>
-  <ul>
-  <li><strong>deps:</strong> bump nested undici from 6.24.0 to 6.29.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/403">#403</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/12461a3a794e67c032f1eff5bb95ece9427eb4fb">12461a3</a>)</li>
-  <li><strong>deps:</strong> bump the production-dependencies group across
-  1 directory with 3 updates (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/395">#395</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/a69c19ddfdf8e1ab093900e0064524ce9309c807">a69c19d</a>)</li>
-  </ul>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Changelog</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md">actions/create-github-app-token's
-  changelog</a>.</em></p>
-  <blockquote>
-  <h1>Changelog</h1>
-  <h2><a
-  href="https://github.com/actions/create-github-app-token/compare/v3.2.0...v3.3.0">3.3.0</a>
-  (2026-10-12)</h2>
-  <h3>Features</h3>
-  <ul>
-  <li>update permission inputs (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/399">#399</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/a47236f79f79fcbc3532af49fe3a5ded89529b6e">a47236f</a>)</li>
-  </ul>
-  <h3>Bug Fixes</h3>
-  <ul>
-  <li><strong>deps:</strong> bump nested undici from 6.24.0 to 6.29.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/403">#403</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/12461a3a794e67c032f1eff5bb95ece9427eb4fb">12461a3</a>)</li>
-  <li><strong>deps:</strong> bump the production-dependencies group across
-  1 directory with 3 updates (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/395">#395</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/a69c19ddfdf8e1ab093900e0064524ce9309c807">a69c19d</a>)</li>
-  </ul>
-  <h2><a
-  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
-  (2026-05-12)</h2>
-  <h3>Features</h3>
-  <ul>
-  <li>add support for enterprise-level GitHub Apps (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
-  <li>support full repository names in <code>repositories</code> input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
-  </ul>
-  <h3>Bug Fixes</h3>
-  <ul>
-  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
-  to 3.0.1 in the production-dependencies group (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
-  <li>validate private-key input (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
-  (<a
-  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
-  </ul>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/64ab729a6294000f5aa4a4bc0b73d1f32bc45510"><code>64ab729</code></a>
-  chore(main): release 3.3.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/402">#402</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/f3a828e4b91180d3a46ac1f4b43fa8384b0dea07"><code>f3a828e</code></a>
-  ci: create signed dist commits in release workflow (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/404">#404</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/655017ffa7c6b0c6e4210729fa6bce35cacd8ca0"><code>655017f</code></a>
-  docs: clarify when owner grants access to all repositories (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/378">#378</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/12461a3a794e67c032f1eff5bb95ece9427eb4fb"><code>12461a3</code></a>
-  fix(deps): bump nested undici from 6.24.0 to 6.29.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/403">#403</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/a47236f79f79fcbc3532af49fe3a5ded89529b6e"><code>a47236f</code></a>
-  feat: update permission inputs (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/399">#399</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/a69c19ddfdf8e1ab093900e0064524ce9309c807"><code>a69c19d</code></a>
-  fix(deps): bump the production-dependencies group across 1 directory
-  with 3 u...</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/d5cb7ae41d64331820d88810a4878e0942ec992a"><code>d5cb7ae</code></a>
-  build(deps): bump actions/checkout from 6 to 7 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/384">#384</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/575da866bd0a42d7f234a8645831d55573252b09"><code>575da86</code></a>
-  build(deps): bump stefanzweifel/git-auto-commit-action from 7.1.0 to
-  7.2.0 in...</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/e85f677b44da0d1f08115ce52cdfd8fd2c69874a"><code>e85f677</code></a>
-  test: omit stack traces from snapshots (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/401">#401</a>)</li>
-  <li><a
-  href="https://github.com/actions/create-github-app-token/commit/9419396df4d5672241cfb593dadc19758e54a204"><code>9419396</code></a>
-  build(deps-dev): bump c8 from 11.0.0 to 12.0.0 (<a
-  href="https://redirect.github.com/actions/create-github-app-token/issues/400">#400</a>)</li>
-  <li>Additional commits viewable in <a
-  href="https://github.com/actions/create-github-app-token/compare/bcd2ba49218906704ab6c1aa796996da409d3eb1...64ab729a6294000f5aa4a4bc0b73d1f32bc45510">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=3.2.0&new-version=3.3.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`a9139e5`](https://github.com/ghostty-org/ghostty/commit/a9139e56c3e99209648d25063c60c4c9f61b3645) core: report the release of a tracked click on a prompt ([#14710](https://github.com/ghostty-org/ghostty/issues/14710)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  When the cursor is at a prompt with click-to-move (OSC 133
-  [click_events](https://sw.kovidgoyal.net/kitty/shell-integration/#notes-for-shell-developers)
-  or
-  [cl=](https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md))
-  and a program started from that prompt tracks the mouse, a left click
-  reaches the program as a press without a release (the release is instead
-  replaced by the prompt click).
-  
-  A release whose press went to the program now goes to the program too,
-  instead of becoming a prompt click.
-  
-  Steps to reproduce:
-  1. Use [ghostty shell
-  integration](https://ghostty.org/docs/features/shell-integration).
-  2. Use [fzf shell
-  integration](https://junegunn.github.io/fzf/shell-integration/#setting-up-shell-integration),
-  for example `source <(fzf --zsh)` under zsh. Tested with zsh; bash uses
-  the same `cl=line` mark and fish uses `click_events=1`, so both should
-  take the same path.
-  3. Press `Ctrl-R` to open the fzf history search.
-  4. Double click on a history item to select it.
-  
-  Results:
-  - Before: The history item is not inserted into the shell prompt, since
-  fzf only completes a double click on the release event it never
-  receives.
-  - After: The history item is inserted into the shell prompt.
-  
-  AI disclosure: Created with opus 5.5 through claude code. Reviewed and
-  tested by me.
   ```
 
