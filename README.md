@@ -8,7 +8,20 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 23, 2026 at 16:19 UTC.
+> Last updated: October 23, 2026 at 20:53 UTC.
+
+## October 23, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40003456956)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`a743c4e`](https://github.com/ghostty-org/ghostty/commit/a743c4e53ed62ff7ebca286200d251c4999f398e) docs: replace stale function name. `ghostty_vt_osc_free()` should be `ghostty_osc_free` ([@Uzaaft](https://github.com/Uzaaft))
+  ```text
+  Change-Id: I4efdf6a51f568b4bc2678ef4a6aa1c106a6a6964
+  ```
+- [`22f100c`](https://github.com/ghostty-org/ghostty/commit/22f100c6367045bb5fc86172f837047dee2f7670) docs: replace stale function name. `ghostty_vt_osc_free()` should be `ghostty_osc_free` ([#14818](https://github.com/ghostty-org/ghostty/issues/14818)) ([@jcollie](https://github.com/jcollie))
 
 ## October 22, 2026
 
