@@ -8,7 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 25, 2026 at 02:53 UTC.
+> Last updated: October 25, 2026 at 08:02 UTC.
+
+## October 25, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40157524465)  
+Summary: 1 runs • 7 commits • 3 authors
+
+### Changes
+
+- [`17001b8`](https://github.com/ghostty-org/ghostty/commit/17001b8f23ea548276c55df84bba720f82561c07) gtk: never resize a split smaller than one cell ([@thomasfedb](https://github.com/thomasfedb))
+  ```text
+  Also clamp keyboard split resizes to the split size, which fixed an
+  assertion failure when resize_split moved past the edge of a split.
+  ```
+- [`cc84a42`](https://github.com/ghostty-org/ghostty/commit/cc84a42f9c6d0e7b7281d8fe2e7bb79872000b8d) gtk: clamp the split position and keep the ratio in sync ([@thomasfedb](https://github.com/thomasfedb))
+- [`859f06f`](https://github.com/ghostty-org/ghostty/commit/859f06fc99c8f01d78ba1c1fced0079dd533ab92) gtk: update the split minimum when the config changes ([@thomasfedb](https://github.com/thomasfedb))
+- [`79fecfa`](https://github.com/ghostty-org/ghostty/commit/79fecfa62d3d84da8a68ca68683f52f401e42669) gtk: keep split ratios on window resize and sync on min-position ([@thomasfedb](https://github.com/thomasfedb))
+- [`59e565e`](https://github.com/ghostty-org/ghostty/commit/59e565ea0be6f133763540e33300effea40266e8) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`1ee9b25`](https://github.com/ghostty-org/ghostty/commit/1ee9b25636335521deca003e582fb3ea28fd31b8) Update iTerm2 colorschemes ([#14835](https://github.com/ghostty-org/ghostty/issues/14835)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261019-151001-86a776d
+  ```
+- [`cec8b92`](https://github.com/ghostty-org/ghostty/commit/cec8b92f1ecd176a20a56aa405021e7ae991b996) gtk: never resize a split smaller than one cell ([#14476](https://github.com/ghostty-org/ghostty/issues/14476)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fixes a regression of #1297 on GTK.
+  
+  **Issue**
+  Splits can be dragged or resized down to 0px, which just looks like a
+  thick divider. The 10px minimum from #1323 was lost in the GTK rewrite.
+  
+  **Fix**
+  Splits are now at least one cell plus padding in size, and the divider
+  can't be dragged past that. This also clamps keyboard resizes.
+  
+  Tested on Fedora 44. Dragging and `resize_split` stop at one column or
+  line. I believe that macOS already has its own minimum and is unchanged.
+  
+  First pass written with Claude Code (Claude Opus 5.5), reviewed and
+  reprompted by me.
+  ```
 
 ## October 24, 2026
 
