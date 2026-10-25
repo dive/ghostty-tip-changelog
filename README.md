@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 25, 2026 at 18:02 UTC.
+> Last updated: October 25, 2026 at 22:59 UTC.
 
 ## October 25, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40157524465)  
-Summary: 1 runs • 7 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40229290745), [2](https://github.com/ghostty-org/ghostty/actions/runs/40225977480), [3](https://github.com/ghostty-org/ghostty/actions/runs/40157524465)  
+Summary: 3 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`f63508e`](https://github.com/ghostty-org/ghostty/commit/f63508e5a1e0b3a5ce2f6cff591339e5b871aea0) Update VOUCHED list ([#14848](https://github.com/ghostty-org/ghostty/issues/14848)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14846#discussioncomment-19183173)
+  from @jcollie.
+  
+  Vouch: @lehni
+  ```
+- [`fb13fa9`](https://github.com/ghostty-org/ghostty/commit/fb13fa9602f47590ccfaaea4cd8e178fac2ec8cc) Update VOUCHED list ([#14845](https://github.com/ghostty-org/ghostty/issues/14845)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14844#discussioncomment-19182684)
+  from @jcollie.
+  
+  Denounce: @ifmael
+  ```
 - [`17001b8`](https://github.com/ghostty-org/ghostty/commit/17001b8f23ea548276c55df84bba720f82561c07) gtk: never resize a split smaller than one cell ([@thomasfedb](https://github.com/thomasfedb))
   ```text
   Also clamp keyboard split resizes to the split size, which fixed an
