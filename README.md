@@ -8,15 +8,85 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 26, 2026 at 02:52 UTC.
+> Last updated: October 26, 2026 at 08:25 UTC.
 
 ## October 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40267247680), [2](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
+Summary: 2 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`297507f`](https://github.com/ghostty-org/ghostty/commit/297507f498ef6fd33b7514e143e2d641144457a4) termio: send the config change color scheme report directly ([@jcollie](https://github.com/jcollie))
+  ```text
+  StreamHandler.changeConfig queued a color_scheme_report message into the
+  termio mailbox. changeConfig runs on the io thread, which is the only
+  reader of that mailbox, so when the mailbox was full (for example, from
+  a burst of query replies queued by the reader thread) the io thread
+  blocked forever pushing to itself. Every other thread then blocked on
+  its next send to the same mailbox, freezing Ghostty on a config reload.
+  
+  Write the report from Termio.changeConfig instead, using the same
+  colorSchemeReportLocked the message handler uses. The report still
+  follows the config update in order with other output.
+  
+  Fixes: #14833
+  ```
+- [`509e5fb`](https://github.com/ghostty-org/ghostty/commit/509e5fbec4ddf78f884b4cd21a8a4d7346636d44) macos: fix flash of neighbor tab when moving titlebar tabs ([@lehni](https://github.com/lehni))
+  ```text
+  With titlebar tabs on macOS 26, move_tab removed the selected tab from its group and added it back at the new position. Removing the selected tab makes AppKit select and draw a neighbor until the tab is made key again, which showed up as a flash of the other tab's content. Instead, move the tabs being passed over to the other side of the selected tab, so the selected tab never leaves the group.
+  ```
+- [`87b6596`](https://github.com/ghostty-org/ghostty/commit/87b65966dfadc42dacd8d55b99ebc430e6a52455) termio: send the config change color scheme report directly ([#14834](https://github.com/ghostty-org/ghostty/issues/14834)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  StreamHandler.changeConfig queued a color_scheme_report message into the
+  termio mailbox. changeConfig runs on the io thread, which is the only
+  reader of that mailbox, so when the mailbox was full (for example, from
+  a burst of query replies queued by the reader thread) the io thread
+  blocked forever pushing to itself. Every other thread then blocked on
+  its next send to the same mailbox, freezing Ghostty on a config reload.
+  
+  Write the report from Termio.changeConfig instead, using the same
+  colorSchemeReportLocked the message handler uses. The report still
+  follows the config update in order with other output.
+  
+  Fixes: #14833
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`0fe113a`](https://github.com/ghostty-org/ghostty/commit/0fe113a35370667d8c4d6970ee5c1704825dce6b) macos: fix flash of neighbor tab when moving titlebar tabs ([#14847](https://github.com/ghostty-org/ghostty/issues/14847)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With `macos-titlebar-style = tabs` on macOS 26, `move_tab` briefly shows
+  the content of the neighboring tab before the moved tab is shown again.
+  
+  The macOS 26 workaround from 09246780b removes the selected tab from its
+  tab group and adds it back at the new position, then makes it key on the
+  next run loop turn. Removing the selected tab makes AppKit select and
+  draw a neighbor in the meantime, which is the flash.
+  
+  This instead moves the tabs that are passed over to the other side of
+  the selected tab. The selected tab never leaves the group and stays
+  selected throughout, so nothing else is drawn. The resulting order is
+  the same as before, and the titlebar glitches the workaround was added
+  for don't come back in my testing.
+  
+  Only the macOS 26 titlebar tabs path changes. The path for the other
+  window styles is untouched.
+  
+  ## Before
+  
+  
+  https://github.com/user-attachments/assets/2de82693-98bb-4c48-b05d-6abd87935584
+  
+  ## After
+  
+  
+  https://github.com/user-attachments/assets/e4d829a3-71de-46cd-a1fd-2b46cb6e7e4d
+  
+  ## AI disclosure
+  
+  Diagnosed and written with Claude Code. I reviewed the change and tested
+  it by hand on macOS 26 with titlebar tabs.
+  ```
 - [`d773509`](https://github.com/ghostty-org/ghostty/commit/d7735095de636a7014651e23e94620f498979233) build(deps): bump cachix/install-nix-action from 31.11.2 to 31.11.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.2 to 31.11.3.
