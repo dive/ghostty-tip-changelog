@@ -8,15 +8,426 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 26, 2026 at 15:45 UTC.
+> Last updated: October 26, 2026 at 22:12 UTC.
 
 ## October 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40330121151), [2](https://github.com/ghostty-org/ghostty/actions/runs/40267247680), [3](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
-Summary: 3 runs • 8 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40396684066), [2](https://github.com/ghostty-org/ghostty/actions/runs/40393630080), [3](https://github.com/ghostty-org/ghostty/actions/runs/40389935061), [4](https://github.com/ghostty-org/ghostty/actions/runs/40364482308), [5](https://github.com/ghostty-org/ghostty/actions/runs/40361578719), [6](https://github.com/ghostty-org/ghostty/actions/runs/40359380687), [7](https://github.com/ghostty-org/ghostty/actions/runs/40330121151), [8](https://github.com/ghostty-org/ghostty/actions/runs/40267247680), [9](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
+Summary: 9 runs • 38 commits • 9 authors
 
 ### Changes
 
+- [`9ee02ae`](https://github.com/ghostty-org/ghostty/commit/9ee02ae601d3eec567723287e1c20bd0e9f1489c) i18n: Irish translation for Ghostty 1.4 ([#13837](https://github.com/ghostty-org/ghostty/issues/13837)) ([@aindriu80](https://github.com/aindriu80))
+- [`afbbbe1`](https://github.com/ghostty-org/ghostty/commit/afbbbe15887c8a83db9c3f1df30411bbfff87bd0) macos/applescript: add AppleScript name override property ([@paaloeye](https://github.com/paaloeye))
+  ````text
+  - expose read-write `name override` property on tab and terminal classes in Ghostty.sdef
+  - implement `titleOverride` accessors in `ScriptTab` and `ScriptTerminal`
+  - add `titleOverride` property to `SurfaceView` to manage manual terminal title overrides
+  - fix minor inconsistencies in comments
+  
+  AppleScript API usage:
+  
+  ```applescript
+  -- Setting and clearing a tab name override via AppleScript
+  tell application "Ghostty"
+      -- Target the selected tab of the front window
+      set targetTab to selected tab of front window
+  
+      -- Set name override
+      set name override of targetTab to "My Custom Tab Title"
+      log "Tab title: " & (name of targetTab)
+      log "Tab override: " & (name override of targetTab)
+      delay 2.0 -- delay is here only for illustrative purposes
+  
+      -- Clear override
+      set name override of targetTab to ""
+  end tell
+  ```
+  
+  AI disclosure: Antigravity CLI was used for the first draft. Iterated, minimised, reviewed, and tested by me.
+  
+  Closes: https://github.com/ghostty-org/ghostty/issues/12048
+  Discussion: https://github.com/ghostty-org/ghostty/discussions/12047
+  Agent-Session: cdd11bbe-928a-4a00-a085-c8f87a57966f
+  ````
+- [`b279b2c`](https://github.com/ghostty-org/ghostty/commit/b279b2ccb8f6d7bb86afa44bd5bf5529c29fdce0) macos: clear split zoom indicator when tree is not split ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  When closing sibling splits down to a single terminal leaf while
+  zoomed via AppleScript, `SplitTree` retained its zoomed node
+  reference because the target being removed was not the zoomed node itself.
+  
+  Because the tree was no longer split but the zoomed property remained non-nil,
+  the window's zoom state stayed active and the reset zoom indicator remained visible.
+  
+  `SplitTree` now validates that a tree can only have a zoomed node if
+  it actually contains splits and the zoomed node exists in root. In
+  addition, `SplitTree` exposes an `isZoomed` property, and the terminal
+  controller and window reactively update the zoom state and accessory
+  controls accordingly.
+  
+  AI disclosure: Antigravity CLI wrote the tests initially. Iterated, reviewed, and tested by me.
+  ```
+- [`91d198c`](https://github.com/ghostty-org/ghostty/commit/91d198cc32b6056fede5625e0c60302d01bbb846) macos/applescript: add AppleScript name override property ([#14733](https://github.com/ghostty-org/ghostty/issues/14733)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  - expose read-write `name override` property on tab and terminal classes
+  in Ghostty.sdef
+  - implement `titleOverride` accessors in `ScriptTab` and
+  `ScriptTerminal`
+  - add `titleOverride` property to `SurfaceView` to manage manual
+  terminal title overrides
+  - fix minor inconsistencies in comments
+  
+  AppleScript API usage:
+  
+  ```applescript
+  -- Setting and clearing a tab name override via AppleScript
+  tell application "Ghostty"
+      -- Target the selected tab of the front window
+      set targetTab to selected tab of front window
+  
+      -- Set name override
+      set name override of targetTab to "My Custom Tab Title"
+      log "Tab title: " & (name of targetTab)
+      log "Tab override: " & (name override of targetTab)
+      delay 2.0 -- delay is here only for illustrative purposes
+  
+      -- Clear override
+      set name override of targetTab to ""
+  end tell
+  ```
+  
+  AI disclosure: Antigravity CLI was used for the first draft. Iterated,
+  minimised, reviewed, and tested by me.
+  
+  Closes: https://github.com/ghostty-org/ghostty/issues/12048
+  Discussion: https://github.com/ghostty-org/ghostty/discussions/12047
+  ````
+- [`18f0963`](https://github.com/ghostty-org/ghostty/commit/18f09635d9e2e27df1d332f49a82d27cdcc03a48) macos: clear split zoom indicator when tree is not split ([#14703](https://github.com/ghostty-org/ghostty/issues/14703)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  When closing sibling splits down to a single terminal leaf while zoomed
+  via AppleScript, `SplitTree` retained its zoomed node reference because
+  the target being removed was not the zoomed node itself.
+  
+  Because the tree was no longer split but the zoomed property remained
+  non-nil, the window's zoom state stayed active and the reset zoom
+  indicator remained visible.
+  
+  `SplitTree` now validates that a tree can only have a zoomed node if it
+  actually contains splits and the zoomed node exists in root. In
+  addition, `SplitTree` exposes an `isZoomed` property, and the terminal
+  controller and window reactively update the zoom state and accessory
+  controls accordingly.
+  
+  AI disclosure: Antigravity CLI wrote the tests initially. Iterated,
+  reviewed, and tested by me.
+  
+  <details>
+  <summary>UX before:</summary>
+  <video
+  src="https://github.com/user-attachments/assets/263557d1-1be8-41ca-9070-85075c659afb"
+  width="100%"></video>
+  </details>
+  
+  <details>
+  <summary>UX after:</summary>
+  <video
+  src="https://github.com/user-attachments/assets/55ba6778-0901-4722-aa51-8ea0b0c83a1c"
+  width="100%"></video>
+  </details>
+  
+  Minimal reproducible example (MRE) using `AppleScript`:
+  ```applescript
+  tell application id "com.mitchellh.ghostty"
+      activate
+  
+      -- Get the current focused terminal
+      set t1 to focused terminal of selected tab of front window
+  
+      -- Create 4 splits (2x2 grid)
+      --   [ t1 | t2 ]
+      --   [ t3 | t4 ]
+      set t2 to split t1 direction right
+      delay 0.5
+  
+      set t3 to split t1 direction down
+      delay 0.5
+  
+      set t4 to split t2 direction down
+      delay 0.5
+  
+      -- Zoom one of the splits (t1)
+      perform action "toggle_split_zoom" on t1
+      delay 0.5
+  
+      -- Close other splits
+      try
+          close t4
+      on error
+          perform action "close_surface" on t4
+      end try
+      delay 0.2
+  
+      try
+          close t3
+      on error
+          perform action "close_surface" on t3
+      end try
+      delay 0.2
+  
+      try
+          close t2
+      on error
+          perform action "close_surface" on t2
+      end try
+  end tell
+  ```
+  ````
+- [`6ce1e60`](https://github.com/ghostty-org/ghostty/commit/6ce1e605819a9db6f62efb6e1eb98fe1327c3a50) mirror deps ([@mitchellh](https://github.com/mitchellh))
+- [`efc5105`](https://github.com/ghostty-org/ghostty/commit/efc51050badfff9a444e5f7750bca9d2ff379bf9) ci: use macOS Golden Gate with Xcode 27.1 ([@mitchellh](https://github.com/mitchellh))
+- [`de956a2`](https://github.com/ghostty-org/ghostty/commit/de956a2c2f1c03efb314668e33db9a809097e5de) mirror deps ([#14861](https://github.com/ghostty-org/ghostty/issues/14861)) ([@mitchellh](https://github.com/mitchellh))
+- [`da5936c`](https://github.com/ghostty-org/ghostty/commit/da5936c2287cd7f466acdad3cc000de5ce35ccaa) ci: use macOS Golden Gate with Xcode 27.1 ([#14862](https://github.com/ghostty-org/ghostty/issues/14862)) ([@mitchellh](https://github.com/mitchellh))
+- [`6eb24a0`](https://github.com/ghostty-org/ghostty/commit/6eb24a0f0f38cabd24457b31c44d6b6bde5540f5) shell-integration: don't let directory names inject escape sequences ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The zsh integration reported the working directory with `print`, which
+  expands backslash escapes in every argument, including `$PWD`. A
+  directory named `x\a\e]52;c;SGVsbG8=\a` ended our OSC 7 early and sent
+  a real OSC 52 sequence. A directory name containing a raw ESC or BEL
+  byte did the same thing in both zsh and bash.
+  
+  zsh now uses `print -r` so backslashes in the path are printed as-is,
+  and writes the ESC and BEL framing bytes with `$'...'` quoting. Both
+  zsh and bash strip control bytes from the hostname and directory
+  before sending them, the same way the zsh title code already does.
+  Fish was already safe because it percent-encodes the path.
+  ```
+- [`ebd4499`](https://github.com/ghostty-org/ghostty/commit/ebd449995d321e90d6c73be3decb15558512b2ed) shell-integration: don't let directory names inject escape sequences ([#14859](https://github.com/ghostty-org/ghostty/issues/14859)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The zsh integration reported the working directory with `print`, which
+  expands backslash escapes in every argument, including `$PWD`. A
+  directory named `x\a\e]52;c;SGVsbG8=\a` ended our OSC 7 early and sent a
+  real OSC 52 sequence. A directory name containing a raw ESC or BEL byte
+  did the same thing in both zsh and bash.
+  
+  zsh now uses `print -r` so backslashes in the path are printed as-is,
+  and writes the ESC and BEL framing bytes with `$'...'` quoting. Both zsh
+  and bash strip control bytes from the hostname and directory before
+  sending them, the same way the zsh title code already does. Fish was
+  already safe because it percent-encodes the path.
+  ```
+- [`1851e12`](https://github.com/ghostty-org/ghostty/commit/1851e121baec1f02b31065a8c4ae3ee845bbc4d1) terminal/tmux: reject zero-sized and oversized panes in layouts ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A program running in the terminal can enter tmux control mode with
+  `ESC P 1000 p` and then send its own `%layout-change` notifications or
+  `list-windows` output. The layout parser accepted nodes with a width or
+  height of zero, and the viewer cast pane sizes to `u16` without checking
+  them.
+  
+  A bad layout now makes the tmux viewer defunct with a logged warning,
+  the same as any other layout error, instead of crashing Ghostty. Real
+  tmux never sends zero-sized panes, so normal sessions are unaffected.
+  ```
+- [`bf14ea1`](https://github.com/ghostty-org/ghostty/commit/bf14ea1fbda2d069112003b80ec3b9186b7688f6) terminal/tmux: reject zero-sized and oversized panes in layouts ([#14858](https://github.com/ghostty-org/ghostty/issues/14858)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A program running in the terminal can enter tmux control mode with `ESC
+  P 1000 p` and then send its own `%layout-change` notifications or
+  `list-windows` output. The layout parser accepted nodes with a width or
+  height of zero, and the viewer cast pane sizes to `u16` without checking
+  them.
+  
+  A bad layout now makes the tmux viewer defunct with a logged warning,
+  the same as any other layout error, instead of crashing Ghostty. Real
+  tmux never sends zero-sized panes, so normal sessions are unaffected.
+  ```
+- [`297ff52`](https://github.com/ghostty-org/ghostty/commit/297ff52922127fd7a2b7f8fe856d39f2b48ace07) gtk: implement the Kitty clipboard protocol (OSC 5522) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Implement the kitty_read, kitty_write, and list (paste event) requests
+  in the GTK apprt on top of the existing core protocol support, and wire
+  the confirmation dialog up to Kitty requests, including session-grant
+  remember support.
+  
+  Also fix two adjacent issues found while testing: the clipboard-write
+  signal now carries a "cleared" flag so image-only writes toast as
+  copies instead of clears, and a failed OSC 52 text read now answers
+  with an empty reply instead of leaving the client waiting forever.
+  
+  TODO: the new remember-row strings in the confirmation dialog are
+  deliberately not marked for translation; wrap them in i18n._() and
+  regenerate the translation files once they should be translated.
+  ```
+- [`54b6544`](https://github.com/ghostty-org/ghostty/commit/54b65443e0247280ce2d4826c02870f887166578) gtk: show an image preview in the clipboard confirmation dialog ([@jcollie](https://github.com/jcollie))
+  ```text
+  Decode the first image/* representation of a Kitty clipboard request
+  with gdk_texture_new_from_bytes and show it in the dialog in place of
+  the text preview, falling back to the text preview when there is no
+  decodable image. The picture's paintable and the visible preview page
+  are bound declaratively to the clipboard-image property.
+  ```
+- [`3ea78b0`](https://github.com/ghostty-org/ghostty/commit/3ea78b066715891e9855d56644c9fd9b04335227) gtk: fix crash denying an OSC 52 read with "remember" checked ([@jcollie](https://github.com/jcollie))
+  ```text
+  Remembering the denial set clipboard-read to deny before the request was
+  answered, and the OSC 52 reply is written by the same path that serves an
+  allowed read, which asserts reads aren't denied.
+  ```
+- [`1ebbfe9`](https://github.com/ghostty-org/ghostty/commit/1ebbfe9a1996b29d4c4561be7ae977d2fddc7a30) gtk: preview every representation of a clipboard request ([@jcollie](https://github.com/jcollie))
+  ```text
+  A multipart payload was reduced to one preview — the first decodable
+  image, else the first text, else a bare list of MIME types — so the user
+  authorized data they were never shown. The dialog now gives each
+  representation its own page, named by MIME type.
+  ```
+- [`1306fab`](https://github.com/ghostty-org/ghostty/commit/1306fab94d15f1b01ddfba5644f695610697bde6) test: wait for the clipboard status reply ([@jcollie](https://github.com/jcollie))
+  ```text
+  The script exited as soon as it had written the transaction, so the
+  terminal's status packet arrived with nothing left to read it and
+  printed itself on the next shell prompt. It also carries a name and a
+  session password now, so a run exercises the permission prompt.
+  ```
+- [`7169fea`](https://github.com/ghostty-org/ghostty/commit/7169fea55bfd58a57e4139fd90300cc93f8d187f) gtk: reword the Kitty clipboard remember subtitle ([@jcollie](https://github.com/jcollie))
+- [`a6a1a46`](https://github.com/ghostty-org/ghostty/commit/a6a1a4664237841dc171da28686be256ef92cf3e) terminal: mark pins on erased history rows as garbage ([@noib3](https://github.com/noib3))
+- [`b97e426`](https://github.com/ghostty-org/ghostty/commit/b97e42691c44bc0e35eb7750b06273145f89c4dc) set TERM for +ssh without clobbering the user's SetEnv ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `+ssh` passed `-o SetEnv=TERM=...` to ssh. ssh only uses the first
+  SetEnv it finds, so the one on the command line replaced every SetEnv
+  entry in the user's ssh config. This brings back the bug that #11518
+  fixed in the old shell integration wrapper, now in `+ssh` (#12582).
+  
+  `TERM` was also only set with `--forward-env`, so `--forward-env=false`
+  (what `ssh-terminfo`-only users get) left the inherited
+  `TERM=xterm-ghostty` in place even when the terminfo install failed.
+  
+  ssh sends the SetEnv entries in the user's ssh config again, and
+  a failed terminfo install falls back to `xterm-256color` like it
+  did in 1.3.1, no matter which `ssh-*` features are enabled.
+  
+  `TERM` is now set in the environment of the ssh process instead of
+  with SetEnv, the same way the 1.3.1 wrapper did. ssh sends `TERM` on
+  its own when it opens a remote terminal, so the server doesn't need
+  `AcceptEnv TERM`. This happens whenever `--forward-env` or
+  `--terminfo` is enabled. With both disabled, ssh runs with the user's
+  environment unchanged. The `+ssh` help is updated to explain how
+  `TERM` is chosen.
+  
+  Docs: https://man.openbsd.org/ssh_config#SetEnv
+  ```
+- [`9438bd3`](https://github.com/ghostty-org/ghostty/commit/9438bd3e54931b1aceefc6037dc0674f4b844bf6) terminal: mark pins on erased history rows as garbage ([#14838](https://github.com/ghostty-org/ghostty/issues/14838)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR makes tracked grid refs report no value when the history row
+  they point to is erased (e.g. by `CSI 3 J`), the same way they already
+  do when the row is pruned.
+  
+  That's what the
+  [docs](https://github.com/ghostty-org/ghostty/blob/cec8b92/include/ghostty/vt/grid_ref.h#L52-L58)
+  describe, but erased refs were silently moved to the top-left of the
+  remaining rows instead, so callers couldn't tell their row was gone.
+  
+  AI disclosure: I used Claude to investigate the issue, write the change
+  and add/update tests. I understand what it did, and I wrote this PR
+  description.
+  ```
+- [`1607438`](https://github.com/ghostty-org/ghostty/commit/16074385fa98fdbf54fb09182bb93635ceb97ee4) deps: update z2d to v0.13.0 ([@vancluever](https://github.com/vancluever))
+  ```text
+  Release notes at:
+   https://github.com/vancluever/z2d/blob/v0.13.0/CHANGELOG.md
+  
+  A few bug fixes that will ultimately pertain to Ghostty's use of z2d,
+  but there is a bunch more utility now for text shaping and path
+  serialization that could prove useful in a pinch. :) This release also
+  now puts Zig 0.17.0 support at a stable tag.
+  
+  The tarball commit hash here is the tag's corresponding commit.
+  ```
+- [`37b7101`](https://github.com/ghostty-org/ghostty/commit/37b71016bffab818bcda8be60efe808882c7b947) set TERM for +ssh without clobbering the user's SetEnv ([#14854](https://github.com/ghostty-org/ghostty/issues/14854)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `+ssh` passed `-o SetEnv=TERM=...` to ssh. ssh only uses the first
+  SetEnv it finds, so the one on the command line replaced every SetEnv
+  entry in the user's ssh config. This brings back the bug that #11518
+  fixed in the old shell integration wrapper, now in `+ssh` (#12582).
+  
+  `TERM` was also only set with `--forward-env`, so `--forward-env=false`
+  (what `ssh-terminfo`-only users get) left the inherited
+  `TERM=xterm-ghostty` in place even when the terminfo install failed.
+  
+  ssh sends the SetEnv entries in the user's ssh config again, and a
+  failed terminfo install falls back to `xterm-256color` like it did in
+  1.3.1, no matter which `ssh-*` features are enabled.
+  
+  `TERM` is now set in the environment of the ssh process instead of with
+  SetEnv, the same way the 1.3.1 wrapper did. ssh sends `TERM` on its own
+  when it opens a remote terminal, so the server doesn't need `AcceptEnv
+  TERM`. This happens whenever `--forward-env` or `--terminfo` is enabled.
+  With both disabled, ssh runs with the user's environment unchanged. The
+  `+ssh` help is updated to explain how `TERM` is chosen.
+  
+  Docs: https://man.openbsd.org/ssh_config#SetEnv
+  ```
+- [`79bd880`](https://github.com/ghostty-org/ghostty/commit/79bd880d6b0dfbad5a9505fa88ab2b3c598efefe) gtk: implement kitty clipboard protocol ([#14061](https://github.com/ghostty-org/ghostty/issues/14061)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR wires up the kitty clipboard protocol in the GTK apprt after all
+  of the work to implement the protocol in the core and the macOS apprt.
+  Adds an image preview to the confirmation dialog.
+  
+  Since we are in string freeze for 1.4, two new strings added for the
+  confirmation dialog were not marked for translation. Once 1.4 is
+  released they can be marked for translation for 1.5.
+  
+  Fixes #10549
+  
+  AI disclosure: Claude Fable 5 was used to develop this PR but the author
+  has thoroughly reviewed the code and has rewritten sections.
+  ```
+- [`4bcd00d`](https://github.com/ghostty-org/ghostty/commit/4bcd00d636e2a8156135dfaebdd99f900664aa39) deps: update z2d to v0.13.0 ([#14855](https://github.com/ghostty-org/ghostty/issues/14855)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Release notes at:
+   https://github.com/vancluever/z2d/blob/v0.13.0/CHANGELOG.md
+  
+  A few bug fixes that will ultimately pertain to Ghostty's use of z2d,
+  but there is a bunch more utility now for text shaping and path
+  serialization that could prove useful in a pinch.
+  :slightly_smiling_face: This release also now puts Zig 0.17.0 support at
+  a stable tag.
+  
+  The tarball commit hash here is the tag's corresponding commit.
+  ```
+- [`84983d0`](https://github.com/ghostty-org/ghostty/commit/84983d060db826a07501c4fc4b7165233ba0df6d) terminal: cap the rows computed by Capacity.adjust ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `Capacity.adjust` computed how many rows fit in the page's memory at
+  the new column count and stored that number in a 16-bit row count
+  without checking it. Narrowing a very wide page can free room for
+  more than 65535 rows.
+  
+  `adjust` now caps the row count at the largest value a page can hold
+  before fitting rows to the memory size. This matches the cap that
+  `maxCols` already applies to columns. U
+  ```
+- [`e257bb4`](https://github.com/ghostty-org/ghostty/commit/e257bb45e6d4d61c14eacdc717be89c6110f99ff) terminal: keep cursor style and hyperlink valid after scrollClear prunes ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `scrollClear` now checks whether the cursor pin changed pages. If it
+  did, it clears the pin's garbage flag and calls `cursorPageReplaced`,
+  which registers the style and hyperlink on the new page without
+  touching the freed one. This matches how `cursorDownScroll` already
+  handles the single row case. The doc comment for `scrollClear` is also
+  rewritten to describe where the cursor ends up.
+  ```
+- [`0af5c9e`](https://github.com/ghostty-org/ghostty/commit/0af5c9e55c5b790de15aa7c7fcd90472b41c53cd) terminal: cap the rows computed by Capacity.adjust ([#14856](https://github.com/ghostty-org/ghostty/issues/14856)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `Capacity.adjust` computed how many rows fit in the page's memory at the
+  new column count and stored that number in a 16-bit row count without
+  checking it. Narrowing a very wide page can free room for more than
+  65535 rows.
+  
+  `adjust` now caps the row count at the largest value a page can hold
+  before fitting rows to the memory size. This matches the cap that
+  `maxCols` already applies to columns. U
+  ```
+- [`1c2ea72`](https://github.com/ghostty-org/ghostty/commit/1c2ea72225e4c4f64dee4411f52035ecf23f336b) terminal: keep cursor style and hyperlink valid after scrollClear prunes ([#14857](https://github.com/ghostty-org/ghostty/issues/14857)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `scrollClear` now checks whether the cursor pin changed pages. If it
+  did, it clears the pin's garbage flag and calls `cursorPageReplaced`,
+  which registers the style and hyperlink on the new page without touching
+  the freed one. This matches how `cursorDownScroll` already handles the
+  single row case. The doc comment for `scrollClear` is also rewritten to
+  describe where the cursor ends up.
+  ```
 - [`f63124c`](https://github.com/ghostty-org/ghostty/commit/f63124ca3a8d28d63d1e12d8a93d8932037174da) fontconfig: handle when lang is string and not langset ([@pluiedev](https://github.com/pluiedev))
   ```text
   Fontconfig accepts strings when a langset is expected. This by itself is
