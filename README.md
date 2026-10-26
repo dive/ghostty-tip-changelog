@@ -8,7 +8,108 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 25, 2026 at 22:59 UTC.
+> Last updated: October 26, 2026 at 02:52 UTC.
+
+## October 26, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`d773509`](https://github.com/ghostty-org/ghostty/commit/d7735095de636a7014651e23e94620f498979233) build(deps): bump cachix/install-nix-action from 31.11.2 to 31.11.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.2 to 31.11.3.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/448cde739abec1eaf0646249e3d25bb8d9bc7702...75c75c31ebece974e48ebc36b4ad125bd97bd97b)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.11.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`3aec944`](https://github.com/ghostty-org/ghostty/commit/3aec9443422758d2cadb90d50ede788a599d633f) build(deps): bump cachix/install-nix-action from 31.11.2 to 31.11.3 ([#14851](https://github.com/ghostty-org/ghostty/issues/14851)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.11.2 to 31.11.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>31.11.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.35.3 -&gt; 2.35.4 by <a
+  href="https://github.com/xokdvium"><code>@​xokdvium</code></a> in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/283">cachix/install-nix-action#283</a>
+  <strong>Security</strong>: Updates the bundled certificates shipped with
+  the installer to remove the compromised eMudhra certificates.</li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.11.2...31.11.3">https://github.com/cachix/install-nix-action/compare/v31.11.2...31.11.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/75c75c31ebece974e48ebc36b4ad125bd97bd97b"><code>75c75c3</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/283">#283</a>
+  from xokdvium/cacert-bump</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/37360376014064afef043dd1cddb9f6710a05e63"><code>3736037</code></a>
+  nix: 2.35.3 -&gt; 2.35.4</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/448cde739abec1eaf0646249e3d25bb8d9bc7702...75c75c31ebece974e48ebc36b4ad125bd97bd97b">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.11.2&new-version=31.11.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## October 25, 2026
 
@@ -960,465 +1061,5 @@ Summary: 4 runs • 64 commits • 5 authors
   from @jcollie.
   
   Vouch: @neobrain
-  ```
-
-## October 19, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39261955893), [2](https://github.com/ghostty-org/ghostty/actions/runs/39185729191), [3](https://github.com/ghostty-org/ghostty/actions/runs/39178943848)  
-Summary: 3 runs • 17 commits • 6 authors
-
-### Changes
-
-- [`152bdbc`](https://github.com/ghostty-org/ghostty/commit/152bdbc68075ee4bc5b4745fb908598a16fc628c) formatter: restore blank cells and erased backgrounds in VT output ([@robmorgan](https://github.com/robmorgan))
-  ```text
-  VT output wrote the empty cells of a gap between text as spaces, in the
-  pen of the text before the gap, so replaying it turned them into text
-  and painted that text's background into the gap. Cells that only carry
-  a background (erased while a background color was set) were written as
-  spaces too, and rows of only those were dropped as blank, losing the
-  color.
-  
-  VT output now steps over the empty cells of a gap with CUF. Cells that
-  only carry a background are recreated as they were made: a run of the
-  same background is erased with ECH under that background, then stepped
-  over. Rows of them are no longer treated as blank. Blanks carried over
-  from a wrapped row when unwrapping can't be stepped over, since CUF
-  stops at the end of the row, so they are still spaces, but no longer in
-  the pen of the text before them.
-  
-  An open hyperlink is no longer closed and reopened around a gap: stepping
-  over the cells doesn't write them, so the link doesn't reach them.
-  ```
-- [`bd1c9cc`](https://github.com/ghostty-org/ghostty/commit/bd1c9cc8cb2cad3cd949fcc566872174f306821b) formatter: keep trailing blank rows in VT output without trimming ([@robmorgan](https://github.com/robmorgan))
-  ```text
-  VT output left out the blank rows at the end of the formatted range,
-  even with trimming off. They are part of the screen's layout: a replay
-  without them scrolls less, so whenever there is scrollback the rows
-  above them end up too low. After clearing below a prompt, say, the
-  prompt comes back on the bottom row with older output above it.
-  
-  VT output without trimming now ends with a newline for each of those
-  rows, mapped in the pin map to the row it ends, as between rows. Trimmed
-  output and the other formats still drop them.
-  ```
-- [`1cd6d0b`](https://github.com/ghostty-org/ghostty/commit/1cd6d0b74ec515fc690450732fa3a9f6df8fa758) terminal/kitty: accept shared memory names without a leading slash ([@davidhodge](https://github.com/davidhodge))
-  ```text
-  Since 090fca451d, `t=s` names must start with a slash and contain no
-  other slash. Sandboxed macOS apps can't create such names: the App
-  Sandbox only allows POSIX shared memory named `<app group id>/<name>`,
-  with no leading slash. So every sandboxed client was refused.
-  
-  kitty hit the same thing and relaxed it in kovidgoyal/kitty@2efa09d.
-  The protocol spec now says terminals must accept names without a
-  leading slash and pass them unmodified to shm_open and shm_unlink.
-  
-  Only reject clearly malformed names: empty, containing NUL, or longer
-  than NAME_MAX. Slashes are left to shm_open, since the valid forms are
-  platform specific (Darwin's namespace is flat, glibc and musl reject
-  any slash after the leading ones).
-  
-  Fixes #14744
-  ```
-- [`0bb2c91`](https://github.com/ghostty-org/ghostty/commit/0bb2c910df7308bb1dab743a49c535458783cc67) terminal/kitty: reject a bare slash shm name, document unlink behavior ([@davidhodge](https://github.com/davidhodge))
-  ```text
-  Reject "/" as a shared memory name again, as before. Also note where
-  we unlink the object that Ghostty unlinks whatever name the client
-  sends, so a client can remove any shared memory object Ghostty can
-  open, including another app group's if it can guess the name. This
-  isn't new, but it's worth writing down.
-  ```
-- [`33111db`](https://github.com/ghostty-org/ghostty/commit/33111db3175e2261bd6ff087836b8532975eae29) core: size click_state to hold every mouse button ([@jcollie](https://github.com/jcollie))
-  ```text
-  MouseButton.max is the largest enum value (11), not a count, so an
-  array of that length has no slot for .eleven. Recording a press or
-  release of button 11 indexed past the end, which panics in safe builds.
-  
-  Size the array max + 1 and correct the doc comment on max that
-  suggested using it directly as an array length.
-  ```
-- [`53fb05c`](https://github.com/ghostty-org/ghostty/commit/53fb05c6eba4e678c9a70f76bd828b74625c32d3) terminal: stop CUB and BS at the left margin ([@jcollie](https://github.com/jcollie))
-  ```text
-  With reverse wrap off, cursorLeft took a fast path that clamped only at
-  column zero and ignored DECSLRM's left margin, so CUB and BS moved the
-  cursor past it. Clamp to the left margin there as the reverse-wrap path
-  and cursorRight already do, unless the cursor is already left of it.
-  
-  Fixes esctest's test_BS_StopsAtLeftMargin and
-  test_CUB_StopsAtLeftMarginInScrollRegion.
-  ```
-- [`82df0be`](https://github.com/ghostty-org/ghostty/commit/82df0be2c7522d2285187db863d62e9366fd9c4c) terminal: keep CHA, VPA, HPR and VPR origin-relative ([@jcollie](https://github.com/jcollie))
-  ```text
-  In origin mode setCursorPos takes coordinates relative to the scrolling
-  region, but the stream handlers for CHA/HPA, VPA, HPR and VPR built them
-  from the cursor's absolute screen position. The coordinate each meant to
-  keep, or move relative to, then had the margin offset added a second
-  time.
-  
-  Add setCursorRow, setCursorCol, cursorRowRelative and cursorColRelative
-  to Terminal, which convert the cursor position into origin-relative
-  coordinates first, as xterm's CursorRow and CursorCol do, and use them
-  from both stream handlers.
-  
-  Fixes esctest's test_CHA_RespectsOriginMode, test_HPR_IgnoresOriginMode
-  and test_VPR_IgnoresOriginMode.
-  ```
-- [`71c1e67`](https://github.com/ghostty-org/ghostty/commit/71c1e67a00f6919640084e9896b49354a9c9582a) terminal/kitty: address review feedback on the shm round-trip test ([@davidhodge](https://github.com/davidhodge))
-  ```text
-  Use bufPrintSentinel since bufPrintZ is removed in Zig 0.17. Always
-  unlink the test object with a plain defer, and drop an unneeded @as.
-  
-  Check that the terminal unlinked the object by trying to reopen it
-  rather than by unlinking it again, so the check has no side effects.
-  fstat can't be used for this because macOS always reports st_nlink 0
-  for shared memory objects.
-  ```
-- [`d7a0bd9`](https://github.com/ghostty-org/ghostty/commit/d7a0bd96fe7dfa09701bb0e768dd8bf418e1dcaa) terminal/kitty: accept shared memory names without a leading slash ([#14750](https://github.com/ghostty-org/ghostty/issues/14750)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #14744
-  
-  Since 090fca451d, `t=s` names must start with `/` and contain no other
-  `/`. A sandboxed macOS app can only create POSIX shared memory named
-  `<app group id>/<name>`, with no leading slash, so every sandboxed
-  client is refused with `EINVAL: invalid data`.
-  
-  kitty relaxed the same check in kovidgoyal/kitty@2efa09d, and the
-  protocol spec now says terminals must accept names without a leading
-  slash and pass them unmodified to `shm_open()`/`shm_unlink()`.
-  
-  `validSharedMemoryName` now only rejects empty names, names containing
-  NUL, and names longer than `NAME_MAX`. Slashes are left to `shm_open`,
-  because what's valid depends on the platform: Darwin's namespace is
-  flat, and glibc and musl reject any slash after the leading ones. This
-  matches kitty, which never checked for inner slashes. It also means
-  `/a/b` is accepted again, as it was before 090fca451d. On Linux it still
-  fails in `shm_open`.
-  
-  Tests:
-  - Updated the name unit test.
-  - The NUL case still goes through `LoadingImage.init` and is rejected.
-  - New round-trip test: it creates a real shm object
-  (`ghostty.test/shm-<pid>` on macOS, `ghostty-test-shm-<pid>` elsewhere),
-  loads it with `t=s`, and checks the bytes and that the terminal unlinked
-  it. It fails on main with `InvalidData`.
-  
-  Tested on macOS (M5, Zig 0.16.0) with `zig build test
-  -Dtest-filter="shared memory"`, `-Dtest-filter=kitty` and `zig build
-  test-lib-vt -Dtest-filter="shared memory"`, plus a full `zig build`. A
-  small C program against libghostty-vt sends `a=t,t=s` for
-  `F2RRU25WBT.sr/e2e<pid>`. With this change the image is stored with OK;
-  on main it gets `EINVAL: invalid data`.
-  
-  AI disclosure: written with Claude Code. It wrote the fix and tests, ran
-  the tests and the libghostty-vt check above, and drafted this
-  description; a second Claude Code pass reviewed the diff. I reviewed and
-  understand the change.
-  ```
-- [`7c9b7da`](https://github.com/ghostty-org/ghostty/commit/7c9b7da47f82b97c6b540d72703f7b05534dfec4) core: size click_state to hold every mouse button ([#14759](https://github.com/ghostty-org/ghostty/issues/14759)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  MouseButton.max is the largest enum value (11), not a count, so an array
-  of that length has no slot for .eleven. Recording a press or release of
-  button 11 indexed past the end, which panics in safe builds.
-  
-  Size the array max + 1 and correct the doc comment on max that suggested
-  using it directly as an array length.
-  
-  AI disclosure: Claude Code was used in the preparation of this PR
-  ```
-- [`63fd4ea`](https://github.com/ghostty-org/ghostty/commit/63fd4eab8267b4f307289bbf0a9d1a4b3e35a5b8) terminal: stop CUB and BS at the left margin ([#14761](https://github.com/ghostty-org/ghostty/issues/14761)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  With reverse wrap off, cursorLeft took a fast path that clamped only at
-  column zero and ignored DECSLRM's left margin, so CUB and BS moved the
-  cursor past it. Clamp to the left margin there as the reverse-wrap path
-  and cursorRight already do, unless the cursor is already left of it.
-  
-  Fixes esctest's test_BS_StopsAtLeftMargin and
-  test_CUB_StopsAtLeftMarginInScrollRegion.
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-- [`746c895`](https://github.com/ghostty-org/ghostty/commit/746c895c6f77a76309783fc1f05c69665219c733) terminal: keep CHA, VPA, HPR and VPR origin-relative ([#14762](https://github.com/ghostty-org/ghostty/issues/14762)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  In origin mode setCursorPos takes coordinates relative to the scrolling
-  region, but the stream handlers for CHA/HPA, VPA, HPR and VPR built them
-  from the cursor's absolute screen position. The coordinate each meant to
-  keep, or move relative to, then had the margin offset added a second
-  time.
-  
-  Add setCursorRow, setCursorCol, cursorRowRelative and cursorColRelative
-  to Terminal, which convert the cursor position into origin-relative
-  coordinates first, as xterm's CursorRow and CursorCol do, and use them
-  from both stream handlers.
-  
-  Fixes esctest's test_CHA_RespectsOriginMode, test_HPR_IgnoresOriginMode
-  and test_VPR_IgnoresOriginMode.
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-- [`891a4db`](https://github.com/ghostty-org/ghostty/commit/891a4dba5757f7bd4db0e927d0d68032320783ff) formatter: restore blank cells and erased backgrounds in VT output ([#14725](https://github.com/ghostty-org/ghostty/issues/14725)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  VT output loses two kinds of blank cells, so replaying it doesn't
-  recreate the original screen properly:
-  
-  1. **Gaps between text.** Empty cells between two pieces of text on a
-  row (left by a cursor movement, for example) are written as spaces, in
-  the pen of the text before them. Replaying the output turns them into
-  text and paints that text's background into the gap. For example,
-  `\x1b[41mred\x1b[0m\x1b[10Gplain` comes back with a red bar between the
-  two words.
-  2. **Cells that only have a background.** Erasing while a background
-  color is set (`EL`, `ED`, `ECH`) leaves cells with no text, only a
-  background color. These are written as spaces, and a row made only of
-  them is treated as blank and dropped, so a full-width colored status bar
-  or a cleared colored screen loses its color.
-  
-  TUIs are doing this all the time - think status lines, panes,
-  highlighted rows in vim/nvim, Claude Code, Codex etc. They are mostly
-  colored erases and gaps.
-  
-  ### Changes
-  
-  Here's what I've done:
-  
-  - Gaps are stepped over with CUF (`\x1b[nC`), which moves the cursor
-  without writing anything, so the cells stay empty.
-  - A run of cells that share one background is recreated the way it was
-  made: `ECH` under that background, then CUF over the run. HTML output is
-  unchanged and still writes a space in the background's style.
-  - Rows of background-only cells are no longer treated as blank in VT
-  output.
-  - When unwrapping, blanks carried over from the end of a wrapped row
-  can't be stepped over, because CUF stops at the end of the row. They are
-  still written as spaces, but with the style closed first, so they no
-  longer take the pen of the text before them. The same goes for an open
-  hyperlink.
-  
-  Side effect: An open hyperlink is no longer closed and reopened around a
-  gap. Why? stepping over the cells doesn't write them, so the link
-  doesn't reach them. This changes the expected output of a test I added
-  in #14711.
-  
-  ### Benchmarks
-  
-  The first two rows use a generated TUI-like corpus with gaps, colored
-  `EL` and colored full-row clears. The last two use the output of
-  `ghostty-gen +styled`, which has no gaps.
-  
-  | Corpus | main | this PR | Change |
-  |---|---|---|---|
-  | TUI-like | 3.91 ms | 3.53 ms | −9.6% |
-  | TUI-like, pin map | 5.12 ms | 4.45 ms | −13% |
-  | styled | 2.52 ms | 2.50 ms | about the same |
-  | styled, pin map | 3.85 ms | 3.79 ms | about the same |
-  
-  On the TUI-like corpus the output is 21% smaller (962,370 → 762,173
-  bytes), since a CUF is shorter than a run of spaces. On corpora without
-  gaps or erased backgrounds the output is byte-identical to `main`.
-  
-  AI disclosure: Created with help from Claude Code using Opus 5.5,
-  Iterated on, manually tested and reviewed by me.
-  ```
-- [`c7cbc9b`](https://github.com/ghostty-org/ghostty/commit/c7cbc9bfd44cb11a9c7eae00f1166624671e363b) formatter: keep trailing blank rows in VT output without trimming ([#14766](https://github.com/ghostty-org/ghostty/issues/14766)) ([@mitchellh](https://github.com/mitchellh))
-  ````text
-  VT output currently leaves out the blank rows at the end of the
-  formatted range, even with trimming off. Because VT is the only output
-  that gets replayed into the terminal, it means a replay without them
-  scrolls less, so whenever there is scrollback the rows above them end up
-  too low.
-  
-  For example, on a 5-row screen with three lines in scrollback,
-  `\x1b[3;1H\x1b[J` (clear below the second row) leaves `4`, `5` and three
-  blank rows. Replaying the VT output shows `1 2 3 4 5` instead: the three
-  blank rows are missing, so `1` to `3` never scroll off. The same happens
-  to a shell prompt after clearing below it and it comes back on the
-  bottom row with older output above it.
-  
-  **Note:** this changes output for existing callers that ask for vT with
-  trim off. They will now get line breaks, they didn't before. Personally,
-  I think that's the right behavior, since asking for exact layout is the
-  point of turning trim off and the description says so.
-  
-  ### Reproduce
-  
-  I have a small Go program using Mitchell's SDK. I can also remove the
-  middle-man if desired, but I've tested and the bug occurs in `main`:
-  
-  ```go
-  // rowsdemo shows the trailing blank rows bug in the real terminal it runs in.
-  //
-  //    rowsdemo           # writes the input straight to this terminal (the original)
-  //    rowsdemo -replay   # feeds it to libghostty and replays the VT snapshot instead
-  //
-  // Both clear the screen and scrollback first, then wait for Enter.
-  package main
-  
-  import (
-        "bufio"
-        "flag"
-        "fmt"
-        "os"
-  
-        "go.mitchellh.com/libghostty"
-        "golang.org/x/term"
-  )
-  
-  func main() {
-        replay := flag.Bool("replay", false, "replay the VT snapshot instead of the input")
-        flag.Parse()
-  
-        cols, rows, err := term.GetSize(int(os.Stdout.Fd()))
-        check(err)
-  
-        // Enough output to fill the screen and push some into scrollback, then
-        // clear below the second row and print a prompt, as a shell does after
-        // clearing below the cursor.
-        var input []byte
-        for i := 1; i <= rows+10; i++ {
-                input = fmt.Appendf(input, "output line %d\r\n", i)
-        }
-        input = append(input, "\x1b[3;1H\x1b[J$ the prompt is here"...)
-  
-        out := input
-        if *replay {
-                t, err := libghostty.NewTerminal(libghostty.WithSize(uint16(cols), uint16(row
-                check(err)
-                t.VTWrite(input)
-                f, err := libghostty.NewFormatter(t,
-                        libghostty.WithFormatterFormat(libghostty.FormatterFormatVT),
-                        libghostty.WithFormatterTrim(false),
-                        libghostty.WithFormatterUnwrap(false),
-                        libghostty.WithFormatterExtraCursor(true),
-                        libghostty.WithFormatterExtraStyle(true),
-                )
-                check(err)
-                out, err = f.Format()
-                check(err)
-        }
-  
-        os.Stdout.WriteString("\x1b[H\x1b[2J\x1b[3J")
-        os.Stdout.Write(out)
-        bufio.NewReader(os.Stdin).ReadString('\n')
-        os.Stdout.WriteString("\x1b[H\x1b[2J\x1b[3J")
-  }
-  
-  func check(err error) {
-        if err != nil {
-                fmt.Fprintln(os.Stderr, "rowsdemo:", err)
-                os.Exit(2)
-        }
-  }
-  ```
-  
-  ### Benchmarks
-  
-  I didn't benchmark this one as the only cost is a few `\r\n` written
-  once at the end of the output.
-  
-  AI disclosure: Created with help from Claude Code using Opus 5.5,
-  Iterated on, manually tested and reviewed by me.
-  ````
-- [`9860397`](https://github.com/ghostty-org/ghostty/commit/98603976e9cfd643ab5dec78be5fd06ea8dbec74) build(deps): bump cachix/install-nix-action from 31.11.1 to 31.11.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
-  ```text
-  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.1 to 31.11.2.
-  - [Release notes](https://github.com/cachix/install-nix-action/releases)
-  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
-  - [Commits](https://github.com/cachix/install-nix-action/compare/13d8dd58da0234aa297dedd986986ccb8e7f3e24...448cde739abec1eaf0646249e3d25bb8d9bc7702)
-  
-  ---
-  updated-dependencies:
-  - dependency-name: cachix/install-nix-action
-    dependency-version: 31.11.2
-    dependency-type: direct:production
-    update-type: version-update:semver-patch
-  ...
-  ```
-- [`765ea37`](https://github.com/ghostty-org/ghostty/commit/765ea37ad64f7e3a48f6ac27a70ad7fb6f31b9bb) build(deps): bump cachix/install-nix-action from 31.11.1 to 31.11.2 ([#14765](https://github.com/ghostty-org/ghostty/issues/14765)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Bumps
-  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
-  from 31.11.1 to 31.11.2.
-  <details>
-  <summary>Release notes</summary>
-  <p><em>Sourced from <a
-  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
-  releases</a>.</em></p>
-  <blockquote>
-  <h2>v31.11.2</h2>
-  <h2>What's Changed</h2>
-  <ul>
-  <li>nix: 2.35.2 -&gt; 2.35.3 by <a
-  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
-  in <a
-  href="https://redirect.github.com/cachix/install-nix-action/pull/282">cachix/install-nix-action#282</a>
-  <strong>Security</strong>: Fixes a number of vulnerabilities that could
-  be combined to achieve root priviledge escalation.
-  See <a
-  href="https://discourse.nixos.org/t/security-advisory-for-nix-and-lix-october-2026/80547">https://discourse.nixos.org/t/security-advisory-for-nix-and-lix-october-2026/80547</a></li>
-  </ul>
-  <p><strong>Full Changelog</strong>: <a
-  href="https://github.com/cachix/install-nix-action/compare/v31.11.1...v31.11.2">https://github.com/cachix/install-nix-action/compare/v31.11.1...v31.11.2</a></p>
-  </blockquote>
-  </details>
-  <details>
-  <summary>Commits</summary>
-  <ul>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/448cde739abec1eaf0646249e3d25bb8d9bc7702"><code>448cde7</code></a>
-  Merge pull request <a
-  href="https://redirect.github.com/cachix/install-nix-action/issues/282">#282</a>
-  from cachix/create-pull-request/patch</li>
-  <li><a
-  href="https://github.com/cachix/install-nix-action/commit/280a41184aaf35a185e673c5fb4412df02ee80e8"><code>280a411</code></a>
-  nix: 2.35.2 -&gt; 2.35.3</li>
-  <li>See full diff in <a
-  href="https://github.com/cachix/install-nix-action/compare/13d8dd58da0234aa297dedd986986ccb8e7f3e24...448cde739abec1eaf0646249e3d25bb8d9bc7702">compare
-  view</a></li>
-  </ul>
-  </details>
-  <br />
-  
-  
-  [![Dependabot compatibility
-  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.11.1&new-version=31.11.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
-  
-  Dependabot will resolve any conflicts with this PR as long as you don't
-  alter it yourself. You can also trigger a rebase manually by commenting
-  `@dependabot rebase`.
-  
-  [//]: # (dependabot-automerge-start)
-  [//]: # (dependabot-automerge-end)
-  
-  ---
-  
-  <details>
-  <summary>Dependabot commands and options</summary>
-  <br />
-  
-  You can trigger Dependabot actions by commenting on this PR:
-  - `@dependabot rebase` will rebase this PR
-  - `@dependabot recreate` will recreate this PR, overwriting any edits
-  that have been made to it
-  - `@dependabot show <dependency name> ignore conditions` will show all
-  of the ignore conditions of the specified dependency
-  - `@dependabot ignore this major version` will close this PR and stop
-  Dependabot creating any more for this major version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this minor version` will close this PR and stop
-  Dependabot creating any more for this minor version (unless you reopen
-  the PR or upgrade to it yourself)
-  - `@dependabot ignore this dependency` will close this PR and stop
-  Dependabot creating any more for this dependency (unless you reopen the
-  PR or upgrade to it yourself)
-  
-  
-  </details>
-  ```
-- [`06d872f`](https://github.com/ghostty-org/ghostty/commit/06d872fa663ba1edab65126ddbb2705c0d565468) Sync CODEOWNERS vouch list ([#14764](https://github.com/ghostty-org/ghostty/issues/14764)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Sync CODEOWNERS owners with vouch list.
-  
-  ## Added Users
-  
-  - @complexsplit
-  - @Pugma
   ```
 
