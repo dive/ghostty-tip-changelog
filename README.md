@@ -8,15 +8,33 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 26, 2026 at 08:25 UTC.
+> Last updated: October 26, 2026 at 15:45 UTC.
 
 ## October 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40267247680), [2](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
-Summary: 2 runs • 6 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40330121151), [2](https://github.com/ghostty-org/ghostty/actions/runs/40267247680), [3](https://github.com/ghostty-org/ghostty/actions/runs/40259139232)  
+Summary: 3 runs • 8 commits • 5 authors
 
 ### Changes
 
+- [`f63124c`](https://github.com/ghostty-org/ghostty/commit/f63124ca3a8d28d63d1e12d8a93d8932037174da) fontconfig: handle when lang is string and not langset ([@pluiedev](https://github.com/pluiedev))
+  ```text
+  Fontconfig accepts strings when a langset is expected. This by itself is
+  not a problem. But for some ungodly reason it can also *return* a string
+  in place of a langset, for example when a `FcPattern` doesn't match any
+  language and it falls back to `"en"`. Just why would you do this? What
+  reason can there ever be to do this??????
+  ```
+- [`8112f76`](https://github.com/ghostty-org/ghostty/commit/8112f7676007b7823798f8a1259ab274058e8bf6) fontconfig: handle when lang is string and not langset ([#14853](https://github.com/ghostty-org/ghostty/issues/14853)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fontconfig accepts strings when a langset is expected. This by itself is
+  not a problem. But for some ungodly reason it can also *return* a string
+  in place of a langset, for example when a `FcPattern` doesn't match any
+  language and it [falls
+  back](https://github.com/fontconfig/fontconfig/blob/b25ffeabd15b76f86c0c6736f6df2f1b89858010/src/fccfg.c#L2062-L2065)
+  to `"en"`. Just why would you do this? What reason can there ever be to
+  do this??????
+  ```
 - [`297507f`](https://github.com/ghostty-org/ghostty/commit/297507f498ef6fd33b7514e143e2d641144457a4) termio: send the config change color scheme report directly ([@jcollie](https://github.com/jcollie))
   ```text
   StreamHandler.changeConfig queued a color_scheme_report message into the
