@@ -8,7 +8,30 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 27, 2026 at 03:25 UTC.
+> Last updated: October 27, 2026 at 11:29 UTC.
+
+## October 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40450332918)  
+Summary: 1 runs • 6 commits • 1 authors
+
+### Changes
+
+- [`99dae4d`](https://github.com/ghostty-org/ghostty/commit/99dae4d8700a63040b4131a5b43bf7f50d5d13d8) ci: add freebsd builds for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+- [`445e234`](https://github.com/ghostty-org/ghostty/commit/445e23496414d870a0407d145b285381fc031bc1) some freebsd fixes ([@mitchellh](https://github.com/mitchellh))
+- [`f13b528`](https://github.com/ghostty-org/ghostty/commit/f13b52851a744f14cb22101dc29d78babdc6e656) terminal: memory decommit/recommit for FreeBSD ([@mitchellh](https://github.com/mitchellh))
+- [`4d429ec`](https://github.com/ghostty-org/ghostty/commit/4d429ecfdeed4e08473602a3071fda897cd18a39) ci: run libghostty-vt tests in CI ([@mitchellh](https://github.com/mitchellh))
+- [`1b9bb3a`](https://github.com/ghostty-org/ghostty/commit/1b9bb3aeb1236e2151539c695fbb03e171fe1e4c) build: -Demit-test-exe only emits the libghostty c tests for libghostty ([@mitchellh](https://github.com/mitchellh))
+- [`68640f3`](https://github.com/ghostty-org/ghostty/commit/68640f3049d5ae76d7d5eebb5bbdf713a3a98713) libghostty-vt: support FreeBSD, test in CI ([#14867](https://github.com/ghostty-org/ghostty/issues/14867)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds support for FreeBSD to libghostty-vt and validates it in CI.
+  
+  There were only a few places we really need to make compatibility fixes:
+  
+  - The memory decommit/recommit stuff, which is very OS specific.
+  - Kitty graphics shared memory paths
+  - TinyIO, one method
+  ```
 
 ## October 26, 2026
 
