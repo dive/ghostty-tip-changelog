@@ -8,15 +8,35 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 27, 2026 at 11:29 UTC.
+> Last updated: October 27, 2026 at 17:18 UTC.
 
 ## October 27, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40450332918)  
-Summary: 1 runs • 6 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40546649739), [2](https://github.com/ghostty-org/ghostty/actions/runs/40541589904), [3](https://github.com/ghostty-org/ghostty/actions/runs/40535055733), [4](https://github.com/ghostty-org/ghostty/actions/runs/40526449383), [5](https://github.com/ghostty-org/ghostty/actions/runs/40450332918)  
+Summary: 5 runs • 13 commits • 4 authors
 
 ### Changes
 
+- [`4a4fc01`](https://github.com/ghostty-org/ghostty/commit/4a4fc017940bec38c93b278c10c6a18c591f3e63) up to 1.4.1-dev ([@mitchellh](https://github.com/mitchellh))
+- [`83fb956`](https://github.com/ghostty-org/ghostty/commit/83fb95624b0439ee660c2679b43b38c8b63769cd) Bump version to 1.4.0 ([@mitchellh](https://github.com/mitchellh))
+- [`155bbbe`](https://github.com/ghostty-org/ghostty/commit/155bbbe5343d6579a20121673702937cee96572f) i18n: polish the Polish ([@Rayzerrek](https://github.com/Rayzerrek))
+- [`d87c497`](https://github.com/ghostty-org/ghostty/commit/d87c497aff312f8bfcaeffbb53813dcccea4492b) i18n: polish the Polish ([#14874](https://github.com/ghostty-org/ghostty/issues/14874)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Picked from #14598
+  ```
+- [`c46e292`](https://github.com/ghostty-org/ghostty/commit/c46e292eda4fb217fbbc2763a7ed6f73f04db4de) Update VOUCHED list ([#14878](https://github.com/ghostty-org/ghostty/issues/14878)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14877#discussioncomment-19221073)
+  from @jcollie.
+  
+  Vouch: @rtgibbons
+  ```
+- [`f9c3b20`](https://github.com/ghostty-org/ghostty/commit/f9c3b20f7ecb8fe145e595469b62841c8fe5cb7d) macOS: increase test coverage for NSPasteboard ([@francislata](https://github.com/francislata))
+- [`a732580`](https://github.com/ghostty-org/ghostty/commit/a7325808ad17249b356824102c4c0e917352b686) macOS: increase test coverage for NSPasteboard ([#14870](https://github.com/ghostty-org/ghostty/issues/14870)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Picked and amended from #14868
+  ```
 - [`99dae4d`](https://github.com/ghostty-org/ghostty/commit/99dae4d8700a63040b4131a5b43bf7f50d5d13d8) ci: add freebsd builds for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
 - [`445e234`](https://github.com/ghostty-org/ghostty/commit/445e23496414d870a0407d145b285381fc031bc1) some freebsd fixes ([@mitchellh](https://github.com/mitchellh))
 - [`f13b528`](https://github.com/ghostty-org/ghostty/commit/f13b52851a744f14cb22101dc29d78babdc6e656) terminal: memory decommit/recommit for FreeBSD ([@mitchellh](https://github.com/mitchellh))
