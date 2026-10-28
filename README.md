@@ -8,7 +8,17 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 28, 2026 at 03:42 UTC.
+> Last updated: October 28, 2026 at 11:59 UTC.
+
+## October 28, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40627109889)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`50e5d21`](https://github.com/ghostty-org/ghostty/commit/50e5d217817e03df64f9af018540b88b6780b087) example: bump minimum zig version to 0.17.0 ([@paaloeye](https://github.com/paaloeye))
+- [`6ba1441`](https://github.com/ghostty-org/ghostty/commit/6ba144158577d033ccb6ed4b574e4013957c9161) example: bump minimum zig version to 0.17.0 ([#14893](https://github.com/ghostty-org/ghostty/issues/14893)) ([@jcollie](https://github.com/jcollie))
 
 ## October 27, 2026
 
