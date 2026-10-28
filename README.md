@@ -8,15 +8,112 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 28, 2026 at 11:59 UTC.
+> Last updated: October 28, 2026 at 18:14 UTC.
 
 ## October 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40627109889)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40736162338), [2](https://github.com/ghostty-org/ghostty/actions/runs/40627109889)  
+Summary: 2 runs • 11 commits • 7 authors
 
 ### Changes
 
+- [`c16d204`](https://github.com/ghostty-org/ghostty/commit/c16d204bf72fbaa6b0ef0855e9439d34ba347eea) deps: update z2d to v0.13.2 ([@vancluever](https://github.com/vancluever))
+  ```text
+  Just a small update that I did to catch a bit of missing API that I
+  wanted to expose in Context, nothing that affects Ghostty, however.
+  
+  Had to skip 0.13.1 because of an issue with the release tooling.
+  ```
+- [`44a4911`](https://github.com/ghostty-org/ghostty/commit/44a4911e9124e64f5da85255e29c21cdfc3d3941) terminal: implement DECIC, DECDC, DECBI, and DECFI ([@jcollie](https://github.com/jcollie))
+  ```text
+  Add the VT420 horizontal scrolling sequences:
+  
+  - DECIC (CSI Pn ' }) inserts columns at the cursor in every row of
+    the scrolling region.
+  - DECDC (CSI Pn ' ~) deletes columns at the cursor in every row of
+    the scrolling region.
+  - DECBI (ESC 6) moves the cursor left, or at the left margin scrolls
+    the region right.
+  - DECFI (ESC 9) moves the cursor right, or at the right margin
+    scrolls the region left, losing the column at the left margin.
+  
+  DECIC and DECDC do nothing when the cursor is outside the scrolling
+  region. The new stream actions are appended to the C ABI action list
+  so that existing values are unchanged.
+  
+  This fixes 20 esctest failures (DECICTests, DECDCTests, DECBITests,
+  and DECFITests now pass in full).
+  ```
+- [`316ab91`](https://github.com/ghostty-org/ghostty/commit/316ab91e49df9b2a87fd786a9650e0c3e270b6ef) po: update code sources ([@trag1c](https://github.com/trag1c))
+- [`bcc1b9f`](https://github.com/ghostty-org/ghostty/commit/bcc1b9faf3394aca0920b1bc57eef24c3dfdc60f) i18n: don't localize the "Ghostty" command's title ([@trag1c](https://github.com/trag1c))
+- [`0cb81fe`](https://github.com/ghostty-org/ghostty/commit/0cb81fe084684d8f81b99cf26c2015a37b11eaf1) datastruct/split_tree: assert goto() is given a valid handle ([@Huge](https://github.com/Huge))
+  ```text
+  goto() indexes the node and spatial slot arrays with `from` unchecked.
+  The only caller (GTK SplitTree.goto) never reaches it with an empty
+  tree, so make the precondition explicit like remove() does instead of
+  silently returning null.
+  ```
+- [`acd72a4`](https://github.com/ghostty-org/ghostty/commit/acd72a42f72da136606807322212886226322f89) i18n: don't localize the "Ghostty" command's title ([#14888](https://github.com/ghostty-org/ghostty/issues/14888)) ([@00-kat](https://github.com/00-kat))
+  ```text
+  also updated the stale code sources
+  ```
+- [`057f148`](https://github.com/ghostty-org/ghostty/commit/057f14896c5a903511dbbc86206fa7acd11b3b8e) deps: update z2d to v0.13.2 ([#14869](https://github.com/ghostty-org/ghostty/issues/14869)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Just a small update that I did to catch a bit of missing API that I
+  wanted to expose in `Context`, nothing that affects Ghostty, however.
+  
+  Had to skip 0.13.1 because of an issue with my release tooling.
+  :man_facepalming:
+  ```
+- [`86d9721`](https://github.com/ghostty-org/ghostty/commit/86d97211ae167da14d38d8f30064f7802094b9c8) terminal: implement DECIC, DECDC, DECBI, and DECFI ([#14884](https://github.com/ghostty-org/ghostty/issues/14884)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Add the VT420 horizontal scrolling sequences:
+  
+  - DECIC (CSI Pn ' }) inserts columns at the cursor in every row of the
+  scrolling region.
+  - DECDC (CSI Pn ' ~) deletes columns at the cursor in every row of the
+  scrolling region.
+  - DECBI (ESC 6) moves the cursor left, or at the left margin scrolls the
+  region right.
+  - DECFI (ESC 9) moves the cursor right, or at the right margin scrolls
+  the region left, losing the column at the left margin.
+  
+  DECIC and DECDC do nothing when the cursor is outside the scrolling
+  region. The new stream actions are appended to the C ABI action list so
+  that existing values are unchanged.
+  
+  This fixes 20 esctest failures (DECICTests, DECDCTests, DECBITests, and
+  DECFITests now pass in full).
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`20ba646`](https://github.com/ghostty-org/ghostty/commit/20ba6462d7de682a43839a469717f0cf3d5ceb5a) datastruct/split_tree: assert goto() is given a valid handle ([#14904](https://github.com/ghostty-org/ghostty/issues/14904)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `SplitTree.goto()` indexes `self.nodes` / the spatial slots with `from`
+  without checking it. On an empty tree, `.previous_wrapped`,
+  `.next_wrapped` and `.spatial` hit `index out of bounds: index 0, len
+  0`; `.previous` and `.next` just return null.
+  
+  This is not reachable today: the only caller, the GTK
+  `SplitTree.goto()`, gets `from` from `getActiveSurfaceHandle()`, which
+  returns null for an empty tree, so it bails out first. So this is not a
+  bug fix, only the contract made explicit, the same way `remove()`
+  asserts `at.idx() < self.nodes.len`:
+  
+  - doc comment: `from` must be a valid handle, so the tree must not be
+  empty
+  - `assert(from.idx() < self.nodes.len)` at the top of `goto()`
+  
+  I first sent a `return null` guard with a test and overstated the
+  impact; this replaces it. Can close it if you'd rather not have the
+  assert.
+  
+  Tested: `zig build test -Dtest-filter=SplitTree`, `zig fmt --check`.
+  
+  AI disclosure: written with LM-based assistants - Antigravity for the
+  first version, Opus for the slightly improved rework. I reviewed the
+  changeset of both.
+  ```
 - [`50e5d21`](https://github.com/ghostty-org/ghostty/commit/50e5d217817e03df64f9af018540b88b6780b087) example: bump minimum zig version to 0.17.0 ([@paaloeye](https://github.com/paaloeye))
 - [`6ba1441`](https://github.com/ghostty-org/ghostty/commit/6ba144158577d033ccb6ed4b574e4013957c9161) example: bump minimum zig version to 0.17.0 ([#14893](https://github.com/ghostty-org/ghostty/issues/14893)) ([@jcollie](https://github.com/jcollie))
 
