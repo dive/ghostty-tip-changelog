@@ -8,15 +8,38 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 29, 2026 at 09:14 UTC.
+> Last updated: October 29, 2026 at 17:55 UTC.
 
 ## October 29, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
-Summary: 1 runs • 3 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40905187830), [2](https://github.com/ghostty-org/ghostty/actions/runs/40882266997), [3](https://github.com/ghostty-org/ghostty/actions/runs/40863292794), [4](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
+Summary: 4 runs • 7 commits • 4 authors
 
 ### Changes
 
+- [`108d503`](https://github.com/ghostty-org/ghostty/commit/108d503ac591d5a3b3a13a4bc11bbea8c09a42fb) Update VOUCHED list ([#14936](https://github.com/ghostty-org/ghostty/issues/14936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14935#discussioncomment-19271347)
+  from @jcollie.
+  
+  Vouch: @jglanz
+  ```
+- [`4071344`](https://github.com/ghostty-org/ghostty/commit/40713449c609158017801c6dd39f465a281741a5) i18n: command palette - Focus and Untitled translation support ([@EriksRemess](https://github.com/EriksRemess))
+- [`93967b7`](https://github.com/ghostty-org/ghostty/commit/93967b7f9478e94dcbb42125c8a90f34feb40d75) i18n: command palette - Focus and Untitled translation support ([#14055](https://github.com/ghostty-org/ghostty/issues/14055)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  "Focus: {s}" and "Untitled" was not included in command palette
+  translations. This PR adds support and placeholders in .po files for
+  those strings.
+  ```
+- [`df1c99c`](https://github.com/ghostty-org/ghostty/commit/df1c99c8a5ec32c73963e5dc3fad3c9df7a3d137) Update VOUCHED list ([#14930](https://github.com/ghostty-org/ghostty/issues/14930)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14928#discussioncomment-19265783)
+  from @pluiedev.
+  
+  Vouch: @romen
+  ```
 - [`5ee2150`](https://github.com/ghostty-org/ghostty/commit/5ee215000ebe4354cd388962bc372152d16dacc6) nix: drop removed gnome-photos from VM excludes ([@gaborbernat](https://github.com/gaborbernat))
   ```text
   The nixpkgs update for Zig 0.17 removed gnome-photos, so evaluating
