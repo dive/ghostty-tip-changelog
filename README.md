@@ -8,15 +8,97 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 28, 2026 at 18:14 UTC.
+> Last updated: October 29, 2026 at 00:33 UTC.
 
 ## October 28, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40736162338), [2](https://github.com/ghostty-org/ghostty/actions/runs/40627109889)  
-Summary: 2 runs • 11 commits • 7 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40788698089), [2](https://github.com/ghostty-org/ghostty/actions/runs/40775317812), [3](https://github.com/ghostty-org/ghostty/actions/runs/40736162338), [4](https://github.com/ghostty-org/ghostty/actions/runs/40627109889)  
+Summary: 4 runs • 21 commits • 9 authors
 
 ### Changes
 
+- [`7ee1074`](https://github.com/ghostty-org/ghostty/commit/7ee1074fbda91f0ed19ea34a6ba08a0c30bee2b2) Update VOUCHED list ([#14915](https://github.com/ghostty-org/ghostty/issues/14915)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14914#discussioncomment-19255908)
+  from @jcollie.
+  
+  Vouch: @clinta
+  ```
+- [`4c8ad98`](https://github.com/ghostty-org/ghostty/commit/4c8ad9817e9e0fbb6060695ba50aa85e1174bf00) config: fix formatting of long environment values ([@12ya](https://github.com/12ya))
+  ```text
+  Write map entries directly to the output writer instead of using a
+  256-byte buffer. Add a regression test for a 300-byte value.
+  ```
+- [`9ee1031`](https://github.com/ghostty-org/ghostty/commit/9ee1031ba7c5a0436388072e3f11a199d2c0a602) config: use allocator printing in long-value test ([@12ya](https://github.com/12ya))
+  ```text
+  #14908
+  
+  Replace both deprecated std.fmt.allocPrint calls with alloc.print.
+  
+  AI assistance: Codex updated both calls and ran the targeted tests.
+  ```
+- [`0b8b998`](https://github.com/ghostty-org/ghostty/commit/0b8b9984ee560456194262d190aa850224edb1f4) config: fix formatting of long environment values ([#14908](https://github.com/ghostty-org/ghostty/issues/14908)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Write map entries directly to the output writer instead of using a
+  256-byte buffer. Add a regression test for a 300-byte value.
+  
+  <img width="654" height="77" alt="Screenshot 2026-10-29 at 2 50 41 AM"
+  src="https://github.com/user-attachments/assets/82ba4f78-2137-4bc5-bd6f-2f2afe6cd96c"
+  />
+  ```
+- [`aa16f94`](https://github.com/ghostty-org/ghostty/commit/aa16f9429caa2aa6fc9bc32983a0f7bb902551e3) nix: drop the revision from the zig deps derivation name ([@mitchellh](https://github.com/mitchellh))
+- [`04c7597`](https://github.com/ghostty-org/ghostty/commit/04c75975052a657081a1f568b0f36ec8c57a46b0) ci: gate expensive jobs on a quick build instead of the full test suite ([@mitchellh](https://github.com/mitchellh))
+- [`68b8377`](https://github.com/ghostty-org/ghostty/commit/68b837766217cea65cfe802dc79d4103a732c38f) ci: split build-nix into one job per target and architecture ([@mitchellh](https://github.com/mitchellh))
+- [`ecc8792`](https://github.com/ghostty-org/ghostty/commit/ecc87922ecbde7cea6289dcd9e3dfbc38716c04f) ci: build the source tarball without waiting on its tests ([@mitchellh](https://github.com/mitchellh))
+- [`1848241`](https://github.com/ghostty-org/ghostty/commit/184824102aa269350132eed4242493c739d3e53c) ci: run the full test suite once across the GTK and SIMD legs ([@mitchellh](https://github.com/mitchellh))
+- [`c27ef4c`](https://github.com/ghostty-org/ghostty/commit/c27ef4c1b109fb2b9947730c391f1a7d06eaa62f) ci: improvements to speed things up, step one shorten critical paths for tests ([#14911](https://github.com/ghostty-org/ghostty/issues/14911)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Test on main takes over an hour and I'm tired of it. Almost all of that
+  is one chain: every expensive job waits on `test` (~13 min), and then
+  the arm64 `build-nix` job runs six `nix build`s serially (~50 min),
+  rebuilding the Zig deps derivation every commit because its name embeds
+  the git revision so that forces a rebuild.
+  
+  This breaks that chain up. By commit:
+  
+  - **nix: drop the revision from the zig deps derivation name.** The deps
+  derivation now matches `.#deps`, so it only rebuilds when
+  `build.zig.zon` changes and Cachix actually hits. This was costing ~8
+  minutes of arm64 time per run.
+  - **ci: gate expensive jobs on a quick build.** A new `build-gate` job
+  (just `zig build`, ~2 min) replaces `needs: test`. Cheap jobs that don't
+  need a compile gate now only wait on `skip`. `test` runs in parallel
+  with everything else.
+  - **ci: split build-nix into one job per target and architecture.** 12
+  parallel jobs instead of 2 long serial ones. `required` checks them by
+  result like everything else.
+  - **ci: build the source tarball without waiting on its tests.**
+  `build-dist` now runs `zig build dist`, so the Debian, snap, and flatpak
+  jobs get the tarball in a few minutes instead of ~13. The full
+  `distcheck` (unchanged) runs as `test-dist` on an md runner in parallel.
+  - **ci: run the full test suite once across the GTK and SIMD legs.** The
+  x11/wayland options don't change anything the unit tests cover, and
+  `-Dsimd=true` is the default, so we were running the same full suite
+  four extra times. The GTK legs still all build. This saves about 46
+  runner-minutes per run. Also pins `nix-installer-action` to v23 instead
+  of `@main`.
+  
+  Some tradeoffs worth knowing:
+  
+  - If `test` fails, the expensive jobs still run, since they're only
+  gated on a compile now. Failing PRs cost more compute; passing PRs get
+  much faster feedback. I think that's fine.
+  - The first run after this merges will be a bit slow for Nix since all
+  12 jobs build the deps derivation cold. After that it comes from Cachix.
+  
+  I plan to continue looking for improvements after this.
+  
+  **AI disclosure:** I used Fable to measure the existing CI runs and
+  propose plans to break it down. I massaged those plans pretty
+  significantly. I used Opus to write YAML because fuck writing YAML. I
+  read it all.
+  ```
 - [`c16d204`](https://github.com/ghostty-org/ghostty/commit/c16d204bf72fbaa6b0ef0855e9439d34ba347eea) deps: update z2d to v0.13.2 ([@vancluever](https://github.com/vancluever))
   ```text
   Just a small update that I did to catch a bit of missing API that I
@@ -949,140 +1031,4 @@ Summary: 1 runs • 2 commits • 2 authors
   Change-Id: I4efdf6a51f568b4bc2678ef4a6aa1c106a6a6964
   ```
 - [`22f100c`](https://github.com/ghostty-org/ghostty/commit/22f100c6367045bb5fc86172f837047dee2f7670) docs: replace stale function name. `ghostty_vt_osc_free()` should be `ghostty_osc_free` ([#14818](https://github.com/ghostty-org/ghostty/issues/14818)) ([@jcollie](https://github.com/jcollie))
-
-## October 22, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/39847564398)  
-Summary: 1 runs • 9 commits • 2 authors
-
-### Changes
-
-- [`432612c`](https://github.com/ghostty-org/ghostty/commit/432612cc3ffd76ef2ced5c6b966908a80eb71e7e) build: add -Dinstalled-exe-path for the Linux launcher files ([@jcollie](https://github.com/jcollie))
-  ```text
-  The Zig 0.17 port replaced the absolute path to the executable in the
-  desktop file, D-Bus services and systemd user service with a bare
-  `ghostty`, since the install prefix is no longer known while the build
-  is configured. systemd resolves a bare ExecStart= name against a fixed
-  search path rather than PATH: /usr/bin and /usr/local/bin on most
-  systems, and only systemd's own directory on NixOS. So the service
-  failed to start for any install outside those directories, including
-  every Nix one.
-  
-  -Dinstalled-exe-path gives the absolute path to write into those files.
-  Without it they still name the executable alone, which is right for
-  packages installing to /usr. The Nix package passes its output path, and
-  the Flatpak manifests pass /app/bin/ghostty, which is what they produced
-  before the port.
-  ```
-- [`390e607`](https://github.com/ghostty-org/ghostty/commit/390e607550c2cfef322c761c7e4a40424be53eec) nix: check that the launcher files name the installed executable ([@jcollie](https://github.com/jcollie))
-  ```text
-  Run `systemd-analyze verify` on the systemd user service, and check that
-  every Exec= and TryExec= in the D-Bus service and desktop file is an
-  absolute path to an executable, so a build that stops passing
-  -Dinstalled-exe-path fails instead of shipping a service systemd can't
-  start.
-  
-  The verifier starts a user manager, which needs a writable runtime
-  directory that the sandbox doesn't have, so it gets one under $TMPDIR.
-  ```
-- [`3079a43`](https://github.com/ghostty-org/ghostty/commit/3079a4396693c6cd76a3d5adc0e6d756a55bb290) kitty graphics: non-chunk continuations end the chunked transmission ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  While a chunked Kitty graphics load was in progress, every transmit
-  or animation frame command was treated as its next chunk, regardless
-  of its transmission medium. A file (`t=f`), temporary file (`t=t`), or
-  shared memory (`t=s`) command arriving mid-load had its encoded path
-  appended to the partial image as pixel data.
-  
-  This diverged from Kitty. The spec only defines chunking for direct
-  data, and continuation chunks must carry only the `m` and `q` keys, so
-  a command with another medium can never be a continuation. Kitty
-  abandons the in-progress load and handles the command as a new
-  transmission, for both image and animation frame loads. A client that
-  interrupts a load this way now gets the image or frame it asked for
-  instead of a corrupted or failed one.
-  
-  `execute` now destroys the in-progress load before dispatching any
-  non-direct transmit or frame command, so the command is handled as a
-  fresh transmission, including its own `q` setting.
-  ```
-- [`75a7606`](https://github.com/ghostty-org/ghostty/commit/75a7606c3f19d08eb00dfdbd0b919abb6545ee0e) terminal: discard cancelled or aborted APC commands ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ECMA-48 says a control string that is cancelled or aborted is thrown
-  away. xterm only dispatches a control string on ST, and Kitty only
-  ends an APC on ST or BEL, so neither runs the command.
-  
-  https://ecma-international.org/publications-and-standards/standards/ecma-48/
-  ```
-- [`bbbd749`](https://github.com/ghostty-org/ghostty/commit/bbbd749064737297dabb1d32e78da4f47e23001d) kitty graphics: non-chunk continuations end the chunked transmission ([#14811](https://github.com/ghostty-org/ghostty/issues/14811)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  While a chunked Kitty graphics load was in progress, every transmit or
-  animation frame command was treated as its next chunk, regardless of its
-  transmission medium. A file (`t=f`), temporary file (`t=t`), or shared
-  memory (`t=s`) command arriving mid-load had its encoded path appended
-  to the partial image as pixel data.
-  
-  This diverged from Kitty. The spec only defines chunking for direct
-  data, and continuation chunks must carry only the `m` and `q` keys, so a
-  command with another medium can never be a continuation. Kitty abandons
-  the in-progress load and handles the command as a new transmission, for
-  both image and animation frame loads. A client that interrupts a load
-  this way now gets the image or frame it asked for instead of a corrupted
-  or failed one.
-  
-  `execute` now destroys the in-progress load before dispatching any
-  non-direct transmit or frame command, so the command is handled as a
-  fresh transmission, including its own `q` setting.
-  ```
-- [`8026651`](https://github.com/ghostty-org/ghostty/commit/80266510281cd209361a7e8283b3de82bcd90f53) terminal: discard cancelled or aborted APC commands ([#14812](https://github.com/ghostty-org/ghostty/issues/14812)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  ECMA-48 says a control string that is cancelled or aborted is thrown
-  away. xterm only dispatches a control string on ST, and Kitty only ends
-  an APC on ST or BEL, so neither runs the command.
-  
-  
-  https://ecma-international.org/publications-and-standards/standards/ecma-48/
-  ```
-- [`e07a6f0`](https://github.com/ghostty-org/ghostty/commit/e07a6f0eba66a07b7f893e1d814018c57b0d1d6e) terminal: continuations must restart at C1 sequence introducers ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  A stream continuation that ended after an 8-bit C1 introducer had
-  aborted an APC could not be exported. For example, `ESC _ data 0x9B`
-  ends the APC and starts a CSI, but the tracker only treats ESC as the
-  start of a new sequence, so it kept the aborted APC. Replaying that
-  would end the APC a second time, and validation rejected it.
-  
-  Export now starts at the last C1 introducer that moved the parser into
-  a new sequence and writes it in its 7-bit ESC form.
-  ```
-- [`d278256`](https://github.com/ghostty-org/ghostty/commit/d278256dbf0783340d64bc40b8523dd977b30c21) build: add -Dinstalled-exe-path for the Linux launcher files ([#14806](https://github.com/ghostty-org/ghostty/issues/14806)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The Zig 0.17 port replaced the absolute path to the executable in the
-  desktop file, D-Bus services and systemd user service with a bare
-  `ghostty`, since the install prefix is no longer known while the build
-  is configured. systemd resolves a bare ExecStart= name against a fixed
-  search path rather than PATH: /usr/bin and /usr/local/bin on most
-  systems, and only systemd's own directory on NixOS. So the service
-  failed to start for any install outside those directories, including
-  every Nix one.
-  
-  -Dinstalled-exe-path gives the absolute path to write into those files.
-  Without it they still name the executable alone, which is right for
-  packages installing to /usr. The Nix package passes its output path, and
-  the Flatpak manifests pass /app/bin/ghostty, which is what they produced
-  before the port.
-  
-  Fixes #14805
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-- [`08a9518`](https://github.com/ghostty-org/ghostty/commit/08a9518340e19487bd5fdf96963583fb32f0c41f) terminal: continuations must restart at C1 sequence introducers ([#14814](https://github.com/ghostty-org/ghostty/issues/14814)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  A stream continuation that ended after an 8-bit C1 introducer had
-  aborted an APC could not be exported. For example, `ESC _ data 0x9B`
-  ends the APC and starts a CSI, but the tracker only treats ESC as the
-  start of a new sequence, so it kept the aborted APC. Replaying that
-  would end the APC a second time, and validation rejected it.
-  
-  Export now starts at the last C1 introducer that moved the parser into a
-  new sequence and writes it in its 7-bit ESC form.
-  ```
 
