@@ -8,7 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 29, 2026 at 00:33 UTC.
+> Last updated: October 29, 2026 at 09:14 UTC.
+
+## October 29, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
+Summary: 1 runs • 3 commits • 2 authors
+
+### Changes
+
+- [`5ee2150`](https://github.com/ghostty-org/ghostty/commit/5ee215000ebe4354cd388962bc372152d16dacc6) nix: drop removed gnome-photos from VM excludes ([@gaborbernat](https://github.com/gaborbernat))
+  ```text
+  The nixpkgs update for Zig 0.17 removed gnome-photos, so evaluating
+  any GNOME VM check fails with "'gnome-photos' has been removed".
+  Excluding a package that no longer exists is unnecessary.
+  ```
+- [`f563ced`](https://github.com/ghostty-org/ghostty/commit/f563ceda37c51e6e3b0212f5c6965ff3113628d0) nix: apply GNOME Shell unsafe mode to the user unit ([@gaborbernat](https://github.com/gaborbernat))
+  ```text
+  The pinned GNOME starts org.gnome.Shell@user, so the --unsafe-mode
+  override on org.gnome.Shell@wayland never applies. Without it,
+  org.gnome.Shell.Eval returns nothing and basic-window-check-gnome
+  times out waiting for the focused window.
+  ```
+- [`b2c78c9`](https://github.com/ghostty-org/ghostty/commit/b2c78c9bd9bc88a16d9c3769b0fb17ddde1b78b1) nix: fix GNOME VM tests on main ([#14910](https://github.com/ghostty-org/ghostty/issues/14910)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The GNOME VM checks fail on main, unnoticed because CI doesn't build
+  them: `gnome-photos` was removed from nixpkgs in 3110fb358, breaking
+  evaluation, and the `--unsafe-mode` override targets
+  `org.gnome.Shell@wayland` while GNOME now starts `org.gnome.Shell@user`,
+  so `Shell.Eval` returns nothing. Dropping the exclude and retargeting
+  the override makes `basic-window-check-gnome` and
+  `bell-leak-check-gnome` pass again.
+  
+  **AI assistance:** I used Claude Code (Claude Opus 5.5) to find and
+  verify this. I reviewed the change.
+  ```
 
 ## October 28, 2026
 
