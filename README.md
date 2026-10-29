@@ -8,15 +8,54 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 29, 2026 at 17:55 UTC.
+> Last updated: October 29, 2026 at 22:24 UTC.
 
 ## October 29, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40905187830), [2](https://github.com/ghostty-org/ghostty/actions/runs/40882266997), [3](https://github.com/ghostty-org/ghostty/actions/runs/40863292794), [4](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
-Summary: 4 runs • 7 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40944541875), [2](https://github.com/ghostty-org/ghostty/actions/runs/40905187830), [3](https://github.com/ghostty-org/ghostty/actions/runs/40882266997), [4](https://github.com/ghostty-org/ghostty/actions/runs/40863292794), [5](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
+Summary: 5 runs • 9 commits • 6 authors
 
 ### Changes
 
+- [`f761046`](https://github.com/ghostty-org/ghostty/commit/f761046d6b8a30ad49181ad330ae2f18532cb193) formatter: restore a pending wrap at the right margin ([@robmorgan](https://github.com/robmorgan))
+  ```text
+  The VT formatter restores a pending wrap by reprinting the cell under the
+  cursor, but only when the cursor is in the last column. With left and
+  right margins (DECLRMM and DECSLRM), a wrap is pending at the right margin
+  when the cursor is within the margins, so there it wrote a CUP, which
+  clears the wrap, and the next character overwrote the margin's column
+  instead of wrapping.
+  
+  The terminal formatter restores the modes and the margins before the
+  cursor, so when it emits both it now tells the screen formatter to
+  reprint the cell at the right margin when the cursor is within the
+  margins. The screen formatter alone, and a terminal formatter without
+  those extras, still only reprint in the last column, since the margins
+  are not in force when their output is replayed.
+  ```
+- [`9781c0a`](https://github.com/ghostty-org/ghostty/commit/9781c0afc8225510e33127466f0815eb51086d7d) formatter: restore a pending wrap at the right margin ([#14918](https://github.com/ghostty-org/ghostty/issues/14918)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The VT formatter restores a pending wrap by reprinting the cell under
+  the cursor, but only when the cursor is in the last column. With left
+  and right margins (`DECLRMM` and `DECSLRM`), a wrap is pending at the
+  right margin when the cursor is within the margins, so it writes a CUP,
+  which clears the wrap, and the next character overwrites the margin's
+  column instead of wrapping.
+  
+  The terminal formatter restores the modes and the margins before the
+  cursor, so when it emits both, it now tells the screen formatter to
+  reprint the cell at the right margin when the cursor is within the
+  margins. The screen formatter alone, and a terminal formatter without
+  those extras, still only reprints in the last column, since the margins
+  are not in force when their output is replayed.
+  
+  I haven't benchmarked this because the change only does a fixed amount
+  of work once per format call and never touches the per-cell loops where
+  formatting spends most of its time.
+  
+  AI disclosure: Created with help from Claude Code using Opus 5.5,
+  Iterated on, manually tested and reviewed by me.
+  ```
 - [`108d503`](https://github.com/ghostty-org/ghostty/commit/108d503ac591d5a3b3a13a4bc11bbea8c09a42fb) Update VOUCHED list ([#14936](https://github.com/ghostty-org/ghostty/issues/14936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
