@@ -8,15 +8,141 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 30, 2026 at 17:56 UTC.
+> Last updated: October 30, 2026 at 21:57 UTC.
 
 ## October 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41088392462), [2](https://github.com/ghostty-org/ghostty/actions/runs/41066122923), [3](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [4](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [5](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
-Summary: 5 runs • 18 commits • 6 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41126163986), [2](https://github.com/ghostty-org/ghostty/actions/runs/41124653536), [3](https://github.com/ghostty-org/ghostty/actions/runs/41119470525), [4](https://github.com/ghostty-org/ghostty/actions/runs/41115877636), [5](https://github.com/ghostty-org/ghostty/actions/runs/41105956349), [6](https://github.com/ghostty-org/ghostty/actions/runs/41088392462), [7](https://github.com/ghostty-org/ghostty/actions/runs/41066122923), [8](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [9](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [10](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
+Summary: 10 runs • 30 commits • 9 authors
 
 ### Changes
 
+- [`8bb4f45`](https://github.com/ghostty-org/ghostty/commit/8bb4f45846ecde0ab53a846ee1bca5533dca8c5f) fuzz: fix replay crash detection and add osc target ([@paaloeye](https://github.com/paaloeye))
+- [`a0706b7`](https://github.com/ghostty-org/ghostty/commit/a0706b79b3d791873177b1fda4b155267769e8c5) fuzz: fix replay crash detection and add osc target ([#14896](https://github.com/ghostty-org/ghostty/issues/14896)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  In Nushell, running an external command that exits successfully returns
+  stdout as an empty string. The previous error check tested whether the
+  result was not `null`, which always evaluated to `true` for clean exits.
+  
+  Use the `complete` command to inspect the process exit code.
+  
+  Additionally, add "osc" to the default list of fuzzers so OSC crashes
+  are replayed by default.
+  
+  Ref: https://www.nushell.sh/commands/docs/complete.html
+  ```
+- [`fbed180`](https://github.com/ghostty-org/ghostty/commit/fbed180a5f181915c92a8f2f561903a6e4645b5a) Update VOUCHED list ([#14960](https://github.com/ghostty-org/ghostty/issues/14960)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14959#discussioncomment-19301732)
+  from @jcollie.
+  
+  Vouch: @AryanHamedani
+  ```
+- [`4d7de0a`](https://github.com/ghostty-org/ghostty/commit/4d7de0a483e40e2c1dc542315b2a87be96977df2) fix(ssh): show authentication messages during terminfo setup ([@clinta](https://github.com/clinta))
+  ```text
+  Suppressing SSH stderr hid keyboard-interactive login instructions.
+  Inherit it instead; installer output remains suppressed by default.
+  ```
+- [`9644c75`](https://github.com/ghostty-org/ghostty/commit/9644c7571d43f988415b3ed38f40be76e5964dd4) datastruct: fix clearing circular buffers with zero capacity ([@12ya](https://github.com/12ya))
+  ```text
+  Keep buffers with zero capacity marked full after clear(), so append()
+  returns error.OutOfMemory instead of panicking.
+  
+  Add a regression test for this case.
+  ```
+- [`f040f0a`](https://github.com/ghostty-org/ghostty/commit/f040f0ab0ee30d77794b98d87e27fc9105ee6ab9) datastruct: fix clearing circular buffers with zero capacity ([#14958](https://github.com/ghostty-org/ghostty/issues/14958)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Keep buffers with zero capacity marked full after clear(), so append()
+  returns error.OutOfMemory instead of panicking.
+  
+  Add a regression test for this case.
+  
+  AI disclosure: OpenAI Codex
+  ```
+- [`4489314`](https://github.com/ghostty-org/ghostty/commit/44893148d009bd372f5f7e8d2edbd0340fc82b65) cli: show SSH authentication messages during terminfo setup ([#14916](https://github.com/ghostty-org/ghostty/issues/14916)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `+ssh` suppresses stderr during terminfo setup. OpenSSH still displays
+  authentication prompts through `/dev/tty`, but accompanying
+  informational messages from custom SSH servers are hidden. This can make
+  authentication appear to stall.
+  
+  Inherit SSH stderr without disabling interactive authentication.
+  Installer output remains suppressed by default, and `--verbose` behavior
+  is preserved. SSH warnings and login banners can now also appear during
+  setup.
+  
+  Tested with 114 focused SSH tests and nine real OpenSSH scenarios
+  covering keyboard-interactive setup and login, the Bash shell wrapper,
+  installation, fallback, caching, environment forwarding, and exit-status
+  propagation.
+  
+  Oh-My-Pi using GPT-6.1 Sol assisted with diagnosis, implementation,
+  validation, and drafting this change.
+  ```
+- [`32da5e4`](https://github.com/ghostty-org/ghostty/commit/32da5e47b26cad0dadb36c279ae9e020a2e60959) snap: avoid trailing colon in LD_LIBRARY_PATH ([@12ya](https://github.com/12ya))
+  ```text
+  Add the separator only when appending a nonempty inherited path.
+  A trailing colon adds the working directory to library lookup,
+  which can make launcher commands load a conflicting local library
+  and fail before Ghostty starts.
+  ```
+- [`1d23d02`](https://github.com/ghostty-org/ghostty/commit/1d23d02ae16f86d9c9a3792098cb906b94208bcc) snap: avoid trailing colon in LD_LIBRARY_PATH ([#14954](https://github.com/ghostty-org/ghostty/issues/14954)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Add the separator only when appending a nonempty inherited path. A
+  trailing colon adds the working directory to library lookup, which can
+  make launcher commands load a conflicting local library and fail before
+  Ghostty starts.
+  
+  Verified with the extracted Ghostty 1.4.0 ARM64 Snap in Docker:
+  the original launcher exits 127 with an empty libc.so.6 in the
+  working directory, while the corrected launcher exits 0.
+  
+  I intended to open an issue documenting this investigation, but
+  issue creation is restricted. I can provide the Docker commands
+  used to reproduce the failure in the follow up comments instead.
+  
+  
+  AI disclosure: OpenAI Codex assisted with investigating the issue,
+  proposing the fix, running Docker reproductions, reviewing the
+  change, and drafting this commit message.
+  ```
+- [`93404a4`](https://github.com/ghostty-org/ghostty/commit/93404a48a9a8bf265bb1671e0e6d9985322f6682) Update VOUCHED list ([#14957](https://github.com/ghostty-org/ghostty/issues/14957)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14956#discussioncomment-19300741)
+  from @jcollie.
+  
+  Vouch: @yeager
+  ```
+- [`86c704a`](https://github.com/ghostty-org/ghostty/commit/86c704afdde5a8ee67300d924d1c52b4d82b4ff4) gtk: fix jumps when resizing splits via keybind ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  `syncSplitRatio` now exits early if GTK size allocation has not yet
+  computed a value for the `max-position` property of the `GtkPaned`
+  widget. Initially `max-position` has the max value for a `c_int`, so
+  that calculations in the function would overflow and set the split ratio
+  to 0. This could happen when resizing a split multiple times by holding
+  down a keybind.
+  ```
+- [`ca91d0a`](https://github.com/ghostty-org/ghostty/commit/ca91d0a24e67b3eecdb23c943227cd2b3908747b) gtk: fix jumps when resizing splits via keybind ([#14951](https://github.com/ghostty-org/ghostty/issues/14951)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `syncSplitRatio` now exits early if GTK size allocation has not yet
+  computed a value for the `max-position` property of the `GtkPaned`
+  widget. Initially `max-position` has the max value for a `c_int`, so
+  that calculations in the function would overflow and set the split ratio
+  to 0. This could happen when resizing a split multiple times by holding
+  down a keybind.
+  
+  Fixes a regression introduced by #14476 where the split ratio sometimes
+  jumps to the minimum when holding down the resize keybind. See the video
+  below. When `syncSplitRatio` is called from `SplitTree.resize` it is not
+  guaranteed that the `GtkPaned` widget has already been size allocated.
+  This can happen with many resizes in a short time because the `GtkPaned`
+  widget is rebuilt on every one.
+  
+  
+  https://github.com/user-attachments/assets/442adf44-3a1c-41ee-bdc4-aa971848893e
+  ```
 - [`90ed851`](https://github.com/ghostty-org/ghostty/commit/90ed851dea8a7f328ad937adc5521c809f2cd41d) config: ignore repeated space in direct commands ([@12ya](https://github.com/12ya))
   ```text
   Repeated spaces in direct: commands produced empty arguments.
