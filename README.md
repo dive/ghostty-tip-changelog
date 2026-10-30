@@ -8,15 +8,119 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 30, 2026 at 12:00 UTC.
+> Last updated: October 30, 2026 at 17:56 UTC.
 
 ## October 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [2](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [3](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
-Summary: 3 runs • 14 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41088392462), [2](https://github.com/ghostty-org/ghostty/actions/runs/41066122923), [3](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [4](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [5](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
+Summary: 5 runs • 18 commits • 6 authors
 
 ### Changes
 
+- [`90ed851`](https://github.com/ghostty-org/ghostty/commit/90ed851dea8a7f328ad937adc5521c809f2cd41d) config: ignore repeated space in direct commands ([@12ya](https://github.com/12ya))
+  ```text
+  Repeated spaces in direct: commands produced empty arguments.
+  Use tokenizeScalar to skip those empty fields and add a regression
+  case for repeated spaces between arguments.
+  ```
+- [`e2593c1`](https://github.com/ghostty-org/ghostty/commit/e2593c1496cbf9f34f13e53d2d83b80283c8f24f) config: ignore repeated space in direct commands ([#14950](https://github.com/ghostty-org/ghostty/issues/14950)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Repeated spaces in direct: commands produced empty arguments. Use
+  tokenizeScalar to skip those empty fields and add a regression case for
+  repeated spaces between arguments.
+  
+  
+  follow up to https://github.com/ghostty-org/ghostty/pull/14921
+  ```
+- [`854e514`](https://github.com/ghostty-org/ghostty/commit/854e51422732c00088ceb79b09a61e504b89800d) snap: bundle gstreamer plugins so audio bell works ([@aaron-ang](https://github.com/aaron-ang))
+  ```text
+  When `bell-features = audio` is enabled, GTK plays the bell through its
+  GStreamer media backend. GTK links GStreamer itself, but GStreamer also
+  needs playback, decode and audio sink plugins to build a pipeline, and
+  the snap ships none of them, so the bell silently fails to play.
+  
+  Stage gstreamer1.0-plugins-base/-good/-pulseaudio for the decode and
+  audio sink pipeline (typefind, playbin/decodebin, vorbis, audioconvert,
+  autoaudiosink, pulsesink). In the launcher, export
+  GST_PLUGIN_SYSTEM_PATH, GST_PLUGIN_SCANNER and GST_REGISTRY so
+  GStreamer finds the bundled plugins and keeps a per-user registry cache
+  under SNAP_USER_COMMON, and unset GST_PLUGIN_PATH plus the `_1_0`
+  variants so host settings can't override the bundled paths.
+  ```
+- [`ff23824`](https://github.com/ghostty-org/ghostty/commit/ff23824213b8d7ab7a07dca6a7e0d68cad51b802) snap: bundle gstreamer plugins so audio bell works ([#12676](https://github.com/ghostty-org/ghostty/issues/12676)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ## Summary
+  
+  With `bell-features = audio` and a valid `bell-audio-path` configured,
+  no sound plays in the snap build of Ghostty.
+  
+  On core26, GTK links GStreamer directly. GStreamer still needs playback,
+  decode and audio-sink plugins to build a pipeline, and the snap ships
+  none of them, so the bell fails silently.
+  
+  `bell-features = system` (the compositor sound, via
+  `gdk_surface_beep()`) already works and is unchanged.
+  
+  ## Fix
+  
+  - Stage `gstreamer1.0-plugins-base`, `gstreamer1.0-plugins-good` and
+  `gstreamer1.0-pulseaudio`. This gives the snap `typefind`,
+  `playbin`/`decodebin`, `ogg`, `vorbis`, `audioconvert`, `autoaudiosink`,
+  `pulsesink`, etc.
+  - In `snap/local/launcher`, export `GST_PLUGIN_SYSTEM_PATH`,
+  `GST_PLUGIN_SCANNER` and `GST_REGISTRY`. GStreamer then uses only the
+  bundled plugins and keeps a per-user registry cache under
+  `SNAP_USER_COMMON`.
+  - Unset `GST_PLUGIN_PATH`, `GST_PLUGIN_PATH_1_0`,
+  `GST_PLUGIN_SYSTEM_PATH_1_0`, `GST_PLUGIN_SCANNER_1_0` and
+  `GST_REGISTRY_1_0`. GStreamer prefers the `_1_0` variants over the
+  unversioned ones, so host settings could otherwise override the bundled
+  paths.
+  
+  `gstreamer1.0-pipewire` is not included. PipeWire registers
+  `pipewiresink` with rank none
+  ([source](https://github.com/PipeWire/pipewire/blob/master/src/gst/gstpipewire.c)),
+  so `autoaudiosink` never selects it. On PipeWire hosts the bell plays
+  through `pulsesink` and pipewire-pulse. The package would also pull in
+  the `pipewire` daemon package without changing behavior.
+  
+  ## Local build
+  
+  The snap CI builds from a release tarball. Building
+  `snap/snapcraft.yaml` from a git checkout needs two changes that are
+  *not* part of this PR:
+  
+  1. A `VERSION` file at the repo root, e.g. `echo 1.4.0-dev > VERSION`.
+  2. `blueprint-compiler` 0.20.0 or newer on `PATH` during the build.
+  Ubuntu 26.04 ships 0.19.0. I ran v0.20.0 from source and added
+  `python3-gi`, `gir1.2-gtk-4.0` and `gir1.2-adw-1` to `build-packages`.
+  
+  ## Test plan
+  
+  I built the snap on core26 (arm64) and installed it on an Ubuntu 24.04
+  host.
+  
+  - [x] The snap contains the plugins above, and `gst-plugin-scanner` sits
+  at the path the launcher exports.
+  - [x] I ran `playbin` on `/usr/share/sounds/freedesktop/stereo/bell.oga`
+  with the snap's own GStreamer libraries and the launcher's `GST_*`
+  environment:
+    - It played to EOS.
+    - `autoaudiosink` selected the bundled `pulsesink`.
+    - Audio was captured from a null sink.
+  - [x] With an empty plugin directory, the same test fails to create
+  `playbin`. This shows the plugins come from the snap.
+  
+  ## AI Disclosure
+  
+  Claude Code was used throughout:
+  - diagnosing the missing plugins
+  - drafting the `snapcraft.yaml` and launcher changes
+  - rebasing onto core26 and addressing review feedback
+  - driving the core26 snap build and the GStreamer playback test
+  
+  I reviewed every line of the diff and understand what each change does.
+  ```
 - [`8c04d7c`](https://github.com/ghostty-org/ghostty/commit/8c04d7c2e8c37a4044b1af4c58e529c714c83b20) config: reject empty prefixed commands ([@12ya](https://github.com/12ya))
   ```text
   Commands containing only `direct:` or `shell:` were accepted because
