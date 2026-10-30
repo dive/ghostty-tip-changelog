@@ -8,7 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 29, 2026 at 22:24 UTC.
+> Last updated: October 30, 2026 at 04:03 UTC.
+
+## October 30, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
+Summary: 1 runs • 1 commits • 1 authors
+
+### Changes
+
+- [`7c6e101`](https://github.com/ghostty-org/ghostty/commit/7c6e1011c237aaac3d19d094b3c4bdada3b21bc8) Update VOUCHED list ([#14943](https://github.com/ghostty-org/ghostty/issues/14943)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14942#discussioncomment-19283760)
+  from @jcollie.
+  
+  Vouch: @tonypapousek
+  ```
 
 ## October 29, 2026
 
@@ -1114,17 +1130,4 @@ Summary: 2 runs • 3 commits • 3 authors
   
   Vouch: @AlJohri
   ```
-
-## October 23, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40003456956)  
-Summary: 1 runs • 2 commits • 2 authors
-
-### Changes
-
-- [`a743c4e`](https://github.com/ghostty-org/ghostty/commit/a743c4e53ed62ff7ebca286200d251c4999f398e) docs: replace stale function name. `ghostty_vt_osc_free()` should be `ghostty_osc_free` ([@Uzaaft](https://github.com/Uzaaft))
-  ```text
-  Change-Id: I4efdf6a51f568b4bc2678ef4a6aa1c106a6a6964
-  ```
-- [`22f100c`](https://github.com/ghostty-org/ghostty/commit/22f100c6367045bb5fc86172f837047dee2f7670) docs: replace stale function name. `ghostty_vt_osc_free()` should be `ghostty_osc_free` ([#14818](https://github.com/ghostty-org/ghostty/issues/14818)) ([@jcollie](https://github.com/jcollie))
 
