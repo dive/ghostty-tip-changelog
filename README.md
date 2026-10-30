@@ -8,15 +8,188 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 30, 2026 at 04:03 UTC.
+> Last updated: October 30, 2026 at 12:00 UTC.
 
 ## October 30, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [2](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [3](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
+Summary: 3 runs • 14 commits • 5 authors
 
 ### Changes
 
+- [`8c04d7c`](https://github.com/ghostty-org/ghostty/commit/8c04d7c2e8c37a4044b1af4c58e529c714c83b20) config: reject empty prefixed commands ([@12ya](https://github.com/12ya))
+  ```text
+  Commands containing only `direct:` or `shell:` were accepted because
+  the empty-input check ran before prefix removal.
+  ```
+- [`cf0ab14`](https://github.com/ghostty-org/ghostty/commit/cf0ab14aed55315a53de668bc1bbcf4a13ce0ddd) config: reject empty prefixed commands ([#14921](https://github.com/ghostty-org/ghostty/issues/14921)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Commands containing only `direct:` or `shell:` were accepted because the
+  empty-input check ran before prefix removal.
+  
+  AI assistance: Used OpenAI Codex
+  ```
+- [`7e79688`](https://github.com/ghostty-org/ghostty/commit/7e7968826f02f846e04706729cdccc4b85b85258) tmux: unescape %output and handle window-close ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  %output payload bytes that cannot travel in the control stream are
+  octal-escaped. Unescape them in place so pane data is the original
+  bytes. Also parse %window-close / %unlinked-window-close and
+  %session-window-changed, and emit an active_window action so callers
+  can track tmux's current window.
+  
+  #1935
+  ```
+- [`c2d9362`](https://github.com/ghostty-org/ghostty/commit/c2d93620efc6364b95641fa317d428b8a4e1f9ab) tmux: do not unescape %output in the parser ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  #1935
+  
+  Decoding octal escapes while parsing %output is wasted work if a
+  control client never reads pane bytes. Leave the payload as tmux
+  sent it; callers that need the original stream can decode later.
+  Window-close, session-window-changed, and active_window are unchanged.
+  ```
+- [`dc6ab39`](https://github.com/ghostty-org/ghostty/commit/dc6ab39fb1f31c6e0ffe2fadfc0b3e2d4d347442) termio: handle tmux active_window action ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  The viewer emits active_window when the current tmux window
+  changes. The stream handler switch did not cover that tag, so
+  the GTK build failed. Accept the action and leave GUI
+  notification for a later change, matching the windows case.
+  ```
+- [`9a92081`](https://github.com/ghostty-org/ghostty/commit/9a920818820f0885e9302b6831cdfe5a2aab67a4) tmux: honor session id on active window changes ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  #1935
+  
+  %session-window-changed is broadcast to every control client for
+  every session. Emit active_window only when the notification's
+  session matches the one this viewer is attached to.
+  %window-pane-changed stays ignored, since an active pane change
+  does not mean the current window changed. If recording the action
+  runs out of memory, the viewer becomes defunct.
+  ```
+- [`7e4cc4f`](https://github.com/ghostty-org/ghostty/commit/7e4cc4fae011dc3a133ce625d6cf6f0d546be64a) tmux: reject oversized control ids without leaking ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  #1935
+  
+  %window-close and %session-window-changed are split with prefix
+  cuts instead of compiling a regex on every notification. An id
+  that is not decimal digits or does not fit in usize is ignored
+  rather than crashing. If a later list-windows line fails to
+  parse, layout arenas from the lines that already parsed are freed.
+  ```
+- [`539a7f1`](https://github.com/ghostty-org/ghostty/commit/539a7f1ce770b12071ca146e9824b9d9e5a1b88f) nix: use store paths for propagated GStreamer packages ([@romen](https://github.com/romen))
+  ```text
+  postFixup wrote the literal attribute names (e.g.
+  "gst_all_1.gstreamer") into nix-support/propagated-user-env-packages
+  instead of store paths. Anything that builds an environment from that
+  file fails, e.g. `nix shell github:ghostty-org/ghostty/v1.4.0`:
+  
+      error: not an absolute path: 'gst_all_1.gstreamer'
+  
+  Interpolate the packages so the file contains their store paths.
+  
+  
+  Change-Id: I37035d027b3ec2396f7d39911fe7dc336a6a6964
+  ```
+- [`2ddcda8`](https://github.com/ghostty-org/ghostty/commit/2ddcda8e80fdf53d2a6fdee9d36f4986d858d477) tmux: test %exit with and without a reason ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  #1935
+  
+  The parser already accepts a bare %exit and one with a reason
+  such as "server exited", and drops the reason. Cover both forms.
+  Use std.mem.find for the session-window split; indexOf is deprecated.
+  ```
+- [`0a5a6a6`](https://github.com/ghostty-org/ghostty/commit/0a5a6a6e1a20928f4b097d51ec9fcf06de353024) Merge remote-tracking branch 'origin/main' into tmux-pr4-protocol ([@MisterTea](https://github.com/MisterTea))
+- [`cd00d09`](https://github.com/ghostty-org/ghostty/commit/cd00d09c64c34c3074b0b2c2f584fce6fbab2ca9) tmux: ignore active_window in raw startup tests ([@MisterTea](https://github.com/MisterTea))
+  ```text
+  #1935
+  
+  Main's raw startup viewer test switches on every viewer action.
+  The active_window action added for %session-window-changed was
+  unhandled, so CI failed to compile that test. This startup path
+  does not change the active window, so the test ignores the action.
+  ```
+- [`eec45a5`](https://github.com/ghostty-org/ghostty/commit/eec45a52dda2a3080023ef45d37797a091b486bd) tmux: handle window-close and active window ([#14273](https://github.com/ghostty-org/ghostty/issues/14273)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ## Summary
+  
+  - Parse `%window-close` / `%unlinked-window-close` and
+  `%session-window-changed`.
+  - Emit an `active_window` viewer action so later layers can track tmux's
+  current window.
+  - Parse `%exit` as soon as the notification line is seen.
+  
+  `%output` is left escaped on purpose. A control client that is not
+  reading pane bytes should not pay to decode octal sequences up front;
+  callers that need the original stream can unescape later (see #12076).
+  
+  This is stacked on #14262. GitHub will also show that commit until it
+  merges, because we cannot target another PR's branch from a fork.
+  
+  **Depends on:** #14262
+  
+  CI / compile may fail until that PR is on `main`. That is expected.
+  
+  ## Test plan
+  
+  - [ ] `zig build test-lib-vt -Dtest-filter="tmux"` after #14262 is
+  merged
+  - [ ] Close a tmux window and change the active window; parser emits the
+  new notifications (still log-only on `main` until later PRs)
+  
+  ## AI disclosure
+  
+  This change was written with [Cursor](https://cursor.com). I directed
+  the work, reviewed the diff, and am responsible for it.
+  
+  Related: #1935
+  
+  Made with [Cursor](https://cursor.com)
+  ```
+- [`e1e05c1`](https://github.com/ghostty-org/ghostty/commit/e1e05c1cd13efc4bc962f4a3fd8c4e310267b340) nix: use store paths for propagated GStreamer packages ([#14929](https://github.com/ghostty-org/ghostty/issues/14929)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  `nix/package.nix` writes the GStreamer entries in
+  `nix-support/propagated-user-env-packages` as plain strings
+  (`gst_all_1.gstreamer`) rather than store paths. The package builds
+  fine, but anything that reads that file to assemble an environment fails
+  afterwards. With 1.4.0:
+  
+      $ nix shell github:ghostty-org/ghostty/v1.4.0
+      error: not an absolute path: 'gst_all_1.gstreamer'
+  
+  `nix run` is unaffected since it doesn't read propagated packages.
+  
+  This interpolates the three packages so their store paths are written,
+  matching the `$terminfo`, `$shell_integration` and `$vim` lines above.
+  
+  Tested on x86_64-linux:
+  
+  ```
+  nix build .#default
+  cat result/nix-support/propagated-user-env-packages   # all store paths now
+  nix shell .#default -c ghostty --version
+  
+  # Also tested a long-running GUI session with the resulting environment and tested AV playing with `mpv -vo kitty`
+  nix shell .#default
+  which ghostty # points to the path of the just build derivation
+  ghostty # opens a new ghostty window
+  # within that new window
+  mpv -vo kitty ~/Downloads/some_random_video.mp4
+  # Video and Audio both play properly
+  ```
+  
+  AI disclosure: Claude Opus 5.5, used to diagnose the issue, edit the
+  commit message, and draft the initial version of this PR description.
+  I (a human being) manually patched the nix file (admittedly it was a
+  trivial fix), and tested the patch.
+  
+  
+  ---
+  
+  **Note: I know this will be automatically closed until I am vouched, but
+  I'd like to store here the PR description, while the fix is fresh,
+  rather than having to craft a new one if the vouching process takes
+  days.**
+  ````
 - [`7c6e101`](https://github.com/ghostty-org/ghostty/commit/7c6e1011c237aaac3d19d094b3c4bdada3b21bc8) Update VOUCHED list ([#14943](https://github.com/ghostty-org/ghostty/issues/14943)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
