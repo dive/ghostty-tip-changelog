@@ -8,15 +8,64 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 31, 2026 at 20:54 UTC.
+> Last updated: October 31, 2026 at 23:54 UTC.
 
 ## October 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41221492187), [2](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [3](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [4](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [5](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
-Summary: 5 runs • 9 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41244998361), [2](https://github.com/ghostty-org/ghostty/actions/runs/41221492187), [3](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [4](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [5](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [6](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
+Summary: 6 runs • 11 commits • 5 authors
 
 ### Changes
 
+- [`c7be56a`](https://github.com/ghostty-org/ghostty/commit/c7be56a04696249a2c33abac88586338aba7fc7a) fuzz: exercise hierarchical context in osc harness ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  The OSC fuzzer harness previously discarded the parsed command returned
+  by the OSC parser without evaluating lazily parsed metadata. **OSC 3008**
+  hierarchical context sequences parse metadata fields on demand through
+  readOption, leaving option parsing, type conversions, and unescaping
+  unexercised by the fuzzer.
+  
+  When a hierarchical context command is produced, query every defined
+  context field to fuzz option extraction and validation. For string
+  fields with escape sequences, exercise both the streaming character
+  iterator and heap-allocated decoding paths. Seed inputs for **OSC 3008** in
+  the initial and minimized corpora are updated with escaped metadata.
+  
+  Also align the fuzzer package minimum Zig version with the root build
+  and pass the target macOS deployment version and `-Wno-override-module`
+  to afl-cc to silence target triple and linker version mismatch warnings.
+  
+  AI disclosure: AI helped to discover AFL++ args and drafted this commit message.
+  
+  Spec: https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
+  Assited-By: Gemini 4 Argon (Medium)
+  Assited-By: Antigravity CLI 1.3.5
+  Agent-Session: 0c644e81-47c4-4768-95ee-5660020523dd
+  ```
+- [`83b57ac`](https://github.com/ghostty-org/ghostty/commit/83b57ac5ead868e133adb509f7ef0a4ffa3ffe01) fuzz: exercise hierarchical context in osc harness ([#14977](https://github.com/ghostty-org/ghostty/issues/14977)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The OSC fuzzer harness previously discarded the parsed command returned
+  by the OSC parser without evaluating lazily parsed metadata. **OSC
+  3008** hierarchical context sequences parse metadata fields on demand
+  through `readOption`, leaving option parsing, type conversions, and
+  unescaping unexercised by the fuzzer.
+  
+  When a hierarchical context command is produced, query every defined
+  context field to fuzz option extraction and validation. Seed inputs for
+  **OSC 3008** in the initial and minimized corpora are updated with
+  escaped metadata.
+  
+  Also align the fuzzer package minimum Zig version with the root build
+  and pass the target macOS deployment version and `-Wno-override-module`
+  to `afl-cc` to silence target triple and linker version mismatch
+  warnings.
+  
+  AI disclosure: AI helped to discover AFL++ args and drafted this commit
+  message.
+  
+  Spec:
+  https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
+  ```
 - [`b01ca00`](https://github.com/ghostty-org/ghostty/commit/b01ca003ca76687072b1cac6f1e3dd1bd0e27fa5) benchmark: add shaper-rows benchmark ([@AryanHamedani](https://github.com/AryanHamedani))
   ```text
   Measures turning terminal rows into text runs (`--mode=runs`) and
