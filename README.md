@@ -8,15 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 31, 2026 at 03:47 UTC.
+> Last updated: October 31, 2026 at 11:35 UTC.
 
 ## October 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [2](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [2](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [3](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
+Summary: 3 runs • 4 commits • 3 authors
 
 ### Changes
 
+- [`51e7fe5`](https://github.com/ghostty-org/ghostty/commit/51e7fe51db607773a651b161527beb10ce92a611) terminal/tmux: parse %output without a regex ([@jcollie](https://github.com/jcollie))
+  ```text
+  Parse `%output %<pane> <data>` by hand instead of compiling an
+  Oniguruma regex for every pane write, matching how %window-close and
+  %session-window-changed are already parsed.
+  
+  The pane id now goes through parseDecimalId, so an id that overflows
+  usize is logged and dropped rather than hitting `catch unreachable`.
+  Empty data is accepted rather than rejected.
+  
+  The data is sliced from the line directly rather than through
+  std.mem.cutPrefix, which returns a const slice, so that it keeps the
+  mutability of the parser buffer it points into.
+  ```
+- [`ae0dc1b`](https://github.com/ghostty-org/ghostty/commit/ae0dc1b7136c2baddc3e067663aa041cd555cfda) terminal/tmux: parse %output without a regex ([#14947](https://github.com/ghostty-org/ghostty/issues/14947)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Parse `%output %<pane> <data>` by hand instead of compiling an Oniguruma
+  regex for every pane write, matching how %window-close and
+  %session-window-changed are already parsed.
+  
+  The pane id now goes through parseDecimalId, so an id that overflows
+  usize is logged and dropped rather than hitting `catch unreachable`.
+  Empty data is accepted rather than rejected.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
 - [`c911f96`](https://github.com/ghostty-org/ghostty/commit/c911f96ee8fedd4594b5b69f1128fcb03f560622) Update VOUCHED list ([#14969](https://github.com/ghostty-org/ghostty/issues/14969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
