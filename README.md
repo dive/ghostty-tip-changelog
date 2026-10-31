@@ -8,7 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 30, 2026 at 21:57 UTC.
+> Last updated: October 31, 2026 at 03:47 UTC.
+
+## October 31, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [2](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
+Summary: 2 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`c911f96`](https://github.com/ghostty-org/ghostty/commit/c911f96ee8fedd4594b5b69f1128fcb03f560622) Update VOUCHED list ([#14969](https://github.com/ghostty-org/ghostty/issues/14969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14963#discussioncomment-19307157)
+  from @jcollie.
+  
+  Vouch: @hamidp
+  ```
+- [`0a672a9`](https://github.com/ghostty-org/ghostty/commit/0a672a914479354aa8599c75927485b22905c394) Update VOUCHED list ([#14968](https://github.com/ghostty-org/ghostty/issues/14968)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14964#discussioncomment-19306948)
+  from @jcollie.
+  
+  Vouch: @edsarmiento
+  ```
 
 ## October 30, 2026
 
@@ -1482,55 +1506,5 @@ Summary: 3 runs • 9 commits • 4 authors
   
   First pass written with Claude Code (Claude Opus 5.5), reviewed and
   reprompted by me.
-  ```
-
-## October 24, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40135767958), [2](https://github.com/ghostty-org/ghostty/actions/runs/40048552838)  
-Summary: 2 runs • 3 commits • 3 authors
-
-### Changes
-
-- [`9cac2bd`](https://github.com/ghostty-org/ghostty/commit/9cac2bd0cf5a4de233e05851d1aaa1347f5baf7f) terminal/kitty: remove placements in erased history ([@jcollie](https://github.com/jcollie))
-  ```text
-  Erasing scrollback (ED3) moved Kitty image placements anchored in the
-  erased rows onto the top-left of the active area, where they became
-  visible again until the next screen clear. PageList.eraseRows moves
-  tracked pins in erased rows to the top-left of the retained rows
-  without marking them garbage, so the image storage never noticed the
-  placement had lost its row.
-  
-  Remove pin-backed placements in the erased history range (and any
-  relative placements orphaned by that) before erasing the rows, while
-  their pins still identify them. The PageList pin semantics are left
-  unchanged since search relies on erased pins not being garbage.
-  
-  Fixes: #14831
-  ```
-- [`bcfe577`](https://github.com/ghostty-org/ghostty/commit/bcfe5775454aebe2103e4dde906177b54fe61a94) terminal/kitty: remove placements in erased history ([#14832](https://github.com/ghostty-org/ghostty/issues/14832)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Erasing scrollback (ED3) moved Kitty image placements anchored in the
-  erased rows onto the top-left of the active area, where they became
-  visible again until the next screen clear. PageList.eraseRows moves
-  tracked pins in erased rows to the top-left of the retained rows without
-  marking them garbage, so the image storage never noticed the placement
-  had lost its row.
-  
-  Remove pin-backed placements in the erased history range (and any
-  relative placements orphaned by that) before erasing the rows, while
-  their pins still identify them. The PageList pin semantics are left
-  unchanged since search relies on erased pins not being garbage.
-  
-  Fixes: #14831
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-- [`8ef0ec1`](https://github.com/ghostty-org/ghostty/commit/8ef0ec1238220a5a714be452ed2844f0691fcf83) Update VOUCHED list ([#14824](https://github.com/ghostty-org/ghostty/issues/14824)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14822#discussioncomment-19157195)
-  from @jcollie.
-  
-  Vouch: @AlJohri
   ```
 
