@@ -8,15 +8,61 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 31, 2026 at 16:42 UTC.
+> Last updated: October 31, 2026 at 20:54 UTC.
 
 ## October 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [2](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [3](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [4](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
-Summary: 4 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41221492187), [2](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [3](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [4](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [5](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
+Summary: 5 runs • 9 commits • 4 authors
 
 ### Changes
 
+- [`b01ca00`](https://github.com/ghostty-org/ghostty/commit/b01ca003ca76687072b1cac6f1e3dd1bd0e27fa5) benchmark: add shaper-rows benchmark ([@AryanHamedani](https://github.com/AryanHamedani))
+  ```text
+  Measures turning terminal rows into text runs (`--mode=runs`) and
+  shaping them (`--mode=shape`), which the renderer does for every dirty
+  row on every frame. Shaped runs are cached by the renderer but run
+  iteration is not, so `runs` isolates the per-frame cost a cache can't
+  hide. The data file fills a screen during setup, which is not timed.
+  ```
+- [`1461f06`](https://github.com/ghostty-org/ghostty/commit/1461f068745a4b9524e197a38a876072a9a220f0) benchmark: end a shaper frame after each shaper-rows pass ([@AryanHamedani](https://github.com/AryanHamedani))
+  ```text
+  CoreText shapers keep CoreFoundation objects in a release pool until
+  endFrame(). The renderer calls it once per frame, so do the same once
+  per pass instead of letting every pass accumulate in the pool.
+  ```
+- [`3bd54e0`](https://github.com/ghostty-org/ghostty/commit/3bd54e025cc3349ee76ab1af7ec1ff8f7353632b) benchmark: add shaper-rows benchmark ([#14965](https://github.com/ghostty-org/ghostty/issues/14965)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds `ghostty-bench +shaper-rows`, as suggested in
+  https://github.com/ghostty-org/ghostty/pull/11079#issuecomment-6524841018.
+  
+  None of the existing benchmarks cover the font shaper. This one fills a
+  screen from `--data` during setup, which isn't timed, and then makes
+  `--iterations` passes (default 200) over every row:
+  
+  - `--mode=runs` only splits rows into text runs. The renderer does this
+  for every dirty row on every frame, and unlike shaping it isn't cached,
+  so this shows the per-frame cost.
+  - `--mode=shape` also shapes each run.
+  
+  It uses the embedded Inconsolata face with the embedded Arabic face as
+  fallback, so RTL input gets shaped by a real font. Terminal size is
+  `--terminal-rows`/`--terminal-cols` (80x120), same as `screen-clone`.
+  
+  On main (Linux, HarfBuzz, ReleaseFast), with hyperfine, 10 runs each:
+  
+  | data | runs | shape |
+  |---|---|---|
+  | 2000 lines of `src/terminal/Terminal.zig` | 34.7 ms ±1.0 | 84.3 ms
+  ±2.0 |
+  | 2000 lines of Persian prose | 58.2 ms ±3.2 | 246.7 ms ±12.7 |
+  
+  On #11079 it picked up a 2x slowdown in `runs` on plain ASCII.
+  
+  *AI disclosure: I used Claude Code to write and port this benchmark and
+  to draft this description. I've read the code and can explain it, and I
+  ran the numbers above myself.*
+  ```
 - [`ce92029`](https://github.com/ghostty-org/ghostty/commit/ce920296c891d0f9e266cfb908057716304182ab) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([@mitchellh](https://github.com/mitchellh))
   ```text
   Full-screen `eraseDisplay` now skips finding the last prompt line when
