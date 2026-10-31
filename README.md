@@ -8,15 +8,82 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 31, 2026 at 11:35 UTC.
+> Last updated: October 31, 2026 at 16:42 UTC.
 
 ## October 31, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [2](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [3](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
-Summary: 3 runs • 4 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [2](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [3](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [4](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
+Summary: 4 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`ce92029`](https://github.com/ghostty-org/ghostty/commit/ce920296c891d0f9e266cfb908057716304182ab) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Full-screen `eraseDisplay` now skips finding the last prompt line when
+  we haven't seen semantic prompts. For screens without OSC133,
+  full-screen erases are now ~2x faster.
+  
+  Programs that redraw by clearing the screen (TUIs, `watch`, etc.)
+  would hit this unnecessary path every clear because they never emit
+  OSC133.
+  
+  This also adds a `+erase` generator to `ghostty-gen` that produces a
+  stream of full-screen clears and cursor movement to simulate
+  pathological inputs that hit this optimization.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
+  | --------------- | ------- | ------------- | -------------- | ------- |
+  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
+  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
+  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
+  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
+  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
+  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
+  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
+  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
+  
+  This also fixes a couple places where we wern't properly setting
+  `seen`.
+  ```
+- [`9bfa8ee`](https://github.com/ghostty-org/ghostty/commit/9bfa8ee9a1d73f99208c1f056c4e4b5783402ead) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([#14975](https://github.com/ghostty-org/ghostty/issues/14975)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Full-screen `eraseDisplay` now skips finding the last prompt line when
+  we haven't seen semantic prompts. For screens without OSC133,
+  full-screen erases are now ~2x faster.
+  
+  Programs that redraw by clearing the screen (TUIs, `watch`, etc.) would
+  hit this unnecessary path every clear because they never emit OSC133.
+  
+  This also adds a `+erase` generator to `ghostty-gen` that produces a
+  stream of full-screen clears and cursor movement to simulate
+  pathological inputs that hit this optimization.
+  
+  This also fixes a couple places where we wern't properly setting `seen`.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
+  | --------------- | ------- | ------------- | -------------- | ------- |
+  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
+  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
+  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
+  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
+  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
+  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
+  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
+  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
+  
+  The benchmarks most importantly show not just the speedup but that
+  existing data shapes are unaffected.
+  
+  **AI disclosure:** Fable found the slowdown cause (reported by a
+  libghostty user), I fixed it, Fable+Opus validated my work and found a
+  couple bugs (e.g. missing setting `seen` in cursor copy and snapshot).
+  Opus wrote the synthetic generator and ran the benchmarks. I wrote all
+  the comments and this PR body.
+  ```
 - [`51e7fe5`](https://github.com/ghostty-org/ghostty/commit/51e7fe51db607773a651b161527beb10ce92a611) terminal/tmux: parse %output without a regex ([@jcollie](https://github.com/jcollie))
   ```text
   Parse `%output %<pane> <data>` by hand instead of compiling an
