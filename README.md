@@ -8,15 +8,137 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 1, 2026 at 12:32 UTC.
+> Last updated: November 1, 2026 at 19:19 UTC.
 
 ## November 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41300698848), [2](https://github.com/ghostty-org/ghostty/actions/runs/41270777866), [3](https://github.com/ghostty-org/ghostty/actions/runs/41265367781), [4](https://github.com/ghostty-org/ghostty/actions/runs/41262969399)  
-Summary: 4 runs • 6 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41334104825), [2](https://github.com/ghostty-org/ghostty/actions/runs/41316706444), [3](https://github.com/ghostty-org/ghostty/actions/runs/41315316132), [4](https://github.com/ghostty-org/ghostty/actions/runs/41300698848), [5](https://github.com/ghostty-org/ghostty/actions/runs/41270777866), [6](https://github.com/ghostty-org/ghostty/actions/runs/41265367781), [7](https://github.com/ghostty-org/ghostty/actions/runs/41262969399)  
+Summary: 7 runs • 13 commits • 5 authors
 
 ### Changes
 
+- [`5e7714e`](https://github.com/ghostty-org/ghostty/commit/5e7714e71cd41ac0095aefa2120838842dfeca48) datastruct: prevent overflow in circular buffer arithmetic ([@12ya](https://github.com/12ya))
+  ```text
+  Check capacity growth and slice bounds before addition. Calculate
+  wrapped indexes without overflowing intermediate sums and reuse the
+  index calculation in the iterator.
+  
+  Add regression tests for capacity requests and index operations near
+  the usize limit.
+  ```
+- [`0aa2f7c`](https://github.com/ghostty-org/ghostty/commit/0aa2f7caf52988bbfa42290cd3afbfbf550c0ef6) datastruct: use checked addition for buffer capacity ([@12ya](https://github.com/12ya))
+  ```text
+  #14987
+  
+  Use std.math.add to reject overflowing capacity requests while preserving the OutOfMemory error.
+  ```
+- [`c7eb3e8`](https://github.com/ghostty-org/ghostty/commit/c7eb3e8b96288e47e12f045056d270f8ba7f45f0) datastruct: restore circular buffer explanations ([@12ya](https://github.com/12ya))
+  ```text
+  #14987
+  
+  Restore iterator and head/tail explanations removed during overflow hardening. Describe saturating seeks and wrapping arithmetic accurately.
+  ```
+- [`a7e8e4d`](https://github.com/ghostty-org/ghostty/commit/a7e8e4d15bd0f12ad2a1123bf157b338e526c23e) datastruct: prevent overflow in circular buffer arithmetic ([#14987](https://github.com/ghostty-org/ghostty/issues/14987)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Check capacity growth and slice bounds before addition. Calculate
+  wrapped indexes without overflowing intermediate sums and reuse the
+  index calculation in the iterator.
+  
+  Add regression tests for capacity requests and index operations near the
+  usize limit.
+  
+  AI disclosure: OpenAI Codex
+  ```
+- [`54d162d`](https://github.com/ghostty-org/ghostty/commit/54d162da5bea1d95399574495bde4ddb91df0784) terminal: apply every attribute of an SGR sequence at once ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  An SGR sequence with several attributes, such as `CSI 0;1;38;5;100 m`,
+  now updates the cursor style once after all of its attributes are
+  applied.
+  
+  Previously, we applied per-attribute: 0, then 1, then 38, etc. Each forced
+  a lookup, a hash, etc.
+  
+  Multi-attribute SGRs are common. Programs like Neovim, ncurses programs,
+  btop, etc. In the 2.6 GB asciinema dump, about 9% of all SGR sequences
+  are multi-attribute.
+  
+  ## How
+  
+  The action carries the whole sequence rather than keeping per-attribute
+  actions and adding a trailing "end of sequence" marker. A handler that
+  wants the old per-attribute view iterates `value.parser()`, and a
+  handler that wants to batch gets the sequence boundary for free, with
+  no state carried between actions.
+  
+  Unknown attributes are ignored silently in the app handler now, the
+  same as libghostty-vt already did.
+  
+  There are no behavioral changes here.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)   | sgr-multi (ms) | Speedup |
+  | --------------- | ----------- | -------------- | ------- |
+  | styled-multi.vt | 367.7 ± 0.8 | 233.7 ± 0.6    | 1.57x   |
+  | out.txt (2.6GB) | 5929 ± 26   | 5679 ± 8       | 1.04x   |
+  | styled-heavy.vt | 238.7 ± 0.8 | 231.5 ± 0.8    | 1.03x   |
+  | styled-mixed.vt | 573.9 ± 1.9 | 571.3 ± 2.3    | 1.00x   |
+  | osc.vt          | 1124 ± 7    | 1119 ± 3       | 1.00x   |
+  | utf8.vt         | 379.1 ± 1.5 | 378.5 ± 1.2    | 1.00x   |
+  | styled-plain.vt | 64.2 ± 0.4  | 64.2 ± 0.4     | 1.00x   |
+  | ascii.vt        | 40.3 ± 0.2  | 40.3 ± 0.2     | 1.00x   |
+  
+  Importantly: normal non-SGR workloads are unaffected.
+  ```
+- [`2f967e3`](https://github.com/ghostty-org/ghostty/commit/2f967e3a6ab231188c29a97fb422e479a254e97c) terminal: apply every attribute of an SGR sequence at once ([#14995](https://github.com/ghostty-org/ghostty/issues/14995)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  An SGR sequence with several attributes, such as `CSI 0;1;38;5;100 m`,
+  now updates the cursor style once after all of its attributes are
+  applied.
+  
+  Previously, we applied per-attribute: 0, then 1, then 38, etc. Each
+  forced a lookup, a hash, etc.
+  
+  Multi-attribute SGRs are common. Programs like Neovim, ncurses programs,
+  btop, etc. In the 2.6 GB asciinema dump, about 9% of all SGR sequences
+  are multi-attribute.
+  
+  ## How
+  
+  The action carries the whole sequence rather than keeping per-attribute
+  actions and adding a trailing "end of sequence" marker. A handler that
+  wants the old per-attribute view iterates `value.parser()`, and a
+  handler that wants to batch gets the sequence boundary for free, with no
+  state carried between actions.
+  
+  Unknown attributes are ignored silently in the app handler now, the same
+  as libghostty-vt already did.
+  
+  There are no behavioral changes here.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)   | sgr-multi (ms) | Speedup |
+  | --------------- | ----------- | -------------- | ------- |
+  | styled-multi.vt | 367.7 ± 0.8 | 233.7 ± 0.6    | 1.57x   |
+  | out.txt (2.6GB) | 5929 ± 26   | 5679 ± 8       | 1.04x   |
+  | styled-heavy.vt | 238.7 ± 0.8 | 231.5 ± 0.8    | 1.03x   |
+  | styled-mixed.vt | 573.9 ± 1.9 | 571.3 ± 2.3    | 1.00x   |
+  | osc.vt          | 1124 ± 7    | 1119 ± 3       | 1.00x   |
+  | utf8.vt         | 379.1 ± 1.5 | 378.5 ± 1.2    | 1.00x   |
+  | styled-plain.vt | 64.2 ± 0.4  | 64.2 ± 0.4     | 1.00x   |
+  | ascii.vt        | 40.3 ± 0.2  | 40.3 ± 0.2     | 1.00x   |
+  
+  Importantly: normal non-SGR workloads are unaffected.
+  
+  **AI usage:** My normal: I came up with the change, Opus helped with
+  benchmarking and validating, I wrote the text.
+  ```
+- [`a3e349f`](https://github.com/ghostty-org/ghostty/commit/a3e349f7a02709130d4cb83b24bac56a5d334d52) i18n: update Bahasa Indonesia translation ([#14991](https://github.com/ghostty-org/ghostty/issues/14991)) ([@clavinjune](https://github.com/clavinjune))
 - [`a5b4403`](https://github.com/ghostty-org/ghostty/commit/a5b44039d10f25d2d0a5992137cd6517f49e72aa) Update VOUCHED list ([#14992](https://github.com/ghostty-org/ghostty/issues/14992)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
