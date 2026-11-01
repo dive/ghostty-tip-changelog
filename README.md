@@ -8,15 +8,166 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 1, 2026 at 03:56 UTC.
+> Last updated: November 1, 2026 at 12:32 UTC.
 
 ## November 1, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41265367781), [2](https://github.com/ghostty-org/ghostty/actions/runs/41262969399)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41300698848), [2](https://github.com/ghostty-org/ghostty/actions/runs/41270777866), [3](https://github.com/ghostty-org/ghostty/actions/runs/41265367781), [4](https://github.com/ghostty-org/ghostty/actions/runs/41262969399)  
+Summary: 4 runs • 6 commits • 3 authors
 
 ### Changes
 
+- [`a5b4403`](https://github.com/ghostty-org/ghostty/commit/a5b44039d10f25d2d0a5992137cd6517f49e72aa) Update VOUCHED list ([#14992](https://github.com/ghostty-org/ghostty/issues/14992)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14991#issuecomment-6557130969)
+  from @trag1c.
+  
+  Vouch: @clavinjune
+  ```
+- [`a3b5946`](https://github.com/ghostty-org/ghostty/commit/a3b5946a59b94bf097da1aac889cf95f9c704675) terminal: new pages keep the capacity recent pages needed ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Headline performance number:** all data shapes other than plain-text
+  is anywhere from 20% to 380% faster. Plain text is unaffected.
+  
+  `PageList.grow` now gives a new page the style, grapheme, string, and
+  hyperlink capacity that the last two full pages needed, instead of
+  always starting over from the standard capacity.
+  
+  Previously, every `grow` would allocate a new standard sized page and
+  force the caller to call repeat `increaseCapacity` calls as needed. For
+  similar data shapes, this would force a LOT of page copies and
+  allocations.
+  
+  ## How
+  
+  So, I've tried this a few times before! And I've failed multiple times
+  to get the right mix of logic to make this speedup the benchmarks but
+  NOT regress standard workloads.
+  
+  I think I've got it this time though. Well, I know I have something
+  because the benchmarks show it.
+  
+  The way it works: when we need to grow a new page, we keep the capacity
+  of any managed dimension (style, grapheme, etc.) so long as 1/3rd of it
+  is actually utilized. Otherwise, we shrink it back to standard size or
+  1.5x what was used, whichever is BIGGER (so, it leans towards similar
+  data). After that, we raise all dimensions to what the page _before_
+  used, so that it takes _two full pages_ of low utilization to start
+  shrinking.
+  
+  **We call these "carried pages," since the usage is carried forward.**
+  
+  If a carried page is larger than a pooled memory size, we shrink rows so
+  that it fits in the pool. If we can't do this reasonably, we heap
+  allocate but we try very hard to avoid this.
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)     | page-grow (ms) | Speedup |
+  | --------------- | ------------- | -------------- | ------- |
+  | styled-mixed.vt | 2284.1 ± 43.6 | 611.3 ± 1.3    | 3.74x   |
+  | osc.vt          | 2616.3 ± 25.6 | 1173.7 ± 4.8   | 2.23x   |
+  | burst.vt        | 250.3 ± 12.8  | 90.6 ± 0.7     | 2.76x   |
+  | alternating.vt  | 443.9 ± 11.2  | 123.4 ± 4.4    | 3.60x   |
+  | hyperlinks.vt   | 211.1 ± 5.6   | 55.1 ± 1.7     | 3.83x   |
+  | styled-heavy.vt | 301.7 ± 1.4   | 246.0 ± 1.1    | 1.23x   |
+  | utf8.vt         | 439.1 ± 2.0   | 385.6 ± 0.8    | 1.14x   |
+  | ascii.vt        | 42.5 ± 0.6    | 42.0 ± 0.2     | 1.01x   |
+  | styled-plain.vt | 65.7 ± 0.4    | 65.7 ± 0.4     | 1.00x   |
+  | erase.vt        | 362.9 ± 4.2   | 372.4 ± 4.4    | 0.97x   |
+  | out.txt (2.6GB) | 5857 ± 13     | 5922 ± 31      | 0.99x   |
+  
+  `out.txt` is the asciinema data dump. It is unaffected because diverse,
+  heterogenous data (honestly, real world workloads!) don't behave this
+  way. But because of that, its important to see that its all the same!
+  
+  It's important to note that while `out.txt` looks 1% slower, CPU metrics
+  point to less instructions executed, less memory copies (2105 page
+  copies instead of 2270, 1838 heap pages instead of 1934). So this is
+  probably noise.
+  
+  Homogenous data is often used for benchmarks, and quite frankly I'm
+  tired of people pointing out stuff like pure-SGR streams being very slow
+  in Ghostty. So, this fixes that while not affecting normal workloads.
+  ```
+- [`dc8f599`](https://github.com/ghostty-org/ghostty/commit/dc8f59943ce94b75ffadc45cc4f36eca6a7ed2ae) terminal: new pages keep the capacity recent pages needed ([#14985](https://github.com/ghostty-org/ghostty/issues/14985)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Headline performance number:** all streams of heavily loaded
+  homogeneous data shapes other than plain-text is anywhere from 20% to
+  380% faster. Plain text is unaffected.
+  
+  `PageList.grow` now gives a new page the style, grapheme, string, and
+  hyperlink capacity that the last two full pages needed, instead of
+  always starting over from the standard capacity.
+  
+  Previously, every `grow` would allocate a new standard sized page and
+  force the caller to call repeat `increaseCapacity` calls as needed. For
+  similar data shapes, this would force a LOT of page copies and
+  allocations.
+  
+  ## How
+  
+  So, I've tried this a few times before! And I've failed multiple times
+  to get the right mix of logic to make this speedup the benchmarks but
+  NOT regress standard workloads.
+  
+  I think I've got it this time though. Well, I know I have something
+  because the benchmarks show it.
+  
+  The way it works: when we need to grow a new page, we keep the capacity
+  of any managed dimension (style, grapheme, etc.) so long as 1/3rd of it
+  is actually utilized. Otherwise, we shrink it back to standard size or
+  1.5x what was used, whichever is BIGGER (so, it leans towards similar
+  data). After that, we raise all dimensions to what the page _before_
+  used, so that it takes _two full pages_ of low utilization to start
+  shrinking.
+  
+  **We call these "carried pages," since the usage is carried forward.**
+  
+  If a carried page is larger than a pooled memory size, we shrink rows so
+  that it fits in the pool. If we can't do this reasonably, we heap
+  allocate but we try very hard to avoid this.
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)     | page-grow (ms) | Speedup |
+  | --------------- | ------------- | -------------- | ------- |
+  | styled-mixed.vt | 2284.1 ± 43.6 | 611.3 ± 1.3    | 3.74x   |
+  | osc.vt          | 2616.3 ± 25.6 | 1173.7 ± 4.8   | 2.23x   |
+  | burst.vt        | 250.3 ± 12.8  | 90.6 ± 0.7     | 2.76x   |
+  | alternating.vt  | 443.9 ± 11.2  | 123.4 ± 4.4    | 3.60x   |
+  | hyperlinks.vt   | 211.1 ± 5.6   | 55.1 ± 1.7     | 3.83x   |
+  | styled-heavy.vt | 301.7 ± 1.4   | 246.0 ± 1.1    | 1.23x   |
+  | utf8.vt         | 439.1 ± 2.0   | 385.6 ± 0.8    | 1.14x   |
+  | ascii.vt        | 42.5 ± 0.6    | 42.0 ± 0.2     | 1.01x   |
+  | styled-plain.vt | 65.7 ± 0.4    | 65.7 ± 0.4     | 1.00x   |
+  | erase.vt        | 362.9 ± 4.2   | 372.4 ± 4.4    | 0.97x   |
+  | out.txt (2.6GB) | 5857 ± 13     | 5922 ± 31      | 0.99x   |
+  
+  `out.txt` is the asciinema data dump. It is unaffected because diverse,
+  heterogenous data (honestly, real world workloads!) don't behave this
+  way. But because of that, its important to see that its all the same!
+  
+  It's important to note that while `out.txt` looks 1% slower, CPU metrics
+  point to less instructions executed, less memory copies (2105 page
+  copies instead of 2270, 1838 heap pages instead of 1934). So this is
+  probably noise.
+  
+  Homogenous data is often used for benchmarks, and quite frankly I'm
+  tired of people pointing out stuff like pure-SGR streams being very slow
+  in Ghostty. So, this fixes that while not affecting normal workloads.
+  
+  **AI usage:** I've done the laddering before so I did a NUMBER of messy
+  passes. I had Opus running benchmarks for each of my attempts. I think I
+  tried 6 or 7 different logical choices before settling on this. Fable
+  chased down the alignment issue in the benchmark (cause I was seeing
+  like a consistent 4% slowdown in vtebench dense cells but it didn't make
+  sense to me because this codepath didn't get touched!). I wrote this
+  whole PR message.
+  ```
 - [`845736e`](https://github.com/ghostty-org/ghostty/commit/845736e1df59e637a614aee78009217c9b480988) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
 - [`2fc8d02`](https://github.com/ghostty-org/ghostty/commit/2fc8d02c253bc09ff7456c65e7f63dd6eebaf4de) Update iTerm2 colorschemes ([#14981](https://github.com/ghostty-org/ghostty/issues/14981)) ([@jcollie](https://github.com/jcollie))
   ```text
