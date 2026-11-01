@@ -8,7 +8,29 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: October 31, 2026 at 23:54 UTC.
+> Last updated: November 1, 2026 at 03:56 UTC.
+
+## November 1, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41265367781), [2](https://github.com/ghostty-org/ghostty/actions/runs/41262969399)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`845736e`](https://github.com/ghostty-org/ghostty/commit/845736e1df59e637a614aee78009217c9b480988) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`2fc8d02`](https://github.com/ghostty-org/ghostty/commit/2fc8d02c253bc09ff7456c65e7f63dd6eebaf4de) Update iTerm2 colorschemes ([#14981](https://github.com/ghostty-org/ghostty/issues/14981)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261026-153024-27cbbb5
+  ```
+- [`c42f6fb`](https://github.com/ghostty-org/ghostty/commit/c42f6fb4740102b678773f4bfdd4ef7613afe818) Update VOUCHED list ([#14983](https://github.com/ghostty-org/ghostty/issues/14983)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14982#discussioncomment-19325417)
+  from @jcollie.
+  
+  Vouch: @cammeresi
+  ```
 
 ## October 31, 2026
 
@@ -1638,61 +1660,5 @@ Summary: 9 runs • 38 commits • 9 authors
   
   
   </details>
-  ```
-
-## October 25, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40229290745), [2](https://github.com/ghostty-org/ghostty/actions/runs/40225977480), [3](https://github.com/ghostty-org/ghostty/actions/runs/40157524465)  
-Summary: 3 runs • 9 commits • 4 authors
-
-### Changes
-
-- [`f63508e`](https://github.com/ghostty-org/ghostty/commit/f63508e5a1e0b3a5ce2f6cff591339e5b871aea0) Update VOUCHED list ([#14848](https://github.com/ghostty-org/ghostty/issues/14848)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14846#discussioncomment-19183173)
-  from @jcollie.
-  
-  Vouch: @lehni
-  ```
-- [`fb13fa9`](https://github.com/ghostty-org/ghostty/commit/fb13fa9602f47590ccfaaea4cd8e178fac2ec8cc) Update VOUCHED list ([#14845](https://github.com/ghostty-org/ghostty/issues/14845)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14844#discussioncomment-19182684)
-  from @jcollie.
-  
-  Denounce: @ifmael
-  ```
-- [`17001b8`](https://github.com/ghostty-org/ghostty/commit/17001b8f23ea548276c55df84bba720f82561c07) gtk: never resize a split smaller than one cell ([@thomasfedb](https://github.com/thomasfedb))
-  ```text
-  Also clamp keyboard split resizes to the split size, which fixed an
-  assertion failure when resize_split moved past the edge of a split.
-  ```
-- [`cc84a42`](https://github.com/ghostty-org/ghostty/commit/cc84a42f9c6d0e7b7281d8fe2e7bb79872000b8d) gtk: clamp the split position and keep the ratio in sync ([@thomasfedb](https://github.com/thomasfedb))
-- [`859f06f`](https://github.com/ghostty-org/ghostty/commit/859f06fc99c8f01d78ba1c1fced0079dd533ab92) gtk: update the split minimum when the config changes ([@thomasfedb](https://github.com/thomasfedb))
-- [`79fecfa`](https://github.com/ghostty-org/ghostty/commit/79fecfa62d3d84da8a68ca68683f52f401e42669) gtk: keep split ratios on window resize and sync on min-position ([@thomasfedb](https://github.com/thomasfedb))
-- [`59e565e`](https://github.com/ghostty-org/ghostty/commit/59e565ea0be6f133763540e33300effea40266e8) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
-- [`1ee9b25`](https://github.com/ghostty-org/ghostty/commit/1ee9b25636335521deca003e582fb3ea28fd31b8) Update iTerm2 colorschemes ([#14835](https://github.com/ghostty-org/ghostty/issues/14835)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Upstream release:
-  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261019-151001-86a776d
-  ```
-- [`cec8b92`](https://github.com/ghostty-org/ghostty/commit/cec8b92f1ecd176a20a56aa405021e7ae991b996) gtk: never resize a split smaller than one cell ([#14476](https://github.com/ghostty-org/ghostty/issues/14476)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fixes a regression of #1297 on GTK.
-  
-  **Issue**
-  Splits can be dragged or resized down to 0px, which just looks like a
-  thick divider. The 10px minimum from #1323 was lost in the GTK rewrite.
-  
-  **Fix**
-  Splits are now at least one cell plus padding in size, and the divider
-  can't be dragged past that. This also clamps keyboard resizes.
-  
-  Tested on Fedora 44. Dragging and `resize_split` stop at one column or
-  line. I believe that macOS already has its own minimum and is unchanged.
-  
-  First pass written with Claude Code (Claude Opus 5.5), reviewed and
-  reprompted by me.
   ```
 
