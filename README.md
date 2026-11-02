@@ -8,15 +8,697 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 2, 2026 at 10:27 UTC.
+> Last updated: November 2, 2026 at 21:17 UTC.
 
 ## November 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [2](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
-Summary: 2 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41520563485), [2](https://github.com/ghostty-org/ghostty/actions/runs/41511614122), [3](https://github.com/ghostty-org/ghostty/actions/runs/41506747057), [4](https://github.com/ghostty-org/ghostty/actions/runs/41502755506), [5](https://github.com/ghostty-org/ghostty/actions/runs/41491697673), [6](https://github.com/ghostty-org/ghostty/actions/runs/41485839464), [7](https://github.com/ghostty-org/ghostty/actions/runs/41478021093), [8](https://github.com/ghostty-org/ghostty/actions/runs/41466669618), [9](https://github.com/ghostty-org/ghostty/actions/runs/41459038808), [10](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [11](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
+Summary: 11 runs • 37 commits • 5 authors
 
 ### Changes
 
+- [`4c92f80`](https://github.com/ghostty-org/ghostty/commit/4c92f80954b1d563c148d77a051394fd2d39de60) terminal: print fast stays active while a hyperlink is open ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSlice` previously bailed out of its fast path whenever an OSC 8
+  hyperlink was open and printed every codepoint through the scalar
+  `print`. It now writes linked text with the same batched fills as
+  unlinked text.
+  
+  The batched path is specialized at comptime on whether a link is open,
+  decided once per `printSlice` call. We don't inline the link open part
+  because it is rarer.
+  
+  The hyperlink map has a fixed capacity, so the fills only write as many
+  cells as it has room for and never grow the page themselves (that would
+  replace the page under their cached pointers). When it is full, `print`
+  writes the next codepoint and grows the page through
+  `cursorSetHyperlink` exactly as before.
+  
+  Overwriting cells that are already linked still falls back to `print`.
+  That's something we can maybe optimize in the future.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input              | Size    | main (ms)     | print-hyperlink (ms) | Speedup |
+  | ------------------ | ------- | ------------- | -------------------- | ------- |
+  | hyperlinks-long.vt | 120x80  | 94.0 ± 1.2    | 54.4 ± 1.0           | 1.73x   |
+  | hyperlinks-long.vt | 215x215 | 99.3 ± 1.2    | 60.4 ± 1.5           | 1.64x   |
+  | alternating.vt     | 120x80  | 154.4 ± 1.5   | 125.8 ± 0.5          | 1.23x   |
+  | alternating.vt     | 215x215 | 150.2 ± 0.8   | 122.7 ± 1.8          | 1.22x   |
+  | styled-mixed.vt    | 120x80  | 499.1 ± 3.5   | 454.6 ± 3.5          | 1.10x   |
+  | styled-mixed.vt    | 215x215 | 460.6 ± 1.4   | 420.9 ± 5.1          | 1.09x   |
+  | hyperlinks.vt      | 120x80  | 43.9 ± 0.5    | 39.9 ± 0.2           | 1.10x   |
+  | hyperlinks.vt      | 215x215 | 44.9 ± 0.4    | 42.5 ± 0.8           | 1.06x   |
+  | osc.vt             | 120x80  | 990.5 ± 15.8  | 944.8 ± 3.9          | 1.05x   |
+  | osc.vt             | 215x215 | 1004.9 ± 9.6  | 963.2 ± 6.8          | 1.04x   |
+  | ascii.vt           | 120x80  | 41.8 ± 0.3    | 41.7 ± 0.2           | 1.00x   |
+  ```
+- [`91973f2`](https://github.com/ghostty-org/ghostty/commit/91973f2b29be42a2a8713406e18c56238b5f6c19) terminal: print fast stays active while a hyperlink is open ([#15034](https://github.com/ghostty-org/ghostty/issues/15034)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSlice` previously bailed out of its fast path whenever an OSC 8
+  hyperlink was open and printed every codepoint through the scalar
+  `print`. It now writes linked text with the same batched fills as
+  unlinked text.
+  
+  The batched path is specialized at comptime on whether a link is open,
+  decided once per `printSlice` call. We don't inline the link open part
+  because it is rarer.
+  
+  The hyperlink map has a fixed capacity, so the fills only write as many
+  cells as it has room for and never grow the page themselves (that would
+  replace the page under their cached pointers). When it is full, `print`
+  writes the next codepoint and grows the page through
+  `cursorSetHyperlink` exactly as before.
+  
+  Overwriting cells that are already linked still falls back to `print`.
+  That's something we can maybe optimize in the future.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input | Size | main (ms) | print-hyperlink (ms) | Speedup |
+  | ------------------ | ------- | ------------- | -------------------- |
+  ------- |
+  | hyperlinks-long.vt | 120x80 | 94.0 ± 1.2 | 54.4 ± 1.0 | 1.73x |
+  | hyperlinks-long.vt | 215x215 | 99.3 ± 1.2 | 60.4 ± 1.5 | 1.64x |
+  | alternating.vt | 120x80 | 154.4 ± 1.5 | 125.8 ± 0.5 | 1.23x |
+  | alternating.vt | 215x215 | 150.2 ± 0.8 | 122.7 ± 1.8 | 1.22x |
+  | styled-mixed.vt | 120x80 | 499.1 ± 3.5 | 454.6 ± 3.5 | 1.10x |
+  | styled-mixed.vt | 215x215 | 460.6 ± 1.4 | 420.9 ± 5.1 | 1.09x |
+  | hyperlinks.vt | 120x80 | 43.9 ± 0.5 | 39.9 ± 0.2 | 1.10x |
+  | hyperlinks.vt | 215x215 | 44.9 ± 0.4 | 42.5 ± 0.8 | 1.06x |
+  | osc.vt | 120x80 | 990.5 ± 15.8 | 944.8 ± 3.9 | 1.05x |
+  | osc.vt | 215x215 | 1004.9 ± 9.6 | 963.2 ± 6.8 | 1.04x |
+  | ascii.vt | 120x80 | 41.8 ± 0.3 | 41.7 ± 0.2 | 1.00x |
+  
+  **AI usage:** Idea/impl by me, Fable review and benchmark.
+  ```
+- [`8484146`](https://github.com/ghostty-org/ghostty/commit/8484146c74ef4b075b68c9cf8767019b2b3c738c) terminal: skip erasing and scanning rows that are already blank ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Erase line (EL, `CSI K`) and erase character (ECH, `CSI X`) now do
+  nothing to the cells of a row that is already blank. Scrolling the
+  screen into history before a clear (`CSI 22 J`, or `CSI 2 J` at a
+  prompt) no longer reads the cells of blank rows, and scans the other
+  rows several cells at a time.
+  
+  This extends the `Row.blank` hint from #14997, which only covered whole
+  rows cleared by erase display:
+  https://github.com/ghostty-org/ghostty/pull/14997
+  
+  This doesn't impact any other workloads, and was identified in the
+  asciinema dump as a relatively common command (see 2% speedup).
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)   | erase-opt-2 (ms) | Speedup |
+  | --------------- | ------- | ----------- | ---------------- | ------- |
+  | erase-scroll.vt | 120x80  | 241.9 ± 0.6 | 107.7 ± 0.2      | 2.24x   |
+  | erase-scroll.vt | 120x12  | 50.5 ± 0.2  | 46.2 ± 0.4       | 1.09x   |
+  | erase-scroll.vt | 300x100 | 797.6 ± 1.7 | 259.9 ± 0.5      | 3.07x   |
+  | erase-lines.vt  | 120x80  | 43.9 ± 0.4  | 25.7 ± 0.3       | 1.71x   |
+  | erase-lines.vt  | 120x12  | 41.6 ± 0.3  | 24.1 ± 0.5       | 1.73x   |
+  | erase-lines.vt  | 300x100 | 80.3 ± 0.4  | 29.1 ± 0.2       | 2.76x   |
+  | erase.vt        | 120x80  | 51.4 ± 0.4  | 51.5 ± 0.3       | 1.00x   |
+  | ascii.vt        | 120x80  | 42.6 ± 0.8  | 42.2 ± 0.4       | 1.01x   |
+  | styled-plain.vt | 120x80  | 66.5 ± 0.8  | 64.9 ± 0.5       | 1.02x   |
+  | utf8.vt         | 120x80  | 316.2 ± 1.8 | 315.8 ± 1.4      | 1.00x   |
+  | osc.vt          | 120x80  | 991 ± 21    | 979 ± 6          | 1.01x   |
+  | scrolling.vt    | 120x80  | 736.2 ± 6.4 | 736.8 ± 6.1      | 1.00x   |
+  | scrolling_fs.vt | 120x80  | 53.1 ± 0.2  | 53.1 ± 0.3       | 1.00x   |
+  | out.txt (2.6GB) | 120x80  | 5315 ± 22   | 5231 ± 13        | 1.02x   |
+  ```
+- [`a0c0928`](https://github.com/ghostty-org/ghostty/commit/a0c092868ded132033c85104e9ab3a266c52f2d4) terminal: skip erasing and scanning rows that are already blank ([#15035](https://github.com/ghostty-org/ghostty/issues/15035)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Erase line (EL, `CSI K`) and erase character (ECH, `CSI X`) now do
+  nothing to the cells of a row that is already blank. Scrolling the
+  screen into history before a clear (`CSI 22 J`, or `CSI 2 J` at a
+  prompt) no longer reads the cells of blank rows, and scans the other
+  rows several cells at a time.
+  
+  This extends the `Row.blank` hint from #14997, which only covered whole
+  rows cleared by erase display:
+  https://github.com/ghostty-org/ghostty/pull/14997
+  
+  This doesn't impact any other workloads, and was identified in the
+  asciinema dump as a relatively common command (see 2% speedup).
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)   | erase-opt-2 (ms) | Speedup |
+  | --------------- | ------- | ----------- | ---------------- | ------- |
+  | erase-scroll.vt | 120x80  | 241.9 ± 0.6 | 107.7 ± 0.2      | 2.24x   |
+  | erase-scroll.vt | 120x12  | 50.5 ± 0.2  | 46.2 ± 0.4       | 1.09x   |
+  | erase-scroll.vt | 300x100 | 797.6 ± 1.7 | 259.9 ± 0.5      | 3.07x   |
+  | erase-lines.vt  | 120x80  | 43.9 ± 0.4  | 25.7 ± 0.3       | 1.71x   |
+  | erase-lines.vt  | 120x12  | 41.6 ± 0.3  | 24.1 ± 0.5       | 1.73x   |
+  | erase-lines.vt  | 300x100 | 80.3 ± 0.4  | 29.1 ± 0.2       | 2.76x   |
+  | erase.vt        | 120x80  | 51.4 ± 0.4  | 51.5 ± 0.3       | 1.00x   |
+  | ascii.vt        | 120x80  | 42.6 ± 0.8  | 42.2 ± 0.4       | 1.01x   |
+  | styled-plain.vt | 120x80  | 66.5 ± 0.8  | 64.9 ± 0.5       | 1.02x   |
+  | utf8.vt         | 120x80  | 316.2 ± 1.8 | 315.8 ± 1.4      | 1.00x   |
+  | osc.vt          | 120x80  | 991 ± 21    | 979 ± 6          | 1.01x   |
+  | scrolling.vt    | 120x80  | 736.2 ± 6.4 | 736.8 ± 6.1      | 1.00x   |
+  | scrolling_fs.vt | 120x80  | 53.1 ± 0.2  | 53.1 ± 0.3       | 1.00x   |
+  | out.txt (2.6GB) | 120x80  | 5315 ± 22   | 5231 ± 13        | 1.02x   |
+  
+  **AI usage:** I did the impl after #14997, Opus/Fable reviewed and
+  benchmarked. Note: a lot of these are coming in fast now cause I was
+  doing a lot of it in parallel over the weekend, the benchmarks and
+  review took time.
+  ```
+- [`0b1729e`](https://github.com/ghostty-org/ghostty/commit/0b1729e945978fca4bcd6165d8ac408bf675a7f2) Update VOUCHED list ([#15036](https://github.com/ghostty-org/ghostty/issues/15036)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15033#discussioncomment-19359609)
+  from @jcollie.
+  
+  Vouch: @database64128
+  ```
+- [`22b8451`](https://github.com/ghostty-org/ghostty/commit/22b84514411aab13ce71c09052a10c76380eaf4b) terminal: re-read the style per row in the mixed-width print fast path ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSliceMixed` now reads the cursor's style ID for every row it
+  fills, instead of building its cell template once at the start of the
+  slice.
+  
+  This is a bug from the mixed narrow/wide fast path in #15021:
+  https://github.com/ghostty-org/ghostty/pull/15021
+  ```
+- [`e0acea2`](https://github.com/ghostty-org/ghostty/commit/e0acea2753f84ec31c26cdc1c8837fad99cd83b9) terminal: re-read the style per row in the mixed-width print fast path ([#15032](https://github.com/ghostty-org/ghostty/issues/15032)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSliceMixed` now reads the cursor's style ID for every row it
+  fills, instead of building its cell template once at the start of the
+  slice.
+  
+  This is a bug from the mixed narrow/wide fast path in #15021:
+  https://github.com/ghostty-org/ghostty/pull/15021
+  ```
+- [`faa346b`](https://github.com/ghostty-org/ghostty/commit/faa346b068361c47826b653af5e4a526e5a4e957) terminal: print uses the right margin after wrapping ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With left/right margins set and the cursor right of the right margin,
+  `print` kept using the screen edge as its limit even after wrapping
+  to the left margin. A wide char after the wrap could leave the cursor
+  outside the margins. `printSlice` already handled this correctly.
+  
+  This matches xterm, which recomputes the right edge after every wrap
+  (`dotext` in charproc.c).
+  
+  The fix resets the limit to the right margin after each wrap.
+  ```
+- [`77f85cd`](https://github.com/ghostty-org/ghostty/commit/77f85cd67c4c434acc714bb1d1248107a3782a68) terminal: print uses the right margin after wrapping ([#15030](https://github.com/ghostty-org/ghostty/issues/15030)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  With left/right margins set and the cursor right of the right margin,
+  `print` kept using the screen edge as its limit even after wrapping to
+  the left margin. A wide char after the wrap could leave the cursor
+  outside the margins. `printSlice` already handled this correctly.
+  
+  This matches xterm, which recomputes the right edge after every wrap
+  (`dotext` in charproc.c).
+  
+  The fix resets the limit to the right margin after each wrap.
+  ```
+- [`41557e2`](https://github.com/ghostty-org/ghostty/commit/41557e2ccf7f27b7ed6665b163bd467d4fa8691e) terminal: store Style as a packed u128 ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Style is now a `packed struct(u128)`. Equality compares the bits
+  directly, hashing no longer builds a separate `PackedStyle`, and
+  the style is all zero bits.
+  
+  `Style.Color` now uses an 8-bit tag and 24-bit payload. The constructors
+  zero unused bits, and value() provides a tagged-union view for switching
+  on a color. This also removes the wasm-specific equality and default
+  checks.
+  
+  A u128 is 16-byte aligned, which increases the alignment of the style
+  set. The page capacity calculation now accounts for padding before the
+  metadata.
+  
+  `ghostty-bench +terminal-stream` at 120x80, on Windows x86-64:
+  
+  | Input           | main (ms)    | packed (ms)  | Speedup |
+  | --------------- | ------------ | ------------ | ------- |
+  | styled-heavy.vt | 377.8 ± 7.5  | 330.0 ± 9.1  | 1.14x   |
+  | styled-multi.vt | 443.5 ± 17.2 | 401.9 ± 12.4 | 1.10x   |
+  | ascii.vt        | 73.6 ± 2.0   | 72.3 ± 1.9   | 1.02x   |
+  | utf8.vt         | 580.9 ± 20.3 | 573.7 ± 14.6 | 1.01x   |
+  | styled-mixed.vt | 1088 ± 8     | 1085 ± 16    | 1.00x   |
+  | styled-plain.vt | 112.6 ± 2.6  | 112.5 ± 3.0  | 1.00x   |
+  | osc.vt          | 2256 ± 31    | 2256 ± 64    | 1.00x   |
+  
+  `ghostty-bench +screen-clone` at 120x80 on 1 MiB of styled-heavy.vt:
+  
+  | Mode          | main (ms)    | packed (ms)  | Speedup |
+  | ------------- | ------------ | ------------ | ------- |
+  | render-scroll | 561.3 ± 21.0 | 453.9 ± 22.3 | 1.24x   |
+  | render        | 342.3 ± 9.7  | 310.8 ± 6.1  | 1.10x   |
+  ```
+- [`73a2a1d`](https://github.com/ghostty-org/ghostty/commit/73a2a1d06e9269b67257f4ab810f1a489f0d5b19) terminal: move SGR attribute handling to Style ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Move the SGR attribute switch from `Screen.applyAttribute` into
+  `Style.withAttribute(attr)`, which returns the updated style.
+  
+  Performance is neutral to slightly faster (2-3%) on sequences with
+  several attributes. With `withAttribute` inlined, LLVM keeps the running
+  style and cursor pointer in registers across attributes instead of
+  reloading them from the stack. On x86-64, a bold attribute goes from
+  34 to 28 instructions per loop iteration, and `38;5;N` from 66 to 47.
+  ```
+- [`72bc97a`](https://github.com/ghostty-org/ghostty/commit/72bc97a9edf5df1080fa68fc8b38c45dc692c8ea) terminal: simplify fillStyles to one vector store ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Now that Style is exactly 16 bytes, `fillStyles` writes each style with
+  one vector store. The old version used two overlapping 16-byte stores
+  to handle styles of 16-32 bytes. With a 16-byte Style, both write to the
+  same address, and LLVM lowered the old loop to two 64-bit stores per style.
+  
+  `ghostty-bench +screen-clone` at 120x80 on 1 MiB of styled-heavy.vt:
+  
+  | Mode          | before (ms)   | after (ms)   | Speedup |
+  | ------------- | ------------- | ------------ | ------- |
+  | render-scroll | 457.2 ± 25.7  | 424.9 ± 23.3 | 1.08x   |
+  | render        | 314.4 ± 7.0   | 312.4 ± 6.0  | 1.01x   |
+  ```
+- [`de16f08`](https://github.com/ghostty-org/ghostty/commit/de16f08dcf7f3f4104e8722cb39a632a6a8a19f9) terminal: assert canonical Style.Color bits, test hash and constructors ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Review follow-ups for the packed Style:
+  
+  * `Color.value()` now asserts that the unused payload bits of `.none`
+    and `.palette` colors are zero. Equality and hashing compare raw bits,
+    so a non-canonical color would compare unequal to its canonical twin
+    while reading back as the same value. The assert is `unreachable` in
+    release builds and costs nothing there.
+  
+  * Drop the `hasUniqueRepresentation` assert. For a packed struct it
+    reduces to `@sizeOf * 8 == @bitSizeOf`, which the two asserts above
+    it already state.
+  
+  * Add tests that the three constructors leave unused bits zero and that
+    the hash fold separates the same value in different fields (fg vs bg
+    vs underline, palette vs flags), which is what the odd multiplier on
+    the upper half exists for.
+  
+  * `fillStyles` has one call site; drop `inline`.
+  ```
+- [`d20d208`](https://github.com/ghostty-org/ghostty/commit/d20d208c514661ca14b9935576d66655fa2a8be8) terminal: size the hyperlink map independently of the hyperlink set ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A page's hyperlink map is now sized by its own capacity field,
+  `hyperlink_cells`, instead of being derived from the hyperlink
+  set's byte capacity. We previously derived it from bytes and were
+  usually wasting bytes.
+  
+  The point of this change is primarily MEMORY DENSITY. We now get more
+  rows/MB since our page structure isn't wasting as much. See benchmarks below.
+  
+  The snapshot format is unchanged. The PAGE header's single hyperlink
+  capacity hint now covers both tables (the larger of the set bytes and
+  the map's equivalent in set items), so old snapshots decode to the same
+  layout as before and new snapshots stay readable by current readers.
+  I made that as a choice to avoid breaking snapshots. Snapshots don't
+  need perfect decode and its not super important for performance there.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)    | hyperlink-map-size (ms) | Speedup |
+  | --------------- | ------- | ------------ | ----------------------- | ------- |
+  | hyperlinks.vt   | 215x215 | 61.8 ± 1.3   | 44.7 ± 0.5              | 1.38x   |
+  | hyperlinks.vt   | 120x80  | 53.7 ± 0.3   | 43.5 ± 0.3              | 1.23x   |
+  | osc.vt          | 120x80  | 1129.0 ± 2.2 | 978.8 ± 4.2             | 1.15x   |
+  | osc.vt          | 215x215 | 1097.4 ± 6.7 | 1012.8 ± 4.0            | 1.08x   |
+  | alternating.vt  | 120x80  | 163.8 ± 3.3  | 151.8 ± 0.9             | 1.08x   |
+  | burst.vt        | 120x80  | 73.8 ± 0.6   | 68.9 ± 0.4              | 1.07x   |
+  | styled-mixed.vt | 120x80  | 575.0 ± 2.1  | 580.1 ± 4.6             | 0.99x   |
+  | styled-heavy.vt | 120x80  | 230.5 ± 0.2  | 230.5 ± 0.6             | 1.00x   |
+  | ascii.vt        | 120x80  | 40.4 ± 0.3   | 40.5 ± 0.1              | 1.00x   |
+  | utf8.vt         | 120x80  | 382.0 ± 0.9  | 386.0 ± 5.0             | 0.99x   |
+  | erase.vt        | 120x80  | 50.1 ± 0.1   | 50.8 ± 0.1              | 0.99x   |
+  
+  The speedups come from fewer page clones (osc.vt at 120x80 went from
+  232 capacity growths to 62) and from pages staying in the pool instead
+  of being allocated on the heap. So this helps in general.
+  
+  Now memory. At a 10 MB scrollback limit at 120x80:
+  
+  | Input          | Heap pages   | History rows | Rows/MiB   |
+  | -------------- | ------------ | ------------ | ---------- |
+  | osc.vt         | 2157 -> 328  | 5625 -> 6507 | 624 -> 694 |
+  | hyperlinks.vt  | 520 -> 6     | 6125 -> 7262 | 681 -> 775 |
+  | alternating.vt | 1088 -> 266  | 9002 -> 9032 | 948 -> 963 |
+  | ascii.vt       | 0 -> 0       | 9117 -> 9117 | 972 -> 972 |
+  ```
+- [`687f37a`](https://github.com/ghostty-org/ghostty/commit/687f37acd90462d451acd5f79042822d5d0255fb) terminal: pack Style into 128 bits and simplify style updates ([#15023](https://github.com/ghostty-org/ghostty/issues/15023)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Previously, style comparisons checked flags and colors field by field,
+  and hashing created a `PackedStyle` each time. This stores `Style`
+  directly as a `packed struct(u128)`, so equality becomes a single
+  integer comparison and hashing no longer needs the packing step. It also
+  removes the wasm-specific equality and default-style checks.
+  
+  This also moves SGR attribute application from `Screen` into
+  `Style.withAttribute`, which allows LLVM to keep the running style in
+  registers across attributes. The render-state style fill now uses one
+  16-byte vector store per cell.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80, on Windows x86-64:
+  
+  | Input           | main (ms)    | This PR (ms)   | Speedup |
+  | --------------- | ------------ | ------------ | ------- |
+  | styled-heavy.vt | 377.8 ± 7.5  | 325.9 ± 5.9  | 1.16x   |
+  | styled-multi.vt | 443.5 ± 17.2 | 390.9 ± 12.6 | 1.13x   |
+  | ascii.vt        | 73.6 ± 2.0   | 72.9 ± 2.2   | 1.01x   |
+  | styled-mixed.vt | 1088 ± 8     | 1084 ± 9     | 1.00x   |
+  | utf8.vt         | 580.9 ± 20.3 | 579.0 ± 26.1 | 1.00x   |
+  | styled-plain.vt | 112.6 ± 2.6  | 112.4 ± 3.6  | 1.00x   |
+  | osc.vt          | 2256 ± 31    | 2258 ± 32    | 1.00x   |
+  
+  `ghostty-bench +screen-clone` at 120x80, with 1 MiB of styled-heavy
+  output:
+  
+  | Mode          | main (ms)    | This PR (ms)   | Speedup |
+  | ------------- | ------------ | ------------ | ------- |
+  | render-scroll | 561.3 ± 21.0 | 424.9 ± 23.3 | 1.32x   |
+  | render        | 342.3 ± 9.7  | 312.4 ± 6.0  | 1.10x   |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5) and OpenCode (GPT
+  6.1 Sol), including profiling and codegen experiments.
+  ```
+- [`298f8ec`](https://github.com/ghostty-org/ghostty/commit/298f8ecb9cd30471da7bca9933335e496a5882d1) terminal: size the hyperlink map independently of the hyperlink set ([#15028](https://github.com/ghostty-org/ghostty/issues/15028)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A page's hyperlink map is now sized by its own capacity field,
+  `hyperlink_cells`, instead of being derived from the hyperlink set's
+  byte capacity. We previously derived it from bytes and were usually
+  wasting bytes.
+  
+  The point of this change is primarily MEMORY DENSITY. We now get more
+  rows/MB since our page structure isn't wasting as much. And more rows/MB
+  means less page growths! See benchmarks below.
+  
+  The snapshot format is unchanged. The PAGE header's single hyperlink
+  capacity hint now covers both tables (the larger of the set bytes and
+  the map's equivalent in set items), so old snapshots decode to the same
+  layout as before and new snapshots stay readable by current readers. I
+  made that as a choice to avoid breaking snapshots. Snapshots don't need
+  perfect decode and its not super important for performance there.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input | Size | main (ms) | hyperlink-map-size (ms) | Speedup |
+  | --------------- | ------- | ------------ | ----------------------- |
+  ------- |
+  | hyperlinks.vt | 215x215 | 61.8 ± 1.3 | 44.7 ± 0.5 | 1.38x |
+  | hyperlinks.vt | 120x80 | 53.7 ± 0.3 | 43.5 ± 0.3 | 1.23x |
+  | osc.vt | 120x80 | 1129.0 ± 2.2 | 978.8 ± 4.2 | 1.15x |
+  | osc.vt | 215x215 | 1097.4 ± 6.7 | 1012.8 ± 4.0 | 1.08x |
+  | alternating.vt | 120x80 | 163.8 ± 3.3 | 151.8 ± 0.9 | 1.08x |
+  | burst.vt | 120x80 | 73.8 ± 0.6 | 68.9 ± 0.4 | 1.07x |
+  | styled-mixed.vt | 120x80 | 575.0 ± 2.1 | 580.1 ± 4.6 | 0.99x |
+  | styled-heavy.vt | 120x80 | 230.5 ± 0.2 | 230.5 ± 0.6 | 1.00x |
+  | ascii.vt | 120x80 | 40.4 ± 0.3 | 40.5 ± 0.1 | 1.00x |
+  | utf8.vt | 120x80 | 382.0 ± 0.9 | 386.0 ± 5.0 | 0.99x |
+  | erase.vt | 120x80 | 50.1 ± 0.1 | 50.8 ± 0.1 | 0.99x |
+  
+  The speedups come from fewer page clones (osc.vt at 120x80 went from 232
+  capacity growths to 62) and from pages staying in the pool instead of
+  being allocated on the heap. So this helps in general.
+  
+  Now memory. At a 10 MB scrollback limit at 120x80:
+  
+  | Input          | Heap pages   | History rows | Rows/MiB   |
+  | -------------- | ------------ | ------------ | ---------- |
+  | osc.vt         | 2157 -> 328  | 5625 -> 6507 | 624 -> 694 |
+  | hyperlinks.vt  | 520 -> 6     | 6125 -> 7262 | 681 -> 775 |
+  | alternating.vt | 1088 -> 266  | 9002 -> 9032 | 948 -> 963 |
+  | ascii.vt       | 0 -> 0       | 9117 -> 9117 | 972 -> 972 |
+  
+  **AI usage:** Tests written by Opus, main impl by me, PR desc by me.
+  ```
+- [`a74bd24`](https://github.com/ghostty-org/ghostty/commit/a74bd243c03301a00a480035734aa1febbab2ea1) Fix broken tests using old syntax ([@mitchellh](https://github.com/mitchellh))
+- [`68750a1`](https://github.com/ghostty-org/ghostty/commit/68750a1be2b99227328a6b185ae72719dea0428f) terminal: support mixed narrow/wide in print fast path ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSlice` previously bailed out of its fast path when there was a
+  width class change. It can now continue going in various circumstances,
+  which is realistic since before even things like CJK/emoji + a space
+  would drop out of fast path!
+  
+  This still has limits: zero-width codepoints, grapheme continuations,
+  hyperlinked cells, insert mode and DECAWM off still fall back to the
+  per-codepoint `print` path as before.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | 2027 | main (ms)   | print-mixed (ms) | Speedup |
+  | --------------- | ---- | ----------- | ---------------- | ------- |
+  | cjk-prose.vt    | off  | 171.9 ± 0.4 | 83.7 ± 0.3       | 2.05x   |
+  | cjk-prose.vt    | on   | 178.5 ± 0.5 | 89.1 ± 0.2       | 2.00x   |
+  | cjk-spaces.vt   | off  | 25.5 ± 0.1  | 15.4 ± 0.1       | 1.65x   |
+  | cjk-spaces.vt   | on   | 26.3 ± 0.3  | 16.2 ± 0.1       | 1.63x   |
+  | styled-uni.vt   | off  | 330.4 ± 0.8 | 219.9 ± 0.7      | 1.50x   |
+  | styled-uni.vt   | on   | 367.5 ± 0.7 | 259.1 ± 0.7      | 1.42x   |
+  | utf8.vt         | off  | 382.4 ± 1.0 | 313.6 ± 0.5      | 1.22x   |
+  | utf8.vt         | on   | 398.8 ± 0.8 | 329.4 ± 0.4      | 1.21x   |
+  | styled-mixed.vt | off  | 572.3 ± 1.6 | 504.5 ± 2.1      | 1.13x   |
+  | styled-mixed.vt | on   | 599.5 ± 1.4 | 529.2 ± 0.9      | 1.13x   |
+  | ascii.vt        | off  | 40.5 ± 0.1  | 40.6 ± 0.1       | 1.00x   |
+  | styled-plain.vt | off  | 63.8 ± 0.5  | 63.3 ± 0.3       | 1.01x   |
+  | osc.vt          | off  | 1125 ± 4    | 1122 ± 2         | 1.00x   |
+  | out.txt (2.6GB) | off  | 5455 ± 177  | 5375 ± 8         | 1.01x   |
+  | out.txt (2.6GB) | on   | 5399 ± 7    | 5413 ± 6         | 1.00x   |
+  
+  - cjk-spaces.vt is `+utf8` with only CJK ideographs and a space after 30%
+    of them.
+  - cjk-prose.vt mixes them with printable ASCII at a 1:0.3 weight.
+  - styled-uni.vt is `+styled` with multibyte weights
+  ```
+- [`e2a3ba0`](https://github.com/ghostty-org/ghostty/commit/e2a3ba004d01ca1d0251c891544b97784a072c20) terminal: support mixed narrow/wide in print fast path ([#15021](https://github.com/ghostty-org/ghostty/issues/15021)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `printSlice` previously bailed out of its fast path when there was a
+  width class change. It can now continue going in various circumstances,
+  which is realistic since before even things like CJK/emoji + a space
+  would drop out of fast path!
+  
+  This still has limits: zero-width codepoints, grapheme continuations,
+  hyperlinked cells, insert mode and DECAWM off still fall back to the
+  per-codepoint `print` path as before.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | 2027 | main (ms)   | print-mixed (ms) | Speedup |
+  | --------------- | ---- | ----------- | ---------------- | ------- |
+  | cjk-prose.vt    | off  | 171.9 ± 0.4 | 83.7 ± 0.3       | 2.05x   |
+  | cjk-prose.vt    | on   | 178.5 ± 0.5 | 89.1 ± 0.2       | 2.00x   |
+  | cjk-spaces.vt   | off  | 25.5 ± 0.1  | 15.4 ± 0.1       | 1.65x   |
+  | cjk-spaces.vt   | on   | 26.3 ± 0.3  | 16.2 ± 0.1       | 1.63x   |
+  | styled-uni.vt   | off  | 330.4 ± 0.8 | 219.9 ± 0.7      | 1.50x   |
+  | styled-uni.vt   | on   | 367.5 ± 0.7 | 259.1 ± 0.7      | 1.42x   |
+  | utf8.vt         | off  | 382.4 ± 1.0 | 313.6 ± 0.5      | 1.22x   |
+  | utf8.vt         | on   | 398.8 ± 0.8 | 329.4 ± 0.4      | 1.21x   |
+  | styled-mixed.vt | off  | 572.3 ± 1.6 | 504.5 ± 2.1      | 1.13x   |
+  | styled-mixed.vt | on   | 599.5 ± 1.4 | 529.2 ± 0.9      | 1.13x   |
+  | ascii.vt        | off  | 40.5 ± 0.1  | 40.6 ± 0.1       | 1.00x   |
+  | styled-plain.vt | off  | 63.8 ± 0.5  | 63.3 ± 0.3       | 1.01x   |
+  | osc.vt          | off  | 1125 ± 4    | 1122 ± 2         | 1.00x   |
+  | out.txt (2.6GB) | off  | 5455 ± 177  | 5375 ± 8         | 1.01x   |
+  | out.txt (2.6GB) | on   | 5399 ± 7    | 5413 ± 6         | 1.00x   |
+  
+  - cjk-spaces.vt is `+utf8` with only CJK ideographs and a space after
+  30% of them.
+  - cjk-prose.vt mixes them with printable ASCII at a 1:0.3 weight.
+  - styled-uni.vt is `+styled` with multibyte weights
+  
+  **AI usage:** I had the initial idea, but my work gained a 30% speedup.
+  Upon an adversarial review with Fable, it identified some register
+  spilling and branch mispredicts that were eating huge cost and reworked
+  it (to the mixed row loop now), which I understood/reviewed and accept.
+  I wrote all the human language.
+  ```
+- [`825f31c`](https://github.com/ghostty-org/ghostty/commit/825f31c5201e5f6144ac9267d459e64740e4c456) Update VOUCHED list ([#15022](https://github.com/ghostty-org/ghostty/issues/15022)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15020#discussioncomment-19356061)
+  from @jcollie.
+  
+  Vouch: @yinxiangshi
+  ```
+- [`379bdfa`](https://github.com/ghostty-org/ghostty/commit/379bdfabffe16b6a326c4289ad2bf9d712cce80a) Update VOUCHED list ([#15016](https://github.com/ghostty-org/ghostty/issues/15016)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15015#discussioncomment-19355011)
+  from @jcollie.
+  
+  Vouch: @arc-source-coder
+  ```
+- [`9113da0`](https://github.com/ghostty-org/ghostty/commit/9113da029815076cefbbc1ea7b1f63e8082e09ea) terminal: project hyperlink and string capacity when growing a page ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `PageList.increaseCapacity` now projects hyperlink and string capacity
+  from the page's current usage, the same way it has for styles and
+  graphemes since #13826. A page that runs out of hyperlink or string
+  space grows once to about what the whole page will need, instead of
+  doubling over and over.
+  
+  Previously, hyperlinks and strings always doubled. Hyperlink capacity
+  starts at only 4 links, so a page with a unique link on every row (such
+  as `ls --hyperlink`) grew its hyperlink capacity 8 times. Every growth
+  is a full page allocation and copy.
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input              | main (ms)    | grow-hyperlink (ms) | Speedup |
+  | ------------------ | ------------ | ------------------- | ------- |
+  | alternating.vt     | 471.5 ± 5.5  | 410.2 ± 1.3         | 1.15x   |
+  | osc.vt             | 1177 ± 47    | 1126 ± 29           | 1.04x   |
+  | burst.vt           | 125.2 ± 0.4  | 123.3 ± 0.4         | 1.02x   |
+  | styled-mixed.vt    | 577.3 ± 3.0  | 575.2 ± 3.1         | 1.00x   |
+  | erase.vt           | 359.7        | 357.9               | 1.01x   |
+  | ascii.vt           | 41.5         | 41.4                | 1.00x   |
+  | styled-heavy.vt    | 246.5 ± 1.4  | 246.7 ± 0.9         | 1.00x   |
+  | utf8.vt            | 408.7 ± 1.7  | 408.0 ± 1.2         | 1.00x   |
+  | out.txt (2.6GB)    | 5734 ± 49    | 5553 ± 173          | 1.03x   |
+  
+  In the real world, this is a small win. A unique link per row is what
+  `ls --hyperlink` and some compilers produce, but most output doesn't
+  look like that. Its important it doesn't regress other workoads.
+  ```
+- [`f0d8cb7`](https://github.com/ghostty-org/ghostty/commit/f0d8cb776254f5dec58b353811398c60fff2fd86) terminal: carried pages compare usage per row ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a carried page has fewer rows than the standard so that it fits in
+  a pool item, `grow` now scales its usage up to the standard row count
+  before deciding what capacity the next page keeps.
+  
+  Previously, a trimmed page looked emptier than it really was, so the next
+  page shrank its jcapacity, ran out of room, and had to grow by copying itself.
+  
+  This is a follow-up fix to carried pages from #14985:
+  https://github.com/ghostty-org/ghostty/pull/14985
+  
+  In the real world I think this would be a pretty edge case scenario but
+  it was something I saw that bothered me.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size   | main (ms)    | fix (ms)     | Speedup |
+  | --------------- | ------ | ------------ | ------------ | ------- |
+  | cycle.vt        | 80x24  | 234.2 ± 4.9  | 144.1 ± 4.6  | 1.63x   |
+  | styled-mixed.vt | 120x80 | 583.4 ± 3.2  | 582.4 ± 2.1  | 1.00x   |
+  | styled-mixed.vt | 30x24  | 630.2 ± 2.3  | 631.6 ± 3.1  | 1.00x   |
+  | osc.vt          | 120x80 | 1152.2 ± 9.7 | 1158.2 ± 5.1 | 0.99x   |
+  | burst.vt        | 120x80 | 76.4 ± 1.0   | 76.5 ± 0.7   | 1.00x   |
+  | alternating.vt  | 120x80 | 177.8 ± 2.5  | 178.8 ± 2.4  | 0.99x   |
+  | styled-heavy.vt | 120x80 | 240.8 ± 0.9  | 241.6 ± 2.1  | 1.00x   |
+  | utf8.vt         | 120x80 | 384.2 ± 0.8  | 384.0 ± 1.0  | 1.00x   |
+  | ascii.vt        | 120x80 | 41.9 ± 0.1   | 41.8 ± 0.3   | 1.00x   |
+  ```
+- [`431d003`](https://github.com/ghostty-org/ghostty/commit/431d003c44e857f7ce273e3e209c9daac8eee85e) terminal: project hyperlink and string capacity when growing a page ([#15012](https://github.com/ghostty-org/ghostty/issues/15012)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `PageList.increaseCapacity` now projects hyperlink and string capacity
+  from the page's current usage, the same way it has for styles and
+  graphemes since #13826. A page that runs out of hyperlink or string
+  space grows once to about what the whole page will need, instead of
+  doubling over and over.
+  
+  Previously, hyperlinks and strings always doubled. Hyperlink capacity
+  starts at only 4 links, so a page with a unique link on every row (such
+  as `ls --hyperlink`) grew its hyperlink capacity 8 times. Every growth
+  is a full page allocation and copy.
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input              | main (ms)    | grow-hyperlink (ms) | Speedup |
+  | ------------------ | ------------ | ------------------- | ------- |
+  | alternating.vt     | 471.5 ± 5.5  | 410.2 ± 1.3         | 1.15x   |
+  | osc.vt             | 1177 ± 47    | 1126 ± 29           | 1.04x   |
+  | burst.vt           | 125.2 ± 0.4  | 123.3 ± 0.4         | 1.02x   |
+  | styled-mixed.vt    | 577.3 ± 3.0  | 575.2 ± 3.1         | 1.00x   |
+  | erase.vt           | 359.7        | 357.9               | 1.01x   |
+  | ascii.vt           | 41.5         | 41.4                | 1.00x   |
+  | styled-heavy.vt    | 246.5 ± 1.4  | 246.7 ± 0.9         | 1.00x   |
+  | utf8.vt            | 408.7 ± 1.7  | 408.0 ± 1.2         | 1.00x   |
+  | out.txt (2.6GB)    | 5734 ± 49    | 5553 ± 173          | 1.03x   |
+  
+  In the real world, this is a small win. A unique link per row is what
+  `ls --hyperlink` and some compilers produce, but most output doesn't
+  look like that. Its important it doesn't regress other workoads.
+  
+  **AI usage:** Opus for tests, benchmarking, validation. Meat brain for
+  impl and this PR desc.
+  ```
+- [`7b267cd`](https://github.com/ghostty-org/ghostty/commit/7b267cd9ac7863b0bd72e808daa021381e72dc21) terminal: carried pages compare usage per row ([#15013](https://github.com/ghostty-org/ghostty/issues/15013)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When a carried page has fewer rows than the standard so that it fits in
+  a pool item, `grow` now scales its usage up to the standard row count
+  before deciding what capacity the next page keeps.
+  
+  Previously, a trimmed page looked emptier than it really was, so the
+  next page shrank its jcapacity, ran out of room, and had to grow by
+  copying itself.
+  
+  This is a follow-up fix to carried pages from #14985:
+  https://github.com/ghostty-org/ghostty/pull/14985
+  
+  In the real world I think this would be a pretty edge case scenario but
+  it was something I saw that bothered me.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size   | main (ms)    | fix (ms)     | Speedup |
+  | --------------- | ------ | ------------ | ------------ | ------- |
+  | cycle.vt        | 80x24  | 234.2 ± 4.9  | 144.1 ± 4.6  | 1.63x   |
+  | styled-mixed.vt | 120x80 | 583.4 ± 3.2  | 582.4 ± 2.1  | 1.00x   |
+  | styled-mixed.vt | 30x24  | 630.2 ± 2.3  | 631.6 ± 3.1  | 1.00x   |
+  | osc.vt          | 120x80 | 1152.2 ± 9.7 | 1158.2 ± 5.1 | 0.99x   |
+  | burst.vt        | 120x80 | 76.4 ± 1.0   | 76.5 ± 0.7   | 1.00x   |
+  | alternating.vt  | 120x80 | 177.8 ± 2.5  | 178.8 ± 2.4  | 0.99x   |
+  | styled-heavy.vt | 120x80 | 240.8 ± 0.9  | 241.6 ± 2.1  | 1.00x   |
+  | utf8.vt         | 120x80 | 384.2 ± 0.8  | 384.0 ± 1.0  | 1.00x   |
+  | ascii.vt        | 120x80 | 41.9 ± 0.1   | 41.8 ± 0.3   | 1.00x   |
+  
+  EDIT: The `cycle.vt` input shape was one chosen particularly to exercise
+  the grow/shrink issue I saw. Its not representative of real world data.
+  
+  **AI usage:** I saw the problem and came up with the idea to resolve it,
+  deferred to Opus for impl, testing, validation. I reviewed.
+  ```
+- [`0d4418a`](https://github.com/ghostty-org/ghostty/commit/0d4418ac20922475ebb40ef23a666898bbc91b67) terminal: fix edge cases in carried page capacity ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Found a few bugs from #14985:
+  
+    - The rows per byte check that decides whether a carried page may
+      trim rows to fit in the pool overflowed on 32-bit targets (i.e. wasm32)
+      for terminals narrower than about 37 columns.
+    - `grow_hint` was updated before the new page was allocated. If
+      allocation failed this caused problems.
+    - On tall terminals at the minimum scrollback size, pages with
+      trimmed rows hold less of the active area, so the page list could
+      go over the byte limit during a burst of styled output.
+  
+  These are all correctness fixes with no performance impact.
+  ```
+- [`4747d7f`](https://github.com/ghostty-org/ghostty/commit/4747d7ff427480f75736dc207d14251b8eabd3c9) terminal: fix edge cases in carried page capacity ([#15005](https://github.com/ghostty-org/ghostty/issues/15005)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Found a few bugs from #14985:
+  
+  - The rows per byte check that decides whether a carried page may trim
+  rows to fit in the pool overflowed on 32-bit targets (i.e. wasm32) for
+  terminals narrower than about 37 columns.
+  - `grow_hint` was updated before the new page was allocated. If
+  allocation failed this caused problems.
+  - On tall terminals at the minimum scrollback size, pages with trimmed
+  rows hold less of the active area, so the page list could go over the
+  byte limit during a burst of styled output.
+  
+  These are all correctness fixes with no performance impact.
+  
+  **AI stuff:** I found the first two issues, Fable found the last, Opus
+  did the bug fixes and I reviewed.
+  ```
 - [`f7b25c8`](https://github.com/ghostty-org/ghostty/commit/f7b25c8129d84d53cf0cda4ffa024a692aca019e) termio: don't require RFC 1123 hostnames in OSC 7 ([@jcollie](https://github.com/jcollie))
   ```text
   The Zig 0.17 port switched reportPwd from `uri.getHost` to
