@@ -8,15 +8,195 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 2, 2026 at 00:10 UTC.
+> Last updated: November 2, 2026 at 10:27 UTC.
 
 ## November 2, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
-Summary: 1 runs • 1 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [2](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
+Summary: 2 runs • 10 commits • 4 authors
 
 ### Changes
 
+- [`f7b25c8`](https://github.com/ghostty-org/ghostty/commit/f7b25c8129d84d53cf0cda4ffa024a692aca019e) termio: don't require RFC 1123 hostnames in OSC 7 ([@jcollie](https://github.com/jcollie))
+  ```text
+  The Zig 0.17 port switched reportPwd from `uri.getHost` to
+  `std.Io.net.HostName.fromUri`, which also validates the host as an
+  RFC 1123 hostname. Local hostnames often aren't: macOS allows names
+  like "Foo's MacBook Pro", some systems use underscores, and our URI
+  parser deliberately accepts MAC addresses. Any OSC 7 report from such
+  a machine was dropped, so new tabs, splits and windows stopped
+  inheriting the working directory.
+  
+  The host only has to match the local hostname, which `isLocal` already
+  checks, so extract it without validating it, as 1.3 did.
+  
+  Fixes: #14970
+  Ref: https://github.com/ghostty-org/ghostty/discussions/14952
+  ```
+- [`881fc68`](https://github.com/ghostty-org/ghostty/commit/881fc68902a5d819fdac96bcb597a2d99feb9729) terminal: skip clearing rows that are already blank ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Erase display (ED, `CSI J`) now skips rows that are already blank instead
+  of clearing them again. On a mostly empty screen, full-screen erases are
+  now 2x to 14x faster depending on screen size. Plain text and scrolling
+  are unaffected.
+  
+  Programs that redraw by clearing (shells redrawing prompts, `clear`,
+  `watch`, TUIs) usually erase a screen that is mostly empty already.
+  Previously, every erase cleared every row cell by cell anyway, even
+  when the cells were already zero.
+  
+  ## How
+  
+  Rows get a new `blank` bit, taken from the row's padding. It is set when
+  a whole row is cleared with a zero blank cell and cleared by anything
+  that writes cells. `clearRows` sees the bit and only resets the row's
+  metadata, leaving the cells alone. Skipped rows aren't marked dirty
+  because nothing about how they look changed.
+  
+  The bit is a hint that can be false for a blank row but never true for
+  a row with content. We verify this with integrity checks.
+  
+  The tricky part was not slowing down printing. My first attempt cleared
+  the bit whenever a row was marked dirty, which happens on every cursor
+  move, and made scrolling about 3% slower. Now `writeCell` clears it,
+  which also covers the spacer head a wide char writes before it wraps.
+  `Row.markWritten` sets dirty and clears blank in one load and store,
+  because doing them separately was measurable on the print path.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)    | blank-track (ms) | Speedup |
+  | --------------- | ------- | ------------ | ---------------- | ------- |
+  | erase.vt        | 120x80  | 362.6 ± 1.1  | 49.9 ± 0.1       | 7.27x   |
+  | erase.vt        | 120x12  | 89.0 ± 0.3   | 49.0 ± 0.3       | 1.82x   |
+  | erase.vt        | 300x100 | 1149 ± 16    | 82.6 ± 0.2       | 13.91x  |
+  | ascii.vt        | 120x80  | 40.6 ± 0.2   | 40.5 ± 0.2       | 1.00x   |
+  | styled-plain.vt | 120x80  | 64.1 ± 0.5   | 63.5 ± 0.5       | 1.01x   |
+  | styled-mixed.vt | 120x80  | 576.0 ± 1.6  | 579.7 ± 5.9      | 0.99x   |
+  | utf8.vt         | 120x80  | 380.5 ± 2.3  | 386.5 ± 6.5      | 0.98x   |
+  | osc.vt          | 120x80  | 1142 ± 5     | 1140 ± 3         | 1.00x   |
+  | out.txt (2.6GB) | 120x80  | 5911         | 5589             | 1.06x   |
+  
+  `out.txt` is the asciinema data dump, a real world workload. It gets
+  faster because real sessions erase a lot! The vtebench vim inputs are
+  1 to 2% faster for the same reason. The vtebench scrolling inputs are
+  unchanged. utf8.vt looks 2% slower but it is noisy, and it executes
+  only 0.3% more instructions, so this is probably noise.
+  ```
+- [`fd29936`](https://github.com/ghostty-org/ghostty/commit/fd29936f0914f5a303e1d67fd09201f981b7eff1) macos: make Surface main actor-isolated ([@jparise](https://github.com/jparise))
+  ```text
+  Calls into libghostty must happen on the main actor, and nearly every
+  Surface function was already annotated with `@MainActor`.
+  
+  Main actor isolation makes the class implicitly Sendable, so the
+  explicit conformance goes away. `deinit` remains `nonisolated`, so the
+  surface handle stays `nonisolated(unsafe)` for it to read the value and
+  hand it to the main actor to be freed.
+  ```
+- [`6573de6`](https://github.com/ghostty-org/ghostty/commit/6573de67e9990ebf0308f5cb07e4e40895d748ec) Replace std.ArrayListUnmanaged and std.ArrayListAligned ([@jcollie](https://github.com/jcollie))
+  ```text
+  Both are deprecated aliases in Zig 0.17: std.ArrayListUnmanaged is
+  std.ArrayList, which has been unmanaged since 0.15, and
+  std.ArrayListAligned is std.array_list.Aligned. Zig 0.18 removes them,
+  so use the names they alias. No behavior change.
+  ```
+- [`2178e63`](https://github.com/ghostty-org/ghostty/commit/2178e635dffc71e0c679b143680665bf09857bb8) terminal: mark reset rows blank and test the blank bit bookkeeping ([@mitchellh](https://github.com/mitchellh))
+- [`59093e3`](https://github.com/ghostty-org/ghostty/commit/59093e3aadb1478e6642061059b1882cfa1b6cf3) terminal: skip clearing rows that are already blank ([#14997](https://github.com/ghostty-org/ghostty/issues/14997)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Erase display (ED, `CSI J`) now skips rows that are already blank
+  instead of clearing them again. On a mostly empty screen, full-screen
+  erases are now 2x to 14x faster depending on screen size. Plain text and
+  scrolling are unaffected.
+  
+  Programs that redraw by clearing (shells redrawing prompts, `clear`,
+  `watch`, TUIs) usually erase a screen that is mostly empty already.
+  Previously, every erase cleared every row cell by cell anyway, even when
+  the cells were already zero.
+  
+  ## How
+  
+  Rows get a new `blank` bit, taken from the row's padding. It is set when
+  a whole row is cleared with a zero blank cell and cleared by anything
+  that writes cells. `clearRows` sees the bit and only resets the row's
+  metadata, leaving the cells alone. Skipped rows aren't marked dirty
+  because nothing about how they look changed.
+  
+  The bit is a hint that can be false for a blank row but never true for a
+  row with content. We verify this with integrity checks.
+  
+  The tricky part was not slowing down printing. My first attempt cleared
+  the bit whenever a row was marked dirty, which happens on every cursor
+  move, and made scrolling about 3% slower. Now `writeCell` clears it,
+  which also covers the spacer head a wide char writes before it wraps.
+  `Row.markWritten` sets dirty and clears blank in one load and store,
+  because doing them separately was measurable on the print path.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input | Size | main (ms) | blank-track (ms) | Speedup |
+  | --------------- | ------- | ------------ | ---------------- | -------
+  |
+  | erase.vt | 120x80 | 362.6 ± 1.1 | 49.9 ± 0.1 | 7.27x |
+  | erase.vt | 120x12 | 89.0 ± 0.3 | 49.0 ± 0.3 | 1.82x |
+  | erase.vt | 300x100 | 1149 ± 16 | 82.6 ± 0.2 | 13.91x |
+  | ascii.vt | 120x80 | 40.6 ± 0.2 | 40.5 ± 0.2 | 1.00x |
+  | styled-plain.vt | 120x80 | 64.1 ± 0.5 | 63.5 ± 0.5 | 1.01x |
+  | styled-mixed.vt | 120x80 | 576.0 ± 1.6 | 579.7 ± 5.9 | 0.99x |
+  | utf8.vt | 120x80 | 380.5 ± 2.3 | 386.5 ± 6.5 | 0.98x |
+  | osc.vt | 120x80 | 1142 ± 5 | 1140 ± 3 | 1.00x |
+  | out.txt (2.6GB) | 120x80 | 5911 | 5589 | 1.06x |
+  
+  `out.txt` is the asciinema data dump, a real world workload. It gets
+  faster because real sessions erase a lot! The vtebench vim inputs are 1
+  to 2% faster for the same reason. The vtebench scrolling inputs are
+  unchanged. utf8.vt looks 2% slower but it is noisy, and it executes only
+  0.3% more instructions, so this is probably noise.
+  
+  **AI usage:** I came up with the change, Opus helped with benchmarking
+  and validating, I wrote the text. Fable helped come up with an alternate
+  idea for my original design which had the 3% slowdown :(
+  ```
+- [`ada6e3d`](https://github.com/ghostty-org/ghostty/commit/ada6e3d722fde00e7171e2d4e93c7392052f2720) Replace std.ArrayListUnmanaged and std.ArrayListAligned ([#15001](https://github.com/ghostty-org/ghostty/issues/15001)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Both are deprecated aliases in Zig 0.17: std.ArrayListUnmanaged is
+  std.ArrayList, which has been unmanaged since 0.15, and
+  std.ArrayListAligned is std.array_list.Aligned. Zig 0.18 removes them,
+  so use the names they alias. No behavior change.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`5c6d43e`](https://github.com/ghostty-org/ghostty/commit/5c6d43eeecaf4eff506a96d0f5310b5682c80c88) macos: make Surface main actor-isolated ([#14999](https://github.com/ghostty-org/ghostty/issues/14999)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Calls into libghostty must happen on the main actor, and nearly every
+  Surface function was already annotated with `@MainActor`.
+  
+  Main actor isolation makes the class implicitly Sendable, so the
+  explicit conformance goes away. `deinit` remains `nonisolated`, so the
+  surface handle stays `nonisolated(unsafe)` for it to read the value and
+  hand it to the main actor to be freed.
+  ```
+- [`042b16b`](https://github.com/ghostty-org/ghostty/commit/042b16b6146ada29877dfeeea9f286889e4adeb1) termio: don't require RFC 1123 hostnames in OSC 7 ([#14971](https://github.com/ghostty-org/ghostty/issues/14971)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The Zig 0.17 port switched reportPwd from `uri.getHost` to
+  `std.Io.net.HostName.fromUri`, which also validates the host as an RFC
+  1123 hostname. Local hostnames often aren't: macOS allows names like
+  "Foo's MacBook Pro", some systems use underscores, and our URI parser
+  deliberately accepts MAC addresses. Any OSC 7 report from such a machine
+  was dropped, so new tabs, splits and windows stopped inheriting the
+  working directory.
+  
+  The host only has to match the local hostname, which `isLocal` already
+  checks, so extract it without validating it, as 1.3 did.
+  
+  Fixes: #14970
+  Ref: https://github.com/ghostty-org/ghostty/discussions/14952
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
 - [`7cd6fa0`](https://github.com/ghostty-org/ghostty/commit/7cd6fa0215a1299c69c27fe543f48ecab45b775f) Sync CODEOWNERS vouch list ([#15002](https://github.com/ghostty-org/ghostty/issues/15002)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Sync CODEOWNERS owners with vouch list.
