@@ -8,15 +8,139 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 3, 2026 at 13:29 UTC.
+> Last updated: November 3, 2026 at 20:44 UTC.
 
 ## November 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41640921915), [2](https://github.com/ghostty-org/ghostty/actions/runs/41612522728), [3](https://github.com/ghostty-org/ghostty/actions/runs/41588034700), [4](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [5](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [6](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
-Summary: 6 runs • 10 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41704148845), [2](https://github.com/ghostty-org/ghostty/actions/runs/41657405741), [3](https://github.com/ghostty-org/ghostty/actions/runs/41640921915), [4](https://github.com/ghostty-org/ghostty/actions/runs/41612522728), [5](https://github.com/ghostty-org/ghostty/actions/runs/41588034700), [6](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [7](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [8](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
+Summary: 8 runs • 18 commits • 8 authors
 
 ### Changes
 
+- [`0edfc65`](https://github.com/ghostty-org/ghostty/commit/0edfc656fa3d55d2bbf4519420666b19e5b19dba) macOS: fix tab bar frame on macOS 27 when it first appears. ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  On macOS 27.2 (Probably already like this in early versions), the new tab button appears later than other views.
+  The previous guard will skip the following layout, causing issues when the tab bar first appears on a window without tabs:
+  1. "Show Tab Bar" the first time for a window without tabs.
+  2. "Merge All Windows" from a window without tabs. The tab bar remains clipped until the next `becomeMain` or other functions trigger the setup.
+  ```
+- [`2d1f9cf`](https://github.com/ghostty-org/ghostty/commit/2d1f9cf1095ea4d5c0888ddbc62e03bd14e11597) os: reserve space for executable path terminator ([@12ya](https://github.com/12ya))
+  ```text
+  Return error.PathTooLong when a candidate path fills the buffer,
+  leaving no room for the null terminator. Add a regression test for
+  the boundary that previously caused an out-of-bounds write.
+  ```
+- [`fef7af4`](https://github.com/ghostty-org/ghostty/commit/fef7af4e19f6d8b0361c49e6190b81f3a64a999b) os: reserve space for executable path terminator ([#15058](https://github.com/ghostty-org/ghostty/issues/15058)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Return error.PathTooLong when a candidate path fills the buffer, leaving
+  no room for the null terminator. Add a regression test for the boundary
+  that previously caused an out-of-bounds write.
+  
+  AI disclosure: used OpenAI Codex
+  ```
+- [`c7f68a7`](https://github.com/ghostty-org/ghostty/commit/c7f68a7f48c6a5b357689eb8c2328bc2dab5d8ed) macOS: fix tab bar frame on macOS 27 when it first appears. ([#15029](https://github.com/ghostty-org/ghostty/issues/15029)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  On macOS 27.2 (Probably already like this in early versions), the new
+  tab button appears later than other views. The previous guard will skip
+  the following layout, causing issues when the tab bar first appears on a
+  window without tabs:
+  1. "Show Tab Bar" the first time for a window without tabs.
+  2. "Merge All Windows" from a window without tabs. The tab bar remains
+  clipped until the next `becomeMain` or other functions trigger the
+  setup.
+  
+  > New tab doesn't have the issue because it will trigger the setup
+  multiple times (at least 3: addTitlebarAccessoryViewController,
+  becomeMain and syncAppearance).
+  
+  ### AI Disclosure
+  
+  I check the RC myself and asked Claude to rephrase my scattered
+  comments.
+  ```
+- [`fad1133`](https://github.com/ghostty-org/ghostty/commit/fad1133619a98a1bb60e99baac2d5460dfb33985) terminal: pass the style to fillStyles as a vector ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Without explicit `inline`, LLVM still inlines `fillStyles`, but
+  writes each style as two 64-bit stores on x86-64. Passing the style
+  as a vector restores one 16-byte vector store per style.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` at 120x80 with 1 MiB of styled-heavy
+  output, on Windows x86-64:
+  
+  | Mode          | main (ms)    | vector (ms)  | Speedup |
+  | ------------- | ------------ | ------------ | ------- |
+  | render-scroll | 441.4 ± 20.1 | 414.7 ± 14.6 | 1.06x   |
+  ```
+- [`4a2d77e`](https://github.com/ghostty-org/ghostty/commit/4a2d77ebb2d8d6973e1808bff1ca3e4f13b0a67b) terminal: reserve style runs once per row in RowBuilder.scan ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  `RowBuilder.scan`, which runs during `beginUpdate`, previously called
+  `ArrayList.append` for each style run.
+  
+  A cell starts at most one run, so reserve a row's worth of runs before
+  the scan and use `appendAssumeCapacity`. Unlike `append`, which LLVM
+  does not inline into the function, this compiles to inline stores.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` on Windows x86-64:
+  
+  | Input         | Size   | Mode          | main (ms)     | reserve (ms)  | Speedup |
+  | ------------- | ------ | ------------- | ------------- | ------------- | ------- |
+  | DOOM-fire-zig | 160x50 | render-locked | 2480.6 ± 37.0 | 1285.0 ± 25.6 | 1.93x   |
+  | DOOM-fire-zig | 160x50 | render        | 2759.3 ± 36.6 | 1571.1 ± 29.2 | 1.76x   |
+  | styled-heavy  | 120x80 | render        | 297.1 ± 6.4   | 236.9 ± 6.4   | 1.25x   |
+  | styled-heavy  | 120x80 | render-scroll | 414.5 ± 8.5   | 366.4 ± 9.0   | 1.13x   |
+  ```
+- [`7ea52a2`](https://github.com/ghostty-org/ghostty/commit/7ea52a29c5a91fa9a832aa6205add0a4311862da) terminal: pass the style to fillStyles as a vector ([#15053](https://github.com/ghostty-org/ghostty/issues/15053)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Follow-up to #15023.
+  
+  Without explicit `inline`, LLVM still inlines `fillStyles`, but lowers
+  the fill to two 64-bit stores per style on x86-64. Passing the style as
+  `@Vector(2, u64)` restores one `movdqu` 128-bit store.
+  
+  I also asked Sol to check ARM codegen: both versions already store the
+  style in one instruction.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` at 120x80 with 1 MiB of styled-heavy
+  output, on Windows x86-64:
+  
+  | Mode          | main (ms)    | This PR (ms)  | Speedup |
+  | ------------- | ------------ | ------------ | ------- |
+  | render-scroll | 441.4 ± 20.1 | 414.7 ± 14.6 | 1.06x   |
+  
+  AI disclosure: Developed with OpenCode (GPT 6.1 Sol)
+  ```
+- [`6fba087`](https://github.com/ghostty-org/ghostty/commit/6fba0873efb7765e9d0f79de449063f3214b3d75) terminal: reserve style runs once per row in RowBuilder.scan ([#15054](https://github.com/ghostty-org/ghostty/issues/15054)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `RowBuilder.scan`, which runs during `beginUpdate`, previously appended
+  each style run with `ArrayList.append`, which isn't inlined there. This
+  reserves a row's worth of runs before the scan (a cell starts at most
+  one run) and uses `appendAssumeCapacity`, which compiles to inline
+  stores.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` on Windows x86-64:
+  
+  | Input | Size | Mode | main (ms) | This PR (ms) | Speedup |
+  | ------------- | ------ | ------------- | ------------- | -------------
+  | ------- |
+  | DOOM-fire-zig | 160x50 | render-locked | 2480.6 ± 37.0 | 1285.0 ± 25.6
+  | 1.93x |
+  | DOOM-fire-zig | 160x50 | render | 2759.3 ± 36.6 | 1571.1 ± 29.2 |
+  1.76x |
+  | styled-heavy | 120x80 | render | 297.1 ± 6.4 | 236.9 ± 6.4 | 1.25x |
+  | styled-heavy | 120x80 | render-scroll | 414.5 ± 8.5 | 366.4 ± 9.0 |
+  1.13x |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5) and OpenCode (GPT
+  6.1 Sol), including benchmarking and codegen analysis.
+  ```
 - [`060ff6b`](https://github.com/ghostty-org/ghostty/commit/060ff6b52dcfde52112a8376c6cf3e26f4161edf) i18n: update Japanese translation ([#15025](https://github.com/ghostty-org/ghostty/issues/15025)) ([@clavinjune](https://github.com/clavinjune))
 - [`b148bf7`](https://github.com/ghostty-org/ghostty/commit/b148bf728524ac17daec66692a8265d351c9c702) macos: allow quitting with a clipboard confirmation open ([@jparise](https://github.com/jparise))
   ```text
