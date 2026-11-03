@@ -8,15 +8,134 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 3, 2026 at 05:00 UTC.
+> Last updated: November 3, 2026 at 13:29 UTC.
 
 ## November 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [2](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [3](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
-Summary: 3 runs • 4 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41640921915), [2](https://github.com/ghostty-org/ghostty/actions/runs/41612522728), [3](https://github.com/ghostty-org/ghostty/actions/runs/41588034700), [4](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [5](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [6](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
+Summary: 6 runs • 10 commits • 5 authors
 
 ### Changes
 
+- [`060ff6b`](https://github.com/ghostty-org/ghostty/commit/060ff6b52dcfde52112a8376c6cf3e26f4161edf) i18n: update Japanese translation ([#15025](https://github.com/ghostty-org/ghostty/issues/15025)) ([@clavinjune](https://github.com/clavinjune))
+- [`b148bf7`](https://github.com/ghostty-org/ghostty/commit/b148bf728524ac17daec66692a8265d351c9c702) macos: allow quitting with a clipboard confirmation open ([@jparise](https://github.com/jparise))
+  ```text
+  The clipboard confirmation is a plain window presented as a sheet, and
+  windows prevent application termination while modal by default. AppKit
+  therefore dropped quit requests before reaching applicationShouldTerminate
+  for as long as the modal was open. NSAlert sheets don't have this behavior.
+  
+  Verified with an active confirmation window using Cmd-Q, the quit action
+  and Apple Event, and a quit event with the logout reason.
+  ```
+- [`0d1d5e8`](https://github.com/ghostty-org/ghostty/commit/0d1d5e884b88a711f1ccf47387ab41e8fa28a755) macos: allow quitting with a clipboard confirmation open ([#15040](https://github.com/ghostty-org/ghostty/issues/15040)) ([@bo2themax](https://github.com/bo2themax))
+- [`c12d42e`](https://github.com/ghostty-org/ghostty/commit/c12d42eaf877b996cc798f9dd54b2a79ba630db9) terminal: print ASCII runs as u8 slices from input instead of u32 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The stream now finds runs of plain ASCII (non-control) and passes that
+  through to the terminal directly from the input pointer rather than widening
+  it to u32 and doing a copy.
+  
+  This is implemented as a specialization on stream handlers, which both
+  the Ghostty GUI and libghostty-vt handlers implement. If the specialized
+  callback isn't implemented, the old `print_slice` (u32 slice) is used.
+  
+  Non-ASCII input takes the same path as before. utf8.vt and the CJK
+  inputs are unchanged.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Apple Silicon:
+  
+  | Input            | Size   | main (ms)    | print-u8 (ms) | Speedup |
+  | ---------------- | ------ | ------------ | ------------- | ------- |
+  | ascii.vt         | 120x80 | 43.2 ± 0.5   | 29.2 ± 0.5    | 1.48x   |
+  | ascii-lines.vt   | 120x80 | 67.2 ± 0.5   | 51.3 ± 0.4    | 1.31x   |
+  | styled-plain.vt  | 120x80 | 65.7 ± 0.3   | 48.9 ± 0.6    | 1.34x   |
+  | light_cells.vt   | 120x80 | 39.3 ± 0.6   | 31.8 ± 0.3    | 1.24x   |
+  | cursor_motion.vt | 120x80 | 147.2 ± 0.9  | 128.6 ± 1.1   | 1.14x   |
+  | scrolling.vt     | 120x80 | 736.5 ± 6.4  | 648.7 ± 6.0   | 1.14x   |
+  | dense_cells.vt   | 120x80 | 101.0 ± 0.7  | 94.8 ± 1.2    | 1.07x   |
+  | utf8.vt          | 120x80 | 315.3 ± 2.6  | 314.6 ± 0.4   | 1.00x   |
+  | osc.vt           | 120x80 | 951.5 ± 3.4  | 944.6 ± 2.7   | 1.01x   |
+  | out.txt (2.6GB)  | 120x80 | 5177.6 ± 9.8 | 4892.7 ± 1.9  | 1.06x   |
+  
+  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest):
+  
+  | Input            | Size   | main (ms) | print-u8 (ms) | Speedup |
+  | ---------------- | ------ | --------- | ------------- | ------- |
+  | ascii.vt         | 120x80 | 122.5     | 95.5          | 1.28x   |
+  | ascii-lines.vt   | 120x80 | 234.5     | 175.9         | 1.33x   |
+  | styled-plain.vt  | 120x80 | 231.8     | 174.4         | 1.33x   |
+  | light_cells.vt   | 120x80 | 83.4      | 64.5          | 1.29x   |
+  | cursor_motion.vt | 120x80 | 564.0     | 459.4         | 1.23x   |
+  | scrolling.vt     | 120x80 | 3918.0    | 3577.6        | 1.10x   |
+  | styled-heavy.vt  | 120x80 | 574.7     | 520.4         | 1.10x   |
+  | dense_cells.vt   | 120x80 | 382.1     | 350.2         | 1.09x   |
+  | medium_cells.vt  | 120x80 | 651.8     | 607.0         | 1.07x   |
+  | utf8.vt          | 120x80 | 895.4     | 881.5         | 1.02x   |
+  | cjk-prose.vt     | 120x80 | 274.9     | 280.8         | 0.98x   |
+  | hyperlinks.vt    | 120x80 | 135.0     | 128.2         | 1.05x   |
+  ```
+- [`a227276`](https://github.com/ghostty-org/ghostty/commit/a227276b770c450ab0e5704a42a773c952e4991b) terminal: clear the blank hint where a snapshot test writes cells ([@mitchellh](https://github.com/mitchellh))
+- [`091beb9`](https://github.com/ghostty-org/ghostty/commit/091beb99250bc4c1a255d3617b54630c115d0f27) terminal: print ASCII runs as u8 slices from input instead of u32 ([#15046](https://github.com/ghostty-org/ghostty/issues/15046)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The stream now finds runs of plain ASCII (non-control) and passes that
+  through to the terminal directly from the input pointer rather than
+  widening it to u32 and doing a copy.
+  
+  This is implemented as a specialization on stream handlers, which both
+  the Ghostty GUI and libghostty-vt handlers implement. If the specialized
+  callback isn't implemented, the old `print_slice` (u32 slice) is used.
+  
+  Non-ASCII input takes the same path as before. utf8.vt and the CJK
+  inputs are unchanged.
+  
+  **Note: this does not speed up pure-ASCII `cat` times.** The speedups
+  below are based on raw bytes pumping through libghostty's core. Our
+  `cat` times in the shell are bound by the _kernel_, we're already within
+  5% of the speed of a full 100% CPU busy loop pumping bytes out of a pty
+  as fast as it can (and the last 5% is because we don't spin the CPU at
+  100%).
+  
+  Edit: I edited the above to say "pure ASCII" because it does measurably
+  speed up `cat`-ing the asciinema 2.6GB dump. That's because we now
+  process the ASCII runs at full speed while slower sequences can't
+  process at pty-read-speeds.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Apple Silicon:
+  
+  | Input            | Size   | main (ms)    | print-u8 (ms) | Speedup |
+  | ---------------- | ------ | ------------ | ------------- | ------- |
+  | ascii.vt         | 120x80 | 43.2 ± 0.5   | 29.2 ± 0.5    | 1.48x   |
+  | ascii-lines.vt   | 120x80 | 67.2 ± 0.5   | 51.3 ± 0.4    | 1.31x   |
+  | styled-plain.vt  | 120x80 | 65.7 ± 0.3   | 48.9 ± 0.6    | 1.34x   |
+  | light_cells.vt   | 120x80 | 39.3 ± 0.6   | 31.8 ± 0.3    | 1.24x   |
+  | cursor_motion.vt | 120x80 | 147.2 ± 0.9  | 128.6 ± 1.1   | 1.14x   |
+  | scrolling.vt     | 120x80 | 736.5 ± 6.4  | 648.7 ± 6.0   | 1.14x   |
+  | dense_cells.vt   | 120x80 | 101.0 ± 0.7  | 94.8 ± 1.2    | 1.07x   |
+  | utf8.vt          | 120x80 | 315.3 ± 2.6  | 314.6 ± 0.4   | 1.00x   |
+  | osc.vt           | 120x80 | 951.5 ± 3.4  | 944.6 ± 2.7   | 1.01x   |
+  | out.txt (2.6GB)  | 120x80 | 5177.6 ± 9.8 | 4892.7 ± 1.9  | 1.06x   |
+  
+  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest):
+  
+  | Input            | Size   | main (ms) | print-u8 (ms) | Speedup |
+  | ---------------- | ------ | --------- | ------------- | ------- |
+  | ascii.vt         | 120x80 | 122.5     | 95.5          | 1.28x   |
+  | ascii-lines.vt   | 120x80 | 234.5     | 175.9         | 1.33x   |
+  | styled-plain.vt  | 120x80 | 231.8     | 174.4         | 1.33x   |
+  | light_cells.vt   | 120x80 | 83.4      | 64.5          | 1.29x   |
+  | cursor_motion.vt | 120x80 | 564.0     | 459.4         | 1.23x   |
+  | scrolling.vt     | 120x80 | 3918.0    | 3577.6        | 1.10x   |
+  | styled-heavy.vt  | 120x80 | 574.7     | 520.4         | 1.10x   |
+  | dense_cells.vt   | 120x80 | 382.1     | 350.2         | 1.09x   |
+  | medium_cells.vt  | 120x80 | 651.8     | 607.0         | 1.07x   |
+  | utf8.vt          | 120x80 | 895.4     | 881.5         | 1.02x   |
+  | cjk-prose.vt     | 120x80 | 274.9     | 280.8         | 0.98x   |
+  | hyperlinks.vt    | 120x80 | 135.0     | 128.2         | 1.05x   |
+  ```
 - [`6676bba`](https://github.com/ghostty-org/ghostty/commit/6676bbaec73a2a30eced56003dd7248e931de6fa) Update VOUCHED list ([#15045](https://github.com/ghostty-org/ghostty/issues/15045)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
