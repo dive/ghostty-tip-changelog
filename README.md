@@ -8,15 +8,166 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 2, 2026 at 21:17 UTC.
+> Last updated: November 3, 2026 at 05:00 UTC.
 
-## November 2, 2026
+## November 3, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41520563485), [2](https://github.com/ghostty-org/ghostty/actions/runs/41511614122), [3](https://github.com/ghostty-org/ghostty/actions/runs/41506747057), [4](https://github.com/ghostty-org/ghostty/actions/runs/41502755506), [5](https://github.com/ghostty-org/ghostty/actions/runs/41491697673), [6](https://github.com/ghostty-org/ghostty/actions/runs/41485839464), [7](https://github.com/ghostty-org/ghostty/actions/runs/41478021093), [8](https://github.com/ghostty-org/ghostty/actions/runs/41466669618), [9](https://github.com/ghostty-org/ghostty/actions/runs/41459038808), [10](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [11](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
-Summary: 11 runs • 37 commits • 5 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [2](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [3](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
+Summary: 3 runs • 4 commits • 2 authors
 
 ### Changes
 
+- [`6676bba`](https://github.com/ghostty-org/ghostty/commit/6676bbaec73a2a30eced56003dd7248e931de6fa) Update VOUCHED list ([#15045](https://github.com/ghostty-org/ghostty/issues/15045)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15044#discussioncomment-19366333)
+  from @jcollie.
+  
+  Vouch: @ghdtjdwn
+  ```
+- [`25de649`](https://github.com/ghostty-org/ghostty/commit/25de649dde19bb96c7ad8ec4f7d28441a865da09) terminal: write the blank row once when scrolling a region up ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrolling up inside a scroll region (`cursorScrollRegionUp`) now builds
+  the erased row's reset header in a register and writes it straight into
+  the row's new slot at the bottom of the region. Previously it reset the
+  row in place and then rotated it there.
+  
+  On x86-64 this improves scroll region vtebench results by 6-8%. This
+  was actually a regress from #14997 so this just gets that back.
+  
+  Apple Silicon was never affected and still isn't. It now runs one fewer
+  instruction per scrolled row with no measurable change in time. Other
+  inputs stay within 0.06% of main in instructions retired.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest).
+  
+  | Input                         | Size   | main (ms) | x86-scroll (ms) | Speedup |
+  | ----------------------------- | ------ | --------- | --------------- | ------- |
+  | scrolling_top_small_region.vt | 120x80 | 2837.3    | 2582.3          | 1.11x   |
+  | scrolling_bottom_region.vt    | 120x80 | 2775.0    | 2659.7          | 1.02x   |
+  | scrolling.vt                  | 120x80 | 3855.1    | 3818.0          | 1.01x   |
+  
+  ## Why?
+  
+  `Row.blank` took a bit from the row's padding, and that changed how LLVM
+  lowers the unchanged `row.reset()`. It now emits a 4-byte store of only
+  the header's high half. `rotateOnce` does an 8-byte load of that same
+  header a few instructions later. x86 can't forward a narrow store into
+  a wider load, so every scrolled line waited for the store to reach
+  cache. A profile put 62% of `cursorScrollRegionUp`'s samples right
+  after that load.
+  
+  `fastmem.rotateIn` shifts the region and writes the new header after
+  the memmove, so the header never makes the round trip through memory.
+  With the change, the function's samples are back at their level from
+  before #14997.
+  ```
+- [`18e645e`](https://github.com/ghostty-org/ghostty/commit/18e645ea22a5ef4793a2008275eb6f98e5d039bb) terminal: write the blank row once when scrolling a region up ([#15042](https://github.com/ghostty-org/ghostty/issues/15042)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Scrolling up inside a scroll region (`cursorScrollRegionUp`) now builds
+  the erased row's reset header in a register and writes it straight into
+  the row's new slot at the bottom of the region. Previously it reset the
+  row in place and then rotated it there.
+  
+  On x86-64 this improves scroll region vtebench results by 6-8%. This was
+  actually a regress from #14997 so this just gets that back.
+  
+  Apple Silicon was never affected and still isn't. It now runs one fewer
+  instruction per scrolled row with no measurable change in time. Other
+  inputs stay within 0.06% of main in instructions retired.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest).
+  
+  | Input | Size | main (ms) | x86-scroll (ms) | Speedup |
+  | ----------------------------- | ------ | --------- | --------------- |
+  ------- |
+  | scrolling_top_small_region.vt | 120x80 | 2837.3 | 2582.3 | 1.11x |
+  | scrolling_bottom_region.vt | 120x80 | 2775.0 | 2659.7 | 1.02x |
+  | scrolling.vt | 120x80 | 3855.1 | 3818.0 | 1.01x |
+  
+  ## Why?
+  
+  `Row.blank` took a bit from the row's padding, and that changed how LLVM
+  lowers the unchanged `row.reset()`. It now emits a 4-byte store of only
+  the header's high half. `rotateOnce` does an 8-byte load of that same
+  header a few instructions later. x86 can't forward a narrow store into a
+  wider load, so every scrolled line waited for the store to reach cache.
+  A profile put 62% of `cursorScrollRegionUp`'s samples right after that
+  load.
+  
+  `fastmem.rotateIn` shifts the region and writes the new header after the
+  memmove, so the header never makes the round trip through memory. With
+  the change, the function's samples are back at their level from before
+  #14997.
+  
+  **AI usage:** Fable figured this out. I had no idea, but I looked at its
+  analysis and agree with its conclusions. I pushed it in bunch of
+  different ways and couldn't find any holes. I wrote the prose.
+  ```
+- [`fa3b435`](https://github.com/ghostty-org/ghostty/commit/fa3b435cbfdc70c4e41ace87e1cde401f62e2aa5) Update VOUCHED list ([#15041](https://github.com/ghostty-org/ghostty/issues/15041)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14147#discussioncomment-19363823)
+  from @jcollie.
+  
+  Vouch: @danudey
+  ```
+
+## November 2, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41546831074), [2](https://github.com/ghostty-org/ghostty/actions/runs/41520563485), [3](https://github.com/ghostty-org/ghostty/actions/runs/41511614122), [4](https://github.com/ghostty-org/ghostty/actions/runs/41506747057), [5](https://github.com/ghostty-org/ghostty/actions/runs/41502755506), [6](https://github.com/ghostty-org/ghostty/actions/runs/41491697673), [7](https://github.com/ghostty-org/ghostty/actions/runs/41485839464), [8](https://github.com/ghostty-org/ghostty/actions/runs/41478021093), [9](https://github.com/ghostty-org/ghostty/actions/runs/41466669618), [10](https://github.com/ghostty-org/ghostty/actions/runs/41459038808), [11](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [12](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
+Summary: 12 runs • 39 commits • 5 authors
+
+### Changes
+
+- [`0e067de`](https://github.com/ghostty-org/ghostty/commit/0e067ded703c4212248daf996f97c62f2f13114a) core: declare pointer nullability in ghostty.h ([@jparise](https://github.com/jparise))
+  ```text
+  Pointers in ghostty.h declared no nullability information, so Swift
+  imported them all as implicitly unwrapped optionals. This lack of
+  enforcement made it possible to miss a guard and pass NULL to a non-null
+  Zig parameter.
+  
+  Make non-null the header's default using Clang's `assume_nonnull` and
+  explicitly annotate the other nullable pointers based on their Zig
+  declarations.
+  
+  This exposed a few existing calls that had the wrong expectations:
+  
+  - The ghostty_set_window_background_blur callers, readSelection, and
+    Config.backgroundColor could pass NULL and now guard their optional
+    values.
+  - Clearing the preedit passes NULL, so ghostty_surface_preedit now
+    accepts a nullable pointer on the Zig side too.
+  
+  This change is source-breaking for Swift embedders because optional
+  handling of newly non-optional values will no longer compile.
+  ```
+- [`a455842`](https://github.com/ghostty-org/ghostty/commit/a455842c28d587cd2ee2b75cc21fa021b1a47d09) core: declare pointer nullability in ghostty.h ([#15039](https://github.com/ghostty-org/ghostty/issues/15039)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Pointers in ghostty.h declared no nullability information, so Swift
+  imported them all as implicitly unwrapped optionals. This lack of
+  enforcement made it possible to miss a guard and pass NULL to a non-null
+  Zig parameter.
+  
+  Make non-null the header's default using Clang's `assume_nonnull` and
+  explicitly annotate the other nullable pointers based on their Zig
+  declarations.
+  
+  This exposed a few existing calls that had the wrong expectations:
+  
+  - The ghostty_set_window_background_blur callers, readSelection, and
+  Config.backgroundColor could pass NULL and now guard their optional
+  values.
+  - Clearing the preedit passes NULL, so ghostty_surface_preedit now
+  accepts a nullable pointer on the Zig side too.
+  
+  This change is source-breaking for Swift embedders because optional
+  handling of newly non-optional values will no longer compile.
+  ```
 - [`4c92f80`](https://github.com/ghostty-org/ghostty/commit/4c92f80954b1d563c148d77a051394fd2d39de60) terminal: print fast stays active while a hyperlink is open ([@mitchellh](https://github.com/mitchellh))
   ```text
   `printSlice` previously bailed out of its fast path whenever an OSC 8
@@ -2098,118 +2249,4 @@ Summary: 4 runs • 21 commits • 9 authors
   ```
 - [`50e5d21`](https://github.com/ghostty-org/ghostty/commit/50e5d217817e03df64f9af018540b88b6780b087) example: bump minimum zig version to 0.17.0 ([@paaloeye](https://github.com/paaloeye))
 - [`6ba1441`](https://github.com/ghostty-org/ghostty/commit/6ba144158577d033ccb6ed4b574e4013957c9161) example: bump minimum zig version to 0.17.0 ([#14893](https://github.com/ghostty-org/ghostty/issues/14893)) ([@jcollie](https://github.com/jcollie))
-
-## October 27, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40584098988), [2](https://github.com/ghostty-org/ghostty/actions/runs/40568497398), [3](https://github.com/ghostty-org/ghostty/actions/runs/40546649739), [4](https://github.com/ghostty-org/ghostty/actions/runs/40541589904), [5](https://github.com/ghostty-org/ghostty/actions/runs/40535055733), [6](https://github.com/ghostty-org/ghostty/actions/runs/40526449383), [7](https://github.com/ghostty-org/ghostty/actions/runs/40450332918)  
-Summary: 7 runs • 19 commits • 6 authors
-
-### Changes
-
-- [`5c1d15f`](https://github.com/ghostty-org/ghostty/commit/5c1d15f9b571982afe4376e8cb38b6f3fbb52bc0) config: prevent panic on truncated UTF-8 ([@12ya](https://github.com/12ya))
-  ```text
-  #14879
-  
-  Check that the full UTF-8 sequence is available before slicing it so
-  truncated configuration strings return InvalidString instead of panicking.
-  Cover incomplete two-, three-, and four-byte sequences and verify that
-  SelectionWordChars.parseCLI reports InvalidValue.
-  ```
-- [`46e9dc9`](https://github.com/ghostty-org/ghostty/commit/46e9dc9a927b2e7e7cba79e6902c176127dbdf2c) config: prevent panic on truncated UTF-8 ([#14879](https://github.com/ghostty-org/ghostty/issues/14879)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  `CodepointIterator` could panic on incomplete UTF-8, such as a lone 0xC2
-  byte, when slicing beyond the available input.
-  
-  Check the remaining byte count before slicing and return `InvalidString`
-  for truncated sequences. Test incomplete two-, three-, and four-byte
-  sequences in the iterator and `SelectionWordChars.parseCLI`.
-  
-  Validation:
-  - `zig build test -Dtest-filter=SelectionWordChars
-  -Dtest-filter=codepointIterator -Demit-macos-app=false`: 91 tests
-  passed.
-  - Standalone string helper tests: 13 passed.
-  - Formatting and whitespace checks passed.
-  
-  AI disclosure: OpenAI Codex assisted with the code, tests, and PR
-  description.
-  ```
-- [`241a7bc`](https://github.com/ghostty-org/ghostty/commit/241a7bca3b14fa3a136dfb9860eb0d9d183bb3f4) cli: fix Unicode escape validation ([@12ya](https://github.com/12ya))
-  ```text
-  #14876
-  
-  Interpret hexadecimal letters as 10 through 15 when checking Unicode
-  escapes so oversized values are rejected.
-  
-  Cover lowercase and uppercase letters in quoted and unquoted escapes.
-  Run quoted cases on every platform.
-  ```
-- [`b84594f`](https://github.com/ghostty-org/ghostty/commit/b84594f9783e9ca924ba7c703ab7d633b38c4bbe) build: fix the snap and flatpak builds ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  These have been broken since Zig 0.17, I think snap since before that.
-  
-  The snap moves to core26 (Ubuntu 26.04), which ships new enough GTK,
-  libadwaita, and harfbuzz. It also uses the system gtk4-layer-shell now
-  that Ubuntu packages it, and redirects `-lbzip2` to `libbz2.so` with a
-  one-line linker script, the same way the flatpak already does.
-  ```
-- [`b840b24`](https://github.com/ghostty-org/ghostty/commit/b840b2457cc0f5ee63cb324b3af9bb8e753e512c) cli: fix Unicode escape validation ([#14876](https://github.com/ghostty-org/ghostty/issues/14876)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Fix hexadecimal letter conversion in CommaSplitter's Unicode escape
-  validation. Letters a-f and A-F were interpreted as 0-5 instead of
-  10-15, allowing oversized escapes such as \u{aaaaaa} to pass validation.
-  
-  Add regression tests for lowercase and uppercase escapes.
-  
-  Validation:
-  - Standalone tests: 27 passed, 3 Windows tests skipped.
-  - Formatting: passed.
-  
-  AI assistance: Used OpenAI Codex for diagnosis, explanations, code/test
-  suggestions, validation, and PR wording.
-  ```
-- [`919dca5`](https://github.com/ghostty-org/ghostty/commit/919dca5c848d43a489a4cb2e1feade016f0fa2db) build: fix the snap and flatpak builds ([#14881](https://github.com/ghostty-org/ghostty/issues/14881)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  These have been broken since Zig 0.17, I think snap since before that.
-  
-  The snap moves to core26 (Ubuntu 26.04), which ships new enough GTK,
-  libadwaita, and harfbuzz. It also uses the system gtk4-layer-shell now
-  that Ubuntu packages it, and redirects `-lbzip2` to `libbz2.so` with a
-  one-line linker script, the same way the flatpak already does.
-  ```
-- [`4a4fc01`](https://github.com/ghostty-org/ghostty/commit/4a4fc017940bec38c93b278c10c6a18c591f3e63) up to 1.4.1-dev ([@mitchellh](https://github.com/mitchellh))
-- [`83fb956`](https://github.com/ghostty-org/ghostty/commit/83fb95624b0439ee660c2679b43b38c8b63769cd) Bump version to 1.4.0 ([@mitchellh](https://github.com/mitchellh))
-- [`155bbbe`](https://github.com/ghostty-org/ghostty/commit/155bbbe5343d6579a20121673702937cee96572f) i18n: polish the Polish ([@Rayzerrek](https://github.com/Rayzerrek))
-- [`d87c497`](https://github.com/ghostty-org/ghostty/commit/d87c497aff312f8bfcaeffbb53813dcccea4492b) i18n: polish the Polish ([#14874](https://github.com/ghostty-org/ghostty/issues/14874)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Picked from #14598
-  ```
-- [`c46e292`](https://github.com/ghostty-org/ghostty/commit/c46e292eda4fb217fbbc2763a7ed6f73f04db4de) Update VOUCHED list ([#14878](https://github.com/ghostty-org/ghostty/issues/14878)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14877#discussioncomment-19221073)
-  from @jcollie.
-  
-  Vouch: @rtgibbons
-  ```
-- [`f9c3b20`](https://github.com/ghostty-org/ghostty/commit/f9c3b20f7ecb8fe145e595469b62841c8fe5cb7d) macOS: increase test coverage for NSPasteboard ([@francislata](https://github.com/francislata))
-- [`a732580`](https://github.com/ghostty-org/ghostty/commit/a7325808ad17249b356824102c4c0e917352b686) macOS: increase test coverage for NSPasteboard ([#14870](https://github.com/ghostty-org/ghostty/issues/14870)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Picked and amended from #14868
-  ```
-- [`99dae4d`](https://github.com/ghostty-org/ghostty/commit/99dae4d8700a63040b4131a5b43bf7f50d5d13d8) ci: add freebsd builds for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
-- [`445e234`](https://github.com/ghostty-org/ghostty/commit/445e23496414d870a0407d145b285381fc031bc1) some freebsd fixes ([@mitchellh](https://github.com/mitchellh))
-- [`f13b528`](https://github.com/ghostty-org/ghostty/commit/f13b52851a744f14cb22101dc29d78babdc6e656) terminal: memory decommit/recommit for FreeBSD ([@mitchellh](https://github.com/mitchellh))
-- [`4d429ec`](https://github.com/ghostty-org/ghostty/commit/4d429ecfdeed4e08473602a3071fda897cd18a39) ci: run libghostty-vt tests in CI ([@mitchellh](https://github.com/mitchellh))
-- [`1b9bb3a`](https://github.com/ghostty-org/ghostty/commit/1b9bb3aeb1236e2151539c695fbb03e171fe1e4c) build: -Demit-test-exe only emits the libghostty c tests for libghostty ([@mitchellh](https://github.com/mitchellh))
-- [`68640f3`](https://github.com/ghostty-org/ghostty/commit/68640f3049d5ae76d7d5eebb5bbdf713a3a98713) libghostty-vt: support FreeBSD, test in CI ([#14867](https://github.com/ghostty-org/ghostty/issues/14867)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  This adds support for FreeBSD to libghostty-vt and validates it in CI.
-  
-  There were only a few places we really need to make compatibility fixes:
-  
-  - The memory decommit/recommit stuff, which is very OS specific.
-  - Kitty graphics shared memory paths
-  - TinyIO, one method
-  ```
 
