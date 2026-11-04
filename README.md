@@ -8,7 +8,71 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 4, 2026 at 10:19 UTC.
+> Last updated: November 4, 2026 at 19:15 UTC.
+
+## November 4, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41887613577)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`5db83d7`](https://github.com/ghostty-org/ghostty/commit/5db83d7689bd7eaaaeb27198c9f870b04794cc8c) libghostty-vt: reserved allocator vtable slots, revamp allocator docs ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  Added four reserved `void*` slots to the end of `GhosttyAllocatorVtable`
+  so we have room to add more function pointers if we ever want to.
+  
+  This also makes `resize` and `remap` optional. A NULL `resize` acts
+  like it returned false and a NULL `remap` acts like it returned NULL,
+  so the library falls back to alloc, copy, free. An allocator built on
+  plain malloc and free now only needs `alloc` and `free`:
+  
+  ```c
+  static const GhosttyAllocatorVtable vtable = {
+      .alloc = my_alloc,
+      .free = my_free,
+  };
+  ```
+  
+  The allocator docs in allocator.h were rewritten. They now cover the
+  default allocator per platform, how to write an allocator, alignment
+  (an exponent, not a byte count, which trips people up) and buffer
+  ownership.
+  
+  The new example/c-vt-allocator is an alloc and free only allocator.
+  ````
+- [`ee02d01`](https://github.com/ghostty-org/ghostty/commit/ee02d019e8459ed4d09fac55753ad2363c5a8b01) libghostty-vt: reserved allocator vtable slots, revamp allocator docs ([#15068](https://github.com/ghostty-org/ghostty/issues/15068)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  Added four reserved `void*` slots to the end of `GhosttyAllocatorVtable`
+  so we have room to add more function pointers if we ever want to.
+  
+  This also makes `resize` and `remap` optional. A NULL `resize` acts like
+  it returned false and a NULL `remap` acts like it returned NULL, so the
+  library falls back to alloc, copy, free. An allocator built on plain
+  malloc and free now only needs `alloc` and `free`:
+  
+  ```c
+  static const GhosttyAllocatorVtable vtable = {
+      .alloc = my_alloc,
+      .free = my_free,
+  };
+  ```
+  
+  The allocator docs in allocator.h were rewritten. They now cover the
+  default allocator per platform, how to write an allocator, alignment (an
+  exponent, not a byte count, which trips people up) and buffer ownership.
+  
+  The new example/c-vt-allocator is an alloc and free only allocator.
+  
+  **AI usage:** Reviewed by Opus, primarily written by me, tests+example
+  written by Opus.
+  ````
 
 ## November 3, 2026
 
