@@ -8,7 +8,134 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 5, 2026 at 10:14 UTC.
+> Last updated: November 5, 2026 at 19:23 UTC.
+
+## November 5, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42085053732), [2](https://github.com/ghostty-org/ghostty/actions/runs/42069194696)  
+Summary: 2 runs • 10 commits • 1 authors
+
+### Changes
+
+- [`e9b6108`](https://github.com/ghostty-org/ghostty/commit/e9b6108f3895543d24625630593b7987e794a48e) libghostty-vt: version the ELF exports, add GHOSTTY_DEPRECATED ([@mitchellh](https://github.com/mitchellh))
+- [`18365c6`](https://github.com/ghostty-org/ghostty/commit/18365c6fefd43ec6337b0e71c83d20c62b48c494) libghostty-vt: key and mouse event accessors report NULL ([@mitchellh](https://github.com/mitchellh))
+- [`5af2876`](https://github.com/ghostty-org/ghostty/commit/5af2876e9a73c9422fed52f905ec5913fa417fb7) libghostty-vt: export every symbol in every build ([@mitchellh](https://github.com/mitchellh))
+- [`ad89e75`](https://github.com/ghostty-org/ghostty/commit/ad89e75cc5278da9a7594eb3d2d58687397c00a8) example: set the unshifted codepoint in c-vt-encode-key ([@mitchellh](https://github.com/mitchellh))
+- [`ee5d0f6`](https://github.com/ghostty-org/ghostty/commit/ee5d0f668c8f7410bdba56fa20b379e080fba68f) libghostty-vt: version the ELF exports, one symbol set for every build ([#15091](https://github.com/ghostty-org/ghostty/issues/15091)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  - Linux and FreeBSD shared libraries now export only `ghostty_*`, under
+  a `GHOSTTY_VT_0` version node, via `src/terminal/c/ghostty-vt.map`.
+  - `GHOSTTY_DEPRECATED(msg)` in types.h, so we can mark functions
+  deprecated after 1.0 with the replacement named in the warning. Nothing
+  uses it yet.
+  - Headers compile under `-Wpedantic -Werror` as C11, C23 and C++17.
+  - Every symbol is exported in every build. Unsupported functions now
+  return `GHOSTTY_UNSUPPORTED`. Features can now be queried from build
+  info APIs.
+  - Key and mouse event accessors ABI changes: the remaining void setters,
+  both `_set_from_terminal` functions and `ghostty_mouse_encoder_reset`
+  return `GhosttyResult`; `ghostty_key_event_set_utf8` takes a
+  `GhosttyString`; `ghostty_mouse_event_get_button` returns
+  `GhosttyResult` with `GHOSTTY_NO_VALUE` when no button is set; and no
+  accessor dereferences a NULL event any more (it was UB in ReleaseFast).
+  ```
+- [`657e82d`](https://github.com/ghostty-org/ghostty/commit/657e82d1a34b3d01d53b04e4c040af364786cf53) libghostty-vt: INVALID=0 key enums, one cursor style and image layer enum ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Every key enum used with a `*_get` or `*_set` function now starts with
+  `*_INVALID = 0`, and the existing keys shift up by one. A zeroed or
+  uninitialized variable is never a real key, and passing INVALID returns
+  `GHOSTTY_INVALID_VALUE`. This changes the number of every option in 13
+  enums, including all of `GhosttyTerminalOption`, so bindings that
+  hardcode option numbers must update. Every enumerator also has an
+  explicit value now, so inserting one can't silently renumber the rest.
+  
+  Duplicate enums for the same concept are merged into `types.h`:
+  
+  - `GhosttyTerminalCursorStyle` and `GhosttyRenderStateCursorVisualStyle`
+    become `GhosttyCursorStyle`.
+  - `GhosttyRenderStateImageLayer` and `GhosttyKittyPlacementLayer` become
+    `GhosttyImageLayer`. The placement iterator's layer option is now a
+    bitmask so it can select more than one layer, and 0 or NULL means no
+    filter:
+  
+  ```c
+  uint32_t mask = GHOSTTY_IMAGE_LAYER_MASK_BELOW_TEXT |
+                  GHOSTTY_IMAGE_LAYER_MASK_ABOVE_TEXT;
+  ghostty_kitty_graphics_placement_iterator_set(
+      iterator, GHOSTTY_KITTY_GRAPHICS_PLACEMENT_ITERATOR_OPT_LAYER, &mask);
+  ```
+  
+  A few enumerators are renamed to match their type: the `_OPTION_` keys
+  become `_OPT_` like every other key enum, `GHOSTTY_SCROLL_VIEWPORT_*`
+  becomes `GHOSTTY_TERMINAL_SCROLL_VIEWPORT_*`, and
+  `GHOSTTY_KITTY_IMAGE_DATA_*` becomes `GHOSTTY_KITTY_GRAPHICS_IMAGE_DATA_*`.
+  ````
+- [`796f09a`](https://github.com/ghostty-org/ghostty/commit/796f09a6f4bb1505e3b417c6d1db16cf74a14768) libghostty-vt: consistent setter names, results, and NULL defaults ([@mitchellh](https://github.com/mitchellh))
+- [`9f09a05`](https://github.com/ghostty-org/ghostty/commit/9f09a053dbf2d3f533adfd5d812f08d70978bc51) libghostty-vt: one shape for every function that fills a caller buffer ([@mitchellh](https://github.com/mitchellh))
+- [`6dc6cd9`](https://github.com/ghostty-org/ghostty/commit/6dc6cd92752b905e5d466bb319181319d2f38ee8) libghostty-vt: continuation size query succeeds when nothing is pending ([@mitchellh](https://github.com/mitchellh))
+- [`03bd7e7`](https://github.com/ghostty-org/ghostty/commit/03bd7e76a0ea68fb2d5856b1bc3153135ebda91b) libghostty-vt: consistent key enums, signatures, and buffer shapes ([#15089](https://github.com/ghostty-org/ghostty/issues/15089)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is a BIG ABI breaking PR. This is all on
+  purpose to stabilize the ABI to prep for a 1.0 stable libghostty-vt
+  release.**
+  
+  This is the last batch of signature and naming changes from the ABI
+  review. After this, every key enum, setter, and buffer-filling function
+  in libghostty-vt follows the same rules... so we'll have less churn.
+  
+  The rules this PR enforces:
+  
+  - Every key enum starts at `_INVALID = 0` and every enumerator has an
+  explicit value. A zeroed struct never names a real key.
+  - Option keys use `_OPT_`. There is one `GhosttyCursorStyle` and one
+  `GhosttyImageLayer`, in types.h.
+  - Setters are `_set`, never `_setopt`. NULL as the value resets the
+  option to its documented default.
+  - Anything that can fail returns `GhosttyResult`. String outputs are
+  `GhosttyString`.
+  - Every function that fills a caller buffer takes `uint8_t* buf, size_t
+  buf_len, size_t* out_written` and returns `GhosttyResult`:
+  `OUT_OF_SPACE` with the needed size when too small, NULL with 0 as a
+  size query, `SUCCESS` with 0 when there is nothing to write.
+  
+  What changed for callers:
+  
+  | Before | After |
+  | --- | --- |
+  | Thirteen key enums without `_INVALID = 0` | `_INVALID = 0` inserted,
+  every value shifted up by one |
+  | `ghostty_{key,mouse}_encoder_setopt[_from_terminal]` |
+  `ghostty_{key,mouse}_encoder_set[_from_terminal]` |
+  | `GHOSTTY_SEARCH_OPT_SELECT_NEXT` and `_PREV` option keys |
+  `ghostty_search_select_next()` and `_prev()` |
+  | `bool ghostty_osc_command_data`, title as `const char**` |
+  `GhosttyResult`, title as `GhosttyString*` |
+  | `void ghostty_terminal_scroll_viewport` | `GhosttyResult`,
+  `INVALID_VALUE` leaves the viewport alone |
+  | `ghostty_sgr_attribute_tag(GhosttySgrAttribute)` | takes `const
+  GhosttySgrAttribute*`, `UNSET` for NULL |
+  | `const char* ghostty_key_event_get_utf8` | returns `GhosttyString` |
+  | `char* buf` in the five `*_encode` functions | `uint8_t* buf` |
+  | `ghostty_{key,mouse}_encoder_encode(…, char* out_buf, size_t
+  out_buf_size, size_t* out_len)` | `(…, uint8_t* buf, size_t buf_len,
+  size_t* out_written)` |
+  | `size_t* out_len` in `ghostty_grid_ref_graphemes` and `_hyperlink_uri`
+  | `size_t* out_written` |
+  | `GRAPHEMES_BUF` key takes a bare `uint32_t*` | takes
+  `GhosttyCodepointBuffer {ptr, cap, len}` |
+  | Kitty `IMAGE_DATA_DATA_PTR` and `_DATA_LEN` | `IMAGE_DATA_PIXELS`
+  (`GhosttyString`) and `_EXPECTED_LEN` |
+  | Placement iterator `LAYER` filter takes an enum | takes a `uint32_t`
+  mask of `GHOSTTY_IMAGE_LAYER_MASK_*` |
+  | `ghostty_terminal_paste(…, bool* out_written)` | `bool* out_pasted` |
+  | Scrollback limit NULL rejected | NULL is the 10 KB default, `SIZE_MAX`
+  is unlimited |
+  | Scroll-viewport tags `GHOSTTY_SCROLL_VIEWPORT_*` |
+  `GHOSTTY_TERMINAL_SCROLL_VIEWPORT_*` |
+  ```
 
 ## November 4, 2026
 
