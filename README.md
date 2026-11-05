@@ -8,15 +8,508 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 4, 2026 at 19:15 UTC.
+> Last updated: November 5, 2026 at 01:14 UTC.
 
 ## November 4, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41887613577)  
-Summary: 1 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41923292341), [2](https://github.com/ghostty-org/ghostty/actions/runs/41911262211), [3](https://github.com/ghostty-org/ghostty/actions/runs/41887613577)  
+Summary: 3 runs • 32 commits • 3 authors
 
 ### Changes
 
+- [`def58d3`](https://github.com/ghostty-org/ghostty/commit/def58d386bb1c626acd338f75ad2959b13d738b6) cli: flush plain color list output ([@12ya](https://github.com/12ya))
+  ```text
+  Flush stdout before returning so plain and piped color listings include all entries instead of ending mid-line
+  ```
+- [`02cf8a6`](https://github.com/ghostty-org/ghostty/commit/02cf8a6a2fbac49a7cf661b5eebfe57b98f21b4b) libghostty-vt: zero and freeze the structs used for callbacks ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  Make sure that all structs sent via a callback are zeroed and that their
+  size is frozen. If we change structs we can introduce new callback types
+  instead of changing the prior callback signatures.
+  ```
+- [`9e0d83c`](https://github.com/ghostty-org/ghostty/commit/9e0d83ceea1a268bbe6c8abefa584782e8e5d321) libghostty-vt: drop the size field from GridRef and Selection ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  `GhosttyGridRef` and `GhosttySelection` are now unsized/frozen structs.
+  The size was never used and they're embedded types so its really a
+  parent type concern.
+  
+  If either type ever needs to hold more, that will be a new type rather
+  than a change to these. Callers now zero-initialize them instead of
+  using `GHOSTTY_INIT_SIZED`:
+  
+  ```c
+  GhosttySelection selection = {0};
+  ```
+  
+  The header docs for both types were rewritten. They now explain where a
+  grid reference comes from, how long it stays valid, that `x` and `y` are
+  not screen coordinates, and how selection direction works, with a usage
+  example for each. The examples drop `GHOSTTY_INIT_SIZED` for these
+  types.
+  ````
+- [`a447ff7`](https://github.com/ghostty-org/ghostty/commit/a447ff7d86ecf6c2e52779c0768e476d15d9e914) libghostty-vt: make GhosttyStyle a frozen 16-byte struct ([@mitchellh](https://github.com/mitchellh))
+- [`49fbdaf`](https://github.com/ghostty-org/ghostty/commit/49fbdafd1df45dfc7e5e8034be03f3d0b89e50a2) libghostty-vt: set formatter options by key ([@mitchellh](https://github.com/mitchellh))
+- [`742fc2f`](https://github.com/ghostty-org/ghostty/commit/742fc2f2e20f2a6f1a8db43b1268db3d85161360) libghostty-vt: one sized-struct rule for every sized struct ([@mitchellh](https://github.com/mitchellh))
+- [`29bf7aa`](https://github.com/ghostty-org/ghostty/commit/29bf7aa9b4d5f8f464d9eb5d1809f9433759829d) cli: flush plain color list output ([#15073](https://github.com/ghostty-org/ghostty/issues/15073)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Flush stdout before returning so plain and piped color listings include
+  all entries instead of ending mid-line
+  
+  `ghostty +list-colors --plain`
+  
+  <img width="1615" height="419" alt="image"
+  src="https://github.com/user-attachments/assets/7d25e9b7-f22f-43df-9caa-bf343f909d14"
+  />
+  ```
+- [`86aef72`](https://github.com/ghostty-org/ghostty/commit/86aef72a2c8e67c780867de2378b2fc4d6dcd9ca) libghostty-vt: zero and freeze the structs used for callbacks ([#15074](https://github.com/ghostty-org/ghostty/issues/15074)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  A minor chage. Make sure that all structs sent via a callback are zeroed
+  and that their size is frozen. If we change structs we can introduce new
+  callback types instead of changing the prior callback signatures.
+  ```
+- [`f5a1a0f`](https://github.com/ghostty-org/ghostty/commit/f5a1a0fedd8762d490bc2951dc4b63a0f1b030e0) libghostty-vt: frozen value structs and one sized-struct rule ([#15075](https://github.com/ghostty-org/ghostty/issues/15075)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  This adds a bunch of helpers and unifies our handling of sized structs
+  throughout the libghostty C API. Previously, we had ~20 types with sized
+  structs but only actually checked 2 of them! This PR also freezes a
+  couple sized structs that didn't need a size.
+  
+  Along the way, the formatter's three option structs are gone.
+  `ghostty_formatter_terminal_new` takes no options and we now use
+  `ghostty_formatter_set` and `_get` like others.
+  
+  Also updated docs: a new "Sized Structs" section in vt.h explains the
+  rule, and every sized struct links to it.
+  
+  **AI usage:** I implemented the helpers and had Opus mechanically verify
+  and update all our call sites.
+  ```
+- [`6581a59`](https://github.com/ghostty-org/ghostty/commit/6581a593c68798cdd2c2cb77b7558747c65a0987) ci: add a release workflow for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+- [`1a2cf06`](https://github.com/ghostty-org/ghostty/commit/1a2cf06dd1284f84bb28d87dbc3a055e97c93f42) docs: add a packaging guide for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  libghostty-vt is about to get its own tagged releases, and distros
+  need to be able to package it from the docs alone. PACKAGING.md only
+  covered the app, with a short WebAssembly section for the library.
+  
+  PACKAGING-LIBGHOSTTY.md is a new, self-contained guide for packaging
+  the library. It has its own accuracy warning, Zig version and minisign
+  key so someone reading the library tarball never needs PACKAGING.md.
+  It covers the release files on release.files.ghostty.org, the offline
+  build with deps/libghostty-vt.txt, the installed files, the build
+  options that matter for the library (including the only two -fsys
+  options it uses, simdutf and highway), the 0.x rebuild rule and
+  SONAME, package naming, pkg-config and CMake use, the third-party
+  manifest and licenses, a smoke test, platform tiers, and the
+  WebAssembly notes moved over from PACKAGING.md.
+  
+  It also calls out that the archive GitHub generates for a vt- tag is
+  not a source tarball. It has no LIB_VERSION file, so `zig build` in it
+  builds the app, not the library.
+  
+  PACKAGING.md stays the app's guide. It points library packagers at
+  the new file, and its Zig version section now points at
+  minimum_zig_version in build.zig.zon instead of a required_zig
+  constant that no longer exists (and an example of Zig 0.14.0).
+  
+  The library tarball ships PACKAGING-LIBGHOSTTY.md and drops
+  PACKAGING.md. dist/cmake/README.md now fetches the release tarball
+  instead of main and links to the new guide instead of repeating it.
+  vt.h replaces its "work in progress" warnings with the actual
+  stability policy and an example runtime version check.
+  ```
+- [`281d341`](https://github.com/ghostty-org/ghostty/commit/281d34115fc300b4be121c01487550464d0eed9f) build: don't install the man page placeholder for libghostty-vt ([@mitchellh](https://github.com/mitchellh))
+- [`e95bed6`](https://github.com/ghostty-org/ghostty/commit/e95bed63330cc921f3cf2fe3d14e024396b09d43) libghostty: release workflow and packaging guide for libghostty-vt ([#15076](https://github.com/ghostty-org/ghostty/issues/15076)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds:
+  
+  - Release workflow for libghostty-vt via GitHub actions triggerd by a
+  `vt-X.Y.Z` tag.
+  - `PACKAGING-LIBGHOSTTY.md`, a packaging guide for libghostty-vt, copy
+  and pasted and reworked for libghostty from PACKAGING.md
+  
+  **AI usage:** Opus wrote the YAML, I did the markdown.
+  ```
+- [`8f7fc00`](https://github.com/ghostty-org/ghostty/commit/8f7fc00c3da2ac410d73256fc34ecce81ea49344) libghostty-vt: test that the C headers match the Zig types ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This continues/completes the work @jcollie started.
+  
+  All our C headers for libghostty and our Zig extern types are maintained
+  by hand. This commit adds automated tests to verify that they are always
+  matching.
+  
+  The test translates `ghostty/vt.h` with translate-c and walks the type
+  registry in `src/terminal/c/types.zig` (the same list that produces the
+  `ghostty_type_json()` manifest). For every registered type it checks:
+  
+    - Structs and unions: size, alignment, and every field's name,
+      position, offset, and size.
+    - Enums: every Zig value is a C enumerator with the same number,
+      every C enumerator maps back to a Zig value, and the `_MAX_VALUE`
+      sentinel is present and equal to `INT_MAX`.
+    - Packed types and aliases: the same integer type.
+    - Opaque handles: a pointer to an incomplete C struct.
+  
+  A second test runs the other way and checks that every struct, union,
+  enum, and opaque handle in the headers is in the registry. A new header
+  type that isn't registered fails the build, so coverage stays complete
+  without any manual work.
+  
+  This did find a couple small mismatches that were fixed:
+  `GhosttyModeReportState` (u8) and `GhosttySgrUnderline` (u3). Neither
+  is an ABI bug since both cross the C API as a C int but the metadata
+  didn't match.
+  ```
+- [`942e353`](https://github.com/ghostty-org/ghostty/commit/942e353465eb80b0bdb63bfb116d95fcb0d8edbf) libghostty-vt: test that the C headers match the Zig types ([#15071](https://github.com/ghostty-org/ghostty/issues/15071)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This continues/completes the work @jcollie started.
+  
+  All our C headers for libghostty and our Zig extern types are maintained
+  by hand. This commit adds automated tests to verify that they are always
+  matching.
+  
+  The test translates `ghostty/vt.h` with translate-c and walks the type
+  registry in `src/terminal/c/types.zig` (the same list that produces the
+  `ghostty_type_json()` manifest). For every registered type it checks:
+  
+  - Structs and unions: size, alignment, and every field's name, position,
+  offset, and size.
+  - Enums: every Zig value is a C enumerator with the same number, every C
+  enumerator maps back to a Zig value, and the `_MAX_VALUE` sentinel is
+  present and equal to `INT_MAX`.
+    - Packed types and aliases: the same integer type.
+    - Opaque handles: a pointer to an incomplete C struct.
+  
+  A second test runs the other way and checks that every struct, union,
+  enum, and opaque handle in the headers is in the registry. A new header
+  type that isn't registered fails the build, so coverage stays complete
+  without any manual work.
+  
+  This did find a couple small mismatches that were fixed:
+  `GhosttyModeReportState` (u8) and `GhosttySgrUnderline` (u3). Neither is
+  an ABI bug since both cross the C API as a C int but the metadata didn't
+  match.
+  
+  **AI usage:** Fable planned, Opus written (code only), I reviewed and
+  modified the code rather significantly and wrote all the english myself.
+  ```
+- [`1830cd2`](https://github.com/ghostty-org/ghostty/commit/1830cd2502274a2ba0a1c03341cde3e063f57019) libghostty: derive shared library version metadata from lib_version ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig already names the shared library from `lib_version` on Linux, the
+  BSDs and Windows. For 0.1.0 that is libghostty-vt.so.0.1.0 with SONAME
+  libghostty-vt.so.0, plus .so.0 and .so symlinks, and ghostty-vt.dll.
+  
+  macOS metadata didn't follow this though. The Apple ld path hardcoded the
+  install name `@rpath/libghostty-vt.dylib` and compatibility version
+  1.0.0, and CMake had 0.1.0 baked into every library name.
+  
+  All of the version metadata is now derived from `SharedVersion` in
+  GhosttyLibVt.zig, which also documents the policy.
+  
+  For 0.1.0 a dylib gets:
+  
+    - install name @rpath/libghostty-vt.0.dylib
+    - compatibility version 0.1.0 (0.<minor>.0 before 1.0, <major>.0.0
+      after)
+    - current version 0.1.0
+  
+  Before 1.0 there is no ABI promise. Any minor release may break the
+  ABI, and packagers handle that by rebuilding dependents on a minor bump.
+  That is documentation, not build logic, so the file names stay Zig's.
+  
+  dyld doesn't actually enforce the compatibility version. On macOS 27 a
+  client linked against a 0.1.0 dylib happily loads one marked 0.2.0 and
+  the other way around, even with an old deployment target.
+  
+  CMake now reads the version from LIB_VERSION or build.zig instead of
+  hardcoding 0.1.0, and derives the real name and SONAME from it. This
+  also fixes the installed CMake package config on macOS, which said
+  `IMPORTED_SONAME "GHOSTTY_VT_SONAME@"` because configure_file read
+  "@rpath/@" as a variable named "rpath/".
+  
+  CI now checks the names against lib_version instead of a literal.
+  test.yml checks the SONAME and symlinks, check-apple-libghostty-vt.nu
+  checks the install name and both versions, release-tip runs that check
+  on the dylib it builds, and the nix shared-link test checks the library
+  name the test program records.
+  ```
+- [`8edb49e`](https://github.com/ghostty-org/ghostty/commit/8edb49e386acbcaa2ab6141a8e5285c2a03f4f57) libghostty: version the lib-vt tarball and vt- tags from lib_version ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `zig build dist -Demit-lib-vt` now names the tarball after the library
+  version instead of the app version, for example
+  libghostty-vt-0.1.0-dev.tar.gz, and writes a LIB_VERSION file into it in
+  place of VERSION. The app tarball is unchanged.
+  ```
+- [`184b01a`](https://github.com/ghostty-org/ghostty/commit/184b01ab32c67b6accea14aa22ce8ed2c0ed7733) libghostty: install a CMake package config and fix lib-vt packaging defaults ([@mitchellh](https://github.com/mitchellh))
+- [`7b06c05`](https://github.com/ghostty-org/ghostty/commit/7b06c054155d26f789d79a6e3ee0dc4b6e76f924) libghostty: record the final install paths in the lib-vt .pc and CMake files ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Distros install with `DESTDIR=/stage zig build --prefix /usr`, often
+  with `--prefix-lib-dir lib64`. Zig 0.17 joins DESTDIR into every install
+  path it gives the build, so both .pc files said `prefix=/stage/usr`.
+  They also hardcoded `libdir=${prefix}/lib` and `includedir=${prefix}/include`,
+  the CMake config hardcoded lib/, include/ and bin/, and all four files
+  were installed under lib/ even when the libraries went to lib64/.
+  
+  For that install the .pc files now start with:
+  
+      prefix=/usr
+      includedir=${prefix}/include
+      libdir=${prefix}/lib64
+  
+  and the .pc and CMake files are installed to lib64/pkgconfig/ and
+  lib64/cmake/ghostty-vt/. The default layout is unchanged.
+  ```
+- [`3a1457c`](https://github.com/ghostty-org/ghostty/commit/3a1457c34e41d98cac86582c2cbb5360b3ced2ff) ci: make the lib-vt leak checks able to fail ([@mitchellh](https://github.com/mitchellh))
+- [`f5dcef0`](https://github.com/ghostty-org/ghostty/commit/f5dcef0453e1dd65f080577e07c6d9163dab218f) libghostty: add a version header and ghostty_version() ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  libghostty-vt had no way to check its version from C at compile time,
+  and the only runtime answer was ghostty_build_info(), which returns a
+  string that isn't null-terminated. Consumers like Neovim's
+  FindGhostty.cmake and distro packaging want both.
+  
+  `include/ghostty/vt/version.h` is a new committed header with
+  GHOSTTY_VT_VERSION_MAJOR, _MINOR, _PATCH, a GHOSTTY_VT_VERSION string
+  and GHOSTTY_VT_VERSION_AT_LEAST(maj, min, pat). vt.h includes it. It
+  contains only macros and includes nothing, so build systems can read it
+  as plain text. It is committed rather than generated so the tarball,
+  Doxygen and anyone reading the headers all see the same file.
+  
+  The header only carries the release number, "0.1.0", never "-dev".
+  A build from a vt- tag or a LIB_VERSION tarball drops the pre-release
+  part, so a header with "-dev" in it would be wrong on exactly the
+  builds we release.
+  
+  `ghostty_version()` returns the full version of the loaded library as
+  a static null-terminated string, for example "0.1.0-dev+9a018f5cc". It
+  is the same text as GHOSTTY_BUILD_INFO_VERSION_STRING. There is no
+  separate function for the numbers since ghostty_build_info() already
+  returns them.
+  
+  A new test, ghostty-vt-version-h-test, runs as part of test-lib-vt and
+  fails if the header's numbers disagree with the version the library is
+  built with, so a release bump has to update both. It reads the header
+  as text the same way CMake would.
+  
+  The Version docs explain the 0.x ABI policy and why a runtime check
+  matters before 1.0: every 0.x release shares the libghostty-vt.0
+  library name, so the system happily loads a 0.2 library for a program
+  compiled against 0.1. The c-vt-build-info example now shows both a
+  compile-time check and a runtime compatibility check.
+  ```
+- [`ac1feec`](https://github.com/ghostty-org/ghostty/commit/ac1feec8338c4ef0ae8cd596fd43130577f3edf2) libghostty: link the lib-vt dylib with Zig when Ghostty is a dependency ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig projects that depend on Ghostty and link `dep.artifact("ghostty-vt")`
+  panicked at configure time on macOS with `unable to find artifact
+  "ghostty-vt"`. Every shared-library `c-vt-*` example hit this. Linux
+  was unaffected.
+  
+  On a macOS host with the SDK, `initShared` links the dylib with Apple's
+  linker in a Run step and installs it with `addInstallFileWithDir`, so
+  there is no Compile step for `dep.artifact` to find.
+  
+  When Ghostty is a dependency, the shared library is now an ordinary
+  Compile step installed with `addInstallArtifact`. The dependent links
+  it into its own build, so the compatibility version and Apple
+  distribution load commands from the native link don't matter there.
+  The install name is still `@rpath/libghostty-vt.0.dylib`.
+  
+  Packaging builds (`-Demit-lib-vt`) keep the native link.
+  ```
+- [`97a5653`](https://github.com/ghostty-org/ghostty/commit/97a5653d323a730e4816936ed62520205f1007ae) pkg/wuffs: give the tests their own module ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The wuffs tests embed sample images from the pixels package. They added
+  those imports to the `wuffs` module itself, which is also the module
+  Ghostty imports, so every build that used wuffs carried eight test
+  images in its module graph. Nothing compiled them in, but anything that
+  reads the graph, such as a report of which packages end up in
+  libghostty-vt, counted pixels as part of the library.
+  
+  The tests now build from a separate module with the same root file and
+  the same `wuffs_c` import, plus the images.
+  ```
+- [`5b500d1`](https://github.com/ghostty-org/ghostty/commit/5b500d1433b61bc612409f82d6c8e35110ede62c) libghostty: generate the lib-vt dependency list and third-party manifest ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Packagers building libghostty-vt offline had to fetch all 37 Ghostty
+  dependencies, including GTK and font packages the library never touches,
+  and had no list of the third-party code inside the library or its
+  licenses.
+  
+  check-zig-cache.sh now also generates two files:
+  
+    - build.zig.zon.lib-vt.txt, the 9 packages a `-Demit-lib-vt` build
+      needs, in the same format as build.zig.zon.txt.
+    - build.zig.zon.lib-vt.third-party.json, every third-party project in
+      that build with its version, commit, URL, license, and whether its
+      code is linked into the library or only used by the build.
+  
+  Neither file is written by hand. gen-lib-vt-deps.sh starts from an empty
+  package directory and runs `zig build lib-vt-packages --system` for each
+  supported target, fetching whatever Zig reports missing until the build
+  runs. That keeps packages Zig requires even though the library doesn't
+  use them, and leaves out lazy packages the library never asks for.
+  
+  The new `lib-vt-packages` step, defined only with `-Demit-lib-vt`, finds
+  what is linked by walking the library's module graph: imports, C
+  sources, include directories and linked libraries. It also reads every
+  package's build.zig.zon for its version. The walk caught translate_c,
+  whose helper modules are imported by every translated header.
+  
+  Licenses can't be derived, so each build.zig.zon in this repository now
+  describes the third-party code it brings in, next to its URLs:
+  
+      .third_party = .{
+          .{ .name = "wuffs", .license = "Apache-2.0 OR MIT", .version = "0.4.0-alpha.10" },
+      },
+  
+  Zig and zon2nix ignore unknown top-level fields, so this changes neither
+  the build nor the other generated files. Generation fails with a message
+  saying what to fix when a package has no entry, an entry names a removed
+  package, a linked package has no version, or vendored code is linked
+  without an entry.
+  
+  fetch-zig-cache.sh takes an optional list, so packagers can fetch only
+  what the library needs:
+  
+      ZIG_GLOBAL_CACHE_DIR=/tmp/offline-cache \
+        ./nix/build-support/fetch-zig-cache.sh build.zig.zon.lib-vt.txt
+  
+  It also no longer uses `zig fetch`. In Zig 0.17, `zig fetch <url>` only
+  stores p/<hash>.tar.gz, which `--system` can't read, so the script was
+  broken for offline builds. It now writes a throwaway package that
+  depends on each URL and runs `zig build --fetch` on it, which unpacks
+  every package into p/<hash>.
+  
+  The offline build needs a fresh global cache too. Zig 0.17 hits
+  "reached unreachable code" when a lazy package is missing from the
+  `--system` directory but its tarball is in the global cache.
+  ```
+- [`4f2139a`](https://github.com/ghostty-org/ghostty/commit/4f2139ab4d769e37bab77ea767e398782ac19021) ci: build and test libghostty-vt offline from its dependency list ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The new test-lib-vt-offline job fetches only build.zig.zon.lib-vt.txt
+  into an empty directory, then builds libghostty-vt and runs test-lib-vt
+  with `--system` pointed at it and an empty global cache. If the list is
+  missing a package, the job fails instead of the build quietly finding or
+  downloading it somewhere else.
+  ```
+- [`2eda578`](https://github.com/ghostty-org/ghostty/commit/2eda578e784d2c46fd682f5fee55d4b3206448bf) libghostty: ship simdutf's license texts and take its version from pkg/simdutf ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The simdutf sources vendored in pkg/simdutf/vendor are compiled into
+  libghostty-vt, but the repository had no copy of simdutf's licenses, so
+  neither the source tarball nor anything built from it did either. Both of
+  simdutf's licenses require shipping their text. LICENSE-APACHE and
+  LICENSE-MIT from simdutf v9.0.0 now sit next to the sources. simdutf can
+  be used under either one, matching the "Apache-2.0 OR MIT" in the
+  third-party manifest.
+  
+  pkg/simdutf/build.zig.zon still said 5.2.8, though the vendored
+  simdutf.h says 9.0.0. It now says 9.0.0, and vendored code takes its
+  version from the build.zig.zon that holds it, so the .third_party entry
+  no longer repeats it. As with fetched packages, gen-lib-vt-deps.sh
+  rejects an entry that sets a second version. The generated files are
+  unchanged.
+  ```
+- [`3de7129`](https://github.com/ghostty-org/ghostty/commit/3de71293034969aaa09ad6f19ee53a9d23087403) build: move the generated dependency files into deps/ ([@mitchellh](https://github.com/mitchellh))
+- [`9fc62a9`](https://github.com/ghostty-org/ghostty/commit/9fc62a98cc765f2c341d317f2ee684ebb9584237) libghostty: prepare libghostty-vt for tagged releases ([#15069](https://github.com/ghostty-org/ghostty/issues/15069)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is the first batch of work toward tagged libghostty-vt releases.
+  This PR:
+  
+  - Library gets its own version via `lib_version` in `build.zig`.
+  - Tags are processed as `vt-X.Y.Z`, and builds read this.
+  - Tarball builds are named `libghostty-vt-X.Y.Z.tar.gz`
+  - Tarball contains a `LIB_VERSION` file so a plain `zig build` uses that
+  (similar to our app's `VERSION` file in the tarball)
+  - The shared libraries SONAME is set properly
+  - The macOS dylib install name and version metadata are set properly
+  - CMake derives version from `lib_version`, the version is no longer
+  hardcoded
+  - The install layout is now more appropriate for packages:
+    * `.pc` files under `lib/pkgconfig`
+    * Cmake under `lib/cmake/ghostty-vt`
+  - A new `version.h` header with macros and functions to help embedders
+  - Generated dependency list including licensing information packagers
+  need
+  - CI verification for a lot of this so it doesn't drift/fail
+  
+  **AI usage:** A huge mix of me and Fable going back and forth. I wrote
+  all the english. There's just a lot of glue in here that is not pleasant
+  and does not spark joy to write, so I used more AI assistance than
+  normal for this task and will continue to for packaging.
+  ```
+- [`8c0c45c`](https://github.com/ghostty-org/ghostty/commit/8c0c45c18a17fe8dc270b4c80ff31053c6f52a89) libghostty-vt: return GHOSTTY_UNSUPPORTED for unknown keys ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to prep for a 1.0 stable libghostty-vt release.**
+  
+  All our enum-keyed APIs `*_{get,set,setopt,getopt}` now return a new
+  result `GHOSTTY_UNSUPPORTED` for a key the library doesn't know. This
+  lets a program compiled against newer headers but linked against an
+  older build detect this case.
+  
+  Previously, unknown keys were undefined behavior. lol.
+  
+  Example usage:
+  
+  ```c
+  bool blinking = false;
+  switch (ghostty_render_state_get(state,
+      GHOSTTY_RENDER_STATE_DATA_CURSOR_BLINKING, &blinking)) {
+  case GHOSTTY_SUCCESS:
+    break;
+  case GHOSTTY_UNSUPPORTED:
+    // Older library that doesn't know this key. Use a default.
+    blinking = true;
+    break;
+  default:
+    // A real error, such as a NULL state.
+    return;
+  }
+  ```
+  ````
+- [`40066da`](https://github.com/ghostty-org/ghostty/commit/40066da055311c991b5c45be67313ef2b3661539) libghostty-vt: return GHOSTTY_UNSUPPORTED for unknown keys ([#15070](https://github.com/ghostty-org/ghostty/issues/15070)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  All our enum-keyed APIs `*_{get,set,setopt,getopt}` now return a new
+  result `GHOSTTY_UNSUPPORTED` for a key the library doesn't know. This
+  lets a program compiled against newer headers but linked against an
+  older build detect this case.
+  
+  Previously, unknown keys were undefined behavior. lol.
+  
+  Example usage:
+  
+  ```c
+  bool blinking = false;
+  switch (ghostty_render_state_get(state,
+      GHOSTTY_RENDER_STATE_DATA_CURSOR_BLINKING, &blinking)) {
+  case GHOSTTY_SUCCESS:
+    break;
+  case GHOSTTY_UNSUPPORTED:
+    // Older library that doesn't know this key. Use a default.
+    blinking = true;
+    break;
+  default:
+    // A real error, such as a NULL state.
+    return;
+  }
+  ```
+  
+  **AI usage:** My idea, I wrote the new docs and the main result return.
+  Then the "repeatedly draw the owl" refactoring was done by Opus.
+  Validated by Fable.
+  ````
 - [`5db83d7`](https://github.com/ghostty-org/ghostty/commit/5db83d7689bd7eaaaeb27198c9f870b04794cc8c) libghostty-vt: reserved allocator vtable slots, revamp allocator docs ([@mitchellh](https://github.com/mitchellh))
   ````text
   **This breaks the C ABI. This is all on purpose to stabilize the ABI to
@@ -2270,101 +2763,5 @@ Summary: 10 runs • 30 commits • 9 authors
   from @jcollie.
   
   Vouch: @tonypapousek
-  ```
-
-## October 29, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/40944541875), [2](https://github.com/ghostty-org/ghostty/actions/runs/40905187830), [3](https://github.com/ghostty-org/ghostty/actions/runs/40882266997), [4](https://github.com/ghostty-org/ghostty/actions/runs/40863292794), [5](https://github.com/ghostty-org/ghostty/actions/runs/40807604373)  
-Summary: 5 runs • 9 commits • 6 authors
-
-### Changes
-
-- [`f761046`](https://github.com/ghostty-org/ghostty/commit/f761046d6b8a30ad49181ad330ae2f18532cb193) formatter: restore a pending wrap at the right margin ([@robmorgan](https://github.com/robmorgan))
-  ```text
-  The VT formatter restores a pending wrap by reprinting the cell under the
-  cursor, but only when the cursor is in the last column. With left and
-  right margins (DECLRMM and DECSLRM), a wrap is pending at the right margin
-  when the cursor is within the margins, so there it wrote a CUP, which
-  clears the wrap, and the next character overwrote the margin's column
-  instead of wrapping.
-  
-  The terminal formatter restores the modes and the margins before the
-  cursor, so when it emits both it now tells the screen formatter to
-  reprint the cell at the right margin when the cursor is within the
-  margins. The screen formatter alone, and a terminal formatter without
-  those extras, still only reprint in the last column, since the margins
-  are not in force when their output is replayed.
-  ```
-- [`9781c0a`](https://github.com/ghostty-org/ghostty/commit/9781c0afc8225510e33127466f0815eb51086d7d) formatter: restore a pending wrap at the right margin ([#14918](https://github.com/ghostty-org/ghostty/issues/14918)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The VT formatter restores a pending wrap by reprinting the cell under
-  the cursor, but only when the cursor is in the last column. With left
-  and right margins (`DECLRMM` and `DECSLRM`), a wrap is pending at the
-  right margin when the cursor is within the margins, so it writes a CUP,
-  which clears the wrap, and the next character overwrites the margin's
-  column instead of wrapping.
-  
-  The terminal formatter restores the modes and the margins before the
-  cursor, so when it emits both, it now tells the screen formatter to
-  reprint the cell at the right margin when the cursor is within the
-  margins. The screen formatter alone, and a terminal formatter without
-  those extras, still only reprints in the last column, since the margins
-  are not in force when their output is replayed.
-  
-  I haven't benchmarked this because the change only does a fixed amount
-  of work once per format call and never touches the per-cell loops where
-  formatting spends most of its time.
-  
-  AI disclosure: Created with help from Claude Code using Opus 5.5,
-  Iterated on, manually tested and reviewed by me.
-  ```
-- [`108d503`](https://github.com/ghostty-org/ghostty/commit/108d503ac591d5a3b3a13a4bc11bbea8c09a42fb) Update VOUCHED list ([#14936](https://github.com/ghostty-org/ghostty/issues/14936)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14935#discussioncomment-19271347)
-  from @jcollie.
-  
-  Vouch: @jglanz
-  ```
-- [`4071344`](https://github.com/ghostty-org/ghostty/commit/40713449c609158017801c6dd39f465a281741a5) i18n: command palette - Focus and Untitled translation support ([@EriksRemess](https://github.com/EriksRemess))
-- [`93967b7`](https://github.com/ghostty-org/ghostty/commit/93967b7f9478e94dcbb42125c8a90f34feb40d75) i18n: command palette - Focus and Untitled translation support ([#14055](https://github.com/ghostty-org/ghostty/issues/14055)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  "Focus: {s}" and "Untitled" was not included in command palette
-  translations. This PR adds support and placeholders in .po files for
-  those strings.
-  ```
-- [`df1c99c`](https://github.com/ghostty-org/ghostty/commit/df1c99c8a5ec32c73963e5dc3fad3c9df7a3d137) Update VOUCHED list ([#14930](https://github.com/ghostty-org/ghostty/issues/14930)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14928#discussioncomment-19265783)
-  from @pluiedev.
-  
-  Vouch: @romen
-  ```
-- [`5ee2150`](https://github.com/ghostty-org/ghostty/commit/5ee215000ebe4354cd388962bc372152d16dacc6) nix: drop removed gnome-photos from VM excludes ([@gaborbernat](https://github.com/gaborbernat))
-  ```text
-  The nixpkgs update for Zig 0.17 removed gnome-photos, so evaluating
-  any GNOME VM check fails with "'gnome-photos' has been removed".
-  Excluding a package that no longer exists is unnecessary.
-  ```
-- [`f563ced`](https://github.com/ghostty-org/ghostty/commit/f563ceda37c51e6e3b0212f5c6965ff3113628d0) nix: apply GNOME Shell unsafe mode to the user unit ([@gaborbernat](https://github.com/gaborbernat))
-  ```text
-  The pinned GNOME starts org.gnome.Shell@user, so the --unsafe-mode
-  override on org.gnome.Shell@wayland never applies. Without it,
-  org.gnome.Shell.Eval returns nothing and basic-window-check-gnome
-  times out waiting for the focused window.
-  ```
-- [`b2c78c9`](https://github.com/ghostty-org/ghostty/commit/b2c78c9bd9bc88a16d9c3769b0fb17ddde1b78b1) nix: fix GNOME VM tests on main ([#14910](https://github.com/ghostty-org/ghostty/issues/14910)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  The GNOME VM checks fail on main, unnoticed because CI doesn't build
-  them: `gnome-photos` was removed from nixpkgs in 3110fb358, breaking
-  evaluation, and the `--unsafe-mode` override targets
-  `org.gnome.Shell@wayland` while GNOME now starts `org.gnome.Shell@user`,
-  so `Shell.Eval` returns nothing. Dropping the exclude and retargeting
-  the override makes `basic-window-check-gnome` and
-  `bell-leak-check-gnome` pass again.
-  
-  **AI assistance:** I used Claude Code (Claude Opus 5.5) to find and
-  verify this. I reviewed the change.
   ```
 
