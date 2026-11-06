@@ -8,15 +8,197 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 6, 2026 at 10:17 UTC.
+> Last updated: November 6, 2026 at 18:47 UTC.
 
 ## November 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42201296689), [2](https://github.com/ghostty-org/ghostty/actions/runs/42199593118), [3](https://github.com/ghostty-org/ghostty/actions/runs/42195208227), [4](https://github.com/ghostty-org/ghostty/actions/runs/42162681903)  
-Summary: 4 runs • 6 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42265534130), [2](https://github.com/ghostty-org/ghostty/actions/runs/42237235647), [3](https://github.com/ghostty-org/ghostty/actions/runs/42225715062), [4](https://github.com/ghostty-org/ghostty/actions/runs/42201296689), [5](https://github.com/ghostty-org/ghostty/actions/runs/42199593118), [6](https://github.com/ghostty-org/ghostty/actions/runs/42195208227), [7](https://github.com/ghostty-org/ghostty/actions/runs/42162681903)  
+Summary: 7 runs • 16 commits • 8 authors
 
 ### Changes
 
+- [`020a0a0`](https://github.com/ghostty-org/ghostty/commit/020a0a0998e084d457cf3d1604fb62de4647525f) terminal: find style runs with one scan in RowBuilder.scan ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  `RowBuilder.scan` previously handled each kind of special cell separately,
+  each with its own run scan. Rows with frequent style changes paid for failed
+  group comparisons of plain cells and styled runs every one or two cells.
+  
+  Use `Mask.eqlEnd` to find both plain and styled runs. It checks the next
+  cell individually before comparing whole groups. Rows with graphemes
+  get a separate scan specialization, while the common version is inlined.
+  
+  Background color cells no longer produce style runs: their color is
+  stored in the cell, and `RenderState.Cell.style` is undefined for cells
+  with the default style ID. This also removes the need for `Mask.eqlExact`.
+  
+  `Mask.eql` now ORs the differences together and checks the masked bits
+  once to avoid emulated 64-bit lane comparisons on baseline x86-64.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` on Windows x86-64:
+  
+  | Input         | Size   | Mode          | main (ms)     | This PR (ms) | Speedup |
+  | ------------- | ------ | ------------- | ------------- | ------------ | ------- |
+  | DOOM-fire-zig | 160x50 | render-locked | 1314.9 ± 48.0 | 434.9 ± 23.6 | 3.02x   |
+  | DOOM-fire-zig | 160x50 | render        | 1622.0 ± 44.2 | 743.4 ± 18.9 | 2.18x   |
+  | dense_cells   | 160x50 | render-locked | 1593.7 ± 13.5 | 467.8 ± 7.5  | 3.41x   |
+  | dense_cells   | 160x50 | render        | 1969.7 ± 27.4 | 858.4 ± 15.1 | 2.29x   |
+  | styled-heavy  | 120x80 | render        | 245.5 ± 5.6   | 211.1 ± 4.5  | 1.16x   |
+  | styled-heavy  | 120x80 | render-scroll | 361.4 ± 8.9   | 333.6 ± 9.7  | 1.08x   |
+  ```
+- [`d1ce0c4`](https://github.com/ghostty-org/ghostty/commit/d1ce0c46573472d6f961d8b04a03868640c4af93) terminal: fix performance regression, apply some fixes ([@mitchellh](https://github.com/mitchellh))
+- [`171a4e0`](https://github.com/ghostty-org/ghostty/commit/171a4e0444959e1938084b5db803dd83c16591b6) terminal: find style runs with one scan in RowBuilder.scan ([#15111](https://github.com/ghostty-org/ghostty/issues/15111)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `RowBuilder.scan` previously handled each kind of special cell
+  separately, each with its own run scan. Rows with frequent style changes
+  paid for failed group comparisons of plain cells and styled runs every
+  one or two cells.
+  
+  This finds each run with a new `Mask.eqlEnd`, which returns the index
+  where the run ends and checks the next cell on its own before checking
+  groups. Rows with graphemes get a separate scan specialization, while
+  the common version is inlined.
+  
+  Background color cells no longer produce style runs: their color is
+  stored in the cell, and `RenderState.Cell.style` is already undefined
+  for them. This also removes the only use of `Mask.eqlExact`.
+  
+  `Mask.eql` now ORs the differences and checks the masked bits once,
+  which avoids emulated 64-bit lane comparisons on baseline x86-64.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +screen-clone` on Windows x86-64:
+  
+  | Input | Size | Mode | main (ms) | This PR (ms) | Speedup |
+  | ------------- | ------ | ------------- | ------------- | ------------
+  | ------- |
+  | DOOM-fire-zig | 160x50 | render-locked | 1314.9 ± 48.0 | 434.9 ± 23.6
+  | 3.02x |
+  | DOOM-fire-zig | 160x50 | render | 1622.0 ± 44.2 | 743.4 ± 18.9 | 2.18x
+  |
+  | dense_cells | 160x50 | render-locked | 1593.7 ± 13.5 | 467.8 ± 7.5 |
+  3.41x |
+  | dense_cells | 160x50 | render | 1969.7 ± 27.4 | 858.4 ± 15.1 | 2.29x |
+  | styled-heavy | 120x80 | render | 245.5 ± 5.6 | 211.1 ± 4.5 | 1.16x |
+  | styled-heavy | 120x80 | render-scroll | 361.4 ± 8.9 | 333.6 ± 9.7 |
+  1.08x |
+  | medium_cells | 139x68 | render-locked | 142.2 ± 4.8 | 132.6 ± 4.4 |
+  1.07x |
+  | medium_cells | 139x68 | render | 149.7 ± 5.5 | 139.3 ± 3.6 | 1.07x |
+  | styled-light | 120x80 | render-locked | 149.5 ± 3.8 | 140.3 ± 3.5 |
+  1.07x |
+  | styled-light | 120x80 | render | 158.8 ± 5.5 | 148.0 ± 4.7 | 1.07x |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5) and OpenCode (GPT
+  6.1 Sol), including benchmarking and codegen experiments.
+  ```
+- [`4441aab`](https://github.com/ghostty-org/ghostty/commit/4441aabcafd673314b0667177905726680d9f8ba) terminal/kitty: evict the oldest image by transmission ([@fornwall](https://github.com/fornwall))
+  ```text
+  Eviction ranked images by generation, which changes whenever an
+  animation shows another frame, so a playing animation outlived images
+  transmitted after it. Images advanced in the same tick were also ordered
+  by hash map iteration. Rank by the transmission stamp instead.
+  ```
+- [`de202be`](https://github.com/ghostty-org/ghostty/commit/de202be94a418b56136d8075eb4b768672ad9f18) terminal: keep triple-click selection over blank lines ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Dragging a triple-click selection over a blank row clears the
+  selection until the pointer reaches another row with content.
+  
+  Fall back to the untrimmed line at the drag point, matching the
+  existing behavior at the click point.
+  ```
+- [`1fa19fa`](https://github.com/ghostty-org/ghostty/commit/1fa19fa3e9f73e49bd231de4995a1ecfecda7afd) terminal/kitty: evict the oldest image by transmission ([#15103](https://github.com/ghostty-org/ghostty/issues/15103)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  The [Kitty graphics
+  protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/) has a
+  [storage
+  quota](https://sw.kovidgoyal.net/kitty/graphics-protocol/#image-persistence-and-storage-quotas):
+  older images are evicted to make space for newer images.
+  
+  Image eviction treated an
+  [animation](https://sw.kovidgoyal.net/kitty/graphics-protocol/#animation)
+  as new again each time it showed another frame, so a playing animation
+  outlived images transmitted after it.
+  
+  #15094 fixed the same problem for image numbers - this PR fixes it for
+  eviction.
+  
+  To reproduce, start with `ghostty --image-storage-limit=12` and run the
+  below script:
+  
+  ```sh
+  # Start a green animation:
+  printf '\e_Ga=T,q=2,i=1,f=24,s=1,v=1,c=8,r=4;/wAA\e\\'
+  printf '\e_Ga=f,q=2,i=1,f=24,s=1,v=1,z=100;AP8A\e\\'
+  printf '\e_Ga=a,q=2,i=1,s=3\e\\'
+  # Show a blue image:
+  printf '\e_Ga=T,q=2,i=2,f=24,s=1,v=1,c=8,r=4;AAD/\e\\'
+  # Let the animation advance:
+  sleep 1
+  # Show a yellow image, going over the quota:
+  printf '\e_Ga=T,q=2,i=3,f=24,s=1,v=1,c=8,r=4;//8A\e\\'
+  ```
+  
+  - Before this PR: the newer blue image disappears, leaving the older
+  green animation.
+  - After this PR: the older green animation disappears, as in Kitty
+  (checked using larger images to hit kitty fixed quota).
+  
+  AI disclosure: Initially created using Opus 5.5 through Claude Code.
+  ````
+- [`53e5514`](https://github.com/ghostty-org/ghostty/commit/53e55147bbbb0157672dac0228aa7744e881f1fa) terminal: keep triple-click selection over blank lines ([#15113](https://github.com/ghostty-org/ghostty/issues/15113)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Dragging a triple-click selection over a blank row currently clears the
+  selection until the pointer reaches another row with content.
+  
+  This falls back to selecting the untrimmed line when the drag point is
+  on a blank row, matching the existing behavior at the click point.
+  
+  To reproduce, run `printf 'alpha beta\n\nthree four\n'`, triple-click
+  `alpha`, and drag down over the blank line. The selection should extend
+  through it instead of disappearing.
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`9b4a007`](https://github.com/ghostty-org/ghostty/commit/9b4a0076d246cdb36d589be7dd3f14a6079e7d7f) cli: explicitly install terminfo to ~/.terminfo on ssh remote host ([@database64128](https://github.com/database64128))
+  ```text
+  By default tic installs terminfo into /usr/share/terminfo, which can
+  cause file conflicts with the system package manager.
+  
+  To fix that, explicitly specify the output directory we just created
+  to avoid modifying /usr/share/terminfo/.
+  
+  For #15031
+  ```
+- [`6283611`](https://github.com/ghostty-org/ghostty/commit/6283611ddf8d6d4a55c323b897428bd83b6ad5cc) cli: verify xterm-ghostty resolves after ssh install ([@jparise](https://github.com/jparise))
+  ```text
+  Installing to ~/.terminfo doesn't guarantee the entry is usable. ncurses
+  skips $HOME/.terminfo for root when built with --disable-root-environ,
+  as Arch's package is. Previously, tic installed into the system terminfo
+  directory as root, so that case worked by overwriting package-owned
+  files. With an explicit output directory, the install would succeed but
+  xterm-ghostty wouldn't resolve, and the host would be cached as set up.
+  
+  Check the entry with infocmp after installing. If it doesn't resolve,
+  the install fails and the session falls back to xterm-256color without
+  caching the host.
+  
+  Also drop the mkdir. tic creates its output directory itself.
+  
+  See #15031, #15061
+  ```
+- [`2c76f29`](https://github.com/ghostty-org/ghostty/commit/2c76f29972dad21d3f2cc0efde2517a6fa8fed56) cli: explicitly install terminfo to ~/.terminfo on ssh remote host ([#15061](https://github.com/ghostty-org/ghostty/issues/15061)) ([@jparise](https://github.com/jparise))
+  ```text
+  By default `tic` installs terminfo into `/usr/share/terminfo`, which can
+  cause file conflicts with the system package manager.
+  
+  To fix that, explicitly specify the output directory we just created to
+  avoid modifying `/usr/share/terminfo/`.
+  
+  For #15031
+  ```
 - [`16f5674`](https://github.com/ghostty-org/ghostty/commit/16f5674dc3eaeee9575d2b729255f2fe0993ece3) Update VOUCHED list ([#15107](https://github.com/ghostty-org/ghostty/issues/15107)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by [discussion
