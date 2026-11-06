@@ -8,15 +8,336 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 5, 2026 at 19:23 UTC.
+> Last updated: November 6, 2026 at 01:19 UTC.
 
 ## November 5, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42085053732), [2](https://github.com/ghostty-org/ghostty/actions/runs/42069194696)  
-Summary: 2 runs • 10 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42129106932), [2](https://github.com/ghostty-org/ghostty/actions/runs/42114400380), [3](https://github.com/ghostty-org/ghostty/actions/runs/42102045218), [4](https://github.com/ghostty-org/ghostty/actions/runs/42091032406), [5](https://github.com/ghostty-org/ghostty/actions/runs/42085053732), [6](https://github.com/ghostty-org/ghostty/actions/runs/42069194696)  
+Summary: 6 runs • 38 commits • 5 authors
 
 ### Changes
 
+- [`1da2e16`](https://github.com/ghostty-org/ghostty/commit/1da2e165bfc677cb3bd1cc32540941a6b0f8beb6) ci: check the libghostty-vt ABI with abidiff ([@mitchellh](https://github.com/mitchellh))
+- [`c757567`](https://github.com/ghostty-org/ghostty/commit/c757567e433fb51263afa2903ef67ae9f2acf9d2) ci: build a Zig dependent with the macOS SDK and test the Windows install layout ([@mitchellh](https://github.com/mitchellh))
+- [`e607b9e`](https://github.com/ghostty-org/ghostty/commit/e607b9e9726d66a46f521f7a33f524b469501f9d) ci: strip symbol versions in the ABI export list ([@mitchellh](https://github.com/mitchellh))
+- [`6ba2c2b`](https://github.com/ghostty-org/ghostty/commit/6ba2c2b27065e2825745bbb78e7ad5f0b68e1690) app: add window theme switching action ([@jparise](https://github.com/jparise))
+  ```text
+  Add an app-scoped set_window_theme action with system, light, and dark
+  values so appearance can be changed from keybindings and generated
+  command palette entries. Previously these controls had no shared action
+  and were unavailable across application runtimes.
+  
+  Apply the action as a session override through NSAppearance on macOS and
+  AdwStyleManager on GTK. Keep overrides across config reloads, matching
+  the existing window-decoration override behavior, without persisting
+  configuration.
+  
+  GTK now also applies window-theme on config reload, so changes take
+  effect live instead of only at startup. While an override is active,
+  the window-theme=ghostty runtime CSS is omitted so terminal colors don't
+  stay pinned over the selected appearance.
+  
+  See #7221
+  ```
+- [`4a59fd2`](https://github.com/ghostty-org/ghostty/commit/4a59fd20afed05f3a4799c8d3d70aac4b431de01) i18n: update window theme action catalogs ([@jparise](https://github.com/jparise))
+  ```text
+  Regenerate the translation template and catalogs after adding command
+  palette labels and descriptions for set_window_theme. Previously these
+  messages were absent, preventing translators from localizing the new
+  appearance commands.
+  ```
+- [`dce5a94`](https://github.com/ghostty-org/ghostty/commit/dce5a9464a25b946cc945ebd99c93441cd7a1e9c) app: add config value to set_window_theme ([@jparise](https://github.com/jparise))
+  ```text
+  An override from set_window_theme could only be replaced by another
+  override. The existing system value isn't an undo because it differs
+  from a configured dark, light, auto, or ghostty window-theme, so the
+  only way back to the configured appearance was to restart.
+  
+  Add a config value that clears the override and returns to the
+  configured window-theme, along with a matching command palette entry.
+  On macOS this clears the appearance override. On GTK the override now
+  defaults to config and syncStyleManager resolves it, so the action and
+  config changes share one path.
+  
+  Overrides still persist across config reloads rather than being cleared
+  by them. A theme change triggers a soft reload, and hard reloads also
+  come from SIGUSR2 and the config errors dialog, so a reload is a poor
+  way to undo an override. This also matches how font size adjustments
+  and window decoration overrides behave.
+  
+  See #7221
+  ```
+- [`8b27b66`](https://github.com/ghostty-org/ghostty/commit/8b27b66f3b20f353743895be28f521eb72137c6f) gtk: follow the system for conditional themes ([@jparise](https://github.com/jparise))
+  ```text
+  Applying window-theme on config changes made it possible to recurse
+  without bound. With window-theme=ghostty and light and dark themes whose
+  backgrounds are the opposite of their slots, on a system with no color
+  scheme preference, each scheme change triggers a soft reload that swaps
+  the background, which selects the other scheme again. window-theme=auto
+  avoids this because it already becomes system when the themes differ.
+  
+  Skipping setColorScheme for an unchanged scheme wouldn't help because
+  libadwaita already does that and the computed scheme alternates on every
+  pass. Instead, auto and ghostty now follow the system when a conditional
+  theme is in use rather than deriving the scheme from a background color
+  that depends on it.
+  
+  See #14208
+  ```
+- [`27eb594`](https://github.com/ghostty-org/ghostty/commit/27eb594d2aaaa6755a688a5a23f83e2b4342e196) libghostty: test ABI in CI ([#15096](https://github.com/ghostty-org/ghostty/issues/15096)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This PR adds automated ABI checking using
+  [libabigail](https://sourceware.org/libabigail/) to CI. This doesn't
+  actually compare anything yet because I haven't frozen the ABI, but
+  soon!
+  
+  **AI usage:** Opus wrote the YAML and the ABI check script. I wrote the
+  markdown and the idea/policy.
+  ```
+- [`64c83cc`](https://github.com/ghostty-org/ghostty/commit/64c83cc2e1aadde92ddea0afdc8cdc87905e3e25) libghostty-vt: freeze the callback payload structs ([@mitchellh](https://github.com/mitchellh))
+- [`de2dfde`](https://github.com/ghostty-org/ghostty/commit/de2dfded37eb3dbf84e1aece3ac4062bfc542cf9) libghostty-vt: type the keys and callbacks in the type manifest ([@mitchellh](https://github.com/mitchellh))
+- [`6b6d0ee`](https://github.com/ghostty-org/ghostty/commit/6b6d0eec6cdbe10c095079f93fc63a73931a09cc) libghostty-vt: type the remaining key enums in the type manifest ([@mitchellh](https://github.com/mitchellh))
+- [`b54f31f`](https://github.com/ghostty-org/ghostty/commit/b54f31f825a2988841e0593c03f03e708dbb31be) libghostty-vt: document threads and output buffers ([@mitchellh](https://github.com/mitchellh))
+- [`12206bf`](https://github.com/ghostty-org/ghostty/commit/12206bfb8dd18aa76f563c613b52c3cc89f182c3) libghostty-vt: remove the selection format functions ([@mitchellh](https://github.com/mitchellh))
+- [`fdedeba`](https://github.com/ghostty-org/ghostty/commit/fdedebade075d8189b7a68946eddf35dfb171e6d) libghostty-vt: fail CI on ABI changes that aren't additions ([@mitchellh](https://github.com/mitchellh))
+- [`bbccbb5`](https://github.com/ghostty-org/ghostty/commit/bbccbb5465d99d1b7441cd7ca1f6bee76e7c88bc) app: add window theme switching action ([#14208](https://github.com/ghostty-org/ghostty/issues/14208)) ([@jparise](https://github.com/jparise))
+  ```text
+  Add an app-scoped set_window_theme action with dark, light, and system
+  values so appearance can be changed from keybindings and generated
+  command palette entries. Previously these controls had no shared action
+  and were unavailable across application runtimes.
+  
+  Apply the action as a session override through NSAppearance on macOS and
+  AdwStyleManager on GTK. Keep overrides across config reloads, matching
+  the existing window-decoration override behavior, without persisting
+  configuration.
+  
+  See #7221
+  ```
+- [`66af4c7`](https://github.com/ghostty-org/ghostty/commit/66af4c7458db7e19ae7adb44aa7054879be58b6b) libghostty-vt: freeze callback payloads, type the manifest, gate more of the ABI in CI ([#15098](https://github.com/ghostty-org/ghostty/issues/15098)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **This breaks the C ABI. This is all on purpose to stabilize the ABI to
+  prep for a 1.0 stable libghostty-vt release.**
+  
+  This is the last planned round of breaking changes. After this, the
+  headers are in their 1.0 shape and the remaining work only adds to them.
+  
+  Breaking changes:
+  
+  - The six structs the library passes to callbacks no longer start with a
+  `size` field and are now frozen: `GhosttyClipboardWrite`,
+  `GhosttyClipboardRead`, `GhosttyTerminalDesktopNotification`,
+  `GhosttyTerminalProgressReport`, `GhosttyTerminalProgramStatus` and
+  `GhosttyTerminalSemanticPrompt`. A size on a struct the library produces
+  leaves the version check to the app. New data will arrive through a new
+  option with a new struct. The clipboard reply structs are inputs and
+  stay sized.
+  - `ghostty_terminal_selection_format_buf`,
+  `ghostty_terminal_selection_format_alloc` and
+  `GhosttyTerminalSelectionFormatOptions` are removed. They duplicated the
+  formatter. Use a `GhosttyFormatter` with
+  `GHOSTTY_FORMATTER_OPT_SELECTION`, and read the active selection with
+  `GHOSTTY_TERMINAL_DATA_SELECTION`.
+  - Six internal `ghostty_simd_*` and `ghostty_hwy_*` symbols are no
+  longer exported. No header ever declared them.
+  
+  Additions:
+  
+  - `ghostty_type_json` now gives every key of every key enum a direction
+  and the type its `void *` points at, and describes every callback
+  typedef with its parameters and return type. That covers 27 key enums,
+  287 keys and 27 callbacks.
+  - `vt.h` documents the output buffer convention and the thread model.
+  - `zig build test-lib-vt-abi` compares the built library to goldens in
+  `src/terminal/c/abi/`: a type manifest per target and the list of public
+  functions. It fails on anything that isn't an addition. CI runs it for
+  Linux, macOS and WebAssembly, which covers the targets the `abi-check`
+  job can't. `zig build update-lib-vt-abi` records an intentional
+  addition.
+  - `search` joins the feature matrix in CI.
+  
+  | Struct | 64-bit | wasm32 |
+  | --- | --- | --- |
+  | `GhosttyClipboardWrite` | 72 → 64 | 36 → 32 |
+  | `GhosttyClipboardRead` | 80 → 72 | 40 → 36 |
+  | `GhosttyTerminalDesktopNotification` | 40 → 32 | 20 → 16 |
+  | `GhosttyTerminalProgressReport` | 16 → 8 | 12 → 8 |
+  | `GhosttyTerminalProgramStatus` | 88 → 80 | 48 → 44 |
+  | `GhosttyTerminalSemanticPrompt` | 56 → 48 | 36 → 32 |
+  
+  **AI usage:** Fable planned, Opus did the YAML and scripting, I did the
+  Zig stuff and markdown and review.
+  ```
+- [`44385f0`](https://github.com/ghostty-org/ghostty/commit/44385f07c33972e75087bf2343ec287a79d5ce7b) terminal/kitty: only target virtual placements from placeholders ([@fornwall](https://github.com/fornwall))
+  ```text
+  A Unicode placeholder naming a placement by ID matched any placement
+  with that ID, so a pinned placement was drawn a second time at the
+  placeholder cells. Kitty only accepts a virtual placement here.
+  ```
+- [`383a6f6`](https://github.com/ghostty-org/ghostty/commit/383a6f6ae344998bc637025330ffab69aed0c0fe) terminal/kitty: find the newest numbered image by transmission ([@fornwall](https://github.com/fornwall))
+  ```text
+  Number lookups ranked images by generation, which changes whenever an
+  animation shows another frame, so a playing animation could take over
+  the number from a newer image. Rank by the transmission stamp instead.
+  ```
+- [`8474e94`](https://github.com/ghostty-org/ghostty/commit/8474e9421ed3d5ee10bc98d5b910f1b483cb24bf) build: load only the packages libghostty-vt compiles ([@mitchellh](https://github.com/mitchellh))
+- [`fd5e90e`](https://github.com/ghostty-org/ghostty/commit/fd5e90e8c5de3821a8b99558941dc790de5b817a) libghostty: publish a dependency tarball for offline builds ([@mitchellh](https://github.com/mitchellh))
+- [`34afe11`](https://github.com/ghostty-org/ghostty/commit/34afe119fcf41989c9dce939894974a7551c16bb) mirror deps ([@mitchellh](https://github.com/mitchellh))
+- [`5255e48`](https://github.com/ghostty-org/ghostty/commit/5255e48b6ad831800fad495ec0f2879ed8c89ef0) libghostty: publish a dependency tarball with each libghostty-vt release ([#15095](https://github.com/ghostty-org/ghostty/issues/15095)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  This continues the work toward tagged libghostty-vt releases. This PR:
+  
+  - Library builds now only load the Zig packages the library compiles.
+  Previously a `-Demit-lib-vt` build also fetched zlib, pixels,
+  iterm2_themes and zigimg, which are app-only. The library dependency
+  list goes from 9 packages to 5.
+  - vaxis is bumped so zigimg can be lazy again (the commit vaxis pinned
+  was no longer reachable upstream).
+  - uucode moves to the commit vaxis pins so there is one copy.
+  - Each release now publishes `libghostty-vt-X.Y.Z-deps.tar.gz` next to
+  the source tarball. It contains the five packages already unpacked, so a
+  packager builds with no network and no Zig fetch step:
+  
+  ```
+  tar -xzf libghostty-vt-0.1.0.tar.gz
+  tar -xzf libghostty-vt-0.1.0-deps.tar.gz
+  cd libghostty-vt-0.1.0
+  zig build --system ../libghostty-vt-0.1.0-deps
+  ```
+  
+  - `zig build dist-deps -Demit-lib-vt` builds that tarball reproducibly
+  and verifies its contents against the hashes in `deps/packages.json`.
+  - The release workflow builds, signs and publishes the deps tarball,
+  lists it in `SHA256SUMS`, and `verify-offline` now builds from the two
+  release tarballs alone, which is the exact procedure the packaging guide
+  documents.
+  - All dependencies this touches are mirrored on
+  `deps.files.ghostty.org`.
+  
+  **AI usage:** Opus did the build plumbing, the workflow changes and the
+  dependency gating stuff. I reviewed, directed the dependency approach
+  and wrote the markdown.
+  ````
+- [`97f422f`](https://github.com/ghostty-org/ghostty/commit/97f422fa2464c4770d1d4919d39cfb33da571b79) terminal/kitty: find the newest numbered image by transmission ([#15094](https://github.com/ghostty-org/ghostty/issues/15094)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  In the [Kitty graphics
+  protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/), clients
+  can refer to images by a non-unique [image
+  number](https://sw.kovidgoyal.net/kitty/graphics-protocol/#requesting-image-ids-from-the-terminal),
+  and commands using a number act on the newest image with that number.
+  
+  Image lookup treated an
+  [animation](https://sw.kovidgoyal.net/kitty/graphics-protocol/#animation)
+  as new again each time it showed another frame, so a playing animation
+  could take over the number from an image transmitted after it.
+  
+  Run the below script to reproduce:
+  
+  ```sh
+  # Start an animation using number 7:
+  printf '\e_Ga=T,q=2,I=7,f=24,s=1,v=1,c=8,r=4;/wAA\e\\'
+  printf '\e_Ga=f,q=2,I=7,f=24,s=1,v=1,z=100;AP8A\e\\'
+  printf '\e_Ga=a,q=2,I=7,s=3\e\\'
+  # Transmit (but do not display) a blue image with number 7:
+  printf '\e_Ga=t,q=2,I=7,f=24,s=1,v=1;AAD/\e\\'
+  # Let the animation advance:
+  sleep 1
+  # Display the last transmitted image with number 7:
+  printf '\e_Ga=p,q=2,I=7,c=8,r=4\e\\'
+  ```
+  
+  - Before this PR: a second green square appears, showing the animation
+  again.
+  - After this PR: a blue square appears next to the green one, as in
+  Kitty.
+  
+  AI disclosure: Initially created using Opus 5.5 through Claude Code.
+  ````
+- [`c412a31`](https://github.com/ghostty-org/ghostty/commit/c412a31994e55e05c58c5c540dd2adf4b71f7f96) terminal/kitty: only target virtual placements from placeholders ([#15086](https://github.com/ghostty-org/ghostty/issues/15086)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  In the [Kitty graphics
+  protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/), showing
+  an image on screen creates a placement, which can be given a placement
+  ID.
+  
+  A normal placement is drawn at the cursor. A virtual placement (`U=1`)
+  draws nothing by itself. Instead, the image appears wherever the
+  application prints [Unicode
+  placeholders](https://sw.kovidgoyal.net/kitty/graphics-protocol/#unicode-placeholders),
+  which are text cells that name an image and optionally a placement.
+  
+  A placeholder that names a placement ID matched any placement with that
+  ID, not only virtual ones. [Kitty requires a virtual placement
+  here](https://github.com/kovidgoyal/kitty/blob/3e4ffc10989170c9c57eacba15ba084e6d14893b/kitty/graphics.c#L1272-L1280),
+  which the spec implies but does not state outright.
+  
+  To reproduce, run this. The first line displays a red square using a
+  normal placement, and the second references that placement from Unicode
+  placeholders:
+  
+  ```sh
+  printf '\e_Gq=2,a=T,f=24,s=1,v=1,i=1,p=1,c=2,r=1;/wAA\e\\\n\n'
+  printf '\e[38;5;1;58;5;1m\xf4\x8e\xbb\xae\xf4\x8e\xbb\xae\e[m\n'
+  ```
+  
+  - Before this PR: a second red square appears two rows below the first,
+  since the normal placement was successfully referenced from the Unicode
+  placeholders.
+  - After this PR: only the first square appears, since normal placements
+  can no longer be referenced from Unicode placeholders, as in Kitty.
+  
+  AFAIK very unlikely to actually hit this behaviour difference in
+  practice (unless deliberately targeting this), so this is more of a
+  small conformance fix rather than a bug fix affecting users. But IMHO
+  these small inconstencies adds up, and it would be nice if kitty
+  graphics evolves into a standard stable protocol implemented identically
+  in multiple terminals.
+  
+  AI disclosure: Initially created using Opus 5.5 through Claude Code.
+  ````
+- [`3eb5af7`](https://github.com/ghostty-org/ghostty/commit/3eb5af718b6ca4abf805006336c92e6d1f9a49a4) i18n: Update Dutch translations ([@mtak](https://github.com/mtak))
+- [`081a587`](https://github.com/ghostty-org/ghostty/commit/081a5871ee93952a973005f10124d3105d4947cd) i18n: Update Dutch translations ([#15037](https://github.com/ghostty-org/ghostty/issues/15037)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Add missing Dutch translations for command palette strings.
+  ```
+- [`5ce2325`](https://github.com/ghostty-org/ghostty/commit/5ce2325ec623dfa192826521ca85f0dc0cf649b3) terminal: clear cursor pin garbage flag after resize ([@fornwall](https://github.com/fornwall))
+  ```text
+  Shrinking a screen without scrollback can erase the cursor's row, which
+  marks the cursor pin as garbage. The pin moves to the active top-left but
+  keeps the flag, so a Kitty image placed at the cursor copies it and is
+  never drawn.
+  ```
+- [`76329e5`](https://github.com/ghostty-org/ghostty/commit/76329e5ad9731a74587bc6536ea308d33ad09149) terminal: clear cursor pin garbage flag after resize ([#15085](https://github.com/ghostty-org/ghostty/issues/15085)) ([@mitchellh](https://github.com/mitchellh))
+  ````text
+  Shrinking a screen without scrollback can erase the cursor's row, which
+  marks the cursor pin as garbage.
+  
+  A Kitty image then placed at the cursor copies that flag and is never
+  drawn. The flag is now cleared after resize. Seems to be a regression
+  from #14838.
+  
+  To reproduce, run this and shrink the window when prompted:
+  
+  ```sh
+  # Enter the alt screen and print an 'x' on the bottom row, so that
+  # shrinking the window pushes rows off the top. Then move home; the
+  # echo below leaves the cursor on row 2.
+  printf '\e[?1049h\e[999;1Hx\e[H'
+  echo 'Alt screen ready. Shrink the window by at least 2 rows within 5 seconds.'
+  sleep 5
+  # Transmit a red Kitty image, 1 cell high and 8 cells wide:
+  printf '\e_Ga=T,f=24,s=1,v=1,c=8,r=1,q=2;/wAA\e\\'
+  echo 'Image sent: expect a red bar to the left. Exiting in 5 seconds.'
+  sleep 5
+  printf '\e[?1049l'
+  echo 'Back on the normal screen. Reproducer finished.'
+  ```
+  
+  - Before this PR: no image appears.
+  - After this PR: a red bar appears at the top-left.
+  
+  AI disclosure: Initially created using Opus 5.5 through Claude Code.
+  ````
 - [`e9b6108`](https://github.com/ghostty-org/ghostty/commit/e9b6108f3895543d24625630593b7987e794a48e) libghostty-vt: version the ELF exports, add GHOSTTY_DEPRECATED ([@mitchellh](https://github.com/mitchellh))
 - [`18365c6`](https://github.com/ghostty-org/ghostty/commit/18365c6fefd43ec6337b0e71c83d20c62b48c494) libghostty-vt: key and mouse event accessors report NULL ([@mitchellh](https://github.com/mitchellh))
 - [`5af2876`](https://github.com/ghostty-org/ghostty/commit/5af2876e9a73c9422fed52f905ec5913fa417fb7) libghostty-vt: export every symbol in every build ([@mitchellh](https://github.com/mitchellh))
@@ -2471,424 +2792,5 @@ Summary: 6 runs • 11 commits • 5 authors
   from @jcollie.
   
   Vouch: @edsarmiento
-  ```
-
-## October 30, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41126163986), [2](https://github.com/ghostty-org/ghostty/actions/runs/41124653536), [3](https://github.com/ghostty-org/ghostty/actions/runs/41119470525), [4](https://github.com/ghostty-org/ghostty/actions/runs/41115877636), [5](https://github.com/ghostty-org/ghostty/actions/runs/41105956349), [6](https://github.com/ghostty-org/ghostty/actions/runs/41088392462), [7](https://github.com/ghostty-org/ghostty/actions/runs/41066122923), [8](https://github.com/ghostty-org/ghostty/actions/runs/41009687911), [9](https://github.com/ghostty-org/ghostty/actions/runs/40999068173), [10](https://github.com/ghostty-org/ghostty/actions/runs/40992707017)  
-Summary: 10 runs • 30 commits • 9 authors
-
-### Changes
-
-- [`8bb4f45`](https://github.com/ghostty-org/ghostty/commit/8bb4f45846ecde0ab53a846ee1bca5533dca8c5f) fuzz: fix replay crash detection and add osc target ([@paaloeye](https://github.com/paaloeye))
-- [`a0706b7`](https://github.com/ghostty-org/ghostty/commit/a0706b79b3d791873177b1fda4b155267769e8c5) fuzz: fix replay crash detection and add osc target ([#14896](https://github.com/ghostty-org/ghostty/issues/14896)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  In Nushell, running an external command that exits successfully returns
-  stdout as an empty string. The previous error check tested whether the
-  result was not `null`, which always evaluated to `true` for clean exits.
-  
-  Use the `complete` command to inspect the process exit code.
-  
-  Additionally, add "osc" to the default list of fuzzers so OSC crashes
-  are replayed by default.
-  
-  Ref: https://www.nushell.sh/commands/docs/complete.html
-  ```
-- [`fbed180`](https://github.com/ghostty-org/ghostty/commit/fbed180a5f181915c92a8f2f561903a6e4645b5a) Update VOUCHED list ([#14960](https://github.com/ghostty-org/ghostty/issues/14960)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14959#discussioncomment-19301732)
-  from @jcollie.
-  
-  Vouch: @AryanHamedani
-  ```
-- [`4d7de0a`](https://github.com/ghostty-org/ghostty/commit/4d7de0a483e40e2c1dc542315b2a87be96977df2) fix(ssh): show authentication messages during terminfo setup ([@clinta](https://github.com/clinta))
-  ```text
-  Suppressing SSH stderr hid keyboard-interactive login instructions.
-  Inherit it instead; installer output remains suppressed by default.
-  ```
-- [`9644c75`](https://github.com/ghostty-org/ghostty/commit/9644c7571d43f988415b3ed38f40be76e5964dd4) datastruct: fix clearing circular buffers with zero capacity ([@12ya](https://github.com/12ya))
-  ```text
-  Keep buffers with zero capacity marked full after clear(), so append()
-  returns error.OutOfMemory instead of panicking.
-  
-  Add a regression test for this case.
-  ```
-- [`f040f0a`](https://github.com/ghostty-org/ghostty/commit/f040f0ab0ee30d77794b98d87e27fc9105ee6ab9) datastruct: fix clearing circular buffers with zero capacity ([#14958](https://github.com/ghostty-org/ghostty/issues/14958)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Keep buffers with zero capacity marked full after clear(), so append()
-  returns error.OutOfMemory instead of panicking.
-  
-  Add a regression test for this case.
-  
-  AI disclosure: OpenAI Codex
-  ```
-- [`4489314`](https://github.com/ghostty-org/ghostty/commit/44893148d009bd372f5f7e8d2edbd0340fc82b65) cli: show SSH authentication messages during terminfo setup ([#14916](https://github.com/ghostty-org/ghostty/issues/14916)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  `+ssh` suppresses stderr during terminfo setup. OpenSSH still displays
-  authentication prompts through `/dev/tty`, but accompanying
-  informational messages from custom SSH servers are hidden. This can make
-  authentication appear to stall.
-  
-  Inherit SSH stderr without disabling interactive authentication.
-  Installer output remains suppressed by default, and `--verbose` behavior
-  is preserved. SSH warnings and login banners can now also appear during
-  setup.
-  
-  Tested with 114 focused SSH tests and nine real OpenSSH scenarios
-  covering keyboard-interactive setup and login, the Bash shell wrapper,
-  installation, fallback, caching, environment forwarding, and exit-status
-  propagation.
-  
-  Oh-My-Pi using GPT-6.1 Sol assisted with diagnosis, implementation,
-  validation, and drafting this change.
-  ```
-- [`32da5e4`](https://github.com/ghostty-org/ghostty/commit/32da5e47b26cad0dadb36c279ae9e020a2e60959) snap: avoid trailing colon in LD_LIBRARY_PATH ([@12ya](https://github.com/12ya))
-  ```text
-  Add the separator only when appending a nonempty inherited path.
-  A trailing colon adds the working directory to library lookup,
-  which can make launcher commands load a conflicting local library
-  and fail before Ghostty starts.
-  ```
-- [`1d23d02`](https://github.com/ghostty-org/ghostty/commit/1d23d02ae16f86d9c9a3792098cb906b94208bcc) snap: avoid trailing colon in LD_LIBRARY_PATH ([#14954](https://github.com/ghostty-org/ghostty/issues/14954)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Add the separator only when appending a nonempty inherited path. A
-  trailing colon adds the working directory to library lookup, which can
-  make launcher commands load a conflicting local library and fail before
-  Ghostty starts.
-  
-  Verified with the extracted Ghostty 1.4.0 ARM64 Snap in Docker:
-  the original launcher exits 127 with an empty libc.so.6 in the
-  working directory, while the corrected launcher exits 0.
-  
-  I intended to open an issue documenting this investigation, but
-  issue creation is restricted. I can provide the Docker commands
-  used to reproduce the failure in the follow up comments instead.
-  
-  
-  AI disclosure: OpenAI Codex assisted with investigating the issue,
-  proposing the fix, running Docker reproductions, reviewing the
-  change, and drafting this commit message.
-  ```
-- [`93404a4`](https://github.com/ghostty-org/ghostty/commit/93404a48a9a8bf265bb1671e0e6d9985322f6682) Update VOUCHED list ([#14957](https://github.com/ghostty-org/ghostty/issues/14957)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14956#discussioncomment-19300741)
-  from @jcollie.
-  
-  Vouch: @yeager
-  ```
-- [`86c704a`](https://github.com/ghostty-org/ghostty/commit/86c704afdde5a8ee67300d924d1c52b4d82b4ff4) gtk: fix jumps when resizing splits via keybind ([@dkinzler](https://github.com/dkinzler))
-  ```text
-  `syncSplitRatio` now exits early if GTK size allocation has not yet
-  computed a value for the `max-position` property of the `GtkPaned`
-  widget. Initially `max-position` has the max value for a `c_int`, so
-  that calculations in the function would overflow and set the split ratio
-  to 0. This could happen when resizing a split multiple times by holding
-  down a keybind.
-  ```
-- [`ca91d0a`](https://github.com/ghostty-org/ghostty/commit/ca91d0a24e67b3eecdb23c943227cd2b3908747b) gtk: fix jumps when resizing splits via keybind ([#14951](https://github.com/ghostty-org/ghostty/issues/14951)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  `syncSplitRatio` now exits early if GTK size allocation has not yet
-  computed a value for the `max-position` property of the `GtkPaned`
-  widget. Initially `max-position` has the max value for a `c_int`, so
-  that calculations in the function would overflow and set the split ratio
-  to 0. This could happen when resizing a split multiple times by holding
-  down a keybind.
-  
-  Fixes a regression introduced by #14476 where the split ratio sometimes
-  jumps to the minimum when holding down the resize keybind. See the video
-  below. When `syncSplitRatio` is called from `SplitTree.resize` it is not
-  guaranteed that the `GtkPaned` widget has already been size allocated.
-  This can happen with many resizes in a short time because the `GtkPaned`
-  widget is rebuilt on every one.
-  
-  
-  https://github.com/user-attachments/assets/442adf44-3a1c-41ee-bdc4-aa971848893e
-  ```
-- [`90ed851`](https://github.com/ghostty-org/ghostty/commit/90ed851dea8a7f328ad937adc5521c809f2cd41d) config: ignore repeated space in direct commands ([@12ya](https://github.com/12ya))
-  ```text
-  Repeated spaces in direct: commands produced empty arguments.
-  Use tokenizeScalar to skip those empty fields and add a regression
-  case for repeated spaces between arguments.
-  ```
-- [`e2593c1`](https://github.com/ghostty-org/ghostty/commit/e2593c1496cbf9f34f13e53d2d83b80283c8f24f) config: ignore repeated space in direct commands ([#14950](https://github.com/ghostty-org/ghostty/issues/14950)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Repeated spaces in direct: commands produced empty arguments. Use
-  tokenizeScalar to skip those empty fields and add a regression case for
-  repeated spaces between arguments.
-  
-  
-  follow up to https://github.com/ghostty-org/ghostty/pull/14921
-  ```
-- [`854e514`](https://github.com/ghostty-org/ghostty/commit/854e51422732c00088ceb79b09a61e504b89800d) snap: bundle gstreamer plugins so audio bell works ([@aaron-ang](https://github.com/aaron-ang))
-  ```text
-  When `bell-features = audio` is enabled, GTK plays the bell through its
-  GStreamer media backend. GTK links GStreamer itself, but GStreamer also
-  needs playback, decode and audio sink plugins to build a pipeline, and
-  the snap ships none of them, so the bell silently fails to play.
-  
-  Stage gstreamer1.0-plugins-base/-good/-pulseaudio for the decode and
-  audio sink pipeline (typefind, playbin/decodebin, vorbis, audioconvert,
-  autoaudiosink, pulsesink). In the launcher, export
-  GST_PLUGIN_SYSTEM_PATH, GST_PLUGIN_SCANNER and GST_REGISTRY so
-  GStreamer finds the bundled plugins and keeps a per-user registry cache
-  under SNAP_USER_COMMON, and unset GST_PLUGIN_PATH plus the `_1_0`
-  variants so host settings can't override the bundled paths.
-  ```
-- [`ff23824`](https://github.com/ghostty-org/ghostty/commit/ff23824213b8d7ab7a07dca6a7e0d68cad51b802) snap: bundle gstreamer plugins so audio bell works ([#12676](https://github.com/ghostty-org/ghostty/issues/12676)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  ## Summary
-  
-  With `bell-features = audio` and a valid `bell-audio-path` configured,
-  no sound plays in the snap build of Ghostty.
-  
-  On core26, GTK links GStreamer directly. GStreamer still needs playback,
-  decode and audio-sink plugins to build a pipeline, and the snap ships
-  none of them, so the bell fails silently.
-  
-  `bell-features = system` (the compositor sound, via
-  `gdk_surface_beep()`) already works and is unchanged.
-  
-  ## Fix
-  
-  - Stage `gstreamer1.0-plugins-base`, `gstreamer1.0-plugins-good` and
-  `gstreamer1.0-pulseaudio`. This gives the snap `typefind`,
-  `playbin`/`decodebin`, `ogg`, `vorbis`, `audioconvert`, `autoaudiosink`,
-  `pulsesink`, etc.
-  - In `snap/local/launcher`, export `GST_PLUGIN_SYSTEM_PATH`,
-  `GST_PLUGIN_SCANNER` and `GST_REGISTRY`. GStreamer then uses only the
-  bundled plugins and keeps a per-user registry cache under
-  `SNAP_USER_COMMON`.
-  - Unset `GST_PLUGIN_PATH`, `GST_PLUGIN_PATH_1_0`,
-  `GST_PLUGIN_SYSTEM_PATH_1_0`, `GST_PLUGIN_SCANNER_1_0` and
-  `GST_REGISTRY_1_0`. GStreamer prefers the `_1_0` variants over the
-  unversioned ones, so host settings could otherwise override the bundled
-  paths.
-  
-  `gstreamer1.0-pipewire` is not included. PipeWire registers
-  `pipewiresink` with rank none
-  ([source](https://github.com/PipeWire/pipewire/blob/master/src/gst/gstpipewire.c)),
-  so `autoaudiosink` never selects it. On PipeWire hosts the bell plays
-  through `pulsesink` and pipewire-pulse. The package would also pull in
-  the `pipewire` daemon package without changing behavior.
-  
-  ## Local build
-  
-  The snap CI builds from a release tarball. Building
-  `snap/snapcraft.yaml` from a git checkout needs two changes that are
-  *not* part of this PR:
-  
-  1. A `VERSION` file at the repo root, e.g. `echo 1.4.0-dev > VERSION`.
-  2. `blueprint-compiler` 0.20.0 or newer on `PATH` during the build.
-  Ubuntu 26.04 ships 0.19.0. I ran v0.20.0 from source and added
-  `python3-gi`, `gir1.2-gtk-4.0` and `gir1.2-adw-1` to `build-packages`.
-  
-  ## Test plan
-  
-  I built the snap on core26 (arm64) and installed it on an Ubuntu 24.04
-  host.
-  
-  - [x] The snap contains the plugins above, and `gst-plugin-scanner` sits
-  at the path the launcher exports.
-  - [x] I ran `playbin` on `/usr/share/sounds/freedesktop/stereo/bell.oga`
-  with the snap's own GStreamer libraries and the launcher's `GST_*`
-  environment:
-    - It played to EOS.
-    - `autoaudiosink` selected the bundled `pulsesink`.
-    - Audio was captured from a null sink.
-  - [x] With an empty plugin directory, the same test fails to create
-  `playbin`. This shows the plugins come from the snap.
-  
-  ## AI Disclosure
-  
-  Claude Code was used throughout:
-  - diagnosing the missing plugins
-  - drafting the `snapcraft.yaml` and launcher changes
-  - rebasing onto core26 and addressing review feedback
-  - driving the core26 snap build and the GStreamer playback test
-  
-  I reviewed every line of the diff and understand what each change does.
-  ```
-- [`8c04d7c`](https://github.com/ghostty-org/ghostty/commit/8c04d7c2e8c37a4044b1af4c58e529c714c83b20) config: reject empty prefixed commands ([@12ya](https://github.com/12ya))
-  ```text
-  Commands containing only `direct:` or `shell:` were accepted because
-  the empty-input check ran before prefix removal.
-  ```
-- [`cf0ab14`](https://github.com/ghostty-org/ghostty/commit/cf0ab14aed55315a53de668bc1bbcf4a13ce0ddd) config: reject empty prefixed commands ([#14921](https://github.com/ghostty-org/ghostty/issues/14921)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Commands containing only `direct:` or `shell:` were accepted because the
-  empty-input check ran before prefix removal.
-  
-  AI assistance: Used OpenAI Codex
-  ```
-- [`7e79688`](https://github.com/ghostty-org/ghostty/commit/7e7968826f02f846e04706729cdccc4b85b85258) tmux: unescape %output and handle window-close ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  %output payload bytes that cannot travel in the control stream are
-  octal-escaped. Unescape them in place so pane data is the original
-  bytes. Also parse %window-close / %unlinked-window-close and
-  %session-window-changed, and emit an active_window action so callers
-  can track tmux's current window.
-  
-  #1935
-  ```
-- [`c2d9362`](https://github.com/ghostty-org/ghostty/commit/c2d93620efc6364b95641fa317d428b8a4e1f9ab) tmux: do not unescape %output in the parser ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  #1935
-  
-  Decoding octal escapes while parsing %output is wasted work if a
-  control client never reads pane bytes. Leave the payload as tmux
-  sent it; callers that need the original stream can decode later.
-  Window-close, session-window-changed, and active_window are unchanged.
-  ```
-- [`dc6ab39`](https://github.com/ghostty-org/ghostty/commit/dc6ab39fb1f31c6e0ffe2fadfc0b3e2d4d347442) termio: handle tmux active_window action ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  The viewer emits active_window when the current tmux window
-  changes. The stream handler switch did not cover that tag, so
-  the GTK build failed. Accept the action and leave GUI
-  notification for a later change, matching the windows case.
-  ```
-- [`9a92081`](https://github.com/ghostty-org/ghostty/commit/9a920818820f0885e9302b6831cdfe5a2aab67a4) tmux: honor session id on active window changes ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  #1935
-  
-  %session-window-changed is broadcast to every control client for
-  every session. Emit active_window only when the notification's
-  session matches the one this viewer is attached to.
-  %window-pane-changed stays ignored, since an active pane change
-  does not mean the current window changed. If recording the action
-  runs out of memory, the viewer becomes defunct.
-  ```
-- [`7e4cc4f`](https://github.com/ghostty-org/ghostty/commit/7e4cc4fae011dc3a133ce625d6cf6f0d546be64a) tmux: reject oversized control ids without leaking ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  #1935
-  
-  %window-close and %session-window-changed are split with prefix
-  cuts instead of compiling a regex on every notification. An id
-  that is not decimal digits or does not fit in usize is ignored
-  rather than crashing. If a later list-windows line fails to
-  parse, layout arenas from the lines that already parsed are freed.
-  ```
-- [`539a7f1`](https://github.com/ghostty-org/ghostty/commit/539a7f1ce770b12071ca146e9824b9d9e5a1b88f) nix: use store paths for propagated GStreamer packages ([@romen](https://github.com/romen))
-  ```text
-  postFixup wrote the literal attribute names (e.g.
-  "gst_all_1.gstreamer") into nix-support/propagated-user-env-packages
-  instead of store paths. Anything that builds an environment from that
-  file fails, e.g. `nix shell github:ghostty-org/ghostty/v1.4.0`:
-  
-      error: not an absolute path: 'gst_all_1.gstreamer'
-  
-  Interpolate the packages so the file contains their store paths.
-  
-  
-  Change-Id: I37035d027b3ec2396f7d39911fe7dc336a6a6964
-  ```
-- [`2ddcda8`](https://github.com/ghostty-org/ghostty/commit/2ddcda8e80fdf53d2a6fdee9d36f4986d858d477) tmux: test %exit with and without a reason ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  #1935
-  
-  The parser already accepts a bare %exit and one with a reason
-  such as "server exited", and drops the reason. Cover both forms.
-  Use std.mem.find for the session-window split; indexOf is deprecated.
-  ```
-- [`0a5a6a6`](https://github.com/ghostty-org/ghostty/commit/0a5a6a6e1a20928f4b097d51ec9fcf06de353024) Merge remote-tracking branch 'origin/main' into tmux-pr4-protocol ([@MisterTea](https://github.com/MisterTea))
-- [`cd00d09`](https://github.com/ghostty-org/ghostty/commit/cd00d09c64c34c3074b0b2c2f584fce6fbab2ca9) tmux: ignore active_window in raw startup tests ([@MisterTea](https://github.com/MisterTea))
-  ```text
-  #1935
-  
-  Main's raw startup viewer test switches on every viewer action.
-  The active_window action added for %session-window-changed was
-  unhandled, so CI failed to compile that test. This startup path
-  does not change the active window, so the test ignores the action.
-  ```
-- [`eec45a5`](https://github.com/ghostty-org/ghostty/commit/eec45a52dda2a3080023ef45d37797a091b486bd) tmux: handle window-close and active window ([#14273](https://github.com/ghostty-org/ghostty/issues/14273)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  ## Summary
-  
-  - Parse `%window-close` / `%unlinked-window-close` and
-  `%session-window-changed`.
-  - Emit an `active_window` viewer action so later layers can track tmux's
-  current window.
-  - Parse `%exit` as soon as the notification line is seen.
-  
-  `%output` is left escaped on purpose. A control client that is not
-  reading pane bytes should not pay to decode octal sequences up front;
-  callers that need the original stream can unescape later (see #12076).
-  
-  This is stacked on #14262. GitHub will also show that commit until it
-  merges, because we cannot target another PR's branch from a fork.
-  
-  **Depends on:** #14262
-  
-  CI / compile may fail until that PR is on `main`. That is expected.
-  
-  ## Test plan
-  
-  - [ ] `zig build test-lib-vt -Dtest-filter="tmux"` after #14262 is
-  merged
-  - [ ] Close a tmux window and change the active window; parser emits the
-  new notifications (still log-only on `main` until later PRs)
-  
-  ## AI disclosure
-  
-  This change was written with [Cursor](https://cursor.com). I directed
-  the work, reviewed the diff, and am responsible for it.
-  
-  Related: #1935
-  
-  Made with [Cursor](https://cursor.com)
-  ```
-- [`e1e05c1`](https://github.com/ghostty-org/ghostty/commit/e1e05c1cd13efc4bc962f4a3fd8c4e310267b340) nix: use store paths for propagated GStreamer packages ([#14929](https://github.com/ghostty-org/ghostty/issues/14929)) ([@jcollie](https://github.com/jcollie))
-  ````text
-  `nix/package.nix` writes the GStreamer entries in
-  `nix-support/propagated-user-env-packages` as plain strings
-  (`gst_all_1.gstreamer`) rather than store paths. The package builds
-  fine, but anything that reads that file to assemble an environment fails
-  afterwards. With 1.4.0:
-  
-      $ nix shell github:ghostty-org/ghostty/v1.4.0
-      error: not an absolute path: 'gst_all_1.gstreamer'
-  
-  `nix run` is unaffected since it doesn't read propagated packages.
-  
-  This interpolates the three packages so their store paths are written,
-  matching the `$terminfo`, `$shell_integration` and `$vim` lines above.
-  
-  Tested on x86_64-linux:
-  
-  ```
-  nix build .#default
-  cat result/nix-support/propagated-user-env-packages   # all store paths now
-  nix shell .#default -c ghostty --version
-  
-  # Also tested a long-running GUI session with the resulting environment and tested AV playing with `mpv -vo kitty`
-  nix shell .#default
-  which ghostty # points to the path of the just build derivation
-  ghostty # opens a new ghostty window
-  # within that new window
-  mpv -vo kitty ~/Downloads/some_random_video.mp4
-  # Video and Audio both play properly
-  ```
-  
-  AI disclosure: Claude Opus 5.5, used to diagnose the issue, edit the
-  commit message, and draft the initial version of this PR description.
-  I (a human being) manually patched the nix file (admittedly it was a
-  trivial fix), and tested the patch.
-  
-  
-  ---
-  
-  **Note: I know this will be automatically closed until I am vouched, but
-  I'd like to store here the PR description, while the fix is fresh,
-  rather than having to craft a new one if the vouching process takes
-  days.**
-  ````
-- [`7c6e101`](https://github.com/ghostty-org/ghostty/commit/7c6e1011c237aaac3d19d094b3c4bdada3b21bc8) Update VOUCHED list ([#14943](https://github.com/ghostty-org/ghostty/issues/14943)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14942#discussioncomment-19283760)
-  from @jcollie.
-  
-  Vouch: @tonypapousek
   ```
 
