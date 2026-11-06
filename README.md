@@ -8,7 +8,50 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 6, 2026 at 01:19 UTC.
+> Last updated: November 6, 2026 at 10:17 UTC.
+
+## November 6, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42201296689), [2](https://github.com/ghostty-org/ghostty/actions/runs/42199593118), [3](https://github.com/ghostty-org/ghostty/actions/runs/42195208227), [4](https://github.com/ghostty-org/ghostty/actions/runs/42162681903)  
+Summary: 4 runs • 6 commits • 4 authors
+
+### Changes
+
+- [`16f5674`](https://github.com/ghostty-org/ghostty/commit/16f5674dc3eaeee9575d2b729255f2fe0993ece3) Update VOUCHED list ([#15107](https://github.com/ghostty-org/ghostty/issues/15107)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15007#discussioncomment-19437535)
+  from @bo2themax.
+  
+  Vouch: @jin-eden
+  ```
+- [`db663e0`](https://github.com/ghostty-org/ghostty/commit/db663e0755ef2efcc8dd4ba5c8b7f3f25b5914b0) Update VOUCHED list ([#15106](https://github.com/ghostty-org/ghostty/issues/15106)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15064#discussioncomment-19437280)
+  from @bo2themax.
+  
+  Vouch: @sm010422
+  ```
+- [`de4bc49`](https://github.com/ghostty-org/ghostty/commit/de4bc494a5d7bb5747bf8cc76b4a31bd033628e2) i18n: updated Latvian translations ([@EriksRemess](https://github.com/EriksRemess))
+  ```text
+  Translations for the command palette's Focus and Untitled labels, new appearance commands and descriptions.
+  ```
+- [`8a5d14b`](https://github.com/ghostty-org/ghostty/commit/8a5d14bd05f8eab80e00ff24a304092c549c9f9b) i18n: updated Latvian translations ([#15100](https://github.com/ghostty-org/ghostty/issues/15100)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  Translations for the command palette's Focus and Untitled labels, new
+  appearance commands and descriptions.
+  ```
+- [`6095e27`](https://github.com/ghostty-org/ghostty/commit/6095e277a52fb98286a4660520fa189c51a87ec9) pkg: build simdutf, highway, and wuffs with hidden visibility ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When we build them, these are only ever statically linked into our
+  binaries. We should not be exporting their symbols ever.
+  ```
+- [`c445f44`](https://github.com/ghostty-org/ghostty/commit/c445f448a7b0e409e71264ca10b302305a62f696) pkg: build simdutf, highway, and wuffs with hidden visibility ([#15102](https://github.com/ghostty-org/ghostty/issues/15102)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When we build them, these are only ever statically linked into our
+  binaries. We should not be exporting their symbols ever.
+  ```
 
 ## November 5, 2026
 
