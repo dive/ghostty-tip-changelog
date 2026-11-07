@@ -8,15 +8,51 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 7, 2026 at 09:32 UTC.
+> Last updated: November 7, 2026 at 17:18 UTC.
 
 ## November 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [2](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
-Summary: 2 runs • 4 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42387649303), [2](https://github.com/ghostty-org/ghostty/actions/runs/42384512829), [3](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [4](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
+Summary: 4 runs • 7 commits • 4 authors
 
 ### Changes
 
+- [`3c3f331`](https://github.com/ghostty-org/ghostty/commit/3c3f33121a9be2389584db716248dbf0fa0439a6) cli: run the ssh terminfo install under sh ([@jparise](https://github.com/jparise))
+  ```text
+  ssh passes the remote command to the user's login shell, and the
+  install script assumed POSIX syntax. Under tcsh, nushell, or elvish it
+  failed to parse, so the install never succeeded, the host was never
+  cached, and every connection retried it and printed a parse error
+  before falling back to xterm-256color.
+  
+  The `command -v tic` check is gone too. It only kept fish from printing
+  its own unknown-command error, and fish no longer runs the script.
+  
+  We also no longer need explicit error codes and can instead rely on `sh
+  -c` exiting with the status of the last command.
+  ```
+- [`8265e74`](https://github.com/ghostty-org/ghostty/commit/8265e74cd3945c56d59aba3917ff01af33ba3e78) cli: run the ssh terminfo install under sh ([#15112](https://github.com/ghostty-org/ghostty/issues/15112)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  ssh passes the remote command to the user's login shell, and the install
+  script assumed POSIX syntax. Under tcsh, nushell, or elvish it failed to
+  parse, so the install never succeeded, the host was never cached, and
+  every connection retried it and printed a parse error before falling
+  back to xterm-256color.
+  
+  The `command -v tic` check is gone too. It only kept fish from printing
+  its own unknown-command error, and fish no longer runs the script.
+  
+  We also no longer need explicit error codes and can instead rely on `sh
+  -c` exiting with the status of the last command.
+  ```
+- [`ac5374b`](https://github.com/ghostty-org/ghostty/commit/ac5374bd16829d556f7f3636a9a19ff7f506062a) Update VOUCHED list ([#15133](https://github.com/ghostty-org/ghostty/issues/15133)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15132#discussioncomment-19460089)
+  from @bo2themax.
+  
+  Vouch: @Inv1x
+  ```
 - [`b57d75f`](https://github.com/ghostty-org/ghostty/commit/b57d75f4e2f4e017f52ce2458a91b63922dac1d9) libghostty: doxygen site works better on mobile ([@mitchellh](https://github.com/mitchellh))
   ```text
   Just brute forcing various CSS things to make the site look better on mobile.
