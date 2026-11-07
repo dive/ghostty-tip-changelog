@@ -8,7 +8,40 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 7, 2026 at 00:33 UTC.
+> Last updated: November 7, 2026 at 09:32 UTC.
+
+## November 7, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [2](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
+Summary: 2 runs • 4 commits • 1 authors
+
+### Changes
+
+- [`b57d75f`](https://github.com/ghostty-org/ghostty/commit/b57d75f4e2f4e017f52ce2458a91b63922dac1d9) libghostty: doxygen site works better on mobile ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Just brute forcing various CSS things to make the site look better on mobile.
+  ```
+- [`5813c94`](https://github.com/ghostty-org/ghostty/commit/5813c9461d5af78b6307a1254d00b1bc190eaccd) libghostty: doxygen site works better on mobile ([#15129](https://github.com/ghostty-org/ghostty/issues/15129)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Just brute forcing various CSS things to make the site look better on
+  mobile.
+  ```
+- [`ea67530`](https://github.com/ghostty-org/ghostty/commit/ea675302b71a2413b16c77bb12659605bf736be2) libghostty-vt: start 1.1.0-dev, add the ABI baseline and version gate ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Housekeeping to move dev to 1.1.0 for libghostty. This also commits the
+  ABI golden for future CI runs.
+  
+  This also fixes an issue where our tests didn't run properly on the 1.0
+  tag, and we want it to run for the ABI golden upload.
+  ```
+- [`5acdbf1`](https://github.com/ghostty-org/ghostty/commit/5acdbf154369928eb228d2263cbe612d165f7569) libghostty-vt: start 1.1.0-dev, add the ABI baseline and version gate ([#15128](https://github.com/ghostty-org/ghostty/issues/15128)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Housekeeping to move dev to 1.1.0 for libghostty. This also commits the
+  ABI golden for future CI runs.
+  
+  This also fixes an issue where our tests didn't run properly on the 1.0
+  tag, and we want it to run for the ABI golden upload.
+  ```
 
 ## November 6, 2026
 
