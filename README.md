@@ -8,15 +8,300 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 6, 2026 at 18:47 UTC.
+> Last updated: November 7, 2026 at 00:33 UTC.
 
 ## November 6, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42265534130), [2](https://github.com/ghostty-org/ghostty/actions/runs/42237235647), [3](https://github.com/ghostty-org/ghostty/actions/runs/42225715062), [4](https://github.com/ghostty-org/ghostty/actions/runs/42201296689), [5](https://github.com/ghostty-org/ghostty/actions/runs/42199593118), [6](https://github.com/ghostty-org/ghostty/actions/runs/42195208227), [7](https://github.com/ghostty-org/ghostty/actions/runs/42162681903)  
-Summary: 7 runs • 16 commits • 8 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42306115040), [2](https://github.com/ghostty-org/ghostty/actions/runs/42286095862), [3](https://github.com/ghostty-org/ghostty/actions/runs/42284650139), [4](https://github.com/ghostty-org/ghostty/actions/runs/42274738908), [5](https://github.com/ghostty-org/ghostty/actions/runs/42265534130), [6](https://github.com/ghostty-org/ghostty/actions/runs/42237235647), [7](https://github.com/ghostty-org/ghostty/actions/runs/42225715062), [8](https://github.com/ghostty-org/ghostty/actions/runs/42201296689), [9](https://github.com/ghostty-org/ghostty/actions/runs/42199593118), [10](https://github.com/ghostty-org/ghostty/actions/runs/42195208227), [11](https://github.com/ghostty-org/ghostty/actions/runs/42162681903)  
+Summary: 11 runs • 48 commits • 9 authors
 
 ### Changes
 
+- [`0b7f9c1`](https://github.com/ghostty-org/ghostty/commit/0b7f9c156fd9daeb4361c234884c6afc68611566) libghostty-vt: some final C ABI cleanups ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Changes to the C API:
+  
+  - `ghostty_terminal_select_output` takes `const GhosttyGridRef*` rather
+    than a struct by value.
+  - `GHOSTTY_TERMINAL_DATA_CURSOR_STYLE` is now
+    `GHOSTTY_TERMINAL_DATA_CURSOR_SGR_STYLE` with the same value, since
+    `GhosttyCursorStyle` means the cursor shape.
+  - The allocator vtable functions have named typedefs so the parity test
+    can compare their signatures. The ABI is the same, but the Zig side
+    moves to `anyopaque` to match the header's `void*`.
+  - Render state keys that have no value to report return
+    `GHOSTTY_NO_VALUE` rather than `GHOSTTY_INVALID_VALUE`.
+  - NULL handles and output pointers no longer crash. Functions that
+    return a `GhosttyResult` return `GHOSTTY_INVALID_VALUE`. Functions that
+    can't report an error do nothing, or return false, 0, or NULL. The
+    headers and the conventions page now document this.
+  - `GHOSTTY_TERMINAL_OPT_GLYPH_PROTOCOL` is disabled by default, and a
+    NULL value disables it again. Embedders opt in.
+  - `ghostty_color_x11_names` returned a garbage pointer without the color
+    feature. It now returns an empty table.
+  - The Windows DLL exported the two CRT section markers, 211 exports
+    against the 209 in `symbols.txt`. They now have hidden visibility.
+  ```
+- [`e852b90`](https://github.com/ghostty-org/ghostty/commit/e852b903f439e552b9debddd684d89fea1d433b6) libghostty-vt: some final C ABI cleanups ([#15125](https://github.com/ghostty-org/ghostty/issues/15125)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Changes to the C API:
+  
+  - `ghostty_terminal_select_output` takes `const GhosttyGridRef*` rather
+  than a struct by value.
+  - `GHOSTTY_TERMINAL_DATA_CURSOR_STYLE` is now
+  `GHOSTTY_TERMINAL_DATA_CURSOR_SGR_STYLE` with the same value, since
+  `GhosttyCursorStyle` means the cursor shape.
+  - The allocator vtable functions have named typedefs so the parity test
+  can compare their signatures. The ABI is the same, but the Zig side
+  moves to `anyopaque` to match the header's `void*`.
+  - Render state keys that have no value to report return
+  `GHOSTTY_NO_VALUE` rather than `GHOSTTY_INVALID_VALUE`.
+  - NULL handles and output pointers no longer crash. Functions that
+  return a `GhosttyResult` return `GHOSTTY_INVALID_VALUE`. Functions that
+  can't report an error do nothing, or return false, 0, or NULL. The
+  headers and the conventions page now document this.
+  - `GHOSTTY_TERMINAL_OPT_GLYPH_PROTOCOL` is disabled by default, and a
+  NULL value disables it again. Embedders opt in.
+  - `ghostty_color_x11_names` returned a garbage pointer without the color
+  feature. It now returns an empty table.
+  - The Windows DLL exported the two CRT section markers, 211 exports
+  against the 209 in `symbols.txt`. They now have hidden visibility.
+  
+  **AI usage:** Some of these found by a Fable reviewer that I ran in
+  parallel to me hand-reviewing every single header and signature. I wrote
+  all the docs and this PR message.
+  ```
+- [`a859f49`](https://github.com/ghostty-org/ghostty/commit/a859f491075226a883506434aaefb8c552ceba61) libghostty-vt: prepare for 1.0.0 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This prepares libghostty-vt for its first release. The first tag will be
+  `vt-1.0.0`. We're skipping 0.1.0 entirely, so it is never released and
+  the docs no longer mention it or any pre-1.0 policy.
+  
+  This doesn't change the C API. The ABI goldens are untouched. The only
+  binary differences are the version metadata below.
+  ```
+- [`0fa3d57`](https://github.com/ghostty-org/ghostty/commit/0fa3d577a5614150ff8e2c152de5fb9d5c6d2dec) libghostty-vt: prepare for 1.0.0 ([#15126](https://github.com/ghostty-org/ghostty/issues/15126)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This prepares libghostty-vt for its first release. The first tag will be
+  `vt-1.0.0`. We're skipping 0.1.0 entirely, so it is never released and
+  the docs no longer mention it or any pre-1.0 policy.
+  
+  This is mostly a mechanical change of changing where 0.1 is mentioned to
+  1.0. I used AI assistance to help me find all the places and also to run
+  a swath of verification across multiple operating systems,in parallel to
+  me doing the same.
+  
+  This doesn't change the C API. The ABI goldens are untouched. The only
+  binary differences are the version metadata below.
+  ```
+- [`660a0a2`](https://github.com/ghostty-org/ghostty/commit/660a0a2bb1ed76f95a549601764ba62b36881e64) libghostty: add a test to ensure terminal modes are defined ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds a test to make sure that all terminal modes defined in Zig have a
+  corresponding definition in `ghostty/vt.h`.
+  
+  - add `ghostty/vt.h` aliases so that every Zig mode name has a matching
+    GHOSTTY_MODE_* macro
+  - move the translate-c setup out of build.zig into src/build/c_deps.zig,
+    which translates `ghostty.h` and `ghostty/vt.h` once per target and
+    optimize mode and imports them as the `ghostty-h` and `ghostty-vt-h`
+    modules
+  - generalize checkGhosttyHEnum into checkEnum, used by both it and the
+    new checkGhosttyVtHMacroExists; the macro check only tests that each
+    macro exists, since a mode macro's value is not a plain integer
+  - vendor EnumSet and EnumIndexer from the Zig 0.17.0 std library with
+    an n^2 eval branch quota in EnumIndexer, since its sort falls back to
+    insertion sort on short ranges and the mode table exceeds the n log n
+    quota std uses
+  ```
+- [`9c77332`](https://github.com/ghostty-org/ghostty/commit/9c773327e23b1ef88fd6a1a8abe1323d20054e41) libghostty: translate ghostty/vt.h for the ABI tests through c_deps ([@jcollie](https://github.com/jcollie))
+  ```text
+  The C ABI tests translated `ghostty/vt.h` themselves in
+  `GhosttyZig.initVtCTest`, so the C API test binary ended up with two
+  translations of the same header. Have `c_deps` provide the one import,
+  `ghostty-vt-h`, to both the mode test and the ABI tests.
+  
+  - only `ghostty.h` is skipped on wasm and Windows, since it includes
+    `<sys/types.h>`; `ghostty/vt.h` needs only compiler-provided headers
+    and now translates for every target, linking libc only if the module
+    already does
+  - translate for the module's own target and optimize mode by default,
+    so that layout comparisons are made against the same target
+  - include `link_libc` in the cache key
+  - drop the wasm and Windows skip from `checkGhosttyVtHMacroExists`
+  ```
+- [`f80e4d5`](https://github.com/ghostty-org/ghostty/commit/f80e4d5c6bfc8f03a17af4bd1d6f0eeb211332b3) libghostty: rename the mode macros to match the Zig mode names ([@jcollie](https://github.com/jcollie))
+  ```text
+  Rather than carrying a second spelling of each mode macro as an alias,
+  rename the GHOSTTY_MODE_* macros in `ghostty/vt/modes.h` so that each
+  one matches the name of the mode in Zig, and drop the aliases. The docs
+  and header comments that referred to the old names are updated to
+  match.
+  ```
+- [`f6cb4cf`](https://github.com/ghostty-org/ghostty/commit/f6cb4cf1276c3cb1a027468ddeb1a976a822ccfa) libghostty: add a test to ensure terminal modes are defined ([#12230](https://github.com/ghostty-org/ghostty/issues/12230)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Adds a test to make sure that all terminal modes defined in Zig have a
+  corresponding definition in `ghostty/vt.h`.
+  
+  AI disclosure: Claude Code was used to make some of the mechanical
+  renames/cleanups.
+  ```
+- [`d03983f`](https://github.com/ghostty-org/ghostty/commit/d03983f02cbffc51b2d661facadab50dc2a209be) terminal: RefCountedSet reuses dead IDs instead of rehashing ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Once every ID in a `RefCountedSet` has been handed out, `add` now reuses
+  the ID of a dead item (zero references) as long as at least 10% of IDs
+  are dead. Previously, `add` returned `NeedsRehash` here and every caller
+  responded by cloning the entire page at the same capacity just to
+  compact the IDs.
+  
+  `ghostty-bench +terminal-stream` at 120x80, 8MiB inputs:
+  
+  | Input           | Scrollback | main (ms)   | set-reuse (ms) | Speedup |
+  | --------------- | ---------- | ----------- | -------------- | ------- |
+  | links.vt        | 0          | 87.6 ± 1.0  | 65.0 ± 0.4     | 1.35x   |
+  | styled-heavy.vt | 0          | 49.2 ± 0.4  | 42.1 ± 0.2     | 1.17x   |
+  | styled-mixed.vt | 0          | 87.2 ± 0.3  | 81.6 ± 1.3     | 1.07x   |
+  | ascii.vt        | 0          | 9.7 ± 0.1   | 9.7 ± 0.1      | 1.01x   |
+  | styled-plain.vt | 0          | 12.4 ± 0.1  | 12.3 ± 0.1     | 1.01x   |
+  | osc.vt          | 0          | 157.8 ± 1.3 | 157.5 ± 0.3    | 1.00x   |
+  | links.vt        | 10KB       | 38.2 ± 0.5  | 37.7 ± 0.4     | 1.01x   |
+  | styled-heavy.vt | 10KB       | 29.8 ± 0.4  | 29.6 ± 0.2     | 1.01x   |
+  | styled-mixed.vt | 10KB       | 64.2 ± 0.2  | 64.0 ± 0.2     | 1.00x   |
+  | out.txt (2.6GB) | 0          | 4949 ± 7    | 4918 ± 6       | 1.01x   |
+  | out.txt (2.6GB) | 50MB       | 5135 ± 7    | 5070 ± 7       | 1.01x   |
+  
+  Real programs hit this too. I recorded about 25 seconds of each of 17
+  programs in a pty and replayed them through `ghostty-bench
+  +terminal-stream` at 160x48 with the app's 50MB scrollback. These three
+  measurably rehash on main (instructions retired for the whole replay,
+  including startup):
+  
+  | Workload                       | Rehashes (main) | Page copies | Instructions |
+  | ------------------------------ | --------------- | ----------- | ------------ |
+  | `rg --hyperlink-format` + less | 6               | 12 -> 6     | -14.2%       |
+  | chafa playing an animated GIF  | 148             | 150 -> 2    | -10.9%       |
+  | `eza --hyperlink -R` + less    | 2               | 8 -> 6      | -3.6%        |
+  ```
+- [`636c1d7`](https://github.com/ghostty-org/ghostty/commit/636c1d780568db5c5fe299b7105fcf6b4c74c068) terminal: RefCountedSet only reaps dead items it may displace ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Only reap a dead item whose PSL is at most the held item's. The bucket
+  then never ends up with a shorter PSL than it had, so every probe
+  sequence through it stays intact. Otherwise the dead item is probed
+  past like any other.
+  ```
+- [`738d8f7`](https://github.com/ghostty-org/ghostty/commit/738d8f7f5b574b2348e0ba635a0f00a0d51c35fe) terminal: RefCountedSet checks table membership, not a sentinel bucket ([@mitchellh](https://github.com/mitchellh))
+- [`38f4a71`](https://github.com/ghostty-org/ghostty/commit/38f4a710e3e6a218342915bf9d29eab10281a702) terminal: RefCountedSet.releaseMultiple asserts n > 0 ([@mitchellh](https://github.com/mitchellh))
+- [`31a5299`](https://github.com/ghostty-org/ghostty/commit/31a52992f12710f0382661a481fce46a966a7ea1) terminal: RefCountedSet reclaims the dead ID insert passed over ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  When `add` reclaims a dead ID, `insert` may still reuse a smaller dead
+  ID that it reaps on its probe path. The reclaimed ID then stays dead
+  and out of the table, but `free_cursor` had already moved past it, so
+  the next reclaims scanned the rest of the set first and only found it
+  again after wrapping around.
+  
+  Point `free_cursor` back at it in that case so it is the next ID
+  reclaimed. Harmless before, since it was found eventually, but it is
+  the cheapest dead ID to reuse.
+  ```
+- [`aef8b7b`](https://github.com/ghostty-org/ghostty/commit/aef8b7b38d281784108f1ab1f03d6ecb9c5246d3) terminal: tighten the RefCountedSet dead ID reuse tests ([@mitchellh](https://github.com/mitchellh))
+- [`5d3f653`](https://github.com/ghostty-org/ghostty/commit/5d3f653329fc62f04625f1952d88282d93df8b29) terminal: update RefCountedSet docs for dead ID reuse ([@mitchellh](https://github.com/mitchellh))
+- [`4d6fb32`](https://github.com/ghostty-org/ghostty/commit/4d6fb32631d20fbd2203be0fdd5ba8109a00519b) libghostty-vt: deploy docs from GHA, move to Vercel, prep release site ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This sets up automation so that our libghostty-vt docs go out
+  automatically and support a separate tip vs release site.  The build
+  happens in GHA so we can remove the Docker builder.
+  
+  This also moves to Vercel, which we already used for our main web
+  domain, so all our web stuff is centralized in one place. I should note
+  a bias here because I am a board member of Vercel but that wasn't the
+  driving reason and Ghostty has been using Vercel since years before that.
+  ```
+- [`8b3b025`](https://github.com/ghostty-org/ghostty/commit/8b3b025bdbbeac42fe066d2235af5ae5e6744e44) libghostty-vt: deploy docs from GHA, move to Vercel, prep release site ([#15123](https://github.com/ghostty-org/ghostty/issues/15123)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This sets up automation so that our libghostty-vt docs go out
+  automatically and support a separate tip vs release site. The build
+  happens in GHA so we can remove the Docker builder.
+  
+  This also moves to Vercel, which we already used for our main web
+  domain, so all our web stuff is centralized in one place. I should note
+  a bias here because I am a board member of Vercel but that wasn't the
+  driving reason and Ghostty has been using Vercel since years before
+  that.
+  
+  **AI usage:** Opus wrote all the release automation, I reviewed it and
+  wrote the commit/PR/etc.
+  ```
+- [`b5d9c93`](https://github.com/ghostty-org/ghostty/commit/b5d9c93da1b045593a88c846ac8fed0f3835f2f3) terminal: RefCountedSet reuses dead IDs instead of rehashing ([#15121](https://github.com/ghostty-org/ghostty/issues/15121)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Once every ID in a `RefCountedSet` has been handed out, `add` now reuses
+  the ID of a dead item in place.
+  
+  Previously it returned `NeedsRehash`, and every caller responded by
+  cloning the entire page at the same capacity, copying every row, cell,
+  style, grapheme and string just to free up IDs. This caused quite a lot
+  of allocation and throughput churn.
+  
+  This has a huge impact on alt-screen apps (TUIs) in particular, because
+  they don't generally ever allocate new pages and have a fixed size and
+  usage pattern (usually) and constantly overwrite styles, links, etc. You
+  can see below how this plays out with benchmarks.
+  
+  `ghostty-bench +terminal-stream` at 120x80, 8 MiB inputs:
+  
+  | Input | Scrollback | main (ms) | set-reuse (ms) | Speedup |
+  | --------------- | ---------- | ----------- | -------------- | -------
+  |
+  | links.vt | 0 | 90.2 ± 0.7 | 67.3 ± 0.6 | 1.34x |
+  | styled-heavy.vt | 0 | 50.7 ± 0.4 | 44.5 ± 0.3 | 1.14x |
+  | styled-mixed.vt | 0 | 90.4 ± 1.2 | 83.6 ± 0.3 | 1.08x |
+  | ascii.vt | 0 | 10.2 ± 0.1 | 10.2 ± 0.2 | 1.00x |
+  | styled-plain.vt | 0 | 13.2 ± 0.3 | 12.9 ± 0.1 | 1.02x |
+  | osc.vt | 0 | 161.6 ± 2.0 | 163.3 ± 4.6 | 0.99x |
+  | links.vt | 10KB | 39.8 ± 1.1 | 39.5 ± 0.4 | 1.01x |
+  | styled-heavy.vt | 10KB | 30.9 ± 0.7 | 30.5 ± 0.2 | 1.01x |
+  | styled-mixed.vt | 10KB | 66.5 ± 0.5 | 66.3 ± 0.5 | 1.00x |
+  
+  I also wanted to know whether real programs hit this, so I recorded
+  about 25 seconds of them:
+  
+  | Workload | Rehashes (main) | Page copies | Instructions |
+  | ------------------------------ | --------------- | ----------- |
+  ------------ |
+  | `rg --hyperlink-format` + less | 6 | 12 -> 6 | -14.2% |
+  | chafa playing an animated GIF | 148 | 150 -> 2 | -8.4% |
+  | `eza --hyperlink -R` + less | 2 | 8 -> 6 | -3.1% |
+  
+  And then there are a bunch I tested that didn't move much (but all moved
+  towards faster): nvim, helix, btop, htop, tmux.
+  
+  `NeedsRehash` can now only happen if the living count is wrong. Safe
+  builds assert there, and release builds still fall back to the clone. In
+  a future PR we can probably remove this entirely.
+  
+  **AI usage:** I did all the RCS changes, I had Fable adversarially
+  review which did pull up a few issues that I verified, I had Opus
+  implement the benchmark changes and run them. I wrote this message of
+  course.
+  ```
+- [`3c3a887`](https://github.com/ghostty-org/ghostty/commit/3c3a8873ef0ea7843f1712a40b37c671f565f2a9) doxygen: fix the configuration and keep the build free of warnings ([@mitchellh](https://github.com/mitchellh))
+- [`56919d3`](https://github.com/ghostty-org/ghostty/commit/56919d3ffd0981d52110b8d036dc3743b23ef6bb) doxygen: register every C example and rename c-vt to c-vt-osc ([@mitchellh](https://github.com/mitchellh))
+- [`f21f400`](https://github.com/ghostty-org/ghostty/commit/f21f40018791bd30fe0ecfc7d104dd556226faf7) doxygen: nest the API reference and describe every topic ([@mitchellh](https://github.com/mitchellh))
+- [`5acbc10`](https://github.com/ghostty-org/ghostty/commit/5acbc10ebf84ccb7a9b2d7daf1784f2b3262d74d) doxygen: move the API conventions out of the main page ([@mitchellh](https://github.com/mitchellh))
+- [`6f41fba`](https://github.com/ghostty-org/ghostty/commit/6f41fbaad44e8356abfef9881d10ef0d820ecd7d) doxygen: write the Examples page and fix example names and READMEs ([@mitchellh](https://github.com/mitchellh))
+- [`3a73ef5`](https://github.com/ghostty-org/ghostty/commit/3a73ef54201efa01760013c8bc6ece70075dfed7) doxygen: move the terminal guides out of the reference pages ([@mitchellh](https://github.com/mitchellh))
+- [`2bc37a0`](https://github.com/ghostty-org/ghostty/commit/2bc37a0eea6a2e5da08367e62e0f2b2a2e385938) doxygen: write the main page and Getting Started ([@mitchellh](https://github.com/mitchellh))
+- [`7341454`](https://github.com/ghostty-org/ghostty/commit/7341454308f2b8a564a7540ffa6de2d7cd0d6c85) doxygen: move the rendering and image guides out of the reference pages ([@mitchellh](https://github.com/mitchellh))
+- [`51bff35`](https://github.com/ghostty-org/ghostty/commit/51bff35a73097f105078f9566604c265b773ee1c) doxygen: move the input, grid, selection, search and snapshot guides out of the reference pages ([@mitchellh](https://github.com/mitchellh))
+- [`9a0cb21`](https://github.com/ghostty-org/ghostty/commit/9a0cb21428205711aa4982089109e919704b1aee) doxygen: give every topic page the same short intro ([@mitchellh](https://github.com/mitchellh))
+- [`ba66391`](https://github.com/ghostty-org/ghostty/commit/ba66391955118c3bddee80bccb08348f0fe149d9) doxygen: wrap the markdown pages at 80 columns ([@mitchellh](https://github.com/mitchellh))
+- [`d2ce23a`](https://github.com/ghostty-org/ghostty/commit/d2ce23a87c9521931851219885e1ac3ab5733fa5) doxgyen: update some docs ([@mitchellh](https://github.com/mitchellh))
+- [`2f8d9e1`](https://github.com/ghostty-org/ghostty/commit/2f8d9e1f99b18c80bfebbeb1e44ca647db46dec0) doxygen: update concepts ([@mitchellh](https://github.com/mitchellh))
+- [`477bfd2`](https://github.com/ghostty-org/ghostty/commit/477bfd2941c73b8eef96395ee898b0c21f069f18) libghostty-vt: rewritten Doxygen docs ([#15120](https://github.com/ghostty-org/ghostty/issues/15120)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This is a full rewrite of the libghostty docs.
+  
+  **AI usage:** I hand-write all the english content, I used Opus to
+  handle the build scripts and CI.
+  ```
 - [`020a0a0`](https://github.com/ghostty-org/ghostty/commit/020a0a0998e084d457cf3d1604fb62de4647525f) terminal: find style runs with one scan in RowBuilder.scan ([@arc-source-coder](https://github.com/arc-source-coder))
   ```text
   `RowBuilder.scan` previously handled each kind of special cell separately,
@@ -2805,217 +3090,5 @@ Summary: 7 runs • 13 commits • 5 authors
   from @jcollie.
   
   Vouch: @cammeresi
-  ```
-
-## October 31, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41244998361), [2](https://github.com/ghostty-org/ghostty/actions/runs/41221492187), [3](https://github.com/ghostty-org/ghostty/actions/runs/41208691947), [4](https://github.com/ghostty-org/ghostty/actions/runs/41167071786), [5](https://github.com/ghostty-org/ghostty/actions/runs/41160759341), [6](https://github.com/ghostty-org/ghostty/actions/runs/41159681318)  
-Summary: 6 runs • 11 commits • 5 authors
-
-### Changes
-
-- [`c7be56a`](https://github.com/ghostty-org/ghostty/commit/c7be56a04696249a2c33abac88586338aba7fc7a) fuzz: exercise hierarchical context in osc harness ([@paaloeye](https://github.com/paaloeye))
-  ```text
-  The OSC fuzzer harness previously discarded the parsed command returned
-  by the OSC parser without evaluating lazily parsed metadata. **OSC 3008**
-  hierarchical context sequences parse metadata fields on demand through
-  readOption, leaving option parsing, type conversions, and unescaping
-  unexercised by the fuzzer.
-  
-  When a hierarchical context command is produced, query every defined
-  context field to fuzz option extraction and validation. For string
-  fields with escape sequences, exercise both the streaming character
-  iterator and heap-allocated decoding paths. Seed inputs for **OSC 3008** in
-  the initial and minimized corpora are updated with escaped metadata.
-  
-  Also align the fuzzer package minimum Zig version with the root build
-  and pass the target macOS deployment version and `-Wno-override-module`
-  to afl-cc to silence target triple and linker version mismatch warnings.
-  
-  AI disclosure: AI helped to discover AFL++ args and drafted this commit message.
-  
-  Spec: https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
-  Assited-By: Gemini 4 Argon (Medium)
-  Assited-By: Antigravity CLI 1.3.5
-  Agent-Session: 0c644e81-47c4-4768-95ee-5660020523dd
-  ```
-- [`83b57ac`](https://github.com/ghostty-org/ghostty/commit/83b57ac5ead868e133adb509f7ef0a4ffa3ffe01) fuzz: exercise hierarchical context in osc harness ([#14977](https://github.com/ghostty-org/ghostty/issues/14977)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  The OSC fuzzer harness previously discarded the parsed command returned
-  by the OSC parser without evaluating lazily parsed metadata. **OSC
-  3008** hierarchical context sequences parse metadata fields on demand
-  through `readOption`, leaving option parsing, type conversions, and
-  unescaping unexercised by the fuzzer.
-  
-  When a hierarchical context command is produced, query every defined
-  context field to fuzz option extraction and validation. Seed inputs for
-  **OSC 3008** in the initial and minimized corpora are updated with
-  escaped metadata.
-  
-  Also align the fuzzer package minimum Zig version with the root build
-  and pass the target macOS deployment version and `-Wno-override-module`
-  to `afl-cc` to silence target triple and linker version mismatch
-  warnings.
-  
-  AI disclosure: AI helped to discover AFL++ args and drafted this commit
-  message.
-  
-  Spec:
-  https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
-  ```
-- [`b01ca00`](https://github.com/ghostty-org/ghostty/commit/b01ca003ca76687072b1cac6f1e3dd1bd0e27fa5) benchmark: add shaper-rows benchmark ([@AryanHamedani](https://github.com/AryanHamedani))
-  ```text
-  Measures turning terminal rows into text runs (`--mode=runs`) and
-  shaping them (`--mode=shape`), which the renderer does for every dirty
-  row on every frame. Shaped runs are cached by the renderer but run
-  iteration is not, so `runs` isolates the per-frame cost a cache can't
-  hide. The data file fills a screen during setup, which is not timed.
-  ```
-- [`1461f06`](https://github.com/ghostty-org/ghostty/commit/1461f068745a4b9524e197a38a876072a9a220f0) benchmark: end a shaper frame after each shaper-rows pass ([@AryanHamedani](https://github.com/AryanHamedani))
-  ```text
-  CoreText shapers keep CoreFoundation objects in a release pool until
-  endFrame(). The renderer calls it once per frame, so do the same once
-  per pass instead of letting every pass accumulate in the pool.
-  ```
-- [`3bd54e0`](https://github.com/ghostty-org/ghostty/commit/3bd54e025cc3349ee76ab1af7ec1ff8f7353632b) benchmark: add shaper-rows benchmark ([#14965](https://github.com/ghostty-org/ghostty/issues/14965)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Adds `ghostty-bench +shaper-rows`, as suggested in
-  https://github.com/ghostty-org/ghostty/pull/11079#issuecomment-6524841018.
-  
-  None of the existing benchmarks cover the font shaper. This one fills a
-  screen from `--data` during setup, which isn't timed, and then makes
-  `--iterations` passes (default 200) over every row:
-  
-  - `--mode=runs` only splits rows into text runs. The renderer does this
-  for every dirty row on every frame, and unlike shaping it isn't cached,
-  so this shows the per-frame cost.
-  - `--mode=shape` also shapes each run.
-  
-  It uses the embedded Inconsolata face with the embedded Arabic face as
-  fallback, so RTL input gets shaped by a real font. Terminal size is
-  `--terminal-rows`/`--terminal-cols` (80x120), same as `screen-clone`.
-  
-  On main (Linux, HarfBuzz, ReleaseFast), with hyperfine, 10 runs each:
-  
-  | data | runs | shape |
-  |---|---|---|
-  | 2000 lines of `src/terminal/Terminal.zig` | 34.7 ms ±1.0 | 84.3 ms
-  ±2.0 |
-  | 2000 lines of Persian prose | 58.2 ms ±3.2 | 246.7 ms ±12.7 |
-  
-  On #11079 it picked up a 2x slowdown in `runs` on plain ASCII.
-  
-  *AI disclosure: I used Claude Code to write and port this benchmark and
-  to draft this description. I've read the code and can explain it, and I
-  ran the numbers above myself.*
-  ```
-- [`ce92029`](https://github.com/ghostty-org/ghostty/commit/ce920296c891d0f9e266cfb908057716304182ab) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Full-screen `eraseDisplay` now skips finding the last prompt line when
-  we haven't seen semantic prompts. For screens without OSC133,
-  full-screen erases are now ~2x faster.
-  
-  Programs that redraw by clearing the screen (TUIs, `watch`, etc.)
-  would hit this unnecessary path every clear because they never emit
-  OSC133.
-  
-  This also adds a `+erase` generator to `ghostty-gen` that produces a
-  stream of full-screen clears and cursor movement to simulate
-  pathological inputs that hit this optimization.
-  
-  `ghostty-bench +terminal-stream`:
-  
-  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
-  | --------------- | ------- | ------------- | -------------- | ------- |
-  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
-  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
-  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
-  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
-  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
-  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
-  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
-  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
-  
-  This also fixes a couple places where we wern't properly setting
-  `seen`.
-  ```
-- [`9bfa8ee`](https://github.com/ghostty-org/ghostty/commit/9bfa8ee9a1d73f99208c1f056c4e4b5783402ead) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([#14975](https://github.com/ghostty-org/ghostty/issues/14975)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Full-screen `eraseDisplay` now skips finding the last prompt line when
-  we haven't seen semantic prompts. For screens without OSC133,
-  full-screen erases are now ~2x faster.
-  
-  Programs that redraw by clearing the screen (TUIs, `watch`, etc.) would
-  hit this unnecessary path every clear because they never emit OSC133.
-  
-  This also adds a `+erase` generator to `ghostty-gen` that produces a
-  stream of full-screen clears and cursor movement to simulate
-  pathological inputs that hit this optimization.
-  
-  This also fixes a couple places where we wern't properly setting `seen`.
-  
-  `ghostty-bench +terminal-stream`:
-  
-  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
-  | --------------- | ------- | ------------- | -------------- | ------- |
-  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
-  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
-  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
-  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
-  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
-  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
-  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
-  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
-  
-  The benchmarks most importantly show not just the speedup but that
-  existing data shapes are unaffected.
-  
-  **AI disclosure:** Fable found the slowdown cause (reported by a
-  libghostty user), I fixed it, Fable+Opus validated my work and found a
-  couple bugs (e.g. missing setting `seen` in cursor copy and snapshot).
-  Opus wrote the synthetic generator and ran the benchmarks. I wrote all
-  the comments and this PR body.
-  ```
-- [`51e7fe5`](https://github.com/ghostty-org/ghostty/commit/51e7fe51db607773a651b161527beb10ce92a611) terminal/tmux: parse %output without a regex ([@jcollie](https://github.com/jcollie))
-  ```text
-  Parse `%output %<pane> <data>` by hand instead of compiling an
-  Oniguruma regex for every pane write, matching how %window-close and
-  %session-window-changed are already parsed.
-  
-  The pane id now goes through parseDecimalId, so an id that overflows
-  usize is logged and dropped rather than hitting `catch unreachable`.
-  Empty data is accepted rather than rejected.
-  
-  The data is sliced from the line directly rather than through
-  std.mem.cutPrefix, which returns a const slice, so that it keeps the
-  mutability of the parser buffer it points into.
-  ```
-- [`ae0dc1b`](https://github.com/ghostty-org/ghostty/commit/ae0dc1b7136c2baddc3e067663aa041cd555cfda) terminal/tmux: parse %output without a regex ([#14947](https://github.com/ghostty-org/ghostty/issues/14947)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Parse `%output %<pane> <data>` by hand instead of compiling an Oniguruma
-  regex for every pane write, matching how %window-close and
-  %session-window-changed are already parsed.
-  
-  The pane id now goes through parseDecimalId, so an id that overflows
-  usize is logged and dropped rather than hitting `catch unreachable`.
-  Empty data is accepted rather than rejected.
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-- [`c911f96`](https://github.com/ghostty-org/ghostty/commit/c911f96ee8fedd4594b5b69f1128fcb03f560622) Update VOUCHED list ([#14969](https://github.com/ghostty-org/ghostty/issues/14969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14963#discussioncomment-19307157)
-  from @jcollie.
-  
-  Vouch: @hamidp
-  ```
-- [`0a672a9`](https://github.com/ghostty-org/ghostty/commit/0a672a914479354aa8599c75927485b22905c394) Update VOUCHED list ([#14968](https://github.com/ghostty-org/ghostty/issues/14968)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14964#discussioncomment-19306948)
-  from @jcollie.
-  
-  Vouch: @edsarmiento
   ```
 
