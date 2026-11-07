@@ -8,15 +8,62 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 7, 2026 at 17:18 UTC.
+> Last updated: November 7, 2026 at 21:21 UTC.
 
 ## November 7, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42387649303), [2](https://github.com/ghostty-org/ghostty/actions/runs/42384512829), [3](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [4](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
-Summary: 4 runs • 7 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42398288749), [2](https://github.com/ghostty-org/ghostty/actions/runs/42387649303), [3](https://github.com/ghostty-org/ghostty/actions/runs/42384512829), [4](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [5](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
+Summary: 5 runs • 12 commits • 4 authors
 
 ### Changes
 
+- [`5ed7747`](https://github.com/ghostty-org/ghostty/commit/5ed7747e8db1414ab07ec814ec2c4cd242281396) terminal: enumFromC no longer scans every enum field ([@mitchellh](https://github.com/mitchellh))
+- [`1b8b3f5`](https://github.com/ghostty-org/ghostty/commit/1b8b3f55bcc93d2685f7771948516af1222dcc46) terminal: remap pins when the column growth backfill stops early ([@mitchellh](https://github.com/mitchellh))
+- [`358818e`](https://github.com/ghostty-org/ghostty/commit/358818ebddb9e4d0bcfb16fb2d3f559cb7c70257) terminfo: use a multi-word description field ([@jparise](https://github.com/jparise))
+  ```text
+  The last field of a terminfo name line is the entry's description, and
+  ours was the single word "Ghostty". ncurses' tic warns about that on
+  every compile because older tic versions may treat a description with
+  no spaces as another alias:
+  
+      "<stdin>", line 1, col 31, terminal 'xterm-ghostty': older tic
+      versions may treat the description field as an alias
+  
+  That warning shows up in `+ssh --verbose` and in manual installs.
+  
+  Use "Ghostty terminal emulator", which matches the description in
+  ncurses' own ghostty entry:
+  
+  https://github.com/ThomasDickey/ncurses-snapshots/blob/26ceb3cbd343/misc/terminfo.src#L8870
+  ```
+- [`0aa2292`](https://github.com/ghostty-org/ghostty/commit/0aa22921cad37022529a56e064df24a009f01500) terminal: fix dangling pins on column growth resize, faster C enum validation ([#15134](https://github.com/ghostty-org/ghostty/issues/15134)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Two fixes from the libghostty 1.0 upgrade I found in Rex:
+  
+  - Dangling pins when growing columns without reflow.
+  - A performance regression and fix: `enumFromC` no longer scans every
+  field.
+  
+  **AI usage: Opus for tests.**
+  ```
+- [`27ffca0`](https://github.com/ghostty-org/ghostty/commit/27ffca0dd67177d1f069ea7f910362e5d871613d) terminfo: use a multi-word description field ([#15135](https://github.com/ghostty-org/ghostty/issues/15135)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The last field of a terminfo name line is the entry's description, and
+  ours was the single word "Ghostty". ncurses' tic warns about that on
+  every compile because older tic versions may treat a description with no
+  spaces as another alias:
+  
+      "<stdin>", line 1, col 31, terminal 'xterm-ghostty': older tic
+      versions may treat the description field as an alias
+  
+  That warning shows up in `+ssh --verbose` and in manual installs.
+  
+  Use "Ghostty terminal emulator", which matches the description in
+  ncurses' own ghostty entry:
+  
+  
+  https://github.com/ThomasDickey/ncurses-snapshots/blob/26ceb3cbd343/misc/terminfo.src#L8870
+  ```
 - [`3c3f331`](https://github.com/ghostty-org/ghostty/commit/3c3f33121a9be2389584db716248dbf0fa0439a6) cli: run the ssh terminfo install under sh ([@jparise](https://github.com/jparise))
   ```text
   ssh passes the remote command to the user's login shell, and the
