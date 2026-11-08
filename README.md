@@ -8,7 +8,49 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 8, 2026 at 04:00 UTC.
+> Last updated: November 8, 2026 at 12:38 UTC.
+
+## November 8, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42453768003), [2](https://github.com/ghostty-org/ghostty/actions/runs/42448097492)  
+Summary: 2 runs • 8 commits • 4 authors
+
+### Changes
+
+- [`e356223`](https://github.com/ghostty-org/ghostty/commit/e356223d3c1a894aa9cbb479bec30988bcaebb5a) add NSColorExtension test for distance ([@francislata](https://github.com/francislata))
+- [`3119f12`](https://github.com/ghostty-org/ghostty/commit/3119f12b6e4fece3a081a0374454dcfd307a75b0) update test case name ([@francislata](https://github.com/francislata))
+- [`e035beb`](https://github.com/ghostty-org/ghostty/commit/e035beb9437118b803830a5864ea2f4dd7094354) Add NSColorTests for NSColor+Extension ([#15139](https://github.com/ghostty-org/ghostty/issues/15139)) ([@bo2themax](https://github.com/bo2themax))
+  ```text
+  # Overview
+  This PR adds some tests to the `distance(to:)` extension of
+  `NSColor+Extension.swift`.
+  
+  This increased the coverage from `0.0%` to `35.5%`.
+  
+  # Details
+  In this PR, I only added tests to `distance(to:)` as it is the main
+  function exposed within the extension.
+  
+  I'm adding these tests to further increase the macOS test coverage
+  (#7879).
+  ```
+- [`b543fbe`](https://github.com/ghostty-org/ghostty/commit/b543fbed1a83da7918a7de65ad8ac733c57ceef8) terminal: add render OOM regression test ([@Uzaaft](https://github.com/Uzaaft))
+- [`3e29fcd`](https://github.com/ghostty-org/ghostty/commit/3e29fcd628a50757ad24988c721340e56f392485) terminal: retry dirty rows after failed render updates ([@Uzaaft](https://github.com/Uzaaft))
+- [`3a69a97`](https://github.com/ghostty-org/ghostty/commit/3a69a97b6070c1789cad760a1bd646620fe3ae01) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`e33e4cf`](https://github.com/ghostty-org/ghostty/commit/e33e4cf83006b541a73074029189e7f9a499fd99) Update iTerm2 colorschemes ([#15140](https://github.com/ghostty-org/ghostty/issues/15140)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261102-150615-3d8a6a1
+  ```
+- [`59044f5`](https://github.com/ghostty-org/ghostty/commit/59044f5c5ee5764b69cc8153d307507cb1f400f5) terminal: retry dirty rows after failed render updates ([#15127](https://github.com/ghostty-org/ghostty/issues/15127)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  So tl;dr: a failed update marks unfinished work as finished
+  
+  Test pushed first to prove that this causes a crash before I push the
+  patch a patch, that instead leaves failed rows marked as dirty, so the
+  next update rebuilds them instead of using incomplete data. But I'm not
+  sure of this is *sound* in a terminal.
+  ```
 
 ## November 7, 2026
 
