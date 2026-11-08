@@ -8,15 +8,31 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 8, 2026 at 12:38 UTC.
+> Last updated: November 8, 2026 at 19:17 UTC.
 
 ## November 8, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42453768003), [2](https://github.com/ghostty-org/ghostty/actions/runs/42448097492)  
-Summary: 2 runs • 8 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42507357424), [2](https://github.com/ghostty-org/ghostty/actions/runs/42505532992), [3](https://github.com/ghostty-org/ghostty/actions/runs/42453768003), [4](https://github.com/ghostty-org/ghostty/actions/runs/42448097492)  
+Summary: 4 runs • 10 commits • 5 authors
 
 ### Changes
 
+- [`eb895f6`](https://github.com/ghostty-org/ghostty/commit/eb895f6128dba382ffeb5fedea97dcd61fcb5979) Update VOUCHED list ([#15146](https://github.com/ghostty-org/ghostty/issues/15146)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15142#discussioncomment-19476906)
+  from @jcollie.
+  
+  Vouch: @neomantra
+  ```
+- [`e5e9bdb`](https://github.com/ghostty-org/ghostty/commit/e5e9bdb44ebbe9e105033e27474825b010310009) Update VOUCHED list ([#15145](https://github.com/ghostty-org/ghostty/issues/15145)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15144#discussioncomment-19476492)
+  from @jcollie.
+  
+  Vouch: @johnrichardrinehart
+  ```
 - [`e356223`](https://github.com/ghostty-org/ghostty/commit/e356223d3c1a894aa9cbb479bec30988bcaebb5a) add NSColorExtension test for distance ([@francislata](https://github.com/francislata))
 - [`3119f12`](https://github.com/ghostty-org/ghostty/commit/3119f12b6e4fece3a081a0374454dcfd307a75b0) update test case name ([@francislata](https://github.com/francislata))
 - [`e035beb`](https://github.com/ghostty-org/ghostty/commit/e035beb9437118b803830a5864ea2f4dd7094354) Add NSColorTests for NSColor+Extension ([#15139](https://github.com/ghostty-org/ghostty/issues/15139)) ([@bo2themax](https://github.com/bo2themax))
@@ -2036,7 +2052,7 @@ Summary: 8 runs • 18 commits • 8 authors
 ## November 2, 2026
 
 Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41546831074), [2](https://github.com/ghostty-org/ghostty/actions/runs/41520563485), [3](https://github.com/ghostty-org/ghostty/actions/runs/41511614122), [4](https://github.com/ghostty-org/ghostty/actions/runs/41506747057), [5](https://github.com/ghostty-org/ghostty/actions/runs/41502755506), [6](https://github.com/ghostty-org/ghostty/actions/runs/41491697673), [7](https://github.com/ghostty-org/ghostty/actions/runs/41485839464), [8](https://github.com/ghostty-org/ghostty/actions/runs/41478021093), [9](https://github.com/ghostty-org/ghostty/actions/runs/41466669618), [10](https://github.com/ghostty-org/ghostty/actions/runs/41459038808), [11](https://github.com/ghostty-org/ghostty/actions/runs/41388327846), [12](https://github.com/ghostty-org/ghostty/actions/runs/41364959727)  
-Summary: 12 runs • 39 commits • 5 authors
+Summary: 12 runs • 75 commits • 11 authors
 
 ### Changes
 
@@ -2945,6 +2961,623 @@ Summary: 12 runs • 39 commits • 5 authors
   Ref: https://github.com/ghostty-org/ghostty/discussions/14952
   
   AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`4d7de0a`](https://github.com/ghostty-org/ghostty/commit/4d7de0a483e40e2c1dc542315b2a87be96977df2) fix(ssh): show authentication messages during terminfo setup ([@clinta](https://github.com/clinta))
+  ```text
+  Suppressing SSH stderr hid keyboard-interactive login instructions.
+  Inherit it instead; installer output remains suppressed by default.
+  ```
+- [`51e7fe5`](https://github.com/ghostty-org/ghostty/commit/51e7fe51db607773a651b161527beb10ce92a611) terminal/tmux: parse %output without a regex ([@jcollie](https://github.com/jcollie))
+  ```text
+  Parse `%output %<pane> <data>` by hand instead of compiling an
+  Oniguruma regex for every pane write, matching how %window-close and
+  %session-window-changed are already parsed.
+  
+  The pane id now goes through parseDecimalId, so an id that overflows
+  usize is logged and dropped rather than hitting `catch unreachable`.
+  Empty data is accepted rather than rejected.
+  
+  The data is sliced from the line directly rather than through
+  std.mem.cutPrefix, which returns a const slice, so that it keeps the
+  mutability of the parser buffer it points into.
+  ```
+- [`8bb4f45`](https://github.com/ghostty-org/ghostty/commit/8bb4f45846ecde0ab53a846ee1bca5533dca8c5f) fuzz: fix replay crash detection and add osc target ([@paaloeye](https://github.com/paaloeye))
+- [`86c704a`](https://github.com/ghostty-org/ghostty/commit/86c704afdde5a8ee67300d924d1c52b4d82b4ff4) gtk: fix jumps when resizing splits via keybind ([@dkinzler](https://github.com/dkinzler))
+  ```text
+  `syncSplitRatio` now exits early if GTK size allocation has not yet
+  computed a value for the `max-position` property of the `GtkPaned`
+  widget. Initially `max-position` has the max value for a `c_int`, so
+  that calculations in the function would overflow and set the split ratio
+  to 0. This could happen when resizing a split multiple times by holding
+  down a keybind.
+  ```
+- [`ca91d0a`](https://github.com/ghostty-org/ghostty/commit/ca91d0a24e67b3eecdb23c943227cd2b3908747b) gtk: fix jumps when resizing splits via keybind ([#14951](https://github.com/ghostty-org/ghostty/issues/14951)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `syncSplitRatio` now exits early if GTK size allocation has not yet
+  computed a value for the `max-position` property of the `GtkPaned`
+  widget. Initially `max-position` has the max value for a `c_int`, so
+  that calculations in the function would overflow and set the split ratio
+  to 0. This could happen when resizing a split multiple times by holding
+  down a keybind.
+  
+  Fixes a regression introduced by #14476 where the split ratio sometimes
+  jumps to the minimum when holding down the resize keybind. See the video
+  below. When `syncSplitRatio` is called from `SplitTree.resize` it is not
+  guaranteed that the `GtkPaned` widget has already been size allocated.
+  This can happen with many resizes in a short time because the `GtkPaned`
+  widget is rebuilt on every one.
+  
+  
+  https://github.com/user-attachments/assets/442adf44-3a1c-41ee-bdc4-aa971848893e
+  ```
+- [`32da5e4`](https://github.com/ghostty-org/ghostty/commit/32da5e47b26cad0dadb36c279ae9e020a2e60959) snap: avoid trailing colon in LD_LIBRARY_PATH ([@12ya](https://github.com/12ya))
+  ```text
+  Add the separator only when appending a nonempty inherited path.
+  A trailing colon adds the working directory to library lookup,
+  which can make launcher commands load a conflicting local library
+  and fail before Ghostty starts.
+  ```
+- [`93404a4`](https://github.com/ghostty-org/ghostty/commit/93404a48a9a8bf265bb1671e0e6d9985322f6682) Update VOUCHED list ([#14957](https://github.com/ghostty-org/ghostty/issues/14957)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14956#discussioncomment-19300741)
+  from @jcollie.
+  
+  Vouch: @yeager
+  ```
+- [`1d23d02`](https://github.com/ghostty-org/ghostty/commit/1d23d02ae16f86d9c9a3792098cb906b94208bcc) snap: avoid trailing colon in LD_LIBRARY_PATH ([#14954](https://github.com/ghostty-org/ghostty/issues/14954)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Add the separator only when appending a nonempty inherited path. A
+  trailing colon adds the working directory to library lookup, which can
+  make launcher commands load a conflicting local library and fail before
+  Ghostty starts.
+  
+  Verified with the extracted Ghostty 1.4.0 ARM64 Snap in Docker:
+  the original launcher exits 127 with an empty libc.so.6 in the
+  working directory, while the corrected launcher exits 0.
+  
+  I intended to open an issue documenting this investigation, but
+  issue creation is restricted. I can provide the Docker commands
+  used to reproduce the failure in the follow up comments instead.
+  
+  
+  AI disclosure: OpenAI Codex assisted with investigating the issue,
+  proposing the fix, running Docker reproductions, reviewing the
+  change, and drafting this commit message.
+  ```
+- [`9644c75`](https://github.com/ghostty-org/ghostty/commit/9644c7571d43f988415b3ed38f40be76e5964dd4) datastruct: fix clearing circular buffers with zero capacity ([@12ya](https://github.com/12ya))
+  ```text
+  Keep buffers with zero capacity marked full after clear(), so append()
+  returns error.OutOfMemory instead of panicking.
+  
+  Add a regression test for this case.
+  ```
+- [`f040f0a`](https://github.com/ghostty-org/ghostty/commit/f040f0ab0ee30d77794b98d87e27fc9105ee6ab9) datastruct: fix clearing circular buffers with zero capacity ([#14958](https://github.com/ghostty-org/ghostty/issues/14958)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Keep buffers with zero capacity marked full after clear(), so append()
+  returns error.OutOfMemory instead of panicking.
+  
+  Add a regression test for this case.
+  
+  AI disclosure: OpenAI Codex
+  ```
+- [`4489314`](https://github.com/ghostty-org/ghostty/commit/44893148d009bd372f5f7e8d2edbd0340fc82b65) cli: show SSH authentication messages during terminfo setup ([#14916](https://github.com/ghostty-org/ghostty/issues/14916)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  `+ssh` suppresses stderr during terminfo setup. OpenSSH still displays
+  authentication prompts through `/dev/tty`, but accompanying
+  informational messages from custom SSH servers are hidden. This can make
+  authentication appear to stall.
+  
+  Inherit SSH stderr without disabling interactive authentication.
+  Installer output remains suppressed by default, and `--verbose` behavior
+  is preserved. SSH warnings and login banners can now also appear during
+  setup.
+  
+  Tested with 114 focused SSH tests and nine real OpenSSH scenarios
+  covering keyboard-interactive setup and login, the Bash shell wrapper,
+  installation, fallback, caching, environment forwarding, and exit-status
+  propagation.
+  
+  Oh-My-Pi using GPT-6.1 Sol assisted with diagnosis, implementation,
+  validation, and drafting this change.
+  ```
+- [`a0706b7`](https://github.com/ghostty-org/ghostty/commit/a0706b79b3d791873177b1fda4b155267769e8c5) fuzz: fix replay crash detection and add osc target ([#14896](https://github.com/ghostty-org/ghostty/issues/14896)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  In Nushell, running an external command that exits successfully returns
+  stdout as an empty string. The previous error check tested whether the
+  result was not `null`, which always evaluated to `true` for clean exits.
+  
+  Use the `complete` command to inspect the process exit code.
+  
+  Additionally, add "osc" to the default list of fuzzers so OSC crashes
+  are replayed by default.
+  
+  Ref: https://www.nushell.sh/commands/docs/complete.html
+  ```
+- [`fbed180`](https://github.com/ghostty-org/ghostty/commit/fbed180a5f181915c92a8f2f561903a6e4645b5a) Update VOUCHED list ([#14960](https://github.com/ghostty-org/ghostty/issues/14960)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14959#discussioncomment-19301732)
+  from @jcollie.
+  
+  Vouch: @AryanHamedani
+  ```
+- [`b01ca00`](https://github.com/ghostty-org/ghostty/commit/b01ca003ca76687072b1cac6f1e3dd1bd0e27fa5) benchmark: add shaper-rows benchmark ([@AryanHamedani](https://github.com/AryanHamedani))
+  ```text
+  Measures turning terminal rows into text runs (`--mode=runs`) and
+  shaping them (`--mode=shape`), which the renderer does for every dirty
+  row on every frame. Shaped runs are cached by the renderer but run
+  iteration is not, so `runs` isolates the per-frame cost a cache can't
+  hide. The data file fills a screen during setup, which is not timed.
+  ```
+- [`0a672a9`](https://github.com/ghostty-org/ghostty/commit/0a672a914479354aa8599c75927485b22905c394) Update VOUCHED list ([#14968](https://github.com/ghostty-org/ghostty/issues/14968)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14964#discussioncomment-19306948)
+  from @jcollie.
+  
+  Vouch: @edsarmiento
+  ```
+- [`c911f96`](https://github.com/ghostty-org/ghostty/commit/c911f96ee8fedd4594b5b69f1128fcb03f560622) Update VOUCHED list ([#14969](https://github.com/ghostty-org/ghostty/issues/14969)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14963#discussioncomment-19307157)
+  from @jcollie.
+  
+  Vouch: @hamidp
+  ```
+- [`ae0dc1b`](https://github.com/ghostty-org/ghostty/commit/ae0dc1b7136c2baddc3e067663aa041cd555cfda) terminal/tmux: parse %output without a regex ([#14947](https://github.com/ghostty-org/ghostty/issues/14947)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Parse `%output %<pane> <data>` by hand instead of compiling an Oniguruma
+  regex for every pane write, matching how %window-close and
+  %session-window-changed are already parsed.
+  
+  The pane id now goes through parseDecimalId, so an id that overflows
+  usize is logged and dropped rather than hitting `catch unreachable`.
+  Empty data is accepted rather than rejected.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`ce92029`](https://github.com/ghostty-org/ghostty/commit/ce920296c891d0f9e266cfb908057716304182ab) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Full-screen `eraseDisplay` now skips finding the last prompt line when
+  we haven't seen semantic prompts. For screens without OSC133,
+  full-screen erases are now ~2x faster.
+  
+  Programs that redraw by clearing the screen (TUIs, `watch`, etc.)
+  would hit this unnecessary path every clear because they never emit
+  OSC133.
+  
+  This also adds a `+erase` generator to `ghostty-gen` that produces a
+  stream of full-screen clears and cursor movement to simulate
+  pathological inputs that hit this optimization.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
+  | --------------- | ------- | ------------- | -------------- | ------- |
+  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
+  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
+  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
+  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
+  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
+  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
+  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
+  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
+  
+  This also fixes a couple places where we wern't properly setting
+  `seen`.
+  ```
+- [`9bfa8ee`](https://github.com/ghostty-org/ghostty/commit/9bfa8ee9a1d73f99208c1f056c4e4b5783402ead) terminal: skip the ED2 prompt scan when OSC 133 was never seen ([#14975](https://github.com/ghostty-org/ghostty/issues/14975)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Full-screen `eraseDisplay` now skips finding the last prompt line when
+  we haven't seen semantic prompts. For screens without OSC133,
+  full-screen erases are now ~2x faster.
+  
+  Programs that redraw by clearing the screen (TUIs, `watch`, etc.) would
+  hit this unnecessary path every clear because they never emit OSC133.
+  
+  This also adds a `+erase` generator to `ghostty-gen` that produces a
+  stream of full-screen clears and cursor movement to simulate
+  pathological inputs that hit this optimization.
+  
+  This also fixes a couple places where we wern't properly setting `seen`.
+  
+  `ghostty-bench +terminal-stream`:
+  
+  | Input           | Size    | main (ms)     | erase-opt (ms) | Speedup |
+  | --------------- | ------- | ------------- | -------------- | ------- |
+  | erase.vt        | 120x80  | 748.7 ± 51.6  | 421.8 ± 6.2    | 1.78x   |
+  | erase.vt        | 120x12  | 114.0 ± 2.4   | 102.5 ± 1.1    | 1.11x   |
+  | erase.vt        | 300x100 | 2597.1 ± 54.1 | 1227.0 ± 14.2  | 2.12x   |
+  | ascii.vt        | 120x80  | 45.7 ± 0.3    | 45.8 ± 0.3     | 1.00x   |
+  | styled-plain.vt | 120x80  | 70.4 ± 0.4    | 69.9 ± 0.6     | 1.01x   |
+  | styled-heavy.vt | 120x80  | 311.9 ± 7.0   | 313.5 ± 6.9    | 0.99x   |
+  | utf8.vt         | 120x80  | 473.1 ± 4.5   | 476.9 ± 5.3    | 0.99x   |
+  | osc.vt          | 120x80  | 2770 ± 30     | 2726 ± 25      | 1.02x   |
+  
+  The benchmarks most importantly show not just the speedup but that
+  existing data shapes are unaffected.
+  
+  **AI disclosure:** Fable found the slowdown cause (reported by a
+  libghostty user), I fixed it, Fable+Opus validated my work and found a
+  couple bugs (e.g. missing setting `seen` in cursor copy and snapshot).
+  Opus wrote the synthetic generator and ran the benchmarks. I wrote all
+  the comments and this PR body.
+  ```
+- [`1461f06`](https://github.com/ghostty-org/ghostty/commit/1461f068745a4b9524e197a38a876072a9a220f0) benchmark: end a shaper frame after each shaper-rows pass ([@AryanHamedani](https://github.com/AryanHamedani))
+  ```text
+  CoreText shapers keep CoreFoundation objects in a release pool until
+  endFrame(). The renderer calls it once per frame, so do the same once
+  per pass instead of letting every pass accumulate in the pool.
+  ```
+- [`3bd54e0`](https://github.com/ghostty-org/ghostty/commit/3bd54e025cc3349ee76ab1af7ec1ff8f7353632b) benchmark: add shaper-rows benchmark ([#14965](https://github.com/ghostty-org/ghostty/issues/14965)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds `ghostty-bench +shaper-rows`, as suggested in
+  https://github.com/ghostty-org/ghostty/pull/11079#issuecomment-6524841018.
+  
+  None of the existing benchmarks cover the font shaper. This one fills a
+  screen from `--data` during setup, which isn't timed, and then makes
+  `--iterations` passes (default 200) over every row:
+  
+  - `--mode=runs` only splits rows into text runs. The renderer does this
+  for every dirty row on every frame, and unlike shaping it isn't cached,
+  so this shows the per-frame cost.
+  - `--mode=shape` also shapes each run.
+  
+  It uses the embedded Inconsolata face with the embedded Arabic face as
+  fallback, so RTL input gets shaped by a real font. Terminal size is
+  `--terminal-rows`/`--terminal-cols` (80x120), same as `screen-clone`.
+  
+  On main (Linux, HarfBuzz, ReleaseFast), with hyperfine, 10 runs each:
+  
+  | data | runs | shape |
+  |---|---|---|
+  | 2000 lines of `src/terminal/Terminal.zig` | 34.7 ms ±1.0 | 84.3 ms
+  ±2.0 |
+  | 2000 lines of Persian prose | 58.2 ms ±3.2 | 246.7 ms ±12.7 |
+  
+  On #11079 it picked up a 2x slowdown in `runs` on plain ASCII.
+  
+  *AI disclosure: I used Claude Code to write and port this benchmark and
+  to draft this description. I've read the code and can explain it, and I
+  ran the numbers above myself.*
+  ```
+- [`c7be56a`](https://github.com/ghostty-org/ghostty/commit/c7be56a04696249a2c33abac88586338aba7fc7a) fuzz: exercise hierarchical context in osc harness ([@paaloeye](https://github.com/paaloeye))
+  ```text
+  The OSC fuzzer harness previously discarded the parsed command returned
+  by the OSC parser without evaluating lazily parsed metadata. **OSC 3008**
+  hierarchical context sequences parse metadata fields on demand through
+  readOption, leaving option parsing, type conversions, and unescaping
+  unexercised by the fuzzer.
+  
+  When a hierarchical context command is produced, query every defined
+  context field to fuzz option extraction and validation. For string
+  fields with escape sequences, exercise both the streaming character
+  iterator and heap-allocated decoding paths. Seed inputs for **OSC 3008** in
+  the initial and minimized corpora are updated with escaped metadata.
+  
+  Also align the fuzzer package minimum Zig version with the root build
+  and pass the target macOS deployment version and `-Wno-override-module`
+  to afl-cc to silence target triple and linker version mismatch warnings.
+  
+  AI disclosure: AI helped to discover AFL++ args and drafted this commit message.
+  
+  Spec: https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
+  Assited-By: Gemini 4 Argon (Medium)
+  Assited-By: Antigravity CLI 1.3.5
+  Agent-Session: 0c644e81-47c4-4768-95ee-5660020523dd
+  ```
+- [`83b57ac`](https://github.com/ghostty-org/ghostty/commit/83b57ac5ead868e133adb509f7ef0a4ffa3ffe01) fuzz: exercise hierarchical context in osc harness ([#14977](https://github.com/ghostty-org/ghostty/issues/14977)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The OSC fuzzer harness previously discarded the parsed command returned
+  by the OSC parser without evaluating lazily parsed metadata. **OSC
+  3008** hierarchical context sequences parse metadata fields on demand
+  through `readOption`, leaving option parsing, type conversions, and
+  unescaping unexercised by the fuzzer.
+  
+  When a hierarchical context command is produced, query every defined
+  context field to fuzz option extraction and validation. Seed inputs for
+  **OSC 3008** in the initial and minimized corpora are updated with
+  escaped metadata.
+  
+  Also align the fuzzer package minimum Zig version with the root build
+  and pass the target macOS deployment version and `-Wno-override-module`
+  to `afl-cc` to silence target triple and linker version mismatch
+  warnings.
+  
+  AI disclosure: AI helped to discover AFL++ args and drafted this commit
+  message.
+  
+  Spec:
+  https://github.com/uapi-group/specifications/blob/5e61460b42b91bb1e402b50a6149774d78fc0d8e/specs/osc_context.md
+  ```
+- [`845736e`](https://github.com/ghostty-org/ghostty/commit/845736e1df59e637a614aee78009217c9b480988) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`c42f6fb`](https://github.com/ghostty-org/ghostty/commit/c42f6fb4740102b678773f4bfdd4ef7613afe818) Update VOUCHED list ([#14983](https://github.com/ghostty-org/ghostty/issues/14983)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/14982#discussioncomment-19325417)
+  from @jcollie.
+  
+  Vouch: @cammeresi
+  ```
+- [`2fc8d02`](https://github.com/ghostty-org/ghostty/commit/2fc8d02c253bc09ff7456c65e7f63dd6eebaf4de) Update iTerm2 colorschemes ([#14981](https://github.com/ghostty-org/ghostty/issues/14981)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261026-153024-27cbbb5
+  ```
+- [`a3b5946`](https://github.com/ghostty-org/ghostty/commit/a3b5946a59b94bf097da1aac889cf95f9c704675) terminal: new pages keep the capacity recent pages needed ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Headline performance number:** all data shapes other than plain-text
+  is anywhere from 20% to 380% faster. Plain text is unaffected.
+  
+  `PageList.grow` now gives a new page the style, grapheme, string, and
+  hyperlink capacity that the last two full pages needed, instead of
+  always starting over from the standard capacity.
+  
+  Previously, every `grow` would allocate a new standard sized page and
+  force the caller to call repeat `increaseCapacity` calls as needed. For
+  similar data shapes, this would force a LOT of page copies and
+  allocations.
+  
+  ## How
+  
+  So, I've tried this a few times before! And I've failed multiple times
+  to get the right mix of logic to make this speedup the benchmarks but
+  NOT regress standard workloads.
+  
+  I think I've got it this time though. Well, I know I have something
+  because the benchmarks show it.
+  
+  The way it works: when we need to grow a new page, we keep the capacity
+  of any managed dimension (style, grapheme, etc.) so long as 1/3rd of it
+  is actually utilized. Otherwise, we shrink it back to standard size or
+  1.5x what was used, whichever is BIGGER (so, it leans towards similar
+  data). After that, we raise all dimensions to what the page _before_
+  used, so that it takes _two full pages_ of low utilization to start
+  shrinking.
+  
+  **We call these "carried pages," since the usage is carried forward.**
+  
+  If a carried page is larger than a pooled memory size, we shrink rows so
+  that it fits in the pool. If we can't do this reasonably, we heap
+  allocate but we try very hard to avoid this.
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)     | page-grow (ms) | Speedup |
+  | --------------- | ------------- | -------------- | ------- |
+  | styled-mixed.vt | 2284.1 ± 43.6 | 611.3 ± 1.3    | 3.74x   |
+  | osc.vt          | 2616.3 ± 25.6 | 1173.7 ± 4.8   | 2.23x   |
+  | burst.vt        | 250.3 ± 12.8  | 90.6 ± 0.7     | 2.76x   |
+  | alternating.vt  | 443.9 ± 11.2  | 123.4 ± 4.4    | 3.60x   |
+  | hyperlinks.vt   | 211.1 ± 5.6   | 55.1 ± 1.7     | 3.83x   |
+  | styled-heavy.vt | 301.7 ± 1.4   | 246.0 ± 1.1    | 1.23x   |
+  | utf8.vt         | 439.1 ± 2.0   | 385.6 ± 0.8    | 1.14x   |
+  | ascii.vt        | 42.5 ± 0.6    | 42.0 ± 0.2     | 1.01x   |
+  | styled-plain.vt | 65.7 ± 0.4    | 65.7 ± 0.4     | 1.00x   |
+  | erase.vt        | 362.9 ± 4.2   | 372.4 ± 4.4    | 0.97x   |
+  | out.txt (2.6GB) | 5857 ± 13     | 5922 ± 31      | 0.99x   |
+  
+  `out.txt` is the asciinema data dump. It is unaffected because diverse,
+  heterogenous data (honestly, real world workloads!) don't behave this
+  way. But because of that, its important to see that its all the same!
+  
+  It's important to note that while `out.txt` looks 1% slower, CPU metrics
+  point to less instructions executed, less memory copies (2105 page
+  copies instead of 2270, 1838 heap pages instead of 1934). So this is
+  probably noise.
+  
+  Homogenous data is often used for benchmarks, and quite frankly I'm
+  tired of people pointing out stuff like pure-SGR streams being very slow
+  in Ghostty. So, this fixes that while not affecting normal workloads.
+  ```
+- [`dc8f599`](https://github.com/ghostty-org/ghostty/commit/dc8f59943ce94b75ffadc45cc4f36eca6a7ed2ae) terminal: new pages keep the capacity recent pages needed ([#14985](https://github.com/ghostty-org/ghostty/issues/14985)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  **Headline performance number:** all streams of heavily loaded
+  homogeneous data shapes other than plain-text is anywhere from 20% to
+  380% faster. Plain text is unaffected.
+  
+  `PageList.grow` now gives a new page the style, grapheme, string, and
+  hyperlink capacity that the last two full pages needed, instead of
+  always starting over from the standard capacity.
+  
+  Previously, every `grow` would allocate a new standard sized page and
+  force the caller to call repeat `increaseCapacity` calls as needed. For
+  similar data shapes, this would force a LOT of page copies and
+  allocations.
+  
+  ## How
+  
+  So, I've tried this a few times before! And I've failed multiple times
+  to get the right mix of logic to make this speedup the benchmarks but
+  NOT regress standard workloads.
+  
+  I think I've got it this time though. Well, I know I have something
+  because the benchmarks show it.
+  
+  The way it works: when we need to grow a new page, we keep the capacity
+  of any managed dimension (style, grapheme, etc.) so long as 1/3rd of it
+  is actually utilized. Otherwise, we shrink it back to standard size or
+  1.5x what was used, whichever is BIGGER (so, it leans towards similar
+  data). After that, we raise all dimensions to what the page _before_
+  used, so that it takes _two full pages_ of low utilization to start
+  shrinking.
+  
+  **We call these "carried pages," since the usage is carried forward.**
+  
+  If a carried page is larger than a pooled memory size, we shrink rows so
+  that it fits in the pool. If we can't do this reasonably, we heap
+  allocate but we try very hard to avoid this.
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)     | page-grow (ms) | Speedup |
+  | --------------- | ------------- | -------------- | ------- |
+  | styled-mixed.vt | 2284.1 ± 43.6 | 611.3 ± 1.3    | 3.74x   |
+  | osc.vt          | 2616.3 ± 25.6 | 1173.7 ± 4.8   | 2.23x   |
+  | burst.vt        | 250.3 ± 12.8  | 90.6 ± 0.7     | 2.76x   |
+  | alternating.vt  | 443.9 ± 11.2  | 123.4 ± 4.4    | 3.60x   |
+  | hyperlinks.vt   | 211.1 ± 5.6   | 55.1 ± 1.7     | 3.83x   |
+  | styled-heavy.vt | 301.7 ± 1.4   | 246.0 ± 1.1    | 1.23x   |
+  | utf8.vt         | 439.1 ± 2.0   | 385.6 ± 0.8    | 1.14x   |
+  | ascii.vt        | 42.5 ± 0.6    | 42.0 ± 0.2     | 1.01x   |
+  | styled-plain.vt | 65.7 ± 0.4    | 65.7 ± 0.4     | 1.00x   |
+  | erase.vt        | 362.9 ± 4.2   | 372.4 ± 4.4    | 0.97x   |
+  | out.txt (2.6GB) | 5857 ± 13     | 5922 ± 31      | 0.99x   |
+  
+  `out.txt` is the asciinema data dump. It is unaffected because diverse,
+  heterogenous data (honestly, real world workloads!) don't behave this
+  way. But because of that, its important to see that its all the same!
+  
+  It's important to note that while `out.txt` looks 1% slower, CPU metrics
+  point to less instructions executed, less memory copies (2105 page
+  copies instead of 2270, 1838 heap pages instead of 1934). So this is
+  probably noise.
+  
+  Homogenous data is often used for benchmarks, and quite frankly I'm
+  tired of people pointing out stuff like pure-SGR streams being very slow
+  in Ghostty. So, this fixes that while not affecting normal workloads.
+  
+  **AI usage:** I've done the laddering before so I did a NUMBER of messy
+  passes. I had Opus running benchmarks for each of my attempts. I think I
+  tried 6 or 7 different logical choices before settling on this. Fable
+  chased down the alignment issue in the benchmark (cause I was seeing
+  like a consistent 4% slowdown in vtebench dense cells but it didn't make
+  sense to me because this codepath didn't get touched!). I wrote this
+  whole PR message.
+  ```
+- [`5e7714e`](https://github.com/ghostty-org/ghostty/commit/5e7714e71cd41ac0095aefa2120838842dfeca48) datastruct: prevent overflow in circular buffer arithmetic ([@12ya](https://github.com/12ya))
+  ```text
+  Check capacity growth and slice bounds before addition. Calculate
+  wrapped indexes without overflowing intermediate sums and reuse the
+  index calculation in the iterator.
+  
+  Add regression tests for capacity requests and index operations near
+  the usize limit.
+  ```
+- [`0aa2f7c`](https://github.com/ghostty-org/ghostty/commit/0aa2f7caf52988bbfa42290cd3afbfbf550c0ef6) datastruct: use checked addition for buffer capacity ([@12ya](https://github.com/12ya))
+  ```text
+  #14987
+  
+  Use std.math.add to reject overflowing capacity requests while preserving the OutOfMemory error.
+  ```
+- [`c7eb3e8`](https://github.com/ghostty-org/ghostty/commit/c7eb3e8b96288e47e12f045056d270f8ba7f45f0) datastruct: restore circular buffer explanations ([@12ya](https://github.com/12ya))
+  ```text
+  #14987
+  
+  Restore iterator and head/tail explanations removed during overflow hardening. Describe saturating seeks and wrapping arithmetic accurately.
+  ```
+- [`a5b4403`](https://github.com/ghostty-org/ghostty/commit/a5b44039d10f25d2d0a5992137cd6517f49e72aa) Update VOUCHED list ([#14992](https://github.com/ghostty-org/ghostty/issues/14992)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/14991#issuecomment-6557130969)
+  from @trag1c.
+  
+  Vouch: @clavinjune
+  ```
+- [`54d162d`](https://github.com/ghostty-org/ghostty/commit/54d162da5bea1d95399574495bde4ddb91df0784) terminal: apply every attribute of an SGR sequence at once ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  An SGR sequence with several attributes, such as `CSI 0;1;38;5;100 m`,
+  now updates the cursor style once after all of its attributes are
+  applied.
+  
+  Previously, we applied per-attribute: 0, then 1, then 38, etc. Each forced
+  a lookup, a hash, etc.
+  
+  Multi-attribute SGRs are common. Programs like Neovim, ncurses programs,
+  btop, etc. In the 2.6 GB asciinema dump, about 9% of all SGR sequences
+  are multi-attribute.
+  
+  ## How
+  
+  The action carries the whole sequence rather than keeping per-attribute
+  actions and adding a trailing "end of sequence" marker. A handler that
+  wants the old per-attribute view iterates `value.parser()`, and a
+  handler that wants to batch gets the sequence boundary for free, with
+  no state carried between actions.
+  
+  Unknown attributes are ignored silently in the app handler now, the
+  same as libghostty-vt already did.
+  
+  There are no behavioral changes here.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)   | sgr-multi (ms) | Speedup |
+  | --------------- | ----------- | -------------- | ------- |
+  | styled-multi.vt | 367.7 ± 0.8 | 233.7 ± 0.6    | 1.57x   |
+  | out.txt (2.6GB) | 5929 ± 26   | 5679 ± 8       | 1.04x   |
+  | styled-heavy.vt | 238.7 ± 0.8 | 231.5 ± 0.8    | 1.03x   |
+  | styled-mixed.vt | 573.9 ± 1.9 | 571.3 ± 2.3    | 1.00x   |
+  | osc.vt          | 1124 ± 7    | 1119 ± 3       | 1.00x   |
+  | utf8.vt         | 379.1 ± 1.5 | 378.5 ± 1.2    | 1.00x   |
+  | styled-plain.vt | 64.2 ± 0.4  | 64.2 ± 0.4     | 1.00x   |
+  | ascii.vt        | 40.3 ± 0.2  | 40.3 ± 0.2     | 1.00x   |
+  
+  Importantly: normal non-SGR workloads are unaffected.
+  ```
+- [`a3e349f`](https://github.com/ghostty-org/ghostty/commit/a3e349f7a02709130d4cb83b24bac56a5d334d52) i18n: update Bahasa Indonesia translation ([#14991](https://github.com/ghostty-org/ghostty/issues/14991)) ([@clavinjune](https://github.com/clavinjune))
+- [`2f967e3`](https://github.com/ghostty-org/ghostty/commit/2f967e3a6ab231188c29a97fb422e479a254e97c) terminal: apply every attribute of an SGR sequence at once ([#14995](https://github.com/ghostty-org/ghostty/issues/14995)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  An SGR sequence with several attributes, such as `CSI 0;1;38;5;100 m`,
+  now updates the cursor style once after all of its attributes are
+  applied.
+  
+  Previously, we applied per-attribute: 0, then 1, then 38, etc. Each
+  forced a lookup, a hash, etc.
+  
+  Multi-attribute SGRs are common. Programs like Neovim, ncurses programs,
+  btop, etc. In the 2.6 GB asciinema dump, about 9% of all SGR sequences
+  are multi-attribute.
+  
+  ## How
+  
+  The action carries the whole sequence rather than keeping per-attribute
+  actions and adding a trailing "end of sequence" marker. A handler that
+  wants the old per-attribute view iterates `value.parser()`, and a
+  handler that wants to batch gets the sequence boundary for free, with no
+  state carried between actions.
+  
+  Unknown attributes are ignored silently in the app handler now, the same
+  as libghostty-vt already did.
+  
+  There are no behavioral changes here.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80:
+  
+  | Input           | main (ms)   | sgr-multi (ms) | Speedup |
+  | --------------- | ----------- | -------------- | ------- |
+  | styled-multi.vt | 367.7 ± 0.8 | 233.7 ± 0.6    | 1.57x   |
+  | out.txt (2.6GB) | 5929 ± 26   | 5679 ± 8       | 1.04x   |
+  | styled-heavy.vt | 238.7 ± 0.8 | 231.5 ± 0.8    | 1.03x   |
+  | styled-mixed.vt | 573.9 ± 1.9 | 571.3 ± 2.3    | 1.00x   |
+  | osc.vt          | 1124 ± 7    | 1119 ± 3       | 1.00x   |
+  | utf8.vt         | 379.1 ± 1.5 | 378.5 ± 1.2    | 1.00x   |
+  | styled-plain.vt | 64.2 ± 0.4  | 64.2 ± 0.4     | 1.00x   |
+  | ascii.vt        | 40.3 ± 0.2  | 40.3 ± 0.2     | 1.00x   |
+  
+  Importantly: normal non-SGR workloads are unaffected.
+  
+  **AI usage:** My normal: I came up with the change, Opus helped with
+  benchmarking and validating, I wrote the text.
+  ```
+- [`a7e8e4d`](https://github.com/ghostty-org/ghostty/commit/a7e8e4d15bd0f12ad2a1123bf157b338e526c23e) datastruct: prevent overflow in circular buffer arithmetic ([#14987](https://github.com/ghostty-org/ghostty/issues/14987)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Check capacity growth and slice bounds before addition. Calculate
+  wrapped indexes without overflowing intermediate sums and reuse the
+  index calculation in the iterator.
+  
+  Add regression tests for capacity requests and index operations near the
+  usize limit.
+  
+  AI disclosure: OpenAI Codex
   ```
 - [`7cd6fa0`](https://github.com/ghostty-org/ghostty/commit/7cd6fa0215a1299c69c27fe543f48ecab45b775f) Sync CODEOWNERS vouch list ([#15002](https://github.com/ghostty-org/ghostty/issues/15002)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
