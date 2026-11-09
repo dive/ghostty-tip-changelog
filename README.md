@@ -8,7 +8,221 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 9, 2026 at 00:25 UTC.
+> Last updated: November 9, 2026 at 10:49 UTC.
+
+## November 9, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42547101006)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`219e5a4`](https://github.com/ghostty-org/ghostty/commit/219e5a475ce49a13923194eed29ee834683482a4) build(deps): bump softprops/action-gh-release from 3.0.3 to 3.0.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 3.0.3 to 3.0.4.
+  - [Release notes](https://github.com/softprops/action-gh-release/releases)
+  - [Changelog](https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/softprops/action-gh-release/compare/efb35369e0ad2afab669f228072c1b0d510eae64...8a0cd651e5b2365bd640854a3fa5dfc70e4875f3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: softprops/action-gh-release
+    dependency-version: 3.0.4
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`711702d`](https://github.com/ghostty-org/ghostty/commit/711702d572cfef2897b898d7147050fc6808f6e6) build(deps): bump softprops/action-gh-release from 3.0.3 to 3.0.4 ([#15153](https://github.com/ghostty-org/ghostty/issues/15153)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
+  from 3.0.3 to 3.0.4.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/releases">softprops/action-gh-release's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.0.4</h2>
+  <ul>
+  <li>maintenance release with updated dependencies</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/softprops/action-gh-release/blob/master/CHANGELOG.md">softprops/action-gh-release's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h2>3.0.4</h2>
+  <ul>
+  <li>maintenance release with updated dependencies</li>
+  </ul>
+  <h2>3.0.3</h2>
+  <p><code>3.0.3</code> is a maintenance release with updated
+  dependencies. It also safely
+  classifies malformed GitHub API errors to avoid secondary failures (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/822">#822</a>).</p>
+  <h2>What's Changed</h2>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: safely classify GitHub API errors by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/822">softprops/action-gh-release#822</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>dependency updates</li>
+  </ul>
+  <h2>3.0.2</h2>
+  <p><code>3.0.2</code> is a patch release focused on release reliability
+  and compatibility. It
+  reuses existing draft releases when publishing prereleases, supports
+  replacing
+  release assets on Gitea, hardens streamed asset uploads, and provides
+  clearer
+  release-creation diagnostics. It also includes TypeScript, coverage, and
+  tooling
+  maintenance merged since <code>3.0.1</code>.</p>
+  <p>This release fixes <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/795">#795</a>,
+  <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/438">#438</a>,
+  and <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/803">#803</a>.
+  The upload transport hardening covers the
+  historical failure reported in <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/790">#790</a>,
+  although current hosted Node 24 runners did
+  not reproduce it naturally. The diagnostics work is related to <a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/786">#786</a>
+  and does not
+  claim a reproducible release-creation fix.</p>
+  <h2>What's Changed</h2>
+  <h3>Exciting New Features 🎉</h3>
+  <ul>
+  <li>feat: improve release error reporting and test coverage by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/813">softprops/action-gh-release#813</a></li>
+  </ul>
+  <h3>Bug fixes 🐛</h3>
+  <ul>
+  <li>fix: publish existing draft releases as prereleases by <a
+  href="https://github.com/godfengliang"><code>@​godfengliang</code></a>
+  in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/801">softprops/action-gh-release#801</a></li>
+  <li>fix: upload small checksum assets reliably by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/815">softprops/action-gh-release#815</a></li>
+  <li>fix: replace existing release assets on Gitea by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/816">softprops/action-gh-release#816</a></li>
+  <li>fix: clarify release creation 404 errors by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/817">softprops/action-gh-release#817</a></li>
+  </ul>
+  <h3>Other Changes 🔄</h3>
+  <ul>
+  <li>chore(deps): upgrade TypeScript to 7 by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/812">softprops/action-gh-release#812</a></li>
+  <li>chore(deps): remove unused TypeScript tooling by <a
+  href="https://github.com/chenrui333"><code>@​chenrui333</code></a> in <a
+  href="https://redirect.github.com/softprops/action-gh-release/pull/814">softprops/action-gh-release#814</a></li>
+  <li>dependency, Node 24 pin, and CI maintenance merged since
+  <code>3.0.1</code></li>
+  </ul>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/8a0cd651e5b2365bd640854a3fa5dfc70e4875f3"><code>8a0cd65</code></a>
+  release 3.0.4 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/865">#865</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/ac0115469478f6d234bc639fb400df76407ebac1"><code>ac01154</code></a>
+  chore(deps): bump the npm group across 1 directory with 4 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/864">#864</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/ca4c9d538ca27e61dd657936e1633b212b1d7c48"><code>ca4c9d5</code></a>
+  chore(deps): bump minimatch and glob (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/862">#862</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/e4a57aec134ea157c36650f6fac99635cae7acf3"><code>e4a57ae</code></a>
+  chore(deps): bump undici from 6.29.0 to 6.29.1 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/859">#859</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/ee55a0ef7ddd6c21e04956e5ad9b5c8728309f57"><code>ee55a0e</code></a>
+  chore(deps): bump vite from 8.3.2 to 8.3.5 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/855">#855</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/8d42b221d50157ff3763aed11ff814f61a9b183a"><code>8d42b22</code></a>
+  chore(deps): bump actions/setup-node (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/853">#853</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/6680cc089e59314c4460b839412c25fb6a71ce3b"><code>6680cc0</code></a>
+  chore(deps): bump the npm group with 3 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/851">#851</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/4a050bafc07a1fefdf1754ffad477e371be3b35a"><code>4a050ba</code></a>
+  chore(deps): bump source-map-js from 1.2.1 to 1.2.2 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/850">#850</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/b5a645e6d7f681d09866ab86ba7918b222989555"><code>b5a645e</code></a>
+  chore(deps): bump the npm group with 4 updates (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/848">#848</a>)</li>
+  <li><a
+  href="https://github.com/softprops/action-gh-release/commit/d99a5de30622195878649ed880754cdff26c7d6e"><code>d99a5de</code></a>
+  chore(deps): bump brace-expansion from 5.0.9 to 5.0.12 (<a
+  href="https://redirect.github.com/softprops/action-gh-release/issues/846">#846</a>)</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/softprops/action-gh-release/compare/efb35369e0ad2afab669f228072c1b0d510eae64...8a0cd651e5b2365bd640854a3fa5dfc70e4875f3">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=softprops/action-gh-release&package-manager=github_actions&previous-version=3.0.3&new-version=3.0.4)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## November 8, 2026
 
