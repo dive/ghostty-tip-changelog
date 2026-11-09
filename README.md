@@ -8,15 +8,224 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 9, 2026 at 10:49 UTC.
+> Last updated: November 9, 2026 at 21:51 UTC.
 
 ## November 9, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42547101006)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42668142534), [2](https://github.com/ghostty-org/ghostty/actions/runs/42642081671), [3](https://github.com/ghostty-org/ghostty/actions/runs/42618500118), [4](https://github.com/ghostty-org/ghostty/actions/runs/42547101006)  
+Summary: 4 runs • 21 commits • 6 authors
 
 ### Changes
 
+- [`96d3798`](https://github.com/ghostty-org/ghostty/commit/96d379822f53828ceb37dc49cb1e22eb39021681) terminal: look up a row's styles once per segment in endUpdate ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  All runs in a pending segment belong to the same row. Resolve its cell
+  storage and style column once before filling the runs. Clamp to the
+  cell count so items(.style)'s capacity check is not repeated.
+  
+  On Windows x86-64 and aarch64 macOS, this moves the row lookup and
+  capacity handling out of the per-run loop.
+  ```
+- [`15a4432`](https://github.com/ghostty-org/ghostty/commit/15a44323408cbc79987406a0b46452b49e935b9a) terminal: walk pending style runs as a shrinking slice in endUpdate ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Walk the pending runs as a shrinking slice instead of tracking each
+  row’s segment with two indices.
+  
+  This reduces per-segment setup from 11 instructions to 5 on Windows x86-64,
+  and from 9 to 5 on aarch64 macOS. LLVM can now prove the segment is nonempty,
+  which removes redundant checks before comparing and filling its styles.
+  ```
+- [`f28124c`](https://github.com/ghostty-org/ghostty/commit/f28124c734bbcd0598a521623fa573a915e37157) terminal: simplify style-run processing in endUpdate ([#15163](https://github.com/ghostty-org/ghostty/issues/15163)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A couple of small codegen improvements to `RenderState.endUpdate`: walk
+  pending style runs as a shrinking slice, and look up each row’s styles
+  once per segment rather than once per run.
+  
+  This reduces segment setup and removes redundant checks on Windows
+  x86-64 and in cross-compiled aarch64 macOS output.
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`cd16aeb`](https://github.com/ghostty-org/ghostty/commit/cd16aeb0a7724b513e25725ffc0480119f7a74e8) terminal: log stream handler errors out of line ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  The stream handlers log errors inline in `vt` and `vtPrintAscii`, which
+  puts logging and formatting code on the hot path.
+  
+  Move failure handling to a cold helper. On Windows x86-64, this
+  reduces the stack allocation of `vtPrintAscii` from 2456 to 296 bytes.
+  ```
+- [`691d3f3`](https://github.com/ghostty-org/ghostty/commit/691d3f38b80a2c6382201e9d1164ef1a841526ad) terminal: simplify CSI digit parsing and accumulation ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  `consumeCsiParams` accumulated each digit with saturating u16 operations,
+  which compiled to a 16-bit `mul` and two `cmov`s on x86-64. LLVM also
+  lowered its switch so that every digit was first tested as a separator,
+  then as a digit, then against `MAX_PARAMS`.
+  
+  Accumulate in a u32 and clamp once per digit, which preserves the parser's
+  u16 saturation behavior. Test for digits before the switch and skip the
+  `MAX_PARAMS` check. Sequences with too many parameters are dropped at
+  dispatch, so their accumulator is never used.
+  
+  On x86-64, LLVM now generates 14 instructions and 2 branches per digit
+  instead of 23 instructions and 5 branches.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Windows x86-64:
+  
+  | Input         | Size   | Before (ms)   | After (ms)    | Speedup |
+  | ------------- | ------ | ------------- | ------------- | ------- |
+  | styled-heavy  | 120x80 | 314.5 ± 4.1   | 308.6 ± 6.9   | 1.02x   |
+  | styled-multi  | 120x80 | 375.4 ± 3.3   | 360.1 ± 4.7   | 1.04x   |
+  | ASCII         | 120x80 | 49.9 ± 1.5    | 49.7 ± 2.0    | 1.00x   |
+  | dense_cells   | 160x50 | 112.8 ± 4.0   | 107.0 ± 3.9   | 1.05x   |
+  | DOOM-fire-zig | 160x50 | 190.8 ± 3.8   | 188.2 ± 3.3   | 1.01x   |
+  ```
+- [`c1f4409`](https://github.com/ghostty-org/ghostty/commit/c1f4409661b0404779d16e09d820427d86815a3e) terminal: speed up UTF-8 error case in SIMD decoding ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  DecodeUTF8 used to run simdutf's converting pass again after every
+  invalid sequence and then, since #15156, decode the valid prefix a
+  second time because simdutf's output is undefined on error. Every valid
+  run after the first error was decoded twice. After the first error we
+  now find the next one with the read-only validator and decode each
+  valid run once. Clean input still takes the single fused pass.
+  
+  This makes the error path cheaper than it was before #15156, with no
+  change on valid input.
+  
+  | Input         | Before #15156 | #15156 | This commit |   Wall ms (before / #15156 / this) |
+  | ------------- | ------------: | -----: | ----------: | ---------------------------------: |
+  | utf8-inv0     |          4270 |   4270 |        4252 |              316.3 / 316.7 / 317.0 |
+  | utf8-inv0.001 |          4292 |   4392 |        4320 |              318.9 / 329.7 / 325.4 |
+  | utf8-inv0.01  |          4497 |   4816 |        4502 |              343.5 / 383.2 / 360.8 |
+  | utf8-inv0.1   |          6171 |   6602 |        5797 |              473.2 / 570.0 / 518.0 |
+  | ascii-inv0.01 |          8123 |   8150 |        8077 |              590.2 / 585.9 / 582.3 |
+  | ascii-inv0.1  |         10437 |  10576 |        9925 |              744.9 / 745.5 / 727.1 |
+  | random        |         15046 |  15400 |       13241 |           1139.9 / 1189.9 / 1069.6 |
+  ```
+- [`582f769`](https://github.com/ghostty-org/ghostty/commit/582f769ddf6e6bfbe8ad5839de14702490eb59a6) terminal: speed up UTF-8 error case in SIMD decoding ([#15162](https://github.com/ghostty-org/ghostty/issues/15162)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  DecodeUTF8 used to run simdutf's converting pass again after every
+  invalid sequence and then, since #15156, decode the valid prefix a
+  second time because simdutf's output is undefined on error. Every valid
+  run after the first error was decoded twice. After the first error we
+  now find the next one with the read-only validator and decode each valid
+  run once. Clean input still takes the single fused pass.
+  
+  This makes the error path cheaper than it was before #15156, with no
+  change on valid input.
+  
+  | Input | Before #15156 | #15156 | This commit | Wall ms (before /
+  #15156 / this) |
+  | ------------- | ------------: | -----: | ----------: |
+  ---------------------------------: |
+  | utf8-inv0 | 4270 | 4270 | 4252 | 316.3 / 316.7 / 317.0 |
+  | utf8-inv0.001 | 4292 | 4392 | 4320 | 318.9 / 329.7 / 325.4 |
+  | utf8-inv0.01 | 4497 | 4816 | 4502 | 343.5 / 383.2 / 360.8 |
+  | utf8-inv0.1 | 6171 | 6602 | 5797 | 473.2 / 570.0 / 518.0 |
+  | ascii-inv0.01 | 8123 | 8150 | 8077 | 590.2 / 585.9 / 582.3 |
+  | ascii-inv0.1 | 10437 | 10576 | 9925 | 744.9 / 745.5 / 727.1 |
+  | random | 15046 | 15400 | 13241 | 1139.9 / 1189.9 / 1069.6 |
+  ```
+- [`8cf026b`](https://github.com/ghostty-org/ghostty/commit/8cf026b1608e6d3b099a05244406a0c4bd49c539) terminal: log stream handler errors out of line ([#15160](https://github.com/ghostty-org/ghostty/issues/15160)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The stream handlers log errors inline in `vt` and `vtPrintAscii`, which
+  puts logging and formatting code in the hot functions.
+  
+  This moves failure handling to a cold helper. On Windows x86-64, this
+  reduces the stack allocation of `vtPrintAscii` from 2456 to 296 bytes.
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`2166b44`](https://github.com/ghostty-org/ghostty/commit/2166b446eece5f402809681105b377d8dd602378) terminal: simplify CSI digit parsing and accumulation ([#15161](https://github.com/ghostty-org/ghostty/issues/15161)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `consumeCsiParams` accumulated each digit with saturating u16
+  operations, which compiled to a 16-bit `mul` and two `cmov`s on x86-64.
+  LLVM also lowered its switch so that every digit was first tested as a
+  separator, then as a digit, then against `MAX_PARAMS`.
+  
+  This accumulates in a u32 and clamps once per digit, which preserves the
+  parser's u16 saturation behavior. This also tests for digits before the
+  switch and skips the `MAX_PARAMS` check in the digit path. Sequences
+  with too many parameters are dropped at dispatch, so their accumulator
+  is never used.
+  
+  On x86-64, LLVM now generates 14 instructions and 2 branches per digit
+  instead of 23 instructions and 5 branches.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Windows x86-64:
+  
+  | Input         | Size   | Before (ms)   | After (ms)    | Speedup |
+  | ------------- | ------ | ------------- | ------------- | ------- |
+  | styled-heavy  | 120x80 | 314.5 ± 4.1   | 308.6 ± 6.9   | 1.02x   |
+  | styled-multi  | 120x80 | 375.4 ± 3.3   | 360.1 ± 4.7   | 1.04x   |
+  | ASCII         | 120x80 | 49.9 ± 1.5    | 49.7 ± 2.0    | 1.00x   |
+  | dense_cells   | 160x50 | 112.8 ± 4.0   | 107.0 ± 3.9   | 1.05x   |
+  | DOOM-fire-zig | 160x50 | 190.8 ± 3.8   | 188.2 ± 3.3   | 1.01x   |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`7188495`](https://github.com/ghostty-org/ghostty/commit/7188495aaf805d028b26c81aca61c432b2009798) fix(i18n/id_ID): update Bahasa Indonesia translation ([@clavinjune](https://github.com/clavinjune))
+- [`e04bf76`](https://github.com/ghostty-org/ghostty/commit/e04bf763c619fefd9712e05af5255a6fdd2ca107) fix(i18n/id_ID): update Bahasa Indonesia translation ([@clavinjune](https://github.com/clavinjune))
+- [`411b133`](https://github.com/ghostty-org/ghostty/commit/411b1330f079e33c1df6b9bfc68e2d275f647e8a) fix(i18n/id_ID): update Bahasa Indonesia translation ([@clavinjune](https://github.com/clavinjune))
+- [`4133776`](https://github.com/ghostty-org/ghostty/commit/41337762a831730cadc827025f3cc72f0dc0baf8) fix(i18n/id_ID): update Bahasa Indonesia translation ([@clavinjune](https://github.com/clavinjune))
+- [`26d98cf`](https://github.com/ghostty-org/ghostty/commit/26d98cf276dd3bec8e117c0af9ab9c11d2ae3a18) Merge branch 'ghostty-org:main' into fix/i18n ([@clavinjune](https://github.com/clavinjune))
+- [`b057818`](https://github.com/ghostty-org/ghostty/commit/b057818921aecb4139874018ebe36f07448dac88) Merge branch 'ghostty-org:main' into fix/i18n ([@clavinjune](https://github.com/clavinjune))
+- [`0f10e66`](https://github.com/ghostty-org/ghostty/commit/0f10e6698eed3505c780400929d1966b45db111a) simd: decode the valid prefix again when simdutf reports an error ([@jcollie](https://github.com/jcollie))
+  ```text
+  When convert_utf8_to_utf32_with_errors hits invalid UTF-8, DecodeUTF8
+  assumed the output before the error was already decoded and only
+  counted how many codepoints that was. simdutf promises nothing about
+  the output on error, and its icelake (AVX-512) kernels don't leave the
+  valid prefix there, so text before an invalid sequence comes out as
+  garbage. Ghostty's vendored simdutf is built without the icelake
+  kernels, which hid this, but a build against a system simdutf
+  (-fsys=simdutf) on an AVX-512 CPU fails `decode simd matches scalar`
+  and decodes terminal output wrongly.
+  
+  Everything before the error position is valid UTF-8, so convert it
+  again with convert_valid_utf8_to_utf32, which costs about what the
+  count_utf8 pass it replaces did. The all-valid path is unchanged.
+  
+  See: https://github.com/ghostty-org/ghostty/discussions/15152
+  ```
+- [`354d59d`](https://github.com/ghostty-org/ghostty/commit/354d59dcd7b9a84ec068f2efa52e1f55947a9e48) simdutf: build the icelake (AVX-512) kernels again ([@jcollie](https://github.com/jcollie))
+  ```text
+  The vendored simdutf was built with SIMDUTF_IMPLEMENTATION_ICELAKE=0
+  to work around https://github.com/ziglang/zig/issues/20414, where Zig
+  0.13 couldn't compile simdutf's AVX-512 code. Zig 0.17 builds it
+  for x86_64 Linux, macOS and Windows targets, so drop the workaround
+  and let simdutf pick its icelake kernels at runtime on CPUs that have
+  them, like a system simdutf already does.
+  
+  Those kernels don't leave the valid prefix in the output when they hit
+  an error, which the previous commit stopped relying on.
+  
+  Highway's AVX-512 targets stay disabled: Highway 1.2 asks for the
+  "evex512" target feature, which clang 22 removed, so they don't
+  compile with the current Zig until we update to Highway 1.4. Update
+  the comment there to say so.
+  ```
+- [`cf5519b`](https://github.com/ghostty-org/ghostty/commit/cf5519b22f910ddc7885d2ef62deb94d38d43f22) simdutf: fix AVX512 builds ([#15156](https://github.com/ghostty-org/ghostty/issues/15156)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Zig 0.13 had problems building for AVX512 so we stopped building the
+  vendored simdutf and highway for those targets. If you linked Ghostty to
+  a system simdutf that had AVX512 enabled you'd have problems with
+  garbled input because the simdutf AVX512 kernels didn't leave the
+  buffers in a valid state like other kernels did.
+  
+  Fixes:  #15155
+  
+  AI  disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`393a3a7`](https://github.com/ghostty-org/ghostty/commit/393a3a7c7d6a00e34072d3936e0373451408ca6f) i18n: update Bahasa Indonesia translation ([#15117](https://github.com/ghostty-org/ghostty/issues/15117)) ([@trag1c](https://github.com/trag1c))
+  ```text
+  updating latest commit at
+  https://github.com/ghostty-org/ghostty/commit/dce5a9464a25b946cc945ebd99c93441cd7a1e9c
+  with Bahasa Indonesia translation
+  ```
 - [`219e5a4`](https://github.com/ghostty-org/ghostty/commit/219e5a475ce49a13923194eed29ee834683482a4) build(deps): bump softprops/action-gh-release from 3.0.3 to 3.0.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [softprops/action-gh-release](https://github.com/softprops/action-gh-release) from 3.0.3 to 3.0.4.
