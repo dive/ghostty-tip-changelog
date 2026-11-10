@@ -8,15 +8,27 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 10, 2026 at 05:43 UTC.
+> Last updated: November 10, 2026 at 14:11 UTC.
 
 ## November 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42762275342), [2](https://github.com/ghostty-org/ghostty/actions/runs/42754218095), [3](https://github.com/ghostty-org/ghostty/actions/runs/42736069717)  
-Summary: 3 runs • 13 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42820231618), [2](https://github.com/ghostty-org/ghostty/actions/runs/42766626266), [3](https://github.com/ghostty-org/ghostty/actions/runs/42762275342), [4](https://github.com/ghostty-org/ghostty/actions/runs/42754218095), [5](https://github.com/ghostty-org/ghostty/actions/runs/42736069717)  
+Summary: 5 runs • 15 commits • 4 authors
 
 ### Changes
 
+- [`fbb6dbe`](https://github.com/ghostty-org/ghostty/commit/fbb6dbe7ea5c1ce6df14ef82e00779a568cdb2a2) i18n: Dutch translations for command palette ([#15179](https://github.com/ghostty-org/ghostty/issues/15179)) ([@mtak](https://github.com/mtak))
+  ```text
+  Added new translations for the command palette changes.
+  ```
+- [`bd1e6a4`](https://github.com/ghostty-org/ghostty/commit/bd1e6a43476325dbf37939de939eac326696b08f) Update VOUCHED list ([#15175](https://github.com/ghostty-org/ghostty/issues/15175)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15168#discussioncomment-19510462)
+  from @bo2themax.
+  
+  Vouch: @nurpax
+  ```
 - [`d0addb9`](https://github.com/ghostty-org/ghostty/commit/d0addb9cdf9a30901bd953421dccada3bf610d7c) terminal: keep the pruned page's memory when grow prunes by lines ([@mitchellh](https://github.com/mitchellh))
   ```text
   Fixes #15157
