@@ -8,7 +8,440 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 9, 2026 at 21:51 UTC.
+> Last updated: November 10, 2026 at 05:43 UTC.
+
+## November 10, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42762275342), [2](https://github.com/ghostty-org/ghostty/actions/runs/42754218095), [3](https://github.com/ghostty-org/ghostty/actions/runs/42736069717)  
+Summary: 3 runs • 13 commits • 2 authors
+
+### Changes
+
+- [`d0addb9`](https://github.com/ghostty-org/ghostty/commit/d0addb9cdf9a30901bd953421dccada3bf610d7c) terminal: keep the pruned page's memory when grow prunes by lines ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15157
+  
+  The problem is that line limit is enforced in the middle of a page vs
+  byte limit which is enforced only when a new page is allocated.
+  
+  When a line limit was hit, we would fully decommit the backing memory. A
+  steadily filled terminal would then shortly fault it back in. As a
+  result, there were dozens of page faults more than byte limits.
+  
+  The line limit being checked in the middle of `grow()` turned out not to
+  be expensive. The decommit/fault was expensive. By retaining the memory
+  we're able to get back pretty much all the performance compared to byte
+  limits.
+  
+  The cost is that we always have ~1 extra allocated page (~300KB) for an
+  idle terminal at its line limit. But that's a small price to pay for the
+  performance win!
+  
+  Benchmarking from Opus: Throughput writing 166 MB of ASCII at 200x50, MB/s,
+  median of 5 runs on Linux (Ryzen 5800X) and 9 runs on macOS (Apple M5 Ultra):
+  
+  | Scrollback limit     | Linux before | Linux after | macOS before | macOS after |
+  | -------------------- | -----------: | ----------: | -----------: | ----------: |
+  | default (10 MB)      |        2,003 |       2,041 |        4,242 |       4,326 |
+  | max lines 1,000      |          298 |       1,983 |        2,214 |       4,093 |
+  | max lines 10,000     |          293 |       1,861 |        2,157 |       4,010 |
+  | max bytes 18,276,352 |        1,834 |       1,833 |        4,116 |       4,122 |
+  | unlimited            |          304 |         312 |        1,626 |       1,641 |
+  ```
+- [`1450c11`](https://github.com/ghostty-org/ghostty/commit/1450c11b6eca1490fdcb9140d02089010d97717e) terminal: keep the pruned page's memory when grow prunes by lines ([#15173](https://github.com/ghostty-org/ghostty/issues/15173)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15157
+  
+  The problem is that line limit is enforced in the middle of a page vs
+  byte limit which is enforced only when a new page is allocated.
+  
+  When a line limit was hit, we would fully decommit the backing memory. A
+  steadily filled terminal would then shortly fault it back in. As a
+  result, there were dozens of page faults more than byte limits.
+  
+  The line limit being checked in the middle of `grow()` turned out not to
+  be expensive. The decommit/fault was expensive. By retaining the memory
+  we're able to get back pretty much all the performance compared to byte
+  limits.
+  
+  The cost is that we always have ~1 extra allocated page (~300KB) for an
+  idle terminal at its line limit. But that's a small price to pay for the
+  performance win!
+  
+  Benchmarking from Opus: Throughput writing 166 MB of ASCII at 200x50,
+  MB/s, median of 5 runs on Linux (Ryzen 5800X) and 9 runs on macOS (Apple
+  M5 Ultra). **Higher is better (MB/s).**
+  
+  | Scrollback limit | Linux before | Linux after | macOS before | macOS
+  after |
+  | -------------------- | -----------: | ----------: | -----------: |
+  ----------: |
+  | default (10 MB) | 2,003 | 2,041 | 4,242 | 4,326 |
+  | max lines 1,000 | 298 | 1,983 | 2,214 | 4,093 |
+  | max lines 10,000 | 293 | 1,861 | 2,157 | 4,010 |
+  | max bytes 18,276,352 | 1,834 | 1,833 | 4,116 | 4,122 |
+  | unlimited | 304 | 312 | 1,626 | 1,641 |
+  
+  **AI usage:** I directed Opus what to measure for me and babysat its
+  measurements while it ran them in the background. I directed it to try a
+  couple paths (as noted above), which I thought of myself. Ultimately I
+  picked the path that made most sense, and cleaned up that code. Opus ran
+  the benchmarks.
+  ```
+- [`ed9a7f5`](https://github.com/ghostty-org/ghostty/commit/ed9a7f505a1c9fd9eb229d99f38dd37f21c22bf6) build(deps): bump peter-evans/create-pull-request from 8.1.1 to 8.1.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request) from 8.1.1 to 8.1.2.
+  - [Release notes](https://github.com/peter-evans/create-pull-request/releases)
+  - [Commits](https://github.com/peter-evans/create-pull-request/compare/5f6978faf089d4d20b00c7766989d076bb2fc7f1...15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: peter-evans/create-pull-request
+    dependency-version: 8.1.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`17dec4e`](https://github.com/ghostty-org/ghostty/commit/17dec4ee0ceb58bb407e228e4a9f424d82463505) build(deps): bump peter-evans/create-pull-request from 8.1.1 to 8.1.2 ([#15171](https://github.com/ghostty-org/ghostty/issues/15171)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request)
+  from 8.1.1 to 8.1.2.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/peter-evans/create-pull-request/releases">peter-evans/create-pull-request's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>Create Pull Request v8.1.2</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>Update distribution by <a
+  href="https://github.com/actions-bot"><code>@​actions-bot</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4361">peter-evans/create-pull-request#4361</a></li>
+  <li>build(deps-dev): bump the npm group with 2 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4372">peter-evans/create-pull-request#4372</a></li>
+  <li>refactor: replace <code>uuid</code> dep with Node.js built-in
+  <code>crypto.randomUUID</code> by <a
+  href="https://github.com/peter-evans"><code>@​peter-evans</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4377">peter-evans/create-pull-request#4377</a></li>
+  <li>build(deps): update to jest 30 by <a
+  href="https://github.com/peter-evans"><code>@​peter-evans</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4388">peter-evans/create-pull-request#4388</a></li>
+  <li>build(deps-dev): bump the npm group across 1 directory with 7
+  updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4391">peter-evans/create-pull-request#4391</a></li>
+  <li>build(deps-dev): bump undici from 6.25.0 to 6.27.0 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4386">peter-evans/create-pull-request#4386</a></li>
+  <li>build(deps-dev): bump js-yaml from 4.2.0 to 5.0.0 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4387">peter-evans/create-pull-request#4387</a></li>
+  <li>chore: pin actions to commit shas by <a
+  href="https://github.com/peter-evans"><code>@​peter-evans</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4406">peter-evans/create-pull-request#4406</a></li>
+  <li>build(deps): bump actions/checkout from 6.0.3 to 7.0.0 in the
+  github-actions group by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4411">peter-evans/create-pull-request#4411</a></li>
+  <li>build(deps-dev): bump the npm group with 2 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4418">peter-evans/create-pull-request#4418</a></li>
+  <li>build(deps-dev): bump js-yaml from 5.2.0 to 5.2.1 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4423">peter-evans/create-pull-request#4423</a></li>
+  <li>build(deps-dev): bump js-yaml from 5.2.1 to 5.2.2 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4430">peter-evans/create-pull-request#4430</a></li>
+  <li>build(deps-dev): bump the npm group with 4 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4436">peter-evans/create-pull-request#4436</a></li>
+  <li>build(deps): bump the github-actions group with 2 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4435">peter-evans/create-pull-request#4435</a></li>
+  <li>build(deps): bump brace-expansion by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4446">peter-evans/create-pull-request#4446</a></li>
+  <li>build(deps-dev): bump the npm group with 4 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4452">peter-evans/create-pull-request#4452</a></li>
+  <li>Update distribution by <a
+  href="https://github.com/actions-bot"><code>@​actions-bot</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4457">peter-evans/create-pull-request#4457</a></li>
+  <li>build(deps-dev): bump browserslist from 4.28.4 to 4.28.8 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4462">peter-evans/create-pull-request#4462</a></li>
+  <li>build(deps-dev): bump js-yaml from 4.2.0 to 5.4.2 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4468">peter-evans/create-pull-request#4468</a></li>
+  <li>build(deps-dev): bump undici from 6.28.0 to 6.29.0 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4478">peter-evans/create-pull-request#4478</a></li>
+  <li>build(deps-dev): bump the npm group with 4 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4483">peter-evans/create-pull-request#4483</a></li>
+  <li>build(deps): bump brace-expansion by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4486">peter-evans/create-pull-request#4486</a></li>
+  <li>build(deps-dev): bump handlebars from 4.7.9 to 4.7.10 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4494">peter-evans/create-pull-request#4494</a></li>
+  <li>build(deps-dev): bump undici from 6.29.0 to 6.29.1 by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4504">peter-evans/create-pull-request#4504</a></li>
+  <li>build(deps): bump the github-actions group with 3 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4510">peter-evans/create-pull-request#4510</a></li>
+  <li>build(deps-dev): bump the npm group with 4 updates by <a
+  href="https://github.com/dependabot"><code>@​dependabot</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4509">peter-evans/create-pull-request#4509</a></li>
+  <li>Fix submodule deletion with <code>sign-commits</code> by <a
+  href="https://github.com/MrSubidubi"><code>@​MrSubidubi</code></a> in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4473">peter-evans/create-pull-request#4473</a></li>
+  </ul>
+  <h2>New Contributors</h2>
+  <ul>
+  <li><a
+  href="https://github.com/MrSubidubi"><code>@​MrSubidubi</code></a> made
+  their first contribution in <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4473">peter-evans/create-pull-request#4473</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/peter-evans/create-pull-request/compare/v8.1.1...v8.1.2">https://github.com/peter-evans/create-pull-request/compare/v8.1.1...v8.1.2</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8"><code>15733db</code></a>
+  fix: submodule deletion with <code>sign-commits</code> (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4473">#4473</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/3afad46a91e1234a4e2800ffa47bd6c2a6b66b6c"><code>3afad46</code></a>
+  build(deps-dev): bump the npm group with 4 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4509">#4509</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/aee70bea9c02648f8341785c1d3c9ea1ed236345"><code>aee70be</code></a>
+  build(deps): bump the github-actions group with 3 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4510">#4510</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/86c87cfdd87dd582eb8b8f226cfec4e09d825326"><code>86c87cf</code></a>
+  build(deps-dev): bump undici from 6.29.0 to 6.29.1 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4504">#4504</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/bd09a93810788ce61d2d5fb7d6b221b9b4a4aab7"><code>bd09a93</code></a>
+  build(deps-dev): bump handlebars from 4.7.9 to 4.7.10 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4494">#4494</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/59910dc44801a4d984ba473b7c2f20b850f9a584"><code>59910dc</code></a>
+  build(deps): bump brace-expansion (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4486">#4486</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/753b4376e5ffbead0e18763fa5cb8d642f91a594"><code>753b437</code></a>
+  build(deps-dev): bump the npm group with 4 updates (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4483">#4483</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/abadea5d9424d1faad6a446b8c98516703d32a88"><code>abadea5</code></a>
+  build(deps-dev): bump undici from 6.28.0 to 6.29.0 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4478">#4478</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/11e8dc7c9cc95aabee9cfaa85faaec8b50907340"><code>11e8dc7</code></a>
+  build(deps-dev): bump js-yaml from 4.2.0 to 5.4.2 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4468">#4468</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/c9f8b51aaac1dfba340a97878061732b0e738ec1"><code>c9f8b51</code></a>
+  build(deps-dev): bump browserslist from 4.28.4 to 4.28.8 (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4462">#4462</a>)</li>
+  <li>Additional commits viewable in <a
+  href="https://github.com/peter-evans/create-pull-request/compare/5f6978faf089d4d20b00c7766989d076bb2fc7f1...15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=peter-evans/create-pull-request&package-manager=github_actions&previous-version=8.1.1&new-version=8.1.2)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`ef1649c`](https://github.com/ghostty-org/ghostty/commit/ef1649c8536132f1bb8ac80824a93ef0c2811c95) ci: shard the unit tests, run one test shard per core ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new custom Zig test runner (copied from Zig 0.17's test runner
+  with ~66 lines added) to add support for sharding tests
+  equally/naively.
+  
+  We run our unit tests now through this new runner and shard by core
+  count (up to 64) and this drops out test times significantly (basically
+  by a multiple of core count). Timings on my machines shown below.
+  
+  A couple more changes along the way to speed up CI:
+  
+  - We build tests using Zig's self-hosted backend instead of LLVM. This
+    sped up our compile times by almost 4x.
+  
+  - The two slowest tests were mostly spending time in integrity checks.
+    We now pause integrity and run it once per page instead of per op.
+  
+  - build-libghostty-vt-features builds its eleven -Dvt-features
+    configurations as a matrix instead of a loop in one job. W
+  
+  Speed changes for me on my 16-core Linux machine (except the last one):
+  
+  | Step                                       |       Before |                 After |
+  | ------------------------------------------ | -----------: | --------------------: |
+  | Compile ghostty-test                       | 210 s (LLVM) |    66 s (self-hosted) |
+  | `zig build test`, compile and run          |      ~1400 s | 243 s wall, 912 s CPU |
+  | snapshot.page hyperlink map test           |        199 s |                  13 s |
+  | PageList backfill pin remap test           |        111 s |                  16 s |
+  | `zig build test-lib-vt` on a 30-core Mac   |      ~24 min |                 4 min |
+  ```
+- [`5fa3bce`](https://github.com/ghostty-org/ghostty/commit/5fa3bce60094cb95d272f8a7c9836a6d8eb1d66b) build: run the valgrind test shards at the same time ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  | Shards | Before   | After    | Longest shard | Peak RSS per process |
+  | -----: | -------: | -------: | ------------: | -------------------: |
+  |      1 |          | 17.1 min |      17.0 min |              1.16 GB |
+  |      2 |          | 11.3 min |      11.2 min |              0.95 GB |
+  |      4 |          |  8.9 min |       8.8 min |              0.82 GB |
+  |      8 |          |  7.1 min |       7.0 min |              0.76 GB |
+  |     16 | 20.2 min |  7.1 min |       7.1 min |              0.71 GB |
+  ```
+- [`f22d3ee`](https://github.com/ghostty-org/ghostty/commit/f22d3ee243bf8faa77da98355cc34f1bb27df488) ci: run the GTK and -Dsimd=false test jobs on the 8 vCPU runner ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This moves the two test-running jobs to the md runner.
+  
+  | Job                       | Runner | Test step |    Total |
+  | ------------------------- | ------ | --------: | -------: |
+  | test                      | md     |   3.1 min |  5.0 min |
+  | GTK x11=true wayland=true | sm     |   8.3 min | 10.1 min |
+  | Test -Dsimd=false         | sm     |   8.4 min |  8.6 min |
+  ```
+- [`dd22777`](https://github.com/ghostty-org/ghostty/commit/dd22777727b4be15275dce40e60f50b32749a831) ci: let Zig fetch packages on macOS instead of nix build .#deps ([@mitchellh](https://github.com/mitchellh))
+- [`0ae4cb5`](https://github.com/ghostty-org/ghostty/commit/0ae4cb559fcdae34e21b5dcbfe181be07d475c02) terminal: halve the op counts of the printSlice differential tests ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  | Test | Before | After |
+  | ---- | -----: | ----: |
+  | printSlice differential fuzz vs print | 75.4 s | 29.6 s |
+  | printSlice differential fuzz vs print, CJK with spaces | 92.5 s | 30.1 s |
+  ```
+- [`f53b078`](https://github.com/ghostty-org/ghostty/commit/f53b0787c972f531bf9f0b3a84b2c1d8c07f1a63) ci: set up the FreeBSD VM while the test binary builds ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  | Step                       | Before | After |
+  | -------------------------- | -----: | ----: |
+  | Build the test binary      |   174s |       |
+  | Set up the VM              |    70s |       |
+  | Build and set up together  |        |  178s |
+  | Total                      |   244s |  178s |
+  ```
+- [`6cf5070`](https://github.com/ghostty-org/ghostty/commit/6cf50702dd1e0eb7cf86e354a9bc1f1220e8f0d5) ci: keep the Windows libghostty-vt Zig cache across runs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  | Step                  |   Cold |   Warm |
+  | --------------------- | -----: | -----: |
+  | zig build test-lib-vt | 13m00s |  6m47s |
+  | Whole job             | 16m44s | 10m03s |
+  ```
+- [`d180d10`](https://github.com/ghostty-org/ghostty/commit/d180d1068b97ceae99ed5724cac55ffff2df693c) ci: run build-dist-lib-vt on the md runner ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  | distcheck -Demit-lib-vt=true, cold cache | 4 cores | 8 cores |
+  | ---------------------------------------- | ------: | ------: |
+  | Wall time                                |   795 s |   482 s |
+  | User CPU time                            |  1751 s |  1796 s |
+  ```
+- [`c3b594a`](https://github.com/ghostty-org/ghostty/commit/c3b594ad2b8a4323d3bc555a84f5e579e43d7009) ci: shard the unit tests, run one test shard per core ([#15169](https://github.com/ghostty-org/ghostty/issues/15169)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  This adds a new custom Zig test runner (copied from Zig 0.17's test
+  runner with ~66 lines added) to add support for sharding tests
+  equally/naively.
+  
+  We run our unit tests now through this new runner and shard by core
+  count (up to 64) and this drops out test times significantly (basically
+  by a multiple of core count). Timings on my machines shown below.
+  
+  A couple more changes along the way to speed up CI:
+  
+  - We build tests using Zig's self-hosted backend instead of LLVM. This
+  sped up our compile times by almost 4x.
+  
+  - The two slowest tests were mostly spending time in integrity checks.
+  We now pause integrity and run it once per page instead of per op.
+  
+  - build-libghostty-vt-features builds its eleven -Dvt-features
+  configurations as a matrix instead of a loop in one job. W
+  
+  Speed changes for me on my 16-core Linux machine (except the last one):
+  
+  | Step | Before | After |
+  | ------------------------------------------ | -----------: |
+  --------------------: |
+  | Compile ghostty-test | 210 s (LLVM) | 66 s (self-hosted) |
+  | `zig build test`, compile and run | ~1400 s | 243 s wall, 912 s CPU |
+  | snapshot.page hyperlink map test | 199 s | 13 s |
+  | PageList backfill pin remap test | 111 s | 16 s |
+  | `zig build test-lib-vt` on a 30-core Mac | ~24 min | 4 min |
+  
+  **AI usage:** Fable validated the plan (I proposed sharding), I did the
+  custom build runner fork, Opus did the YAML changes, I wrote this
+  message.
+  ```
 
 ## November 9, 2026
 
@@ -2200,354 +2633,4 @@ Summary: 3 runs • 32 commits • 3 authors
   **AI usage:** Reviewed by Opus, primarily written by me, tests+example
   written by Opus.
   ````
-
-## November 3, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/41704148845), [2](https://github.com/ghostty-org/ghostty/actions/runs/41657405741), [3](https://github.com/ghostty-org/ghostty/actions/runs/41640921915), [4](https://github.com/ghostty-org/ghostty/actions/runs/41612522728), [5](https://github.com/ghostty-org/ghostty/actions/runs/41588034700), [6](https://github.com/ghostty-org/ghostty/actions/runs/41578816344), [7](https://github.com/ghostty-org/ghostty/actions/runs/41569815273), [8](https://github.com/ghostty-org/ghostty/actions/runs/41558315898)  
-Summary: 8 runs • 18 commits • 8 authors
-
-### Changes
-
-- [`0edfc65`](https://github.com/ghostty-org/ghostty/commit/0edfc656fa3d55d2bbf4519420666b19e5b19dba) macOS: fix tab bar frame on macOS 27 when it first appears. ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  On macOS 27.2 (Probably already like this in early versions), the new tab button appears later than other views.
-  The previous guard will skip the following layout, causing issues when the tab bar first appears on a window without tabs:
-  1. "Show Tab Bar" the first time for a window without tabs.
-  2. "Merge All Windows" from a window without tabs. The tab bar remains clipped until the next `becomeMain` or other functions trigger the setup.
-  ```
-- [`2d1f9cf`](https://github.com/ghostty-org/ghostty/commit/2d1f9cf1095ea4d5c0888ddbc62e03bd14e11597) os: reserve space for executable path terminator ([@12ya](https://github.com/12ya))
-  ```text
-  Return error.PathTooLong when a candidate path fills the buffer,
-  leaving no room for the null terminator. Add a regression test for
-  the boundary that previously caused an out-of-bounds write.
-  ```
-- [`fef7af4`](https://github.com/ghostty-org/ghostty/commit/fef7af4e19f6d8b0361c49e6190b81f3a64a999b) os: reserve space for executable path terminator ([#15058](https://github.com/ghostty-org/ghostty/issues/15058)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Return error.PathTooLong when a candidate path fills the buffer, leaving
-  no room for the null terminator. Add a regression test for the boundary
-  that previously caused an out-of-bounds write.
-  
-  AI disclosure: used OpenAI Codex
-  ```
-- [`c7f68a7`](https://github.com/ghostty-org/ghostty/commit/c7f68a7f48c6a5b357689eb8c2328bc2dab5d8ed) macOS: fix tab bar frame on macOS 27 when it first appears. ([#15029](https://github.com/ghostty-org/ghostty/issues/15029)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  On macOS 27.2 (Probably already like this in early versions), the new
-  tab button appears later than other views. The previous guard will skip
-  the following layout, causing issues when the tab bar first appears on a
-  window without tabs:
-  1. "Show Tab Bar" the first time for a window without tabs.
-  2. "Merge All Windows" from a window without tabs. The tab bar remains
-  clipped until the next `becomeMain` or other functions trigger the
-  setup.
-  
-  > New tab doesn't have the issue because it will trigger the setup
-  multiple times (at least 3: addTitlebarAccessoryViewController,
-  becomeMain and syncAppearance).
-  
-  ### AI Disclosure
-  
-  I check the RC myself and asked Claude to rephrase my scattered
-  comments.
-  ```
-- [`fad1133`](https://github.com/ghostty-org/ghostty/commit/fad1133619a98a1bb60e99baac2d5460dfb33985) terminal: pass the style to fillStyles as a vector ([@arc-source-coder](https://github.com/arc-source-coder))
-  ```text
-  Without explicit `inline`, LLVM still inlines `fillStyles`, but
-  writes each style as two 64-bit stores on x86-64. Passing the style
-  as a vector restores one 16-byte vector store per style.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +screen-clone` at 120x80 with 1 MiB of styled-heavy
-  output, on Windows x86-64:
-  
-  | Mode          | main (ms)    | vector (ms)  | Speedup |
-  | ------------- | ------------ | ------------ | ------- |
-  | render-scroll | 441.4 ± 20.1 | 414.7 ± 14.6 | 1.06x   |
-  ```
-- [`4a2d77e`](https://github.com/ghostty-org/ghostty/commit/4a2d77ebb2d8d6973e1808bff1ca3e4f13b0a67b) terminal: reserve style runs once per row in RowBuilder.scan ([@arc-source-coder](https://github.com/arc-source-coder))
-  ```text
-  `RowBuilder.scan`, which runs during `beginUpdate`, previously called
-  `ArrayList.append` for each style run.
-  
-  A cell starts at most one run, so reserve a row's worth of runs before
-  the scan and use `appendAssumeCapacity`. Unlike `append`, which LLVM
-  does not inline into the function, this compiles to inline stores.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +screen-clone` on Windows x86-64:
-  
-  | Input         | Size   | Mode          | main (ms)     | reserve (ms)  | Speedup |
-  | ------------- | ------ | ------------- | ------------- | ------------- | ------- |
-  | DOOM-fire-zig | 160x50 | render-locked | 2480.6 ± 37.0 | 1285.0 ± 25.6 | 1.93x   |
-  | DOOM-fire-zig | 160x50 | render        | 2759.3 ± 36.6 | 1571.1 ± 29.2 | 1.76x   |
-  | styled-heavy  | 120x80 | render        | 297.1 ± 6.4   | 236.9 ± 6.4   | 1.25x   |
-  | styled-heavy  | 120x80 | render-scroll | 414.5 ± 8.5   | 366.4 ± 9.0   | 1.13x   |
-  ```
-- [`7ea52a2`](https://github.com/ghostty-org/ghostty/commit/7ea52a29c5a91fa9a832aa6205add0a4311862da) terminal: pass the style to fillStyles as a vector ([#15053](https://github.com/ghostty-org/ghostty/issues/15053)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Follow-up to #15023.
-  
-  Without explicit `inline`, LLVM still inlines `fillStyles`, but lowers
-  the fill to two 64-bit stores per style on x86-64. Passing the style as
-  `@Vector(2, u64)` restores one `movdqu` 128-bit store.
-  
-  I also asked Sol to check ARM codegen: both versions already store the
-  style in one instruction.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +screen-clone` at 120x80 with 1 MiB of styled-heavy
-  output, on Windows x86-64:
-  
-  | Mode          | main (ms)    | This PR (ms)  | Speedup |
-  | ------------- | ------------ | ------------ | ------- |
-  | render-scroll | 441.4 ± 20.1 | 414.7 ± 14.6 | 1.06x   |
-  
-  AI disclosure: Developed with OpenCode (GPT 6.1 Sol)
-  ```
-- [`6fba087`](https://github.com/ghostty-org/ghostty/commit/6fba0873efb7765e9d0f79de449063f3214b3d75) terminal: reserve style runs once per row in RowBuilder.scan ([#15054](https://github.com/ghostty-org/ghostty/issues/15054)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  `RowBuilder.scan`, which runs during `beginUpdate`, previously appended
-  each style run with `ArrayList.append`, which isn't inlined there. This
-  reserves a row's worth of runs before the scan (a cell starts at most
-  one run) and uses `appendAssumeCapacity`, which compiles to inline
-  stores.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +screen-clone` on Windows x86-64:
-  
-  | Input | Size | Mode | main (ms) | This PR (ms) | Speedup |
-  | ------------- | ------ | ------------- | ------------- | -------------
-  | ------- |
-  | DOOM-fire-zig | 160x50 | render-locked | 2480.6 ± 37.0 | 1285.0 ± 25.6
-  | 1.93x |
-  | DOOM-fire-zig | 160x50 | render | 2759.3 ± 36.6 | 1571.1 ± 29.2 |
-  1.76x |
-  | styled-heavy | 120x80 | render | 297.1 ± 6.4 | 236.9 ± 6.4 | 1.25x |
-  | styled-heavy | 120x80 | render-scroll | 414.5 ± 8.5 | 366.4 ± 9.0 |
-  1.13x |
-  
-  AI disclosure: Developed with Claude Code (Opus 5.5) and OpenCode (GPT
-  6.1 Sol), including benchmarking and codegen analysis.
-  ```
-- [`060ff6b`](https://github.com/ghostty-org/ghostty/commit/060ff6b52dcfde52112a8376c6cf3e26f4161edf) i18n: update Japanese translation ([#15025](https://github.com/ghostty-org/ghostty/issues/15025)) ([@clavinjune](https://github.com/clavinjune))
-- [`b148bf7`](https://github.com/ghostty-org/ghostty/commit/b148bf728524ac17daec66692a8265d351c9c702) macos: allow quitting with a clipboard confirmation open ([@jparise](https://github.com/jparise))
-  ```text
-  The clipboard confirmation is a plain window presented as a sheet, and
-  windows prevent application termination while modal by default. AppKit
-  therefore dropped quit requests before reaching applicationShouldTerminate
-  for as long as the modal was open. NSAlert sheets don't have this behavior.
-  
-  Verified with an active confirmation window using Cmd-Q, the quit action
-  and Apple Event, and a quit event with the logout reason.
-  ```
-- [`0d1d5e8`](https://github.com/ghostty-org/ghostty/commit/0d1d5e884b88a711f1ccf47387ab41e8fa28a755) macos: allow quitting with a clipboard confirmation open ([#15040](https://github.com/ghostty-org/ghostty/issues/15040)) ([@bo2themax](https://github.com/bo2themax))
-- [`c12d42e`](https://github.com/ghostty-org/ghostty/commit/c12d42eaf877b996cc798f9dd54b2a79ba630db9) terminal: print ASCII runs as u8 slices from input instead of u32 ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The stream now finds runs of plain ASCII (non-control) and passes that
-  through to the terminal directly from the input pointer rather than widening
-  it to u32 and doing a copy.
-  
-  This is implemented as a specialization on stream handlers, which both
-  the Ghostty GUI and libghostty-vt handlers implement. If the specialized
-  callback isn't implemented, the old `print_slice` (u32 slice) is used.
-  
-  Non-ASCII input takes the same path as before. utf8.vt and the CJK
-  inputs are unchanged.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +terminal-stream` on Apple Silicon:
-  
-  | Input            | Size   | main (ms)    | print-u8 (ms) | Speedup |
-  | ---------------- | ------ | ------------ | ------------- | ------- |
-  | ascii.vt         | 120x80 | 43.2 ± 0.5   | 29.2 ± 0.5    | 1.48x   |
-  | ascii-lines.vt   | 120x80 | 67.2 ± 0.5   | 51.3 ± 0.4    | 1.31x   |
-  | styled-plain.vt  | 120x80 | 65.7 ± 0.3   | 48.9 ± 0.6    | 1.34x   |
-  | light_cells.vt   | 120x80 | 39.3 ± 0.6   | 31.8 ± 0.3    | 1.24x   |
-  | cursor_motion.vt | 120x80 | 147.2 ± 0.9  | 128.6 ± 1.1   | 1.14x   |
-  | scrolling.vt     | 120x80 | 736.5 ± 6.4  | 648.7 ± 6.0   | 1.14x   |
-  | dense_cells.vt   | 120x80 | 101.0 ± 0.7  | 94.8 ± 1.2    | 1.07x   |
-  | utf8.vt          | 120x80 | 315.3 ± 2.6  | 314.6 ± 0.4   | 1.00x   |
-  | osc.vt           | 120x80 | 951.5 ± 3.4  | 944.6 ± 2.7   | 1.01x   |
-  | out.txt (2.6GB)  | 120x80 | 5177.6 ± 9.8 | 4892.7 ± 1.9  | 1.06x   |
-  
-  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest):
-  
-  | Input            | Size   | main (ms) | print-u8 (ms) | Speedup |
-  | ---------------- | ------ | --------- | ------------- | ------- |
-  | ascii.vt         | 120x80 | 122.5     | 95.5          | 1.28x   |
-  | ascii-lines.vt   | 120x80 | 234.5     | 175.9         | 1.33x   |
-  | styled-plain.vt  | 120x80 | 231.8     | 174.4         | 1.33x   |
-  | light_cells.vt   | 120x80 | 83.4      | 64.5          | 1.29x   |
-  | cursor_motion.vt | 120x80 | 564.0     | 459.4         | 1.23x   |
-  | scrolling.vt     | 120x80 | 3918.0    | 3577.6        | 1.10x   |
-  | styled-heavy.vt  | 120x80 | 574.7     | 520.4         | 1.10x   |
-  | dense_cells.vt   | 120x80 | 382.1     | 350.2         | 1.09x   |
-  | medium_cells.vt  | 120x80 | 651.8     | 607.0         | 1.07x   |
-  | utf8.vt          | 120x80 | 895.4     | 881.5         | 1.02x   |
-  | cjk-prose.vt     | 120x80 | 274.9     | 280.8         | 0.98x   |
-  | hyperlinks.vt    | 120x80 | 135.0     | 128.2         | 1.05x   |
-  ```
-- [`a227276`](https://github.com/ghostty-org/ghostty/commit/a227276b770c450ab0e5704a42a773c952e4991b) terminal: clear the blank hint where a snapshot test writes cells ([@mitchellh](https://github.com/mitchellh))
-- [`091beb9`](https://github.com/ghostty-org/ghostty/commit/091beb99250bc4c1a255d3617b54630c115d0f27) terminal: print ASCII runs as u8 slices from input instead of u32 ([#15046](https://github.com/ghostty-org/ghostty/issues/15046)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The stream now finds runs of plain ASCII (non-control) and passes that
-  through to the terminal directly from the input pointer rather than
-  widening it to u32 and doing a copy.
-  
-  This is implemented as a specialization on stream handlers, which both
-  the Ghostty GUI and libghostty-vt handlers implement. If the specialized
-  callback isn't implemented, the old `print_slice` (u32 slice) is used.
-  
-  Non-ASCII input takes the same path as before. utf8.vt and the CJK
-  inputs are unchanged.
-  
-  **Note: this does not speed up pure-ASCII `cat` times.** The speedups
-  below are based on raw bytes pumping through libghostty's core. Our
-  `cat` times in the shell are bound by the _kernel_, we're already within
-  5% of the speed of a full 100% CPU busy loop pumping bytes out of a pty
-  as fast as it can (and the last 5% is because we don't spin the CPU at
-  100%).
-  
-  Edit: I edited the above to say "pure ASCII" because it does measurably
-  speed up `cat`-ing the asciinema 2.6GB dump. That's because we now
-  process the ASCII runs at full speed while slower sequences can't
-  process at pty-read-speeds.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +terminal-stream` on Apple Silicon:
-  
-  | Input            | Size   | main (ms)    | print-u8 (ms) | Speedup |
-  | ---------------- | ------ | ------------ | ------------- | ------- |
-  | ascii.vt         | 120x80 | 43.2 ± 0.5   | 29.2 ± 0.5    | 1.48x   |
-  | ascii-lines.vt   | 120x80 | 67.2 ± 0.5   | 51.3 ± 0.4    | 1.31x   |
-  | styled-plain.vt  | 120x80 | 65.7 ± 0.3   | 48.9 ± 0.6    | 1.34x   |
-  | light_cells.vt   | 120x80 | 39.3 ± 0.6   | 31.8 ± 0.3    | 1.24x   |
-  | cursor_motion.vt | 120x80 | 147.2 ± 0.9  | 128.6 ± 1.1   | 1.14x   |
-  | scrolling.vt     | 120x80 | 736.5 ± 6.4  | 648.7 ± 6.0   | 1.14x   |
-  | dense_cells.vt   | 120x80 | 101.0 ± 0.7  | 94.8 ± 1.2    | 1.07x   |
-  | utf8.vt          | 120x80 | 315.3 ± 2.6  | 314.6 ± 0.4   | 1.00x   |
-  | osc.vt           | 120x80 | 951.5 ± 3.4  | 944.6 ± 2.7   | 1.01x   |
-  | out.txt (2.6GB)  | 120x80 | 5177.6 ± 9.8 | 4892.7 ± 1.9  | 1.06x   |
-  
-  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest):
-  
-  | Input            | Size   | main (ms) | print-u8 (ms) | Speedup |
-  | ---------------- | ------ | --------- | ------------- | ------- |
-  | ascii.vt         | 120x80 | 122.5     | 95.5          | 1.28x   |
-  | ascii-lines.vt   | 120x80 | 234.5     | 175.9         | 1.33x   |
-  | styled-plain.vt  | 120x80 | 231.8     | 174.4         | 1.33x   |
-  | light_cells.vt   | 120x80 | 83.4      | 64.5          | 1.29x   |
-  | cursor_motion.vt | 120x80 | 564.0     | 459.4         | 1.23x   |
-  | scrolling.vt     | 120x80 | 3918.0    | 3577.6        | 1.10x   |
-  | styled-heavy.vt  | 120x80 | 574.7     | 520.4         | 1.10x   |
-  | dense_cells.vt   | 120x80 | 382.1     | 350.2         | 1.09x   |
-  | medium_cells.vt  | 120x80 | 651.8     | 607.0         | 1.07x   |
-  | utf8.vt          | 120x80 | 895.4     | 881.5         | 1.02x   |
-  | cjk-prose.vt     | 120x80 | 274.9     | 280.8         | 0.98x   |
-  | hyperlinks.vt    | 120x80 | 135.0     | 128.2         | 1.05x   |
-  ```
-- [`6676bba`](https://github.com/ghostty-org/ghostty/commit/6676bbaec73a2a30eced56003dd7248e931de6fa) Update VOUCHED list ([#15045](https://github.com/ghostty-org/ghostty/issues/15045)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/15044#discussioncomment-19366333)
-  from @jcollie.
-  
-  Vouch: @ghdtjdwn
-  ```
-- [`25de649`](https://github.com/ghostty-org/ghostty/commit/25de649dde19bb96c7ad8ec4f7d28441a865da09) terminal: write the blank row once when scrolling a region up ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Scrolling up inside a scroll region (`cursorScrollRegionUp`) now builds
-  the erased row's reset header in a register and writes it straight into
-  the row's new slot at the bottom of the region. Previously it reset the
-  row in place and then rotated it there.
-  
-  On x86-64 this improves scroll region vtebench results by 6-8%. This
-  was actually a regress from #14997 so this just gets that back.
-  
-  Apple Silicon was never affected and still isn't. It now runs one fewer
-  instruction per scrolled row with no measurable change in time. Other
-  inputs stay within 0.06% of main in instructions retired.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest).
-  
-  | Input                         | Size   | main (ms) | x86-scroll (ms) | Speedup |
-  | ----------------------------- | ------ | --------- | --------------- | ------- |
-  | scrolling_top_small_region.vt | 120x80 | 2837.3    | 2582.3          | 1.11x   |
-  | scrolling_bottom_region.vt    | 120x80 | 2775.0    | 2659.7          | 1.02x   |
-  | scrolling.vt                  | 120x80 | 3855.1    | 3818.0          | 1.01x   |
-  
-  ## Why?
-  
-  `Row.blank` took a bit from the row's padding, and that changed how LLVM
-  lowers the unchanged `row.reset()`. It now emits a 4-byte store of only
-  the header's high half. `rotateOnce` does an 8-byte load of that same
-  header a few instructions later. x86 can't forward a narrow store into
-  a wider load, so every scrolled line waited for the store to reach
-  cache. A profile put 62% of `cursorScrollRegionUp`'s samples right
-  after that load.
-  
-  `fastmem.rotateIn` shifts the region and writes the new header after
-  the memmove, so the header never makes the round trip through memory.
-  With the change, the function's samples are back at their level from
-  before #14997.
-  ```
-- [`18e645e`](https://github.com/ghostty-org/ghostty/commit/18e645ea22a5ef4793a2008275eb6f98e5d039bb) terminal: write the blank row once when scrolling a region up ([#15042](https://github.com/ghostty-org/ghostty/issues/15042)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Scrolling up inside a scroll region (`cursorScrollRegionUp`) now builds
-  the erased row's reset header in a register and writes it straight into
-  the row's new slot at the bottom of the region. Previously it reset the
-  row in place and then rotated it there.
-  
-  On x86-64 this improves scroll region vtebench results by 6-8%. This was
-  actually a regress from #14997 so this just gets that back.
-  
-  Apple Silicon was never affected and still isn't. It now runs one fewer
-  instruction per scrolled row with no measurable change in time. Other
-  inputs stay within 0.06% of main in instructions retired.
-  
-  ## Benchmarks
-  
-  `ghostty-bench +terminal-stream` on x86-64 (Haswell, KVM guest).
-  
-  | Input | Size | main (ms) | x86-scroll (ms) | Speedup |
-  | ----------------------------- | ------ | --------- | --------------- |
-  ------- |
-  | scrolling_top_small_region.vt | 120x80 | 2837.3 | 2582.3 | 1.11x |
-  | scrolling_bottom_region.vt | 120x80 | 2775.0 | 2659.7 | 1.02x |
-  | scrolling.vt | 120x80 | 3855.1 | 3818.0 | 1.01x |
-  
-  ## Why?
-  
-  `Row.blank` took a bit from the row's padding, and that changed how LLVM
-  lowers the unchanged `row.reset()`. It now emits a 4-byte store of only
-  the header's high half. `rotateOnce` does an 8-byte load of that same
-  header a few instructions later. x86 can't forward a narrow store into a
-  wider load, so every scrolled line waited for the store to reach cache.
-  A profile put 62% of `cursorScrollRegionUp`'s samples right after that
-  load.
-  
-  `fastmem.rotateIn` shifts the region and writes the new header after the
-  memmove, so the header never makes the round trip through memory. With
-  the change, the function's samples are back at their level from before
-  #14997.
-  
-  **AI usage:** Fable figured this out. I had no idea, but I looked at its
-  analysis and agree with its conclusions. I pushed it in bunch of
-  different ways and couldn't find any holes. I wrote the prose.
-  ```
-- [`fa3b435`](https://github.com/ghostty-org/ghostty/commit/fa3b435cbfdc70c4e41ace87e1cde401f62e2aa5) Update VOUCHED list ([#15041](https://github.com/ghostty-org/ghostty/issues/15041)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/14147#discussioncomment-19363823)
-  from @jcollie.
-  
-  Vouch: @danudey
-  ```
 
