@@ -8,15 +8,60 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 10, 2026 at 14:11 UTC.
+> Last updated: November 10, 2026 at 21:09 UTC.
 
 ## November 10, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42820231618), [2](https://github.com/ghostty-org/ghostty/actions/runs/42766626266), [3](https://github.com/ghostty-org/ghostty/actions/runs/42762275342), [4](https://github.com/ghostty-org/ghostty/actions/runs/42754218095), [5](https://github.com/ghostty-org/ghostty/actions/runs/42736069717)  
-Summary: 5 runs • 15 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42852875359), [2](https://github.com/ghostty-org/ghostty/actions/runs/42847509638), [3](https://github.com/ghostty-org/ghostty/actions/runs/42820231618), [4](https://github.com/ghostty-org/ghostty/actions/runs/42766626266), [5](https://github.com/ghostty-org/ghostty/actions/runs/42762275342), [6](https://github.com/ghostty-org/ghostty/actions/runs/42754218095), [7](https://github.com/ghostty-org/ghostty/actions/runs/42736069717)  
+Summary: 7 runs • 18 commits • 4 authors
 
 ### Changes
 
+- [`c4b91fe`](https://github.com/ghostty-org/ghostty/commit/c4b91fe4c7db89e3c6300180a279237bb2737f38) terminal/kitty: keep a replaced image until its transmission ends ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15124
+  
+  For a chunked transmission, we now keep the old image until the
+  transmission ends (success or failure). The spec mandates we do delete
+  the old iamge in either cause but doesn't specify _when_.
+  
+  Kitty itself deletes the images immediately on the first chunk, so this
+  breaks from that behavior but I think results in something nicer that is
+  spec compliant.
+  
+  The result of this is that during chunking, the old image continues to
+  show until the operation is done.
+  
+  Spec: https://sw.kovidgoyal.net/kitty/graphics-protocol/
+  Kitty: https://github.com/kovidgoyal/kitty/blob/v0.48.2/kitty/graphics.c#L725-L729
+  ```
+- [`de70b9f`](https://github.com/ghostty-org/ghostty/commit/de70b9f476c39ce3f5b293ecba813b674f037a80) terminal/kitty: keep a replaced image until its transmission ends ([#15184](https://github.com/ghostty-org/ghostty/issues/15184)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15124
+  
+  For a chunked transmission, we now keep the old image until the
+  transmission ends (success or failure). The spec mandates we do delete
+  the old iamge in either cause but doesn't specify _when_.
+  
+  Kitty itself deletes the images immediately on the first chunk, so this
+  breaks from that behavior but I think results in something nicer that is
+  spec compliant.
+  
+  The result of this is that during chunking, the old image continues to
+  show until the operation is done.
+  
+  Spec: https://sw.kovidgoyal.net/kitty/graphics-protocol/
+  Kitty:
+  https://github.com/kovidgoyal/kitty/blob/v0.48.2/kitty/graphics.c#L725-L729
+  ```
+- [`6671592`](https://github.com/ghostty-org/ghostty/commit/6671592445a400219034194b9d0116029b1c5c9d) Update VOUCHED list ([#15187](https://github.com/ghostty-org/ghostty/issues/15187)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/15185#issuecomment-6771820967)
+  from @pluiedev.
+  
+  Denounce: @jischeng
+  ```
 - [`fbb6dbe`](https://github.com/ghostty-org/ghostty/commit/fbb6dbe7ea5c1ce6df14ef82e00779a568cdb2a2) i18n: Dutch translations for command palette ([#15179](https://github.com/ghostty-org/ghostty/issues/15179)) ([@mtak](https://github.com/mtak))
   ```text
   Added new translations for the command palette changes.
