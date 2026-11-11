@@ -8,7 +8,41 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 11, 2026 at 04:21 UTC.
+> Last updated: November 11, 2026 at 13:26 UTC.
+
+## November 11, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42965895341)  
+Summary: 1 runs • 2 commits • 1 authors
+
+### Changes
+
+- [`9b848b0`](https://github.com/ghostty-org/ghostty/commit/9b848b0f5c1f5e18611d89a570540df9ad2333d1) libghostty: restored snapshot keeps final page capacity max size ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15192
+  
+  Typically during snapshot decode, we decode into an exact-sized page as
+  requested by the snapshot. This means that the final page was allocated
+  wastefully and the next write would immediately force an allocation.
+  
+  The SCREEN decoder now gives the last page as many rows as fit in its
+  pool item (`PageList.fillPooled`), and the PAGE decoder accepts a
+  destination with more rows than advertised. History pages are unchanged
+  since they never grow, and so is the snapshot format.
+  ```
+- [`a622196`](https://github.com/ghostty-org/ghostty/commit/a622196c930138f312884382ab784e45b9ab653b) libghostty: restored snapshot keeps final page capacity max size ([#15195](https://github.com/ghostty-org/ghostty/issues/15195)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15192
+  
+  Typically during snapshot decode, we decode into an exact-sized page as
+  requested by the snapshot. This means that the final page was allocated
+  wastefully and the next write would immediately force an allocation.
+  
+  The SCREEN decoder now gives the last page as many rows as fit in its
+  pool item (`PageList.fillPooled`), and the PAGE decoder accepts a
+  destination with more rows than advertised. History pages are unchanged
+  since they never grow, and so is the snapshot format.
+  ```
 
 ## November 10, 2026
 
