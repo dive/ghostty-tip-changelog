@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 12, 2026 at 05:29 UTC.
+> Last updated: November 12, 2026 at 14:30 UTC.
 
 ## November 12, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43156147800)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43236342398), [2](https://github.com/ghostty-org/ghostty/actions/runs/43156147800)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`cf3a8a6`](https://github.com/ghostty-org/ghostty/commit/cf3a8a6594eec899fe6335465668c60f2281ce9c) Update VOUCHED list ([#15213](https://github.com/ghostty-org/ghostty/issues/15213)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15212#discussioncomment-19566389)
+  from @trag1c.
+  
+  Denounce: @MisterWanted
+  ```
 - [`73b201e`](https://github.com/ghostty-org/ghostty/commit/73b201ed3355622eb4e6ff8c3fb703fb1fed702c) docs: fix prettier error in vt release notes ([@jcollie](https://github.com/jcollie))
 - [`72ac7dc`](https://github.com/ghostty-org/ghostty/commit/72ac7dced84e96a5d5214d005d59eadd10da27bb) docs: fix prettier error in vt release notes ([#15211](https://github.com/ghostty-org/ghostty/issues/15211)) ([@mitchellh](https://github.com/mitchellh))
 
