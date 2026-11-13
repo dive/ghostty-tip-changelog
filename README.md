@@ -8,7 +8,255 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 13, 2026 at 13:48 UTC.
+> Last updated: November 13, 2026 at 21:07 UTC.
+
+## November 13, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43472953670), [2](https://github.com/ghostty-org/ghostty/actions/runs/43468038557)  
+Summary: 2 runs • 10 commits • 4 authors
+
+### Changes
+
+- [`6e0c818`](https://github.com/ghostty-org/ghostty/commit/6e0c8186f28902c3b902028945435f652dd035a8) terminal/kitty: skip the temp-dir rejection test under /tmp ([@jcollie](https://github.com/jcollie))
+  ```text
+  The test that a temporary file outside the configured directory is
+  rejected puts the file in std.testing.tmpDir, which is under the
+  working directory. When the tests run from under /tmp, as some
+  package builds do, that file is inside /tmp and is always accepted,
+  so the test failed.
+  
+  Move the directories that are always accepted into one list, used by
+  isPathInTempDir and by the test, and skip the test when its file is
+  in one of them.
+  ```
+- [`46f1cea`](https://github.com/ghostty-org/ghostty/commit/46f1cea1a10a19bef97a8a0f5948e660d0b74fe2) terminal/kitty: skip the temp-dir rejection test under /tmp ([#15225](https://github.com/ghostty-org/ghostty/issues/15225)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  The test that a temporary file outside the configured directory is
+  rejected puts the file in std.testing.tmpDir, which is under the working
+  directory. When the tests run from under /tmp, as some package builds
+  do, that file is inside /tmp and is always accepted, so the test failed.
+  
+  Move the directories that are always accepted into one list, used by
+  isPathInTempDir and by the test, and skip the test when its file is in
+  one of them.
+  
+  AI disclosure: Claude Code was used in the development of this PR.
+  ```
+- [`52cd6c9`](https://github.com/ghostty-org/ghostty/commit/52cd6c9f15a313c3b668be37017a5932a7d2364b) build(deps): bump peter-evans/create-pull-request from 8.1.2 to 8.1.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request) from 8.1.2 to 8.1.3.
+  - [Release notes](https://github.com/peter-evans/create-pull-request/releases)
+  - [Commits](https://github.com/peter-evans/create-pull-request/compare/15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8...3ffccacd46053766916f087ce41d627c0b8cf2d1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: peter-evans/create-pull-request
+    dependency-version: 8.1.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`dcdb167`](https://github.com/ghostty-org/ghostty/commit/dcdb1674cf846030da6cc2e2ff356baa1cbecc91) terminal: clear a clone's padding rows to their page's width ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  `PageList.clone` pads a cloned region with blank rows when it is shorter
+  than the active area, but clears them to the list's width. A page can be
+  narrower than its list, so the clear can write past the end of the row.
+  
+  Clear to the page's width, and assert the range in `Page.clearCells`.
+  ```
+- [`8434d09`](https://github.com/ghostty-org/ghostty/commit/8434d0900e86a63907d0da4b0892cbb89533be0d) terminal: avoid the pin lookup on a carriage return ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  Every carriage return goes through `cursorHorizontalAbsolute`, which
+  looks the row and cell up again through the page pin even though the
+  cursor stays on its row.
+  
+  Move the cached cell pointer by the column difference instead, like
+  `cursorLeft` and `cursorRight` do.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80, on Windows x86-64:
+  
+  | Input                         | Before (ms)   | After (ms)    | Speedup |
+  | ----------------------------- | ------------- | ------------- | ------- |
+  | scrolling (20MB scrollback)   | 1022.2 ± 26.3 | 997.6 ± 21.2  | 1.02x   |
+  | scrolling_bottom_region       | 540.5 ± 8.0   | 516.5 ± 8.6   | 1.05x   |
+  | scrolling_bottom_small_region | 527.0 ± 17.8  | 497.8 ± 13.7  | 1.06x   |
+  | scrolling_fullscreen          | 47.0 ± 3.6    | 45.6 ± 1.5    | 1.03x   |
+  | scrolling_top_region          | 528.2 ± 11.8  | 507.6 ± 10.9  | 1.04x   |
+  | scrolling_top_small_region    | 522.3 ± 12.9  | 512.3 ± 17.3  | 1.02x   |
+  ```
+- [`a5cd02e`](https://github.com/ghostty-org/ghostty/commit/a5cd02e8afed4289fab5a2dad50c695b81d46d7a) terminal: clear a clone's padding rows to their page's width ([#15222](https://github.com/ghostty-org/ghostty/issues/15222)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `PageList.clone` pads a cloned region with blank rows when it is shorter
+  than the active area, but clears them to the list's width. A page can be
+  narrower than its list, so the clear can write past the end of the row.
+  
+  This clears to the page's width instead, and asserts the range in
+  `Page.clearCells`.
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`9fff234`](https://github.com/ghostty-org/ghostty/commit/9fff23493f87a2a9a9b56b29dca45e27d5adf27e) terminal: avoid the pin lookup on a carriage return ([#15221](https://github.com/ghostty-org/ghostty/issues/15221)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Every carriage return goes through `cursorHorizontalAbsolute`, which
+  looks the row and cell up again through the page pin even though the
+  cursor stays on its row.
+  
+  This moves the cached cell pointer by the column difference instead,
+  like `cursorLeft` and `cursorRight` do.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` at 120x80, on Windows x86-64:
+  
+  | Input | Before (ms) | After (ms) | Speedup |
+  | ----------------------------- | ------------- | ------------- |
+  ------- |
+  | scrolling (20MB scrollback) | 1022.2 ± 26.3 | 997.6 ± 21.2 | 1.02x |
+  | scrolling_bottom_region | 540.5 ± 8.0 | 516.5 ± 8.6 | 1.05x |
+  | scrolling_bottom_small_region | 527.0 ± 17.8 | 497.8 ± 13.7 | 1.06x |
+  | scrolling_fullscreen | 47.0 ± 3.6 | 45.6 ± 1.5 | 1.03x |
+  | scrolling_top_region | 528.2 ± 11.8 | 507.6 ± 10.9 | 1.04x |
+  | scrolling_top_small_region | 522.3 ± 12.9 | 512.3 ± 17.3 | 1.02x |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
+- [`a09d940`](https://github.com/ghostty-org/ghostty/commit/a09d94003cf29d5b7f9cf20ecfa81b1e0a36abb9) terminal: unify Page and Screen clearCells ([@arc-source-coder](https://github.com/arc-source-coder))
+  ```text
+  `Screen.clearCells` keeps its own copy of `Page.clearCells` that fills
+  cells with the cursor's blank cell. Only the screen's copy skips rows
+  that are already blank and releases styles a run at a time.
+  
+  Move the implementation into `Page.clearCells`, which now takes the
+  blank cell, and use it for `Screen.clearCells` and the background fill
+  after scrolling.
+  
+  Release resources out of line in `releaseCells`, and use `Mask.eqlEnd`
+  both to find style runs and to check whether a row still has styled
+  cells.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Windows x86-64, with 32 MB
+  of `ghostty-gen +erase --seed=1` output:
+  
+  | Size    | Before (ms)  | After (ms)   | Speedup |
+  | ------- | ------------ | ------------ | ------- |
+  | 120x80  | 240.0 ± 8.2  | 228.1 ± 2.8  | 1.05x   |
+  | 120x12  | 217.3 ± 3.5  | 210.0 ± 6.4  | 1.03x   |
+  | 160x50  | 252.5 ± 10.6 | 238.3 ± 5.8  | 1.06x   |
+  | 300x100 | 330.1 ± 7.3  | 310.1 ± 13.1 | 1.06x   |
+  ```
+- [`06ad376`](https://github.com/ghostty-org/ghostty/commit/06ad376742a0c8b04af33fc401d1f445e53560c2) build(deps): bump peter-evans/create-pull-request from 8.1.2 to 8.1.3 ([#15217](https://github.com/ghostty-org/ghostty/issues/15217)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [peter-evans/create-pull-request](https://github.com/peter-evans/create-pull-request)
+  from 8.1.2 to 8.1.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/peter-evans/create-pull-request/releases">peter-evans/create-pull-request's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>Create Pull Request v8.1.3</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>fix: check git ref directly when pushing signed commits by <a
+  href="https://github.com/peter-evans"><code>@​peter-evans</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4521">peter-evans/create-pull-request#4521</a></li>
+  <li>Update distribution by <a
+  href="https://github.com/actions-bot"><code>@​actions-bot</code></a> in
+  <a
+  href="https://redirect.github.com/peter-evans/create-pull-request/pull/4526">peter-evans/create-pull-request#4526</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/peter-evans/create-pull-request/compare/v8.1.2...v8.1.3">https://github.com/peter-evans/create-pull-request/compare/v8.1.2...v8.1.3</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/3ffccacd46053766916f087ce41d627c0b8cf2d1"><code>3ffccac</code></a>
+  build: update distribution (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4526">#4526</a>)</li>
+  <li><a
+  href="https://github.com/peter-evans/create-pull-request/commit/77d56500d90859d7079a6d0dae948d3c1d197278"><code>77d5650</code></a>
+  fix: check git ref directly when pushing signed commits (<a
+  href="https://redirect.github.com/peter-evans/create-pull-request/issues/4521">#4521</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/peter-evans/create-pull-request/compare/15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8...3ffccacd46053766916f087ce41d627c0b8cf2d1">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=peter-evans/create-pull-request&package-manager=github_actions&previous-version=8.1.2&new-version=8.1.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
+- [`8046a23`](https://github.com/ghostty-org/ghostty/commit/8046a2360340ec9788e0089da5a9ed0378adf0ea) terminal: unify Page and Screen clearCells ([#15224](https://github.com/ghostty-org/ghostty/issues/15224)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  `Screen.clearCells` currently keeps its own copy of `Page.clearCells`
+  that fills cells with the cursor's blank cell. Only the screen's copy
+  skips rows that are already blank and releases styles a run at a time.
+  
+  This moves the implementation into `Page.clearCells`, which now takes
+  the blank cell, and uses it for `Screen.clearCells` and the background
+  fill after scrolling.
+  
+  Resources are now released out of line in `releaseCells`, and
+  `Mask.eqlEnd` is used to find style runs and check whether a row still
+  has styled cells.
+  
+  ## Benchmarks
+  
+  `ghostty-bench +terminal-stream` on Windows x86-64, with 32 MB of
+  `ghostty-gen +erase --seed=1` output:
+  
+  | Size    | main (ms)  | This PR (ms)   | Speedup |
+  | ------- | ------------ | ------------ | ------- |
+  | 120x80  | 240.0 ± 8.2  | 228.1 ± 2.8  | 1.05x   |
+  | 120x12  | 217.3 ± 3.5  | 210.0 ± 6.4  | 1.03x   |
+  | 160x50  | 252.5 ± 10.6 | 238.3 ± 5.8  | 1.06x   |
+  | 300x100 | 330.1 ± 7.3  | 310.1 ± 13.1 | 1.06x   |
+  
+  AI disclosure: Developed with Claude Code (Opus 5.5).
+  ```
 
 ## November 12, 2026
 
