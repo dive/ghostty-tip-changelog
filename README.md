@@ -8,15 +8,141 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 13, 2026 at 21:07 UTC.
+> Last updated: November 14, 2026 at 04:40 UTC.
 
-## November 13, 2026
+## November 14, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43472953670), [2](https://github.com/ghostty-org/ghostty/actions/runs/43468038557)  
-Summary: 2 runs • 10 commits • 4 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43542056669)  
+Summary: 1 runs • 5 commits • 1 authors
 
 ### Changes
 
+- [`eeac3a4`](https://github.com/ghostty-org/ghostty/commit/eeac3a4422b82b53d1e00ff43742504a12419e3a) pkg/fontconfig: set the package version to 2.18.3 ([@jcollie](https://github.com/jcollie))
+  ```text
+  The bundled source was updated to 2.18.3 but the package version was
+  left at 2.14.2. build.zig derives -DFC_VERSION_{MAJOR,MINOR,MICRO} from
+  it, and fontconfig stamps its cache files with that version and compares
+  caches against it, so the library has been building as if it were
+  2.14.2.
+  ```
+- [`ba283a6`](https://github.com/ghostty-org/ghostty/commit/ba283a6f90e77bbe92e49f7c25233d6c58a526c7) font/discovery: skip fontconfig matches that have no file ([@jcollie](https://github.com/jcollie))
+  ```text
+  Fontconfig has been seen to return a match, from what is in a user's
+  font cache, that carries a charset and a lang but no file, family or
+  index. If its charset claims the codepoint being searched for, fallback
+  discovery accepts it and the codepoint is assigned a face that can never
+  be loaded, even though good fonts for it come later in the sorted list.
+  
+  Skip a match unless it has the file and index DeferredFace needs to
+  load it, so the next candidate is used instead.
+  ```
+- [`efd4a82`](https://github.com/ghostty-org/ghostty/commit/efd4a82bda0b6c36ec3165386e8165002c6fc215) font: treat a fallback face that fails to load as no font ([@jcollie](https://github.com/jcollie))
+  ```text
+  SharedGrid.getIndex preloads the face it resolves a codepoint to, and
+  returned the error if the load failed. The run iterator passes that
+  error up and the renderer, on any error building a row, clears the
+  whole row. So one codepoint whose face cannot be loaded blanked every
+  row it appeared on, and because the failed lookup was not cached, the
+  load was retried on every frame.
+  
+  Seen with U+1F17C on a system where fontconfig returned a match with
+  no file: every row containing it was blank, while the text was still
+  there to copy.
+  
+  Log the failure and cache the codepoint as having no font instead, so
+  the run iterator falls back to U+FFFD for that cell. OutOfMemory is
+  still returned, since it may pass.
+  ```
+- [`ef21f06`](https://github.com/ghostty-org/ghostty/commit/ef21f065f899575cb58616ebb9c03b2c9da611fb) font: list the face load errors that mean no font ([@jcollie](https://github.com/jcollie))
+  ```text
+  Name the errors that mean the face has nothing we can open or read:
+  fontconfig's lookup errors (a match with no file or index), CoreText's
+  FontHasNoFile and FontPathCantDecode, and FreeType's CannotOpenResource,
+  UnknownFileFormat and InvalidFileFormat. Every other error is returned.
+  
+  The switch is over anyerror because getFace's error set depends on the
+  font backend, and a prong naming an error outside the set does not
+  compile.
+  ```
+- [`6d95777`](https://github.com/ghostty-org/ghostty/commit/6d9577708a211b0e6c5e6c6886f3cfb7efc47555) font: don't blank a row when a fallback face can't be loaded ([#15216](https://github.com/ghostty-org/ghostty/issues/15216)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  A user on 1.4.0 (Snap) reported that any row containing U+1F17C (🅼) was
+  drawn completely blank, though the text was still there to copy.
+  Starship's
+  default Maven symbol is 🅼, so the first line of their prompt vanished.
+  
+  `ghostty +show-face --cp=0x1F17C` on their machine printed:
+  
+  ```
+  info(font_codepoint_resolver): found codepoint 0x1F17C in fallback face=<error>
+  Unable to get face: error.FontconfigNoMatch
+  ```
+  
+  Fontconfig returned a fallback match whose charset claims U+1F17C but
+  which
+  has no `file`, `index` or family.
+  
+  Two things in Ghostty turned that into a blank row:
+  
+  - Fallback discovery accepted the match, so the codepoint was given a
+  face
+    that can never load.
+  - `SharedGrid.getIndex` preloads the face and returned the error. The
+  run
+  iterator passes it up, `rebuildRow` fails, and the renderer clears the
+  whole
+    row. The failed lookup wasn't cached, so it was retried every frame.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ````
+
+## November 13, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43515100328), [2](https://github.com/ghostty-org/ghostty/actions/runs/43472953670), [3](https://github.com/ghostty-org/ghostty/actions/runs/43468038557)  
+Summary: 3 runs • 12 commits • 4 authors
+
+### Changes
+
+- [`a0fe573`](https://github.com/ghostty-org/ghostty/commit/a0fe573fe3e147ee9a3d86201d5b323cd07935cc) config: copy-on-select defaults to the selection clipboard on macOS ([@jcollie](https://github.com/jcollie))
+  ```text
+  Ghostty 1.4 changed the macOS default for copy-on-select from `true`
+  to `none`, so selecting text no longer fills the private selection
+  pasteboard that Paste Selection (`paste_from_selection`) reads, and
+  Paste Selection keeps pasting whatever was copied there before the
+  upgrade. The compatibility mapping made `true` mean `clipboard` on
+  macOS, so setting `copy-on-select = true` didn't bring it back either.
+  
+  The macOS app does have a selection clipboard: it reports
+  `supports_selection_clipboard` and serves it with its own pasteboard,
+  which is what `true` copied to before 1.4. So default to `primary` on
+  macOS as on Linux, map `true` to `primary` there as well, and fix the
+  docs that said `primary` has no effect on macOS. Also note that
+  `clipboard` no longer copies to the selection clipboard, which it did
+  before 1.4, and that `both` is the value for that.
+  
+  See: https://github.com/ghostty-org/ghostty/discussions/14895
+  ```
+- [`f08437b`](https://github.com/ghostty-org/ghostty/commit/f08437b7956abdefa0d6e0431c495303a7009069) config: copy-on-select defaults to the selection clipboard on macOS ([#15147](https://github.com/ghostty-org/ghostty/issues/15147)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Ghostty 1.4 changed the macOS default for copy-on-select from `true` to
+  `none`, so selecting text no longer fills the private selection
+  pasteboard that Paste Selection (`paste_from_selection`) reads, and
+  Paste Selection keeps pasting whatever was copied there before the
+  upgrade. The compatibility mapping made `true` mean `clipboard` on
+  macOS, so setting `copy-on-select = true` didn't bring it back either.
+  
+  The macOS app does have a selection clipboard: it reports
+  `supports_selection_clipboard` and serves it with its own pasteboard,
+  which is what `true` copied to before 1.4. So default to `primary` on
+  macOS as on Linux, map `true` to `primary` there as well, and fix the
+  docs that said `primary` has no effect on macOS. Also note that
+  `clipboard` no longer copies to the selection clipboard, which it did
+  before 1.4, and that `both` is the value for that.
+  
+  See: https://github.com/ghostty-org/ghostty/discussions/14895
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
 - [`6e0c818`](https://github.com/ghostty-org/ghostty/commit/6e0c8186f28902c3b902028945435f652dd035a8) terminal/kitty: skip the temp-dir rejection test under /tmp ([@jcollie](https://github.com/jcollie))
   ```text
   The test that a temporary file outside the configured directory is
@@ -1604,121 +1730,5 @@ Summary: 6 runs • 21 commits • 7 authors
   patch a patch, that instead leaves failed rows marked as dirty, so the
   next update rebuilds them instead of using incomplete data. But I'm not
   sure of this is *sound* in a terminal.
-  ```
-
-## November 7, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/42398288749), [2](https://github.com/ghostty-org/ghostty/actions/runs/42387649303), [3](https://github.com/ghostty-org/ghostty/actions/runs/42384512829), [4](https://github.com/ghostty-org/ghostty/actions/runs/42346179212), [5](https://github.com/ghostty-org/ghostty/actions/runs/42325700870)  
-Summary: 5 runs • 12 commits • 4 authors
-
-### Changes
-
-- [`5ed7747`](https://github.com/ghostty-org/ghostty/commit/5ed7747e8db1414ab07ec814ec2c4cd242281396) terminal: enumFromC no longer scans every enum field ([@mitchellh](https://github.com/mitchellh))
-- [`1b8b3f5`](https://github.com/ghostty-org/ghostty/commit/1b8b3f55bcc93d2685f7771948516af1222dcc46) terminal: remap pins when the column growth backfill stops early ([@mitchellh](https://github.com/mitchellh))
-- [`358818e`](https://github.com/ghostty-org/ghostty/commit/358818ebddb9e4d0bcfb16fb2d3f559cb7c70257) terminfo: use a multi-word description field ([@jparise](https://github.com/jparise))
-  ```text
-  The last field of a terminfo name line is the entry's description, and
-  ours was the single word "Ghostty". ncurses' tic warns about that on
-  every compile because older tic versions may treat a description with
-  no spaces as another alias:
-  
-      "<stdin>", line 1, col 31, terminal 'xterm-ghostty': older tic
-      versions may treat the description field as an alias
-  
-  That warning shows up in `+ssh --verbose` and in manual installs.
-  
-  Use "Ghostty terminal emulator", which matches the description in
-  ncurses' own ghostty entry:
-  
-  https://github.com/ThomasDickey/ncurses-snapshots/blob/26ceb3cbd343/misc/terminfo.src#L8870
-  ```
-- [`0aa2292`](https://github.com/ghostty-org/ghostty/commit/0aa22921cad37022529a56e064df24a009f01500) terminal: fix dangling pins on column growth resize, faster C enum validation ([#15134](https://github.com/ghostty-org/ghostty/issues/15134)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Two fixes from the libghostty 1.0 upgrade I found in Rex:
-  
-  - Dangling pins when growing columns without reflow.
-  - A performance regression and fix: `enumFromC` no longer scans every
-  field.
-  
-  **AI usage: Opus for tests.**
-  ```
-- [`27ffca0`](https://github.com/ghostty-org/ghostty/commit/27ffca0dd67177d1f069ea7f910362e5d871613d) terminfo: use a multi-word description field ([#15135](https://github.com/ghostty-org/ghostty/issues/15135)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  The last field of a terminfo name line is the entry's description, and
-  ours was the single word "Ghostty". ncurses' tic warns about that on
-  every compile because older tic versions may treat a description with no
-  spaces as another alias:
-  
-      "<stdin>", line 1, col 31, terminal 'xterm-ghostty': older tic
-      versions may treat the description field as an alias
-  
-  That warning shows up in `+ssh --verbose` and in manual installs.
-  
-  Use "Ghostty terminal emulator", which matches the description in
-  ncurses' own ghostty entry:
-  
-  
-  https://github.com/ThomasDickey/ncurses-snapshots/blob/26ceb3cbd343/misc/terminfo.src#L8870
-  ```
-- [`3c3f331`](https://github.com/ghostty-org/ghostty/commit/3c3f33121a9be2389584db716248dbf0fa0439a6) cli: run the ssh terminfo install under sh ([@jparise](https://github.com/jparise))
-  ```text
-  ssh passes the remote command to the user's login shell, and the
-  install script assumed POSIX syntax. Under tcsh, nushell, or elvish it
-  failed to parse, so the install never succeeded, the host was never
-  cached, and every connection retried it and printed a parse error
-  before falling back to xterm-256color.
-  
-  The `command -v tic` check is gone too. It only kept fish from printing
-  its own unknown-command error, and fish no longer runs the script.
-  
-  We also no longer need explicit error codes and can instead rely on `sh
-  -c` exiting with the status of the last command.
-  ```
-- [`8265e74`](https://github.com/ghostty-org/ghostty/commit/8265e74cd3945c56d59aba3917ff01af33ba3e78) cli: run the ssh terminfo install under sh ([#15112](https://github.com/ghostty-org/ghostty/issues/15112)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  ssh passes the remote command to the user's login shell, and the install
-  script assumed POSIX syntax. Under tcsh, nushell, or elvish it failed to
-  parse, so the install never succeeded, the host was never cached, and
-  every connection retried it and printed a parse error before falling
-  back to xterm-256color.
-  
-  The `command -v tic` check is gone too. It only kept fish from printing
-  its own unknown-command error, and fish no longer runs the script.
-  
-  We also no longer need explicit error codes and can instead rely on `sh
-  -c` exiting with the status of the last command.
-  ```
-- [`ac5374b`](https://github.com/ghostty-org/ghostty/commit/ac5374bd16829d556f7f3636a9a19ff7f506062a) Update VOUCHED list ([#15133](https://github.com/ghostty-org/ghostty/issues/15133)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/15132#discussioncomment-19460089)
-  from @bo2themax.
-  
-  Vouch: @Inv1x
-  ```
-- [`b57d75f`](https://github.com/ghostty-org/ghostty/commit/b57d75f4e2f4e017f52ce2458a91b63922dac1d9) libghostty: doxygen site works better on mobile ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Just brute forcing various CSS things to make the site look better on mobile.
-  ```
-- [`5813c94`](https://github.com/ghostty-org/ghostty/commit/5813c9461d5af78b6307a1254d00b1bc190eaccd) libghostty: doxygen site works better on mobile ([#15129](https://github.com/ghostty-org/ghostty/issues/15129)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Just brute forcing various CSS things to make the site look better on
-  mobile.
-  ```
-- [`ea67530`](https://github.com/ghostty-org/ghostty/commit/ea675302b71a2413b16c77bb12659605bf736be2) libghostty-vt: start 1.1.0-dev, add the ABI baseline and version gate ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Housekeeping to move dev to 1.1.0 for libghostty. This also commits the
-  ABI golden for future CI runs.
-  
-  This also fixes an issue where our tests didn't run properly on the 1.0
-  tag, and we want it to run for the ABI golden upload.
-  ```
-- [`5acdbf1`](https://github.com/ghostty-org/ghostty/commit/5acdbf154369928eb228d2263cbe612d165f7569) libghostty-vt: start 1.1.0-dev, add the ABI baseline and version gate ([#15128](https://github.com/ghostty-org/ghostty/issues/15128)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Housekeeping to move dev to 1.1.0 for libghostty. This also commits the
-  ABI golden for future CI runs.
-  
-  This also fixes an issue where our tests didn't run properly on the 1.0
-  tag, and we want it to run for the ABI golden upload.
   ```
 
