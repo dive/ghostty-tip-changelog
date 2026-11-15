@@ -8,7 +8,77 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 15, 2026 at 00:39 UTC.
+> Last updated: November 15, 2026 at 10:18 UTC.
+
+## November 15, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43676333954), [2](https://github.com/ghostty-org/ghostty/actions/runs/43661574384), [3](https://github.com/ghostty-org/ghostty/actions/runs/43658848165)  
+Summary: 3 runs • 10 commits • 3 authors
+
+### Changes
+
+- [`285af45`](https://github.com/ghostty-org/ghostty/commit/285af456014219bf8c86bac75c930179ecae452f) nix: update nixpkgs to get Zig 0.17.1 ([@jcollie](https://github.com/jcollie))
+- [`931544b`](https://github.com/ghostty-org/ghostty/commit/931544b1078f855b9db152008b582b75b8e0c360) nix: update zig-overlay to Zig 0.17.1 ([@jcollie](https://github.com/jcollie))
+- [`1d84459`](https://github.com/ghostty-org/ghostty/commit/1d84459682a983a7b91979e14214ffec7f239cad) build: require Zig 0.17.1 ([@jcollie](https://github.com/jcollie))
+- [`f4830b2`](https://github.com/ghostty-org/ghostty/commit/f4830b2f18785aba11af9d92239f35c6e211abca) terminal: don't check PageList integrity mid-way through growing rows ([@jcollie](https://github.com/jcollie))
+  ```text
+  Growing the row count sets self.rows to the new size before calling
+  grow(), so that grow() doesn't prune pages the active area needs. Until
+  the last grow() the list therefore holds fewer rows than the active
+  area claims, and a viewport pinned in history appears to have too few
+  rows below it. Each grow() asserts integrity on the way out, so a Debug
+  build panicked with ViewportPinInsufficientRows whenever the terminal
+  was resized taller while scrolled up. Both the pull-scrollback and the
+  no-pull paths were affected.
+  
+  Pause integrity checks across the row growth; resize() still verifies
+  the final state.
+  
+  Reported in discussion #15234.
+  
+  Fixes #15236
+  ```
+- [`2521ab9`](https://github.com/ghostty-org/ghostty/commit/2521ab9f64d052db84f86a6779709e587d558a80) nix: update to Zig 0.17.1 ([#15230](https://github.com/ghostty-org/ghostty/issues/15230)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Update nixpkgs and the Zig overlay to get Zig 0.17.1.
+  ```
+- [`7fa26e8`](https://github.com/ghostty-org/ghostty/commit/7fa26e8b675f3248975479d88274c937d7e63905) terminal: don't check PageList integrity mid-way through growing rows ([#15237](https://github.com/ghostty-org/ghostty/issues/15237)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Growing the row count sets self.rows to the new size before calling
+  grow(), so that grow() doesn't prune pages the active area needs. Until
+  the last grow() the list therefore holds fewer rows than the active area
+  claims, and a viewport pinned in history appears to have too few rows
+  below it. Each grow() asserts integrity on the way out, so a Debug build
+  panicked with ViewportPinInsufficientRows whenever the terminal was
+  resized taller while scrolled up. Both the pull-scrollback and the
+  no-pull paths were affected.
+  
+  Pause integrity checks across the row growth; resize() still verifies
+  the final state.
+  
+  Reported in discussion #15234.
+  
+  Fixes #15236
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`18adc65`](https://github.com/ghostty-org/ghostty/commit/18adc65d0285ec4757ee1ab06300ddcd0cad7cee) deps: Update iTerm2 color schemes ([@mitchellh](https://github.com/mitchellh))
+- [`35188fe`](https://github.com/ghostty-org/ghostty/commit/35188fe06a655d04c6ffcaf277a966aef80e3cf5) Update iTerm2 colorschemes ([#15239](https://github.com/ghostty-org/ghostty/issues/15239)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Upstream release:
+  https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261109-150625-5fad1bd
+  ```
+- [`226070d`](https://github.com/ghostty-org/ghostty/commit/226070de59daeb0e472f8122d0389198f4707e02) i18n: correctly collect translation context comments ([@trag1c](https://github.com/trag1c))
+- [`a757b70`](https://github.com/ghostty-org/ghostty/commit/a757b703fed1da2ed633e2bd1782d439d9bd4e58) build: correctly collect translation context comments ([#15238](https://github.com/ghostty-org/ghostty/issues/15238)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I think this is a regression from #9976 (haven't verified though) and
+  that we never noticed because we don't use this functionality at all.
+  Before this change, all comments would get dropped since the flag was
+  present when merging `.pot` files and not when creating them.
+  
+  **AI disclosure:** Claude Haiku 5.5 found this. I reproduced and fixed
+  the issue and wrote everything here myself.
+  ```
 
 ## November 14, 2026
 
