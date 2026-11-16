@@ -8,7 +8,147 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 16, 2026 at 00:39 UTC.
+> Last updated: November 16, 2026 at 10:32 UTC.
+
+## November 16, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43800593590), [2](https://github.com/ghostty-org/ghostty/actions/runs/43782996616)  
+Summary: 2 runs • 3 commits • 3 authors
+
+### Changes
+
+- [`d4cf6ec`](https://github.com/ghostty-org/ghostty/commit/d4cf6ec225dc0398f3d46024b1437a7f5b0f8777) Update VOUCHED list ([#15244](https://github.com/ghostty-org/ghostty/issues/15244)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15235#discussioncomment-19645399)
+  from @mitchellh.
+  
+  Vouch: @craig-b
+  ```
+- [`32abdc3`](https://github.com/ghostty-org/ghostty/commit/32abdc39251f398a14a0448e21430f74555a603c) build(deps): bump cachix/install-nix-action from 31.11.3 to 31.11.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.3 to 31.11.5.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/75c75c31ebece974e48ebc36b4ad125bd97bd97b...3dc140bfc76c49fbd4dd958429132e3746bcb086)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 31.11.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+  ```
+- [`542611b`](https://github.com/ghostty-org/ghostty/commit/542611b3db75d320907ed09fac9a61b572ca86d9) build(deps): bump cachix/install-nix-action from 31.11.3 to 31.11.5 ([#15243](https://github.com/ghostty-org/ghostty/issues/15243)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 31.11.3 to 31.11.5.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v31.11.5</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.35.5 -&gt; 2.35.6 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/286">cachix/install-nix-action#286</a>
+  <a
+  href="https://github.com/NixOS/nix/compare/2.35.5...2.35.6">https://github.com/NixOS/nix/compare/2.35.5...2.35.6</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v31.11.4...v31.11.5">https://github.com/cachix/install-nix-action/compare/v31.11.4...v31.11.5</a></p>
+  <h2>v31.11.4</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>nix: 2.35.4 -&gt; 2.35.5 by <a
+  href="https://github.com/github-actions"><code>@​github-actions</code></a>[bot]
+  in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/285">cachix/install-nix-action#285</a>
+  <a
+  href="https://github.com/NixOS/nix/compare/2.35.4...2.35.5">https://github.com/NixOS/nix/compare/2.35.4...2.35.5</a></li>
+  <li>fix: prevent <code>extra-experimental-flags</code> from overriding
+  the default <code>experimental-flags</code> <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/280">cachix/install-nix-action#280</a></li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/31.11.3...v31.11.4">https://github.com/cachix/install-nix-action/compare/31.11.3...v31.11.4</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/3dc140bfc76c49fbd4dd958429132e3746bcb086"><code>3dc140b</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/286">#286</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/4a2975a2dca3cbb2d8ab548cce58c031b4d34427"><code>4a2975a</code></a>
+  nix: 2.35.5 -&gt; 2.35.6</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/91f6a0f59e94dfb2cfed0f4000f36a68ead1d20c"><code>91f6a0f</code></a>
+  fix: set defaults early and prevent extra-experimental-features from
+  breaking...</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/00c5b1cd086ebe268a49bcad4dbf28b743ec2f9e"><code>00c5b1c</code></a>
+  fix(ci): drop unsupported macos-14 runner</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/42a481b9609c29a582a42766228db91ae970eed3"><code>42a481b</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/285">#285</a>
+  from cachix/create-pull-request/patch</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/4b19a0032d58a4215d3a8d41ad5107d7901f39b5"><code>4b19a00</code></a>
+  nix: 2.35.4 -&gt; 2.35.5</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/75c75c31ebece974e48ebc36b4ad125bd97bd97b...3dc140bfc76c49fbd4dd958429132e3746bcb086">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=31.11.3&new-version=31.11.5)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## November 15, 2026
 
