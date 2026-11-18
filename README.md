@@ -8,15 +8,69 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 17, 2026 at 18:03 UTC.
+> Last updated: November 18, 2026 at 02:41 UTC.
 
 ## November 17, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44140849876), [2](https://github.com/ghostty-org/ghostty/actions/runs/44116065599)  
-Summary: 2 runs • 2 commits • 1 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44197412683), [2](https://github.com/ghostty-org/ghostty/actions/runs/44177280756), [3](https://github.com/ghostty-org/ghostty/actions/runs/44140849876), [4](https://github.com/ghostty-org/ghostty/actions/runs/44116065599)  
+Summary: 4 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`c688263`](https://github.com/ghostty-org/ghostty/commit/c68826391717a5f12e3408000e6623f3df926d6c) benchmark: add scrollback-search benchmark ([@teddytennant](https://github.com/teddytennant))
+- [`f3e1f65`](https://github.com/ghostty-org/ghostty/commit/f3e1f65bb602ac3d441ffdd5f9645bef66a39648) benchmark: add scrollback-search benchmark ([#15267](https://github.com/ghostty-org/ghostty/issues/15267)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Adds `ghostty-bench +scrollback-search` (#15262). It loads `--data` into
+  the primary screen, then searches all of it with `ScreenSearch`.
+  
+  - `typing` searches each prefix of `--needle` from scratch, like the
+  search thread does while you type.
+  - `report` prints per-prefix timings, including time in `feed`, which
+  runs under the terminal lock.
+  - `--compress` compresses history first.
+  
+  On a full default scrollback of Ghostty's source (47,560 rows,
+  i7-11700K), each keystroke takes about 18 ms, 15.5 of it in `feed`.
+  Compressed, 27 ms and 24 ms.
+  
+  AI disclosure: I had fable 5.2 help me explore the codebase and review
+  my code
+  ```
+- [`9ba17be`](https://github.com/ghostty-org/ghostty/commit/9ba17be7b95dab894f259329b4a568a6667f276c) gtk: preserve IME commits triggered by key release ([@aohanhongzhi](https://github.com/aohanhongzhi))
+- [`47b5c20`](https://github.com/ghostty-org/ghostty/commit/47b5c2026927b0d8a38d224c5d34008589fd6d19) gtk: preserve IME commits triggered by key release ([#15246](https://github.com/ghostty-org/ghostty/issues/15246)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  When client preedit is disabled in Fcitx5, tapping Shift to commit
+  pending Latin input can lose the text in Ghostty. For example, typing
+  `abc` in WowType and tapping Shift produces no terminal input, even
+  though the IME commits `abc`.
+  
+  Without client preedit, `im_composing` remains false. A commit emitted
+  synchronously during `filterKeypress` is therefore buffered as ordinary
+  key text. When the triggering event is a key release, legacy key
+  encoding discards that text.
+  
+  Track key releases separately in `IMKeyEvent` and send their IME commits
+  through the existing independent-text path. Press/repeat commits retain
+  their existing handling.
+  
+  Validation:
+  - Reproduced with Ghostty 1.3.1, Fcitx5/WowType, GTK 4.14.5 and
+  libadwaita 1.5.0 under an isolated Xvfb/D-Bus session: client preedit
+  off loses `abc`; client preedit on commits it.
+  - Backported the fix to 1.3.1 and built with Zig 0.15.2. With client
+  preedit off, left Shift, right Shift and Return each commit `abc`;
+  typing `XYZ` after the left-Shift switch produces `abcXYZ`.
+  - The installed backport was also confirmed working by the affected
+  user.
+  - On this PR's main-based change, `zig fmt --check` and `git diff
+  --check` pass. Main's build/tests could not complete locally because
+  they require libadwaita >= 1.7, while this system has 1.5.0. Runtime
+  results above are for the backport, not main.
+  
+  AI disclosure: OpenAI Codex assisted with investigation, implementation,
+  building, automated reproduction, and this PR description. The user
+  reproduced the original problem and confirmed the installed fix.
+  ```
 - [`356b3b3`](https://github.com/ghostty-org/ghostty/commit/356b3b399290c12a2723a613ebee0c49eeee4b72) Update VOUCHED list ([#15269](https://github.com/ghostty-org/ghostty/issues/15269)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -643,188 +697,4 @@ Summary: 2 runs • 3 commits • 3 authors
   ```
 - [`73b201e`](https://github.com/ghostty-org/ghostty/commit/73b201ed3355622eb4e6ff8c3fb703fb1fed702c) docs: fix prettier error in vt release notes ([@jcollie](https://github.com/jcollie))
 - [`72ac7dc`](https://github.com/ghostty-org/ghostty/commit/72ac7dced84e96a5d5214d005d59eadd10da27bb) docs: fix prettier error in vt release notes ([#15211](https://github.com/ghostty-org/ghostty/issues/15211)) ([@mitchellh](https://github.com/mitchellh))
-
-## November 11, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/43120465374), [2](https://github.com/ghostty-org/ghostty/actions/runs/43116343611), [3](https://github.com/ghostty-org/ghostty/actions/runs/43109502795), [4](https://github.com/ghostty-org/ghostty/actions/runs/43088927858), [5](https://github.com/ghostty-org/ghostty/actions/runs/43088194050), [6](https://github.com/ghostty-org/ghostty/actions/runs/43076356783), [7](https://github.com/ghostty-org/ghostty/actions/runs/43052067738), [8](https://github.com/ghostty-org/ghostty/actions/runs/42965895341)  
-Summary: 8 runs • 17 commits • 4 authors
-
-### Changes
-
-- [`c6174c8`](https://github.com/ghostty-org/ghostty/commit/c6174c88f42b48adb14857c9233b16f6947ab732) Update VOUCHED list ([#15209](https://github.com/ghostty-org/ghostty/issues/15209)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/15203#discussioncomment-19553167)
-  from @jcollie.
-  
-  Vouch: @krios2146
-  ```
-- [`fa70e8b`](https://github.com/ghostty-org/ghostty/commit/fa70e8b28d84d8b7e30db31c176e55b5e9c851f5) Update VOUCHED list ([#15208](https://github.com/ghostty-org/ghostty/issues/15208)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/15077#discussioncomment-19552828)
-  from @jcollie.
-  
-  Vouch: @montmejat
-  ```
-- [`d9a9b34`](https://github.com/ghostty-org/ghostty/commit/d9a9b34fcc52cb327b8f77a9392dc1aae7bffe45) doxygen: release notes for libghostty ([@mitchellh](https://github.com/mitchellh))
-- [`55ff97e`](https://github.com/ghostty-org/ghostty/commit/55ff97ec363a05e81467a928eb85df5b948d6a69) libghostty: move tree to 1.0.2 dev ([@mitchellh](https://github.com/mitchellh))
-- [`108cacb`](https://github.com/ghostty-org/ghostty/commit/108cacb17ed8990840cd14abfce43d8ed8503ca1) libghostty-vt: set version to 1.0.1-dev ([@mitchellh](https://github.com/mitchellh))
-- [`afeed2e`](https://github.com/ghostty-org/ghostty/commit/afeed2e6e5bef27060ec19237facf6407f68351c) ci: pin LXD to 5.21 for the snap build ([@mitchellh](https://github.com/mitchellh))
-- [`f7d91fa`](https://github.com/ghostty-org/ghostty/commit/f7d91fa456b5c1ad6e8785acda1018f4a1c7009e) terminal: search thread test no longer crashes on timeout ([@mitchellh](https://github.com/mitchellh))
-- [`da2a39f`](https://github.com/ghostty-org/ghostty/commit/da2a39fb7f8a918e847ed7aac69f25b97b11f2db) CI Fixes ([#15200](https://github.com/ghostty-org/ghostty/issues/15200)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes a couple issues that have been causing problems in CI:
-  
-  - Pin LXD for Snap builds, they fail with LXD 6 atm. I didn't look into
-  this further. I'm prioritizing green first.
-  - Valgrind tests found a race condition in a test where we could access
-  corrupt memory. This was in a test only, so fix that to avoid the crash.
-  ```
-- [`af57d7e`](https://github.com/ghostty-org/ghostty/commit/af57d7eda2050e65da30010f25962c31badc746a) ci: wait for snapd before installing lxd ([@mitchellh](https://github.com/mitchellh))
-- [`8ad3f60`](https://github.com/ghostty-org/ghostty/commit/8ad3f607fd951985f8657d72e7bcc989ea636a4c) terminal: prompt redraw on resize no longer leaves stale prompts ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13629
-  Fixes #14751
-  Supersedes #14707
-  
-  When a resize changes the column count and the shell redraws its prompt
-  (OSC 133), we previously could leave stale prompt rows behind. Each resize
-  added another copy, and this caused issues most visibly with prmpts that
-  used the whole line, like powerlevel10k.
-  
-  Two separate bugs here.
-  
-  (1) Reflow copied a row's semantic prompt mark onto every row it split
-  the row into, and a joined row took the mark of the last row joined into it.
-  
-  (2) We clear the prompt after the reflow, so the clear looked for the prompt
-  start using those wrong marks. Narrowing cleared from a later start and
-  left the top of the prompt behind. Widening walked past the missing
-  start and also cleared the previous prompt.
-  
-  Reflow now marks only the first row of a prompt as the prompt start,
-  the same as if the prompt were printed at the new width. This also
-  fixes jump to prompt and other prompt features for older prompts in
-  scrollback.
-  
-  For the redraw, we now find the prompt start before the resize and
-  track it with a pin. Column reflow writes the prompt rows as blank rows
-  that each end their line (`PageList.Resize.blank`), so the prompt keeps
-  the row count it had at the old width. That matters because after
-  SIGWINCH, zsh moves the cursor up by the number of rows the prompt took
-  at the old width and then redraws. We clear from the pin after the
-  resize, so a failed resize still leaves the prompt untouched.
-  ```
-- [`e6076b3`](https://github.com/ghostty-org/ghostty/commit/e6076b3a6e6d4bc603a17324c7f40a859d6b8b3a) terminal: prompt redraw on resize no longer leaves stale prompts ([#15199](https://github.com/ghostty-org/ghostty/issues/15199)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #13629
-  Fixes #14751
-  Supersedes #14707
-  
-  When a resize changes the column count and the shell redraws its prompt
-  (OSC 133), we previously could leave stale prompt rows behind. Each
-  resize added another copy, and this caused issues most visibly with
-  prmpts that used the whole line, like powerlevel10k.
-  
-  Two separate bugs here.
-  
-  (1) Reflow copied a row's semantic prompt mark onto every row it split
-  the row into, and a joined row took the mark of the last row joined into
-  it.
-  
-  (2) We clear the prompt after the reflow, so the clear looked for the
-  prompt start using those wrong marks. Narrowing cleared from a later
-  start and left the top of the prompt behind. Widening walked past the
-  missing start and also cleared the previous prompt.
-  
-  Reflow now marks only the first row of a prompt as the prompt start, the
-  same as if the prompt were printed at the new width. This also fixes
-  jump to prompt and other prompt features for older prompts in
-  scrollback.
-  
-  For the redraw, we now find the prompt start before the resize and track
-  it with a pin. Column reflow writes the prompt rows as blank rows that
-  each end their line (`PageList.Resize.blank`), so the prompt keeps the
-  row count it had at the old width. That matters because after SIGWINCH,
-  zsh moves the cursor up by the number of rows the prompt took at the old
-  width and then redraws. We clear from the pin after the resize, so a
-  failed resize still leaves the prompt untouched.
-  
-  **AI usage:** Simultaneously found the issue with Fable, I fixed the
-  primary logic, Opus wrote tests and ran differential tests across a
-  variety of prompts to validate it. It did find a couple bugs in my logic
-  which I then fixed.
-  ```
-- [`4edde79`](https://github.com/ghostty-org/ghostty/commit/4edde79c034023e35249a296803bd7e1f30bb2be) macos: fix split activation mouse handling ([@nurpax](https://github.com/nurpax))
-  ```text
-  Double-clicking an inactive split can select text in the previously
-  focused split. The first click activates the new split, but is stopped
-  before AppKit receives it. AppKit then sends the second click to the
-  old split.
-  
-  Let AppKit receive the first click, and suppress it in mouseDown and
-  mouseUp instead so it is not forwarded to the terminal.
-  
-  for #14901, #15168
-  ```
-- [`ab2f658`](https://github.com/ghostty-org/ghostty/commit/ab2f658b17fd58ce8ecf4f5f1b8a9c66991a9a9d) build: support -Demit-lib-vt and -Demit-exe together ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #15080
-  
-  The combined install is layout and byte-identical to the two separate installs
-  except for the prefix in the pkg-config files and the exe itself of
-  course because our exe builds aren't perfectly reproducible.
-  ```
-- [`290100c`](https://github.com/ghostty-org/ghostty/commit/290100c5dbab9461ea3905e6a344f6d6db14e30f) build: support -Demit-lib-vt and -Demit-exe together ([#15196](https://github.com/ghostty-org/ghostty/issues/15196)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #15080
-  
-  The combined install is layout and byte-identical to the two separate
-  installs except for the prefix in the pkg-config files and the exe
-  itself of course because our exe builds aren't perfectly reproducible.
-  ```
-- [`2693982`](https://github.com/ghostty-org/ghostty/commit/2693982f8e20186c9a1e1c59dfb97f41ef3f57a0) macOS: fix split activation mouse handling ([#15190](https://github.com/ghostty-org/ghostty/issues/15190)) ([@bo2themax](https://github.com/bo2themax))
-  ```text
-  The original macOS bug opened in a discussion #14901. Further explained
-  in my accepted vouch request #15168.
-  
-  In short, the issue is double-clicking an inactive split on macOS
-  selects text in the previously focused split. The first click changes
-  focus but is stopped before AppKit receives it, so AppKit sends
-  subsequent mouse events to the old split. Discussion #14901 has a video
-  capture of how it misbehaves.
-  
-  Tested on macOS.
-  
-  **AI use**: I did use Codex to draft the changes, although tbh, rewrote
-  the code comments and the code by hand many times to make it as easy as
-  possible to understand (for myself and for reviewers).
-  ```
-- [`9b848b0`](https://github.com/ghostty-org/ghostty/commit/9b848b0f5c1f5e18611d89a570540df9ad2333d1) libghostty: restored snapshot keeps final page capacity max size ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #15192
-  
-  Typically during snapshot decode, we decode into an exact-sized page as
-  requested by the snapshot. This means that the final page was allocated
-  wastefully and the next write would immediately force an allocation.
-  
-  The SCREEN decoder now gives the last page as many rows as fit in its
-  pool item (`PageList.fillPooled`), and the PAGE decoder accepts a
-  destination with more rows than advertised. History pages are unchanged
-  since they never grow, and so is the snapshot format.
-  ```
-- [`a622196`](https://github.com/ghostty-org/ghostty/commit/a622196c930138f312884382ab784e45b9ab653b) libghostty: restored snapshot keeps final page capacity max size ([#15195](https://github.com/ghostty-org/ghostty/issues/15195)) ([@mitchellh](https://github.com/mitchellh))
-  ```text
-  Fixes #15192
-  
-  Typically during snapshot decode, we decode into an exact-sized page as
-  requested by the snapshot. This means that the final page was allocated
-  wastefully and the next write would immediately force an allocation.
-  
-  The SCREEN decoder now gives the last page as many rows as fit in its
-  pool item (`PageList.fillPooled`), and the PAGE decoder accepts a
-  destination with more rows than advertised. History pages are unchanged
-  since they never grow, and so is the snapshot format.
-  ```
 
