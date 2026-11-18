@@ -8,7 +8,174 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 18, 2026 at 02:41 UTC.
+> Last updated: November 18, 2026 at 10:59 UTC.
+
+## November 18, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44247634968)  
+Summary: 1 runs • 2 commits • 2 authors
+
+### Changes
+
+- [`d9d56b6`](https://github.com/ghostty-org/ghostty/commit/d9d56b6c26d778e360257f119885eee24000505d) build(deps): bump hustcer/milestone-action from 3.2 to 3.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [hustcer/milestone-action](https://github.com/hustcer/milestone-action) from 3.2 to 3.3.
+  - [Release notes](https://github.com/hustcer/milestone-action/releases)
+  - [Changelog](https://github.com/hustcer/milestone-action/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/hustcer/milestone-action/compare/2f38355153344ccaaa44b5b5fcff9f604dff1b45...815f8224db33f809c5063c66e2e4f530208f401e)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: hustcer/milestone-action
+    dependency-version: '3.3'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`7a8ff4d`](https://github.com/ghostty-org/ghostty/commit/7a8ff4d992edd2aad7537e5bef73ec911aa126bf) build(deps): bump hustcer/milestone-action from 3.2 to 3.3 ([#15271](https://github.com/ghostty-org/ghostty/issues/15271)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Bumps
+  [hustcer/milestone-action](https://github.com/hustcer/milestone-action)
+  from 3.2 to 3.3.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/hustcer/milestone-action/releases">hustcer/milestone-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.3</h2>
+  <h2>[3.3] - 2026-11-15</h2>
+  <h3>Deps</h3>
+  <ul>
+  <li>Upgrade nushell from 0.115.1 to 0.117.0</li>
+  <li>Upgrade hustcer/setup-nu from v3.27 to v3.30</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/hustcer/milestone-action/blob/main/CHANGELOG.md">hustcer/milestone-action's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <p>All notable changes to this project will be documented in this
+  file.</p>
+  <h2>[3.3] - 2026-11-15</h2>
+  <h3>Deps</h3>
+  <ul>
+  <li>Upgrade nushell from 0.115.1 to 0.117.0</li>
+  <li>Upgrade hustcer/setup-nu from v3.27 to v3.30</li>
+  </ul>
+  <h2>[3.2] - 2026-08-25</h2>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li>Harden action inputs and make GraphQL file lookup path-independent
+  (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/168">#168</a>)</li>
+  <li>Look up milestones by title across all states with pagination (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/170">#170</a>)</li>
+  <li>Guard GITHUB_OUTPUT, surface GraphQL errors and tighten is-int (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/172">#172</a>)</li>
+  <li>Require title for create action and sync stale docs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/174">#174</a>)</li>
+  <li>Send milestone fields as raw strings and harden action inputs (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/176">#176</a>)</li>
+  </ul>
+  <h3>Deps</h3>
+  <ul>
+  <li>Upgrade hustcer/setup-nu to v3.25 &amp; Nu to 0.113.1</li>
+  <li>Upgrade hustcer/setup-nu to v3.27 and Nu to 0.115</li>
+  <li>Upgrade Nu to 0.115.1</li>
+  </ul>
+  <h2>[3.1] - 2026-01-23</h2>
+  <h3>Documentation</h3>
+  <ul>
+  <li>Update milestone-action version in README (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/162">#162</a>)</li>
+  </ul>
+  <h3>Features</h3>
+  <ul>
+  <li>Break before sleep when milestone found</li>
+  </ul>
+  <h3>Miscellaneous Tasks</h3>
+  <ul>
+  <li>Update README.md (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/166">#166</a>)</li>
+  </ul>
+  <h3>Deps</h3>
+  <ul>
+  <li>Update Nu to 0.109.1</li>
+  <li>Update Nushell to 0.110.0 (<a
+  href="https://redirect.github.com/hustcer/milestone-action/issues/167">#167</a>)</li>
+  <li>Upgrade hustcer/setup-nu to v3.22</li>
+  </ul>
+  <h1>Changelog</h1>
+  <p>All notable changes to this project will be documented in this
+  file.</p>
+  <h2>[3.0] - 2025-10-26</h2>
+  <!-- raw HTML omitted -->
+  </blockquote>
+  <p>... (truncated)</p>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/815f8224db33f809c5063c66e2e4f530208f401e"><code>815f822</code></a>
+  chore: update CHANGELOG.md</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/13801ea24afcdea4b80608b936582475ba55bdd3"><code>13801ea</code></a>
+  Bump to v3.3</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/916b5dc899cb31ea0c72f86d09288bf76c9a9a5e"><code>916b5dc</code></a>
+  deps: Upgrade hustcer/setup-nu &amp; Nu to latest version</li>
+  <li><a
+  href="https://github.com/hustcer/milestone-action/commit/93633102e028c297578c8e156312d16ba7dc2998"><code>9363310</code></a>
+  deps: Upgrade hustcer/setup-nu &amp; Nu to latest version</li>
+  <li>See full diff in <a
+  href="https://github.com/hustcer/milestone-action/compare/2f38355153344ccaaa44b5b5fcff9f604dff1b45...815f8224db33f809c5063c66e2e4f530208f401e">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=hustcer/milestone-action&package-manager=github_actions&previous-version=3.2&new-version=3.3)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## November 17, 2026
 
