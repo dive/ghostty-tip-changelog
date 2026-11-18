@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 18, 2026 at 10:59 UTC.
+> Last updated: November 18, 2026 at 19:52 UTC.
 
 ## November 18, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44247634968)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44324235659), [2](https://github.com/ghostty-org/ghostty/actions/runs/44247634968)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`3f2fe14`](https://github.com/ghostty-org/ghostty/commit/3f2fe1472882349ca140a83deca150573a7018fb) Update VOUCHED list ([#15277](https://github.com/ghostty-org/ghostty/issues/15277)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15276#discussioncomment-19710658)
+  from @jcollie.
+  
+  Vouch: @orion0616
+  ```
 - [`d9d56b6`](https://github.com/ghostty-org/ghostty/commit/d9d56b6c26d778e360257f119885eee24000505d) build(deps): bump hustcer/milestone-action from 3.2 to 3.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [hustcer/milestone-action](https://github.com/hustcer/milestone-action) from 3.2 to 3.3.
