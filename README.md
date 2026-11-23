@@ -8,7 +8,389 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 23, 2026 at 01:20 UTC.
+> Last updated: November 23, 2026 at 11:40 UTC.
+
+## November 23, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45158528108), [2](https://github.com/ghostty-org/ghostty/actions/runs/45155969664), [3](https://github.com/ghostty-org/ghostty/actions/runs/45108393933), [4](https://github.com/ghostty-org/ghostty/actions/runs/45100290092)  
+Summary: 4 runs • 21 commits • 5 authors
+
+### Changes
+
+- [`4ca667f`](https://github.com/ghostty-org/ghostty/commit/4ca667f7f9e14371b63d01939327424e213a9a9f) gtk: emit RenderSurface resizes at most once per frame ([@jcollie](https://github.com/jcollie))
+  ```text
+  A widget can be allocated more than once in a single layout pass. A
+  GtkScrolledWindow with non-overlay scrollbars ("Always Show Scrollbars")
+  allocates its child as if the scrollbar were hidden, checks the
+  adjustment, and allocates it again narrower to make room for the
+  scrollbar. RenderSurface emitted `resize` on every allocation, so each
+  layout pass resized the terminal twice, and since the two sizes really
+  differ, the size-change guard from #11970 let both through. The resize
+  overlay then relabels itself, which queues another layout pass, and the
+  loop never settles: the overlay stays up and the terminal keeps
+  resizing between the two widths.
+  
+  GtkGLArea never had this problem because it only flagged a pending
+  resize in size-allocate and emitted it from its snapshot, with the
+  final size. Do the same: emit the first allocation immediately, so that
+  the core surface is still initialized on the first resize, and defer the
+  rest to snapshot.
+  
+  Fixes: #15078
+  ```
+- [`dd9cbff`](https://github.com/ghostty-org/ghostty/commit/dd9cbff037946f3fe9d72a546a429d6f4f03fa42) gtk: paste a single dropped file ([@jcollie](https://github.com/jcollie))
+  ```text
+  Dropping a single file built its shell-escaped path but never pasted
+  it, and leaked the path.
+  ```
+- [`df28358`](https://github.com/ghostty-org/ghostty/commit/df28358dd4a228749a237ed031de2f8dde163d99) gtk: coalesce mouse cursor updates ([@jcollie](https://github.com/jcollie))
+  ```text
+  Programs can change the mouse shape many times in a single write. tmux
+  with `mouse on` resets mouse reporting after every passthrough chunk,
+  so a Kitty graphics image sent through tmux toggles the shape between
+  text and default hundreds of times. Each change was applied to the
+  render surface immediately, and on Wayland each one is a separate
+  wp_cursor_shape_device_v1.set_shape request. A large enough burst
+  fills the client's socket buffer and GTK exits with "Error flushing
+  display: Resource temporarily unavailable", taking every window with
+  it.
+  
+  Apply the mouse shape and hidden state on an idle tick instead, and
+  only when the resulting cursor differs from the one last set. A burst
+  now produces at most one request. A reproducer that sends 2000 mouse
+  mode resets in one write went from ~3900 set_shape requests to 10.
+  
+  See discussions #11944 and #11909.
+  
+  Fixes #14886
+  ```
+- [`bf6bd1f`](https://github.com/ghostty-org/ghostty/commit/bf6bd1fa58391fdae1a31552d1baeb456f45cdee) gtk: add per-tab color indicators ([@edsarmiento](https://github.com/edsarmiento))
+  ```text
+  #14979
+  
+  Add a tab context menu action that opens a small color dialog and
+  shows the chosen color as an AdwTabPage indicator icon.
+  ```
+- [`1cef2dc`](https://github.com/ghostty-org/ghostty/commit/1cef2dce47de1b2db5fe9b561108abb40b2bad95) gtk: address tab color review feedback ([@edsarmiento](https://github.com/edsarmiento))
+  ```text
+  Draw color swatches with gtk.Snapshot vector paths instead of a
+  16x16 pixel bitmap, including a slashed outline for none and a
+  selection ring for the current color in the picker dialog. Update
+  translation catalogs for the new strings.
+  ```
+- [`1cd7dc0`](https://github.com/ghostty-org/ghostty/commit/1cd7dc0e33520207a82a038c22c546344f8d7189) gtk: shorten tab color comments ([@edsarmiento](https://github.com/edsarmiento))
+- [`9451230`](https://github.com/ghostty-org/ghostty/commit/9451230b4e60758b4b446d1de3a53f7ecabedd2c) gtk: address second tab color review ([@edsarmiento](https://github.com/edsarmiento))
+- [`8de4824`](https://github.com/ghostty-org/ghostty/commit/8de4824a294d830471e13dbd1c8e05e1cd907092) gtk: add TabColor unit tests ([@edsarmiento](https://github.com/edsarmiento))
+- [`36fcc8c`](https://github.com/ghostty-org/ghostty/commit/36fcc8cebd9a9ec4ebf0bef20eee5efdea02042b) gtk: use Adwaita accents and fix tab color review nits ([@edsarmiento](https://github.com/edsarmiento))
+  ```text
+  #14986
+  
+  Draw tab color swatches from adw.AccentColor instead of hardcoded
+  RGB values, share the empty indicator texture fallback helper, and
+  use a ToggleButton group so the selected swatch exposes a checked
+  accessible state. Initialize graphene Point/Rect with struct
+  literals so CI does not need a direct graphene link.
+  ```
+- [`dcf9c1a`](https://github.com/ghostty-org/ghostty/commit/dcf9c1aef65def805c16437fa297c118cc6f7157) gtk: simplify tab color selection UX ([@edsarmiento](https://github.com/edsarmiento))
+- [`56de3f0`](https://github.com/ghostty-org/ghostty/commit/56de3f0f6786a3ff4f971d075a28f73409212983) i18n: refresh catalogs for tab color dialog ([@edsarmiento](https://github.com/edsarmiento))
+  ```text
+  Regenerate the translation template after rebasing onto main so the
+  tab color strings and their source locations stay in sync with the code.
+  ```
+- [`5749a0f`](https://github.com/ghostty-org/ghostty/commit/5749a0f67469f5bbb50353bee2a1d0011b146396) font: stop runs at the last cell with text ([@teddytennant](https://github.com/teddytennant))
+- [`7f8b1c9`](https://github.com/ghostty-org/ghostty/commit/7f8b1c956daa010c0687caeec307303dd212f246) font: trim runs in init with Cell.isBlank ([@teddytennant](https://github.com/teddytennant))
+- [`6874ea6`](https://github.com/ghostty-org/ghostty/commit/6874ea6dd80e7b96f68c28ba4c6642b771ca5308) font: trim a trailing spacer head ([@teddytennant](https://github.com/teddytennant))
+- [`65ad366`](https://github.com/ghostty-org/ghostty/commit/65ad366e36d773c4a54afebb78ee958ef43d6357) libghostty: keep mouse encoder last cell across syncs ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The mouse encoder now remembers the "last cell" state across option
+  changes that don't impact it.
+  
+  This is important because we document and recommend that every mouse
+  encoding you resync from terminal (so you get latest terminal modes).
+  Even if nothing changed, this was dropping last cell state, meaning we
+  were over-encoding mouse position in otherwise well-behaved programs.
+  
+  From a VT perspective, there's nothing WRONG about that, but it actually
+  did cause a real bug: Codex expects a mouse click to behave as a
+  back-to-back "press" then "release" event. I think that's a bug and I
+  reported it upstream but this revealed this behavior because we'd do
+  "press" then "motion" then "release."
+  ```
+- [`8411b95`](https://github.com/ghostty-org/ghostty/commit/8411b9551e65d92913ab7028318a981c0495d4cb) terminal: keep the kitty placeholder flag in partial row clones ([@jcollie](https://github.com/jcollie))
+  ```text
+  A partial clonePartialRowFrom took the source row's
+  kitty_virtual_placeholder flag, so placeholders in the destination
+  outside the copied range stopped rendering. This happens when
+  insertLines or deleteLines with left and right margins move a row
+  across a page boundary.
+  
+  Keep the flag if either row has it.
+  ```
+- [`74d1983`](https://github.com/ghostty-org/ghostty/commit/74d1983f27eb004ef442c8353bd703eba19c93b6) libghostty: keep mouse encoder last cell across syncs ([#15317](https://github.com/ghostty-org/ghostty/issues/15317)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  The mouse encoder now remembers the "last cell" state across option
+  changes that don't impact it.
+  
+  This is important because we document and recommend that every mouse
+  encoding you resync from terminal (so you get latest terminal modes).
+  Even if nothing changed, this was dropping last cell state, meaning we
+  were over-encoding mouse position in otherwise well-behaved programs.
+  
+  From a VT perspective, there's nothing WRONG about that, but it actually
+  did cause a real bug: Codex expects a mouse click to behave as a
+  back-to-back "press" then "release" event. I think that's a bug and I
+  reported it upstream but this revealed this behavior because we'd do
+  "press" then "motion" then "release."
+  ```
+- [`dc42b86`](https://github.com/ghostty-org/ghostty/commit/dc42b864e7ba365a91ce85e7b68c6e49cc9759aa) terminal: keep the kitty placeholder flag in partial row clones ([#15320](https://github.com/ghostty-org/ghostty/issues/15320)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  A partial clonePartialRowFrom took the source row's
+  kitty_virtual_placeholder flag, so placeholders in the destination
+  outside the copied range stopped rendering. This happens when
+  insertLines or deleteLines with left and right margins move a row across
+  a page boundary.
+  
+  Keep the flag if either row has it.
+  
+  AI disclosure: Claude Code was used in the preparation of this PR.
+  ```
+- [`7424140`](https://github.com/ghostty-org/ghostty/commit/74241405fe457d6a569a110cffe9d75a1c9a53b7) font: stop runs at the last cell with text ([#15288](https://github.com/ghostty-org/ghostty/issues/15288)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Background-only cells don't count as empty to `Cell.isEmpty`. Terminal
+  apps that fill rows with their own background color (e.g. nvim's default
+  scheme, most colorschemes, tmux status lines) get blank cells shaped all
+  the way to the right edge. Now the trim stops at the last cell with
+  text, and it's only computed once per row.
+  
+  `ghostty-bench +shaper-rows --mode=shape` on a captured nvim screen goes
+  from 173 ms to 77 ms on an i7-11700K and 321 ms to 203 ms on an M1 Pro.
+  
+  *AI disclosure: I used Claude Opus 5.5 to draft the fix and to review
+  it. I've read and understand all of it.*
+  ```
+- [`a063249`](https://github.com/ghostty-org/ghostty/commit/a0632495d4507d46d972ab92d7a7180e9e011032) build(deps): bump actions/create-github-app-token from 3.3.0 to 3.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [actions/create-github-app-token](https://github.com/actions/create-github-app-token) from 3.3.0 to 3.4.0.
+  - [Release notes](https://github.com/actions/create-github-app-token/releases)
+  - [Changelog](https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/actions/create-github-app-token/compare/64ab729a6294000f5aa4a4bc0b73d1f32bc45510...f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions/create-github-app-token
+    dependency-version: 3.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`ec5925a`](https://github.com/ghostty-org/ghostty/commit/ec5925acf948c00f8204c420329f142f6e1471bb) build(deps): bump actions/create-github-app-token from 3.3.0 to 3.4.0 ([#15322](https://github.com/ghostty-org/ghostty/issues/15322)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [actions/create-github-app-token](https://github.com/actions/create-github-app-token)
+  from 3.3.0 to 3.4.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/releases">actions/create-github-app-token's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v3.4.0</h2>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.3.0...v3.4.0">3.4.0</a>
+  (2026-11-18)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>bump actions/setup-node from 6 to 7 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/410">#410</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/09c1ab7079f14af5f0d64c9325739c49a8541f56">09c1ab7</a>)</li>
+  <li>bump actions/stale from 10 to 11 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/409">#409</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/679345a20e2e07130130e6cf0301b9e897f18cd5">679345a</a>)</li>
+  <li>bump stefanzweifel/git-auto-commit-action from 7.2.0 to 7.2.1 in the
+  github-actions group (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/408">#408</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/660c44c8ce22207448fbba2730cd2913052c9de3">660c44c</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump undici (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/406">#406</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/18e9994c8d13ac7c7e2bbcc3355a1a4f31d30de7">18e9994</a>)</li>
+  </ul>
+  <h2>v3.4.0-beta</h2>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.3.0...v3.4.0-beta">3.4.0-beta</a>
+  (2026-11-17)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>support GitHub Actions OIDC authentication (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/411">#411</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/8240f10d3ae05b4d450da83e8e247111a36eaf2c">8240f10</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Changelog</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md">actions/create-github-app-token's
+  changelog</a>.</em></p>
+  <blockquote>
+  <h1>Changelog</h1>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.3.0...v3.4.0">3.4.0</a>
+  (2026-11-18)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>bump actions/setup-node from 6 to 7 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/410">#410</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/09c1ab7079f14af5f0d64c9325739c49a8541f56">09c1ab7</a>)</li>
+  <li>bump actions/stale from 10 to 11 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/409">#409</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/679345a20e2e07130130e6cf0301b9e897f18cd5">679345a</a>)</li>
+  <li>bump stefanzweifel/git-auto-commit-action from 7.2.0 to 7.2.1 in the
+  github-actions group (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/408">#408</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/660c44c8ce22207448fbba2730cd2913052c9de3">660c44c</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump undici (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/406">#406</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/18e9994c8d13ac7c7e2bbcc3355a1a4f31d30de7">18e9994</a>)</li>
+  </ul>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.2.0...v3.3.0">3.3.0</a>
+  (2026-10-12)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>update permission inputs (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/399">#399</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/a47236f79f79fcbc3532af49fe3a5ded89529b6e">a47236f</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump nested undici from 6.24.0 to 6.29.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/403">#403</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/12461a3a794e67c032f1eff5bb95ece9427eb4fb">12461a3</a>)</li>
+  <li><strong>deps:</strong> bump the production-dependencies group across
+  1 directory with 3 updates (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/395">#395</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/a69c19ddfdf8e1ab093900e0064524ce9309c807">a69c19d</a>)</li>
+  </ul>
+  <h2><a
+  href="https://github.com/actions/create-github-app-token/compare/v3.1.1...v3.2.0">3.2.0</a>
+  (2026-05-12)</h2>
+  <h3>Features</h3>
+  <ul>
+  <li>add support for enterprise-level GitHub Apps (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/263">#263</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/952a2a7073df6bfa5f49bc469ec895b6ec1acea4">952a2a7</a>)</li>
+  <li>support full repository names in <code>repositories</code> input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/372">#372</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/85eb8dd41472213aed25d1a126460e0069138ab6">85eb8dd</a>)</li>
+  </ul>
+  <h3>Bug Fixes</h3>
+  <ul>
+  <li><strong>deps:</strong> bump <code>@​actions/core</code> from 3.0.0
+  to 3.0.1 in the production-dependencies group (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/364">#364</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/43e5c345bfd4d4f3ecea019ad0042001a09dd857">43e5c34</a>)</li>
+  <li>validate private-key input (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/376">#376</a>)
+  (<a
+  href="https://github.com/actions/create-github-app-token/commit/f24bbd89643991c0de27ae823c01791b2c6bafdd">f24bbd8</a>)</li>
+  </ul>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc"><code>f418cff</code></a>
+  chore(main): release 3.4.0 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/415">#415</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/09c1ab7079f14af5f0d64c9325739c49a8541f56"><code>09c1ab7</code></a>
+  feat: bump actions/setup-node from 6 to 7 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/410">#410</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/01b8009bd6d3d8cce95b612d9793c2b76ef46ee3"><code>01b8009</code></a>
+  test: strip ANSI escape codes from snapshot output (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/412">#412</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/e05686484174f08cd73b6c67321c77132a9ace91"><code>e056864</code></a>
+  build(deps-dev): bump undici from 8.12.3 to 8.12.4 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/416">#416</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/679345a20e2e07130130e6cf0301b9e897f18cd5"><code>679345a</code></a>
+  feat: bump actions/stale from 10 to 11 (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/409">#409</a>)</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/660c44c8ce22207448fbba2730cd2913052c9de3"><code>660c44c</code></a>
+  feat: bump stefanzweifel/git-auto-commit-action from 7.2.0 to 7.2.1 in
+  the gi...</li>
+  <li><a
+  href="https://github.com/actions/create-github-app-token/commit/18e9994c8d13ac7c7e2bbcc3355a1a4f31d30de7"><code>18e9994</code></a>
+  fix(deps): bump undici (<a
+  href="https://redirect.github.com/actions/create-github-app-token/issues/406">#406</a>)</li>
+  <li>See full diff in <a
+  href="https://github.com/actions/create-github-app-token/compare/64ab729a6294000f5aa4a4bc0b73d1f32bc45510...f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=actions/create-github-app-token&package-manager=github_actions&previous-version=3.3.0&new-version=3.4.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## November 22, 2026
 
