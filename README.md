@@ -8,15 +8,102 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 24, 2026 at 08:02 UTC.
+> Last updated: November 24, 2026 at 19:52 UTC.
 
 ## November 24, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45315443751)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45457981464), [2](https://github.com/ghostty-org/ghostty/actions/runs/45447070333), [3](https://github.com/ghostty-org/ghostty/actions/runs/45443043723), [4](https://github.com/ghostty-org/ghostty/actions/runs/45315443751)  
+Summary: 4 runs • 9 commits • 2 authors
 
 ### Changes
 
+- [`5e48fe3`](https://github.com/ghostty-org/ghostty/commit/5e48fe30295bdd499c8c631236aa7869992515be) build: lower minimum required version to 0.17.0 ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We don't NEED 0.17.1, so we should support environments that have any
+  0.17.x. This was caught during an audit prior to a new libghostty-vt
+  release. We shouldn't force that ecosystem to update Zig versions here.
+  ```
+- [`16c7a73`](https://github.com/ghostty-org/ghostty/commit/16c7a734648011d0e4a6bf763e2f4e2f3bd27d8a) build: lower minimum required version to 0.17.0 ([#15339](https://github.com/ghostty-org/ghostty/issues/15339)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  We don't NEED 0.17.1, so we should support environments that have any
+  0.17.x. This was caught during an audit prior to a new libghostty-vt
+  release. We shouldn't force that ecosystem to update Zig versions here.
+  
+  Our builds and CI still run 0.17.1.
+  ```
+- [`573c4a2`](https://github.com/ghostty-org/ghostty/commit/573c4a21e02311ae87844af26b6a7a179f82858e) libghostty-vt: v1.0.2 ([@mitchellh](https://github.com/mitchellh))
+- [`7a1dbc2`](https://github.com/ghostty-org/ghostty/commit/7a1dbc2152f6cc71a4f1ffe873f4f9def4f28b3d) font: skin tone modifiers imply emoji presentation for shaping ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  See #15315 #15337
+  
+  UTS #51 says a skin tone modifier implies emoji presentation for its
+  base, with no VS16 needed. The shaper only looked for VS15 and VS16,
+  so these clusters had no preference and took the first font that had
+  every code point. If the first codepoint (such as U+1F590) defaults to
+  text, then the whole thing stayed text.
+  
+  A modifier now asks for emoji presentation like VS16 does. Unlike
+  VS16, it is only a preference: if no font supports the cluster as an
+  emoji, we search again with no preference, so a font setup with no
+  color emoji font still draws the cluster as text instead of a
+  replacement character.
+  
+  macOS was never affected since Apple Color Emoji is the only emoji
+  fallback there, and it resolves the same way before and after.
+  ```
+- [`65f9061`](https://github.com/ghostty-org/ghostty/commit/65f90613a9551c7136d78a97ba680a37f2c14b8c) font: skin tone modifiers imply emoji presentation for shaping ([#15338](https://github.com/ghostty-org/ghostty/issues/15338)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  See #15315 #15337
+  
+  UTS #51 says a skin tone modifier implies emoji presentation for its
+  base, with no VS16 needed. The shaper only looked for VS15 and VS16, so
+  these clusters had no preference and took the first font that had every
+  code point. If the first codepoint (such as U+1F590) defaults to text,
+  then the whole thing stayed text.
+  
+  A modifier now asks for emoji presentation like VS16 does. Unlike VS16,
+  it is only a preference: if no font supports the cluster as an emoji, we
+  search again with no preference, so a font setup with no color emoji
+  font still draws the cluster as text instead of a replacement character.
+  
+  macOS was never affected since Apple Color Emoji is the only emoji
+  fallback there, and it resolves the same way before and after.
+  
+  **AI usage:** Opus helped run the tests as well as do graphical runs for
+  me with screenshots across platforms.
+  ```
+- [`a0e3e25`](https://github.com/ghostty-org/ghostty/commit/a0e3e2592646d3dbc6cea7fe7051171e86f1c666) unicode: a skin tone modifier widens its grapheme cluster ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15315
+  
+  With grapheme clustering (mode 2027), a skin tone modifier
+  (U+1F3FB through U+1F3FF) after an emoji that is drawn as text by
+  default left the cluster 1 cell wide. For example, U+261D U+1F3FB
+  (index pointing up, light skin tone) took 1 cell, while U+261D U+FE0F
+  took 2. A modifier asks for the emoji form of its base (UTS #51,
+  section 2.4), so it should widen the cluster just like VS16 does.
+  
+  This is free, this just modifies our LUT and doesn't change any of the
+  actual print logic. I ran benchmarks to verify though.
+  ```
+- [`77c2f8b`](https://github.com/ghostty-org/ghostty/commit/77c2f8b9f706c9e7692de8eecb86c759ddc6dbc8) unicode: a skin tone modifier widens its grapheme cluster ([#15337](https://github.com/ghostty-org/ghostty/issues/15337)) ([@mitchellh](https://github.com/mitchellh))
+  ```text
+  Fixes #15315
+  
+  With grapheme clustering (mode 2027), a skin tone modifier (U+1F3FB
+  through U+1F3FF) after an emoji that is drawn as text by default left
+  the cluster 1 cell wide. For example, U+261D U+1F3FB (index pointing up,
+  light skin tone) took 1 cell, while U+261D U+FE0F took 2. A modifier
+  asks for the emoji form of its base (UTS #51, section 2.4), so it should
+  widen the cluster just like VS16 does.
+  
+  Note uucode does the right thing here because it applies this logic in
+  its width function. We don't use that because we use a LUT, and our LUT
+  didn't handle this property properly.
+  
+  This is free, this just modifies our LUT and doesn't change any of the
+  actual print logic. I ran benchmarks to verify though.
+  ```
 - [`7059ea9`](https://github.com/ghostty-org/ghostty/commit/7059ea928cbe495c3da61397be8e06399c33f715) build(deps): bump cachix/install-nix-action from 31.11.5 to 32.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
   ```text
   Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 31.11.5 to 32.0.0.
