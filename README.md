@@ -8,15 +8,23 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 26, 2026 at 01:27 UTC.
+> Last updated: November 26, 2026 at 11:48 UTC.
 
 ## November 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45727229222)  
-Summary: 1 runs • 2 commits • 2 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45803745959), [2](https://github.com/ghostty-org/ghostty/actions/runs/45727229222)  
+Summary: 2 runs • 3 commits • 3 authors
 
 ### Changes
 
+- [`4ebafeb`](https://github.com/ghostty-org/ghostty/commit/4ebafeb70b3dde9de578040f90fa9d8c13dfa2d0) Update VOUCHED list ([#15362](https://github.com/ghostty-org/ghostty/issues/15362)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by
+  [comment](https://github.com/ghostty-org/ghostty/issues/15360#issuecomment-7189692822)
+  from @bo2themax.
+  
+  Vouch: @joariasl
+  ```
 - [`68bd03f`](https://github.com/ghostty-org/ghostty/commit/68bd03ffaf7be2c584d28780158c3a678d894e89) gtk: tidy tab color lifecycle ([@jcollie](https://github.com/jcollie))
   ```text
   Release the dialog's Tab reference in dispose rather than finalize.
