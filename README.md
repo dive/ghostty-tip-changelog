@@ -8,15 +8,47 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 26, 2026 at 20:50 UTC.
+> Last updated: November 27, 2026 at 03:26 UTC.
 
 ## November 26, 2026
 
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45803745959), [2](https://github.com/ghostty-org/ghostty/actions/runs/45727229222)  
-Summary: 2 runs • 3 commits • 3 authors
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/45911520331), [2](https://github.com/ghostty-org/ghostty/actions/runs/45803745959), [3](https://github.com/ghostty-org/ghostty/actions/runs/45727229222)  
+Summary: 3 runs • 6 commits • 4 authors
 
 ### Changes
 
+- [`444ba97`](https://github.com/ghostty-org/ghostty/commit/444ba9781552bb9aa42cad8f91449c80e328eaf9) docs: update required blueprint-compiler version in HACKING.md ([@abhinavgautam01](https://github.com/abhinavgautam01))
+  ```text
+  The build has required blueprint-compiler 0.20.0 since 9573ecd03, but
+  HACKING.md still said 0.16.0.
+  ```
+- [`c6bac30`](https://github.com/ghostty-org/ghostty/commit/c6bac303bb9fb98e55250060d32ba1fb30ab1fe2) docs: update required blueprint-compiler version in HACKING.md ([#15359](https://github.com/ghostty-org/ghostty/issues/15359)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  I mentioned this in my vouch request #15349
+  
+  `HACKING.md` says building from a Git checkout needs
+  `blueprint-compiler` 0.16.0 or newer, but the build has required 0.20.0
+  since 9573ecd03 (`required_blueprint_version` in
+  `src/apprt/gtk/build/blueprint.zig`).
+  
+  The build's error message points people to `HACKING.md`, so anyone
+  following it with 0.16–0.19 still hits the "`blueprint-compiler` is the
+  wrong version" error... i ran into this myself while building on Ubuntu
+  26.04
+  
+  ### AI disclosure
+  
+  I used Claude Code to help confirm the mismatch and also verified it
+  myself, while setting it up on WSL.
+  ```
+- [`19da8d4`](https://github.com/ghostty-org/ghostty/commit/19da8d4c75b0f37d3cf53c3718d4538049c3f214) Update VOUCHED list ([#15368](https://github.com/ghostty-org/ghostty/issues/15368)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
+  ```text
+  Triggered by [discussion
+  comment](https://github.com/ghostty-org/ghostty/discussions/15367#discussioncomment-19935758)
+  from @pluiedev.
+  
+  Vouch: @tomups
+  ```
 - [`4ebafeb`](https://github.com/ghostty-org/ghostty/commit/4ebafeb70b3dde9de578040f90fa9d8c13dfa2d0) Update VOUCHED list ([#15362](https://github.com/ghostty-org/ghostty/issues/15362)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
   ```text
   Triggered by
@@ -1198,21 +1230,5 @@ Summary: 1 runs • 4 commits • 1 authors
   Once 5 has been accomplished someone can add the macOS DnD support.
   
   AI disclosure: Claude Code was used in the preparation of this PR.
-  ```
-
-## November 20, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44838354067)  
-Summary: 1 runs • 1 commits • 1 authors
-
-### Changes
-
-- [`9ad3c42`](https://github.com/ghostty-org/ghostty/commit/9ad3c422222e45b32c5f9ab9f4cd32e0e3694ef7) Update VOUCHED list ([#15298](https://github.com/ghostty-org/ghostty/issues/15298)) ([@ghostty-vouch[bot]](https://github.com/apps/ghostty-vouch))
-  ```text
-  Triggered by [discussion
-  comment](https://github.com/ghostty-org/ghostty/discussions/15297#discussioncomment-19786018)
-  from @jcollie.
-  
-  Vouch: @gourneau
   ```
 
