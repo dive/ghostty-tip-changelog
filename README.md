@@ -8,7 +8,181 @@
 >
 > Entries are grouped by UTC day and combine commits across all successful runs for each day.
 >
-> Last updated: November 27, 2026 at 15:59 UTC.
+> Last updated: November 28, 2026 at 00:58 UTC.
+
+## November 27, 2026
+
+Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/46064826275)  
+Summary: 1 runs • 5 commits • 3 authors
+
+### Changes
+
+- [`edf1235`](https://github.com/ghostty-org/ghostty/commit/edf1235fe05996671efb7d73e16ac6c3c4ca7c62) gtk: offload terminal render surfaces ([@tomups](https://github.com/tomups))
+  ```text
+  Wrap GhosttyRenderSurface in GtkGraphicsOffload to reduce fullscreen
+  mouse and typing lag with background blur on Intel/Wayland. Preserve
+  the render surface ID, focus properties, and signal handlers.
+  ```
+- [`cf61027`](https://github.com/ghostty-org/ghostty/commit/cf610274190de6f8373d829f87a9ec1208c7eaca) gtk: preserve transparency with graphics offload ([@tomups](https://github.com/tomups))
+  ```text
+  Enable the black offload background only for fully opaque terminals.
+  Update it through the existing config-change handler so transparency
+  changes take effect after a reload.
+  ```
+- [`e12540e`](https://github.com/ghostty-org/ghostty/commit/e12540ee25a744b684b31f8688a5d6e59e990854) build(deps): bump cachix/install-nix-action from 32.0.0 to 32.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  ```text
+  Bumps [cachix/install-nix-action](https://github.com/cachix/install-nix-action) from 32.0.0 to 32.1.0.
+  - [Release notes](https://github.com/cachix/install-nix-action/releases)
+  - [Changelog](https://github.com/cachix/install-nix-action/blob/master/RELEASE.md)
+  - [Commits](https://github.com/cachix/install-nix-action/compare/bb0495a1086c46893eee56f32fd192dfe4a15bb9...382a9ed9481c7c1f94f68b72ef105b3417c73877)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cachix/install-nix-action
+    dependency-version: 32.1.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+  ```
+- [`ff7068f`](https://github.com/ghostty-org/ghostty/commit/ff7068f4eb7d6d93778327e3948a86b2a42c1197) gtk: use GraphicsOffload for background blur lag ([#15371](https://github.com/ghostty-org/ghostty/issues/15371)) ([@jcollie](https://github.com/jcollie))
+  ````text
+  I was getting mouse and typing lag while running Codex on Intel/Wayland.
+  I have narrowed this down to background blur, even with a fully opaque
+  background. The minimal config is:
+  
+  ```ini
+  background-blur = 32
+  ```
+  
+  Without blur, mouse movement and typing are smooth. Enabling blur again
+  brings the lag back.
+  
+  My setup is CachyOS (Linux 7.3.5), MangoWM 0.18.6 on Wayland, Intel
+  Raptor Lake integrated graphics with Mesa 26.3.1, GTK 4.24.1, and
+  libadwaita 1.10.0. The screen is 2560×1600 at 240 Hz with 1.625×
+  scaling. The laptop also has an RTX 4090 Laptop GPU but I'm using the
+  iGPU for Ghostty.
+  
+  This patch wraps the terminal's render surface in `GtkGraphicsOffload`
+  to improve responsiveness with blur enabled.
+  
+  Measured latency on my system went from around 105–133 ms to 62–70 ms
+  with an opaque background, and the mouse stopped lagging.
+  
+  This has only been tested on my laptop, including the container and
+  headless sessions. These checks passed:
+  
+  - Intel and NVIDIA on Wayland, plus X11 with software GL and Cairo:
+  keyboard, mouse reporting, resize, tabs, splits, and search focus.
+  - Transparency reloads and opaque background colors, including padding,
+  matched the original rendering.
+  - Headless Weston rendering at scales 1 and 2 with GL and Cairo.
+  - Builds with GTK 4.18.6 and 4.24.1, all 121 selected GTK tests, and
+  formatting checks.
+  
+  Codex with GPT6.2-Sol Extra High thinking wrote the patch and ran the
+  checks, with my feedback.
+  ````
+- [`d552137`](https://github.com/ghostty-org/ghostty/commit/d5521378d8673e7cbce390d5cef5751076683676) build(deps): bump cachix/install-nix-action from 32.0.0 to 32.1.0 ([#15369](https://github.com/ghostty-org/ghostty/issues/15369)) ([@jcollie](https://github.com/jcollie))
+  ```text
+  Bumps
+  [cachix/install-nix-action](https://github.com/cachix/install-nix-action)
+  from 32.0.0 to 32.1.0.
+  <details>
+  <summary>Release notes</summary>
+  <p><em>Sourced from <a
+  href="https://github.com/cachix/install-nix-action/releases">cachix/install-nix-action's
+  releases</a>.</em></p>
+  <blockquote>
+  <h2>v32.1.0</h2>
+  <h2>What's Changed</h2>
+  <ul>
+  <li>feat: add <code>install_sha256</code> to allow validating the
+  installer's hash by <a
+  href="https://github.com/Fumesover"><code>@​Fumesover</code></a> in <a
+  href="https://redirect.github.com/cachix/install-nix-action/pull/287">cachix/install-nix-action#287</a>
+  The action can now verify the SHA-256 hash of the installer before it
+  runs it. This is already enabled for the default installer.
+  When using a custom <code>install_url</code>, set
+  <code>install_sha256</code> to the hash of that installer to have it
+  verified. This step is optional, but recommended.</li>
+  </ul>
+  <p><strong>Full Changelog</strong>: <a
+  href="https://github.com/cachix/install-nix-action/compare/v32.0.0...v32.1.0">https://github.com/cachix/install-nix-action/compare/v32.0.0...v32.1.0</a></p>
+  </blockquote>
+  </details>
+  <details>
+  <summary>Commits</summary>
+  <ul>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/382a9ed9481c7c1f94f68b72ef105b3417c73877"><code>382a9ed</code></a>
+  refact: simplify the install_sha256 option handling</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/e19f2024ad696b1d492050eeccb646839d3f00c9"><code>e19f202</code></a>
+  docs: reword comments and docs</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/73a9ecf65956d9fd71e10717a92f7c6060cb9b04"><code>73a9ecf</code></a>
+  Merge pull request <a
+  href="https://redirect.github.com/cachix/install-nix-action/issues/287">#287</a>
+  from Fumesover/master</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/3affbe43c94284c01f1c04cd010dc56a5982b3e2"><code>3affbe4</code></a>
+  docs: recommend install_sha256 and explain what it does</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/a7bc07bff241dda491476cd64104318d61552869"><code>a7bc07b</code></a>
+  ci: test that a SHA-256 mismatch aborts the install</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/788d88a082f294f8a32334ef386308cd4458c784"><code>788d88a</code></a>
+  install-nix: rename install_hash to install_sha256</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/1616c9a22c95a0a54ff91c98d2642eb8c13df1f5"><code>1616c9a</code></a>
+  install-nix: make install_hash optional</li>
+  <li><a
+  href="https://github.com/cachix/install-nix-action/commit/f4c81564be6a9591afc5e4de78481282819419b2"><code>f4c8156</code></a>
+  install-nix: validate installer's hash</li>
+  <li>See full diff in <a
+  href="https://github.com/cachix/install-nix-action/compare/bb0495a1086c46893eee56f32fd192dfe4a15bb9...382a9ed9481c7c1f94f68b72ef105b3417c73877">compare
+  view</a></li>
+  </ul>
+  </details>
+  <br />
+  
+  
+  [![Dependabot compatibility
+  score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=cachix/install-nix-action&package-manager=github_actions&previous-version=32.0.0&new-version=32.1.0)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)
+  
+  Dependabot will resolve any conflicts with this PR as long as you don't
+  alter it yourself. You can also trigger a rebase manually by commenting
+  `@dependabot rebase`.
+  
+  [//]: # (dependabot-automerge-start)
+  [//]: # (dependabot-automerge-end)
+  
+  ---
+  
+  <details>
+  <summary>Dependabot commands and options</summary>
+  <br />
+  
+  You can trigger Dependabot actions by commenting on this PR:
+  - `@dependabot rebase` will rebase this PR
+  - `@dependabot recreate` will recreate this PR, overwriting any edits
+  that have been made to it
+  - `@dependabot show <dependency name> ignore conditions` will show all
+  of the ignore conditions of the specified dependency
+  - `@dependabot ignore this major version` will close this PR and stop
+  Dependabot creating any more for this major version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this minor version` will close this PR and stop
+  Dependabot creating any more for this minor version (unless you reopen
+  the PR or upgrade to it yourself)
+  - `@dependabot ignore this dependency` will close this PR and stop
+  Dependabot creating any more for this dependency (unless you reopen the
+  PR or upgrade to it yourself)
+  
+  
+  </details>
+  ```
 
 ## November 26, 2026
 
@@ -1143,92 +1317,5 @@ Summary: 2 runs • 4 commits • 3 authors
   ```text
   Upstream release:
   https://github.com/mbadolato/iTerm2-Color-Schemes/releases/tag/release-20261116-150709-494b809
-  ```
-
-## November 21, 2026
-
-Runs: [1](https://github.com/ghostty-org/ghostty/actions/runs/44945642861)  
-Summary: 1 runs • 4 commits • 1 authors
-
-### Changes
-
-- [`0c7d595`](https://github.com/ghostty-org/ghostty/commit/0c7d595bf4f9119bbe3b44bf017c4f3816dbf3d6) terminal/kitty: read drag and drop drop data lazily ([@jcollie](https://github.com/jcollie))
-  ```text
-  Drops captured every representation eagerly when they landed, so the
-  native drag session ended at drop time and only a curated set of MIME
-  types could be served. Drop data is now read from the native drop when
-  the program requests it, queued as kitty does.
-  
-  The drag_and_drop effect gains a data_request event for this, and one
-  command can now produce several events. The effect may serve a request
-  from within the callback, writing its answer with Handler.ptyWriter.
-  The MIME types the program accepted for a drag are now available too,
-  for the embedder to choose what to read.
-  ```
-- [`13069b8`](https://github.com/ghostty-org/ghostty/commit/13069b880070ec6f9d127b05fee01eebeebbe524) terminal/kitty: split the drag and drop state from the drop target ([@jcollie](https://github.com/jcollie))
-  ```text
-  The drop target's behavior lived in methods on State, next to the
-  command dispatch, and the slot being null was how an unregistered
-  client was told apart. Move the drop target into a DropTarget with its
-  own methods and a registered flag, leaving State as the chunk
-  reassembly plus the drop target, and move State, its events and
-  handleCommand into dnd_state.zig.
-  
-  Commands from an unregistered client now run against an empty state on
-  the stack, which answers with the same errors as before without
-  allocating, and the state is freed once the client is no longer
-  registered. Embedders reach the drop target through state.drop.
-  ```
-- [`5b0690d`](https://github.com/ghostty-org/ghostty/commit/5b0690da08e11d9ca570a0fe3c2851da74ed8ade) terminal: protocol independent drag and drop drop effect ([@jcollie](https://github.com/jcollie))
-  ```text
-  The effect that tells the embedder about drops was tied to Kitty's
-  protocol, so it is now a protocol-independent drop effect whose events
-  carry their details. The protocol module does the mapping both ways,
-  from its events to the drop effect's and from native drop activity back
-  to the protocol, so every embedder shares it rather than doing its own.
-  
-  Without a drop effect OSC 72 is now ignored entirely, so programs fall
-  back instead of registering with a terminal that can never deliver a
-  drop.
-  ```
-- [`6d24420`](https://github.com/ghostty-org/ghostty/commit/6d244209978e599277904ff3ced7b8a2ebcc528d) terminal/kitty: read drag and drop drop data lazily ([#14536](https://github.com/ghostty-org/ghostty/issues/14536)) ([@jcollie](https://github.com/jcollie))
-  ```text
-  Drops captured every representation eagerly when they landed, so the
-  native drag session ended at drop time and only a curated set of MIME
-  types could be served. Drop data is now read from the native drop when
-  the program requests it, queued as kitty does.
-  
-  The effect that tells the embedder about drops was tied to Kitty's
-  protocol, so it is now a protocol-independent drop effect whose events
-  carry their details.
-  
-  Without a drop effect OSC 72 is now ignored entirely, so programs fall
-  back instead of registering with a terminal that can never deliver a
-  drop.
-  
-  Zig API only.
-  
-  The plan for this PR series is as follows:
-  
-  1. Get current drop support in the Zig libghostty-vt API pulling data
-  lazily (this PR).
-    a. convert existing drop support to lazily read.
-  b. extract state that will be shared with drag support to a new shared
-  file
-  c. add a protocol-independent layer in case there's ever another DnD
-  protocol
-  4. Add drag support to the Zig libghostty-vt API.
-  5. Add support to the C libghostty-vt API for drag & drop (including a C
-  example).
-  6. Run kitten dnd in CI.
-  7. Connect DnD into the apprt core.
-  8. Add support for DnD in the GTK apprt.
-  9. Add support for remote drops.
-  10. Add support for remote drags.
-  11. Wire the GTK apprt for remote drag & drop.
-  
-  Once 5 has been accomplished someone can add the macOS DnD support.
-  
-  AI disclosure: Claude Code was used in the preparation of this PR.
   ```
 
